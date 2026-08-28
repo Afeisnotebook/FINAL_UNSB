@@ -1,5 +1,8 @@
 {
   "schema_version": 1,
+  "status": "SUSPENDED_NOT_CURRENT",
+  "suspended_on": "2026-08-29",
+  "suspension_reason": "The local route-1 algorithm-discovery objective was reopened. This file is provenance for the former server-validation plan and must not be executed without a new explicit user decision.",
   "seed": 2026,
   "common": {
     "epochs": 200,

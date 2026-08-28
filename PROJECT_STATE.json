@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-28",
-  "phase": "READY_FOR_SERVER_PREFLIGHT",
+  "updated": "2026-08-29",
+  "phase": "LOCAL_ROUTE1_LONG_HORIZON_REOPENED",
   "canonical_source": {
     "parent_repository": "https://github.com/Afeisnotebook/UNSB_RESEARCH",
     "parent_commit": "071246a5530cbb0b26081914e3692ed9d56142e4",
@@ -13,16 +13,30 @@
     "vram_mib": 6144,
     "driver": "560.94"
   },
-  "active_lanes": ["P0_PLAIN", "P1_HJ_HANDOFF", "P2_HNEK", "P3_MACRO_MARGINAL"],
-  "closed_routes": [
-    "TA_MINIMAL",
-    "CLOCK_ACTIVE",
-    "TACT_KCK",
-    "DCUM_CURRENT_IMPLEMENTATION",
-    "LBST_CURRENT_IMPLEMENTATION",
-    "PTQ_CURRENT_IMPLEMENTATION",
-    "AEB_CURRENT_IMPLEMENTATION",
-    "PCOA_CURRENT_IMPLEMENTATION"
+  "active_probe_families": [
+    "P0_PLAIN_LONG",
+    "P1_HJ_CONTINUOUS_LONG",
+    "P2_HNEK_LONG",
+    "P3_DT_LONG"
   ],
-  "next_gate": "Clone the frozen commit on four RTX 4090 servers, complete matched manifest/runtime/e0 preflight, then generate and commit RUN_AUTHORIZATION.json."
+  "mechanistic_evidence_not_preselected_candidates": [
+    "PCOA_NPOOA",
+    "LBST",
+    "PTQ",
+    "DCUM_MACRO_MARGINAL",
+    "AEB_BCAVP",
+    "HJ_DERIVATIVES",
+    "DT_DERIVATIVES",
+    "HNEK_DERIVATIVES"
+  ],
+  "long_horizon_negative_controls": [
+    "TA_MINIMAL_DIRECT_RESTORATION_CURRENT_IMPLEMENTATION"
+  ],
+  "suspended": [
+    "FOUR_4090_LANE_PLAN",
+    "HJ_FINITE_HANDOFF_AS_PRIMARY_OBJECTIVE",
+    "SERVER_PREFLIGHT_AND_RUN_AUTHORIZATION",
+    "ROUTE2_EXIT_OR_HANDOFF_SEARCH"
+  ],
+  "next_gate": "Complete multi-method semantic lineage audit, then build matched small25 e200 anchor trajectories for plain, continuous HJ, HNEK and DT before deriving the next route-1 algorithm."
 }

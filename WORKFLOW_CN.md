@@ -1,4 +1,14 @@
-# Git 主控—四服务器工作流
+# Git 主控—本地路线一工作流
+
+> 2026-08-29：以下服务器回传机制保留为历史基础设施，但当前服务器阶段暂停。
+> 当前工作流是：语义谱系审计 → 多方法small25 e200长期锚点 → target-blind
+> 长期因果图谱 → 新算法derivation card → 新算法matched e200本地裁决。
+
+所有科学时间同时记录updates与data epochs，以data epochs裁决。HJ校准不构成项目
+完成；DT/HNEK以及后续机制证据必须进入算法生成过程。路线一不得转成退出阈值、
+finite handoff或paired控制器搜索。
+
+## 暂停的服务器回传约定
 
 Git 保存“可审计状态”，不搬运数据和 checkpoint。主控仓库的 `main` 是唯一科学
 协议来源；四台执行机固定同一 commit，各自在本机外部路径保存完整状态。

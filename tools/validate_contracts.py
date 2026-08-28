@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CPU-only coherence checks for the frozen project and optional data manifest."""
+"""CPU-only coherence checks for the active project and optional data manifest."""
 
 from __future__ import annotations
 
@@ -45,26 +45,47 @@ def main() -> int:
 
     project = load("PROJECT_CONTRACT.json")
     state = load("PROJECT_STATE.json")
+    probes = load("configs/LOCAL_ROUTE1_PROBES.json")
     lanes = load("configs/FOUR_LANES.json")
     data = load("DATA_CONTRACT.json")
     budget = load("COMPUTE_BUDGET.json")
     evidence = load("evidence/EVIDENCE_SUMMARY.json")
 
+    probe_ids = [probe["id"] for probe in probes["anchor_probes"]]
+    check(project["status"] == "LOCAL_ROUTE1_REOPENED",
+          "local route-1 contract is active")
+    check(probes["status"] == "ACTIVE_LOCAL_RESEARCH",
+          "local long-horizon probes are active")
+    check(probe_ids == state["active_probe_families"],
+          "state and active probe order agree")
+    check(len(probe_ids) == 4 and len(set(probe_ids)) == 4,
+          "plain, HJ, HNEK and DT are four unique anchor probes")
+    local = probes["local_view"]
+    check(local["total_train"] == local["train_per_domain"] * local["domains"] == 150,
+          "small25 local anchor contains 150 training identities")
+    check(local["target_updates_per_lane"] == local["total_train"] * local["target_epochs"] == 30000,
+          "local anchor e200 equals 30000 updates")
+    check(project["frozen"]["updates_per_local_anchor_lane"] == 30000,
+          "project and probe long-horizon clocks agree")
+    check(project["authorization_required"] is None,
+          "server authorization is inactive")
+    check(lanes["status"] == "SUSPENDED_NOT_CURRENT",
+          "former four-lane server plan is suspended")
+    check(budget["status"] == "SUSPENDED_SERVER_BUDGET_NOT_CURRENT",
+          "server compute budget is suspended")
+
+    # The suspended plan remains internally coherent provenance, but it is not
+    # compared with active project state and cannot authorize execution.
     lane_ids = [lane["id"] for lane in lanes["lanes"]]
-    check(lane_ids == state["active_lanes"], "state and lane order agree")
-    check(len(lane_ids) == 4 and len(set(lane_ids)) == 4, "exactly four unique lanes")
-    check(project["frozen"]["train_identities"] == data["totals"]["train"] == 8553,
-          "train identity count is 8553")
-    check(project["frozen"]["updates_per_lane"] == 8553 * 200,
-          "updates per lane equal train identities times epochs")
-    check(budget["parallel_lanes"] == 4, "compute budget has four parallel lanes")
+    check(len(lane_ids) == 4 and len(set(lane_ids)) == 4,
+          "suspended server plan retains four unique historical lanes")
     hj = next(lane for lane in lanes["lanes"] if lane["id"] == "P1_HJ_HANDOFF")
     check(hj["method"]["active_start_data_epoch"] == 1.6 and
           hj["method"]["active_end_data_epoch"] == 8.0,
-          "HJ physical-epoch window is frozen")
+          "suspended HJ handoff window retains its historical identity")
     macro = next(lane for lane in lanes["lanes"] if lane["id"] == "P3_MACRO_MARGINAL")
     check(macro["method"]["A_domain_and_B_domain_independent"] is True,
-          "macro lane is not DCUM")
+          "suspended macro lane remains distinguishable from DCUM")
     check(
         portable_text_sha256(ROOT / data["split_source"]) == data["frozen_split_sha256"],
         "frozen legacy split hash matches contract",

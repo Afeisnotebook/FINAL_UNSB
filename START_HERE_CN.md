@@ -1,43 +1,41 @@
 # 先从这里开始
 
-## 你现在接手的是什么
+## 当前状态（2026-08-29）
 
-这是一个最后期限明确的研究执行项目，不是开放式算法头脑风暴。
+这是一个重新打开的本地路线一算法发现项目。此前的“四张4090、四条冻结 lane”
+执行计划已经暂停，不是当前任务。
 
-- 数据：六域物理语料共 9153 个 paired identity；训练严格不使用配对。
-- 泄漏安全训练：排除每域 discovery80 + confirmation20 后共 8553 张/侧。
-- 训练：200 个数据 epoch，batch size 1，即每 lane 1,710,600 updates。
-- 算力：最多四张 RTX 4090 并行一周。
-- 目标：在相同 clean canonical 和 seed=2026 下比较四条冻结 lane，得到唯一
-  当前最优候选；若全部为负，也必须输出最优失败方向和原因。
+- 当前硬件：本地 GTX 1660 6GB。
+- 当前目标：从 clean UNSB、DT/HJ/HNEK 及后续机制的历史证据中主动构造一个
+  能在真实 200 data epochs 上维持收益的新算法。
+- 当前不是：只复现 HJ、验证四个旧算法、寻找退出窗口或准备4090服务器。
+- HJ 的角色：第一项时间尺度正对照，因为它历史上 e100 为负、e125--e200
+  延迟转正；它不是唯一候选，也不是预定论文算法。
 
-## 你不需要重新判断的事情
+## 为什么此前的“路线一完成”需要重审
 
-- 直接激活官方 time branch 的 `TA_MINIMAL` 已在 matched e200 得到
-  `-1.092 dB`、0/5 域正；不重开。
-- KCK/path-consistency 已在共同 e5 锚点上让目标残差反向恶化；不重开。
-- LBST/PTQ/DCUM/AEB、PCOA 及其当前修订没有持续收益；不占四卡名额。
-- paired PSNR 不得成为训练输入、在线控制器或 HJ 退出依据。
+此前 small25 的 2400 updates 只有 16 data epochs；full100 的 12000 updates
+只有 20 data epochs。历史 HJ 的关键正收益却在 e125 后出现。因此旧门禁只能证明
+“当前实现曾在前 16--20 epochs 反转”，不能证明其父机制在 e200 不可能有效。
 
-## 四条 lane
+同类时间尺度问题不只影响 HJ：
 
-1. `P0_PLAIN`：clean official pooled UNSB。
-2. `P1_HJ_HANDOFF`：1.6 epoch 前 plain；1.6–8.0 epoch HJ；之后永久 native。
-3. `P2_HNEK`：冻结 `gamma=.25/residual/physical/all`。
-4. `P3_MACRO_MARGINAL`：A/B 域独立均匀采样，域内随机，严格无配对。
+- HNEK 有历史 e200 正结果，clean 只延长到约 e20 且多次变号；
+- DT 在 clean 短程有正窗口后反转，尚未被当前 deterministic 基座做等价 e200
+  裁决；
+- PCOA 最长 e16；LBST/PTQ/DCUM/AEB 多数只到 e8 左右；它们的当前实现失败，
+  但不能因短门禁自动判死父机制；
+- TA_MINIMAL 的直接恢复实现已有 matched e200 负结果，可保留为真正的长程负对照。
 
-第四条不是 DCUM：B 不依赖 A 的域，生成器和推理均看不到域标签。
+## 当前执行顺序
 
-## 主控中心第一次需要做什么
+1. 完成 DT/HJ/HNEK 以及 clean canonical 的语义谱系审计。
+2. 共享同一 small25 e0，建立 plain、continuous HJ、HNEK、DT 的 e200
+   长程锚点轨迹。HJ先跑只是为了校准时间量尺；不以 HJ 结果结束研究。
+3. 在 e80/100/125/150/175/200 上建立 target-blind 长程因果图谱，定位每个
+   校正何时仍有效、何时改变符号、何时只是方差或博弈状态问题。
+4. 从最清楚的失败机理构造新的数学算法；旧名字可以完全消失。
+5. 新候选完成真正的 e200 matched local trajectory 后，才讨论是否值得外部算力。
 
-1. 运行 `python tools/validate_contracts.py`。
-2. 让用户补充四台服务器的 clone 路径、数据根目录、运行根目录和 GPU 编号；
-   这些信息只写入不提交的 `SERVER_ASSIGNMENTS.local.json`。
-3. 每台服务器先执行 `server_tasks/00_COMMON_PREFLIGHT_CN.md`，回传环境与 e0
-   身份；四台 e0 不一致时禁止长训。
-4. 用 `tools/create_run_authorization.py` 合并四份 e0 报告；工具只有在 manifest、
-   protocol、runtime 和 e0 全部一致时才会生成授权。
-5. 主控审阅并提交 `decisions/RUN_AUTHORIZATION.json` 后，四台服务器才运行各自
-   lane。
-
-不要先提出第五条算法，也不要把旧仓库整体迁入这里。
+完整边界见 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`。旧 `configs/FOUR_LANES.json`
+只保留为暂停方案的历史记录，不得执行。

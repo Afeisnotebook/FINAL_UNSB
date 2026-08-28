@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "ACTIVE_LOCAL_RESEARCH",
+  "time_unit_for_scientific_decisions": "data_epoch",
+  "seed": 2026,
+  "local_view": {
+    "train_per_domain": 25,
+    "domains": 6,
+    "total_train": 150,
+    "batch_size": 1,
+    "target_epochs": 200,
+    "target_updates_per_lane": 30000,
+    "trajectory_epochs": [1, 5, 10, 20, 40, 60, 80, 100, 125, 150, 175, 200],
+    "confirmation20_locked": true
+  },
+  "anchor_probes": [
+    {
+      "id": "P0_PLAIN_LONG",
+      "role": "shared matched long-horizon control"
+    },
+    {
+      "id": "P1_HJ_CONTINUOUS_LONG",
+      "role": "delayed-benefit temporal positive control, not exclusive candidate",
+      "historical_fact": "negative at e100 and positive at e125/e150/e175/e200"
+    },
+    {
+      "id": "P2_HNEK_LONG",
+      "role": "bridge-coordinate long-horizon probe",
+      "historical_fact": "historical e200 positive; clean trajectory only reached about e20 and changed sign repeatedly"
+    },
+    {
+      "id": "P3_DT_LONG",
+      "role": "direction/covariance long-horizon probe",
+      "historical_fact": "historical positive windows; deterministic clean evidence is short-horizon"
+    }
+  ],
+  "mechanistic_evidence_pool": [
+    "PCOA_NPOOA",
+    "LBST",
+    "PTQ",
+    "DCUM_MACRO_MARGINAL",
+    "AEB_BCAVP",
+    "HJ_DERIVATIVES",
+    "DT_DERIVATIVES",
+    "HNEK_DERIVATIVES"
+  ],
+  "not_current_tasks": [
+    "4090 planning or execution",
+    "four-frozen-lane validation",
+    "HJ finite handoff",
+    "exit threshold search",
+    "paired metric controller",
+    "best checkpoint selection"
+  ]
+}
