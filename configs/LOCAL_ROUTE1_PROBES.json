@@ -1,8 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "ACTIVE_LOCAL_RESEARCH",
+  "project_id": "FINAL_UNSB_LOCAL_ROUTE1_E200",
   "time_unit_for_scientific_decisions": "data_epoch",
   "seed": 2026,
+  "manifest": {
+    "repo_path": "manifests/frozen/legacy_split_manifest.csv",
+    "sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "expected_per_domain": {"train": 100, "discovery": 80, "confirmation": 20}
+  },
   "local_view": {
     "train_per_domain": 25,
     "domains": 6,
@@ -11,45 +17,112 @@
     "target_epochs": 200,
     "target_updates_per_lane": 30000,
     "trajectory_epochs": [1, 5, 10, 20, 40, 60, 80, 100, 125, 150, 175, 200],
+    "late_epochs": [150, 175, 200],
+    "lpips_epochs": [100, 125, 150, 175, 200],
+    "discovery_per_domain": 70,
     "confirmation20_locked": true
   },
+  "common": {
+    "model": "sb",
+    "mode": "sb",
+    "dataset_mode": "unaligned",
+    "direction": "AtoB",
+    "sampling_measure": "official_image_proportional_unpaired",
+    "batch_size": 1,
+    "num_threads": 0,
+    "load_size": 128,
+    "crop_size": 128,
+    "preprocess": "resize_and_crop",
+    "no_flip": true,
+    "n_epochs": 200,
+    "n_epochs_decay": 0,
+    "lr": 0.0001,
+    "beta1": 0.5,
+    "beta2": 0.999,
+    "lambda_GAN": 1.0,
+    "lambda_SB": 1.0,
+    "lambda_NCE": 1.0,
+    "tau": 0.01,
+    "num_timesteps": 5,
+    "nce_idt": true,
+    "nce_layers": "0,4,8,12,16",
+    "nce_T": 0.07,
+    "num_patches": 256,
+    "netF": "mlp_sample",
+    "netG": "resnet_9blocks_cond",
+    "netD": "basic_cond",
+    "deterministic": true,
+    "tf32": false
+  },
   "anchor_probes": [
-    {
-      "id": "P0_PLAIN_LONG",
-      "role": "shared matched long-horizon control"
-    },
+    {"id": "P0_PLAIN_LONG", "lane": "plain", "model": "sb", "role": "shared matched long-horizon control", "method": {}},
     {
       "id": "P1_HJ_CONTINUOUS_LONG",
-      "role": "delayed-benefit temporal positive control, not exclusive candidate",
-      "historical_fact": "negative at e100 and positive at e125/e150/e175/e200"
+      "lane": "hj",
+      "model": "hj",
+      "role": "delayed-benefit temporal causal probe, not a frozen candidate",
+      "historical_fact": "negative at e100 and positive at e125/e150/e175/e200 on the historical 160-per-domain trajectory",
+      "method": {
+        "hj_enable": true,
+        "hj_layers": "0",
+        "hj_direction": "joint",
+        "hj_scales": "1,2,4",
+        "hj_step": 0.01,
+        "hj_quantile": 0.75,
+        "hj_gate_quantile": 0.75,
+        "hj_strength": 0.5,
+        "hj_boundary_scale": 0.001,
+        "hj_min_risk": 0.05,
+        "hj_min_delta": 0.0,
+        "hj_probe_mode": "central_consensus",
+        "hj_control": "true",
+        "hj_amplitude": "constant",
+        "hj_update_mode": "remove",
+        "hj_start_epoch": 5,
+        "hj_search_start_step": -1,
+        "hj_search_duration_steps": 0
+      }
     },
     {
       "id": "P2_HNEK_LONG",
-      "role": "bridge-coordinate long-horizon probe",
-      "historical_fact": "historical e200 positive; clean trajectory only reached about e20 and changed sign repeatedly"
+      "lane": "hnek",
+      "model": "hnek_search",
+      "role": "bridge-coordinate long-horizon causal probe",
+      "historical_fact": "historical e200 development delta +0.788372 dB, 4/5 positive domains",
+      "method": {"hnek_gamma": 0.25, "hnek_coord": "residual", "hnek_horizon_mode": "physical", "hnek_partial": "all"}
     },
     {
       "id": "P3_DT_LONG",
-      "role": "direction/covariance long-horizon probe",
-      "historical_fact": "historical positive windows; deterministic clean evidence is short-horizon"
+      "lane": "dt",
+      "model": "dtcov",
+      "role": "direction/covariance historical causal probe; never a route-1 candidate in this protocol",
+      "historical_fact": "historical positive windows; deterministic clean evidence was short-horizon",
+      "method": {
+        "dtcov_lambda": 0.001,
+        "dtcov_lambda_schedule": "ramp_hold_cosine_decay",
+        "dtcov_ramp_start_epoch": 1,
+        "dtcov_ramp_end_epoch": 5,
+        "dtcov_decay_start_epoch": 15,
+        "dtcov_decay_end_epoch": 25,
+        "dtcov_m": 4,
+        "dtcov_time_mode": "actual",
+        "dtcov_domain_balance": "grouped_domain",
+        "dtcov_teacher": "frozen",
+        "dtcov_norm_mode": "domain_time",
+        "dtcov_signal_norm": "on",
+        "dtcov_warmup_iters": 0,
+        "dtcov_search_start_step": -1,
+        "dtcov_search_duration_steps": 0,
+        "physical_support_epochs": [21, 45]
+      }
     }
   ],
-  "mechanistic_evidence_pool": [
-    "PCOA_NPOOA",
-    "LBST",
-    "PTQ",
-    "DCUM_MACRO_MARGINAL",
-    "AEB_BCAVP",
-    "HJ_DERIVATIVES",
-    "DT_DERIVATIVES",
-    "HNEK_DERIVATIVES"
-  ],
-  "not_current_tasks": [
-    "4090 planning or execution",
-    "four-frozen-lane validation",
-    "HJ finite handoff",
-    "exit threshold search",
-    "paired metric controller",
-    "best checkpoint selection"
-  ]
+  "proxy_calibration": {
+    "probes": ["hj", "hnek"],
+    "late_three_macro_psnr_delta_must_be_positive": true,
+    "minimum_late_points_with_four_of_six_positive_domains": 2,
+    "on_failure": "PAUSE_BEFORE_DT_AND_CANDIDATE_LONG_RUNS"
+  },
+  "mechanistic_evidence_pool": ["PCOA_NPOOA", "LBST", "PTQ", "DCUM_MACRO_MARGINAL", "AEB_BCAVP", "HJ_DERIVATIVES", "DT_DERIVATIVES", "HNEK_DERIVATIVES"],
+  "not_current_tasks": ["4090 planning or execution", "four-frozen-lane validation", "HJ finite handoff", "exit threshold search", "paired metric controller", "best checkpoint selection"]
 }

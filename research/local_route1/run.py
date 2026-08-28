@@ -1,0 +1,101 @@
+"""Command line entry point for the isolated local route-1 workflow."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from .anchors import run_anchor, summarize_anchors
+from .gates import run_cpu_gates, run_gpu_gates
+from .lineage import write_lineage
+from .protocol import ROOT
+from .runtime import write_json
+from .stages import derive_from_completed_atlas, prepare_audit_queue, validate_candidate_ready
+
+
+DEFAULT_OUTPUT = ROOT.parent / "runs" / "FINAL_UNSB_LOCAL_ROUTE1_E200"
+DEFAULT_TRAIN_VIEW = ROOT.parent / "FOUR_METHOD_MOTIVATION_20260813" / "frozen" / "data_views_v2" / "allinone_100"
+DEFAULT_DATA_ROOT = Path(r"E:\UNSB_abl\full_dataset")
+DEFAULT_MANIFEST = ROOT / "manifests" / "frozen" / "legacy_split_manifest.csv"
+
+
+def parser() -> argparse.ArgumentParser:
+    value = argparse.ArgumentParser(description=__doc__)
+    value.add_argument("--stage", required=True, choices=["lineage", "gate", "anchors", "evaluate", "audit", "derive", "candidate"])
+    value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
+    value.add_argument("--candidate-id")
+    value.add_argument("--resume", action="store_true")
+    value.add_argument("--cpu-only", action="store_true", help="gate stage only")
+    value.add_argument("--gpu", type=int, default=0)
+    value.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    value.add_argument("--train-view", type=Path, default=DEFAULT_TRAIN_VIEW)
+    value.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
+    value.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    value.add_argument("--engineering-stop-after-epoch", type=int, help="debug only; never a scientific early-stop rule")
+    return value
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parser().parse_args(argv)
+    args.output = args.output.resolve()
+    args.output.mkdir(parents=True, exist_ok=True)
+    if args.stage == "lineage":
+        path = write_lineage(args.output, args.manifest.resolve())
+        print(json.dumps({"status": "COMPLETE", "lineage": str(path)}, ensure_ascii=False, indent=2))
+        return 0
+    if args.stage == "gate":
+        cpu = run_cpu_gates(
+            manifest_path=args.manifest.resolve(), train_view=args.train_view.resolve(),
+            data_root=args.data_root.resolve(),
+        )
+        write_json(args.output / "gates" / "CPU_GATE.json", cpu)
+        if cpu["status"] != "PASS":
+            print(json.dumps(cpu, ensure_ascii=False, indent=2))
+            return 2
+        if args.cpu_only:
+            print(json.dumps(cpu, ensure_ascii=False, indent=2))
+            return 0
+        gpu = run_gpu_gates(
+            output_root=args.output, manifest_path=args.manifest.resolve(),
+            train_view=args.train_view.resolve(), data_root=args.data_root.resolve(),
+            gpu=args.gpu,
+        )
+        print(json.dumps({"cpu": cpu, "gpu": gpu}, ensure_ascii=False, indent=2))
+        return 0 if gpu["status"] == "PASS" else 3
+    if args.stage == "anchors":
+        if not args.lane:
+            raise SystemExit("--stage anchors requires --lane plain|hj|hnek|dt")
+        result = run_anchor(
+            probe_id=args.lane, output_root=args.output,
+            train_view=args.train_view.resolve(), data_root=args.data_root.resolve(),
+            manifest_path=args.manifest.resolve(), gpu=args.gpu, resume=args.resume,
+            engineering_stop_after_epoch=args.engineering_stop_after_epoch,
+        )
+        if args.lane in ("hnek", "dt") and result["final_data_epoch"] == 200:
+            result["evaluation"] = summarize_anchors(args.output)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    if args.stage == "evaluate":
+        result = summarize_anchors(args.output)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    if args.stage == "audit":
+        result = prepare_audit_queue(args.output)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] == "READY" else 4
+    if args.stage == "derive":
+        result = derive_from_completed_atlas(args.output)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] != "BLOCKED_CAUSAL_ATLAS_INCOMPLETE" else 5
+    if args.stage == "candidate":
+        if not args.candidate_id:
+            raise SystemExit("--stage candidate requires --candidate-id")
+        result = validate_candidate_ready(args.output, args.candidate_id)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] == "READY_FOR_REGISTERED_RUNNER_INTEGRATION" else 6
+    raise AssertionError(args.stage)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

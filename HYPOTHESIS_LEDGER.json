@@ -1,29 +1,81 @@
 {
-  "schema_version": 1,
-  "active": [
+  "schema_version": 2,
+  "status": "ACTIVE_LOCAL_ROUTE1_DISCOVERY",
+  "status_vocabulary": [
+    "implementation_failure",
+    "short_protocol_failure",
+    "long_current_implementation_failure",
+    "reversal_observed",
+    "mechanism_falsified",
+    "active_probe",
+    "active_derived_candidate"
+  ],
+  "active_probes": [
     {
-      "id": "H-HJ-BASIN",
-      "lane": "P1_HJ_HANDOFF",
-      "hypothesis": "A finite early Layer-0 HJ intervention reaches a complete state whose benefit survives native UNSB to e200.",
-      "falsifier": "e200 macro PSNR delta <= 0 or material guardrail failure"
+      "id": "P-HJ-CONTINUOUS-E200",
+      "family": "HJ",
+      "status": "active_probe",
+      "purpose": "calibrate the small25/batch1 long-horizon proxy and reveal when Layer-0 PatchNCE correction changes causal sign",
+      "not_a_claim": "HJ is not the presumed winner and is not the only route-1 direction"
     },
     {
-      "id": "H-HNEK-PHYSICAL",
-      "lane": "P2_HNEK",
-      "hypothesis": "The frozen HNEK physical-horizon residual coordinate retains its historical e200 benefit under the clean full-scale protocol.",
-      "falsifier": "e200 macro PSNR delta <= 0 or material guardrail failure"
+      "id": "P-HNEK-PHYSICAL-E200",
+      "family": "HNEK",
+      "status": "active_probe",
+      "purpose": "calibrate the proxy and trace physical-horizon/residual-coordinate conditioning over 200 data epochs"
     },
     {
-      "id": "H-MACRO-MEASURE",
-      "lane": "P3_MACRO_MARGINAL",
-      "hypothesis": "The image-proportional endpoint empirical measures are misaligned with six-domain macro evaluation; independent uniform-domain marginals improve e200 macro restoration.",
-      "falsifier": "e200 macro PSNR delta <= 0 or degradation explained only by plain collapse"
+      "id": "P-DT-PHYSICAL-SCHEDULE-E200",
+      "family": "DT",
+      "status": "active_probe",
+      "purpose": "after proxy calibration, trace direction/covariance correction through intervention and native continuation",
+      "candidate_eligible": false
     }
   ],
-  "closed": [
-    {"id": "H-TIME-ACTIVE", "reason": "matched e200 TA_MINIMAL -1.092 dB, 0/5 positive domains"},
-    {"id": "H-KCK", "reason": "common-anchor e10 discrepancy worsened 3.4165 percent in 4/4 time triples and 5/5 domains"},
-    {"id": "H-ROUTE1-CURRENT", "reason": "no SEARCH-005 operator passed the registered 2400-step sustained gate"},
-    {"id": "H-DCUM", "reason": "same-domain B conditioning reversed long-term and is not equivalent to macro-marginal sampling"}
-  ]
+  "prior_evidence_reclassified": [
+    {
+      "id": "H-TIME-ACTIVE",
+      "status": "long_current_implementation_failure",
+      "reason": "TA_MINIMAL direct restored-time implementation was -1.092 dB at matched e200 with 0/5 positive domains",
+      "scope": "the tested TA_MINIMAL implementation, not every time/coordinate mechanism"
+    },
+    {
+      "id": "H-KCK",
+      "status": "short_protocol_failure",
+      "reason": "common-anchor e10 direct-vs-composed discrepancy worsened 3.4165 percent in 4/4 time triples and 5/5 domains",
+      "scope": "the tested KCK/path-consistency construction"
+    },
+    {
+      "id": "H-ROUTE1-SEARCH005",
+      "status": "short_protocol_failure",
+      "reason": "no SEARCH-005 operator passed its registered 2400-update small25 gate",
+      "scope": "2400 updates equal 16 data epochs; this is not a 200-data-epoch impossibility result"
+    },
+    {
+      "id": "H-DCUM",
+      "status": "reversal_observed",
+      "reason": "same-domain B conditioning had a short positive signal and then reversed under the tested protocol",
+      "scope": "the DCUM implementation; sampling-bias/variance mechanisms remain admissible"
+    },
+    {
+      "id": "H-LBST",
+      "status": "short_protocol_failure",
+      "reason": "the fixed lagged-teacher construction failed its short registered run",
+      "scope": "the tested teacher rule, not rollout-distribution speed as a parent mechanism"
+    },
+    {
+      "id": "H-PTQ",
+      "status": "reversal_observed",
+      "reason": "physical-time mass sampling changed from early positive to later negative in the short protocol",
+      "scope": "the tested quadrature estimator"
+    },
+    {
+      "id": "H-AEB",
+      "status": "short_protocol_failure",
+      "reason": "the two-endpoint antithetic construction was negative and doubled generator computation",
+      "scope": "the tested estimator, not all unbiased latent variance reduction"
+    }
+  ],
+  "active_derived_candidates": [],
+  "forbidden_closure": "No parent mechanism may be marked mechanism_falsified solely from a short update-count protocol or one named implementation."
 }

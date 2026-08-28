@@ -38,6 +38,29 @@
 随后必须从长期因果证据生成至少一个新数学算法并完成matched e200本地裁决。
 4090服务器、固定四lane和HJ有限handoff均不属于当前任务。
 
+## 当前本地路线一入口
+
+独立研究runner位于 `research/local_route1`，不调用已暂停的
+`production.train_lane`。默认使用冻结manifest、本机small25视图、seed 2026和
+`E:\UNSB_Expl\runs\FINAL_UNSB_LOCAL_ROUTE1_E200` 作为Git外运行目录。
+
+```powershell
+python -m research.local_route1.run --stage lineage
+python -m research.local_route1.run --stage gate
+python -m research.local_route1.run --stage anchors --lane plain --resume
+python -m research.local_route1.run --stage anchors --lane hj --resume
+python -m research.local_route1.run --stage anchors --lane hnek --resume
+python -m research.local_route1.run --stage evaluate
+python -m research.local_route1.run --stage anchors --lane dt --resume
+python -m research.local_route1.run --stage audit
+python -m research.local_route1.run --stage derive
+```
+
+顺序门会阻止HJ早于plain、HNEK早于HJ，以及在proxy未校准时启动DT。训练中间
+PSNR不会触发早停；`--engineering-stop-after-epoch`只用于门禁/调试，不能形成
+科学裁决。`candidate`阶段必须先存在完整因果图谱、derivation card和已登记实现，
+不能仅凭候选名称启动长训。
+
 ## 历史执行入口（当前暂停）
 
 - 训练：`python -m production.train_lane`
