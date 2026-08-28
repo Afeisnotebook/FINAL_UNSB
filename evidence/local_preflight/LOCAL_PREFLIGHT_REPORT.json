@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-28",
+  "status": "passed",
+  "scope": "engineering_only_no_scientific_effect_claim",
+  "hardware": {
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "vram_mib": 6144,
+    "driver": "560.94",
+    "python": "3.13.5",
+    "torch": "2.6.0+cu124",
+    "torch_cuda": "12.4",
+    "cudnn": 90100
+  },
+  "canonical_data": {
+    "physical": 9153,
+    "train": 8553,
+    "discovery": 480,
+    "confirmation": 120,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "content_hashes_present": true,
+    "materialized_links": 18306,
+    "copied_pixels": 0
+  },
+  "full_view_e0": {
+    "all_four_lanes_equal": true,
+    "network_state_sha256": "2318fc4556af6207e552945ea0980d9332d823382f79b37fdc8a6fc4246fd5f7",
+    "hj_resolved_active_updates": [13685, 68424]
+  },
+  "smoke": {
+    "train_identities": 12,
+    "discovery_identities": 6,
+    "four_lanes_completed_real_optimizer_updates": true,
+    "hj_active_optimizer_steps_observed": 5,
+    "macro_sampler_domain_pair_draws_in_test": 9000,
+    "macro_sampler_same_stem_violations": 0
+  },
+  "resume": {
+    "continuous_epochs": 2,
+    "fork_epoch": 1,
+    "resumed_to_epoch": 2,
+    "networks_equal": true,
+    "optimizers_equal": true,
+    "schedulers_equal": true,
+    "rng_equal": true,
+    "method_state_equal": true
+  },
+  "hj_zero_intervention": {
+    "e0_equal": true,
+    "pre_activation_networks_equal": true,
+    "pre_activation_optimizers_equal": true,
+    "pre_activation_schedulers_equal": true,
+    "pre_activation_rng_equal": true,
+    "controller_bookkeeping_expected_to_differ": true,
+    "corrected_issue": "CUDA-direct latent draw replaced by canonical CPU draw then device transfer"
+  },
+  "evaluation": {
+    "plain_repeat_byte_exact": true,
+    "repeat_json_sha256": "edcd01231ebbb49d9b702b8924158835df302dc7e8cfa7e3c5e7059ab4d983f8",
+    "plain_checkpoint_loaded": true,
+    "hj_checkpoint_loaded": true,
+    "hnek_checkpoint_loaded": true,
+    "macro_checkpoint_loaded": true,
+    "confirmation_without_unlock_rejected": true,
+    "smoke_scores_retained_as_scientific_evidence": false
+  },
+  "static_checks": {
+    "pytest_passed": 19,
+    "pytest_failed": 0,
+    "compileall_passed": true,
+    "contract_checks_passed": true,
+    "authorization_dry_run_passed": true
+  },
+  "next_required_gate": "four matched RTX 4090 server preflights"
+}

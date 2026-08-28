@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase_id": "FINAL-1",
+  "run_id": "final1-ta-minimal-seed2026-20260811-bb102af286f0d15f",
+  "primary_checkpoint": 200,
+  "images": 320,
+  "replicates_per_image": 4,
+  "domains": [
+    "FoggyCityscapes",
+    "LowLightTrafficData",
+    "RainCityscapes",
+    "RSCityscapes",
+    "SnowTrafficData"
+  ],
+  "rain_ds_syn_included": false,
+  "common_random_bundle_hashes_match": true,
+  "variant_absent_from_rng_seed": true,
+  "all_values_finite": true,
+  "macro_psnr_db": {
+    "FINAL1_PLAIN": 20.340737180333708,
+    "FINAL1_TA": 19.248493448284517
+  },
+  "macro_ssim": {
+    "FINAL1_PLAIN": 0.6512388553761411,
+    "FINAL1_TA": 0.6119211272336542
+  },
+  "macro_psnr_delta_db": -1.092243732049191,
+  "macro_ssim_delta": -0.03931772814248691,
+  "psnr_bootstrap_ci_lower": -1.2760365672907248,
+  "psnr_bootstrap_ci_upper": -0.909474596418712,
+  "bootstrap_draws": 9999,
+  "bootstrap_seed": 12639429889821288414,
+  "bootstrap_seed_contains_variant": false,
+  "positive_domains": 0,
+  "worst_domain": "RSCityscapes",
+  "worst_domain_psnr_delta_db": -1.7123098920873367,
+  "domain_psnr_deltas_db": {
+    "FoggyCityscapes": -0.8717020523566674,
+    "LowLightTrafficData": -0.20775238113272465,
+    "RainCityscapes": -1.7110157696324784,
+    "RSCityscapes": -1.7123098920873367,
+    "SnowTrafficData": -0.9584385650367508
+  },
+  "target_access_rows": 320,
+  "metric_definition": "five-step UNSB rollout endpoint; output/target mapped [-1,1]->[0,1] and clipped; PSNR=10log10(1/MSE) peak 1; SSIM window 7 c1=1e-4 c2=9e-4 on [0,1]; replicate -> stem mean -> domain mean -> five-domain equal-weight macro",
+  "recorded_at": "2026-08-11T01:39:13.183876+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "project_id": "FINAL_UNSB_FOUR_LANE_E200",
+  "status": "LOCAL_PREFLIGHT",
+  "objective": "From a leak-free six-domain clean UNSB baseline, run exactly four frozen seed-2026 lanes for 200 data epochs and freeze one current-best non-plain development candidate.",
+  "guarantees": [
+    "a valid four-lane decision if engineering gates pass",
+    "one current-best candidate even if every delta is negative",
+    "traceable code, data, configuration, checkpoint and evaluation identities"
+  ],
+  "non_guarantees": [
+    "positive PSNR",
+    "cross-seed stability",
+    "paper confirmation",
+    "completion of the original 400-epoch UNSB schedule"
+  ],
+  "frozen": {
+    "seed": 2026,
+    "domains": 6,
+    "physical_identities": 9153,
+    "train_identities": 8553,
+    "epochs": 200,
+    "updates_per_lane": 1710600,
+    "batch_size": 1,
+    "resolution": 128,
+    "discovery_per_domain": 80,
+    "confirmation_per_domain": 20,
+    "primary_checkpoint_epoch": 200,
+    "trajectory_epochs": [10, 25, 50, 100, 150, 200],
+    "confirmation_locked": true
+  },
+  "lane_contract": "configs/FOUR_LANES.json",
+  "data_contract": "DATA_CONTRACT.json",
+  "authorization_required": "decisions/RUN_AUTHORIZATION.json",
+  "change_policy": "Any scientific change requires a committed replacement decision before any affected target metric is read."
+}

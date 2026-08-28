@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "cutoff": "2026-08-28",
+  "facts": [
+    {
+      "id": "E-TA-E200",
+      "claim": "TA_MINIMAL underperformed matched official-time-dead plain at e200 by 1.092243732 dB with 0/5 positive domains.",
+      "source": "raw/FINAL1_TA_E200_EVALUATION.json",
+      "status": "mechanically_valid_single_seed_development"
+    },
+    {
+      "id": "E-KCK-E10",
+      "claim": "KCK worsened direct-vs-composed discrepancy by 3.4165 percent at common-anchor e10; 0/4 time triples and 0/5 domains improved.",
+      "source": "raw/A3R2_KCK_E10_AUDIT.json",
+      "status": "mechanically_valid_current_protocol_negative"
+    },
+    {
+      "id": "E-HNEK-E200",
+      "claim": "Frozen HNEK gamma .25 was +0.788372 dB at historical e200 with 4/5 positive domains.",
+      "source": "raw/HNEK_G025_E200_FINAL.json",
+      "status": "single_seed_development_selected_from_nine_variants"
+    },
+    {
+      "id": "E-HJ-HANDOFF",
+      "claim": "Finite HJ then exact native handoff had +1.180 dB late-three local mean and +0.871 dB final at total step 3200, 6/6 domains positive.",
+      "source": "raw/HJ_HANDOFF_CANDIDATE.json",
+      "status": "small25_single_seed_route2_sustained_local"
+    },
+    {
+      "id": "E-ROUTE1-STOP",
+      "claim": "No SEARCH-005 mathematical operator passed the registered 2400-step sustained-benefit gate.",
+      "source": "raw/ROUTE1_STOP.json",
+      "status": "closed_current_protocol_not_impossibility_theorem"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "role": "local_engineering_preflight_only",
+  "platform": "Windows 10 19045",
+  "python": "3.13.5",
+  "gpu": "NVIDIA GeForce GTX 1660",
+  "vram_mib": 6144,
+  "driver": "560.94",
+  "torch": "2.6.0+cu124",
+  "torch_cuda": "12.4",
+  "cudnn": 90100,
+  "production_environment_authorized": false
+}

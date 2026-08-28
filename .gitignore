@@ -1,0 +1,41 @@
+# Python and tools
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Local/server configuration
+.env
+server.env
+SERVER_ASSIGNMENTS.local.json
+/local_validation/
+manifests/*.local.*
+
+# Data, checkpoints, generated views and large outputs
+/data/
+/data_view/
+/runs/
+/checkpoints/
+/logs/
+/wandb/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# Generated reports are committed only after review under reports/accepted.
+reports/inbox/**
+!reports/inbox/.gitkeep
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

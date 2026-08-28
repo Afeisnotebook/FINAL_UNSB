@@ -1,0 +1,16 @@
+{
+  "schema": "clean-unsb-search005-route1-stop-v1",
+  "status": "complete_no_sustained_candidate",
+  "answer": "target-blind positive windows exist, but no tested self-null, invariant, unbiased or coupled-dynamics operator retained them through the registered local horizon",
+  "failure_class": "signals_found_but_no_safe_long_horizon_correction",
+  "not_claimed": [
+    "that DT, HJ or HNEK contain no signal",
+    "that an exit threshold would solve route 1",
+    "that PCOA is a sustained winner",
+    "that confirmation20 or multiple seeds were tested"
+  ],
+  "full_view_not_started_reason": "zero SEARCH-005 candidates passed the 2400-step promotion gate",
+  "seed_validation_not_started_reason": "zero candidates reached full-view promotion",
+  "next_route": "a separately approved route-2 gap-aware handoff or a genuinely new failure class; do not silently continue threshold search inside SEARCH-005",
+  "confirmation20_opened": false
+}

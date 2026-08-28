@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "active": [
+    {
+      "id": "H-HJ-BASIN",
+      "lane": "P1_HJ_HANDOFF",
+      "hypothesis": "A finite early Layer-0 HJ intervention reaches a complete state whose benefit survives native UNSB to e200.",
+      "falsifier": "e200 macro PSNR delta <= 0 or material guardrail failure"
+    },
+    {
+      "id": "H-HNEK-PHYSICAL",
+      "lane": "P2_HNEK",
+      "hypothesis": "The frozen HNEK physical-horizon residual coordinate retains its historical e200 benefit under the clean full-scale protocol.",
+      "falsifier": "e200 macro PSNR delta <= 0 or material guardrail failure"
+    },
+    {
+      "id": "H-MACRO-MEASURE",
+      "lane": "P3_MACRO_MARGINAL",
+      "hypothesis": "The image-proportional endpoint empirical measures are misaligned with six-domain macro evaluation; independent uniform-domain marginals improve e200 macro restoration.",
+      "falsifier": "e200 macro PSNR delta <= 0 or degradation explained only by plain collapse"
+    }
+  ],
+  "closed": [
+    {"id": "H-TIME-ACTIVE", "reason": "matched e200 TA_MINIMAL -1.092 dB, 0/5 positive domains"},
+    {"id": "H-KCK", "reason": "common-anchor e10 discrepancy worsened 3.4165 percent in 4/4 time triples and 5/5 domains"},
+    {"id": "H-ROUTE1-CURRENT", "reason": "no SEARCH-005 operator passed the registered 2400-step sustained gate"},
+    {"id": "H-DCUM", "reason": "same-domain B conditioning reversed long-term and is not equivalent to macro-marginal sampling"}
+  ]
+}

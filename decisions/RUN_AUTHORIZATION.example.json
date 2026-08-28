@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized": false,
+  "note": "Copy to RUN_AUTHORIZATION.json only after local and all four server preflight reports pass, then commit it.",
+  "protocol_fingerprint": "RUN: python -c \"from production.common import protocol_fingerprint; print(protocol_fingerprint())\"",
+  "data_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+  "e0_network_state_sha256": "FILL_AFTER_ALL_FOUR_4090_SERVERS_AGREE",
+  "runtime": {
+    "torch": "FILL_FROM_MATCHED_SERVER_PREFLIGHT",
+    "torch_cuda": "FILL_FROM_MATCHED_SERVER_PREFLIGHT",
+    "cudnn": "FILL_FROM_MATCHED_SERVER_PREFLIGHT",
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "lanes": ["P0_PLAIN", "P1_HJ_HANDOFF", "P2_HNEK", "P3_MACRO_MARGINAL"]
+}

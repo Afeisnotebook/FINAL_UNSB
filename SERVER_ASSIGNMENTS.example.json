@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "commit": "REPLACE_AFTER_PUSH",
+  "servers": [
+    {"lane": "P0_PLAIN", "host": "REPLACE", "repo": "REPLACE", "data": "REPLACE", "runs": "REPLACE", "gpu": 0},
+    {"lane": "P1_HJ_HANDOFF", "host": "REPLACE", "repo": "REPLACE", "data": "REPLACE", "runs": "REPLACE", "gpu": 0},
+    {"lane": "P2_HNEK", "host": "REPLACE", "repo": "REPLACE", "data": "REPLACE", "runs": "REPLACE", "gpu": 0},
+    {"lane": "P3_MACRO_MARGINAL", "host": "REPLACE", "repo": "REPLACE", "data": "REPLACE", "runs": "REPLACE", "gpu": 0}
+  ]
+}

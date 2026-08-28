@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "physical_layout": "<DATA_ROOT>/<domain>/{input,target}/<stem>.<ext>",
+  "domains": {
+    "FoggyCityscapes": {"physical": 4575, "reserved": 100, "train": 4475},
+    "LowLightTrafficData": {"physical": 736, "reserved": 100, "train": 636},
+    "RainCityscapes": {"physical": 1188, "reserved": 100, "train": 1088},
+    "RainDS-syn": {"physical": 200, "reserved": 100, "train": 100},
+    "RSCityscapes": {"physical": 1188, "reserved": 100, "train": 1088},
+    "SnowTrafficData": {"physical": 1266, "reserved": 100, "train": 1166}
+  },
+  "totals": {
+    "physical": 9153,
+    "train": 8553,
+    "discovery": 480,
+    "confirmation": 120
+  },
+  "split_source": "manifests/frozen/legacy_split_manifest.csv",
+  "frozen_split_sha256": "df8a55bd9f3fba5384fa1f6994932b56067efdcaba921eb104cb60d615bf9d03",
+  "canonical_manifest": "manifests/FULL_DATA_MANIFEST.csv",
+  "canonical_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+  "split_rule": "The existing discovery80 and confirmation20 stems per domain remain reserved. Every other physical identity, including prior train100 identities, belongs to the new full train split.",
+  "training_semantics": {
+    "paired_physical_files_allowed": true,
+    "paired_training_mapping_forbidden": true,
+    "plain_hj_hnek_B": "uniform random over the entire trainB pool",
+    "macro_B": "sample B domain independently uniformly; then B uniformly within domain",
+    "filename_materialization": "domain__stem.ext"
+  },
+  "access": {
+    "train": "training allowed",
+    "discovery": "fixed milestone evaluation only",
+    "confirmation": "forbidden until a committed candidate freeze/unlock exists"
+  },
+  "hard_gates": [
+    "input and target stems match physically within each domain",
+    "zero identity overlap across train/discovery/confirmation",
+    "all four servers produce the same canonical manifest hash",
+    "train count equals 8553 before epoch is defined",
+    "materialized training views contain symlinks or hardlinks, not modified pixels"
+  ]
+}

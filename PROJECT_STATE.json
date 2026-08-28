@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "updated": "2026-08-28",
+  "phase": "READY_FOR_SERVER_PREFLIGHT",
+  "canonical_source": {
+    "parent_repository": "https://github.com/Afeisnotebook/UNSB_RESEARCH",
+    "parent_commit": "071246a5530cbb0b26081914e3692ed9d56142e4",
+    "upstream": "https://github.com/cyclomon/UNSB",
+    "role": "minimal deterministic execution snapshot, not a verbatim upstream mirror"
+  },
+  "local_hardware_observed": {
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "vram_mib": 6144,
+    "driver": "560.94"
+  },
+  "active_lanes": ["P0_PLAIN", "P1_HJ_HANDOFF", "P2_HNEK", "P3_MACRO_MARGINAL"],
+  "closed_routes": [
+    "TA_MINIMAL",
+    "CLOCK_ACTIVE",
+    "TACT_KCK",
+    "DCUM_CURRENT_IMPLEMENTATION",
+    "LBST_CURRENT_IMPLEMENTATION",
+    "PTQ_CURRENT_IMPLEMENTATION",
+    "AEB_CURRENT_IMPLEMENTATION",
+    "PCOA_CURRENT_IMPLEMENTATION"
+  ],
+  "next_gate": "Clone the frozen commit on four RTX 4090 servers, complete matched manifest/runtime/e0 preflight, then generate and commit RUN_AUTHORIZATION.json."
+}

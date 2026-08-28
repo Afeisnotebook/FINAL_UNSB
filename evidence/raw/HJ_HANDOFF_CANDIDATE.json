@@ -1,0 +1,60 @@
+{
+  "schema": "clean-unsb-search004-candidate-v1",
+  "status": "route2_sustained_local",
+  "candidate": {
+    "id": "HJ1200-NATIVE-HANDOFF",
+    "display_name": "Finite HJ navigation with exact native-state handoff",
+    "training_view": "small25",
+    "seed": 2026,
+    "algorithm": {
+      "warmup": "plain UNSB on updates [0,240)",
+      "intervention": "canonical Layer-0 HJ-PatchNCE on updates [240,1200)",
+      "handoff": "at update 1200 disable only the HJ correction; preserve G/F/D/E, all Adam states and ages, schedulers, sampler position, method co-state and every RNG state",
+      "continuation": "native UNSB for all later updates",
+      "inference": "canonical UNSB generator; no extra inference cost"
+    },
+    "normalization": {
+      "small25_steps_per_epoch": 150,
+      "warmup_epochs": 1.6,
+      "intervention_epochs": 6.4,
+      "full100_active_updates": "[960,4800)"
+    },
+    "local_evidence": {
+      "evaluated_total_steps": [2400, 2800, 3200],
+      "delta_psnr": [0.535692058893094, 2.1334779439151745, 0.8711696073901578],
+      "late_three_mean_delta_psnr": 1.1801132033994755,
+      "final_delta_psnr": 0.8711696073901578,
+      "final_positive_domains": 6,
+      "final_worst_domain_delta": 0.26430087129105395,
+      "final_ssim_delta": 0.019652145391418764,
+      "final_lpips_delta": -0.01665332608279735,
+      "late_peak_to_final_rollback": 0.0,
+      "passes_registered_long_gate": true
+    },
+    "mathematical_role": "HJ removes the one-sided high-risk PatchNCE finite-difference component during the early nonstationary bridge phase; after the finite navigation phase the native UNSB vector field acts on the complete reached state. No output or parameter is projected toward plain.",
+    "cost": {
+      "training": "HJ probe overhead only during the finite intervention interval; native cost thereafter",
+      "inference_multiplier": 1.0,
+      "persistent_extra_state": "none after handoff"
+    },
+    "risks": [
+      "single seed (2026)",
+      "local small25 training view",
+      "the intervention interval was frozen from prior discovery evidence rather than independently selected",
+      "this is a finite-stage treatment, not a target-blind automatic exit controller",
+      "the absolute candidate PSNR dips after its step-2000 peak even though matched advantage stays positive",
+      "full100 and 4090 from-e0 reproduction remain required before a paper-level claim"
+    ]
+  },
+  "code": {
+    "implementation_base_commit": "2a7aa68",
+    "runner": "research/searches/SEARCH-002-dthj-rederivation/run_search.py",
+    "handoff_auditor": "research/searches/SEARCH-004-gap-aware-handoff/run_search.py",
+    "candidate_model": "research/candidates/CAND-002-hj-patchnce/hj/model.py"
+  },
+  "reproduction": {
+    "local_audit": "python research/searches/SEARCH-004-gap-aware-handoff/run_search.py --stage long --checkpoint-id HJ-HANDOFF-2000 --long-horizon 1200 --long-eval-interval 400 --long-arms P_common_plain,A_hard_disable",
+    "4090_full100": "python research/searches/SEARCH-002-dthj-rederivation/run_search.py --stage verify4090 --seed 2026 --verify-milestones 30000 60000 120000 --output runs/search004_verify4090_seed2026"
+  },
+  "confirmation20_opened": false
+}

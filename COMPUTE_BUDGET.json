@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "hardware_maximum": "4 x RTX 4090 for 7 days",
+  "parallel_lanes": 4,
+  "updates_per_lane": 1710600,
+  "historical_conservative_updates_per_hour": 15559.49,
+  "estimated_pure_hours_per_lane": 109.94,
+  "estimated_hours_with_15_percent_overhead": 126.43,
+  "estimated_hours_with_25_percent_overhead": 137.42,
+  "hard_wall_hours_per_server": 156,
+  "disk_budget_gib_per_server": 220,
+  "policy": {
+    "local_preflight_before_rental": true,
+    "scientific_early_stop": false,
+    "engineering_hard_stop": [
+      "nonfinite state",
+      "manifest or identity mismatch",
+      "resume mismatch",
+      "disk or wall hard limit",
+      "unauthorized target access"
+    ],
+    "extra_seed_in_same_week_guaranteed": false
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "authorized": false,
+  "note": "Create CONFIRMATION_UNLOCK.json only after the e200 discovery winner is committed and frozen.",
+  "protocol_fingerprint": "FILL",
+  "data_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+  "authorized_lanes": ["P0_PLAIN", "FILL_FROZEN_WINNER"],
+  "checkpoint_sha256_by_lane": {
+    "P0_PLAIN": "FILL",
+    "FILL_FROZEN_WINNER": "FILL"
+  }
+}

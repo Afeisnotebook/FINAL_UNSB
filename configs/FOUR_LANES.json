@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "seed": 2026,
+  "common": {
+    "epochs": 200,
+    "n_epochs": 200,
+    "n_epochs_decay": 200,
+    "stop_after_epoch": 200,
+    "batch_size": 1,
+    "num_threads": 0,
+    "load_size": 128,
+    "crop_size": 128,
+    "preprocess": "resize_and_crop",
+    "no_flip": true,
+    "num_timesteps": 5,
+    "tau": 0.01,
+    "lr": 0.0002,
+    "beta1": 0.5,
+    "beta2": 0.999,
+    "lambda_GAN": 1.0,
+    "lambda_SB": 0.1,
+    "lambda_NCE": 1.0,
+    "nce_idt": true,
+    "nce_layers": "0,4,8,12,16",
+    "num_patches": 256,
+    "netF": "mlp_sample",
+    "netG": "resnet_9blocks_cond",
+    "netD": "basic_cond",
+    "netE": "basic_cond",
+    "deterministic": true,
+    "tf32": false,
+    "checkpoint_epochs": [1, 10, 25, 50, 100, 150, 200],
+    "latest_full_state_every_epochs": 1
+  },
+  "lanes": [
+    {
+      "id": "P0_PLAIN",
+      "gpu_slot": 0,
+      "model": "sb",
+      "sampling_measure": "official_image_proportional_unpaired",
+      "purpose": "matched clean baseline",
+      "method": {}
+    },
+    {
+      "id": "P1_HJ_HANDOFF",
+      "gpu_slot": 1,
+      "model": "hj",
+      "sampling_measure": "official_image_proportional_unpaired",
+      "purpose": "test whether the finite early HJ basin survives native UNSB to e200",
+      "method": {
+        "hj_enable": true,
+        "hj_layers": "0",
+        "hj_direction": "joint",
+        "hj_scales": "1,2,4",
+        "hj_step": 0.01,
+        "hj_quantile": 0.75,
+        "hj_gate_quantile": 0.75,
+        "hj_strength": 0.5,
+        "hj_boundary_scale": 0.001,
+        "hj_min_risk": 0.05,
+        "hj_min_delta": 0.0,
+        "hj_probe_mode": "central_consensus",
+        "hj_control": "true",
+        "hj_amplitude": "constant",
+        "hj_update_mode": "remove",
+        "active_start_data_epoch": 1.6,
+        "active_end_data_epoch": 8.0,
+        "handoff": "disable only HJ correction; preserve the complete reached state"
+      }
+    },
+    {
+      "id": "P2_HNEK",
+      "gpu_slot": 2,
+      "model": "hnek_search",
+      "sampling_measure": "official_image_proportional_unpaired",
+      "purpose": "clean full-scale test of the only historical e200-positive bridge-native anchor",
+      "method": {
+        "hnek_gamma": 0.25,
+        "hnek_coord": "residual",
+        "hnek_horizon_mode": "physical",
+        "hnek_partial": "all"
+      }
+    },
+    {
+      "id": "P3_MACRO_MARGINAL",
+      "gpu_slot": 3,
+      "model": "sb",
+      "sampling_measure": "independent_uniform_domain_A_and_B_then_uniform_within_domain",
+      "purpose": "test the full-scale mismatch between image-proportional training and six-domain macro evaluation",
+      "method": {
+        "macro_marginal": true,
+        "A_domain_and_B_domain_independent": true,
+        "same_stem_forbidden_when_domains_match": true,
+        "domain_label_visible_to_model": false,
+        "inference_change": false
+      }
+    }
+  ],
+  "forbidden": [
+    "fifth lane",
+    "hyperparameter search",
+    "best checkpoint selection",
+    "paired-target controller",
+    "changing HJ window after reading discovery",
+    "combining HNEK and macro marginal during this run"
+  ]
+}

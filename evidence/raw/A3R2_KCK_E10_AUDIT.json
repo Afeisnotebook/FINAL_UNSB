@@ -1,0 +1,98 @@
+{
+  "epoch": 10,
+  "run_id": "a3r2-common-anchor-ta-kck-20260810-f62a617223bf2bd8",
+  "spec_sha256": "f62a617223bf2bd854976ebfac957ae00e2b50347e4f35313cfbc5d3bba38807",
+  "relative_discrepancy_reduction": -0.03416530636961058,
+  "control_mean_train": 0.37973317271098495,
+  "kck_mean_train": 0.39270687289536,
+  "paired_bootstrap_ci95": [
+    -0.01765743282623589,
+    -0.008392572933807978
+  ],
+  "paired_bootstrap_ci_lower": -0.01765743282623589,
+  "paired_bootstrap_draws": 9999,
+  "bootstrap_seed": 20260809,
+  "positive_time_triples": 0,
+  "time_triple_means": {
+    "[0.0, 0.25, 0.5]": {
+      "control": 0.36222094632685187,
+      "kck": 0.37255093529820443,
+      "positive": false
+    },
+    "[0.0, 0.25, 0.75]": {
+      "control": 0.3901831105351448,
+      "kck": 0.4037571310997009,
+      "positive": false
+    },
+    "[0.0, 0.5, 0.75]": {
+      "control": 0.3898886553943157,
+      "kck": 0.4074553243815899,
+      "positive": false
+    },
+    "[0.25, 0.5, 0.75]": {
+      "control": 0.37663997858762743,
+      "kck": 0.38706410080194475,
+      "positive": false
+    }
+  },
+  "positive_domains": 0,
+  "domain_means": {
+    "FoggyCityscapes": {
+      "control": 0.3669634968973696,
+      "kck": 0.38558460073545575,
+      "positive": false
+    },
+    "LowLightTrafficData": {
+      "control": 0.39788092160597444,
+      "kck": 0.42058284347876906,
+      "positive": false
+    },
+    "RainCityscapes": {
+      "control": 0.3748721140436828,
+      "kck": 0.38271023286506534,
+      "positive": false
+    },
+    "RSCityscapes": {
+      "control": 0.37940158834680915,
+      "kck": 0.3907157350331545,
+      "positive": false
+    },
+    "SnowTrafficData": {
+      "control": 0.3795477426610887,
+      "kck": 0.3839409523643553,
+      "positive": false
+    }
+  },
+  "control_mean_sensitivity": 0.3797459171153605,
+  "kck_mean_sensitivity": 0.3906502232886851,
+  "independent_projector_agrees": true,
+  "safety": {
+    "TA_CONTROL": {
+      "direct_within_diversity": 0.10557982376770574,
+      "latent_sensitivity": 1.671990465640742e-05,
+      "time_sensitivity": 0.00018822337431932586,
+      "output_pixel_variance": 3.6910046210048006e-05,
+      "time_sensitivity_min": 7.409200285716604e-05,
+      "all_finite": true
+    },
+    "TA_KCK": {
+      "direct_within_diversity": 0.13548489757655868,
+      "latent_sensitivity": 1.838800619230104e-05,
+      "time_sensitivity": 0.0001479993937209656,
+      "output_pixel_variance": 1.675806074334929e-05,
+      "time_sensitivity_min": 4.9131946677031614e-05,
+      "all_finite": true
+    }
+  },
+  "safety_ratios_vs_control": {
+    "direct_within_diversity": 1.2832461046217447,
+    "latent_sensitivity": 1.0997674071816175,
+    "output_pixel_variance": 0.45402437721108163
+  },
+  "time_sensitivity": 0.0001479993937209656,
+  "all_finite": true,
+  "cells_per_variant": {
+    "TA_CONTROL": 320,
+    "TA_KCK": 320
+  }
+}

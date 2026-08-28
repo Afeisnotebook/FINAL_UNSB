@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "run_id": "hnek-search-g0.25_residual_physical_all-seed2026",
+  "spec_sha256": "7a3c135847fe31c736b57d3f3eb8e723d3d8d5649c07d9f9bcc0abfdc22f8573",
+  "resume_epoch": 50,
+  "final_epoch": 200,
+  "global_step": 180000,
+  "final_verdict": "DEVELOPMENT_PASS_SINGLE_SEED",
+  "decisions": [
+    {
+      "stage": "E200",
+      "verdict": "DEVELOPMENT_PASS_SINGLE_SEED",
+      "thresholds_frozen": true,
+      "macro_psnr_delta_db": 0.7883720592327812,
+      "ci95": [
+        0.5916360545222022,
+        0.9932679280915209
+      ],
+      "positive_domains": 4,
+      "claim_boundary": "paired-development, seed-2026 only; not confirmatory"
+    }
+  ],
+  "elapsed_hours": 11.568519083658854,
+  "claim_boundary": "single seed paired-development only; not confirmatory",
+  "server_scientific_interpretation_authorized": false
+}
