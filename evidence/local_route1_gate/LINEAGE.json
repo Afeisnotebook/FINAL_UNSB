@@ -1,0 +1,162 @@
+{
+  "schema": "final-unsb-local-route1-lineage-v1",
+  "git_commit": "a4883ebc5c060e5726acf4ef0a7d701cc20fa088",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "baseline": {
+    "source_hashes": {
+      "src/models/sb_model.py": "59fbdb1c93e49695de10ecd7633bbbd684e98faf4787c5ea7edec2d92ebb5f12"
+    },
+    "clean_profile": {
+      "model": "sb",
+      "mode": "sb",
+      "dataset_mode": "unaligned",
+      "direction": "AtoB",
+      "sampling_measure": "official_image_proportional_unpaired",
+      "batch_size": 1,
+      "num_threads": 0,
+      "load_size": 128,
+      "crop_size": 128,
+      "preprocess": "resize_and_crop",
+      "no_flip": true,
+      "n_epochs": 200,
+      "n_epochs_decay": 0,
+      "lr": 0.0001,
+      "beta1": 0.5,
+      "beta2": 0.999,
+      "lambda_GAN": 1.0,
+      "lambda_SB": 1.0,
+      "lambda_NCE": 1.0,
+      "tau": 0.01,
+      "num_timesteps": 5,
+      "nce_idt": true,
+      "nce_layers": "0,4,8,12,16",
+      "nce_T": 0.07,
+      "num_patches": 256,
+      "netF": "mlp_sample",
+      "netG": "resnet_9blocks_cond",
+      "netD": "basic_cond",
+      "deterministic": true,
+      "tf32": false
+    },
+    "scientific_clock": "data_epoch = 150 optimizer updates on small25"
+  },
+  "probes": {
+    "dt": {
+      "historical_authoritative_source_hashes": {
+        "__init__.py": "7185c8210638009e1f98e38f41a44fc26ea5ba21a2c4d5462640c82f0a35fbcc",
+        "dtcovmatch.py": "beb09f334982d681c340ae6f09104b65e7b33cf2dafde6c8b4a1d8cec5af15bf",
+        "model.py": "6060cef7e9fe6e5772494cac7bd8066688513996a482a36b4f135141dbdeb0de"
+      },
+      "historical_semantic_source_hashes": {
+        "__init__.py": "32638f8652f1a3a9337d67d9e79c35e87ee236c95dfb6a3f181cded10f58b02a",
+        "dtcovmatch.py": "08e268a4f73e8dc2c42ccf9d6106892f70a7ab6ec96e0324677c754089f855f5",
+        "model.py": "8a44fa0b0b1d70291b78455e424c5863821d4d5572f516c8a8596ebdbc25cc0d"
+      },
+      "local_port_hashes": {
+        "src/models/dtcov/__init__.py": "762c52f8ecd710860f796588a7cdb57c59fd63991b2d1a705b08c3eb1aeb21a4",
+        "src/models/dtcov/dtcovmatch.py": "2933629e84dd912c22c69b6392175fcd9afd5de2eba00e0d672cdd3056756ecf",
+        "src/models/dtcov/model.py": "1c4dfe85f220b8a3053616e9c15e5cb56c70f369e364142433a5e74aebf26711",
+        "src/models/dtcov_model.py": "c4de1c4114c31ca81e11147bd2e53db73a96702fec5095faf133e54c15adff9e"
+      },
+      "intentional_port_delta": [
+        "repository-relative imports replace the old foundation sys.path injection",
+        "shared EpochDiagnostics import replaces an unused external diagnostics dependency",
+        "DT-CovMatch equations, schedule, teacher, RNG preservation and state are unchanged"
+      ],
+      "physical_protocol": "plain e1-e20; active-age schedule e21-e45; lambda naturally zero thereafter; continue reached state to e200",
+      "historical_clean_fact": "SEARCH-001 full100: +0.566439 dB at 2000 updates, then -0.806110/-1.519180 dB at 3000/4000"
+    },
+    "hj": {
+      "historical_core_hash": "503a4e092470cd7355230495f10f094402fb7efb570ca9a632bdf75f4ab64e0a",
+      "local_source_hashes": {
+        "src/models/hj/__init__.py": "5d04f823d7ae11915a9f3f07f8e7022f8e9d0e0f92079da12d66297d37d9f4d4",
+        "src/models/hj/core.py": "503a4e092470cd7355230495f10f094402fb7efb570ca9a632bdf75f4ab64e0a",
+        "src/models/hj/diagnostics.py": "ce10ad6a45c74e50d03d68d208114e47fb86d7d145f79d98b41e6e160c164f78",
+        "src/models/hj/model.py": "d78682988a2238d7df652e7b0c2389c527624cd187971a6ab9af5a6b34176188",
+        "src/models/hj/projection.py": "603cc90b8bfc7849dd211d4322c2e8ded840ff259c8fa0e0ac1bba0eec7d8660",
+        "src/models/hj/structure.py": "09658302ecc1905c9e4ed7bbba96d410f5a3573901823b59c2579eb493bbe882",
+        "src/models/hj_model.py": "fce65eec1a4f237b4edf35f54883c076e49ad634ff70974e4638579ed33be581"
+      },
+      "intentional_port_delta": [
+        "inactive HJ now preserves canonical CPU-then-device RNG draw exactly",
+        "step-relative SEARCH-001 activation is disabled; physical epoch 5 is authoritative"
+      ],
+      "physical_protocol": "plain-identical e1-e4; Layer-0 true/joint/central-consensus from the first batch of e5 through e200",
+      "historical_trajectory_delta_db": {
+        "e100": -0.3524,
+        "e125": 0.5057,
+        "e150": 2.4497,
+        "e175": 3.6307,
+        "e200": 1.3324
+      }
+    },
+    "hnek": {
+      "local_source_hashes": {
+        "src/models/hnek/__init__.py": "2a261e3aa5a10b6b02535b35c69cfcde44ab967cb6e84f9467d57a6f93ade027",
+        "src/models/hnek/hnek_kernel.py": "fb0135c428f387730b10475d55d6016120f0b1918d498a49a22ed82c2fcfe7a4",
+        "src/models/hnek/hnek_search.py": "7f3883de8e89bdb6aed806308972f8251492bc023f3e6ab62b4dfbe7121d76db",
+        "src/models/hnek_search_model.py": "71dcb7735517bd301b2c9bfa6385c603bcb9e270bd5bf68b9761cec11ad360ae"
+      },
+      "configuration": {
+        "hnek_gamma": 0.25,
+        "hnek_coord": "residual",
+        "hnek_horizon_mode": "physical",
+        "hnek_partial": "all"
+      },
+      "physical_protocol": "gamma=.25/residual/physical/all is active for e1-e200",
+      "historical_evidence": {
+        "e50_delta_db": 2.6173,
+        "e200_delta_db": 0.7883720592327812,
+        "positive_domains_e200": 4
+      }
+    }
+  },
+  "historical_to_clean_semantics": {
+    "shared": [
+      "UNSB G/F/D/E object family",
+      "T=5 bridge",
+      "tau=.01",
+      "GAN/SB/NCE weights all 1",
+      "constant lr=1e-4 for 200 epochs"
+    ],
+    "must_not_be_conflated": [
+      "historical batch16/train160 trajectories versus local batch1/small25 proxy",
+      "data epochs versus raw optimizer updates",
+      "old nondeterministic implementation versus deterministic port",
+      "paired evaluation labels versus target-blind training observables"
+    ]
+  },
+  "unsb_object_graph": {
+    "native_objects": [
+      "endpoint generator G(x_t,t,z)",
+      "bridge rollout distribution",
+      "GAN discriminator D",
+      "SB critic E",
+      "PatchNCE feature sampler F"
+    ],
+    "dt": [
+      "latent endpoint direction dispersion",
+      "domain x physical-time normalization",
+      "frozen first-use teacher"
+    ],
+    "hj": [
+      "Layer-0 PatchNCE feature finite-difference risk",
+      "one-sided structure projection"
+    ],
+    "hnek": [
+      "remaining physical horizon",
+      "residual bridge coordinate",
+      "entropy/endpoint conditioning"
+    ],
+    "later_pool": [
+      "rollout teacher speed",
+      "physical-time sampling measure",
+      "domain sampling measure",
+      "antithetic latent variance",
+      "native/correction gradient game geometry"
+    ]
+  },
+  "claim_boundary": "lineage is provenance, not evidence that any probe is a sustained algorithm",
+  "confirmation20_opened": false
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "local-route1-cpu-gate-v1",
+  "status": "PASS",
+  "gates": [
+    {
+      "name": "protocol_contract",
+      "status": "PASS",
+      "detail": "valid"
+    },
+    {
+      "name": "manifest_hash",
+      "status": "PASS",
+      "detail": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+    },
+    {
+      "name": "discovery70_only",
+      "status": "PASS",
+      "detail": 420
+    },
+    {
+      "name": "local_data_available",
+      "status": "PASS",
+      "detail": {
+        "train_view": "E:\\UNSB_Expl\\FOUR_METHOD_MOTIVATION_20260813\\frozen\\data_views_v2\\allinone_100",
+        "discovery_images": 420
+      }
+    },
+    {
+      "name": "dt_authoritative_core_hash",
+      "status": "PASS",
+      "detail": {
+        "__init__.py": "32638f8652f1a3a9337d67d9e79c35e87ee236c95dfb6a3f181cded10f58b02a",
+        "dtcovmatch.py": "08e268a4f73e8dc2c42ccf9d6106892f70a7ab6ec96e0324677c754089f855f5"
+      }
+    },
+    {
+      "name": "physical_epoch_schedules",
+      "status": "PASS",
+      "detail": {
+        "dt": {
+          "1": 0.0,
+          "20": 0.0,
+          "21": 0.0002,
+          "25": 0.001,
+          "35": 0.001,
+          "44": 2.4471741852423235e-05,
+          "45": 0.0,
+          "46": 0.0,
+          "200": 0.0
+        },
+        "hj": "inactive e1-e4; active e5-e200"
+      }
+    },
+    {
+      "name": "target_blind_observation_schema",
+      "status": "PASS",
+      "detail": "paired fields rejected"
+    },
+    {
+      "name": "counterfactual_parent_isolation",
+      "status": "PASS",
+      "detail": "dc122ef138d863dd93e73cddf24f462b8c2d2ae5d03622310ac77719f458b870"
+    },
+    {
+      "name": "protocol_fingerprint",
+      "status": "PASS",
+      "detail": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2"
+    }
+  ],
+  "confirmation20_opened": false
+}

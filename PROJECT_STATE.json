@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
   "updated": "2026-08-29",
-  "phase": "LOCAL_ROUTE1_LONG_HORIZON_REOPENED",
+  "phase": "LOCAL_ROUTE1_ENGINEERING_GATE_PASSED",
+  "active_code_commit": "a4883ebc5c060e5726acf4ef0a7d701cc20fa088",
+  "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "canonical_source": {
     "parent_repository": "https://github.com/Afeisnotebook/UNSB_RESEARCH",
     "parent_commit": "071246a5530cbb0b26081914e3692ed9d56142e4",
@@ -38,5 +40,13 @@
     "SERVER_PREFLIGHT_AND_RUN_AUTHORIZATION",
     "ROUTE2_EXIT_OR_HANDOFF_SEARCH"
   ],
-  "next_gate": "Complete multi-method semantic lineage audit, then build matched small25 e200 anchor trajectories for plain, continuous HJ, HNEK and DT before deriving the next route-1 algorithm."
+  "completed_gates": [
+    "DT/HJ/HNEK source lineage and physical-epoch protocol frozen",
+    "plain twin one-step exact identity",
+    "inactive HJ and inactive DT exact plain identity",
+    "disabled HNEK exact plain identity",
+    "two-epoch continuous versus one-plus-resume exact identity",
+    "discovery70 CRN evaluation repeat and parent-state isolation"
+  ],
+  "next_gate": "Run the matched small25 plain e1-e200 anchor from the committed shared e0, then continuous HJ and HNEK; do not run DT or derive candidates until proxy calibration is complete."
 }

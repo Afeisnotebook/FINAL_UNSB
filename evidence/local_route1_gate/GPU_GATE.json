@@ -1,0 +1,47 @@
+{
+  "schema": "local-route1-gpu-gate-v1",
+  "status": "PASS",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "gates": [
+    {
+      "name": "plain_twin_one_step",
+      "status": "PASS",
+      "detail": "f1f383976bfb51b0ff23389995ab4c67dc28a7008c9a93247e1fee5c27bca479"
+    },
+    {
+      "name": "plain_reference_one_step",
+      "status": "PASS",
+      "detail": "f1f383976bfb51b0ff23389995ab4c67dc28a7008c9a93247e1fee5c27bca479"
+    },
+    {
+      "name": "inactive_hj_equals_plain",
+      "status": "PASS",
+      "detail": "f1f383976bfb51b0ff23389995ab4c67dc28a7008c9a93247e1fee5c27bca479"
+    },
+    {
+      "name": "inactive_dt_equals_plain",
+      "status": "PASS",
+      "detail": "f1f383976bfb51b0ff23389995ab4c67dc28a7008c9a93247e1fee5c27bca479"
+    },
+    {
+      "name": "hnek_disable_equals_plain",
+      "status": "PASS",
+      "detail": "f1f383976bfb51b0ff23389995ab4c67dc28a7008c9a93247e1fee5c27bca479"
+    },
+    {
+      "name": "two_epoch_continuous_equals_one_plus_resume",
+      "status": "PASS",
+      "detail": "8f4a334dead6de398045005a6dec90df7ea41fe6e1a2772a58bd90b4e7b98db5"
+    },
+    {
+      "name": "evaluation_repeat_and_state_isolation",
+      "status": "PASS",
+      "detail": {
+        "state_sha256": "981346ec2c5e47cc4a8032f04ad8a7f4304848320544bcb35e7da4e45fdb84d1",
+        "images": 420,
+        "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4"
+      }
+    }
+  ],
+  "confirmation20_opened": false
+}
