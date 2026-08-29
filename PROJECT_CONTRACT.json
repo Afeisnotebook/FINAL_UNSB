@@ -34,6 +34,18 @@
   "probe_contract": "configs/LOCAL_ROUTE1_PROBES.json",
   "suspended_server_lane_contract": "configs/FOUR_LANES.json",
   "data_contract": "DATA_CONTRACT.json",
-  "authorization_required": null,
+  "authorization_required": {
+    "status": "GRANTED_LIMITED",
+    "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
+    "host": "192.168.0.30",
+    "scope": "supplementary host-matched small25 route1 replica after preflight",
+    "excludes": [
+      "former four-server/four-lane plan",
+      "full-data execution",
+      "confirmation20 access",
+      "route2 handoff or exit search",
+      "cross-host method-minus-plain comparisons"
+    ]
+  },
   "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen local protocol before its paired target metrics are read. Server execution remains suspended until an explicit user decision."
 }

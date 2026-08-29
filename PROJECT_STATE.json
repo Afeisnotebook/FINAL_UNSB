@@ -11,9 +11,9 @@
   },
   "anchor_progress": {
     "plain": {
-      "accepted_data_epoch": 105,
-      "accepted_updates": 15750,
-      "latest_observed_data_epoch": 106,
+      "accepted_data_epoch": 130,
+      "accepted_updates": 19500,
+      "latest_observed_data_epoch": 130,
       "target_data_epoch": 200
     },
     "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
@@ -25,7 +25,7 @@
     "confirmation20_opened": false
   },
   "execution_incident": {
-    "status": "DURABLE_RECOVERY_ACCEPTED_E105",
+    "status": "DURABLE_RECOVERY_ACCEPTED_E130_WITH_E125_MILESTONE_BACKFILL",
     "summary": "Two hidden descendant process trees ended without traceback near plain e60 and e100; checkpoint state survived but the original executor had no durable supervisor or exit audit.",
     "scientific_invalidity": false,
     "wall_clock_idle_hours_approx": 20
@@ -76,6 +76,7 @@
     "e100 official metric backfilled twice with identical payload and no parent-state change",
     "deliberate process-loss recovery reproduced the accepted continuous/resume state",
     "scheduled durable executor accepted the official e100-to-e105 production chunk and auto-started e105-to-e110",
+    "e125 training state survived an external 0xC000013A interruption; the durable executor backfilled the missing official metric and accepted e130 without scientific replay",
     "Phase C audit core matches the frozen training worktree semantic fingerprint"
   ],
   "phase_c": {
@@ -89,5 +90,20 @@
     "paired_controller_access": false,
     "confirmation20_opened": false
   },
-  "next_gate": "Complete plain, HJ and HNEK e200 under the durable executor. The independent Phase C task will wait without GPU overlap and automatically audit correction validity, native-flow propagation and sampling variance after proxy adjudication."
+  "remote_offload": {
+    "status": "PREFLIGHT_PASS_PLAIN_RUNNING",
+    "host": "192.168.0.30",
+    "gpu_observed": "NVIDIA GeForce RTX 4090",
+    "role": "supplementary host-matched route1 replica; never mix a remote method with local plain",
+    "canonical_local_run_continues": true,
+    "training_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "control_commit": "af1ec0e818f694ce684effb3ec81b7f981b66a8f",
+    "cpu_gate": "PASS",
+    "gpu_gate": "PASS",
+    "initial_observed_data_epoch": 3,
+    "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
+    "confirmation20_opened": false,
+    "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
+  },
+  "next_gate": "Complete local canonical and remote host-matched plain/HJ/HNEK e200 trajectories without cross-host mixing. The local independent Phase C task remains queued; remote evidence may accelerate diagnosis only under its own matched plain."
 }

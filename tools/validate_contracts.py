@@ -67,8 +67,11 @@ def main() -> int:
           "local anchor e200 equals 30000 updates")
     check(project["frozen"]["updates_per_local_anchor_lane"] == 30000,
           "project and probe long-horizon clocks agree")
-    check(project["authorization_required"] is None,
-          "server authorization is inactive")
+    offload = project.get("authorization_required") or {}
+    check(offload.get("status") == "GRANTED_LIMITED"
+          and offload.get("decision") == "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
+          and offload.get("host") == "192.168.0.30",
+          "supplementary route-1 remote offload has explicit limited authorization")
     check(lanes["status"] == "SUSPENDED_NOT_CURRENT",
           "former four-lane server plan is suspended")
     check(budget["status"] == "SUSPENDED_SERVER_BUDGET_NOT_CURRENT",

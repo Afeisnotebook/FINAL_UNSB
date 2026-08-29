@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-route1-remote-offload-start-v1",
+  "recorded": "2026-08-30T01:11:21+08:00",
+  "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
+  "status": "PREFLIGHT_PASS_PLAIN_RUNNING",
+  "host": "192.168.0.30",
+  "scientific_role": "supplementary host-matched replica; never compare a remote method against local plain",
+  "training_identity": {
+    "frozen_repo": "/home/yc/FINAL_UNSB_ROUTE1_OFFLOAD_20260830",
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+  },
+  "control_identity": {
+    "repo": "/home/yc/FINAL_UNSB_ROUTE1_CONTROL_20260830",
+    "git_commit": "af1ec0e818f694ce684effb3ec81b7f981b66a8f",
+    "executor_contract_sha256": "c15f2fd6f2f3ffbeb9e60111038ae1e0a2773dfe7c6b1ac2a542b66246c93cc0",
+    "supervisor": "tmux:FINAL_UNSB_ROUTE1_REMOTE4090"
+  },
+  "environment": {
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "driver": "535.183.01",
+    "vram_mib": 24564,
+    "environment_record_sha256": "3e02385d7932c30fd5cb08493eaf80983e82cfa8dba7fca0894e424b96b52cc0"
+  },
+  "allowed_data_content_audit": {
+    "train_identities": 150,
+    "discovery_identities": 420,
+    "files_checked": 1140,
+    "content_hash_mismatches": 0,
+    "confirmation_files_touched": 0
+  },
+  "shared_e0": {
+    "source": "accepted local shared_e0 copy",
+    "file_sha256": "599544e984d9db72c3e3061f50bc14143400546c4bdc7fbc23c9beb86ac32140",
+    "scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "file_and_scientific_hash_match_after_transfer": true
+  },
+  "gates": {
+    "cpu_status": "PASS",
+    "cpu_gate_sha256": "cac57c4cc14f0de3d45a8bf76a3c336a9c4cb90e5855d2374f49d58c4983ff3b",
+    "gpu_status": "PASS",
+    "gpu_gate_sha256": "407716d044890163466beffdcae70e98e4213fb925e2dd3d7544366cea42c2ef",
+    "plain_twin": "PASS",
+    "inactive_hj_equals_plain": "PASS",
+    "inactive_dt_equals_plain": "PASS",
+    "hnek_disable_equals_plain": "PASS",
+    "resume_exact": "PASS",
+    "evaluation_repeat_parent_isolation": "PASS"
+  },
+  "initial_execution_state": {
+    "lane": "plain",
+    "current_data_epoch": 3,
+    "target_data_epoch": 5,
+    "target_final_data_epoch": 200,
+    "chunk_data_epochs_max": 5,
+    "confirmation20_opened": false
+  },
+  "hard_separation": {
+    "canonical_local_run_continues": true,
+    "cross_host_method_minus_plain_forbidden": true,
+    "cross_host_checkpoint_continuation_forbidden": true,
+    "full_data_forbidden": true,
+    "route2_forbidden": true,
+    "confirmation20_opened": false
+  }
+}

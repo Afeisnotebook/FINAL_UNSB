@@ -1,13 +1,29 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`DURABLE_EXECUTOR_ACCEPTED_E105 / ANCHORS_RUNNING / PHASE_C_IMPLEMENTING`
+状态：`LOCAL_ACCEPTED_E130 / REMOTE_MATCHED_REPLICA_RUNNING / PHASE_C_READY`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB  
 
-## 当前执行事实（2026-08-30 00:19）
+## 2026-08-30 单机远程算力补充
+
+用户已明确授权 `192.168.0.30` 的RTX 4090作为受控算力副本。该授权不恢复旧四lane
+计划，也不改变本地canonical：远端方法必须与远端plain从同一shared e0完整matched，
+不得拿remote方法减local plain、不得跨硬件续接同一轨迹。远端先通过代码/数据内容/
+e0/zero-intervention/resume/守护门，才可并行运行plain/HJ/HNEK的e200副本和后续
+host-matched审计。confirmation20、全量数据、路线二和退出阈值仍关闭。详细边界见
+`decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md`。
+
+远端已完成570个允许身份、1140个文件的内容hash核对（confirmation触碰为0），
+shared e0文件/科学状态hash复制一致，CPU/GPU门全部通过。独立tmux守护器已从e0启动
+remote plain；训练commit仍为`0da2a37`。compact证据见
+`evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json`。
+
+## 当前执行事实（2026-08-30 01:12）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
+- 本地plain已正式接受到e130。e125训练状态保存后子进程曾以`0xC000013A`退出；
+  守护器从冻结e125状态补回官方指标后继续，未跳过milestone、未重算训练路径。
 - current-user计划任务 `FINAL_UNSB_ROUTE1_EXECUTOR` 已从冻结e100恢复。首个正式
   e100→e105分块以exit code 0接纳，输出checkpoint SHA256为
   `1de7ebf0674ea24e27cc72d19636634b30a48199db57acb40cbb5b15a805672a`；
