@@ -7,6 +7,7 @@ from operations.local_route1_handoff_race_recovery import (
     paused_state,
     recovery_paths,
     validate_interrupted_state,
+    validate_restart_state,
 )
 
 
@@ -83,3 +84,16 @@ def test_hj_verifier_requires_true_integrity_and_false_access_guards(tmp_path):
     path.write_text(__import__("json").dumps(payload), encoding="utf-8")
     with pytest.raises(RuntimeError, match="paired metric"):
         _accepted_hj_verification(tmp_path)
+
+
+def test_recovery_finalization_requires_new_executor_on_dt():
+    record = {
+        "status": "IMPORT_VERIFIED_RESTART_REQUIRED",
+        "stopped_executor_pid": 101,
+    }
+    state = {"status": "CHUNK_RUNNING", "lane": "dt", "executor_pid": 303}
+    assert validate_restart_state(record, state) == 303
+    with pytest.raises(RuntimeError, match="new process"):
+        validate_restart_state(record, {**state, "executor_pid": 101})
+    with pytest.raises(RuntimeError, match="not running DT"):
+        validate_restart_state(record, {**state, "lane": "hnek"})

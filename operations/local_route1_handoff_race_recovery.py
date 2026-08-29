@@ -216,9 +216,57 @@ def complete(canonical_root: Path, source_root: Path) -> dict[str, Any]:
     })
 
 
+def validate_restart_state(record: dict[str, Any], state: dict[str, Any]) -> int:
+    if record.get("status") != "IMPORT_VERIFIED_RESTART_REQUIRED":
+        raise RuntimeError("verified import is not awaiting executor restart")
+    new_pid = int(state.get("executor_pid", -1))
+    if new_pid <= 0 or new_pid == int(record.get("stopped_executor_pid", -1)):
+        raise RuntimeError("executor was not restarted as a new process")
+    if state.get("status") not in {"CHUNK_RUNNING", "ANCHOR_PHASE_COMPLETE"}:
+        raise RuntimeError("restarted executor has not resumed the registered anchor flow")
+    if state.get("status") == "CHUNK_RUNNING" and state.get("lane") != "dt":
+        raise RuntimeError("restarted calibrated executor is not running DT")
+    return new_pid
+
+
+def finalize(canonical_root: Path, source_root: Path) -> dict[str, Any]:
+    canonical_root = canonical_root.resolve()
+    source_root = source_root.resolve()
+    paths = recovery_paths(canonical_root)
+    record = handoff.read_json(paths["record"])
+    if Path(str(record.get("source_root"))).resolve() != source_root:
+        raise RuntimeError("recovery source root changed before finalization")
+    _contract, state = handoff.validate_canonical(canonical_root)
+    new_pid = validate_restart_state(record, state)
+    if not handoff.process_exists(new_pid):
+        raise RuntimeError("restarted executor PID is not alive")
+    if handoff.sidecar_epoch(canonical_root, "hnek") != 200:
+        raise RuntimeError("imported HNEK disappeared after executor restart")
+    calibration = handoff.read_json(canonical_root / "evidence" / "PROXY_CALIBRATION.json")
+    if calibration.get("status") != "CALIBRATED":
+        raise RuntimeError("executor restarted without a calibrated proxy")
+    handoff.write_record(
+        canonical_root, "RECOVERED_IMPORT_EXECUTOR_RESTARTED",
+        source_root=str(source_root), restarted_executor_pid=new_pid,
+        resumed_lane=state.get("lane"), proxy_status=calibration.get("status"),
+    )
+    return _write_recovery(canonical_root, {
+        **record,
+        "status": "RECOVERY_COMPLETE_EXECUTOR_RESTARTED",
+        "restarted_executor_pid": new_pid,
+        "post_restart_status": state.get("status"),
+        "post_restart_lane": state.get("lane"),
+        "post_restart_data_epoch": state.get("current_data_epoch"),
+        "proxy_status": calibration.get("status"),
+        "training_state_mixed": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+
+
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(description=__doc__)
-    value.add_argument("action", choices=("prepare", "complete"))
+    value.add_argument("action", choices=("prepare", "complete", "finalize"))
     value.add_argument("--canonical-root", type=Path, required=True)
     value.add_argument("--source-root", type=Path, required=True)
     return value
@@ -226,11 +274,12 @@ def parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
-    result = (
-        prepare(args.canonical_root, args.source_root)
-        if args.action == "prepare"
-        else complete(args.canonical_root, args.source_root)
-    )
+    if args.action == "prepare":
+        result = prepare(args.canonical_root, args.source_root)
+    elif args.action == "complete":
+        result = complete(args.canonical_root, args.source_root)
+    else:
+        result = finalize(args.canonical_root, args.source_root)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
