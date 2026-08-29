@@ -87,8 +87,18 @@ def _accepted_hj_verification(canonical_root: Path) -> dict[str, Any]:
         raise RuntimeError("HJ e200 milestone is not accepted")
     if identity.get("probe_id") != "hj" or int(identity.get("data_epoch", -1)) != 200:
         raise RuntimeError("HJ verification identity mismatch")
-    if not integrity or not all(bool(value) for value in integrity.values()):
+    required_true = (
+        "checkpoint_file_hash_matches_sidecar",
+        "scientific_state_hash_matches_sidecar",
+        "metric_protocol_matches",
+        "evaluation_bundle_matches_frozen_crn",
+    )
+    if not all(integrity.get(key) is True for key in required_true):
         raise RuntimeError("HJ verification integrity guard failed")
+    if integrity.get("paired_metric_used_for_training_control") is not False:
+        raise RuntimeError("HJ verification used paired metric for training control")
+    if integrity.get("confirmation20_opened") is not False:
+        raise RuntimeError("HJ verification opened confirmation20")
     return payload
 
 

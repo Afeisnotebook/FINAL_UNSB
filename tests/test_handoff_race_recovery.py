@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from operations.local_route1_handoff_race_recovery import (
+    _accepted_hj_verification,
     paused_state,
     recovery_paths,
     validate_interrupted_state,
@@ -58,3 +59,27 @@ def test_recovery_artifacts_are_scoped_to_canonical_operations(tmp_path):
     assert paths["record"].parent == canonical.resolve() / "operations"
     assert paths["events"].parent == canonical.resolve() / "operations"
     assert paths["quarantine"] == canonical.resolve() / "operations" / "quarantine"
+
+
+def test_hj_verifier_requires_true_integrity_and_false_access_guards(tmp_path):
+    verification = tmp_path / "operations" / "milestone_verifications"
+    verification.mkdir(parents=True)
+    path = verification / "HJ_E200_VERIFICATION.json"
+    payload = {
+        "status": "ACCEPTED_MILESTONE",
+        "identity": {"probe_id": "hj", "data_epoch": 200},
+        "integrity": {
+            "checkpoint_file_hash_matches_sidecar": True,
+            "scientific_state_hash_matches_sidecar": True,
+            "metric_protocol_matches": True,
+            "evaluation_bundle_matches_frozen_crn": True,
+            "paired_metric_used_for_training_control": False,
+            "confirmation20_opened": False,
+        },
+    }
+    path.write_text(__import__("json").dumps(payload), encoding="utf-8")
+    assert _accepted_hj_verification(tmp_path) == payload
+    payload["integrity"]["paired_metric_used_for_training_control"] = True
+    path.write_text(__import__("json").dumps(payload), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="paired metric"):
+        _accepted_hj_verification(tmp_path)
