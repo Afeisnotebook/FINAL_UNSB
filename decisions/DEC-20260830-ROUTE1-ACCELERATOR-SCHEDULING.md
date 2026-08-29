@@ -32,12 +32,14 @@
 
 ## 动态调度规则
 
-1. 当前 4090 保持 HJ 与 HNEK 双流，5090 保持 plain 与 HNEK 双流；不插入第三条训练。
-2. 4090 完成 HJ/HNEK 并得到 proxy 后：只有 `CALIBRATED` 才启动 DT；另一条流可执行已经冻结的 HJ/HNEK 反事实审计。
-3. 因果矩阵冻结前，不用空闲 GPU 预跑候选名字或超参网格。
-4. 候选生成后，最多两个候选可在 4090/5090 上并行，但每个候选只与同 host、同 e0、同 seed、同 protocol 的 plain 比较。
-5. 不跨 host 延续 checkpoint，不把不同 host 的绝对 PSNR 直接相减；跨 host 结果仅作为重复性证据。
-6. confirmation20 继续封存，paired 指标不进入调度或控制器。
+1. 4090 的 plain/HJ/HNEK 已完成且 proxy 已 `CALIBRATED`。当前 DT 是解锁完整因果矩阵的关键路径，保持单流直到 e200；4090 实测双流总吞吐仅增加 5.9%，此时插入第二流会延后算法发现门。
+2. 5090 当前保持 canonical plain 与独立 HNEK 两条 batch-1 流。plain 完成后 canonical runner 接续 HJ；独立 HNEK 完成并经同机 plain e200 验证后才导入 canonical run root。第三流仍禁止。
+3. 本地 1660 保持一条 HJ 流和独立只读 verifier/auditor watcher，不与远端 checkpoint 混用。
+4. DT e200 验证完成后，4090 立即把训练槽转为因果审计；可并行的审计单元必须读取独立 parent checkpoint、写入独立 row，并通过父状态 hash 隔离。是否开双流由实际审计吞吐决定，不以显存空闲推断。
+5. 因果矩阵冻结前，不用空闲 GPU 预跑候选名字、公式模板或超参网格。400--800 updates 工程 micro gate 即使使用不同吞吐设置，也不得产生科学晋级结论。
+6. 候选生成后，最多两个候选可在 4090/5090 上并行，但每个候选只与同 host、同 e0、同 seed、同 protocol、同 `batch_size=1` 的 plain 比较。
+7. 不跨 host 延续 checkpoint，不把不同 host 的绝对 PSNR 直接相减；跨 host 结果仅作为重复性证据。
+8. confirmation20 继续封存，paired 指标不进入调度或控制器。
 
 ## 防漂移结论
 
