@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from .candidates import load_candidate_registration, validate_candidate_id
-from .protocol import load_protocol
+from .protocol import ROOT, file_sha256, load_protocol
 from .runtime import write_json
 
 
@@ -105,6 +105,14 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
     if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
         raise RuntimeError("causal matrix exists but is not complete")
     ranked = list(matrix.get("ranked_failure_mechanisms", []))
+    historical_index_path = ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl"
+    historical_priors = []
+    if historical_index_path.is_file():
+        historical_priors = [
+            json.loads(line) for line in historical_index_path.read_text(
+                encoding="utf-8"
+            ).splitlines() if line.strip()
+        ]
     mechanisms = [
         row for row in ranked if row.get("candidate_generation_eligible") is True
     ][:3]
@@ -142,6 +150,18 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
         "maximum_generation1_candidates": 3,
         "ranked_failure_mechanisms": ranked,
         "target_blind_signal_screen": matrix.get("target_blind_signal_screen"),
+        "historical_evidence_index": {
+            "path": str(historical_index_path.resolve()),
+            "sha256": (
+                file_sha256(historical_index_path)
+                if historical_index_path.is_file() else None
+            ),
+            "rows": historical_priors,
+            "role": (
+                "corroborating priors and negative boundaries only; current long causal "
+                "matrix remains the authority for signal-driven candidate generation"
+            ),
+        },
         "cards": cards,
         "guard": (
             "No paired-fitted controller may be generated. A failure mechanism without an eligible target-blind driver may only proceed through an independently justified unbiased construction."
