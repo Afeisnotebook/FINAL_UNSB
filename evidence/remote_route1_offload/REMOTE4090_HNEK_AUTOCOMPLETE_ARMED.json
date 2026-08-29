@@ -1,0 +1,32 @@
+{
+  "schema": "final-unsb-route1-hnek-handoff-autocomplete-arm-v1",
+  "recorded": "2026-08-30T04:09:24+08:00",
+  "status": "WAITING_FOR_HANDOFF_READY",
+  "canonical_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+  "source_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_HNEK_PARALLEL",
+  "durable_session": "tmux:FINAL_UNSB_ROUTE1_4090_HNEK_AUTOCOMPLETE",
+  "watcher_pid_at_observation": 1308256,
+  "source_commit": "e47274035f0e7e38160f8ab378697e3dcecb5e2c",
+  "watcher_sha256": "0dcbdc6a3cfcd6584d5564b6ea8a3941313349ddfd0b4caccf56efe7f70696cb",
+  "importer_sha256": "89341e4b8f696985f45eac3708e7478d32e045d9ab29619995ac1956f880fcdf",
+  "watch_record_sha256_at_observation": "54c5be6ce141a30ce7f7c4a2a0b04b986e5a786459b25394a5b3af94e72d7e3c",
+  "observed_state": {
+    "handoff_status": "ARMED",
+    "canonical_hj_data_epoch": 120,
+    "independent_hnek_data_epoch": 84,
+    "independent_hnek_ready": false,
+    "timeout_seconds": 43200
+  },
+  "allowed_transition": [
+    "wait for the existing coordinator to pause only the executor parent during the final HJ child",
+    "wait for HJ COMPLETE_E200 and the explicit READY_FOR_INDEPENDENT_HNEK_IMPORT record",
+    "wait for a same-host COMPLETE_MATCHED_BASELINE_VERIFIED HNEK e200 source",
+    "run the existing no-overwrite import with require_paused=true",
+    "resume the same executor PID after an IMPORT_VERIFIED receipt"
+  ],
+  "crash_recovery": "If import completes before the watcher exits, a restart resumes from the verified receipt without copying again.",
+  "training_update_changed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This closes an orchestration idle-time gap only. It does not accept, compare, rank, or modify HNEK."
+}
