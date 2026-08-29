@@ -664,7 +664,8 @@ def _post_branch_label(proposal: dict | None, reference: dict | None, *, step: i
 
 
 def _operator_modes(probe: str, data_epoch: int) -> tuple[str, ...]:
-    if probe == "dt" and (int(data_epoch) <= 20 or int(data_epoch) > 45):
+    next_physical_epoch = int(data_epoch) + 1
+    if probe == "dt" and not (21 <= next_physical_epoch <= 45):
         return ("registered", "forced_active_diagnostic")
     return ("registered",)
 
@@ -1263,15 +1264,20 @@ def _expected_variance_keys(
 def _preferred_operator_mode(probe: str, data_epoch: int) -> str:
     """Select the scientific DT operator without dropping its active-age evidence.
 
-    DT is registered and nonzero only at data epochs 21--45.  Outside that
-    interval the registered operator is the identity, so causal analysis uses
-    the separately recorded forced-active diagnostic.  Inside the interval the
-    registered branch is already the authoritative active operator and no
-    forced-active duplicate is emitted.
+    DT is registered and nonzero during physical training epochs 21--45.  An
+    audit source labelled data epoch ``d`` has already completed that epoch, so
+    its first counterfactual update is in physical epoch ``d + 1``.  Outside
+    that next-update interval the registered operator is the identity and
+    causal analysis uses the separately recorded forced-active diagnostic.
     """
     if probe != "dt":
         return "registered"
-    return "registered" if 21 <= int(data_epoch) <= 45 else "forced_active_diagnostic"
+    next_physical_epoch = int(data_epoch) + 1
+    return (
+        "registered"
+        if 21 <= next_physical_epoch <= 45
+        else "forced_active_diagnostic"
+    )
 
 
 def _classify_probe(rows: list[dict], probe: str) -> dict:
@@ -1496,10 +1502,10 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
                 "domain_psnr_delta": dict(label["domain_psnr_delta"]),
                 "paired_label_available_to_controller": False,
             })
-    temporal_groups: dict[tuple[str, str, str], list[dict]] = defaultdict(list)
+    temporal_groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
     for record in temporal_rollout:
         temporal_groups[
-            (record["probe"], record["source_state"], record["operator_mode"])
+            (record["probe"], record["source_state"])
         ].append(record)
     for records in temporal_groups.values():
         records.sort(key=lambda item: item["data_epoch"])
