@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-compact-milestone-acceptance-v1",
+  "recorded": "2026-08-30T04:10:35+08:00",
+  "status": "ACCEPTED_MILESTONE",
+  "probe_id": "hj",
+  "data_epoch": 10,
+  "updates": 1500,
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "checkpoint": {
+    "file_sha256": "054950f4c0018b10a13e975d31d164f9fb4b82e1d75791e046fdcb576f0ce8db",
+    "scientific_state_sha256": "ae89ceec20ea596dd008786328ea889ecd9f0a7930cc82e725e081e062c2278e",
+    "sidecar_sha256": "91c0fa326e31dd7c9f92b39d124f991ebff19ed9353a439652649a00ac1f1916"
+  },
+  "discovery70_metric": {
+    "file_sha256": "c1f8ffdeeeee3ff17a19039b37c4ee06e4d1fdd2128aa32eb02c4db6e4cb2d07",
+    "images": 420,
+    "domains": 6,
+    "values_used_for_training_or_scheduling": false
+  },
+  "integrity": {
+    "checkpoint_file_hash_matches_sidecar": true,
+    "scientific_state_hash_matches_sidecar": true,
+    "metric_protocol_matches": true,
+    "evaluation_bundle_matches_frozen_crn": true,
+    "confirmation20_opened": false
+  },
+  "current_execution_after_verification": "HJ e10-to-e15 child running from the accepted full state",
+  "claim_boundary": "This accepts HJ engineering continuity through e10 only. Intermediate paired values do not control training and make no long-horizon algorithm claim."
+}
