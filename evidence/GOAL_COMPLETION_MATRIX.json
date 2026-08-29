@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T04:12:00+08:00",
+  "updated": "2026-08-30T04:21:00+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -32,8 +32,12 @@
     {
       "id": 3,
       "requirement": "DT/HJ/HNEK and other primary probes yield usable long causal evidence.",
-      "status": "PARTIAL_RUNTIME_ONLY",
+      "status": "PHASE_A_PROVEN_LONG_RUNTIME_PENDING",
       "evidence": [
+        "evidence/lineage/DT_LINEAGE.json",
+        "evidence/lineage/HJ_LINEAGE.json",
+        "evidence/lineage/HNEK_LINEAGE.json",
+        "evidence/lineage/MECHANISM_OBJECT_MAP.json",
         "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
         "evidence/local_route1_progress/HJ_E10_MILESTONE_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json"
