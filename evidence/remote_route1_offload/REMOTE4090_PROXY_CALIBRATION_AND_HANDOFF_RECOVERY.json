@@ -88,12 +88,16 @@
     "independent_hnek_zero_update_recovery_promoted_against_same_host_plain": true,
     "imported_hnek_files": 41,
     "imported_hnek_tree_sha256": "e2c3e1bba280fd4855e1d89b0c40faf3a291ee1e2a9636bdf1925582d77414d5",
-    "recovery_record_sha256": "9e6e350af0c93bc5a4c2bc8f9397f839589516c47b58527bb79fbe2ad7cbc5f7",
+    "recovery_record_sha256": "06fa94d1f6e216e070314f9ebf1bd63c6b2eda9403e56039621413dd2fd4eeb7",
     "import_receipt_sha256": "9cb21da42b595957539368f6ba8c86f111c8fa9fb3a8440bf417da33c9f4fb53",
     "training_state_mixed": false,
     "executor_inactive_during_import": true,
-    "recovery_tool_commit": "12a5d82",
-    "recovery_tool_sha256": "93875c04a031825553f7ccadaa0f22d36294c8081f3c394819e92258a94fce82"
+    "executor_restarted_as_new_process": true,
+    "restarted_executor_pid": 1320869,
+    "post_restart_lane": "dt",
+    "recovery_status": "RECOVERY_COMPLETE_EXECUTOR_RESTARTED",
+    "recovery_tool_commit": "7fb7393",
+    "recovery_tool_sha256": "deb27f4b295d05bebe4bea135e16117b1ef3180bfb2fb6f8e62242139cd07acf"
   },
   "next_stage": {
     "dt_status": "RUNNING_FROM_SHARED_E0",
