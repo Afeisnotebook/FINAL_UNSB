@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-hj-inactive-core-identity-v1",
+  "recorded": "2026-08-30T03:44:00+08:00",
+  "status": "PASS",
+  "comparison": {
+    "plain_checkpoint": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\milestones\\e001.pt",
+    "hj_checkpoint": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\hj\\milestones\\e001.pt",
+    "data_epoch": 1,
+    "updates": 150,
+    "compared_core_fields": [
+      "model.networks",
+      "model.optimizers",
+      "model.schedulers",
+      "rng",
+      "samplers",
+      "step"
+    ],
+    "plain_core_sha256": "c90b4edd712102e2d62480c19ecac8b02f6bb5191fd98452fadf5735b8f8a457",
+    "hj_core_sha256": "c90b4edd712102e2d62480c19ecac8b02f6bb5191fd98452fadf5735b8f8a457",
+    "core_exactly_equal": true
+  },
+  "method_state_boundary": {
+    "full_checkpoint_hashes_expected_to_differ": true,
+    "reason": "HJ stores a recoverable controller while plain does not; method state is excluded only from the inactive scientific-core identity comparison.",
+    "hj_active_optimizer_steps": 0,
+    "hj_gate_sum": 0.0,
+    "search_global_step": 149,
+    "search_total_steps": 30000
+  },
+  "identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "seed": 2026,
+    "confirmation20_opened": false
+  },
+  "claim_boundary": "This proves actual e1 pre-intervention core identity. It does not yet prove e5 activation correctness or any HJ benefit."
+}
