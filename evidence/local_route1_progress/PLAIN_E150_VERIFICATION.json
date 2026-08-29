@@ -1,0 +1,29 @@
+{
+  "schema": "final-unsb-route1-local-progress-v1",
+  "recorded": "2026-08-30T02:00:00+08:00",
+  "status": "PLAIN_E150_CHECKPOINT_AND_METRIC_VERIFIED",
+  "host_role": "canonical_local_gtx1660",
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "probe": "plain",
+  "data_epoch": 150,
+  "updates": 22500,
+  "checkpoint": {
+    "file_sha256": "26a75718b07c57415e066ac97d589b1e18fcbe3aa697117b4cf891014c9b87ea",
+    "scientific_state_sha256": "54933cb2ba498a006f8a9c6da1ff922a40b2b7cd0b3d9317fb85b1080b322f16",
+    "sidecar_sha256": "dc64eeac99ff222c4a449e0d25347f7ac094c349e00d8c0701edd73fd11830f4",
+    "file_hash_matches_sidecar": true,
+    "scientific_hash_matches_sidecar": true
+  },
+  "metric": {
+    "payload_sha256": "ba7f8474eb1a524cd3c7c17c1e945fc0a6695de41a02114702ebd44b88eccb85",
+    "macro_psnr": 17.279563460201967,
+    "macro_ssim": 0.5579632903138797,
+    "macro_lpips": 0.35609280176105956,
+    "images": 420,
+    "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4"
+  },
+  "paired_metric_used_for_training_or_early_stop": false,
+  "confirmation20_opened": false
+}

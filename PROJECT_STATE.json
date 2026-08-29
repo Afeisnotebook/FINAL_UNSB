@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "phase": "LOCAL_ROUTE1_ANCHORS_RUNNING_AND_PHASE_C_IMPLEMENTATION",
+  "phase": "LOCAL_ROUTE1_ANCHORS_RUNNING_PHASE_C_AND_CANDIDATE_INFRASTRUCTURE_READY",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "development_head": "54b9cbe",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -11,9 +12,9 @@
   },
   "anchor_progress": {
     "plain": {
-      "accepted_data_epoch": 130,
-      "accepted_updates": 19500,
-      "latest_observed_data_epoch": 130,
+      "accepted_data_epoch": 150,
+      "accepted_updates": 22500,
+      "latest_observed_data_epoch": 150,
       "target_data_epoch": 200
     },
     "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
@@ -22,6 +23,15 @@
     "plain_e100_checkpoint_verified": true,
     "plain_e100_official_metric_pending_recovery": false,
     "plain_e100_metric_payload_sha256": "25eb768781861698d53129bc24c3088e403f1f07f95e93b5c0130aeef26159c6",
+    "plain_e150": {
+      "macro_psnr": 17.279563460201967,
+      "macro_ssim": 0.5579632903138797,
+      "macro_lpips": 0.35609280176105956,
+      "images": 420,
+      "checkpoint_sha256": "26a75718b07c57415e066ac97d589b1e18fcbe3aa697117b4cf891014c9b87ea",
+      "scientific_state_sha256": "54933cb2ba498a006f8a9c6da1ff922a40b2b7cd0b3d9317fb85b1080b322f16",
+      "checkpoint_and_scientific_hash_verified": true
+    },
     "confirmation20_opened": false
   },
   "execution_incident": {
@@ -78,6 +88,9 @@
     "scheduled durable executor accepted the official e100-to-e105 production chunk and auto-started e105-to-e110",
     "e125 training state survived an external 0xC000013A interruption; the durable executor backfilled the missing official metric and accepted e130 without scientific replay",
     "Phase C audit core matches the frozen training worktree semantic fingerprint"
+    ,"seed2027/2028 runner separates frozen algorithm identity from seed-specific e0 and execution identity"
+    ,"candidate long-run gate requires a source-bound executable hook rather than a handwritten PASS record"
+    ,"rollout-speed and bridge-time coordinate mechanisms are registered for pre-evidence matrix reanalysis"
   ],
   "phase_c": {
     "status": "DURABLE_AUDITOR_REGISTERED_WAITING_FOR_ANCHORS",
@@ -86,6 +99,7 @@
     "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_b7ebc4e",
     "audit_git_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
     "audit_scope": "continuous operator validity, pulse-to-native propagation, 8-replicate batch/latent-time correction variance, and offline target-blind signal eligibility screening",
+    "posthoc_matrix_analysis_commit": "e1d9d88",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
@@ -101,6 +115,8 @@
     "cpu_gate": "PASS",
     "gpu_gate": "PASS",
     "initial_observed_data_epoch": 3,
+    "latest_verified_data_epoch": 100,
+    "e100_checkpoint_and_metric_present": true,
     "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
     "auditor_status": "WAITING_FOR_ANCHORS",
     "auditor_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
@@ -108,5 +124,11 @@
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
-  "next_gate": "Complete local canonical and remote host-matched plain/HJ/HNEK e200 trajectories without cross-host mixing. The local independent Phase C task remains queued; remote evidence may accelerate diagnosis only under its own matched plain."
+  "candidate_infrastructure": {
+    "algorithm_vs_evidence_identity_commit": "5647016",
+    "executable_candidate_gate_commit": "54b9cbe",
+    "seed_validation_commit": "2cefec4",
+    "status": "READY_BUT_BLOCKED_UNTIL_CAUSAL_ATLAS_AND_DERIVATION"
+  },
+  "next_gate": "Complete local canonical and remote host-matched plain/HJ/HNEK e200 trajectories without cross-host mixing, then execute the frozen auditors and reanalyze their immutable atlas rows before deriving any formula."
 }

@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`LOCAL_ACCEPTED_E130 / REMOTE_MATCHED_REPLICA_RUNNING / PHASE_C_READY`
+状态：`LOCAL_PLAIN_E150_VERIFIED / REMOTE_PLAIN_E100_VERIFIED / PHASE_C_READY`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB  
 
@@ -18,11 +18,14 @@ shared e0文件/科学状态hash复制一致，CPU/GPU门全部通过。独立tm
 remote plain；训练commit仍为`0da2a37`。compact证据见
 `evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json`。
 
-## 当前执行事实（2026-08-30 01:12）
+## 当前执行事实（2026-08-30 01:59）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
-- 本地plain已正式接受到e130。e125训练状态保存后子进程曾以`0xC000013A`退出；
+- 本地plain已正式接受到e150（22500 updates）。e150 checkpoint文件hash和科学状态
+  hash均与sidecar一致；正式discovery70为PSNR `17.279563`、SSIM `0.557963`、
+  LPIPS `0.356093`，共420张，confirmation20仍关闭。e125训练状态保存后子进程曾以
+  `0xC000013A`退出；
   守护器从冻结e125状态补回官方指标后继续，未跳过milestone、未重算训练路径。
 - current-user计划任务 `FINAL_UNSB_ROUTE1_EXECUTOR` 已从冻结e100恢复。首个正式
   e100→e105分块以exit code 0接纳，输出checkpoint SHA256为
@@ -42,6 +45,12 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - paired discovery70只在双分支冻结后作为未来标签；只有跨方法准确率、相关性、域
   一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。否则只允许从
   可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。
+- 远端4090 plain的e100 checkpoint与官方metric已实物落盘并核验；远端剩余空间约
+  451 GB。远端方法仍只允许与远端plain比较。
+- 在看到长期atlas之前，矩阵后处理已补齐rollout-speed与bridge-time conditioning
+  路由；分析commit、源码和atlas/variance/queue输入hash将单独记录，不改原分支行。
+- 候选执行链已区分算法定义指纹与host/e0证据执行指纹，并要求源码绑定的可执行gate
+  hook实际通过数学不变量、zero identity、resume、跨状态和400--800 update工程门。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式
