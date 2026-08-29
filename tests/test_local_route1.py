@@ -24,7 +24,10 @@ from research.local_route1.causal_audit import (
 )
 from research.local_route1.evaluate import select_discovery70
 from research.local_route1.interfaces import CounterfactualAuditor, StateObservation
-from research.local_route1.lineage import HISTORICAL_DT_SEMANTIC_HASHES
+from research.local_route1.lineage import (
+    HISTORICAL_DT_SEMANTIC_HASHES,
+    split_lineage_documents,
+)
 from research.local_route1.protocol import (
     ROOT,
     dt_lambda_for_physical_epoch,
@@ -59,6 +62,34 @@ def test_route1_protocol_uses_physical_epoch_and_cli_aliases():
     assert step_to_physical_epoch(150, protocol) == 2
     assert milestone_steps(protocol)[-3:] == [22_500, 26_250, 30_000]
     assert probe_spec("hj", protocol).contract_id == "P1_HJ_CONTINUOUS_LONG"
+
+
+def test_lineage_split_emits_every_required_probe_and_mechanism_object_map():
+    payload = {
+        "git_commit": "commit",
+        "protocol_fingerprint": "protocol",
+        "manifest_sha256": "manifest",
+        "baseline": {"scientific_clock": "data_epoch"},
+        "historical_to_clean_semantics": {"shared": [], "must_not_be_conflated": []},
+        "probes": {probe: {"physical_protocol": probe} for probe in ("dt", "hj", "hnek")},
+        "unsb_object_graph": {
+            "native_objects": ["G", "D", "E", "F"],
+            "dt": ["covariance"],
+            "hj": ["PatchNCE risk"],
+            "hnek": ["bridge coordinate"],
+            "later_mechanisms": {"LBST": {"unsb_object": "rollout distribution"}},
+        },
+    }
+    documents = split_lineage_documents(payload)
+    assert set(documents) == {
+        "DT_LINEAGE.json", "HJ_LINEAGE.json", "HNEK_LINEAGE.json",
+        "MECHANISM_OBJECT_MAP.json",
+    }
+    assert documents["DT_LINEAGE.json"]["probe"] == "dt"
+    assert documents["HJ_LINEAGE.json"]["unsb_objects"] == ["PatchNCE risk"]
+    object_map = documents["MECHANISM_OBJECT_MAP.json"]
+    assert object_map["later_mechanisms"]["LBST"]["unsb_object"] == "rollout distribution"
+    assert object_map["confirmation20_opened"] is False
 
 
 def test_dt_core_semantics_and_physical_schedule_are_frozen():

@@ -20,6 +20,52 @@ HISTORICAL_DT_SEMANTIC_HASHES = {
 }
 
 
+LINEAGE_FILENAMES = {
+    "dt": "DT_LINEAGE.json",
+    "hj": "HJ_LINEAGE.json",
+    "hnek": "HNEK_LINEAGE.json",
+}
+
+
+LATER_MECHANISM_OBJECTS = {
+    "PCOA_NPOOA": {
+        "unsb_object": "joint native/correction generator update geometry",
+        "tested_operator": "Adam-metric projection and norm-preserving revision",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+    },
+    "LBST": {
+        "unsb_object": "endogenous bridge rollout distribution and its moving endpoint teacher",
+        "tested_operator": "fixed one-data-epoch-half-life lagged EMA rollout teacher",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+    },
+    "PTQ": {
+        "unsb_object": "bridge-time sampling measure over the physical horizon",
+        "tested_operator": "exact fixed physical-interval mass schedule",
+        "evidence_boundary": "reversal_observed_short_protocol",
+    },
+    "DCUM_MACRO_MARGINAL": {
+        "unsb_object": "empirical unpaired A/B domain marginals",
+        "tested_operator": "domain-conditional or macro-balanced endpoint sampling",
+        "evidence_boundary": "reversal_observed_short_protocol",
+    },
+    "AEB_BCAVP": {
+        "unsb_object": "latent endpoint law and latent/time gradient estimator variance",
+        "tested_operator": "antithetic endpoint averaging or paired latent control variate",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+    },
+    "TA_MINIMAL": {
+        "unsb_object": "explicit generator time coordinate",
+        "tested_operator": "direct restored time-conditioned forward",
+        "evidence_boundary": "long_horizon_negative_current_implementation",
+    },
+    "KCK_PATH_CONSISTENCY": {
+        "unsb_object": "direct-versus-composed bridge transition consistency",
+        "tested_operator": "path-consistency penalty on the restored-time model",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+    },
+}
+
+
 def _hashes(paths: list[Path]) -> dict:
     return {
         path.relative_to(ROOT).as_posix(): file_sha256(path)
@@ -90,13 +136,58 @@ def build_lineage(manifest_path: Path) -> dict:
             "hj": ["Layer-0 PatchNCE feature finite-difference risk", "one-sided structure projection"],
             "hnek": ["remaining physical horizon", "residual bridge coordinate", "entropy/endpoint conditioning"],
             "later_pool": ["rollout teacher speed", "physical-time sampling measure", "domain sampling measure", "antithetic latent variance", "native/correction gradient game geometry"],
+            "later_mechanisms": LATER_MECHANISM_OBJECTS,
         },
         "claim_boundary": "lineage is provenance, not evidence that any probe is a sustained algorithm",
         "confirmation20_opened": False,
     }
 
 
+def split_lineage_documents(payload: dict) -> dict[str, dict]:
+    """Create explicit per-probe and object-map deliverables from one lineage."""
+    common = {
+        "lineage_git_commit": payload["git_commit"],
+        "protocol_fingerprint": payload["protocol_fingerprint"],
+        "manifest_sha256": payload["manifest_sha256"],
+        "baseline": payload["baseline"],
+        "historical_to_clean_semantics": payload["historical_to_clean_semantics"],
+        "confirmation20_opened": False,
+    }
+    documents: dict[str, dict] = {}
+    for probe, filename in LINEAGE_FILENAMES.items():
+        documents[filename] = {
+            "schema": "final-unsb-route1-probe-lineage-v1",
+            "probe": probe,
+            **common,
+            "lineage": payload["probes"][probe],
+            "unsb_objects": payload["unsb_object_graph"][probe],
+            "claim_boundary": (
+                "This proves source and protocol provenance only; it does not prove "
+                "that the probe is a sustained algorithm or a route-1 candidate."
+            ),
+        }
+    documents["MECHANISM_OBJECT_MAP.json"] = {
+        "schema": "final-unsb-route1-mechanism-object-map-v1",
+        **common,
+        "native_objects": payload["unsb_object_graph"]["native_objects"],
+        "anchor_probes": {
+            probe: payload["unsb_object_graph"][probe]
+            for probe in ("dt", "hj", "hnek")
+        },
+        "later_mechanisms": payload["unsb_object_graph"]["later_mechanisms"],
+        "status_vocabulary": (
+            "Every evidence_boundary closes only the named implementation/protocol "
+            "unless a separate mathematical invariant is explicitly falsified."
+        ),
+        "claim_boundary": "Object mapping is a derivation aid, not candidate preselection.",
+    }
+    return documents
+
+
 def write_lineage(output_root: Path, manifest_path: Path) -> Path:
     path = output_root / "lineage" / "LINEAGE.json"
-    write_json(path, build_lineage(manifest_path))
+    payload = build_lineage(manifest_path)
+    write_json(path, payload)
+    for filename, document in split_lineage_documents(payload).items():
+        write_json(path.parent / filename, document)
     return path
