@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T05:51:42+08:00",
+  "updated": "2026-08-30T05:55:30+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -66,8 +66,10 @@
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "NOT_YET_DERIVABLE",
-      "evidence": [],
+      "status": "NOT_YET_DERIVABLE_CONTRACT_READY",
+      "evidence": [
+        "decisions/DEC-20260830-ROUTE1-DERIVATION-CONTRACT.md"
+      ],
       "gate": "Algorithm formulas may be created only after immutable causal-matrix evidence exists."
     },
     {

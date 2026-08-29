@@ -18,14 +18,30 @@ from .causal_audit import training_core_fingerprint
 from .protocol import ROOT, ProbeSpec, file_sha256, load_protocol, object_sha256
 
 
+CARD_SCHEMA = "final-unsb-route1-derivation-card-v1"
 CARD_REQUIRED_FIELDS = (
     "parent_evidence",
+    "lineage_evidence",
+    "prior_equivalence_audit",
     "unsb_object",
     "formula",
     "identity_or_unbiased_condition",
+    "objective_change",
+    "estimator_change",
+    "coordinate_change",
+    "endpoint_law_change",
     "target_inaccessibility_proof",
+    "expected_applicable_state",
     "falsifying_experiment",
     "compute_cost",
+    "memory_cost",
+    "recovery_state_cost",
+    "algorithm_hyperparameters",
+    "algorithm_state_variables",
+    "ablation_definitions",
+    "historical_evidence_index_sha256",
+    "mechanism_object_map_sha256",
+    "reuse_boundary_sha256",
 )
 IMPLEMENTATION_SCHEMA = "final-unsb-route1-candidate-implementation-v1"
 GATE_SCHEMA = "final-unsb-route1-candidate-gate-v1"
@@ -97,11 +113,56 @@ def _validate_card(
     *, candidate_id: str, card_path: Path, card: dict[str, Any],
     matrix: dict[str, Any], matrix_sha256: str, atlas_sha256: str,
 ) -> None:
+    if card.get("schema") != CARD_SCHEMA:
+        raise RuntimeError("derivation card schema mismatch")
     if card.get("candidate_id") != candidate_id:
         raise RuntimeError("derivation card candidate_id mismatch")
-    absent = [key for key in CARD_REQUIRED_FIELDS if not card.get(key)]
+    absent = [
+        key for key in CARD_REQUIRED_FIELDS
+        if key not in card or card[key] is None or card[key] == ""
+    ]
     if absent:
         raise RuntimeError(f"incomplete derivation card: {absent}")
+    for key in (
+        "objective_change", "estimator_change", "coordinate_change",
+        "endpoint_law_change",
+    ):
+        if not isinstance(card[key], bool):
+            raise RuntimeError(f"derivation card {key} must be boolean")
+    if not isinstance(card["lineage_evidence"], list) or not card["lineage_evidence"]:
+        raise RuntimeError("derivation card requires non-empty lineage_evidence")
+    if not isinstance(card["algorithm_hyperparameters"], dict):
+        raise RuntimeError("algorithm_hyperparameters must be an object")
+    if not isinstance(card["algorithm_state_variables"], list):
+        raise RuntimeError("algorithm_state_variables must be a list")
+    equivalence = card["prior_equivalence_audit"]
+    if not isinstance(equivalence, dict):
+        raise RuntimeError("prior_equivalence_audit must be an object")
+    if equivalence.get("equivalent_rerun") is not False:
+        raise RuntimeError("a new candidate may not be an equivalent rerun of a prior implementation")
+    if not equivalence.get("compared_implementations") or not equivalence.get(
+        "material_difference"
+    ):
+        raise RuntimeError(
+            "prior_equivalence_audit requires compared implementations and a material difference"
+        )
+    ablations = card["ablation_definitions"]
+    if not isinstance(ablations, dict):
+        raise RuntimeError("ablation_definitions must be an object")
+    missing_ablations = [
+        key for key in ("proposal_only", "observable_only", "projected_or_full")
+        if not ablations.get(key)
+    ]
+    if missing_ablations:
+        raise RuntimeError(f"derivation card missing ablations: {missing_ablations}")
+    historical_sources = {
+        "historical_evidence_index_sha256": ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl",
+        "mechanism_object_map_sha256": ROOT / "evidence" / "lineage" / "MECHANISM_OBJECT_MAP.json",
+        "reuse_boundary_sha256": ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json",
+    }
+    for field, source in historical_sources.items():
+        if not source.is_file() or card[field] != file_sha256(source):
+            raise RuntimeError(f"derivation card historical evidence binding mismatch: {field}")
     if card.get("causal_matrix_sha256") != matrix_sha256:
         raise RuntimeError("derivation card is not frozen to the current causal matrix")
     if card.get("reversal_atlas_sha256") != atlas_sha256:
@@ -259,11 +320,16 @@ def load_candidate_registration(
     protocol = load_protocol()
     candidate_training_core = training_core_fingerprint(ROOT)
     definition_card_fields = (
-        "candidate_id", "unsb_object", "formula", "identity_or_unbiased_condition",
+        "candidate_id", "lineage_evidence", "prior_equivalence_audit",
+        "unsb_object", "formula", "identity_or_unbiased_condition",
         "target_inaccessibility_proof", "construction_authority", "unbiased_proof",
         "target_blind_driver_signal", "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
-        "algorithm_state_variables",
+        "algorithm_state_variables", "expected_applicable_state",
+        "falsifying_experiment", "compute_cost", "memory_cost",
+        "recovery_state_cost", "ablation_definitions",
+        "historical_evidence_index_sha256", "mechanism_object_map_sha256",
+        "reuse_boundary_sha256",
     )
     definition_implementation_fields = (
         "schema", "candidate_id", "model", "method", "training_target_access",

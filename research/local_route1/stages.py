@@ -188,6 +188,8 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
         raise RuntimeError("causal matrix exists but is not complete")
     ranked = list(matrix.get("ranked_failure_mechanisms", []))
     historical_index_path = ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl"
+    mechanism_map_path = ROOT / "evidence" / "lineage" / "MECHANISM_OBJECT_MAP.json"
+    reuse_boundary_path = ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json"
     historical_priors = []
     if historical_index_path.is_file():
         historical_priors = [
@@ -215,11 +217,15 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
             "parent_evidence": mechanism,
             "construction_route": route.get(kind, "REQUIRES_MANUAL_MATHEMATICAL_DERIVATION"),
             "required_before_implementation": [
+                "lineage evidence and prior-equivalence audit against tested constructions",
                 "explicit UNSB object and update equation",
                 "identity/self-null or unbiased condition",
+                "objective/estimator/coordinate/endpoint-law change declaration",
                 "proof that paired targets are inaccessible",
+                "expected applicable state and target-blind trigger semantics",
                 "single falsifying counterexample experiment",
-                "compute/recovery-state accounting",
+                "compute, memory and recovery-state accounting",
+                "proposal-only, observable-only and projected/full ablations",
             ],
             "status": "DERIVATION_REQUIRED_NOT_IMPLEMENTED",
         })
@@ -242,6 +248,27 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
             "role": (
                 "corroborating priors and negative boundaries only; current long causal "
                 "matrix remains the authority for signal-driven candidate generation"
+            ),
+        },
+        "historical_mechanism_context": {
+            "mechanism_object_map": {
+                "path": str(mechanism_map_path.resolve()),
+                "sha256": file_sha256(mechanism_map_path),
+            },
+            "search005_reuse_boundary": {
+                "path": str(reuse_boundary_path.resolve()),
+                "sha256": file_sha256(reuse_boundary_path),
+            },
+            "required_card_bindings": {
+                "historical_evidence_index_sha256": file_sha256(historical_index_path),
+                "mechanism_object_map_sha256": file_sha256(mechanism_map_path),
+                "reuse_boundary_sha256": file_sha256(reuse_boundary_path),
+            },
+            "rule": (
+                "Every candidate must state why its operator is materially distinct "
+                "from equivalent tested DT/HJ/HNEK, PCOA/NPOOA, LBST, PTQ, DCUM, "
+                "AEB, TA or KCK constructions; renaming an old implementation is not "
+                "new algorithm discovery."
             ),
         },
         "cards": cards,

@@ -6,6 +6,7 @@ import torch
 
 from research.local_route1 import causal_audit
 from research.local_route1.candidates import (
+    CARD_SCHEMA,
     GATE_SCHEMA,
     IMPLEMENTATION_SCHEMA,
     load_candidate_registration,
@@ -610,14 +611,44 @@ def _write_candidate_registration_fixture(tmp_path: Path, candidate_id: str = "G
     atlas_path.write_text(json.dumps({"row_id": "evidence-1"}) + "\n", encoding="utf-8")
     card_path = cards / f"{candidate_id}.json"
     card = {
+        "schema": CARD_SCHEMA,
         "candidate_id": candidate_id,
         "parent_evidence": {"failure_type": "sampling_variance"},
+        "lineage_evidence": ["LONG_CAUSAL_MATRIX:sampling_variance"],
+        "prior_equivalence_audit": {
+            "compared_implementations": ["AEB", "BCAVP"],
+            "material_difference": "estimate a gradient without changing the endpoint law",
+            "equivalent_rerun": False,
+        },
         "unsb_object": "unpaired stochastic gradient estimator",
         "formula": "E[g_new] = E[g_UNSB]",
         "identity_or_unbiased_condition": "unbiased under registered measure",
+        "objective_change": False,
+        "estimator_change": True,
+        "coordinate_change": False,
+        "endpoint_law_change": False,
         "target_inaccessibility_proof": "only unpaired training tensors are visible",
+        "expected_applicable_state": {"condition": "sampling variance dominates"},
         "falsifying_experiment": "estimator expectation differs from plain",
         "compute_cost": "two samples per update",
+        "memory_cost": "one additional gradient buffer",
+        "recovery_state_cost": "stateless estimator; RNG streams are checkpointed",
+        "algorithm_hyperparameters": {},
+        "algorithm_state_variables": [],
+        "ablation_definitions": {
+            "proposal_only": "estimator without the target-blind observable",
+            "observable_only": "record variance without changing the update",
+            "projected_or_full": "full unbiased estimator versus plain update",
+        },
+        "historical_evidence_index_sha256": file_sha256(
+            ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl"
+        ),
+        "mechanism_object_map_sha256": file_sha256(
+            ROOT / "evidence" / "lineage" / "MECHANISM_OBJECT_MAP.json"
+        ),
+        "reuse_boundary_sha256": file_sha256(
+            ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json"
+        ),
         "construction_authority": "independent_unbiased_reparameterization",
         "unbiased_proof": "paired antithetic draws preserve the marginal expectation",
         "paired_target_available_to_training": False,
@@ -705,6 +736,20 @@ def test_candidate_registration_rejects_unsafe_ids_and_stale_source(tmp_path):
     implementation["source_files"][0]["sha256"] = "0" * 64
     implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
     with pytest.raises(RuntimeError, match="source hash mismatch"):
+        load_candidate_registration(tmp_path, "G1-TEST")
+
+
+def test_candidate_registration_rejects_incomplete_discovery_card(tmp_path):
+    import json
+
+    card_path, implementation_path = _write_candidate_registration_fixture(tmp_path)
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    del card["ablation_definitions"]
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["derivation_card_sha256"] = file_sha256(card_path)
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="incomplete derivation card"):
         load_candidate_registration(tmp_path, "G1-TEST")
 
 
