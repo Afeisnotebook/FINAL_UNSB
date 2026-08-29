@@ -4,7 +4,11 @@ from types import SimpleNamespace
 import pytest
 import torch
 
+from research.local_route1 import causal_audit
 from research.local_route1.causal_audit import (
+    AuditCell,
+    BranchResult,
+    _audit_regimes,
     _initialize_operator_costate,
     _operator_modes,
     append_unique_rows,
@@ -151,6 +155,48 @@ def test_dt_registered_and_forced_active_diagnostics_are_separate():
     assert _operator_modes("hj", 200) == ("registered",)
 
 
+def test_sampling_variance_uses_actual_correction_fields(monkeypatch, tmp_path):
+    before = {"block.weight": torch.tensor([0.0, 0.0])}
+
+    def fake_branch(**kwargs):
+        offset = int(kwargs.get("batch_skip", 0))
+        native_after = {"block.weight": torch.tensor([1.0, 0.0])}
+        if kwargs["target_probe"] == "plain":
+            after = native_after
+        else:
+            correction = 1.0 if offset == 0 else -1.0
+            after = {"block.weight": torch.tensor([1.0 + correction, 0.0])}
+        observation = StateObservation(
+            step=1500, physical_epoch=10.0,
+            sampling={f"domain_count::d{offset}": 1.0, "time_count::0": 1.0},
+        )
+        return BranchResult(
+            observation=observation,
+            before_g={key: value.clone() for key, value in before.items()},
+            after_g=after,
+            component_gradients={}, metrics=None,
+            scientific_state_after=f"state-{offset}-{kwargs['target_probe']}",
+        ), "reinitialized_from_source_state"
+
+    monkeypatch.setattr(causal_audit, "_run_branch", fake_branch)
+    cell = AuditCell(
+        probe="hj", data_epoch=10,
+        plain_state=tmp_path / "plain.pt", method_state=tmp_path / "hj.pt",
+    )
+    parent = {"step": 1500, "model": {"method": {}}, "samplers": {}, "rng": {}}
+    row = causal_audit._sampling_variance_row(
+        cell=cell, parent=parent, source_label="plain", operator_mode="registered",
+        axis="independent_unpaired_batch", replicates=2, rows=[],
+        train_view=tmp_path, work_dir=tmp_path, seed=2026, gpu=0,
+        pair_identity={}, identity={},
+    )
+    assert row["mean_correction_norm"] == pytest.approx(0.0)
+    assert row["correction_variance_fraction"] == pytest.approx(1.0)
+    assert row["same_batch_native_cosine_mean"] == pytest.approx(0.0)
+    assert row["next_independent_batch_native_cosine_mean"] == pytest.approx(0.0)
+    assert row["parent_state_sha256_before"] == row["parent_state_sha256_after"]
+
+
 def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_path):
     audit = tmp_path / "audit"
     audit.mkdir()
@@ -161,18 +207,21 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
     (audit / "AUDIT_QUEUE.json").write_text(__import__("json").dumps(queue), encoding="utf-8")
     rows = []
     for source in ("plain", "hj"):
-        for horizon in (1, 8, 32, 200):
+        for regime, horizon, intervention_steps in _audit_regimes((1, 8, 32, 200)):
             rows.append({
                 "schema": "final-unsb-local-route1-reversal-atlas-row-v1",
-                "row_id": f"{source}-{horizon}",
+                "row_id": f"{source}-{regime}-{horizon}",
                 "probe": "hj",
                 "data_epoch": 100,
                 "source_state": source,
                 "operator_mode": "registered",
+                "branch_regime": regime,
+                "intervention_steps": intervention_steps,
                 "horizon": horizon,
                 "update_geometry": {"correction_norm": 0.5, "reference_norm": 1.0},
                 "next_independent_native_consensus": (
-                    {"cosine": -0.4} if horizon == 1 else None
+                    {"cosine": -0.4}
+                    if horizon == 1 and regime == "continuous_intervention" else None
                 ),
                 "post_branch_development_label": (
                     {"macro_psnr_delta": 0.2 if source == "plain" else -0.1}
@@ -184,8 +233,25 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
     assert partial["status"] == "PARTIAL_CAUSAL_AUDIT"
     assert partial["ranked_failure_mechanisms"] == []
     append_unique_rows(audit / "LONG_REVERSAL_ATLAS.jsonl", rows[-1:])
+    variance_rows = []
+    for source in ("plain", "hj"):
+        for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
+            variance_rows.append({
+                "schema": "final-unsb-local-route1-sampling-variance-row-v1",
+                "row_id": f"variance-{source}-{axis}",
+                "probe": "hj",
+                "data_epoch": 100,
+                "source_state": source,
+                "operator_mode": "registered",
+                "axis": axis,
+                "replicates": 8,
+                "correction_variance_fraction": 0.8,
+                "mean_correction_norm": 0.2,
+            })
+    append_unique_rows(audit / "SAMPLING_VARIANCE_ATLAS.jsonl", variance_rows)
     complete = build_causal_matrix(tmp_path)
     assert complete["status"] == "COMPLETE_CAUSAL_AUDIT"
     failure_types = {row["failure_type"] for row in complete["ranked_failure_mechanisms"]}
     assert "correction_sign_reversal" in failure_types
     assert "state_feedback_missing" in failure_types
+    assert "sampling_variance" in failure_types

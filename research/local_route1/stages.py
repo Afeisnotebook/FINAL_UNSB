@@ -54,6 +54,16 @@ def prepare_audit_queue(output_root: Path) -> dict:
                 "method_state": str(method),
                 "operators": ["u0(S_plain)", "ui(S_plain)", "u0(S_method)", "ui(S_method)"],
                 "branch_horizons_updates": [1, 8, 32, 200],
+                "branch_regimes": [
+                    "continuous_intervention",
+                    "one_step_pulse_then_native@8/32",
+                    "eight_step_pulse_then_native@200",
+                ],
+                "pulse_interpretation": "causal propagation diagnostic only; never an exit/handoff candidate",
+                "sampling_variance": {
+                    "replicates": 8,
+                    "axes": ["independent_unpaired_batch", "latent_time_bridge_rng"],
+                },
                 "paired_label_timing": "only after every virtual branch is frozen",
                 "status": "PENDING_EXECUTION",
             })
@@ -68,6 +78,7 @@ def prepare_audit_queue(output_root: Path) -> dict:
             "block/time/domain correction sign", "GAN/SB/NCE directional derivatives",
             "endpoint dispersion", "bridge KDD", "rollout velocity",
             "D/G/E balance", "Adam moment-gradient angle", "sampling variance",
+            "actual correction-field batch/latent/time covariance",
         ],
         "forbidden_observables": ["paired PSNR", "SSIM", "LPIPS", "discovery target", "confirmation target"],
         "confirmation20_opened": False,

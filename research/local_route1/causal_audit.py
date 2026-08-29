@@ -14,6 +14,8 @@ import copy
 import gc
 import io
 import json
+import math
+import random
 import types
 from collections import defaultdict
 from dataclasses import asdict, dataclass
@@ -62,6 +64,7 @@ from .runtime import (
 ATLAS_SCHEMA = "final-unsb-local-route1-reversal-atlas-row-v1"
 MATRIX_SCHEMA = "final-unsb-local-route1-causal-matrix-v1"
 DEFAULT_HORIZONS = (1, 8, 32, 200)
+DEFAULT_VARIANCE_REPLICATES = 8
 
 
 @dataclass(frozen=True)
@@ -227,6 +230,22 @@ def _configure_operator(model, *, target_probe: str, operator_mode: str, step: i
         raise ValueError(f"forced-active mode is not registered for {target_probe}")
 
 
+def _disable_operator(model, target_probe: str) -> None:
+    """Return a method model to the exact registered zero-intervention path."""
+    if target_probe == "plain":
+        return
+    if target_probe == "dt":
+        model.opt.dtcov_lambda = 0.0
+        model.dtcov.config.lambda_value = 0.0
+    elif target_probe == "hj":
+        model.opt.hj_enable = False
+    elif target_probe == "hnek":
+        from models.hnek.hnek_search import set_hnek_search_active
+        set_hnek_search_active(model, False)
+    else:
+        raise ValueError(f"zero-intervention path is not registered for {target_probe}")
+
+
 def _method_diagnostics(model, probe: str) -> dict[str, float]:
     result: dict[str, float] = {}
     if hasattr(model, "time_idx"):
@@ -378,6 +397,9 @@ def _run_branch(
     data_root: Path | None,
     evaluate_after: bool,
     capture_components: bool,
+    intervention_steps: int | None = None,
+    batch_skip: int = 0,
+    rng_seed_override: int | None = None,
 ) -> tuple[BranchResult, str]:
     if int(horizon) <= 0:
         raise ValueError("branch horizon must be positive")
@@ -400,6 +422,15 @@ def _run_branch(
     primary.load_state_dict(copy.deepcopy(source["samplers"]["primary"]))
     secondary.load_state_dict(copy.deepcopy(source["samplers"]["secondary"]))
     restore_rng(copy.deepcopy(source["rng"]))
+    for _ in range(int(batch_skip)):
+        primary.next()
+        secondary.next()
+    if rng_seed_override is not None:
+        random.seed(int(rng_seed_override))
+        np.random.seed(int(rng_seed_override))
+        torch.manual_seed(int(rng_seed_override))
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(int(rng_seed_override))
     step = int(source["step"])
     target_steps = int(source.get("target_steps", 30_000))
     before = _cpu_state_dict(model.netG)
@@ -415,10 +446,16 @@ def _run_branch(
         physical_epoch = 1 + current_step // steps_per_epoch(protocol)
         model.set_train_epoch(physical_epoch)
         model.set_search_step(current_step, target_steps)
-        _configure_operator(
-            model, target_probe=target_probe,
-            operator_mode=operator_mode, step=current_step,
+        intervention_active = (
+            intervention_steps is None or offset < int(intervention_steps)
         )
+        if intervention_active:
+            _configure_operator(
+                model, target_probe=target_probe,
+                operator_mode=operator_mode, step=current_step,
+            )
+        else:
+            _disable_operator(model, target_probe)
         batch_a, batch_b = primary.next(), secondary.next()
         paths = list(batch_a.get("A_paths", []))
         domain = "unknown"
@@ -488,6 +525,9 @@ def _run_branch(
             "source_state": source_label,
             "operator_mode": operator_mode,
             "costate_policy": costate_policy,
+            "intervention_steps": (
+                "continuous" if intervention_steps is None else int(intervention_steps)
+            ),
             **{
                 key: value for key, value in averaged_diagnostics.items()
                 if key.startswith(("dt_", "hj_", "hnek_"))
@@ -548,6 +588,24 @@ def _operator_modes(probe: str, data_epoch: int) -> tuple[str, ...]:
     return ("registered",)
 
 
+def _audit_regimes(horizons: Iterable[int]) -> tuple[tuple[str, int, int | None], ...]:
+    """Registered continuous branches plus diagnostic pulse propagation.
+
+    Pulse branches are causal diagnostics only.  They do not authorize a
+    finite-window candidate, handoff, or exit policy.
+    """
+    values = sorted({int(value) for value in horizons})
+    regimes: list[tuple[str, int, int | None]] = [
+        ("continuous_intervention", horizon, None) for horizon in values
+    ]
+    for horizon in values:
+        if horizon in (8, 32):
+            regimes.append(("one_step_pulse_then_native", horizon, 1))
+        if horizon == 200:
+            regimes.append(("eight_step_pulse_then_native", horizon, 8))
+    return tuple(regimes)
+
+
 def audit_cell(
     cell: AuditCell,
     *,
@@ -579,12 +637,14 @@ def audit_cell(
     results: list[dict] = []
     for source_label, parent in (("plain", plain_parent), (cell.probe, method_parent)):
         for operator_mode in _operator_modes(cell.probe, cell.data_epoch):
-            for horizon in sorted({int(value) for value in horizons}):
+            for branch_regime, horizon, intervention_steps in _audit_regimes(horizons):
                 row_key = {
                     "probe": cell.probe,
                     "data_epoch": int(cell.data_epoch),
                     "source_state": source_label,
                     "operator_mode": operator_mode,
+                    "branch_regime": branch_regime,
+                    "intervention_steps": intervention_steps,
                     "horizon": int(horizon),
                 }
                 row_id = object_sha256(row_key)
@@ -604,6 +664,7 @@ def audit_cell(
                     rows=rows, train_view=train_view, work_dir=work_dir,
                     seed=seed, gpu=gpu, horizon=horizon, data_root=data_root,
                     evaluate_after=evaluate_after, capture_components=False,
+                    intervention_steps=intervention_steps,
                 )
                 if tuple(reference.before_g) != tuple(proposal.before_g):
                     raise RuntimeError("reference/proposal generator state identities differ")
@@ -614,7 +675,7 @@ def audit_cell(
                     reference.before_g, reference.after_g, proposal.after_g,
                 )
                 next_consensus = None
-                if horizon == 1:
+                if horizon == 1 and branch_regime == "continuous_intervention":
                     native_two, _ = _run_branch(
                         source=copy.deepcopy(parent), target_probe="plain",
                         source_label=source_label, operator_mode="registered",
@@ -645,6 +706,11 @@ def audit_cell(
                     "operator_costate": costate_policy,
                     "reference_operator": "native_unsb",
                     "proposal_operator": cell.probe,
+                    "diagnostic_scope": (
+                        "continuous operator validity"
+                        if intervention_steps is None else
+                        "pulse propagation under later native UNSB; not a route-2 policy"
+                    ),
                     "reference_observation": asdict(reference.observation),
                     "proposal_observation": asdict(proposal.observation),
                     "update_geometry": geometry,
@@ -671,6 +737,280 @@ def audit_cell(
     return results
 
 
+def _dict_displacement(
+    start: Mapping[str, torch.Tensor], end: Mapping[str, torch.Tensor],
+) -> dict[str, torch.Tensor]:
+    if tuple(start) != tuple(end):
+        raise RuntimeError("sampling audit state identity mismatch")
+    return {
+        key: end[key].detach().cpu() - start[key].detach().cpu()
+        for key in start if torch.is_floating_point(start[key])
+    }
+
+
+def _dict_difference(
+    left: Mapping[str, torch.Tensor], right: Mapping[str, torch.Tensor],
+) -> dict[str, torch.Tensor]:
+    if tuple(left) != tuple(right):
+        raise RuntimeError("sampling audit displacement identity mismatch")
+    return {key: left[key] - right[key] for key in left}
+
+
+def _dict_norm_sq(value: Mapping[str, torch.Tensor]) -> float:
+    return float(sum(torch.sum(item.detach().double().square()).item() for item in value.values()))
+
+
+def _dict_dot(left: Mapping[str, torch.Tensor], right: Mapping[str, torch.Tensor]) -> float:
+    if tuple(left) != tuple(right):
+        raise RuntimeError("sampling audit vector identity mismatch")
+    return float(sum(
+        torch.sum(left[key].detach().double() * right[key].detach().double()).item()
+        for key in left
+    ))
+
+
+def _dict_cosine(left: Mapping[str, torch.Tensor], right: Mapping[str, torch.Tensor]) -> float:
+    denominator = (_dict_norm_sq(left) * _dict_norm_sq(right)) ** 0.5
+    if denominator == 0.0:
+        return 0.0
+    value = _dict_dot(left, right) / denominator
+    return 0.0 if not math.isfinite(value) else max(-1.0, min(1.0, value))
+
+
+def _sampling_group(observation: StateObservation, prefix: str) -> str:
+    matches = [
+        key.split("::", 1)[1]
+        for key, value in observation.sampling.items()
+        if key.startswith(prefix + "_count::") and float(value) > 0.0
+    ]
+    return matches[0] if len(matches) == 1 else "mixed"
+
+
+def _group_scalar_records(records: list[dict], field: str) -> dict[str, dict[str, float]]:
+    grouped: dict[str, list[float]] = defaultdict(list)
+    for record in records:
+        grouped[str(record[field])].append(float(record["correction_norm"]))
+    return {
+        key: {
+            "n": float(len(values)),
+            "correction_norm_mean": float(np.mean(values)),
+            "correction_norm_variance": float(np.var(values)),
+        }
+        for key, values in sorted(grouped.items())
+    }
+
+
+def _sampling_variance_row(
+    *,
+    cell: AuditCell,
+    parent: dict,
+    source_label: str,
+    operator_mode: str,
+    axis: str,
+    replicates: int,
+    rows: list[dict],
+    train_view: Path,
+    work_dir: Path,
+    seed: int,
+    gpu: int,
+    pair_identity: dict,
+    identity: dict,
+) -> dict:
+    if axis not in {"independent_unpaired_batch", "latent_time_bridge_rng"}:
+        raise ValueError(f"unknown sampling-variance axis: {axis}")
+    if int(replicates) < 2:
+        raise ValueError("sampling-variance audit requires at least two replicates")
+    parent_hash = full_state_hash(parent)
+    sum_correction: dict[str, torch.Tensor] | None = None
+    sum_native: dict[str, torch.Tensor] | None = None
+    correction_norm_sq_sum = 0.0
+    native_norm_sq_sum = 0.0
+    block_correction_norm_sq_sum: dict[str, float] = defaultdict(float)
+    same_batch_cosines: list[float] = []
+    next_batch_cosines: list[float] = []
+    replicate_records: list[dict] = []
+    exact_zero = 0
+    pending_correction: dict[str, torch.Tensor] | None = None
+    costate_policy = "unknown"
+    total_references = int(replicates) + (1 if axis == "independent_unpaired_batch" else 0)
+    seed_base = int(parent_hash[:12], 16) % 2_000_000_000
+    for replicate in range(total_references):
+        batch_skip = replicate if axis == "independent_unpaired_batch" else 0
+        rng_override = (
+            None if axis == "independent_unpaired_batch"
+            else (seed_base + 104_729 * (replicate + 1)) % 2_147_483_647
+        )
+        reference, _ = _run_branch(
+            source=copy.deepcopy(parent), target_probe="plain",
+            source_label=source_label, operator_mode="registered",
+            rows=rows, train_view=train_view, work_dir=work_dir,
+            seed=seed, gpu=gpu, horizon=1, data_root=None,
+            evaluate_after=False, capture_components=False,
+            batch_skip=batch_skip, rng_seed_override=rng_override,
+        )
+        native = _dict_displacement(reference.before_g, reference.after_g)
+        if pending_correction is not None:
+            next_batch_cosines.append(_dict_cosine(pending_correction, native))
+            pending_correction = None
+        if replicate >= int(replicates):
+            del reference, native
+            continue
+        proposal, costate_policy = _run_branch(
+            source=copy.deepcopy(parent), target_probe=cell.probe,
+            source_label=source_label, operator_mode=operator_mode,
+            rows=rows, train_view=train_view, work_dir=work_dir,
+            seed=seed, gpu=gpu, horizon=1, data_root=None,
+            evaluate_after=False, capture_components=False,
+            batch_skip=batch_skip, rng_seed_override=rng_override,
+        )
+        correction = _dict_difference(
+            _dict_displacement(proposal.before_g, proposal.after_g), native,
+        )
+        correction_norm_sq = _dict_norm_sq(correction)
+        native_norm_sq = _dict_norm_sq(native)
+        correction_norm_sq_sum += correction_norm_sq
+        native_norm_sq_sum += native_norm_sq
+        for key, value in correction.items():
+            block_correction_norm_sq_sum[key.split(".", 1)[0]] += float(
+                torch.sum(value.detach().double().square()).item()
+            )
+        same_cosine = _dict_cosine(correction, native)
+        same_batch_cosines.append(same_cosine)
+        exact_zero += int(correction_norm_sq == 0.0)
+        if sum_correction is None:
+            sum_correction = {key: value.clone() for key, value in correction.items()}
+            sum_native = {key: value.clone() for key, value in native.items()}
+        else:
+            for key in correction:
+                sum_correction[key].add_(correction[key])
+                assert sum_native is not None
+                sum_native[key].add_(native[key])
+        replicate_records.append({
+            "replicate": replicate,
+            "batch_skip": batch_skip,
+            "rng_seed_override": rng_override,
+            "domain": _sampling_group(reference.observation, "domain"),
+            "bridge_time": _sampling_group(reference.observation, "time"),
+            "correction_norm": correction_norm_sq ** 0.5,
+            "native_norm": native_norm_sq ** 0.5,
+            "same_batch_native_cosine": same_cosine,
+        })
+        if axis == "independent_unpaired_batch":
+            pending_correction = {key: value.clone() for key, value in correction.items()}
+        del reference, proposal, native, correction
+        gc.collect()
+    assert sum_correction is not None and sum_native is not None
+    count = float(replicates)
+    mean_correction = {key: value / count for key, value in sum_correction.items()}
+    mean_native = {key: value / count for key, value in sum_native.items()}
+    mean_correction_norm_sq = _dict_norm_sq(mean_correction)
+    expected_correction_norm_sq = correction_norm_sq_sum / count
+    variance_energy = max(0.0, expected_correction_norm_sq - mean_correction_norm_sq)
+    block_keys: dict[str, list[str]] = defaultdict(list)
+    for key in mean_correction:
+        block_keys[key.split(".", 1)[0]].append(key)
+    block_variance = {}
+    for block, keys in sorted(block_keys.items()):
+        mean_energy = float(sum(torch.sum(mean_correction[key].double().square()).item() for key in keys))
+        expected_energy = block_correction_norm_sq_sum[block] / count
+        variance = max(0.0, expected_energy - mean_energy)
+        block_variance[block] = {
+            "mean_correction_energy": mean_energy,
+            "expected_correction_energy": expected_energy,
+            "variance_energy": variance,
+            "variance_fraction": variance / max(expected_energy, 1e-30),
+        }
+    row_key = {
+        "probe": cell.probe,
+        "data_epoch": int(cell.data_epoch),
+        "source_state": source_label,
+        "operator_mode": operator_mode,
+        "axis": axis,
+        "replicates": int(replicates),
+    }
+    return {
+        "schema": "final-unsb-local-route1-sampling-variance-row-v1",
+        "row_id": object_sha256(row_key),
+        **row_key,
+        "step": int(cell.step),
+        "mean_correction_norm": mean_correction_norm_sq ** 0.5,
+        "expected_correction_norm_sq": expected_correction_norm_sq,
+        "correction_variance_energy": variance_energy,
+        "correction_variance_fraction": (
+            variance_energy / max(expected_correction_norm_sq, 1e-30)
+        ),
+        "mean_native_norm": _dict_norm_sq(mean_native) ** 0.5,
+        "mean_correction_native_cosine": _dict_cosine(mean_correction, mean_native),
+        "same_batch_native_cosine_mean": float(np.mean(same_batch_cosines)),
+        "same_batch_native_cosine_min": float(np.min(same_batch_cosines)),
+        "next_independent_batch_native_cosine_mean": (
+            None if not next_batch_cosines else float(np.mean(next_batch_cosines))
+        ),
+        "next_independent_batch_native_cosine_min": (
+            None if not next_batch_cosines else float(np.min(next_batch_cosines))
+        ),
+        "exact_zero_corrections": exact_zero,
+        "domain_summary": _group_scalar_records(replicate_records, "domain"),
+        "bridge_time_summary": _group_scalar_records(replicate_records, "bridge_time"),
+        "replicate_records": replicate_records,
+        "block_stable_mean_energy": block_variance,
+        "operator_costate": costate_policy,
+        "parent_state_sha256_before": parent_hash,
+        "parent_state_sha256_after": full_state_hash(parent),
+        "checkpoint_identity": pair_identity,
+        "audit_identity": identity,
+        "paired_metrics_accessed_by_controller": False,
+        "confirmation20_opened": False,
+    }
+
+
+def audit_sampling_variance(
+    cell: AuditCell,
+    *,
+    rows: list[dict],
+    train_view: Path,
+    work_dir: Path,
+    seed: int,
+    gpu: int,
+    replicates: int = DEFAULT_VARIANCE_REPLICATES,
+    training_root: Path | None = None,
+    skip_row_ids: set[str] | None = None,
+    on_row: Callable[[dict], None] | None = None,
+) -> list[dict]:
+    pair_identity = validate_checkpoint_pair(cell)
+    identity = audit_identity(training_root)
+    parents = {
+        "plain": _load_checkpoint(cell.plain_state, expected_probe="plain"),
+        cell.probe: _load_checkpoint(cell.method_state, expected_probe=cell.probe),
+    }
+    skipped = set(skip_row_ids or ())
+    result = []
+    for source_label, parent in parents.items():
+        for operator_mode in _operator_modes(cell.probe, cell.data_epoch):
+            for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
+                key = {
+                    "probe": cell.probe, "data_epoch": int(cell.data_epoch),
+                    "source_state": source_label, "operator_mode": operator_mode,
+                    "axis": axis, "replicates": int(replicates),
+                }
+                row_id = object_sha256(key)
+                if row_id in skipped:
+                    continue
+                row = _sampling_variance_row(
+                    cell=cell, parent=parent, source_label=source_label,
+                    operator_mode=operator_mode, axis=axis,
+                    replicates=replicates, rows=rows, train_view=train_view,
+                    work_dir=work_dir, seed=seed, gpu=gpu,
+                    pair_identity=pair_identity, identity=identity,
+                )
+                if row["parent_state_sha256_before"] != row["parent_state_sha256_after"]:
+                    raise RuntimeError("sampling audit polluted parent full state")
+                result.append(row)
+                if on_row is not None:
+                    on_row(row)
+    return result
+
+
 def append_unique_rows(path: Path, rows: Iterable[dict]) -> dict:
     path = Path(path)
     existing: dict[str, dict] = {}
@@ -691,7 +1031,8 @@ def append_unique_rows(path: Path, rows: Iterable[dict]) -> dict:
         existing.values(),
         key=lambda row: (
             row["probe"], row["data_epoch"], row["source_state"],
-            row["operator_mode"], row["horizon"],
+            row["operator_mode"], row.get("branch_regime", row.get("axis", "")),
+            row.get("horizon", 0),
         ),
     )
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -715,6 +1056,7 @@ def run_audit_job(
     horizons: Iterable[int] = DEFAULT_HORIZONS,
     label_horizons: Iterable[int] = (200,),
     training_root: Path | None = None,
+    variance_replicates: int = DEFAULT_VARIANCE_REPLICATES,
 ) -> dict:
     cell = AuditCell(
         probe=probe,
@@ -739,6 +1081,19 @@ def run_audit_job(
         label_horizons=label_horizons, training_root=training_root,
         skip_row_ids=existing_ids, on_row=persist_row,
     )
+    variance_path = output_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl"
+    existing_variance = _read_jsonl(variance_path)
+
+    def persist_variance(row: dict) -> None:
+        append_unique_rows(variance_path, [row])
+
+    produced_variance = audit_sampling_variance(
+        cell, rows=rows, train_view=train_view,
+        work_dir=output_root / "audit" / "work", seed=int(load_protocol()["seed"]),
+        gpu=gpu, replicates=variance_replicates, training_root=training_root,
+        skip_row_ids={row["row_id"] for row in existing_variance},
+        on_row=persist_variance,
+    )
     append_result = {
         "path": str(atlas_path.resolve()),
         "rows": len(_read_jsonl(atlas_path)),
@@ -755,7 +1110,14 @@ def run_audit_job(
         },
         "horizons": sorted({int(value) for value in horizons}),
         "produced_rows": len(produced),
+        "produced_sampling_variance_rows": len(produced_variance),
         "atlas": append_result,
+        "sampling_variance_atlas": {
+            "path": str(variance_path.resolve()),
+            "rows": len(_read_jsonl(variance_path)),
+            "added": len(produced_variance),
+            "replicates": int(variance_replicates),
+        },
         "matrix_status": matrix["status"],
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -768,15 +1130,29 @@ def _read_jsonl(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def _expected_row_keys(queue: dict) -> set[tuple[str, int, str, str, int]]:
-    expected: set[tuple[str, int, str, str, int]] = set()
+def _expected_row_keys(queue: dict) -> set[tuple[str, int, str, str, str, int | None, int]]:
+    expected: set[tuple[str, int, str, str, str, int | None, int]] = set()
     for job in queue.get("jobs", []):
         probe = str(job["probe"])
         epoch = int(job["data_epoch"])
         for source in ("plain", probe):
             for mode in _operator_modes(probe, epoch):
-                for horizon in DEFAULT_HORIZONS:
-                    expected.add((probe, epoch, source, mode, horizon))
+                for regime, horizon, intervention_steps in _audit_regimes(DEFAULT_HORIZONS):
+                    expected.add((probe, epoch, source, mode, regime, intervention_steps, horizon))
+    return expected
+
+
+def _expected_variance_keys(
+    queue: dict, replicates: int = DEFAULT_VARIANCE_REPLICATES,
+) -> set[tuple[str, int, str, str, str, int]]:
+    expected = set()
+    for job in queue.get("jobs", []):
+        probe = str(job["probe"])
+        epoch = int(job["data_epoch"])
+        for source in ("plain", probe):
+            for mode in _operator_modes(probe, epoch):
+                for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
+                    expected.add((probe, epoch, source, mode, axis, int(replicates)))
     return expected
 
 
@@ -786,7 +1162,11 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
         row for row in probe_rows
         if row["operator_mode"] == ("forced_active_diagnostic" if probe == "dt" else "registered")
     ]
-    horizon200 = [row for row in preferred if row["horizon"] == 200 and row.get("post_branch_development_label")]
+    horizon200 = [
+        row for row in preferred
+        if row["branch_regime"] == "continuous_intervention"
+        and row["horizon"] == 200 and row.get("post_branch_development_label")
+    ]
     by_epoch: dict[int, dict[str, float]] = defaultdict(dict)
     for row in horizon200:
         by_epoch[int(row["data_epoch"])][row["source_state"]] = float(
@@ -800,7 +1180,10 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
         }
         for epoch, values in sorted(by_epoch.items())
     ]
-    one_step = [row for row in preferred if row["horizon"] == 1]
+    one_step = [
+        row for row in preferred
+        if row["branch_regime"] == "continuous_intervention" and row["horizon"] == 1
+    ]
     consensus = [
         float(row["next_independent_native_consensus"]["cosine"])
         for row in one_step if row.get("next_independent_native_consensus")
@@ -823,6 +1206,19 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
             cases["harmful_on_both_states"] += 1
         else:
             cases["self_state_only_help"] += 1
+    propagation = [
+        {
+            "data_epoch": int(row["data_epoch"]),
+            "source_state": row["source_state"],
+            "eight_step_pulse_then_192_native_macro_psnr_delta": float(
+                row["post_branch_development_label"]["macro_psnr_delta"]
+            ),
+            "final_parameter_gap_norm": float(row["update_geometry"]["correction_norm"]),
+        }
+        for row in preferred
+        if row["branch_regime"] == "eight_step_pulse_then_native"
+        and row["horizon"] == 200 and row.get("post_branch_development_label")
+    ]
     return {
         "probe": probe,
         "state_operator_matrix": state_matrix,
@@ -830,11 +1226,35 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
         "next_batch_consensus_mean": None if not consensus else float(np.mean(consensus)),
         "next_batch_consensus_min": None if not consensus else float(np.min(consensus)),
         "correction_to_native_norm_ratio_mean": None if not correction_ratios else float(np.mean(correction_ratios)),
+        "pulse_propagation": propagation,
         "rows": len(probe_rows),
     }
 
 
-def _rank_failure_mechanisms(probe_summaries: list[dict]) -> list[dict]:
+def _variance_summary(rows: list[dict], probe: str) -> dict:
+    preferred_mode = "forced_active_diagnostic" if probe == "dt" else "registered"
+    selected = [
+        row for row in rows
+        if row["probe"] == probe and row["operator_mode"] == preferred_mode
+    ]
+    axes = {}
+    for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
+        axis_rows = [row for row in selected if row["axis"] == axis]
+        fractions = [float(row["correction_variance_fraction"]) for row in axis_rows]
+        axes[axis] = {
+            "rows": len(axis_rows),
+            "mean_variance_fraction": None if not fractions else float(np.mean(fractions)),
+            "variance_dominated_rows": sum(value >= 0.75 for value in fractions),
+            "mean_correction_norm": (
+                None if not axis_rows else float(np.mean([row["mean_correction_norm"] for row in axis_rows]))
+            ),
+        }
+    return {"probe": probe, "axes": axes, "rows": len(selected)}
+
+
+def _rank_failure_mechanisms(
+    probe_summaries: list[dict], variance_summaries: list[dict],
+) -> list[dict]:
     mechanisms: list[dict] = []
     sign_support = [
         row["probe"] for row in probe_summaries
@@ -875,6 +1295,23 @@ def _rank_failure_mechanisms(probe_summaries: list[dict]) -> list[dict]:
             "observable": "correction/native Adam displacement ratio",
             "construction_route": "adam_metric_trust_region",
         })
+    variance_support = []
+    for row in variance_summaries:
+        supported_axes = [
+            axis for axis, values in row["axes"].items()
+            if values["rows"] > 0 and values["variance_dominated_rows"] >= max(1, values["rows"] // 2)
+        ]
+        if supported_axes:
+            variance_support.append({"probe": row["probe"], "axes": supported_axes})
+    if variance_support:
+        mechanisms.append({
+            "failure_type": "sampling_variance",
+            "supporting_probes": [row["probe"] for row in variance_support],
+            "supporting_axes": variance_support,
+            "cross_probe_support": len(variance_support),
+            "observable": "actual correction-field variance across independent unpaired batches and latent/time/bridge RNG",
+            "construction_route": "unbiased_stratified_or_antithetic_estimator",
+        })
     return sorted(
         mechanisms,
         key=lambda row: (-int(row["cross_probe_support"]), row["failure_type"]),
@@ -885,19 +1322,31 @@ def build_causal_matrix(output_root: Path) -> dict:
     atlas_path = output_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
     queue_path = output_root / "audit" / "AUDIT_QUEUE.json"
     rows = _read_jsonl(atlas_path)
+    variance_rows = _read_jsonl(output_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl")
     queue = json.loads(queue_path.read_text(encoding="utf-8")) if queue_path.is_file() else {"jobs": []}
     actual = {
         (
             row["probe"], int(row["data_epoch"]), row["source_state"],
-            row["operator_mode"], int(row["horizon"]),
+            row["operator_mode"], row["branch_regime"],
+            row.get("intervention_steps"), int(row["horizon"]),
         )
         for row in rows
     }
     expected = _expected_row_keys(queue)
     missing = sorted(expected - actual)
+    actual_variance = {
+        (
+            row["probe"], int(row["data_epoch"]), row["source_state"],
+            row["operator_mode"], row["axis"], int(row["replicates"]),
+        )
+        for row in variance_rows
+    }
+    expected_variance = _expected_variance_keys(queue)
+    missing_variance = sorted(expected_variance - actual_variance)
     probes = sorted({row["probe"] for row in rows})
     summaries = [_classify_probe(rows, probe) for probe in probes]
-    complete = bool(expected) and not missing
+    variance_summaries = [_variance_summary(variance_rows, probe) for probe in probes]
+    complete = bool(expected) and not missing and not missing_variance
     matrix = {
         "schema": MATRIX_SCHEMA,
         "status": "COMPLETE_CAUSAL_AUDIT" if complete else "PARTIAL_CAUSAL_AUDIT",
@@ -906,12 +1355,26 @@ def build_causal_matrix(output_root: Path) -> dict:
         "missing_rows": [
             {
                 "probe": item[0], "data_epoch": item[1], "source_state": item[2],
-                "operator_mode": item[3], "horizon": item[4],
+                "operator_mode": item[3], "branch_regime": item[4],
+                "intervention_steps": item[5], "horizon": item[6],
             }
             for item in missing
         ],
+        "sampling_variance_rows": len(variance_rows),
+        "expected_sampling_variance_rows": len(expected_variance),
+        "missing_sampling_variance_rows": [
+            {
+                "probe": item[0], "data_epoch": item[1], "source_state": item[2],
+                "operator_mode": item[3], "axis": item[4], "replicates": item[5],
+            }
+            for item in missing_variance
+        ],
         "probe_summaries": summaries,
-        "ranked_failure_mechanisms": _rank_failure_mechanisms(summaries) if complete else [],
+        "sampling_variance_summaries": variance_summaries,
+        "ranked_failure_mechanisms": (
+            _rank_failure_mechanisms(summaries, variance_summaries) if complete else []
+        ),
+        "pulse_branches_are_diagnostics_not_exit_policies": True,
         "paired_labels_joined_only_after_branches": True,
         "paired_metrics_accessed_by_controller": False,
         "confirmation20_opened": False,
