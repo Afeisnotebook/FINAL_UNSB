@@ -18,11 +18,14 @@
   “算法搜索失败”。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
-- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `3ac84d4`，当前
+- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `b7ebc4e`，当前
   状态为 `WAITING_FOR_ANCHORS`。它只在anchor executor到达显式终态后使用GPU，按
   atlas row原子落盘并可恢复。审计同时覆盖连续介入、短pulse后的原生流传播以及
   batch/latent-time correction方差；pulse只作因果诊断，不是路线二策略。Phase C完成后
   停在数学推导门，不会把模板冒充新算法。
+- paired discovery70只在双分支冻结后作为未来标签；只有跨方法准确率、相关性、域
+  一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。否则只允许从
+  可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式

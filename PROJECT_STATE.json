@@ -82,9 +82,9 @@
     "status": "DURABLE_AUDITOR_REGISTERED_WAITING_FOR_ANCHORS",
     "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
     "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
-    "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_3ac84d4",
-    "audit_git_commit": "3ac84d4fa71aaa4b1e4f82769ae4639f7bfaade5",
-    "audit_scope": "continuous operator validity plus pulse-to-native propagation and 8-replicate batch/latent-time correction variance",
+    "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_b7ebc4e",
+    "audit_git_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
+    "audit_scope": "continuous operator validity, pulse-to-native propagation, 8-replicate batch/latent-time correction variance, and offline target-blind signal eligibility screening",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
