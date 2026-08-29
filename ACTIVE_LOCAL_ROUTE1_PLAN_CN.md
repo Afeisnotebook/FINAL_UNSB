@@ -80,6 +80,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - 新算法公式仍未预写。必须等25点atlas和不可变`LONG_CAUSAL_MATRIX`完成后，才依据跨探针
   证据生成最多三个Generation-1构造；历史已失败的future-batch selector、HJ cosine
   matching、同batch Adam projection、DT sensitivity preconditioner等不得换名重跑。
+- DT矩阵后处理已在主分支`0a818e0`修正checkpoint到下一物理epoch的active-age边界，
+  并允许同一DT机制跨registered/forced-active记录形成连续时间证据。audit commit
+  `729826f`继续只生成不可变原始行；最终矩阵必须由修复后的主分支重算，不能直接采用
+  审计分支运行期间的partial matrix。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式

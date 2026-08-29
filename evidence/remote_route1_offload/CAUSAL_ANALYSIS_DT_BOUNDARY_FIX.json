@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-causal-analysis-dt-boundary-fix-v1",
+  "recorded_at": "2026-08-30T07:22:00+08:00",
+  "analysis_commit": "0a818e0b2540f0c3402dddedf54d65f26d299b78",
+  "audit_row_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+  "issue": {
+    "operator_selection": "DT analysis previously preferred forced_active_diagnostic at every checkpoint and therefore discarded registered evidence inside the real active-age interval.",
+    "epoch_boundary": "A checkpoint labelled data epoch d has completed d epochs; its first virtual update runs in physical epoch d+1.",
+    "temporal_grouping": "Rollout-speed history was split when the preferred DT record changed from registered to forced-active, hiding cross-stage precursor evidence."
+  },
+  "fix": {
+    "preferred_registered_source_epochs": [20, 44],
+    "preferred_forced_active_outside_source_epochs": true,
+    "rollout_temporal_key": ["probe", "source_state"],
+    "operator_mode_remains_recorded_per_row": true,
+    "branch_rows_modified": false,
+    "branch_rows_require_reexecution": false
+  },
+  "identity_policy": {
+    "audit_branch_role": "Generate immutable counterfactual and variance rows only.",
+    "main_branch_role": "Recompute the final causal matrix from immutable rows with the corrected analysis identity.",
+    "temporary_audit_branch_matrix_is_final_evidence": false
+  },
+  "verification": {
+    "pytest_passed": 89,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

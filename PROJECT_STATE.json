@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "814fd6801b1c5fd5a169fe6e52df738d8ba0cd5e",
+  "development_head_at_state_write": "0a818e0b2540f0c3402dddedf54d65f26d299b78",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -126,7 +126,8 @@
     "first_observed_rows": 6,
     "first_rows_parent_state_unchanged": true,
     "audit_scope": "continuous operator validity, pulse-to-native propagation, 8-replicate batch/latent-time correction variance, and offline target-blind signal eligibility screening",
-    "posthoc_matrix_analysis_commit": "e1d9d88",
+    "posthoc_matrix_analysis_commit": "0a818e0b2540f0c3402dddedf54d65f26d299b78",
+    "posthoc_analysis_boundary_fix_evidence": "evidence/remote_route1_offload/CAUSAL_ANALYSIS_DT_BOUNDARY_FIX.json",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
