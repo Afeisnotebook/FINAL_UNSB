@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-route1-remote-evaluation-recovery-v1",
+  "recorded_local_time": "2026-08-30T06:21:11+08:00",
+  "host_role": "independent_remote5090_replica",
+  "lane": "plain",
+  "data_epoch": 200,
+  "updates": 30000,
+  "incident": {
+    "classification": "evaluation_environment_dependency_missing",
+    "training_affected": false,
+    "cause": "lpips 0.1.4 was absent from the clean-server environment",
+    "original_metric_disposition": "quarantined_recoverable",
+    "original_metric_sha256": "240e25c5a561baff1b2489bb7f9cbd7b0db3d9232ec5f596227d08dab2cbcfed",
+    "original_lpips_available": false
+  },
+  "repair": {
+    "lpips_version": "0.1.4",
+    "alexnet_weights_preflighted": true,
+    "method": "two deterministic read-only evaluations from the unchanged e200 full-state checkpoint",
+    "source_checkpoint_sha256": "1256425cbba8cea5592caf2bc0a45d7c9a7171716b4b8e91feba84c66d8442e2",
+    "source_scientific_state_sha256": "68f901cc261bf2091cf5e1a94abfe115210cb8e5cb92a0185c56e55668e6b037",
+    "metric_payload_sha256": "99e57ee36eec5023535abb75fb4ad87e1ed3635183429e1c7f516b85e655c458",
+    "repeat_payload_sha256": "99e57ee36eec5023535abb75fb4ad87e1ed3635183429e1c7f516b85e655c458",
+    "parent_state_hash_before": "dbf218a5af7ee9c5f47129590cfa03ead4b83bcfde2adbe9404549a7178671b5",
+    "parent_state_hash_after": "dbf218a5af7ee9c5f47129590cfa03ead4b83bcfde2adbe9404549a7178671b5",
+    "recovery_record_sha256": "82f76e602b75754a8254342fdfaf6db19b1cab993c19c1bcd2ca9b3d44a700fd"
+  },
+  "accepted_result": {
+    "status": "ACCEPTED_MILESTONE",
+    "macro_psnr": 17.77680431815428,
+    "macro_ssim": 0.5609109417668411,
+    "macro_lpips": 0.3268709698958056,
+    "verification_sha256": "aa58fb0a884a88ffc73f5ca21e4b2da5bc6e07d04a3ff2df799f4b94bf6fd3a4"
+  },
+  "identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+  },
+  "paired_metric_used_for_training_control": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This repairs and accepts the remote5090 plain e200 evaluation only; it does not compare lanes or select an algorithm."
+}
