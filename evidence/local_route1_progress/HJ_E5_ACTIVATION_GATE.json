@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-route1-hj-e5-activation-gate-v1",
+  "recorded": "2026-08-30T03:50:00+08:00",
+  "status": "PASS",
+  "comparison": {
+    "plain_checkpoint": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\milestones\\e005.pt",
+    "hj_checkpoint": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\hj\\milestones\\e005.pt",
+    "data_epoch": 5,
+    "updates": 750,
+    "compared_core_fields": [
+      "model.networks",
+      "model.optimizers",
+      "model.schedulers",
+      "rng",
+      "samplers",
+      "step"
+    ],
+    "plain_core_sha256": "d5bb117ce03cff7bf54799a4663db57878799facfc9e029c74431e7f8743f002",
+    "hj_core_sha256": "6802aa483a732369e060b09e5f6cc649476e4d0aa4f2765b73c17951ff19c424",
+    "core_exactly_equal": false
+  },
+  "activation": {
+    "hj_start_epoch": 5,
+    "hj_active_optimizer_steps": 150,
+    "expected_active_steps_through_e5": 150,
+    "activation_step_count_exact": true,
+    "pre_intervention_e1_core_identity_evidence": "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
+    "interpretation": "The actual production HJ remained plain-core identical before its gate and changed the core over exactly the first active data epoch."
+  },
+  "milestone_completion": {
+    "metric_sha256": "2a1e39545b5044165b9f925830360c78ddcf4c6156123b328d0fec31f3c8bd94",
+    "metric_schema": "local-route1-discovery70-crn-single-rollout-v1",
+    "images": 420,
+    "data_epoch": 5,
+    "updates": 750,
+    "next_chunk": "hj_e005_to_e010",
+    "next_chunk_started": true,
+    "confirmation20_opened": false
+  },
+  "diagnostic_boundary": {
+    "gate_sum_not_used_as_activation_proof": true,
+    "reason": "Per-step gate/risk sums are accumulated only when an optional diagnostic writer is configured and are reset at epoch boundary; active optimizer step count plus core divergence are the source-bound activation evidence."
+  },
+  "identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "seed": 2026,
+    "confirmation20_opened": false
+  },
+  "paired_metric_read_for_gate": false,
+  "claim_boundary": "This proves actual activation timing and state divergence only. It does not claim HJ improves any paired metric."
+}
