@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-route1-parallel-probes-start-v1",
+  "recorded": "2026-08-30T03:05:00+08:00",
+  "status": "TWO_HOST_PARALLEL_PROBES_RUNNING",
+  "decision": "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md",
+  "scientific_identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "shared_e0_file_sha256": "599544e984d9db72c3e3061f50bc14143400546c4bdc7fbc23c9beb86ac32140",
+    "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "seed": 2026,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "confirmation20_opened": false
+  },
+  "remote4090": {
+    "canonical_concurrent_lane": "hj",
+    "independent_lane": "hnek",
+    "matched_plain_status_at_launch": "E200_VERIFIED",
+    "output_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_HNEK_PARALLEL",
+    "durable_session": "tmux:FINAL_UNSB_ROUTE1_4090_HNEK_PARALLEL",
+    "wrapper_source_commit": "1d491ff7ac8db9dce7fe203b1e03a0569a95b387",
+    "wrapper_sha256": "35634b0f154d80a3d4933de04e41775faa9bac25f7c0539209f411dec27e86dc",
+    "contract_sha256_at_observation": "ee5863d4b220fd4b8a3afc996f1363be0db4ca6990e80c8da4785852511e077c",
+    "first_accepted_heartbeat": {
+      "physical_epoch_completed": 5,
+      "updates": 750,
+      "full_state_sha256": "29bd5d0d39fa704a1730c8196a743000110464bfc803b02bbfce863acbecb7e2",
+      "scientific_state_sha256": "35b6e53887af0db28b5a871caa4dffe473d3313ae4a8c091de937fac90f752e9"
+    },
+    "observed_gpu": {"utilization_percent": 93, "memory_mib": 3328, "power_w": 159.57}
+  },
+  "remote5090": {
+    "canonical_concurrent_lane": "plain",
+    "independent_lane": "hnek",
+    "matched_plain_status_at_launch": "INFLIGHT_QUARANTINED",
+    "matched_plain_epoch_at_preflight": 38,
+    "output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
+    "durable_session": "screen:FINAL_UNSB_ROUTE1_5090_HNEK_PARALLEL",
+    "wrapper_source_commit": "f137bf4b902c87379ff68c27dab1287b4cbe7424",
+    "wrapper_sha256": "3fc79463e1f112df0fe6eee696f12b3b7421159856c8ccf155c3327b32ab248e",
+    "contract_sha256_at_observation": "0421f37b7552239f4fe27ea0164b12549b72292492499e260eacca238e2d9dc3",
+    "first_accepted_heartbeat": {
+      "physical_epoch_completed": 1,
+      "updates": 150,
+      "full_state_sha256": "6f1a195cfc800d5fd8baada06b7e656ddaebece2f338146c22838ce0f64e99fb",
+      "scientific_state_sha256": "d64462ca61de9bed0c2fe113960882d4ad6fb6089da5111a3e3e0e7fd2b683cb"
+    },
+    "observed_gpu": {"utilization_percent": 86, "memory_mib": 3519, "power_w": 215.38},
+    "admission_rule": "No comparison, ranking, audit, or canonical import until same-host plain e200 is hash-verified."
+  },
+  "claim_boundary": "This is an execution-start record, not an algorithm result. Process-level concurrency changes scheduling only; all scientific updates remain batch1 and host-matched."
+}
