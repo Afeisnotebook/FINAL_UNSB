@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-route1-auto-milestone-verifiers-armed-v1",
+  "recorded": "2026-08-30T04:36:00+08:00",
+  "implementation_commit": "2872f8385fdda7f7993964ead1231c791a7efdd9",
+  "watcher_sha256": "1bd887c9d3d383591598b48783cecca008b044d47fd8df39f89a599feec36b98",
+  "milestone_verifier_sha256": "50daeb593c49a76be024eec13f6ddd7dbe18943f4db4fec05ca92add2c8c63a7",
+  "target_epoch": 200,
+  "lanes": ["plain", "hj", "hnek"],
+  "hosts": {
+    "local_gtx1660": {
+      "supervisor": "detached hidden process",
+      "watcher_pid": 15356,
+      "status": "WAITING",
+      "plain": "VERIFIED",
+      "hj": "WAITING_FOR_ARTIFACTS",
+      "hnek": "WAITING_FOR_ARTIFACTS",
+      "durability_boundary": "The current user could not create a second scheduled task. Verification is idempotent and may be restarted after a reboot; the separately scheduled anchor executor and its artifacts are unaffected."
+    },
+    "remote4090": {
+      "supervisor": "tmux:FINAL_UNSB_ROUTE1_4090_VERIFY",
+      "watcher_pid": 1312836,
+      "status": "WAITING",
+      "plain": "VERIFIED",
+      "hj": "WAITING_FOR_ARTIFACTS",
+      "hnek": "WAITING_FOR_ARTIFACTS"
+    },
+    "remote5090": {
+      "supervisor": "screen:FINAL_UNSB_ROUTE1_5090_VERIFY",
+      "watcher_pid": 22046,
+      "status": "WAITING",
+      "plain": "WAITING_FOR_ARTIFACTS",
+      "hj": "WAITING_FOR_ARTIFACTS",
+      "hnek": "WAITING_FOR_ARTIFACTS"
+    }
+  },
+  "integrity_scope": {
+    "recomputes_checkpoint_file_hash": true,
+    "recomputes_scientific_state_hash": true,
+    "validates_metric_protocol_and_crn": true,
+    "paired_metric_used_for_training_control": false,
+    "changes_training_state": false,
+    "changes_training_update": false,
+    "confirmation20_opened": false
+  },
+  "claim_boundary": "The watchers prove completed milestone integrity only. They do not calibrate the proxy, rank probes, generate an algorithm, or satisfy the active Goal."
+}
