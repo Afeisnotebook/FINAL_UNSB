@@ -11,6 +11,12 @@ test -n "$FINAL_UNSB_RUNS"
 test -n "$FINAL_UNSB_LANE"
 git diff --exit-code
 git diff --cached --exit-code
+"$PY" - <<'PY'
+import lpips
+
+model = lpips.LPIPS(net="alex")
+assert model is not None
+PY
 "$PY" tools/validate_contracts.py
 "$PY" tools/build_data_manifest.py \
   --data-root "$FINAL_UNSB_DATA" \
