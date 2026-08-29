@@ -210,11 +210,36 @@ def test_candidate_executor_contract_closes_paired_control_and_locks_script(
     manifest.write_text("frozen", encoding="utf-8")
     supervisor = tmp_path / "candidate_executor.py"
     supervisor.write_text("# frozen", encoding="utf-8")
+    environment = tmp_path / "environment.json"
+    environment_payload = {
+        "python": "3.11 fixture", "platform": "fixture-os", "torch": "2.8",
+        "torch_cuda": "12.8", "cudnn": 91002, "cuda_available": True,
+        "gpu": "fixture-gpu",
+    }
+    environment.write_text(json.dumps(environment_payload), encoding="utf-8")
+    verification = tmp_path / "plain_e200.json"
+    verification.write_text(json.dumps({
+        "schema": "final-unsb-route1-milestone-verification-v1",
+        "status": "ACCEPTED_MILESTONE",
+        "identity": {"probe_id": "plain", "data_epoch": 200},
+        "checkpoint": {"file_sha256": "plain-file", "scientific_state_sha256": "plain-state"},
+        "integrity": {
+            "checkpoint_file_hash_matches_sidecar": True,
+            "scientific_state_hash_matches_sidecar": True,
+            "metric_protocol_matches": True,
+            "evaluation_bundle_matches_frozen_crn": True,
+            "paired_metric_used_for_training_control": False,
+            "confirmation20_opened": False,
+        },
+    }), encoding="utf-8")
     monkeypatch.setattr(
         candidate_executor, "file_sha256",
         lambda path: (
             candidate_executor.EXPECTED_MANIFEST
-            if Path(path) == manifest else "supervisor-hash"
+            if Path(path) == manifest else
+            "environment-hash" if Path(path) == environment else
+            "plain-verification-hash" if Path(path) == verification else
+            "supervisor-hash"
         ),
     )
     contract = {
@@ -232,6 +257,14 @@ def test_candidate_executor_contract_closes_paired_control_and_locks_script(
         "python": str(tmp_path / "python"),
         "supervisor_script": str(supervisor),
         "supervisor_sha256": "supervisor-hash",
+        "baseline_environment_record": str(environment),
+        "baseline_environment_record_sha256": "environment-hash",
+        "baseline_environment": environment_payload,
+        "runtime_environment_at_freeze": environment_payload,
+        "plain_e200_verification": str(verification),
+        "plain_e200_verification_sha256": "plain-verification-hash",
+        "plain_e200_checkpoint_sha256": "plain-file",
+        "plain_e200_scientific_state_sha256": "plain-state",
         "chunk_data_epochs_max": 5,
         "target_data_epochs": 200,
         "paired_metric_early_stop": False,
@@ -241,6 +274,10 @@ def test_candidate_executor_contract_closes_paired_control_and_locks_script(
     candidate_executor.validate_contract(contract)
     contract["paired_metric_early_stop"] = True
     with pytest.raises(RuntimeError, match="paired_metric_early_stop=false"):
+        candidate_executor.validate_contract(contract)
+    contract["paired_metric_early_stop"] = False
+    contract["runtime_environment_at_freeze"] = {**environment_payload, "gpu": "other"}
+    with pytest.raises(RuntimeError, match="matched-plain environment"):
         candidate_executor.validate_contract(contract)
 
 

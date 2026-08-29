@@ -24,6 +24,10 @@ from typing import Any
 
 EXPECTED_MANIFEST = "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
+ENVIRONMENT_KEYS = (
+    "python", "platform", "torch", "torch_cuda", "cudnn",
+    "cuda_available", "gpu",
+)
 
 
 def now() -> str:
@@ -118,6 +122,51 @@ def run_text(argv: list[str], *, cwd: Path, timeout: int = 300) -> str:
     return result.stdout.strip()
 
 
+def normalized_environment(payload: dict[str, Any]) -> dict[str, Any]:
+    missing = [key for key in ENVIRONMENT_KEYS if key not in payload]
+    if missing:
+        raise RuntimeError(f"baseline environment record missing fields: {missing}")
+    return {key: payload[key] for key in ENVIRONMENT_KEYS}
+
+
+def runtime_environment(python: Path, *, cwd: Path) -> dict[str, Any]:
+    code = (
+        "import json, platform, sys, torch; "
+        "print(json.dumps({'python': sys.version, 'platform': platform.platform(), "
+        "'torch': torch.__version__, 'torch_cuda': torch.version.cuda, "
+        "'cudnn': torch.backends.cudnn.version(), "
+        "'cuda_available': torch.cuda.is_available(), "
+        "'gpu': torch.cuda.get_device_name(0) if torch.cuda.is_available() else None}, "
+        "sort_keys=True))"
+    )
+    return normalized_environment(json.loads(run_text(
+        [str(Path(python)), "-c", code], cwd=cwd, timeout=300,
+    )))
+
+
+def validate_plain_e200_verification(payload: dict[str, Any]) -> None:
+    if payload.get("schema") != "final-unsb-route1-milestone-verification-v1":
+        raise RuntimeError("candidate baseline verification schema mismatch")
+    if payload.get("status") != "ACCEPTED_MILESTONE":
+        raise RuntimeError("candidate baseline plain e200 is not accepted")
+    identity = payload.get("identity", {})
+    if identity.get("probe_id") != "plain" or int(identity.get("data_epoch", -1)) != 200:
+        raise RuntimeError("candidate baseline is not plain e200")
+    integrity = payload.get("integrity", {})
+    for key in (
+        "checkpoint_file_hash_matches_sidecar",
+        "scientific_state_hash_matches_sidecar",
+        "metric_protocol_matches",
+        "evaluation_bundle_matches_frozen_crn",
+    ):
+        if integrity.get(key) is not True:
+            raise RuntimeError(f"candidate baseline failed integrity check: {key}")
+    if integrity.get("paired_metric_used_for_training_control") is not False:
+        raise RuntimeError("candidate baseline used paired training control")
+    if integrity.get("confirmation20_opened") is not False:
+        raise RuntimeError("candidate baseline opened confirmation20")
+
+
 def candidate_status_command(contract: dict[str, Any]) -> list[str]:
     return [
         str(Path(contract["python"])), "-m", "research.local_route1.run",
@@ -181,6 +230,21 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
     status = _parse_status(run_text(
         candidate_status_command(provisional), cwd=candidate_repo, timeout=600,
     ))
+    baseline_environment_path = args.baseline_environment_record.resolve()
+    baseline_environment = normalized_environment(json.loads(
+        baseline_environment_path.read_text(encoding="utf-8")
+    ))
+    actual_environment = runtime_environment(args.python, cwd=candidate_repo)
+    if actual_environment != baseline_environment:
+        raise RuntimeError(
+            "candidate runtime differs from the environment that produced its matched plain"
+        )
+    plain_verification_path = (
+        args.run_root.resolve() / "operations" / "milestone_verifications"
+        / "PLAIN_E200_VERIFICATION.json"
+    )
+    plain_verification = json.loads(plain_verification_path.read_text(encoding="utf-8"))
+    validate_plain_e200_verification(plain_verification)
     return {
         "schema": "final-unsb-route1-candidate-executor-contract-v1",
         "created": now(),
@@ -195,6 +259,14 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "data_root": str(args.data_root.resolve()),
         "manifest": str(args.manifest.resolve()),
         "manifest_sha256": EXPECTED_MANIFEST,
+        "baseline_environment_record": str(baseline_environment_path),
+        "baseline_environment_record_sha256": file_sha256(baseline_environment_path),
+        "baseline_environment": baseline_environment,
+        "runtime_environment_at_freeze": actual_environment,
+        "plain_e200_verification": str(plain_verification_path),
+        "plain_e200_verification_sha256": file_sha256(plain_verification_path),
+        "plain_e200_checkpoint_sha256": plain_verification["checkpoint"]["file_sha256"],
+        "plain_e200_scientific_state_sha256": plain_verification["checkpoint"]["scientific_state_sha256"],
         "python": str(args.python.resolve()),
         "supervisor_script": str(script),
         "supervisor_sha256": file_sha256(script),
@@ -216,6 +288,10 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "candidate_repo", "candidate_git_commit", "algorithm_fingerprint",
         "candidate_fingerprint", "run_root",
         "train_view", "data_root", "manifest", "python", "supervisor_script",
+        "baseline_environment_record", "baseline_environment_record_sha256",
+        "baseline_environment", "runtime_environment_at_freeze",
+        "plain_e200_verification", "plain_e200_verification_sha256",
+        "plain_e200_checkpoint_sha256", "plain_e200_scientific_state_sha256",
     }
     missing = sorted(required - set(contract))
     if missing:
@@ -226,6 +302,28 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("candidate executor manifest changed")
     if file_sha256(Path(contract["supervisor_script"])) != contract.get("supervisor_sha256"):
         raise RuntimeError("candidate executor supervisor changed after contract initialization")
+    environment_path = Path(contract["baseline_environment_record"])
+    if file_sha256(environment_path) != contract["baseline_environment_record_sha256"]:
+        raise RuntimeError("candidate baseline environment record changed")
+    baseline_environment = normalized_environment(json.loads(
+        environment_path.read_text(encoding="utf-8")
+    ))
+    if baseline_environment != contract["baseline_environment"]:
+        raise RuntimeError("candidate baseline environment identity changed")
+    if contract["runtime_environment_at_freeze"] != baseline_environment:
+        raise RuntimeError("candidate was not frozen on its matched-plain environment")
+    plain_verification_path = Path(contract["plain_e200_verification"])
+    if file_sha256(plain_verification_path) != contract["plain_e200_verification_sha256"]:
+        raise RuntimeError("candidate plain e200 verification changed")
+    plain_verification = json.loads(plain_verification_path.read_text(encoding="utf-8"))
+    validate_plain_e200_verification(plain_verification)
+    if plain_verification["checkpoint"]["file_sha256"] != contract["plain_e200_checkpoint_sha256"]:
+        raise RuntimeError("candidate matched-plain checkpoint identity changed")
+    if (
+        plain_verification["checkpoint"]["scientific_state_sha256"]
+        != contract["plain_e200_scientific_state_sha256"]
+    ):
+        raise RuntimeError("candidate matched-plain scientific state changed")
     if int(contract.get("chunk_data_epochs_max", 0)) > 5:
         raise RuntimeError("candidate chunks may not exceed five data epochs")
     if int(contract.get("target_data_epochs", 0)) != 200:
@@ -248,12 +346,19 @@ def scientific_identity(contract: dict[str, Any]) -> dict[str, str]:
         raise RuntimeError("candidate fingerprint changed after executor contract freeze")
     if status["algorithm_fingerprint"] != contract["algorithm_fingerprint"]:
         raise RuntimeError("algorithm fingerprint changed after executor contract freeze")
+    current_environment = runtime_environment(Path(contract["python"]), cwd=repo)
+    if current_environment != contract["baseline_environment"]:
+        raise RuntimeError(
+            "candidate runtime no longer matches the environment that produced plain e200"
+        )
     return {
         "candidate_id": contract["candidate_id"],
         "candidate_git_commit": head,
         "algorithm_fingerprint": status["algorithm_fingerprint"],
         "candidate_fingerprint": status["candidate_fingerprint"],
         "manifest_sha256": EXPECTED_MANIFEST,
+        "baseline_environment_record_sha256": contract["baseline_environment_record_sha256"],
+        "plain_e200_verification_sha256": contract["plain_e200_verification_sha256"],
     }
 
 
@@ -426,6 +531,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--data-root", type=Path)
     value.add_argument("--manifest", type=Path)
     value.add_argument("--python", type=Path)
+    value.add_argument("--baseline-environment-record", type=Path)
     return value
 
 
@@ -435,6 +541,7 @@ def main(argv: list[str] | None = None) -> int:
         required = (
             "contract", "main_repo", "candidate_repo", "candidate_id", "run_root",
             "train_view", "data_root", "manifest", "python",
+            "baseline_environment_record",
         )
         missing = [name for name in required if getattr(args, name) is None]
         if missing:
