@@ -224,6 +224,31 @@ def current_epoch(run_root: Path, lane: str) -> int:
     return int(sidecar["physical_epoch_completed"]) if sidecar else 0
 
 
+def anchor_command(contract: dict[str, Any], lane: str, target_epoch: int) -> list[str]:
+    return [
+        str(Path(contract["python"])),
+        "-m",
+        "research.local_route1.run",
+        "--stage",
+        "anchors",
+        "--lane",
+        lane,
+        "--resume",
+        "--output",
+        str(Path(contract["run_root"])),
+        "--train-view",
+        str(Path(contract["train_view"])),
+        "--data-root",
+        str(Path(contract["data_root"])),
+        "--manifest",
+        str(Path(contract["manifest"])),
+        "--gpu",
+        "0",
+        "--engineering-stop-after-epoch",
+        str(target_epoch),
+    ]
+
+
 def validate_lane_sidecar(sidecar: dict[str, Any], identity: dict[str, str], lane: str) -> None:
     metadata = sidecar.get("metadata", {})
     expected = {
@@ -361,24 +386,14 @@ class DurableExecutor:
         if sidecar:
             validate_lane_sidecar(sidecar, self.identity, lane)
         input_hash = sidecar.get("full_state_sha256") if sidecar else None
-        key = f"{lane}:{start_epoch}:{target_epoch}"
+        executor_version = str(self.contract["supervisor_sha256"])[:12]
+        key = f"{executor_version}:{lane}:{start_epoch}:{target_epoch}"
         attempt = self.failure_counts().get(key, 0) + 1
         log_stem = f"{lane}_e{start_epoch:03d}_to_e{target_epoch:03d}_a{attempt}"
         stdout_log = self.operations / "logs" / f"{log_stem}.stdout.log"
         stderr_log = self.operations / "logs" / f"{log_stem}.stderr.log"
         stdout_log.parent.mkdir(parents=True, exist_ok=True)
-        argv = [
-            str(self.python),
-            "-m",
-            "research.local_route1.run",
-            "--stage",
-            "anchors",
-            "--lane",
-            lane,
-            "--resume",
-            "--engineering-stop-after-epoch",
-            str(target_epoch),
-        ]
+        argv = anchor_command(self.contract, lane, target_epoch)
         started = time.time()
         with (
             stdout_log.open("w", encoding="utf-8") as stdout_handle,
@@ -522,7 +537,17 @@ class DurableExecutor:
 
     def evaluate_proxy(self) -> dict[str, Any]:
         log = self.operations / "logs" / "proxy_evaluate.log"
-        argv = [str(self.python), "-m", "research.local_route1.run", "--stage", "evaluate"]
+        argv = [
+            str(self.python),
+            "-m",
+            "research.local_route1.run",
+            "--stage",
+            "evaluate",
+            "--output",
+            str(self.run_root),
+            "--manifest",
+            self.contract["manifest"],
+        ]
         with log.open("w", encoding="utf-8") as handle:
             result = subprocess.run(argv, cwd=self.repo, stdout=handle, stderr=subprocess.STDOUT, check=False)
         if result.returncode != 0:

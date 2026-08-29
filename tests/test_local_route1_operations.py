@@ -9,6 +9,7 @@ from operations.local_route1_executor import (
     EXPECTED_MANIFEST,
     EXPECTED_PROTOCOL,
     EXPECTED_TRAINING_COMMIT,
+    anchor_command,
     atomic_json,
     current_epoch,
     default_contract,
@@ -85,3 +86,22 @@ def test_checkpoint_sidecar_epoch_and_identity(tmp_path):
     sidecar["metadata"]["confirmation20_opened"] = True
     with pytest.raises(RuntimeError, match="confirmation20_opened"):
         validate_lane_sidecar(sidecar, identity, "plain")
+
+
+def test_anchor_command_explicitly_freezes_every_scientific_path(tmp_path):
+    contract = {
+        "python": str(tmp_path / "python.exe"),
+        "run_root": str(tmp_path / "run"),
+        "train_view": str(tmp_path / "view"),
+        "data_root": str(tmp_path / "data"),
+        "manifest": str(tmp_path / "frozen_manifest.csv"),
+    }
+    argv = anchor_command(contract, "plain", 105)
+    for flag, expected in (
+        ("--output", contract["run_root"]),
+        ("--train-view", contract["train_view"]),
+        ("--data-root", contract["data_root"]),
+        ("--manifest", contract["manifest"]),
+    ):
+        assert argv[argv.index(flag) + 1] == expected
+    assert argv[argv.index("--engineering-stop-after-epoch") + 1] == "105"
