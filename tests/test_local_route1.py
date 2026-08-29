@@ -409,6 +409,16 @@ def test_sampling_variance_uses_actual_correction_fields(monkeypatch, tmp_path):
     assert row["parent_state_sha256_before"] == row["parent_state_sha256_after"]
 
 
+def test_dt_preferred_operator_mode_preserves_registered_active_age():
+    assert causal_audit._preferred_operator_mode("hj", 20) == "registered"
+    assert causal_audit._preferred_operator_mode("hnek", 200) == "registered"
+    assert causal_audit._preferred_operator_mode("dt", 20) == "forced_active_diagnostic"
+    assert causal_audit._preferred_operator_mode("dt", 21) == "registered"
+    assert causal_audit._preferred_operator_mode("dt", 40) == "registered"
+    assert causal_audit._preferred_operator_mode("dt", 45) == "registered"
+    assert causal_audit._preferred_operator_mode("dt", 46) == "forced_active_diagnostic"
+
+
 def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_path):
     audit = tmp_path / "audit"
     audit.mkdir()

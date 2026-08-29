@@ -1260,11 +1260,27 @@ def _expected_variance_keys(
     return expected
 
 
+def _preferred_operator_mode(probe: str, data_epoch: int) -> str:
+    """Select the scientific DT operator without dropping its active-age evidence.
+
+    DT is registered and nonzero only at data epochs 21--45.  Outside that
+    interval the registered operator is the identity, so causal analysis uses
+    the separately recorded forced-active diagnostic.  Inside the interval the
+    registered branch is already the authoritative active operator and no
+    forced-active duplicate is emitted.
+    """
+    if probe != "dt":
+        return "registered"
+    return "registered" if 21 <= int(data_epoch) <= 45 else "forced_active_diagnostic"
+
+
 def _classify_probe(rows: list[dict], probe: str) -> dict:
     probe_rows = [row for row in rows if row["probe"] == probe]
     preferred = [
         row for row in probe_rows
-        if row["operator_mode"] == ("forced_active_diagnostic" if probe == "dt" else "registered")
+        if row["operator_mode"] == _preferred_operator_mode(
+            probe, int(row["data_epoch"])
+        )
     ]
     horizon200 = [
         row for row in preferred
@@ -1336,10 +1352,12 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
 
 
 def _variance_summary(rows: list[dict], probe: str) -> dict:
-    preferred_mode = "forced_active_diagnostic" if probe == "dt" else "registered"
     selected = [
         row for row in rows
-        if row["probe"] == probe and row["operator_mode"] == preferred_mode
+        if row["probe"] == probe
+        and row["operator_mode"] == _preferred_operator_mode(
+            probe, int(row["data_epoch"])
+        )
     ]
     axes = {}
     for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
@@ -1393,7 +1411,9 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
     labels = {}
     one_step = {}
     for row in rows:
-        preferred = "forced_active_diagnostic" if row["probe"] == "dt" else "registered"
+        preferred = _preferred_operator_mode(
+            str(row["probe"]), int(row["data_epoch"])
+        )
         if row["operator_mode"] != preferred or row["branch_regime"] != "continuous_intervention":
             continue
         key = (row["probe"], int(row["data_epoch"]), row["source_state"], row["operator_mode"])
@@ -1674,12 +1694,7 @@ def _rank_failure_mechanisms(
             "candidate_generation_eligible": True,
             "eligibility_basis": "unbiased estimator route does not require a paired-fitted controller",
         })
-    preferred_modes = {
-        summary["probe"]: (
-            "forced_active_diagnostic" if summary["probe"] == "dt" else "registered"
-        )
-        for summary in probe_summaries
-    }
+    probes = [summary["probe"] for summary in probe_summaries]
     labels = {
         (row["probe"], int(row["data_epoch"]), row["source_state"], row["operator_mode"]):
         float(row["post_branch_development_label"]["macro_psnr_delta"])
@@ -1689,15 +1704,22 @@ def _rank_failure_mechanisms(
         and row.get("post_branch_development_label")
     }
     rollout_support = []
-    for probe, preferred in preferred_modes.items():
+    for probe in probes:
         cases = []
         temporal: dict[str, list[dict]] = defaultdict(list)
         for row in rows:
-            if row.get("probe") != probe or row.get("operator_mode") != preferred:
+            if row.get("probe") != probe or row.get("operator_mode") != _preferred_operator_mode(
+                probe, int(row["data_epoch"])
+            ):
                 continue
             if row.get("branch_regime") != "continuous_intervention" or int(row.get("horizon", 0)) != 1:
                 continue
-            key = (probe, int(row["data_epoch"]), row["source_state"], preferred)
+            key = (
+                probe,
+                int(row["data_epoch"]),
+                row["source_state"],
+                _preferred_operator_mode(probe, int(row["data_epoch"])),
+            )
             label = labels.get(key)
             reference = row.get("reference_observation", {}).get("bridge", {}).get(
                 "rollout_velocity_l2"
@@ -1764,10 +1786,12 @@ def _rank_failure_mechanisms(
             ),
         })
     coordinate_support = []
-    for probe, preferred in preferred_modes.items():
+    for probe in probes:
         cases = []
         for row in variance_rows:
-            if row.get("probe") != probe or row.get("operator_mode") != preferred:
+            if row.get("probe") != probe or row.get("operator_mode") != _preferred_operator_mode(
+                probe, int(row["data_epoch"])
+            ):
                 continue
             if row.get("axis") != "latent_time_bridge_rng":
                 continue
