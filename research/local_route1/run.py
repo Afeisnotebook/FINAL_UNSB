@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from .anchors import run_anchor, summarize_anchors
+from .causal_audit import DEFAULT_HORIZONS, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
 from .protocol import ROOT
@@ -33,7 +34,28 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
     value.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     value.add_argument("--engineering-stop-after-epoch", type=int, help="debug only; never a scientific early-stop rule")
+    value.add_argument("--audit-probe", choices=["hj", "hnek", "dt"])
+    value.add_argument("--audit-epoch", type=int)
+    value.add_argument(
+        "--audit-horizons", default=",".join(str(value) for value in DEFAULT_HORIZONS),
+        help="comma-separated actual-update horizons; scientific default is 1,8,32,200",
+    )
+    value.add_argument(
+        "--audit-label-horizons", default="200",
+        help="comma-separated horizons labeled with discovery70 only after both branches",
+    )
+    value.add_argument(
+        "--training-worktree", type=Path,
+        help="immutable training worktree used to prove audit/training core equivalence",
+    )
     return value
+
+
+def _integer_csv(value: str) -> tuple[int, ...]:
+    parsed = tuple(sorted({int(item.strip()) for item in str(value).split(",") if item.strip()}))
+    if not parsed or any(item <= 0 for item in parsed):
+        raise ValueError("horizons must be a non-empty comma-separated list of positive integers")
+    return parsed
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -81,6 +103,26 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     if args.stage == "audit":
+        if args.audit_probe or args.audit_epoch is not None:
+            if not args.audit_probe or args.audit_epoch is None:
+                raise SystemExit("executing an audit requires both --audit-probe and --audit-epoch")
+            result = run_audit_job(
+                output_root=args.output,
+                probe=args.audit_probe,
+                epoch=args.audit_epoch,
+                train_view=args.train_view.resolve(),
+                data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(),
+                gpu=args.gpu,
+                horizons=_integer_csv(args.audit_horizons),
+                label_horizons=_integer_csv(args.audit_label_horizons),
+                training_root=(
+                    None if args.training_worktree is None
+                    else args.training_worktree.resolve()
+                ),
+            )
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
         result = prepare_audit_queue(args.output)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["status"] == "READY" else 4
