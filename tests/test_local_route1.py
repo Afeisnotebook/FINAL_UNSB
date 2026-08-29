@@ -1,4 +1,8 @@
+from concurrent.futures import ThreadPoolExecutor
+import json
 from pathlib import Path
+import subprocess
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -491,6 +495,69 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
     assert "sampling_variance" in failure_types
     assert "rollout_distribution_speed" in failure_types
     assert "coordinate_horizon_imbalance" in failure_types
+
+
+def test_parallel_audit_row_merges_are_lossless_and_canonical(tmp_path):
+    path = tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
+
+    def write_group(group: int) -> None:
+        append_unique_rows(path, [
+            {
+                "row_id": f"row-{group:02d}-{index:02d}",
+                "probe": "hj",
+                "data_epoch": group * 10 + index,
+                "source_state": "plain",
+                "operator_mode": "registered",
+                "branch_regime": "continuous_intervention",
+                "horizon": 1,
+            }
+            for index in range(8)
+        ])
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        list(pool.map(write_group, range(8)))
+    rows = [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+    ]
+    assert len(rows) == 64
+    assert len({row["row_id"] for row in rows}) == 64
+    assert [row["data_epoch"] for row in rows] == sorted(
+        row["data_epoch"] for row in rows
+    )
+
+
+def test_cross_process_audit_row_merges_do_not_drop_a_worker(tmp_path):
+    path = tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
+    code = """
+import json
+import sys
+from pathlib import Path
+from research.local_route1.causal_audit import append_unique_rows
+
+path = Path(sys.argv[1])
+group = int(sys.argv[2])
+append_unique_rows(path, [{
+    'row_id': f'process-{group}-{index}',
+    'probe': 'hnek',
+    'data_epoch': group * 20 + index,
+    'source_state': 'plain',
+    'operator_mode': 'registered',
+    'branch_regime': 'continuous_intervention',
+    'horizon': 1,
+} for index in range(12)])
+"""
+    processes = [
+        subprocess.Popen(
+            [sys.executable, "-c", code, str(path), str(group)],
+            cwd=ROOT,
+        )
+        for group in range(2)
+    ]
+    assert [process.wait(timeout=60) for process in processes] == [0, 0]
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    assert len(rows) == 24
+    assert len({row["row_id"] for row in rows}) == 24
 
 
 def test_target_blind_signal_screen_uses_offline_labels_without_fitting_thresholds():

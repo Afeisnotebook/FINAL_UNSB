@@ -15,7 +15,10 @@ import gc
 import io
 import json
 import math
+import os
 import random
+import threading
+import time
 import types
 from collections import defaultdict
 from dataclasses import asdict, dataclass
@@ -66,6 +69,47 @@ MATRIX_SCHEMA = "final-unsb-local-route1-causal-matrix-v1"
 DEFAULT_HORIZONS = (1, 8, 32, 200)
 DEFAULT_VARIANCE_REPLICATES = 8
 TERMINAL_LOCAL_HORIZONS = (1, 8, 32)
+
+
+_ATLAS_THREAD_LOCK = threading.RLock()
+
+
+@contextlib.contextmanager
+def _exclusive_path_lock(path: Path, *, timeout_seconds: float = 300.0):
+    """Serialize cross-process read/merge/replace operations for one artifact."""
+    lock_path = Path(str(Path(path)) + ".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with _ATLAS_THREAD_LOCK, lock_path.open("a+b") as handle:
+        handle.seek(0, os.SEEK_END)
+        if handle.tell() == 0:
+            handle.write(b"\0")
+            handle.flush()
+        handle.seek(0)
+        if os.name == "nt":
+            import msvcrt
+
+            deadline = time.monotonic() + float(timeout_seconds)
+            while True:
+                try:
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                    break
+                except OSError:
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError(f"timed out acquiring artifact lock: {lock_path}")
+                    time.sleep(0.05)
+            try:
+                yield
+            finally:
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
 @dataclass(frozen=True)
@@ -1059,7 +1103,7 @@ def audit_sampling_variance(
     return result
 
 
-def append_unique_rows(path: Path, rows: Iterable[dict]) -> dict:
+def _append_unique_rows_unlocked(path: Path, rows: Iterable[dict]) -> dict:
     path = Path(path)
     existing: dict[str, dict] = {}
     if path.is_file():
@@ -1092,6 +1136,13 @@ def append_unique_rows(path: Path, rows: Iterable[dict]) -> dict:
     return {"path": str(path.resolve()), "rows": len(ordered), "added": added}
 
 
+def append_unique_rows(path: Path, rows: Iterable[dict]) -> dict:
+    """Atomically merge rows when independent audit cells finish together."""
+    path = Path(path)
+    with _exclusive_path_lock(path):
+        return _append_unique_rows_unlocked(path, rows)
+
+
 def run_audit_job(
     *,
     output_root: Path,
@@ -1122,9 +1173,10 @@ def run_audit_job(
     def persist_row(row: dict) -> None:
         append_unique_rows(atlas_path, [row])
 
+    cell_work_dir = output_root / "audit" / "work" / f"{probe}_e{int(epoch):03d}"
     produced = audit_cell(
         cell, rows=rows, train_view=train_view,
-        work_dir=output_root / "audit" / "work", seed=int(load_protocol()["seed"]),
+        work_dir=cell_work_dir, seed=int(load_protocol()["seed"]),
         gpu=gpu, horizons=horizons, data_root=data_root,
         label_horizons=label_horizons, training_root=training_root,
         skip_row_ids=existing_ids, on_row=persist_row,
@@ -1137,7 +1189,7 @@ def run_audit_job(
 
     produced_variance = audit_sampling_variance(
         cell, rows=rows, train_view=train_view,
-        work_dir=output_root / "audit" / "work", seed=int(load_protocol()["seed"]),
+        work_dir=cell_work_dir, seed=int(load_protocol()["seed"]),
         gpu=gpu, replicates=variance_replicates, training_root=training_root,
         skip_row_ids={row["row_id"] for row in existing_variance},
         on_row=persist_variance,
@@ -1147,7 +1199,9 @@ def run_audit_job(
         "rows": len(_read_jsonl(atlas_path)),
         "added": len(produced),
     }
-    matrix = build_causal_matrix(output_root)
+    matrix_path = output_root / "audit" / "LONG_CAUSAL_MATRIX.json"
+    with _exclusive_path_lock(matrix_path):
+        matrix = build_causal_matrix(output_root)
     return {
         "schema": "final-unsb-local-route1-audit-job-result-v1",
         "cell": {

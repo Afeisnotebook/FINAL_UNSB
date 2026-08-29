@@ -139,6 +139,12 @@ def test_audit_executor_contract_keeps_paired_and_confirmation_inputs_closed(tmp
         "confirmation20_opened": False,
     }
     audit_executor.validate_contract(contract)
+    contract["maximum_parallel_jobs"] = 2
+    audit_executor.validate_contract(contract)
+    contract["maximum_parallel_jobs"] = 3
+    with pytest.raises(RuntimeError, match="maximum_parallel_jobs"):
+        audit_executor.validate_contract(contract)
+    contract["maximum_parallel_jobs"] = 2
     contract["paired_controller_access"] = True
     with pytest.raises(RuntimeError, match="paired controller"):
         audit_executor.validate_contract(contract)

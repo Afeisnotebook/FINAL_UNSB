@@ -279,7 +279,8 @@ confirmation20或跨宿主delta；这些仍需候选冻结后另行裁决。
 
 所有科学裁决仍以data epochs而非墙钟。单进程batch1没有吃满4090/5090，因此每张
 高端卡当前运行两个相互独立的lane；实测利用率已接近饱和，不再增加第三个进程。
-checkpoint、指标和audit只在同宿主内匹配。Phase C可在不同宿主形成独立因果副本，
-但同一宿主的atlas写入仍由单一durable auditor串行管理，避免JSONL竞争。候选派生后
-最多两个算法可分配到不同宿主并行完成各自matched e200，不能把不同宿主的method与
-plain混算。
+checkpoint、指标和audit只在同宿主内匹配。Phase C可在不同宿主形成独立因果副本。
+同一宿主仍由单一durable auditor拥有queue和最终矩阵；在跨进程atlas锁、独立工作目录、
+per-job stall计数和parent-state隔离通过后，4090/5090最多运行两个独立审计worker，
+1660默认单worker。候选派生后最多两个算法可分配到不同宿主并行完成各自matched e200，
+不能把不同宿主的method与plain混算。
