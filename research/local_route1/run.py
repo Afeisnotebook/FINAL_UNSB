@@ -8,7 +8,7 @@ from pathlib import Path
 
 from .anchors import run_anchor, summarize_anchors
 from .candidate_runner import run_candidate, summarize_candidate
-from .causal_audit import DEFAULT_HORIZONS, run_audit_job
+from .causal_audit import DEFAULT_HORIZONS, build_causal_matrix, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
 from .protocol import ROOT
@@ -33,7 +33,7 @@ def parser() -> argparse.ArgumentParser:
         "--stage", required=True,
         choices=[
             "lineage", "gate", "anchors", "evaluate", "audit", "derive",
-            "candidate", "seed_validate",
+            "reanalyze", "candidate", "seed_validate",
         ],
     )
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
@@ -151,6 +151,15 @@ def main(argv: list[str] | None = None) -> int:
         result = derive_from_completed_atlas(args.output)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["status"] != "BLOCKED_CAUSAL_ATLAS_INCOMPLETE" else 5
+    if args.stage == "reanalyze":
+        result = build_causal_matrix(args.output)
+        if result["status"] == "COMPLETE_CAUSAL_AUDIT":
+            result = {"causal_matrix": result, "derivation": derive_from_completed_atlas(args.output)}
+            return_code = 0
+        else:
+            return_code = 7
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return return_code
     if args.stage == "candidate":
         if not args.candidate_id:
             raise SystemExit("--stage candidate requires --candidate-id")

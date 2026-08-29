@@ -240,6 +240,14 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
                     {"cosine": -0.4}
                     if horizon == 1 and regime == "continuous_intervention" else None
                 ),
+                "reference_observation": {
+                    "bridge": {"rollout_velocity_l2": 1.0},
+                },
+                "proposal_observation": {
+                    "bridge": {
+                        "rollout_velocity_l2": 0.5 if source == "plain" else 2.0,
+                    },
+                },
                 "post_branch_development_label": (
                     {
                         "macro_psnr_delta": 0.2 if source == "plain" else -0.1,
@@ -270,6 +278,14 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
                 "replicates": 8,
                 "correction_variance_fraction": 0.8,
                 "mean_correction_norm": 0.2,
+                "bridge_time_summary": (
+                    {
+                        "0": {"n": 2.0, "correction_norm_mean": 0.01},
+                        "1": {"n": 2.0, "correction_norm_mean": 0.01},
+                        "2": {"n": 2.0, "correction_norm_mean": 1.0},
+                    }
+                    if axis == "latent_time_bridge_rng" else {}
+                ),
             })
     append_unique_rows(audit / "SAMPLING_VARIANCE_ATLAS.jsonl", variance_rows)
     complete = build_causal_matrix(tmp_path)
@@ -278,6 +294,8 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
     assert "correction_sign_reversal" in failure_types
     assert "state_feedback_missing" in failure_types
     assert "sampling_variance" in failure_types
+    assert "rollout_distribution_speed" in failure_types
+    assert "coordinate_horizon_imbalance" in failure_types
 
 
 def test_target_blind_signal_screen_uses_offline_labels_without_fitting_thresholds():
@@ -302,6 +320,12 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
                 },
                 "next_independent_native_consensus": {"cosine": score},
                 "native_component_directional_derivatives": {},
+                "reference_observation": {
+                    "bridge": {"rollout_velocity_l2": 1.0},
+                },
+                "proposal_observation": {
+                    "bridge": {"rollout_velocity_l2": 0.5 if score > 0 else 2.0},
+                },
             })
             rows.append({
                 **common,
@@ -314,6 +338,7 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
     screen = target_blind_signal_screen(rows, [])
     assert screen["status"] == "ELIGIBLE_SIGNALS_FOUND"
     assert "correction_next_native_cosine" in screen["eligible_driver_signals"]
+    assert "rollout_speed_stability_margin" in screen["eligible_driver_signals"]
     signal = next(
         row for row in screen["signals"]
         if row["feature"] == "correction_next_native_cosine"
@@ -321,6 +346,59 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
     assert signal["leave_one_method_out_future_sign_accuracy"] == pytest.approx(1.0)
     assert signal["future_200_step_delta_spearman"] == pytest.approx(1.0)
     assert signal["mean_domain_sign_agreement_of_six"] == pytest.approx(6.0)
+    assert signal["paired_label_available_to_controller"] is False
+
+
+def test_rollout_growth_signal_uses_only_past_and_current_unpaired_state():
+    rows = []
+    for probe in ("dt", "hj", "hnek"):
+        mode = "forced_active_diagnostic" if probe == "dt" else "registered"
+        for source_state, future_score, current_velocity in (
+            ("plain", 0.3, 0.5),
+            (probe, -0.3, 2.0),
+        ):
+            for epoch, velocity in ((20, 1.0), (100, current_velocity)):
+                common = {
+                    "probe": probe,
+                    "data_epoch": epoch,
+                    "source_state": source_state,
+                    "operator_mode": mode,
+                    "branch_regime": "continuous_intervention",
+                }
+                rows.append({
+                    **common,
+                    "horizon": 1,
+                    "update_geometry": {
+                        "correction_reference_cosine": 0.0,
+                        "correction_norm": 0.2,
+                        "reference_norm": 1.0,
+                    },
+                    "native_component_directional_derivatives": {},
+                    "reference_observation": {
+                        "bridge": {"rollout_velocity_l2": velocity},
+                    },
+                    "proposal_observation": {
+                        "bridge": {"rollout_velocity_l2": velocity},
+                    },
+                })
+                rows.append({
+                    **common,
+                    "horizon": 200,
+                    "post_branch_development_label": {
+                        "macro_psnr_delta": future_score,
+                        "domain_psnr_delta": {
+                            f"d{index}": future_score for index in range(6)
+                        },
+                    },
+                })
+    screen = target_blind_signal_screen(rows, [])
+    assert "rollout_velocity_growth_margin" in screen["eligible_driver_signals"]
+    signal = next(
+        row for row in screen["signals"]
+        if row["feature"] == "rollout_velocity_growth_margin"
+    )
+    assert signal["records"] == 6
+    assert signal["leave_one_method_out_future_sign_accuracy"] == pytest.approx(1.0)
     assert signal["paired_label_available_to_controller"] is False
 
 
