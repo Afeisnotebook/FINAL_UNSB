@@ -35,6 +35,7 @@ from research.local_route1.protocol import (
     load_protocol,
     milestone_steps,
     probe_spec,
+    protocol_fingerprint,
     semantic_source_sha256,
     step_to_physical_epoch,
     validate_protocol,
@@ -62,6 +63,10 @@ def test_route1_protocol_uses_physical_epoch_and_cli_aliases():
     assert step_to_physical_epoch(150, protocol) == 2
     assert milestone_steps(protocol)[-3:] == [22_500, 26_250, 30_000]
     assert probe_spec("hj", protocol).contract_id == "P1_HJ_CONTINUOUS_LONG"
+    manifest = ROOT / protocol["manifest"]["repo_path"]
+    assert protocol_fingerprint(manifest) == protocol_fingerprint(
+        manifest, source_root=ROOT,
+    )
 
 
 def test_lineage_split_emits_every_required_probe_and_mechanism_object_map():

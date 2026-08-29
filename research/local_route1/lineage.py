@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
+import subprocess
 from pathlib import Path
 
-from .protocol import ROOT, file_sha256, git_commit, load_protocol, protocol_fingerprint
+from .protocol import ROOT, file_sha256, git_commit, protocol_fingerprint
 from .runtime import write_json
 
 
@@ -66,25 +68,36 @@ LATER_MECHANISM_OBJECTS = {
 }
 
 
-def _hashes(paths: list[Path]) -> dict:
+def _hashes(paths: list[Path], source_root: Path) -> dict:
     return {
-        path.relative_to(ROOT).as_posix(): file_sha256(path)
+        path.relative_to(source_root).as_posix(): file_sha256(path)
         for path in paths if path.is_file()
     }
 
 
-def build_lineage(manifest_path: Path) -> dict:
-    protocol = load_protocol()
-    dt_paths = sorted((ROOT / "src/models/dtcov").glob("*.py")) + [ROOT / "src/models/dtcov_model.py"]
-    hj_paths = sorted((ROOT / "src/models/hj").glob("*.py")) + [ROOT / "src/models/hj_model.py"]
-    hnek_paths = sorted((ROOT / "src/models/hnek").glob("*.py")) + [ROOT / "src/models/hnek_search_model.py"]
+def _commit(source_root: Path) -> str:
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=source_root, text=True,
+        stderr=subprocess.DEVNULL,
+    ).strip()
+
+
+def build_lineage(manifest_path: Path, training_root: Path | None = None) -> dict:
+    source_root = Path(training_root or ROOT).resolve()
+    protocol = json.loads(
+        (source_root / "configs" / "LOCAL_ROUTE1_PROBES.json").read_text(encoding="utf-8")
+    )
+    dt_paths = sorted((source_root / "src/models/dtcov").glob("*.py")) + [source_root / "src/models/dtcov_model.py"]
+    hj_paths = sorted((source_root / "src/models/hj").glob("*.py")) + [source_root / "src/models/hj_model.py"]
+    hnek_paths = sorted((source_root / "src/models/hnek").glob("*.py")) + [source_root / "src/models/hnek_search_model.py"]
     return {
         "schema": "final-unsb-local-route1-lineage-v1",
-        "git_commit": git_commit(),
-        "protocol_fingerprint": protocol_fingerprint(manifest_path),
+        "git_commit": _commit(source_root),
+        "lineage_generator_git_commit": git_commit(),
+        "protocol_fingerprint": protocol_fingerprint(manifest_path, source_root=source_root),
         "manifest_sha256": file_sha256(manifest_path),
         "baseline": {
-            "source_hashes": _hashes([ROOT / "src/models/sb_model.py"]),
+            "source_hashes": _hashes([source_root / "src/models/sb_model.py"], source_root),
             "clean_profile": protocol["common"],
             "scientific_clock": "data_epoch = 150 optimizer updates on small25",
         },
@@ -92,7 +105,7 @@ def build_lineage(manifest_path: Path) -> dict:
             "dt": {
                 "historical_authoritative_source_hashes": HISTORICAL_DT_HASHES,
                 "historical_semantic_source_hashes": HISTORICAL_DT_SEMANTIC_HASHES,
-                "local_port_hashes": _hashes(dt_paths),
+                "local_port_hashes": _hashes(dt_paths, source_root),
                 "intentional_port_delta": [
                     "repository-relative imports replace the old foundation sys.path injection",
                     "shared EpochDiagnostics import replaces an unused external diagnostics dependency",
@@ -103,7 +116,7 @@ def build_lineage(manifest_path: Path) -> dict:
             },
             "hj": {
                 "historical_core_hash": "503a4e092470cd7355230495f10f094402fb7efb570ca9a632bdf75f4ab64e0a",
-                "local_source_hashes": _hashes(hj_paths),
+                "local_source_hashes": _hashes(hj_paths, source_root),
                 "intentional_port_delta": [
                     "inactive HJ now preserves canonical CPU-then-device RNG draw exactly",
                     "step-relative SEARCH-001 activation is disabled; physical epoch 5 is authoritative",
@@ -115,7 +128,7 @@ def build_lineage(manifest_path: Path) -> dict:
                 },
             },
             "hnek": {
-                "local_source_hashes": _hashes(hnek_paths),
+                "local_source_hashes": _hashes(hnek_paths, source_root),
                 "configuration": protocol["anchor_probes"][2]["method"],
                 "physical_protocol": "gamma=.25/residual/physical/all is active for e1-e200",
                 "historical_evidence": {"e50_delta_db": 2.6173, "e200_delta_db": 0.7883720592327812, "positive_domains_e200": 4},
@@ -184,9 +197,11 @@ def split_lineage_documents(payload: dict) -> dict[str, dict]:
     return documents
 
 
-def write_lineage(output_root: Path, manifest_path: Path) -> Path:
+def write_lineage(
+    output_root: Path, manifest_path: Path, training_root: Path | None = None,
+) -> Path:
     path = output_root / "lineage" / "LINEAGE.json"
-    payload = build_lineage(manifest_path)
+    payload = build_lineage(manifest_path, training_root)
     write_json(path, payload)
     for filename, document in split_lineage_documents(payload).items():
         write_json(path.parent / filename, document)

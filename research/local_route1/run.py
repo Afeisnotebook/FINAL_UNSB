@@ -85,7 +85,10 @@ def main(argv: list[str] | None = None) -> int:
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=True)
     if args.stage == "lineage":
-        path = write_lineage(args.output, args.manifest.resolve())
+        path = write_lineage(
+            args.output, args.manifest.resolve(),
+            None if args.training_worktree is None else args.training_worktree.resolve(),
+        )
         print(json.dumps({"status": "COMPLETE", "lineage": str(path)}, ensure_ascii=False, indent=2))
         return 0
     if args.stage == "gate":

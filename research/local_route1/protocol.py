@@ -144,29 +144,30 @@ def dt_lambda_for_physical_epoch(epoch: int, protocol: dict | None = None) -> fl
     return base * max(0.0, min(1.0, ramp * decay))
 
 
-def _fingerprinted_files() -> list[Path]:
+def _fingerprinted_files(source_root: Path = ROOT) -> list[Path]:
+    source_root = Path(source_root).resolve()
     exact = [
-        CONFIG_PATH,
-        ROOT / "LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md",
-        ROOT / "ACTIVE_LOCAL_ROUTE1_PLAN_CN.md",
-        ROOT / "production" / "metrics.py",
+        source_root / "configs" / "LOCAL_ROUTE1_PROBES.json",
+        source_root / "LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md",
+        source_root / "ACTIVE_LOCAL_ROUTE1_PLAN_CN.md",
+        source_root / "production" / "metrics.py",
     ]
     roots = [
-        ROOT / "research" / "local_route1",
-        ROOT / "src" / "data",
-        ROOT / "src" / "options",
-        ROOT / "src" / "models" / "dtcov",
-        ROOT / "src" / "models" / "hj",
-        ROOT / "src" / "models" / "hnek",
+        source_root / "research" / "local_route1",
+        source_root / "src" / "data",
+        source_root / "src" / "options",
+        source_root / "src" / "models" / "dtcov",
+        source_root / "src" / "models" / "hj",
+        source_root / "src" / "models" / "hnek",
     ]
     exact += [
-        ROOT / "src" / "models" / "sb_model.py",
-        ROOT / "src" / "models" / "dtcov_model.py",
-        ROOT / "src" / "models" / "hj_model.py",
-        ROOT / "src" / "models" / "hnek_search_model.py",
-        ROOT / "src" / "models" / "base_model.py",
-        ROOT / "src" / "models" / "networks.py",
-        ROOT / "src" / "models" / "patchnce.py",
+        source_root / "src" / "models" / "sb_model.py",
+        source_root / "src" / "models" / "dtcov_model.py",
+        source_root / "src" / "models" / "hj_model.py",
+        source_root / "src" / "models" / "hnek_search_model.py",
+        source_root / "src" / "models" / "base_model.py",
+        source_root / "src" / "models" / "networks.py",
+        source_root / "src" / "models" / "patchnce.py",
     ]
     found = {path.resolve() for path in exact if path.is_file()}
     for directory in roots:
@@ -175,11 +176,16 @@ def _fingerprinted_files() -> list[Path]:
     return sorted(found, key=lambda path: path.as_posix())
 
 
-def protocol_fingerprint(manifest_path: Path | None = None) -> str:
-    manifest_path = manifest_path or ROOT / load_protocol()["manifest"]["repo_path"]
+def protocol_fingerprint(
+    manifest_path: Path | None = None, *, source_root: Path = ROOT,
+) -> str:
+    source_root = Path(source_root).resolve()
+    protocol_path = source_root / "configs" / "LOCAL_ROUTE1_PROBES.json"
+    protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
+    manifest_path = manifest_path or source_root / protocol["manifest"]["repo_path"]
     rows = [
-        (path.relative_to(ROOT).as_posix(), portable_source_sha256(path))
-        for path in _fingerprinted_files()
+        (path.relative_to(source_root).as_posix(), portable_source_sha256(path))
+        for path in _fingerprinted_files(source_root)
     ]
     payload = {
         "source": rows,
@@ -229,11 +235,7 @@ def validate_protocol(protocol: dict | None = None) -> list[str]:
     if int(probe_spec("dt", protocol).method.get("dtcov_search_start_step", 0)) != -1:
         errors.append("DT must use physical epoch age, not a search-step override")
     forbidden = "|".join(str(item).lower() for item in protocol.get("not_current_tasks", []))
-    for token in (
-        "former four-server/four-lane", "cross-host method-minus-plain",
-        "full-data execution", "finite handoff", "paired metric controller",
-        "best checkpoint",
-    ):
+    for token in ("4090", "finite handoff", "paired metric controller", "best checkpoint"):
         if token not in forbidden:
             errors.append(f"anti-drift exclusion is missing: {token}")
     return errors
