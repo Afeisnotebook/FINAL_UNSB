@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from .anchors import run_anchor, summarize_anchors
+from .candidate_runner import run_candidate, summarize_candidate
 from .causal_audit import DEFAULT_HORIZONS, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
@@ -26,6 +27,10 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--stage", required=True, choices=["lineage", "gate", "anchors", "evaluate", "audit", "derive", "candidate"])
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
     value.add_argument("--candidate-id")
+    value.add_argument(
+        "--candidate-action", choices=["status", "train", "evaluate"], default="status",
+        help="candidate stage action; status never launches training",
+    )
     value.add_argument("--resume", action="store_true")
     value.add_argument("--cpu-only", action="store_true", help="gate stage only")
     value.add_argument("--gpu", type=int, default=0)
@@ -133,9 +138,26 @@ def main(argv: list[str] | None = None) -> int:
     if args.stage == "candidate":
         if not args.candidate_id:
             raise SystemExit("--stage candidate requires --candidate-id")
-        result = validate_candidate_ready(args.output, args.candidate_id)
+        if args.candidate_action == "status":
+            result = validate_candidate_ready(args.output, args.candidate_id)
+            return_code = 0 if str(result.get("status", "")).startswith("READY_") else 6
+        elif args.candidate_action == "train":
+            result = run_candidate(
+                output_root=args.output,
+                candidate_id=args.candidate_id,
+                train_view=args.train_view.resolve(),
+                data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(),
+                gpu=args.gpu,
+                resume=args.resume,
+                engineering_stop_after_epoch=args.engineering_stop_after_epoch,
+            )
+            return_code = 0
+        else:
+            result = summarize_candidate(args.output, args.candidate_id)
+            return_code = 0
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        return 0 if result["status"] == "READY_FOR_REGISTERED_RUNNER_INTEGRATION" else 6
+        return return_code
     raise AssertionError(args.stage)
 
 

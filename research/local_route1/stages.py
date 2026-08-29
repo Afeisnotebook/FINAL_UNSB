@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .candidates import load_candidate_registration, validate_candidate_id
 from .protocol import load_protocol
 from .runtime import write_json
 
@@ -152,6 +153,7 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
 
 
 def validate_candidate_ready(output_root: Path, candidate_id: str) -> dict:
+    candidate_id = validate_candidate_id(candidate_id)
     card = output_root / "derive" / "cards" / f"{candidate_id}.json"
     implementation = output_root / "derive" / "implementations" / f"{candidate_id}.json"
     missing = [str(path) for path in (card, implementation) if not path.is_file()]
@@ -164,19 +166,25 @@ def validate_candidate_ready(output_root: Path, candidate_id: str) -> dict:
             "reason": "A candidate may not be long-trained from a name alone.",
             "confirmation20_opened": False,
         }
-    card_payload = json.loads(card.read_text(encoding="utf-8"))
-    required = [
-        "parent_evidence", "unsb_object", "formula", "identity_or_unbiased_condition",
-        "target_inaccessibility_proof", "falsifying_experiment", "compute_cost",
-    ]
-    absent = [key for key in required if not card_payload.get(key)]
-    if absent:
-        raise RuntimeError(f"incomplete derivation card: {absent}")
+    registration = load_candidate_registration(output_root, candidate_id, require_gate=False)
+    gate_path = output_root / "derive" / "gates" / f"{candidate_id}.json"
+    if not gate_path.is_file():
+        return {
+            **registration.to_dict(),
+            "schema": "local-route1-candidate-stage-v1",
+            "status": "READY_FOR_CANDIDATE_GATES",
+            "required_gate": str(gate_path),
+            "reason": (
+                "The evidence/card/code chain is frozen, but mathematical, identity, "
+                "resume, cross-state, target-blind and micro engineering gates must pass "
+                "before a matched e200 run."
+            ),
+            "confirmation20_opened": False,
+        }
+    registration = load_candidate_registration(output_root, candidate_id, require_gate=True)
     return {
+        **registration.to_dict(),
         "schema": "local-route1-candidate-stage-v1",
-        "status": "READY_FOR_REGISTERED_RUNNER_INTEGRATION",
-        "candidate_id": candidate_id,
-        "card": str(card),
-        "implementation": str(implementation),
+        "status": "READY_FOR_MATCHED_E200",
         "confirmation20_opened": False,
     }

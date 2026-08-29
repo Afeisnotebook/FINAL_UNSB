@@ -5,6 +5,12 @@ import pytest
 import torch
 
 from research.local_route1 import causal_audit
+from research.local_route1.candidates import (
+    GATE_SCHEMA,
+    IMPLEMENTATION_SCHEMA,
+    load_candidate_registration,
+    validate_candidate_id,
+)
 from research.local_route1.causal_audit import (
     AuditCell,
     BranchResult,
@@ -29,7 +35,7 @@ from research.local_route1.protocol import (
     step_to_physical_epoch,
     validate_protocol,
 )
-from research.local_route1.runtime import full_state_hash, read_manifest
+from research.local_route1.runtime import file_sha256, full_state_hash, read_manifest
 from research.local_route1.observations import (
     component_directional_derivatives,
     state_dict_delta_cosine,
@@ -310,3 +316,146 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
     assert signal["future_200_step_delta_spearman"] == pytest.approx(1.0)
     assert signal["mean_domain_sign_agreement_of_six"] == pytest.approx(6.0)
     assert signal["paired_label_available_to_controller"] is False
+
+
+def _write_candidate_registration_fixture(tmp_path: Path, candidate_id: str = "G1-TEST"):
+    import json
+
+    audit = tmp_path / "audit"
+    cards = tmp_path / "derive" / "cards"
+    implementations = tmp_path / "derive" / "implementations"
+    shared_e0 = tmp_path / "shared_e0"
+    for path in (audit, cards, implementations, shared_e0):
+        path.mkdir(parents=True, exist_ok=True)
+    matrix = {"status": "COMPLETE_CAUSAL_AUDIT", "ranked_failure_mechanisms": []}
+    matrix_path = audit / "LONG_CAUSAL_MATRIX.json"
+    matrix_path.write_text(json.dumps(matrix), encoding="utf-8")
+    atlas_path = audit / "LONG_REVERSAL_ATLAS.jsonl"
+    atlas_path.write_text(json.dumps({"row_id": "evidence-1"}) + "\n", encoding="utf-8")
+    card_path = cards / f"{candidate_id}.json"
+    card = {
+        "candidate_id": candidate_id,
+        "parent_evidence": {"failure_type": "sampling_variance"},
+        "unsb_object": "unpaired stochastic gradient estimator",
+        "formula": "E[g_new] = E[g_UNSB]",
+        "identity_or_unbiased_condition": "unbiased under registered measure",
+        "target_inaccessibility_proof": "only unpaired training tensors are visible",
+        "falsifying_experiment": "estimator expectation differs from plain",
+        "compute_cost": "two samples per update",
+        "construction_authority": "independent_unbiased_reparameterization",
+        "unbiased_proof": "paired antithetic draws preserve the marginal expectation",
+        "paired_target_available_to_training": False,
+        "causal_matrix_sha256": file_sha256(matrix_path),
+        "reversal_atlas_sha256": file_sha256(atlas_path),
+    }
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    source = ROOT / "src" / "models" / "sb_model.py"
+    implementation = {
+        "schema": IMPLEMENTATION_SCHEMA,
+        "candidate_id": candidate_id,
+        "status": "FROZEN_FOR_GATES",
+        "derivation_card_sha256": file_sha256(card_path),
+        "model": "sb",
+        "method": {},
+        "training_target_access": "unpaired_only",
+        "paired_controller_access": False,
+        "state_contract": {
+            "full_state_restorable": True,
+            "zero_intervention_identity_test": True,
+            "parent_state_isolation_test": True,
+        },
+        "source_files": [{
+            "path": "src/models/sb_model.py",
+            "sha256": file_sha256(source),
+        }],
+    }
+    implementation_path = implementations / f"{candidate_id}.json"
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    e0 = {
+        "schema": "fixture-e0",
+        "metadata": {"protocol_fingerprint": "base-crn-fingerprint"},
+        "model": {"networks": {}, "optimizers": [], "schedulers": [], "method": {}},
+        "rng": {},
+        "samplers": {},
+    }
+    e0_path = shared_e0 / "e0.pt"
+    torch.save(e0, e0_path)
+    (shared_e0 / "e0.pt.json").write_text(json.dumps({
+        "checkpoint_sha256": file_sha256(e0_path),
+        "scientific_state_sha256": full_state_hash(e0),
+    }), encoding="utf-8")
+    return card_path, implementation_path
+
+
+def test_candidate_registration_binds_evidence_card_code_e0_and_gate(tmp_path):
+    import json
+
+    _write_candidate_registration_fixture(tmp_path)
+    registration = load_candidate_registration(tmp_path, "G1-TEST")
+    assert registration.spec.model == "sb"
+    assert registration.base_protocol_fingerprint == "base-crn-fingerprint"
+    assert registration.gate is None
+    gate_path = tmp_path / "derive" / "gates" / "G1-TEST.json"
+    gate_path.parent.mkdir(parents=True)
+    gate_path.write_text(json.dumps({
+        "schema": GATE_SCHEMA,
+        "status": "PASS_LONG_RUN",
+        "candidate_fingerprint": registration.candidate_fingerprint,
+        "checks": {
+            "mathematical_invariants": True,
+            "zero_intervention_identity": True,
+            "resume_exact": True,
+            "cross_state_counterfactual": True,
+            "target_blind_observable": True,
+            "micro_engineering": True,
+            "base_unsb_semantics_preserved": True,
+            "shared_e0_load_exact": True,
+        },
+        "paired_metric_used_for_promotion": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    gated = load_candidate_registration(tmp_path, "G1-TEST", require_gate=True)
+    assert gated.gate["status"] == "PASS_LONG_RUN"
+
+
+def test_candidate_registration_rejects_unsafe_ids_and_stale_source(tmp_path):
+    import json
+
+    with pytest.raises(ValueError, match="unsafe candidate id"):
+        validate_candidate_id("../escape")
+    _, implementation_path = _write_candidate_registration_fixture(tmp_path)
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["source_files"][0]["sha256"] = "0" * 64
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="source hash mismatch"):
+        load_candidate_registration(tmp_path, "G1-TEST")
+
+
+def test_signal_driven_candidate_requires_matrix_eligible_driver(tmp_path):
+    import json
+
+    card_path, implementation_path = _write_candidate_registration_fixture(tmp_path)
+    matrix_path = tmp_path / "audit" / "LONG_CAUSAL_MATRIX.json"
+    matrix = {
+        "status": "COMPLETE_CAUSAL_AUDIT",
+        "ranked_failure_mechanisms": [{
+            "failure_type": "sampling_variance",
+            "candidate_generation_eligible": True,
+        }],
+        "target_blind_signal_screen": {
+            "eligible_driver_signals": ["correction_next_native_cosine"],
+        },
+    }
+    matrix_path.write_text(json.dumps(matrix), encoding="utf-8")
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card.update({
+        "construction_authority": "eligible_target_blind_signal",
+        "target_blind_driver_signal": "not_registered",
+        "causal_matrix_sha256": file_sha256(matrix_path),
+    })
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["derivation_card_sha256"] = file_sha256(card_path)
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="not an eligible target-blind signal"):
+        load_candidate_registration(tmp_path, "G1-TEST")
