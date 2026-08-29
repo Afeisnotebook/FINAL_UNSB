@@ -10,6 +10,7 @@ training worktree and retains its original commit and protocol fingerprint.
 from __future__ import annotations
 
 import argparse
+import ctypes
 import hashlib
 import json
 import os
@@ -192,6 +193,15 @@ def process_exists(pid: int) -> bool:
     pid = int(pid)
     if pid <= 0:
         return False
+    if os.name == "nt":
+        query_limited_information = 0x1000
+        handle = ctypes.windll.kernel32.OpenProcess(  # type: ignore[attr-defined]
+            query_limited_information, False, pid
+        )
+        if not handle:
+            return False
+        ctypes.windll.kernel32.CloseHandle(handle)  # type: ignore[attr-defined]
+        return True
     try:
         os.kill(pid, 0)
     except OSError:
