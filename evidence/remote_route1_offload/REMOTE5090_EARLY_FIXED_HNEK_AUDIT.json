@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-remote5090-early-fixed-hnek-audit-v1",
+  "observed_at": "2026-08-30T07:18:00+08:00",
+  "host_alias": "final-unsb-5090",
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "purpose": "Use otherwise idle compute for already-admissible HNEK causal cells without bypassing the HJ/proxy/DT dependency or freezing an incomplete matrix.",
+  "scientific_batch_size": 1,
+  "training_identity": {
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
+  },
+  "audit_identity": {
+    "git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a"
+  },
+  "admission": {
+    "same_host_plain_e200_verified": true,
+    "same_host_hnek_e200_verified": true,
+    "fixed_epochs_are_mandatory_in_final_protocol": [20, 100, 150, 175, 200],
+    "dynamic_epochs_deferred_until_final_same_host_trajectory": true,
+    "dt_started": false,
+    "proxy_bypassed": false,
+    "candidate_derivation_allowed": false,
+    "final_matrix_freeze_allowed": false
+  },
+  "execution": {
+    "initial_cell": {"probe": "hnek", "data_epoch": 20},
+    "durable_screen": "FINAL_UNSB_ROUTE1_5090_EARLY_HNEK_AUDIT",
+    "idempotent_fixed_chain_screen": "FINAL_UNSB_ROUTE1_5090_EARLY_HNEK_CHAIN",
+    "fixed_chain_epochs": [20, 100, 150, 175, 200],
+    "maximum_total_gpu_processes": 2,
+    "automatic_failure_retries": 0,
+    "main_hj_data_epoch_at_check": 49,
+    "main_hj_heartbeat_healthy": true,
+    "observed_gpu_utilization_percent": 97,
+    "observed_total_gpu_memory_mib": 3563
+  },
+  "initial_atlas_validation": {
+    "rows_checked": 2,
+    "probe": "hnek",
+    "data_epoch": 20,
+    "parent_state_sha256_before_equals_after": true,
+    "audit_and_training_identity_match": true,
+    "paired_metrics_accessed_by_controller": false,
+    "confirmation20_opened": false
+  },
+  "interpretation_boundary": "These rows may be reused by the final immutable same-host queue because row IDs are deterministic and duplicate content must be identical. They are partial compute only: no causal ranking or algorithm formula may be frozen before HJ, proxy adjudication, DT when admitted, dynamic epoch selection, and the complete matrix are all verified."
+}
