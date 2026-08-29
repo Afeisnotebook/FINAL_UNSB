@@ -1445,6 +1445,16 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
                 / max(float(row["update_geometry"]["reference_norm"]), 1e-20)
             ),
         }
+        block_cosines = [
+            float(values["correction_reference_cosine"])
+            for values in row.get("block_geometry", {}).values()
+            if values.get("correction_reference_cosine") is not None
+            and float(values.get("correction_norm", 0.0)) > 1e-20
+        ]
+        if block_cosines:
+            features["minimum_block_correction_native_cosine"] = float(
+                np.min(block_cosines)
+            )
         consensus = row.get("next_independent_native_consensus")
         if consensus is not None:
             features["correction_next_native_cosine"] = float(consensus["cosine"])
@@ -1472,14 +1482,48 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
                 )
         batch = variance_index.get((*key, "independent_unpaired_batch"))
         latent = variance_index.get((*key, "latent_time_bridge_rng"))
-        if batch is not None:
+        batch_has_correction = bool(
+            batch is not None
+            and (
+                float(batch.get("expected_correction_norm_sq", 0.0)) > 1e-30
+                or float(batch.get("mean_correction_norm", 0.0)) > 1e-15
+            )
+        )
+        if batch_has_correction:
+            assert batch is not None
             next_mean = batch.get("next_independent_batch_native_cosine_mean")
             if next_mean is not None:
                 features["replicated_next_batch_consensus"] = float(next_mean)
             features["low_batch_variance_margin"] = 0.75 - float(
                 batch["correction_variance_fraction"]
             )
-        if latent is not None:
+            block_variances = [
+                float(values["variance_fraction"])
+                for values in batch.get("block_stable_mean_energy", {}).values()
+            ]
+            if block_variances:
+                features["low_max_block_variance_margin"] = 0.75 - float(
+                    np.max(block_variances)
+                )
+            domain_cosines: dict[str, list[float]] = defaultdict(list)
+            for replicate in batch.get("replicate_records", []):
+                if float(replicate.get("correction_norm", 0.0)) > 1e-20:
+                    domain_cosines[str(replicate["domain"])].append(
+                        float(replicate["same_batch_native_cosine"])
+                    )
+            if len(domain_cosines) >= 2:
+                features["minimum_domain_correction_native_cosine"] = float(
+                    min(np.mean(values) for values in domain_cosines.values())
+                )
+        latent_has_correction = bool(
+            latent is not None
+            and (
+                float(latent.get("expected_correction_norm_sq", 0.0)) > 1e-30
+                or float(latent.get("mean_correction_norm", 0.0)) > 1e-15
+            )
+        )
+        if latent_has_correction:
+            assert latent is not None
             features["low_latent_time_variance_margin"] = 0.75 - float(
                 latent["correction_variance_fraction"]
             )
@@ -1491,6 +1535,16 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
             if len(time_means) >= 2 and float(np.mean(time_means)) > 0.0:
                 coefficient = float(np.std(time_means) / np.mean(time_means))
                 features["low_time_conditioning_spread_margin"] = 1.0 - coefficient
+            time_cosines: dict[str, list[float]] = defaultdict(list)
+            for replicate in latent.get("replicate_records", []):
+                if float(replicate.get("correction_norm", 0.0)) > 1e-20:
+                    time_cosines[str(replicate["bridge_time"])].append(
+                        float(replicate["same_batch_native_cosine"])
+                    )
+            if len(time_cosines) >= 2:
+                features["minimum_time_correction_native_cosine"] = float(
+                    min(np.mean(values) for values in time_cosines.values())
+                )
         for feature, score in features.items():
             result[feature].append({
                 "probe": key[0], "data_epoch": key[1], "source_state": key[2],
@@ -1893,7 +1947,13 @@ def _rank_failure_mechanisms(
     ]
     if sign_support:
         shared_drivers, method_drivers = driver_evidence(
-            {"correction_next_native_cosine", "replicated_next_batch_consensus"},
+            {
+                "correction_next_native_cosine",
+                "replicated_next_batch_consensus",
+                "minimum_block_correction_native_cosine",
+                "minimum_domain_correction_native_cosine",
+                "minimum_time_correction_native_cosine",
+            },
             sign_support,
         )
         mechanisms.append({

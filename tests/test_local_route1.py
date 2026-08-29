@@ -675,6 +675,126 @@ def test_target_blind_screen_retains_method_specific_signal_without_unifying_it(
     assert signal["paired_label_available_to_controller"] is False
 
 
+def test_signal_records_expose_low_dimensional_block_domain_and_time_consensus():
+    common = {
+        "probe": "hj",
+        "data_epoch": 20,
+        "source_state": "hj",
+        "operator_mode": "registered",
+        "branch_regime": "continuous_intervention",
+    }
+    rows = [{
+        **common,
+        "horizon": 1,
+        "update_geometry": {
+            "correction_reference_cosine": 0.2,
+            "correction_norm": 0.2,
+            "reference_norm": 1.0,
+        },
+        "block_geometry": {
+            "model": {"correction_reference_cosine": 0.4, "correction_norm": 0.2},
+            "model_res": {"correction_reference_cosine": -0.3, "correction_norm": 0.1},
+            "zero_block": {"correction_reference_cosine": -1.0, "correction_norm": 0.0},
+        },
+        "next_independent_native_consensus": {"cosine": 0.1},
+        "native_component_directional_derivatives": {},
+        "reference_observation": {"bridge": {}},
+        "proposal_observation": {"bridge": {}},
+    }, {
+        **common,
+        "horizon": 200,
+        "post_branch_development_label": {
+            "macro_psnr_delta": 0.1,
+            "domain_psnr_delta": {f"d{index}": 0.1 for index in range(6)},
+        },
+    }]
+    variance_rows = []
+    for axis, replicates in (
+        ("independent_unpaired_batch", [
+            {"domain": "d0", "bridge_time": "0", "correction_norm": 0.2, "same_batch_native_cosine": 0.2},
+            {"domain": "d1", "bridge_time": "1", "correction_norm": 0.2, "same_batch_native_cosine": -0.4},
+        ]),
+        ("latent_time_bridge_rng", [
+            {"domain": "d0", "bridge_time": "0", "correction_norm": 0.2, "same_batch_native_cosine": 0.5},
+            {"domain": "d0", "bridge_time": "1", "correction_norm": 0.2, "same_batch_native_cosine": -0.2},
+        ]),
+    ):
+        variance_rows.append({
+            "probe": "hj", "data_epoch": 20, "source_state": "hj",
+            "operator_mode": "registered", "axis": axis,
+            "mean_correction_norm": 0.2,
+            "expected_correction_norm_sq": 0.04,
+            "correction_variance_fraction": 0.2,
+            "next_independent_batch_native_cosine_mean": 0.1,
+            "block_stable_mean_energy": {
+                "model": {"variance_fraction": 0.1},
+                "model_res": {"variance_fraction": 0.6},
+            },
+            "bridge_time_summary": {},
+            "replicate_records": replicates,
+        })
+    records = causal_audit._signal_records(rows, variance_rows)
+    assert records["minimum_block_correction_native_cosine"][0]["score"] == pytest.approx(-0.3)
+    assert records["minimum_domain_correction_native_cosine"][0]["score"] == pytest.approx(-0.4)
+    assert records["minimum_time_correction_native_cosine"][0]["score"] == pytest.approx(-0.2)
+    assert records["low_max_block_variance_margin"][0]["score"] == pytest.approx(0.15)
+    for feature in (
+        "minimum_block_correction_native_cosine",
+        "minimum_domain_correction_native_cosine",
+        "minimum_time_correction_native_cosine",
+    ):
+        assert records[feature][0]["paired_label_available_to_controller"] is False
+
+
+def test_signal_records_do_not_call_an_inactive_correction_low_variance():
+    common = {
+        "probe": "dt", "data_epoch": 20, "source_state": "plain",
+        "operator_mode": "forced_active_diagnostic",
+        "branch_regime": "continuous_intervention",
+    }
+    rows = [{
+        **common, "horizon": 1,
+        "update_geometry": {
+            "correction_reference_cosine": 0.0,
+            "correction_norm": 0.0,
+            "reference_norm": 1.0,
+        },
+        "block_geometry": {
+            "model": {"correction_reference_cosine": 0.0, "correction_norm": 0.0},
+        },
+        "native_component_directional_derivatives": {},
+        "reference_observation": {"bridge": {}},
+        "proposal_observation": {"bridge": {}},
+    }, {
+        **common, "horizon": 200,
+        "post_branch_development_label": {
+            "macro_psnr_delta": -0.1,
+            "domain_psnr_delta": {f"d{index}": -0.1 for index in range(6)},
+        },
+    }]
+    variance_rows = [{
+        **{key: common[key] for key in (
+            "probe", "data_epoch", "source_state", "operator_mode",
+        )},
+        "axis": "independent_unpaired_batch",
+        "mean_correction_norm": 0.0,
+        "expected_correction_norm_sq": 0.0,
+        "correction_variance_fraction": 0.0,
+        "next_independent_batch_native_cosine_mean": 0.0,
+        "block_stable_mean_energy": {"model": {"variance_fraction": 0.0}},
+        "replicate_records": [{
+            "domain": "d0", "bridge_time": "0", "correction_norm": 0.0,
+            "same_batch_native_cosine": 0.0,
+        }],
+    }]
+    records = causal_audit._signal_records(rows, variance_rows)
+    assert "low_batch_variance_margin" not in records
+    assert "replicated_next_batch_consensus" not in records
+    assert "low_max_block_variance_margin" not in records
+    assert "minimum_domain_correction_native_cosine" not in records
+    assert "minimum_block_correction_native_cosine" not in records
+
+
 def test_derive_initializes_evidence_bound_hypothesis_ledger(tmp_path):
     import json
 
