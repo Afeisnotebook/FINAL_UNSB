@@ -1,6 +1,7 @@
 {
   "schema": "final-unsb-route1-accelerator-concurrency-decision-v1",
   "created": "2026-08-30T04:35:00+08:00",
+  "updated": "2026-08-30T07:45:00+08:00",
   "decision": "decisions/DEC-20260830-ROUTE1-ACCELERATOR-SCHEDULING.md",
   "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
@@ -32,9 +33,24 @@
     }
   ],
   "current_assignments": {
-    "remote4090": ["hj_anchor", "hnek_anchor"],
-    "remote5090": ["plain_anchor", "hnek_anchor"],
+    "remote4090": ["dt_causal_audit_worker_1", "dt_causal_audit_worker_2"],
+    "remote5090": ["hj_anchor", "selected_hnek_causal_audit"],
     "local_gtx1660": ["hj_anchor"]
+  },
+  "latest_live_observation": {
+    "observed_at": "2026-08-30T07:43:37+08:00",
+    "remote4090_gpu_utilization_percent": 94,
+    "remote4090_memory_used_mib": 3848,
+    "remote4090_reversal_rows": 54,
+    "remote4090_variance_rows": 4,
+    "remote5090_gpu_utilization_percent": 98,
+    "remote5090_memory_used_mib": 3619,
+    "remote5090_hj_data_epoch": 67,
+    "remote5090_hnek_reversal_rows": 17,
+    "remote5090_hnek_variance_rows": 4,
+    "local_gtx1660_gpu_utilization_percent": 47,
+    "local_gtx1660_hj_data_epoch": 99,
+    "decision": "Do not increase scientific batch size or launch a third high-end-GPU stream; both remote accelerators are already compute-saturated by two isolated batch-1 streams."
   },
   "scientific_constraints": {
     "larger_batch_substitutes_for_batch1_e200": false,

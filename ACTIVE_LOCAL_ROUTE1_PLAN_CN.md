@@ -27,14 +27,14 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 07:13）
+## 当前执行事实（2026-08-30 07:45）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
 - 本地plain已正式完成并接受e200（30000 updates），PSNR `18.095297`、SSIM
   `0.583635`、LPIPS `0.316534`；完整文件hash和重算scientific-state hash均与sidecar
   一致。current-user计划任务`FINAL_UNSB_ROUTE1_EXECUTOR`已自动从共同e0启动HJ；当前
-  已到e86（12900 updates），继续按最多5 data epochs分块执行。
+  已到e99（14850 updates），继续按最多5 data epochs分块执行。
 - 通用milestone验收器已在本地e175和4090 plain e200上实际重算checkpoint文件hash、
   scientific-state hash、420张discovery70 CRN、六域计数和LPIPS，结果与已有正式证据
   一致；后续每个关键e200都使用同一验收边界。
@@ -45,7 +45,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   因而small25 proxy已正式`CALIBRATED`。一次HNEK交接竞态已通过隔离、哈希验收、
   可恢复quarantine和显式导入解决，没有混合full state。
 - 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；plain与隔离
-  HNEK均已验收e200并导入canonical root，HJ当前到e49。HNEK晚三点宏delta均值虽为
+  HNEK均已验收e200并导入canonical root，HJ当前到e67。HNEK晚三点宏delta均值虽为
   `+0.608222 dB`，但只有一个晚期点达到4/6域正，单独不足以校准该宿主；DT继续锁定到
   HJ e200，不能为了提高利用率绕过科学依赖。
 - 5090已利用剩余算力启动HNEK固定点的部分因果审计。e20首两条记录已验证audit/training
@@ -61,13 +61,16 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
 - 4090持久审计器固定于audit commit `729826f`、source fingerprint `41434187...5e1a`。
   四锚点终态哈希验收后冻结了25个审计点：HJ 8个、HNEK 9个、DT 8个；无缺失和重放。
-  当前两个隔离worker并行审计DT e20/e40，初始6条atlas row均证明parent full-state hash
-  前后相同、paired controller访问为false、confirmation20未打开；实测双流GPU利用率
+  当前两个隔离worker并行审计DT e20/e60，已形成54条atlas row和4条variance row，已检查
+  的记录均证明parent full-state hash前后相同、paired controller访问为false、
+  confirmation20未打开；实测双流GPU利用率
   约95%，不再增加第三个进程。审计覆盖连续介入、短pulse后的原生流传播以及8重复
   batch/latent-time校正方差；pulse只作因果诊断，不是路线二策略。
 - paired discovery70只在双分支冻结后作为未来标签；只有跨方法准确率、相关性、域
-  一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。否则只允许从
-  可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。
+  一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。若没有跨方法共享
+  信号，分析器现在按原计划保留满足同样数学门槛的探针专属信号；候选card必须把该信号
+  同时绑定到对应探针和父失败机理，不能借给其他算法。若两类信号都没有，才只允许从
+  可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。实现和门禁见`42a19c6`。
 - 远端4090 plain e200 checkpoint与官方metric已实物落盘并二次核验；远端剩余空间
   约418 GB。远端方法仍只允许与同一远端plain比较。5090数据盘剩余约230 GB。
 - 在看到长期atlas之前，矩阵后处理已补齐rollout-speed与bridge-time conditioning

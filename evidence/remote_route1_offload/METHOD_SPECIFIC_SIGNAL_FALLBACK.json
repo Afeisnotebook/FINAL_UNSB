@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-route1-method-specific-signal-fallback-v1",
+  "created": "2026-08-30T07:45:00+08:00",
+  "implementation_commit": "42a19c63eedac589d8ebc69008872d83f9d908c1",
+  "problem": "The discovery contract allowed a probe-specific target-blind precursor when no cross-probe shared precursor exists, but the analyzer and candidate gate previously admitted only a shared signal or an independently unbiased reparameterization.",
+  "resolution": {
+    "shared_and_method_specific_eligibility_are_reported_separately": true,
+    "method_specific_minimum_records": 4,
+    "future_sign_accuracy_minimum": 0.65,
+    "future_200_step_delta_spearman_minimum": 0.3,
+    "mean_domain_sign_agreement_of_six_minimum": 4.0,
+    "reversal_precursor_lead_fraction_minimum_when_observed": 0.5,
+    "candidate_card_binds_driver_signal_to_probe_and_parent_mechanism": true,
+    "candidate_algorithm_fingerprint_includes_driver_probe": true
+  },
+  "scientific_boundary": {
+    "no_candidate_formula_generated_before_complete_matrix": true,
+    "paired_metric_used_only_as_frozen_post_branch_label": true,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "fixed_exit_or_handoff_route": false
+  },
+  "verification": {
+    "pytest": "91 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
