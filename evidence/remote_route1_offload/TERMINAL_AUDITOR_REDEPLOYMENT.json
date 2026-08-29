@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-terminal-auditor-redeployment-v1",
+  "recorded": "2026-08-30T04:48:15+08:00",
+  "reason": "The accepted e200 checkpoints have zero optimizer LR after the final scheduler step; the prior auditor would have produced false zero-update evidence at the terminal state.",
+  "main_implementation_commit": "39089939ed8e75d680f86aea43dbc2bf0581ee55",
+  "audit_execution_branch": "audit-terminal-vector-field",
+  "audit_execution_commit": "8233c3279b4fc6e1a5903e879f58476a389d8941",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "f837c87412315628fc4eaa4e0c79b84d5163ba0788a20b89b2d3abc6b0d41758",
+  "audit_execution_commit_parent": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
+  "provenance_strategy": "The audit execution branch is based on the already core-equivalent b7ebc4e auditor and contains only audit/queue changes. Main-branch protocol helper changes were not allowed to bypass the training-core equality gate.",
+  "tests": {
+    "main_branch": "74 passed",
+    "audit_execution_branch_local": "40 passed",
+    "remote4090_terminal_tests": "2 passed",
+    "remote5090_terminal_tests": "2 passed"
+  },
+  "terminal_semantics": {
+    "in_domain_labeled_epochs": [20, 100, 150, 175],
+    "in_domain_horizons_updates": [1, 8, 32, 200],
+    "terminal_epoch": 200,
+    "terminal_horizons_updates": [1, 8, 32],
+    "terminal_branch": "base-LR local vector field with Adam moments and scheduler state preserved",
+    "terminal_future_paired_label": false,
+    "terminal_200_step_extension": false
+  },
+  "executors": {
+    "local_gtx1660": {
+      "supervisor": "Windows scheduled task FINAL_UNSB_ROUTE1_AUDITOR",
+      "executor_pid": 7516,
+      "status": "WAITING_FOR_ANCHORS"
+    },
+    "remote4090": {
+      "supervisor": "tmux:FINAL_UNSB_ROUTE1_REMOTE_AUDITOR",
+      "executor_pid": 1315266,
+      "status": "WAITING_FOR_ANCHORS"
+    },
+    "remote5090": {
+      "supervisor": "screen:FINAL_UNSB_ROUTE1_AUDITOR5090",
+      "executor_pid": 23352,
+      "status": "WAITING_FOR_ANCHORS"
+    }
+  },
+  "old_auditor_execution_allowed": false,
+  "checkpoints_modified": false,
+  "training_update_changed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This fixes pending causal-audit semantics and deployment. It is not itself causal evidence or a discovered algorithm."
+}
