@@ -18,6 +18,23 @@
 下文第5--7节保留的是2026-08-28形成旧四lane计划时的推理，已降级为历史背景；
 当前执行以 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md` 和最新decision为准。
 
+### 0.1 2026-08-30 受控远端算力覆盖
+
+用户后来明确提供一台 RTX 4090 和一台全新 RTX 5090，并授权将长程任务外包。这个
+授权没有恢复旧“四卡四lane”方案，也没有改变路线一目标。当前固定职责是：
+
+- 本地 GTX 1660 继续 canonical small25/e200 轨迹；
+- RTX 4090 运行独立 host-matched 锚点与因果审计；
+- RTX 5090 在独立通过代码、数据、e0、resume 和确定性门后，运行第二个
+  host-matched 副本，并预留给冻结后的新候选与 seed 验证；
+- 只能在同一主机内做 `method - plain`，不同主机 checkpoint 和分数不得拼接；
+- 服务器虽然有全量数据，当前仍只运行 small25/e200。full-data、route2 和
+  confirmation20 均未激活。
+
+最新算力和门禁事实见 `PROJECT_STATE.json`、
+`decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md` 和
+`decisions/DEC-20260830-ROUTE1-REMOTE5090.md`。
+
 ## 1. 原始问题
 
 我们从 UNSB 的 All-in-One 六域无配对图像恢复出发，曾观察到多个方法在训练早期
