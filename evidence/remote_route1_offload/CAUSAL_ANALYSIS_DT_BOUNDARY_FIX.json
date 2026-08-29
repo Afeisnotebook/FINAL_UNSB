@@ -1,16 +1,16 @@
 {
   "schema": "final-unsb-route1-causal-analysis-dt-boundary-fix-v1",
   "recorded_at": "2026-08-30T07:22:00+08:00",
-  "analysis_commit": "0a818e0b2540f0c3402dddedf54d65f26d299b78",
+  "analysis_commit": "b2e44809018ee06a9bbd185afe3d144ceb90c551",
   "audit_row_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
   "issue": {
     "operator_selection": "DT analysis previously preferred forced_active_diagnostic at every checkpoint and therefore discarded registered evidence inside the real active-age interval.",
-    "epoch_boundary": "A checkpoint labelled data epoch d has completed d epochs; its first virtual update runs in physical epoch d+1.",
+    "operator_semantics": "At the pre-support e20 state the registered path is zero or warmup-limited; forced-active is retained to measure the parent DT mechanism rather than schedule identity.",
     "temporal_grouping": "Rollout-speed history was split when the preferred DT record changed from registered to forced-active, hiding cross-stage precursor evidence."
   },
   "fix": {
-    "preferred_registered_source_epochs": [20, 44],
-    "preferred_forced_active_outside_source_epochs": true,
+    "preferred_registered_source_epochs": [21, 45],
+    "preferred_forced_active_at_or_before_e20_and_after_e45": true,
     "rollout_temporal_key": ["probe", "source_state"],
     "operator_mode_remains_recorded_per_row": true,
     "branch_rows_modified": false,

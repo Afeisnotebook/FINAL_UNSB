@@ -80,8 +80,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - 新算法公式仍未预写。必须等25点atlas和不可变`LONG_CAUSAL_MATRIX`完成后，才依据跨探针
   证据生成最多三个Generation-1构造；历史已失败的future-batch selector、HJ cosine
   matching、同batch Adam projection、DT sensitivity preconditioner等不得换名重跑。
-- DT矩阵后处理已在主分支`0a818e0`修正checkpoint到下一物理epoch的active-age边界，
-  并允许同一DT机制跨registered/forced-active记录形成连续时间证据。audit commit
+- DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
+  forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
+  路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。
+  audit commit
   `729826f`继续只生成不可变原始行；最终矩阵必须由修复后的主分支重算，不能直接采用
   审计分支运行期间的partial matrix。
 
