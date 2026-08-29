@@ -74,10 +74,32 @@ def prepare_audit_queue(output_root: Path) -> dict:
         write_json(output_root / "audit" / "AUDIT_QUEUE.json", result)
         return result
     evidence = json.loads(trajectory_path.read_text(encoding="utf-8"))
+    calibration_path = output_root / "evidence" / "PROXY_CALIBRATION.json"
+    calibration = (
+        json.loads(calibration_path.read_text(encoding="utf-8"))
+        if calibration_path.is_file() else {}
+    )
+    proxy_status = calibration.get("status")
     jobs = []
     missing = []
+    excluded_probes = []
     for summary in evidence["summaries"]:
         probe = summary["probe_id"]
+        if (
+            probe == "dt"
+            and proxy_status == "NOT_CALIBRATED_PAUSE"
+            and not bool(summary.get("complete_e200"))
+        ):
+            excluded_probes.append({
+                "probe": "dt",
+                "reason": "excluded_by_proxy_gate",
+                "proxy_status": proxy_status,
+                "scientific_interpretation": (
+                    "DT was deliberately not run; this is not a missing checkpoint or "
+                    "mechanism falsification."
+                ),
+            })
+            continue
         trajectory = summary["trajectory"]
         dynamic_reasons = _dynamic_audit_epoch_reasons(trajectory)
         selection_reasons = {
@@ -129,6 +151,8 @@ def prepare_audit_queue(output_root: Path) -> dict:
     result = {
         "schema": "local-route1-audit-queue-v1",
         "status": status,
+        "proxy_status_at_queue_freeze": proxy_status,
+        "excluded_probes": excluded_probes,
         "jobs": jobs,
         "missing_or_replay": missing,
         "observable_schema": [
