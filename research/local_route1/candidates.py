@@ -302,6 +302,7 @@ def load_candidate_registration(
             }
             for relative in (
                 "research/local_route1/candidates.py",
+                "research/local_route1/candidate_gate.py",
                 "research/local_route1/candidate_runner.py",
             )
         ],

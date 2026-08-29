@@ -11,6 +11,7 @@ from research.local_route1.candidates import (
     load_candidate_registration,
     validate_candidate_id,
 )
+from research.local_route1.candidate_gate import _validate_gate_report
 from research.local_route1.causal_audit import (
     AuditCell,
     BranchResult,
@@ -682,3 +683,49 @@ def test_seed_validation_e0_and_crn_are_candidate_independent(tmp_path):
     assert _crn_fingerprint(registration_first, 2027) == _crn_fingerprint(
         registration_second, 2027,
     )
+
+
+def test_candidate_executable_gate_rejects_short_micro_or_fake_resume():
+    report = {
+        "checks": {
+            "mathematical_invariants": True,
+            "zero_intervention_identity": True,
+            "resume_exact": True,
+            "cross_state_counterfactual": True,
+            "target_blind_observable": True,
+            "micro_engineering": True,
+            "base_unsb_semantics_preserved": True,
+            "shared_e0_load_exact": True,
+        },
+        "mathematical_invariant_evidence": [
+            {"name": "identity", "status": "PASS", "observed": "exact zero"},
+        ],
+        "zero_intervention_evidence": {
+            "candidate_state_sha256": "same", "plain_state_sha256": "same",
+        },
+        "resume_evidence": {
+            "continuous_state_sha256": "same", "resumed_state_sha256": "same",
+        },
+        "cross_state_evidence": {
+            "data_epochs": [20, 100, 200],
+            "all_parent_state_hashes_preserved": True,
+        },
+        "target_blind_evidence": {
+            "paired_fields_observed": [], "paired_target_available": False,
+        },
+        "micro_engineering_evidence": {
+            "updates": 400, "finite": True,
+            "paired_metric_used_for_promotion": False,
+        },
+        "paired_metric_used_for_promotion": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    assert _validate_gate_report(report) == report
+    report["micro_engineering_evidence"]["updates"] = 399
+    with pytest.raises(RuntimeError, match="400--800"):
+        _validate_gate_report(report)
+    report["micro_engineering_evidence"]["updates"] = 400
+    report["resume_evidence"]["resumed_state_sha256"] = "different"
+    with pytest.raises(RuntimeError, match="resume is not exact"):
+        _validate_gate_report(report)

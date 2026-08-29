@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .anchors import run_anchor, summarize_anchors
 from .candidate_runner import run_candidate, summarize_candidate
+from .candidate_gate import run_candidate_gate
 from .causal_audit import DEFAULT_HORIZONS, build_causal_matrix, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
@@ -39,7 +40,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
     value.add_argument("--candidate-id")
     value.add_argument(
-        "--candidate-action", choices=["status", "train", "evaluate"], default="status",
+        "--candidate-action", choices=["status", "gate", "train", "evaluate"], default="status",
         help="candidate stage action; status never launches training",
     )
     value.add_argument("--validation-seed", type=int, choices=[2027, 2028])
@@ -166,6 +167,16 @@ def main(argv: list[str] | None = None) -> int:
         if args.candidate_action == "status":
             result = validate_candidate_ready(args.output, args.candidate_id)
             return_code = 0 if str(result.get("status", "")).startswith("READY_") else 6
+        elif args.candidate_action == "gate":
+            result = run_candidate_gate(
+                output_root=args.output,
+                candidate_id=args.candidate_id,
+                train_view=args.train_view.resolve(),
+                data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(),
+                gpu=args.gpu,
+            )
+            return_code = 0
         elif args.candidate_action == "train":
             result = run_candidate(
                 output_root=args.output,
