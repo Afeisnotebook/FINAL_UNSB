@@ -1,0 +1,23 @@
+{
+  "schema": "final-unsb-route1-remote-auditor-start-v1",
+  "recorded": "2026-08-30T03:12:14+08:00",
+  "status": "WAITING_FOR_ANCHORS",
+  "host": "remote5090",
+  "durable_session": "screen:FINAL_UNSB_ROUTE1_AUDITOR5090",
+  "executor_pid_at_observation": 14748,
+  "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_E200",
+  "audit_repo": "/root/autodl-tmp/FINAL_UNSB_ROUTE1_AUDITOR_b7ebc4e",
+  "training_repo": "/root/autodl-tmp/FINAL_UNSB_ROUTE1_EXECUTOR_0da2a37",
+  "audit_git_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "d6459b37ab3e95c2eecc36e2af6d11216ec55310d0c05bbe3cc21f74a71f9931",
+  "supervisor_sha256": "f6449990be526f38ff965d97502b2630071c710cc92cad53ff431b4a46525f33",
+  "contract_sha256": "8f13779c371e5e5acc9e3915cf1abad63ff19b499b4cb853dd943e0a72023624",
+  "initial_state_sha256": "a417e003e005020b54934444beb2463f67beafe7fbedc9a065ad98ec22e0b529",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "horizons": [1, 8, 32, 200],
+  "label_horizons": [200],
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "The auditor is dormant until the host-matched anchor executor reaches a valid post-proxy boundary; this is not causal evidence yet."
+}
