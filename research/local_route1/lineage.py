@@ -43,12 +43,14 @@ LATER_MECHANISM_OBJECTS = {
     "PTQ": {
         "unsb_object": "bridge-time sampling measure over the physical horizon",
         "tested_operator": "exact fixed physical-interval mass schedule",
-        "evidence_boundary": "reversal_observed_short_protocol",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+        "trajectory_note": "an early positive point was followed by reversal",
     },
     "DCUM_MACRO_MARGINAL": {
         "unsb_object": "empirical unpaired A/B domain marginals",
         "tested_operator": "domain-conditional or macro-balanced endpoint sampling",
-        "evidence_boundary": "reversal_observed_short_protocol",
+        "evidence_boundary": "short_horizon_negative_current_implementation",
+        "trajectory_note": "an early positive point was followed by terminal reversal",
     },
     "AEB_BCAVP": {
         "unsb_object": "latent endpoint law and latent/time gradient estimator variance",
