@@ -84,6 +84,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - 新算法公式仍未预写。必须等25点atlas和不可变`LONG_CAUSAL_MATRIX`完成后，才依据跨探针
   证据生成最多三个Generation-1构造；历史已失败的future-batch selector、HJ cosine
   matching、同batch Adam projection、DT sensitivity preconditioner等不得换名重跑。
+- Generation-1排序已从原先仅按“支持探针数”修正为固定字典序：跨探针支持、已观测
+  前兆领先性、六域一致性、冻结的1/8/32步反事实收益、最小数学复杂度、最小计算/恢复
+  成本。复杂度和成本在矩阵阶段仅是构造家族下界，最终必须由derivation card替换为实际
+  算法开销；这不等于提前写好算法。实现见`3d650d1`。
 - DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
   forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
   路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。

@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "42a19c63eedac589d8ebc69008872d83f9d908c1",
+  "development_head_at_state_write": "3d650d1",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -114,6 +114,7 @@
     ,"rollout-speed and bridge-time coordinate mechanisms are registered for pre-evidence matrix reanalysis"
     ,"corrected main-branch analyzer reads immutable audit rows and remains fail-closed while the atlas is partial"
     ,"target-blind screening retains probe-specific precursors when no shared signal exists and binds each candidate driver to its probe and parent mechanism"
+    ,"Generation-1 mechanism ranking uses the complete preregistered causal evidence order rather than cross-probe count alone"
   ],
   "phase_c": {
     "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",
@@ -134,6 +135,8 @@
     "partial_analysis_smoke_evidence": "evidence/remote_route1_offload/CAUSAL_ANALYSIS_PARTIAL_SMOKE.json",
     "method_specific_signal_contract_commit": "42a19c63eedac589d8ebc69008872d83f9d908c1",
     "method_specific_signal_contract_evidence": "evidence/remote_route1_offload/METHOD_SPECIFIC_SIGNAL_FALLBACK.json",
+    "discovery_ranking_contract_commit": "3d650d1",
+    "discovery_ranking_contract_evidence": "evidence/remote_route1_offload/DISCOVERY_RANKING_CONTRACT.json",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
