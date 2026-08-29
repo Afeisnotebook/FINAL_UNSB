@@ -664,8 +664,7 @@ def _post_branch_label(proposal: dict | None, reference: dict | None, *, step: i
 
 
 def _operator_modes(probe: str, data_epoch: int) -> tuple[str, ...]:
-    next_physical_epoch = int(data_epoch) + 1
-    if probe == "dt" and not (21 <= next_physical_epoch <= 45):
+    if probe == "dt" and (int(data_epoch) <= 20 or int(data_epoch) > 45):
         return ("registered", "forced_active_diagnostic")
     return ("registered",)
 
@@ -1264,18 +1263,17 @@ def _expected_variance_keys(
 def _preferred_operator_mode(probe: str, data_epoch: int) -> str:
     """Select the scientific DT operator without dropping its active-age evidence.
 
-    DT is registered and nonzero during physical training epochs 21--45.  An
-    audit source labelled data epoch ``d`` has already completed that epoch, so
-    its first counterfactual update is in physical epoch ``d + 1``.  Outside
-    that next-update interval the registered operator is the identity and
-    causal analysis uses the separately recorded forced-active diagnostic.
+    DT's registered correction is scientifically informative inside its active
+    source-state interval.  At the pre-support e20 state and after the finite
+    support has ended, the registered path is zero or warmup-limited, so causal
+    mechanism analysis uses the separately recorded forced-active diagnostic.
+    This is an operator-validity diagnostic, not a candidate exit policy.
     """
     if probe != "dt":
         return "registered"
-    next_physical_epoch = int(data_epoch) + 1
     return (
         "registered"
-        if 21 <= next_physical_epoch <= 45
+        if 21 <= int(data_epoch) <= 45
         else "forced_active_diagnostic"
     )
 

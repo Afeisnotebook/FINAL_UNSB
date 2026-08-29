@@ -235,9 +235,9 @@ def test_cross_state_operator_costate_is_not_transplanted_from_method_lane():
 
 
 def test_dt_registered_and_forced_active_diagnostics_are_separate():
-    assert _operator_modes("dt", 20) == ("registered",)
+    assert _operator_modes("dt", 20) == ("registered", "forced_active_diagnostic")
     assert _operator_modes("dt", 40) == ("registered",)
-    assert _operator_modes("dt", 45) == ("registered", "forced_active_diagnostic")
+    assert _operator_modes("dt", 45) == ("registered",)
     assert _operator_modes("dt", 100) == ("registered", "forced_active_diagnostic")
     assert _operator_modes("hj", 200) == ("registered",)
 
@@ -414,16 +414,16 @@ def test_dt_preferred_operator_mode_preserves_registered_active_age():
     assert causal_audit._preferred_operator_mode("hj", 20) == "registered"
     assert causal_audit._preferred_operator_mode("hnek", 200) == "registered"
     assert causal_audit._preferred_operator_mode("dt", 19) == "forced_active_diagnostic"
-    assert causal_audit._preferred_operator_mode("dt", 20) == "registered"
+    assert causal_audit._preferred_operator_mode("dt", 20) == "forced_active_diagnostic"
     assert causal_audit._preferred_operator_mode("dt", 21) == "registered"
     assert causal_audit._preferred_operator_mode("dt", 40) == "registered"
     assert causal_audit._preferred_operator_mode("dt", 44) == "registered"
-    assert causal_audit._preferred_operator_mode("dt", 45) == "forced_active_diagnostic"
+    assert causal_audit._preferred_operator_mode("dt", 45) == "registered"
     assert causal_audit._preferred_operator_mode("dt", 46) == "forced_active_diagnostic"
-    assert causal_audit._operator_modes("dt", 20) == ("registered",)
-    assert causal_audit._operator_modes("dt", 45) == (
+    assert causal_audit._operator_modes("dt", 20) == (
         "registered", "forced_active_diagnostic",
     )
+    assert causal_audit._operator_modes("dt", 45) == ("registered",)
 
 
 def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_path):
