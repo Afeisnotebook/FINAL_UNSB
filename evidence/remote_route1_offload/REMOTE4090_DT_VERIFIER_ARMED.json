@@ -1,0 +1,29 @@
+{
+  "schema": "final-unsb-route1-remote4090-dt-verifier-armed-v1",
+  "recorded": "2026-08-30T05:44:05+08:00",
+  "precondition": {
+    "proxy_status": "CALIBRATED",
+    "passing_probes": ["hj", "hnek"],
+    "plain_e200_verified": true,
+    "hj_e200_verified": true,
+    "hnek_e200_verified": true
+  },
+  "watcher": {
+    "pid": 1321384,
+    "status": "WAITING_FOR_DT_E200_ARTIFACTS",
+    "lanes": ["plain", "hj", "hnek", "dt"],
+    "existing_three_lanes_reverified": true,
+    "dt_verification_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/milestone_verifications/DT_E200_VERIFICATION.json",
+    "poll_seconds": 15,
+    "maximum_failures": 3
+  },
+  "scientific_identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "verifier_source_sha256": "50daeb593c49a76be024eec13f6ddd7dbe18943f4db4fec05ca92add2c8c63a7"
+  },
+  "paired_metric_used_for_training_control": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "The verifier is a read-only terminal integrity gate. It neither changes DT training nor uses intermediate metrics to stop or select it."
+}
