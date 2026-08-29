@@ -7,6 +7,7 @@ import pytest
 
 from operations import local_route1_audit_executor as audit_executor
 from operations import local_route1_candidate_executor as candidate_executor
+from operations import local_route1_seed_executor as seed_executor
 from operations.local_route1_executor import (
     EXPECTED_MANIFEST,
     EXPECTED_PROTOCOL,
@@ -187,6 +188,7 @@ def test_candidate_executor_contract_closes_paired_control_and_locks_script(
         "candidate_repo": str(tmp_path),
         "candidate_git_commit": "abc",
         "candidate_id": "G1-TEST",
+        "algorithm_fingerprint": "algorithm",
         "candidate_fingerprint": "fingerprint",
         "run_root": str(tmp_path),
         "train_view": str(tmp_path),
@@ -211,6 +213,7 @@ def test_candidate_executor_contract_closes_paired_control_and_locks_script(
 def test_candidate_executor_status_requires_evidence_gate_and_locks(tmp_path):
     ready = {
         "status": "READY_FOR_MATCHED_E200",
+        "algorithm_fingerprint": "algorithm",
         "candidate_fingerprint": "frozen",
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -219,3 +222,71 @@ def test_candidate_executor_status_requires_evidence_gate_and_locks(tmp_path):
     ready["status"] = "READY_FOR_CANDIDATE_GATES"
     with pytest.raises(RuntimeError, match="not ready for e200"):
         candidate_executor._parse_status(json.dumps(ready))
+
+
+def test_seed_executor_contract_forces_plain_then_candidate_and_no_control(
+    tmp_path, monkeypatch,
+):
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_text("frozen", encoding="utf-8")
+    supervisor = tmp_path / "seed_executor.py"
+    support_script = tmp_path / "candidate_executor.py"
+    supervisor.write_text("# frozen seed", encoding="utf-8")
+    support_script.write_text("# frozen support", encoding="utf-8")
+    monkeypatch.setattr(
+        seed_executor.support, "file_sha256",
+        lambda path: (
+            seed_executor.EXPECTED_MANIFEST if Path(path) == manifest
+            else "supervisor-hash" if Path(path) == supervisor
+            else "support-hash"
+        ),
+    )
+    contract = {
+        "schema": seed_executor.CONTRACT_SCHEMA,
+        "seed_repo": str(tmp_path),
+        "seed_git_commit": "abc",
+        "candidate_id": "G1-TEST",
+        "validation_seed": 2027,
+        "algorithm_fingerprint": "algorithm",
+        "seed2026_candidate_fingerprint": "seed2026-execution",
+        "seed_freeze_sha256": "freeze",
+        "run_root": str(tmp_path),
+        "train_view": str(tmp_path),
+        "data_root": str(tmp_path),
+        "manifest": str(manifest),
+        "manifest_sha256": seed_executor.EXPECTED_MANIFEST,
+        "python": str(tmp_path / "python"),
+        "supervisor_script": str(supervisor),
+        "supervisor_sha256": "supervisor-hash",
+        "support_script": str(support_script),
+        "support_sha256": "support-hash",
+        "lane_order": ["plain", "candidate"],
+        "chunk_data_epochs_max": 5,
+        "target_data_epochs": 200,
+        "algorithm_change_after_seed2026": False,
+        "paired_metric_early_stop": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    seed_executor.validate_contract(contract)
+    command = seed_executor.validation_train_command(contract, "plain", 5)
+    assert "--resume" in command
+    assert command[command.index("--validation-lane") + 1] == "plain"
+    assert not any("psnr" in item.lower() or "threshold" in item.lower() for item in command)
+    contract["lane_order"] = ["candidate", "plain"]
+    with pytest.raises(RuntimeError, match="matched plain before candidate"):
+        seed_executor.validate_contract(contract)
+
+
+def test_seed_executor_status_locks_frozen_algorithm():
+    ready = {
+        "status": "READY_FOR_FROZEN_SEED_VALIDATION",
+        "algorithm_fingerprint": "algorithm",
+        "seed_freeze_sha256": "freeze",
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    assert seed_executor._parse_status(json.dumps(ready))["algorithm_fingerprint"] == "algorithm"
+    ready["confirmation20_opened"] = True
+    with pytest.raises(RuntimeError, match="lock confirmation20"):
+        seed_executor._parse_status(json.dumps(ready))

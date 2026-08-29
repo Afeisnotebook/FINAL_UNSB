@@ -157,6 +157,8 @@ def _parse_status(text: str) -> dict[str, Any]:
         raise RuntimeError("candidate status does not prove confirmation20 is closed")
     if not payload.get("candidate_fingerprint"):
         raise RuntimeError("candidate status has no frozen fingerprint")
+    if not payload.get("algorithm_fingerprint"):
+        raise RuntimeError("candidate status has no frozen algorithm fingerprint")
     return payload
 
 
@@ -186,6 +188,7 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "candidate_repo": str(candidate_repo),
         "candidate_git_commit": head,
         "candidate_id": candidate_id,
+        "algorithm_fingerprint": status["algorithm_fingerprint"],
         "candidate_fingerprint": status["candidate_fingerprint"],
         "run_root": str(args.run_root.resolve()),
         "train_view": str(args.train_view.resolve()),
@@ -210,7 +213,8 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("candidate executor contract schema mismatch")
     safe_candidate_id(contract.get("candidate_id", ""))
     required = {
-        "candidate_repo", "candidate_git_commit", "candidate_fingerprint", "run_root",
+        "candidate_repo", "candidate_git_commit", "algorithm_fingerprint",
+        "candidate_fingerprint", "run_root",
         "train_view", "data_root", "manifest", "python", "supervisor_script",
     }
     missing = sorted(required - set(contract))
@@ -242,9 +246,12 @@ def scientific_identity(contract: dict[str, Any]) -> dict[str, str]:
     status = _parse_status(run_text(candidate_status_command(contract), cwd=repo, timeout=600))
     if status["candidate_fingerprint"] != contract["candidate_fingerprint"]:
         raise RuntimeError("candidate fingerprint changed after executor contract freeze")
+    if status["algorithm_fingerprint"] != contract["algorithm_fingerprint"]:
+        raise RuntimeError("algorithm fingerprint changed after executor contract freeze")
     return {
         "candidate_id": contract["candidate_id"],
         "candidate_git_commit": head,
+        "algorithm_fingerprint": status["algorithm_fingerprint"],
         "candidate_fingerprint": status["candidate_fingerprint"],
         "manifest_sha256": EXPECTED_MANIFEST,
     }

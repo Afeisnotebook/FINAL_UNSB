@@ -13,6 +13,11 @@ from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
 from .protocol import ROOT
 from .runtime import write_json
+from .seed_validation import (
+    run_seed_validation_lane,
+    seed_validation_status,
+    summarize_seed_validation,
+)
 from .stages import derive_from_completed_atlas, prepare_audit_queue, validate_candidate_ready
 
 
@@ -24,12 +29,23 @@ DEFAULT_MANIFEST = ROOT / "manifests" / "frozen" / "legacy_split_manifest.csv"
 
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(description=__doc__)
-    value.add_argument("--stage", required=True, choices=["lineage", "gate", "anchors", "evaluate", "audit", "derive", "candidate"])
+    value.add_argument(
+        "--stage", required=True,
+        choices=[
+            "lineage", "gate", "anchors", "evaluate", "audit", "derive",
+            "candidate", "seed_validate",
+        ],
+    )
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
     value.add_argument("--candidate-id")
     value.add_argument(
         "--candidate-action", choices=["status", "train", "evaluate"], default="status",
         help="candidate stage action; status never launches training",
+    )
+    value.add_argument("--validation-seed", type=int, choices=[2027, 2028])
+    value.add_argument("--validation-lane", choices=["plain", "candidate"])
+    value.add_argument(
+        "--validation-action", choices=["status", "train", "evaluate"], default="status",
     )
     value.add_argument("--resume", action="store_true")
     value.add_argument("--cpu-only", action="store_true", help="gate stage only")
@@ -158,6 +174,38 @@ def main(argv: list[str] | None = None) -> int:
             return_code = 0
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return return_code
+    if args.stage == "seed_validate":
+        if not args.candidate_id or args.validation_seed is None:
+            raise SystemExit(
+                "--stage seed_validate requires --candidate-id and --validation-seed"
+            )
+        if args.validation_action == "status":
+            result = seed_validation_status(
+                args.output, args.candidate_id, args.validation_seed,
+            )
+        elif args.validation_action == "evaluate":
+            result = summarize_seed_validation(
+                args.output, args.candidate_id, args.validation_seed,
+            )
+        else:
+            if not args.validation_lane:
+                raise SystemExit(
+                    "training seed validation requires --validation-lane plain|candidate"
+                )
+            result = run_seed_validation_lane(
+                output_root=args.output,
+                candidate_id=args.candidate_id,
+                seed=args.validation_seed,
+                lane=args.validation_lane,
+                train_view=args.train_view.resolve(),
+                data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(),
+                gpu=args.gpu,
+                resume=args.resume,
+                engineering_stop_after_epoch=args.engineering_stop_after_epoch,
+            )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
     raise AssertionError(args.stage)
 
 

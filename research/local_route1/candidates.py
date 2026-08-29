@@ -41,6 +41,7 @@ class CandidateRegistration:
     card: dict[str, Any]
     implementation: dict[str, Any]
     spec: ProbeSpec
+    algorithm_fingerprint: str
     candidate_fingerprint: str
     causal_matrix_sha256: str
     reversal_atlas_sha256: str
@@ -56,6 +57,7 @@ class CandidateRegistration:
             "card": str(self.card_path.resolve()),
             "implementation": str(self.implementation_path.resolve()),
             "spec": self.spec.to_dict(),
+            "algorithm_fingerprint": self.algorithm_fingerprint,
             "candidate_fingerprint": self.candidate_fingerprint,
             "causal_matrix_sha256": self.causal_matrix_sha256,
             "reversal_atlas_sha256": self.reversal_atlas_sha256,
@@ -255,18 +257,26 @@ def load_candidate_registration(
     )
     e0_file_sha256, e0_state_sha256, base_protocol_fingerprint = _base_e0_identity(output_root)
     protocol = load_protocol()
-    fingerprint_payload = {
-        "schema": REGISTRATION_SCHEMA,
+    candidate_training_core = training_core_fingerprint(ROOT)
+    algorithm_fingerprint_payload = {
+        "schema": "final-unsb-route1-algorithm-fingerprint-v1",
         "candidate_id": candidate_id,
         "card_sha256": card_sha256,
         "implementation_sha256": file_sha256(implementation_path),
         "sources": sources,
         "causal_matrix_sha256": matrix_sha256,
         "reversal_atlas_sha256": atlas_sha256,
+        "candidate_training_core_fingerprint": candidate_training_core,
+        "common_training_protocol": protocol["common"],
+        "manifest_sha256": protocol["manifest"]["sha256"],
+    }
+    algorithm_fingerprint = object_sha256(algorithm_fingerprint_payload)
+    fingerprint_payload = {
+        "schema": REGISTRATION_SCHEMA,
+        "algorithm_fingerprint": algorithm_fingerprint,
         "base_e0_file_sha256": e0_file_sha256,
         "base_e0_scientific_state_sha256": e0_state_sha256,
         "base_protocol_fingerprint": base_protocol_fingerprint,
-        "candidate_training_core_fingerprint": training_core_fingerprint(ROOT),
         "candidate_orchestration_sources": [
             {
                 "path": relative,
@@ -277,9 +287,7 @@ def load_candidate_registration(
                 "research/local_route1/candidate_runner.py",
             )
         ],
-        "common_training_protocol": protocol["common"],
         "local_view": protocol["local_view"],
-        "manifest_sha256": protocol["manifest"]["sha256"],
     }
     candidate_fingerprint = object_sha256(fingerprint_payload)
     gate_path = output_root / "derive" / "gates" / f"{candidate_id}.json"
@@ -291,6 +299,8 @@ def load_candidate_registration(
             raise RuntimeError("candidate long-run gate has not passed")
         if gate.get("candidate_fingerprint") != candidate_fingerprint:
             raise RuntimeError("candidate gate is stale for the registered candidate")
+        if gate.get("algorithm_fingerprint") != algorithm_fingerprint:
+            raise RuntimeError("candidate gate is stale for the frozen algorithm")
         checks = gate.get("checks", {})
         for key in (
             "mathematical_invariants",
@@ -324,13 +334,12 @@ def load_candidate_registration(
         card=card,
         implementation=implementation,
         spec=spec,
+        algorithm_fingerprint=algorithm_fingerprint,
         candidate_fingerprint=candidate_fingerprint,
         causal_matrix_sha256=matrix_sha256,
         reversal_atlas_sha256=atlas_sha256,
         base_e0_scientific_state_sha256=e0_state_sha256,
         base_protocol_fingerprint=base_protocol_fingerprint,
-        candidate_training_core_fingerprint=fingerprint_payload[
-            "candidate_training_core_fingerprint"
-        ],
+        candidate_training_core_fingerprint=candidate_training_core,
         gate=gate,
     )

@@ -36,6 +36,12 @@ from research.local_route1.protocol import (
     validate_protocol,
 )
 from research.local_route1.runtime import file_sha256, full_state_hash, read_manifest
+from research.local_route1.seed_validation import (
+    SEED_FREEZE_SCHEMA,
+    _crn_fingerprint,
+    _e0_identity,
+    validate_seed_freeze,
+)
 from research.local_route1.observations import (
     component_directional_derivatives,
     state_dict_delta_cosine,
@@ -401,6 +407,7 @@ def test_candidate_registration_binds_evidence_card_code_e0_and_gate(tmp_path):
         "schema": GATE_SCHEMA,
         "status": "PASS_LONG_RUN",
         "candidate_fingerprint": registration.candidate_fingerprint,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
         "checks": {
             "mathematical_invariants": True,
             "zero_intervention_identity": True,
@@ -459,3 +466,115 @@ def test_signal_driven_candidate_requires_matrix_eligible_driver(tmp_path):
     implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
     with pytest.raises(RuntimeError, match="not an eligible target-blind signal"):
         load_candidate_registration(tmp_path, "G1-TEST")
+
+
+def test_algorithm_fingerprint_is_seed_e0_independent_but_execution_is_not(tmp_path):
+    import json
+
+    first = tmp_path / "seed2026"
+    second = tmp_path / "seed2027"
+    _write_candidate_registration_fixture(first)
+    _write_candidate_registration_fixture(second)
+    e0_path = second / "shared_e0" / "e0.pt"
+    e0 = torch.load(e0_path, map_location="cpu", weights_only=False)
+    e0["rng"] = {"synthetic_seed": 2027}
+    torch.save(e0, e0_path)
+    (second / "shared_e0" / "e0.pt.json").write_text(json.dumps({
+        "checkpoint_sha256": file_sha256(e0_path),
+        "scientific_state_sha256": full_state_hash(e0),
+    }), encoding="utf-8")
+    registration_2026 = load_candidate_registration(first, "G1-TEST")
+    registration_2027 = load_candidate_registration(second, "G1-TEST")
+    assert registration_2026.algorithm_fingerprint == registration_2027.algorithm_fingerprint
+    assert registration_2026.candidate_fingerprint != registration_2027.candidate_fingerprint
+
+
+def _write_passed_candidate_gate(output_root: Path):
+    import json
+
+    _write_candidate_registration_fixture(output_root)
+    registration = load_candidate_registration(output_root, "G1-TEST")
+    gate_path = output_root / "derive" / "gates" / "G1-TEST.json"
+    gate_path.parent.mkdir(parents=True)
+    gate_path.write_text(json.dumps({
+        "schema": GATE_SCHEMA,
+        "status": "PASS_LONG_RUN",
+        "candidate_fingerprint": registration.candidate_fingerprint,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "checks": {
+            "mathematical_invariants": True,
+            "zero_intervention_identity": True,
+            "resume_exact": True,
+            "cross_state_counterfactual": True,
+            "target_blind_observable": True,
+            "micro_engineering": True,
+            "base_unsb_semantics_preserved": True,
+            "shared_e0_load_exact": True,
+        },
+        "paired_metric_used_for_promotion": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    return load_candidate_registration(output_root, "G1-TEST", require_gate=True)
+
+
+def test_seed_validation_freezes_algorithm_and_requires_sign_authorization(tmp_path):
+    import json
+
+    registration = _write_passed_candidate_gate(tmp_path)
+    candidate_root = tmp_path / "candidates" / "G1-TEST"
+    candidate_root.mkdir(parents=True)
+    trajectory_path = candidate_root / "CANDIDATE_TRAJECTORY.json"
+    trajectory_path.write_text(json.dumps({
+        "status": "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION",
+    }), encoding="utf-8")
+    freeze_path = candidate_root / "SEED_VALIDATION_FREEZE.json"
+    freeze = {
+        "schema": SEED_FREEZE_SCHEMA,
+        "status": "FROZEN_FOR_SEED_VALIDATION",
+        "candidate_id": "G1-TEST",
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "seed2026_candidate_fingerprint": registration.candidate_fingerprint,
+        "seed2026_trajectory_sha256": file_sha256(trajectory_path),
+        "plain_collapse_adjudication": "PASS_NOT_PLAIN_COLLAPSE",
+        "authorized_seeds": [2027, 2028],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    freeze_path.write_text(json.dumps(freeze), encoding="utf-8")
+    assert validate_seed_freeze(tmp_path, registration, 2027) == freeze
+    with pytest.raises(RuntimeError, match="seed2028 requires"):
+        validate_seed_freeze(tmp_path, registration, 2028)
+    seed2027_root = tmp_path / "seed_validation" / "seed2027"
+    seed2027_root.mkdir(parents=True)
+    summary_path = seed2027_root / "SEED_VALIDATION_SUMMARY.json"
+    summary_path.write_text(json.dumps({"late_sign": "nonpositive"}), encoding="utf-8")
+    (seed2027_root / "SEED2028_AUTHORIZATION.json").write_text(json.dumps({
+        "status": "AUTHORIZED_SIGN_INCONSISTENCY",
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "seed2027_summary_sha256": file_sha256(summary_path),
+        "seed2027_late_sign": "nonpositive",
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    assert validate_seed_freeze(tmp_path, registration, 2028) == freeze
+    freeze["algorithm_fingerprint"] = "changed"
+    freeze_path.write_text(json.dumps(freeze), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="algorithm changed"):
+        validate_seed_freeze(tmp_path, registration, 2027)
+
+
+def test_seed_validation_e0_and_crn_are_candidate_independent(tmp_path):
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    _write_candidate_registration_fixture(first, candidate_id="G1-FIRST")
+    _write_candidate_registration_fixture(second, candidate_id="G1-SECOND")
+    registration_first = load_candidate_registration(first, "G1-FIRST")
+    registration_second = load_candidate_registration(second, "G1-SECOND")
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_bytes(b"frozen-manifest\r\n")
+    assert _e0_identity(seed=2027, manifest_path=manifest) == _e0_identity(
+        seed=2027, manifest_path=manifest,
+    )
+    assert _crn_fingerprint(registration_first, 2027) == _crn_fingerprint(
+        registration_second, 2027,
+    )

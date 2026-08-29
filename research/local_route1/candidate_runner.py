@@ -70,6 +70,7 @@ def _candidate_metadata(
         "project_id": protocol["project_id"],
         "probe_id": registration.candidate_id,
         "candidate_id": registration.candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
         "seed": int(protocol["seed"]),
         "manifest_sha256": file_sha256(manifest_path),
         "protocol_fingerprint": registration.candidate_fingerprint,
@@ -106,6 +107,7 @@ def _write_metric(
     )
     metrics.update({
         "candidate_id": registration.candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
         "candidate_fingerprint": registration.candidate_fingerprint,
         "epoch": int(epoch),
         "updates": epoch_to_step(epoch, protocol),
@@ -174,6 +176,7 @@ def summarize_candidate(output_root: Path, candidate_id: str) -> dict:
     result = {
         "schema": "final-unsb-route1-candidate-trajectory-v1",
         "candidate_id": candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
         "candidate_fingerprint": registration.candidate_fingerprint,
         "status": (
             "INCOMPLETE_E200" if not complete else
@@ -254,6 +257,7 @@ def run_candidate(
                 "manifest_sha256": metadata["manifest_sha256"],
                 "protocol_fingerprint": registration.candidate_fingerprint,
                 "candidate_fingerprint": registration.candidate_fingerprint,
+                "algorithm_fingerprint": registration.algorithm_fingerprint,
                 "base_e0_scientific_state_sha256": registration.base_e0_scientific_state_sha256,
                 "candidate_training_core_fingerprint": registration.candidate_training_core_fingerprint,
                 "training_git_commit": metadata["training_git_commit"],
@@ -269,6 +273,8 @@ def run_candidate(
         result = {
             "status": "ALREADY_AT_REQUESTED_STOP",
             "candidate_id": candidate_id,
+            "algorithm_fingerprint": registration.algorithm_fingerprint,
+            "candidate_fingerprint": registration.candidate_fingerprint,
             "step": start_step,
             "data_epoch": start_step // steps_per_epoch(protocol),
         }
@@ -321,6 +327,7 @@ def run_candidate(
             )
         trace_row = {
             "candidate_id": candidate_id,
+            "algorithm_fingerprint": registration.algorithm_fingerprint,
             "candidate_fingerprint": registration.candidate_fingerprint,
             "updates": completed,
             "data_epoch": completed_epoch,
@@ -342,6 +349,7 @@ def run_candidate(
     result = {
         "status": "COMPLETE_E200" if stop_steps == target_steps else "ENGINEERING_PAUSE",
         "candidate_id": candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
         "candidate_fingerprint": registration.candidate_fingerprint,
         "start_updates": start_step,
         "final_updates": stop_steps,
