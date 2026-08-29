@@ -1,0 +1,26 @@
+{
+  "schema": "final-unsb-local-route1-production-chunk-acceptance-v1",
+  "time": "2026-08-30T00:17:15.710012+08:00",
+  "status": "PASS_DURABLE_RECOVERY_GATE",
+  "scheduled_task": "FINAL_UNSB_ROUTE1_EXECUTOR",
+  "lane": "plain",
+  "start_data_epoch": 100,
+  "start_updates": 15000,
+  "target_data_epoch": 105,
+  "final_data_epoch": 105,
+  "final_updates": 15750,
+  "exit_code": 0,
+  "input_checkpoint_sha256": "aa73748e8ab514ee72c8be8c9cfa63d765b8209e3279313cacb708e7d74c983c",
+  "output_checkpoint_sha256": "1de7ebf0674ea24e27cc72d19636634b30a48199db57acb40cbb5b15a805672a",
+  "wall_seconds": 510.24161314964294,
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "next_chunk_auto_started": {
+    "start_data_epoch": 105,
+    "target_data_epoch": 110,
+    "child_pid_at_observation": 11800
+  },
+  "scientific_interpretation": "This accepts process durability and exact frozen-state continuation only. It is not an algorithm-quality result.",
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-29",
-  "phase": "LOCAL_ROUTE1_DURABLE_EXECUTOR_REGISTRATION_PENDING",
+  "updated": "2026-08-30",
+  "phase": "LOCAL_ROUTE1_ANCHORS_RUNNING_AND_PHASE_C_IMPLEMENTATION",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
@@ -10,7 +10,12 @@
     "immutable_during_anchor_execution": true
   },
   "anchor_progress": {
-    "plain": {"data_epoch": 100, "updates": 15000, "target_data_epoch": 200},
+    "plain": {
+      "accepted_data_epoch": 105,
+      "accepted_updates": 15750,
+      "latest_observed_data_epoch": 106,
+      "target_data_epoch": 200
+    },
     "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "hnek": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
@@ -20,7 +25,7 @@
     "confirmation20_opened": false
   },
   "execution_incident": {
-    "status": "CODE_AND_FAULT_GATE_PASS",
+    "status": "DURABLE_RECOVERY_ACCEPTED_E105",
     "summary": "Two hidden descendant process trees ended without traceback near plain e60 and e100; checkpoint state survived but the original executor had no durable supervisor or exit audit.",
     "scientific_invalidity": false,
     "wall_clock_idle_hours_approx": 20
@@ -67,7 +72,17 @@
     "inactive HJ and inactive DT exact plain identity",
     "disabled HNEK exact plain identity",
     "two-epoch continuous versus one-plus-resume exact identity",
-    "discovery70 CRN evaluation repeat and parent-state isolation"
+    "discovery70 CRN evaluation repeat and parent-state isolation",
+    "e100 official metric backfilled twice with identical payload and no parent-state change",
+    "deliberate process-loss recovery reproduced the accepted continuous/resume state",
+    "scheduled durable executor accepted the official e100-to-e105 production chunk and auto-started e105-to-e110",
+    "Phase C audit core matches the frozen training worktree semantic fingerprint"
   ],
-  "next_gate": "Register the current-user FINAL_UNSB_ROUTE1_EXECUTOR scheduled task from the committed operational scripts and accept the first official e100-to-e105 chunk with complete event and checkpoint evidence."
+  "phase_c": {
+    "status": "ACTUAL_UPDATE_AUDITOR_IMPLEMENTED_TESTED_NOT_YET_RUN_ON_MATCHED_METHOD_STATES",
+    "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "next_gate": "Complete plain e200 under the durable executor while finishing the resumable Phase C audit scheduler; then run HJ and HNEK e200 before proxy calibration."
 }

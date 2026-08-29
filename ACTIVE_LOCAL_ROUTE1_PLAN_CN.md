@@ -1,27 +1,28 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`RECOVERY_CODE_AND_FAULT_GATE_PASS / SCHEDULER_PENDING`
-日期：2026-08-29  
+状态：`DURABLE_EXECUTOR_ACCEPTED_E105 / ANCHORS_RUNNING / PHASE_C_IMPLEMENTING`
+日期：2026-08-30
 当前硬件：GTX 1660 6GB  
 
-## 当前执行事实（2026-08-29 23:46）
+## 当前执行事实（2026-08-30 00:19）
 
-- plain 已完成 e100/200，即 15000/30000 updates；完整模型、优化器、sampler、
-  scheduler 和 RNG checkpoint 已验证可加载。
-- e100 checkpoint 保存后，旧隐藏后台进程被硬终止；e100正式metric尚未写入。
+- plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
+  且评估前后科学状态哈希不变。
+- current-user计划任务 `FINAL_UNSB_ROUTE1_EXECUTOR` 已从冻结e100恢复。首个正式
+  e100→e105分块以exit code 0接纳，输出checkpoint SHA256为
+  `1de7ebf0674ea24e27cc72d19636634b30a48199db57acb40cbb5b15a805672a`；
+  随后已自动开始e105→e110。可接纳边界为e105/200，即15750/30000 updates。
 - 同一plain进程此前也在e60附近无traceback消失，说明失败属于进程托管而非e100
   科学路径。隔离LPIPS评估已正常完成420张图像。
-- HJ、HNEK、DT、proxy校准和长期因果审计均未启动；不得把当前状态描述成
+- HJ、HNEK、DT、proxy校准和匹配状态上的长期因果审计均未启动；不得把当前状态描述成
   “算法搜索失败”。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
 
-恢复e101前必须通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部计划
-任务托管、退出审计、15分钟stall检测，以及一次人为终止后的精确恢复测试。
-
-其中e100两次一致回填和人为终止恢复门已于2026-08-30通过。恢复后的e2科学状态
-哈希与既有工程门参考逐位一致。当前只剩计划任务注册和首个正式e100→e105 chunk的
-运行时验收；二者通过后才能把持久恢复门标记为完整通过。
+持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
+计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式
+生产分块验收均有compact evidence。冻结训练继续运行，主worktree并行实现真实
+Phase C；两者通过独立git/audit identity隔离。
 
 ## 0. 北极星目标
 

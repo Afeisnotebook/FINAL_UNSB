@@ -1,7 +1,17 @@
 # 本地路线一持久执行恢复门
 
 日期：2026-08-30
-状态：`CODE_AND_FAULT_GATE_PASS / TASK_REGISTRATION_PENDING`
+状态：`PASS_DURABLE_RECOVERY_GATE / ANCHORS_RUNNING`
+
+## 正式生产分块验收
+
+- current-user计划任务 `FINAL_UNSB_ROUTE1_EXECUTOR` 已注册并独立于Codex生命周期运行。
+- 冻结plain e100状态已连续完成到e105：15000→15750 updates，子进程exit code 0。
+- 输入checkpoint SHA256：`aa73748e...4c983c`；输出checkpoint SHA256：
+  `1de7ebf0...05672a`。
+- supervisor在接纳e105后自动启动e105→e110，证明恢复不是一次性手动续跑。
+- 该门只证明耐久执行、身份冻结与状态续接，不提供任何算法收益结论。
+- confirmation20仍未打开。
 
 ## 事故归因
 
