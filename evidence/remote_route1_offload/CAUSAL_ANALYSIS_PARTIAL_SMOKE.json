@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-causal-analysis-partial-smoke-v1",
+  "observed_at": "2026-08-30T07:33:00+08:00",
+  "source_host": "final-unsb-4090",
+  "isolated_local_output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_AUDIT_ANALYSIS_SMOKE_20260830",
+  "analysis_identity": {
+    "git_commit": "3a27509396525b716c0c47035dd6e9a9fc96af27",
+    "analysis_source_fingerprint": "bc89abe07590ac08b862588cf6757033cfbd05de77661da725aaeec987874fef",
+    "reversal_atlas_sha256": "be1d2a835ecf15b10660dcc3422ab1b8c4e6d0980a39163fb28b4c03a97cee06",
+    "sampling_variance_atlas_sha256": "63562e5af15cfe14d68894d4eac514045ce72c66c02112ff95231078777d47c5",
+    "audit_queue_sha256": "c1dbff00afc65832a89b499c9ec95b9229d706c23b1c4babb2c383540d3beccb"
+  },
+  "observed_partial_inputs": {
+    "reversal_rows": 37,
+    "expected_reversal_rows": 432,
+    "sampling_variance_rows": 4,
+    "expected_sampling_variance_rows": 128,
+    "missing_reversal_rows": 395,
+    "missing_sampling_variance_rows": 124
+  },
+  "result": {
+    "status": "PARTIAL_CAUSAL_AUDIT",
+    "ranked_failure_mechanisms": [],
+    "target_blind_signal_screen_status": "BLOCKED_CAUSAL_ATLAS_INCOMPLETE",
+    "candidate_generated": false,
+    "branch_rows_modified_by_analysis": false,
+    "paired_metrics_accessed_by_controller": false,
+    "confirmation20_opened": false
+  },
+  "interpretation": "The corrected main-branch analyzer is compatible with immutable rows from audit commit 729826f and fails closed until every queue row and variance row is present. This is an engineering gate, not a partial scientific conclusion."
+}
