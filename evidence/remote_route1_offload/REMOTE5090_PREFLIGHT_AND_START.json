@@ -1,0 +1,97 @@
+{
+  "schema": "final-unsb-route1-remote5090-offload-start-v1",
+  "recorded": "2026-08-30T02:35:09+08:00",
+  "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md",
+  "status": "PREFLIGHT_PASS_PLAIN_RUNNING",
+  "host": "autodl-container-8z3ltky94f-1e5af69c",
+  "scientific_role": "independent host-matched replica and post-derivation candidate execution node; never compare a 5090 method against another host's plain",
+  "training_identity": {
+    "frozen_repo": "/root/autodl-tmp/FINAL_UNSB_ROUTE1_EXECUTOR_0da2a37",
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+  },
+  "control_identity": {
+    "repo": "/root/autodl-tmp/FINAL_UNSB_ROUTE1_CONTROL_20260830",
+    "git_commit": "8f42b68506924f49d7654c8ea9956d71a5a5e498",
+    "executor_contract_sha256": "6c33ad2565e223c08387a4ebb5b38126a2ed3c248744267fe9c780274f43e029",
+    "supervisor": "screen:FINAL_UNSB_ROUTE1_REMOTE5090",
+    "chunk_data_epochs_max": 5,
+    "maximum_same_chunk_failures": 3
+  },
+  "environment": {
+    "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+    "python": "3.11.16",
+    "torch": "2.8.0+cu128",
+    "torch_cuda": "12.8",
+    "cudnn": 91002,
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "compute_capability": [12, 0],
+    "driver": "595.71.05",
+    "vram_mib": 32607,
+    "environment_record_sha256": "264f74ff09ec6f690dcb0e4c156a2ae048dab984d9828c15a8e942bd54eb1718",
+    "repository_tests": "52 passed",
+    "compileall": "PASS"
+  },
+  "dataset_preflight": {
+    "zip_path": "/root/autodl-tmp/data.zip",
+    "zip_bytes": 4188959020,
+    "zip_entries": 18325,
+    "zip_files": 18306,
+    "zip_uncompressed_bytes": 4216737684,
+    "zip_unsafe_paths": 0,
+    "data_root": "/root/autodl-tmp/data",
+    "six_domain_layout": true,
+    "data_audit_sha256": "4faf1981496bb35cbfaa4211a5b0d833213163dfd71d784e24080975f6281158"
+  },
+  "allowed_data_content_audit": {
+    "train_identities": 150,
+    "discovery_identities": 420,
+    "files_checked": 1140,
+    "content_hash_mismatches": 0,
+    "materialized_train_view_identities": 600,
+    "confirmation_files_touched": 0
+  },
+  "shared_e0": {
+    "source": "accepted local shared_e0 copy",
+    "file_sha256": "599544e984d9db72c3e3061f50bc14143400546c4bdc7fbc23c9beb86ac32140",
+    "scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "file_and_scientific_hash_match_after_transfer": true
+  },
+  "gates": {
+    "cpu_status": "PASS",
+    "cpu_gate_sha256": "0b943ee38ed9f724f4bc9355719626c96df77c0544ccf051b840ddb5dd07f6cd",
+    "gpu_status": "PASS",
+    "gpu_gate_sha256": "675cf1f7a87d97e2a19ff8ff72e22964d74f97674e62d2c9872f38252f4d0b01",
+    "plain_twin": "PASS",
+    "inactive_hj_equals_plain": "PASS",
+    "inactive_dt_equals_plain": "PASS",
+    "hnek_disable_equals_plain": "PASS",
+    "resume_exact": "PASS",
+    "evaluation_repeat_parent_isolation": "PASS"
+  },
+  "initial_execution_state": {
+    "lane": "plain",
+    "start_data_epoch": 0,
+    "target_chunk_data_epoch": 5,
+    "target_final_data_epoch": 200,
+    "executor_pid_at_start": 11925,
+    "child_pid_at_start": 11929,
+    "confirmation20_opened": false
+  },
+  "hard_separation": {
+    "canonical_local_run_continues": true,
+    "remote4090_run_continues": true,
+    "cross_host_method_minus_plain_forbidden": true,
+    "cross_host_checkpoint_continuation_forbidden": true,
+    "candidate_math_must_be_frozen_before_candidate_training": true,
+    "full_data_forbidden_during_local_route1": true,
+    "route2_forbidden": true,
+    "confirmation20_opened": false
+  },
+  "credential_handling": {
+    "password_in_git_or_contract": false,
+    "dedicated_local_ssh_key_used": true,
+    "private_key_in_git": false
+  }
+}
