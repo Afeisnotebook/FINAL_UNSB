@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-route1-dynamic-audit-selection-redeployment-v1",
+  "created": "2026-08-30T05:03:15+08:00",
+  "reason": "The pre-execution review found that the queue bracketed sign changes but represented maximum drawdown only as maximum benefit plus terminal state. The route-1 contract requires the first sign reversal and the actual peak-to-trough maximum drawdown states.",
+  "selection_semantics": {
+    "fixed_data_epochs": [20, 100, 150, 175, 200],
+    "dynamic_states": [
+      "first_sign_reversal_left",
+      "first_sign_reversal_right",
+      "maximum_benefit",
+      "maximum_drawdown_peak",
+      "maximum_drawdown_trough"
+    ],
+    "selection_occurs_after_complete_anchor_trajectories": true,
+    "paired_values_accessed_by_training_controller": false,
+    "dynamic_selection_changes_training": false
+  },
+  "source_identity": {
+    "main_commit": "e2a59d4",
+    "audit_branch": "audit-terminal-vector-field",
+    "audit_commit": "f00b7f849895532bc2aea109f3739daffb16234f",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+    "audit_source_fingerprint": "f837c87412315628fc4eaa4e0c79b84d5163ba0788a20b89b2d3abc6b0d41758"
+  },
+  "verification": {
+    "main_full_pytest": "75 passed",
+    "audit_branch_local_tests": "16 passed",
+    "remote4090_audit_tests": "16 passed",
+    "remote5090_audit_tests": "16 passed",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "durable_auditors": {
+    "local": {
+      "executor_pid": 14200,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "f00b7f849895532bc2aea109f3739daffb16234f"
+    },
+    "remote4090": {
+      "executor_pid": 1317196,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "f00b7f849895532bc2aea109f3739daffb16234f"
+    },
+    "remote5090": {
+      "executor_pid": 24635,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "f00b7f849895532bc2aea109f3739daffb16234f"
+    }
+  },
+  "anchor_checkpoints_modified": false,
+  "confirmation20_opened": false
+}
