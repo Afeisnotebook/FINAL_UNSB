@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`REMOTE4090_PROXY_CALIBRATED_DT_RUNNING / 5090_MATCHED_REPLICA_RUNNING / PHASE_C_DURABLE_WAIT`
+状态：`REMOTE4090_ALL_ANCHORS_ACCEPTED / PHASE_C_CAUSAL_AUDIT_RUNNING / LOCAL_AND_5090_REPLICAS_RUNNING`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -21,20 +21,20 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 用户随后又明确授权一台RTX 5090，并授权主控在不改变科学目标的前提下决定batch与
 并发。当前决定是：科学lane继续固定batch1；通过同宿主、同e0、隔离output root的
 独立进程并行提高总吞吐。batch增大会改变unpaired B采样、PatchNCE negatives、Adam
-轨迹及HJ/DT校正对象，不能与现有长期证据直接比较。4090当前并行HJ/HNEK，5090当前
-并行plain/HNEK；实测GPU利用率约85--98%。5090并行HNEK在本机plain e200验哈希前
-保持`QUARANTINED`，不得比较或排名。并行结果只能显式验完整文件树和同机plain hash后
-导入canonical root，绝不覆盖已有lane。详细边界见
+轨迹及HJ/DT校正对象，不能与现有长期证据直接比较。并行度按实时算力和科学依赖动态
+分配：一张卡最多两个相互隔离的batch1训练或审计进程，接近饱和后不再开启第三个。
+并行结果只能显式验完整文件树和同机plain hash后导入canonical root，绝不覆盖已有lane。
+详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 06:05）
+## 当前执行事实（2026-08-30 07:13）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
 - 本地plain已正式完成并接受e200（30000 updates），PSNR `18.095297`、SSIM
   `0.583635`、LPIPS `0.316534`；完整文件hash和重算scientific-state hash均与sidecar
-  一致。current-user计划任务`FINAL_UNSB_ROUTE1_EXECUTOR`已自动从共同e0启动HJ，
-  继续按最多5 data epochs分块执行。
+  一致。current-user计划任务`FINAL_UNSB_ROUTE1_EXECUTOR`已自动从共同e0启动HJ；当前
+  已到e86（12900 updates），继续按最多5 data epochs分块执行。
 - 通用milestone验收器已在本地e175和4090 plain e200上实际重算checkpoint文件hash、
   scientific-state hash、420张discovery70 CRN、六域计数和LPIPS，结果与已有正式证据
   一致；后续每个关键e200都使用同一验收边界。
@@ -44,18 +44,23 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   delta均值为`+0.649331 dB`，HNEK为`+0.806229 dB`，两者均通过注册的域覆盖规则，
   因而small25 proxy已正式`CALIBRATED`。一次HNEK交接竞态已通过隔离、哈希验收、
   可恢复quarantine和显式导入解决，没有混合full state。
-- 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；canonical
-  plain当前到e192，隔离HNEK到e154。HNEK结果在同机plain e200验收前继续封存。
-- 4090 DT已在proxy校准后从共同e0启动并到e46。注册介入在e45自然归零，trace已确认
-  e45/e46的`U_match=0`；其余e46--e200用于观察有限支持校正改变的内生状态如何在原生
-  UNSB下传播，不是路线二handoff实验。中间paired指标不控制训练。
+- 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；plain与隔离
+  HNEK均已验收e200并导入canonical root，HJ当前到e43。HNEK晚三点宏delta均值虽为
+  `+0.608222 dB`，但只有一个晚期点达到4/6域正，单独不足以校准该宿主；DT继续锁定到
+  HJ e200，不能为了提高利用率绕过科学依赖。
+- 4090 DT已完成并验收e200。其e40/60/80/100/125/150/175/200宏PSNR delta依次为
+  `-0.4910/+1.2333/+0.1148/+3.2237/-0.6441/+0.6784/+0.5011/-0.4711 dB`；晚三点均值
+  `+0.236124 dB`，但e200仅2/6域正、最差域`-1.5765 dB`，SSIM/LPIPS也退化。因此DT是
+  `positive_probe_not_candidate`：它证明e21--e45的有限支持校正能改变很长的原生尾部，
+  但当前实现没有形成顺畅的终点收益保持。中间paired指标从未控制训练。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
-- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `3e86728`，当前
-  状态为 `WAITING_FOR_ANCHORS`。它只在anchor executor到达显式终态后使用GPU，按
-  atlas row原子落盘并可恢复。审计同时覆盖连续介入、短pulse后的原生流传播以及
-  batch/latent-time correction方差；pulse只作因果诊断，不是路线二策略。Phase C完成后
-  停在数学推导门，不会把模板冒充新算法。
+- 4090持久审计器固定于audit commit `729826f`、source fingerprint `41434187...5e1a`。
+  四锚点终态哈希验收后冻结了25个审计点：HJ 8个、HNEK 9个、DT 8个；无缺失和重放。
+  当前两个隔离worker并行审计DT e20/e40，初始6条atlas row均证明parent full-state hash
+  前后相同、paired controller访问为false、confirmation20未打开；实测双流GPU利用率
+  约95%，不再增加第三个进程。审计覆盖连续介入、短pulse后的原生流传播以及8重复
+  batch/latent-time校正方差；pulse只作因果诊断，不是路线二策略。
 - paired discovery70只在双分支冻结后作为未来标签；只有跨方法准确率、相关性、域
   一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。否则只允许从
   可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。
@@ -69,6 +74,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   等价性边界，声明与旧实现的实质差别、四类数学改动、适用状态、恢复成本及三项消融；
   因果矩阵完成后会初始化不可静默覆盖的`HYPOTHESIS_LEDGER.json`。候选executor同时
   绑定产生plain e200的GPU/PyTorch/CUDA环境及baseline哈希，跨宿主delta会在启动前失败。
+- 新算法公式仍未预写。必须等25点atlas和不可变`LONG_CAUSAL_MATRIX`完成后，才依据跨探针
+  证据生成最多三个Generation-1构造；历史已失败的future-batch selector、HJ cosine
+  matching、同batch Adam projection、DT sensitivity preconditioner等不得换名重跑。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式

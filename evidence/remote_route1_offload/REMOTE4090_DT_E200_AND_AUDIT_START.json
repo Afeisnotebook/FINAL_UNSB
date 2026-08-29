@@ -1,0 +1,80 @@
+{
+  "schema": "final-unsb-route1-remote4090-dt-e200-and-audit-start-v1",
+  "observed_at": "2026-08-30T07:13:00+08:00",
+  "host_alias": "final-unsb-4090",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "training_identity": {
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+    "seed": 2026,
+    "batch_size": 1,
+    "steps_per_data_epoch": 150
+  },
+  "accepted_terminal_verification_sha256": {
+    "plain": "128ac4652b0aae10f70edca660ffcf056e7f761de7ad24dbbca68ff0ce788418",
+    "hj": "67c84d2d315834d3eeadb9f690ffcf2a2fc5e7e33e9d60ce652e1f107348ac67",
+    "hnek": "77448db1d7168cde3a5abfcb32abf9809529ff578f2a669b1e98e2459bbfe78e",
+    "dt": "4a0a3082e1f2be90e04c05c16dbda2af19dae1dfac2bc25c279f2e4b1f1f2e6d"
+  },
+  "proxy_calibration": {
+    "status": "CALIBRATED",
+    "hj_late_three_macro_psnr_delta_db": 0.6493313327204753,
+    "hnek_late_three_macro_psnr_delta_db": 0.8062285254627106
+  },
+  "dt": {
+    "status": "COMPLETE_E200_VERIFIED_POSITIVE_PROBE_NOT_CANDIDATE",
+    "intervention_data_epochs": [21, 45],
+    "registered_intervention_zero_after_e45": true,
+    "macro_psnr_delta_db": {
+      "e40": -0.4910453880851957,
+      "e60": 1.2332740949229226,
+      "e80": 0.11484850416639603,
+      "e100": 3.2236588089101126,
+      "e125": -0.644125922734915,
+      "e150": 0.6783921109240296,
+      "e175": 0.5011207729958471,
+      "e200": -0.471140111670735
+    },
+    "late_three_macro_psnr_delta_db": 0.23612425741638057,
+    "e200": {
+      "plain_macro_psnr": 17.43805859097264,
+      "dt_macro_psnr": 16.966918479301906,
+      "plain_macro_ssim": 0.5516294765330496,
+      "dt_macro_ssim": 0.5404525511321566,
+      "plain_macro_lpips": 0.3343400211916083,
+      "dt_macro_lpips": 0.35030841575491994,
+      "positive_domains": 2,
+      "worst_domain_delta_db": -1.5765365947151562
+    },
+    "interpretation_boundary": "The finite-support DT correction changed the endogenous state far into the native UNSB tail, but the current implementation did not retain endpoint benefit. This is causal-probe evidence, not a route2 handoff result and not a parent-mechanism falsification."
+  },
+  "causal_audit": {
+    "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "audit_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
+    "queue_status": "READY",
+    "jobs": 25,
+    "job_epochs": {
+      "dt": [20, 40, 60, 100, 125, 150, 175, 200],
+      "hj": [5, 10, 20, 100, 125, 150, 175, 200],
+      "hnek": [5, 10, 20, 60, 100, 125, 150, 175, 200]
+    },
+    "missing_or_replay": [],
+    "maximum_parallel_jobs": 2,
+    "first_workers": [
+      {"probe": "dt", "data_epoch": 20},
+      {"probe": "dt", "data_epoch": 40}
+    ],
+    "initial_reversal_atlas_rows": 6,
+    "initial_rows_parent_state_sha256_before_equals_after": true,
+    "initial_rows_paired_metrics_accessed_by_controller": false,
+    "initial_rows_confirmation20_opened": false,
+    "observed_gpu_utilization_percent": 95,
+    "resource_decision": "Keep scientific batch_size=1. Use at most two isolated workers while aggregate GPU utilization is near saturation; do not add a third worker."
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "candidate_formula_precommitted": false,
+  "next_gate": "Freeze and verify the complete LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX before deriving any new candidate formula."
+}

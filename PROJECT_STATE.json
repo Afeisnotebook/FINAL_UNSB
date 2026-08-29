@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "phase": "REMOTE4090_PROXY_CALIBRATED_DT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
+  "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "cde4d9b",
+  "development_head_at_state_write": "777b766acd8111dd7f8a78ce0aea38dbe3772fa8",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -17,7 +17,7 @@
       "latest_observed_data_epoch": 200,
       "target_data_epoch": 200
     },
-    "hj": {"latest_observed_data_epoch": 58, "latest_observed_updates": 8700, "target_data_epoch": 200},
+    "hj": {"latest_observed_data_epoch": 86, "latest_observed_updates": 12900, "target_data_epoch": 200},
     "hnek": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
@@ -114,11 +114,17 @@
     ,"rollout-speed and bridge-time coordinate mechanisms are registered for pre-evidence matrix reanalysis"
   ],
   "phase_c": {
-    "status": "DURABLE_AUDITOR_REGISTERED_WAITING_FOR_ANCHORS",
+    "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",
     "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
     "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
     "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_3908993",
-    "audit_git_commit": "3e86728789b910a7d26f1c760c72d6933e10616d",
+    "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "audit_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
+    "primary_audit_host": "final-unsb-4090",
+    "frozen_jobs": 25,
+    "maximum_parallel_jobs": 2,
+    "first_observed_rows": 6,
+    "first_rows_parent_state_unchanged": true,
     "audit_scope": "continuous operator validity, pulse-to-native propagation, 8-replicate batch/latent-time correction variance, and offline target-blind signal eligibility screening",
     "posthoc_matrix_analysis_commit": "e1d9d88",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
@@ -126,7 +132,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "PLAIN_HJ_HNEK_E200_ACCEPTED_PROXY_CALIBRATED_DT_RUNNING",
+    "status": "ALL_FOUR_ANCHORS_E200_ACCEPTED_PROXY_CALIBRATED_CAUSAL_AUDIT_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "supplementary host-matched route1 replica; never mix a remote method with local plain",
@@ -149,22 +155,29 @@
     "independent_hnek_autocomplete_evidence": "evidence/remote_route1_offload/REMOTE4090_HNEK_AUTOCOMPLETE_ARMED.json",
     "parallel_probe_evidence": "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
     "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
-    "auditor_status": "WAITING_FOR_ANCHORS",
-    "auditor_commit": "3e86728789b910a7d26f1c760c72d6933e10616d",
-    "auditor_evidence": "evidence/remote_route1_offload/REMOTE4090_AUDITOR_START.json",
+    "auditor_status": "RUNNING_25_JOB_IMMUTABLE_QUEUE_MAX2",
+    "auditor_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "auditor_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
+    "auditor_evidence": "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
     "proxy_calibration": {
       "status": "CALIBRATED",
       "hj_late_three_macro_psnr_delta_db": 0.6493313327204753,
       "hnek_late_three_macro_psnr_delta_db": 0.8062285254627106,
       "evidence": "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
     },
-    "dt_latest_observed_data_epoch": 46,
+    "dt_latest_observed_data_epoch": 200,
+    "dt_e200_checkpoint_and_metric_verified": true,
+    "dt_late_three_macro_psnr_delta_db": 0.23612425741638057,
+    "dt_e200_macro_psnr_delta_db": -0.471140111670735,
+    "dt_e200_positive_domains": 2,
+    "dt_e200_worst_domain_delta_db": -1.5765365947151562,
+    "dt_scientific_status": "positive_probe_not_candidate",
     "dt_intervention_tail_observed_zero": true,
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "PREFLIGHT_PASS_PLAIN_AND_QUARANTINED_HNEK_RUNNING",
+    "status": "PLAIN_AND_HNEK_E200_ACCEPTED_HJ_RUNNING_PROXY_NOT_YET_CALIBRATED",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -178,17 +191,25 @@
     "selected_data_hash_mismatches": 0,
     "shared_e0_file_and_scientific_hash_match": true,
     "initial_observed_data_epoch": 1,
-    "latest_observed_plain_data_epoch": 192,
-    "latest_observed_independent_hnek_data_epoch": 154,
+    "latest_observed_plain_data_epoch": 200,
+    "latest_observed_hj_data_epoch": 43,
+    "latest_observed_independent_hnek_data_epoch": 200,
     "independent_hnek_output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
-    "independent_hnek_admission": "QUARANTINED_UNTIL_SAME_HOST_PLAIN_E200_HASH_VERIFIED",
-    "independent_hnek_autoimport_status": "ARMED_WAITING_FOR_SOURCE_AND_MATCHED_PLAIN_E200",
+    "independent_hnek_admission": "ACCEPTED_AFTER_SAME_HOST_PLAIN_E200_HASH_VERIFICATION",
+    "independent_hnek_autoimport_status": "COMPLETE_VERIFIED_AND_IMPORTED",
     "independent_hnek_autoimport_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_AUTOIMPORT_ARMED.json",
     "supervisor": "screen:FINAL_UNSB_ROUTE1_REMOTE5090",
     "evidence": "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
     "auditor_status": "WAITING_FOR_ANCHORS",
-    "auditor_commit": "3e86728789b910a7d26f1c760c72d6933e10616d",
+    "auditor_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
     "auditor_evidence": "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
+    "hnek_e200_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_E200_VERIFICATION.json",
+    "proxy_calibration": {
+      "status": "INSUFFICIENT_HNEK_ALONE_WAITING_FOR_HJ_E200",
+      "hnek_late_three_macro_psnr_delta_db": 0.6082221582704617,
+      "late_points_with_at_least_four_positive_domains": 1,
+      "dt_locked_until_hj_e200": true
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -201,5 +222,5 @@
     "causal_hypothesis_ledger_commit": "cde4d9b",
     "status": "READY_BUT_BLOCKED_UNTIL_CAUSAL_ATLAS_AND_DERIVATION"
   },
-  "next_gate": "Finish and verify remote4090 DT e200, let the terminal-verification-gated auditor produce the immutable long atlas and causal matrix, then derive and implement new formulas under the historical-equivalence and target-blind contracts."
+  "next_gate": "Complete and verify the remote4090 immutable 25-job causal audit and LONG_CAUSAL_MATRIX, then derive and implement new formulas under the historical-equivalence and target-blind contracts; do not prewrite a candidate before the matrix is frozen."
 }
