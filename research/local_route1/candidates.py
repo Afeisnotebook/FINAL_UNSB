@@ -16,6 +16,7 @@ from typing import Any
 
 from .causal_audit import training_core_fingerprint
 from .protocol import ROOT, ProbeSpec, file_sha256, load_protocol, object_sha256
+from .runtime import write_json
 
 
 CARD_SCHEMA = "final-unsb-route1-derivation-card-v1"
@@ -64,6 +65,8 @@ class CandidateRegistration:
     base_e0_scientific_state_sha256: str
     base_protocol_fingerprint: str
     candidate_training_core_fingerprint: str
+    hypothesis_ledger_sha256: str | None
+    hypothesis_freeze_sha256: str | None
     gate: dict[str, Any] | None
 
     def to_dict(self) -> dict[str, Any]:
@@ -80,6 +83,8 @@ class CandidateRegistration:
             "base_e0_scientific_state_sha256": self.base_e0_scientific_state_sha256,
             "base_protocol_fingerprint": self.base_protocol_fingerprint,
             "candidate_training_core_fingerprint": self.candidate_training_core_fingerprint,
+            "hypothesis_ledger_sha256": self.hypothesis_ledger_sha256,
+            "hypothesis_freeze_sha256": self.hypothesis_freeze_sha256,
             "gate_status": None if self.gate is None else self.gate.get("status"),
             "paired_controller_access": False,
             "confirmation20_opened": False,
@@ -285,8 +290,84 @@ def _base_e0_identity(output_root: Path) -> tuple[str, str, str]:
     return actual_checkpoint_hash, scientific_hash, protocol_fingerprint
 
 
+def _ledger_evidence_identity(
+    *, matrix_sha256: str, atlas_sha256: str,
+) -> dict[str, str]:
+    return {
+        "causal_matrix_sha256": matrix_sha256,
+        "reversal_atlas_sha256": atlas_sha256,
+        "historical_evidence_index_sha256": file_sha256(
+            ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl"
+        ),
+        "mechanism_object_map_sha256": file_sha256(
+            ROOT / "evidence" / "lineage" / "MECHANISM_OBJECT_MAP.json"
+        ),
+        "reuse_boundary_sha256": file_sha256(
+            ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json"
+        ),
+    }
+
+
+def _validate_hypothesis_ledger(
+    *, output_root: Path, candidate_id: str, matrix_sha256: str,
+    atlas_sha256: str, card_sha256: str, implementation_sha256: str,
+    algorithm_fingerprint: str,
+) -> tuple[str, str]:
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    if not ledger_path.is_file():
+        raise RuntimeError("candidate is not registered in the hypothesis ledger")
+    ledger = _read_json(ledger_path)
+    if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+        raise RuntimeError("hypothesis ledger schema mismatch")
+    if ledger.get("evidence_identity") != _ledger_evidence_identity(
+        matrix_sha256=matrix_sha256, atlas_sha256=atlas_sha256,
+    ):
+        raise RuntimeError("hypothesis ledger is stale for the causal evidence")
+    if ledger.get("paired_controller_access") is not False:
+        raise RuntimeError("hypothesis ledger must deny paired controller access")
+    if ledger.get("confirmation20_opened") is not False:
+        raise RuntimeError("hypothesis ledger must keep confirmation20 locked")
+    records = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == candidate_id
+    ]
+    if len(records) != 1:
+        raise RuntimeError("candidate must have exactly one hypothesis ledger record")
+    record = records[0]
+    if record.get("status") != "FROZEN_FOR_GATES":
+        raise RuntimeError("candidate hypothesis is not frozen for gates")
+    expected = {
+        "derivation_card_sha256": card_sha256,
+        "implementation_sha256": implementation_sha256,
+        "algorithm_fingerprint": algorithm_fingerprint,
+    }
+    for key, value in expected.items():
+        if record.get(key) != value:
+            raise RuntimeError(f"candidate hypothesis ledger binding mismatch: {key}")
+    if record.get("paired_controller_access") is not False:
+        raise RuntimeError("candidate ledger record must deny paired controller access")
+    if record.get("confirmation20_opened") is not False:
+        raise RuntimeError("candidate ledger record must keep confirmation20 locked")
+    freeze_identity = {
+        "schema": "final-unsb-route1-hypothesis-freeze-v1",
+        "evidence_identity": ledger["evidence_identity"],
+        "candidate_id": candidate_id,
+        "generation": record.get("generation"),
+        "parent_candidate_id": record.get("parent_candidate_id"),
+        "parent_evidence": record.get("parent_evidence"),
+        "construction_route": record.get("construction_route"),
+        "revision_count": record.get("revision_count"),
+        **expected,
+        "freeze_event": record.get("freeze_event"),
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    return file_sha256(ledger_path), object_sha256(freeze_identity)
+
+
 def load_candidate_registration(
     output_root: Path, candidate_id: str, *, require_gate: bool = False,
+    require_hypothesis_ledger: bool = True,
 ) -> CandidateRegistration:
     """Validate an evidence/card/code chain and optionally its long-run gate."""
     candidate_id = validate_candidate_id(candidate_id)
@@ -350,11 +431,27 @@ def load_candidate_registration(
         "manifest_sha256": protocol["manifest"]["sha256"],
     }
     algorithm_fingerprint = object_sha256(algorithm_fingerprint_payload)
+    implementation_sha256 = file_sha256(implementation_path)
+    hypothesis_ledger_sha256 = None
+    hypothesis_freeze_sha256 = None
+    if require_hypothesis_ledger:
+        hypothesis_ledger_sha256, hypothesis_freeze_sha256 = _validate_hypothesis_ledger(
+            output_root=output_root,
+            candidate_id=candidate_id,
+            matrix_sha256=matrix_sha256,
+            atlas_sha256=atlas_sha256,
+            card_sha256=card_sha256,
+            implementation_sha256=implementation_sha256,
+            algorithm_fingerprint=algorithm_fingerprint,
+        )
     fingerprint_payload = {
         "schema": REGISTRATION_SCHEMA,
         "algorithm_fingerprint": algorithm_fingerprint,
         "card_sha256": card_sha256,
-        "implementation_sha256": file_sha256(implementation_path),
+        "implementation_sha256": implementation_sha256,
+        # Bind execution to this candidate's immutable freeze record.  The
+        # whole ledger may legitimately grow as sibling candidates are frozen.
+        "hypothesis_freeze_sha256": hypothesis_freeze_sha256,
         "causal_matrix_sha256": matrix_sha256,
         "reversal_atlas_sha256": atlas_sha256,
         "candidate_training_core_fingerprint": candidate_training_core,
@@ -426,5 +523,73 @@ def load_candidate_registration(
         base_e0_scientific_state_sha256=e0_state_sha256,
         base_protocol_fingerprint=base_protocol_fingerprint,
         candidate_training_core_fingerprint=candidate_training_core,
+        hypothesis_ledger_sha256=hypothesis_ledger_sha256,
+        hypothesis_freeze_sha256=hypothesis_freeze_sha256,
         gate=gate,
     )
+
+
+def freeze_candidate_derivation(
+    output_root: Path, candidate_id: str,
+) -> CandidateRegistration:
+    """Freeze one derived algorithm into its pre-created causal ledger slot.
+
+    This is intentionally idempotent only for an unchanged card, implementation
+    and algorithm fingerprint.  A revised mechanism must use the one allowed
+    revision record rather than silently rewriting a Generation-1 hypothesis.
+    """
+    output_root = Path(output_root).resolve()
+    candidate_id = validate_candidate_id(candidate_id)
+    registration = load_candidate_registration(
+        output_root, candidate_id, require_gate=False,
+        require_hypothesis_ledger=False,
+    )
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    if not ledger_path.is_file():
+        raise RuntimeError("derive stage must create the hypothesis ledger first")
+    ledger = _read_json(ledger_path)
+    if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+        raise RuntimeError("hypothesis ledger schema mismatch")
+    expected_identity = _ledger_evidence_identity(
+        matrix_sha256=registration.causal_matrix_sha256,
+        atlas_sha256=registration.reversal_atlas_sha256,
+    )
+    if ledger.get("evidence_identity") != expected_identity:
+        raise RuntimeError("hypothesis ledger is stale for the causal evidence")
+    records = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == candidate_id
+    ]
+    if len(records) != 1:
+        raise RuntimeError("candidate must occupy exactly one pre-created ledger slot")
+    record = records[0]
+    bindings = {
+        "derivation_card_sha256": file_sha256(registration.card_path),
+        "implementation_sha256": file_sha256(registration.implementation_path),
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+    }
+    if record.get("status") == "FROZEN_FOR_GATES":
+        for key, value in bindings.items():
+            if record.get(key) != value:
+                raise RuntimeError(
+                    f"frozen candidate hypothesis may not be silently rewritten: {key}"
+                )
+        return load_candidate_registration(output_root, candidate_id)
+    if record.get("status") != "DERIVATION_REQUIRED":
+        raise RuntimeError(
+            "candidate ledger slot must be DERIVATION_REQUIRED before freezing"
+        )
+    record.update({
+        "status": "FROZEN_FOR_GATES",
+        **bindings,
+        "freeze_event": {
+            "event": "DERIVATION_AND_IMPLEMENTATION_FROZEN",
+            "causal_matrix_sha256": registration.causal_matrix_sha256,
+            "reversal_atlas_sha256": registration.reversal_atlas_sha256,
+            "paired_metric_used_for_selection": False,
+        },
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    write_json(ledger_path, ledger)
+    return load_candidate_registration(output_root, candidate_id)

@@ -9,6 +9,7 @@ from research.local_route1.candidates import (
     CARD_SCHEMA,
     GATE_SCHEMA,
     IMPLEMENTATION_SCHEMA,
+    freeze_candidate_derivation,
     load_candidate_registration,
     validate_candidate_id,
 )
@@ -626,7 +627,9 @@ def test_rollout_growth_signal_uses_only_past_and_current_unpaired_state():
     assert signal["paired_label_available_to_controller"] is False
 
 
-def _write_candidate_registration_fixture(tmp_path: Path, candidate_id: str = "G1-TEST"):
+def _write_candidate_registration_fixture(
+    tmp_path: Path, candidate_id: str = "G1-TEST", *, freeze_ledger: bool = True,
+):
     import json
 
     audit = tmp_path / "audit"
@@ -722,6 +725,46 @@ def _write_candidate_registration_fixture(tmp_path: Path, candidate_id: str = "G
         "checkpoint_sha256": file_sha256(e0_path),
         "scientific_state_sha256": full_state_hash(e0),
     }), encoding="utf-8")
+    ledger_path = tmp_path / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger_path.write_text(json.dumps({
+        "schema": "final-unsb-route1-hypothesis-ledger-v1",
+        "status": "ACTIVE_DERIVATION",
+        "evidence_identity": {
+            "causal_matrix_sha256": file_sha256(matrix_path),
+            "reversal_atlas_sha256": file_sha256(atlas_path),
+            "historical_evidence_index_sha256": file_sha256(
+                ROOT / "evidence" / "LONG_HORIZON_EVIDENCE_INDEX.jsonl"
+            ),
+            "mechanism_object_map_sha256": file_sha256(
+                ROOT / "evidence" / "lineage" / "MECHANISM_OBJECT_MAP.json"
+            ),
+            "reuse_boundary_sha256": file_sha256(
+                ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json"
+            ),
+        },
+        "generation_policy": {
+            "maximum_generation1_candidates": 3,
+            "maximum_revisions_per_mechanism": 1,
+            "maximum_components_per_composition": 2,
+            "fixed_window_or_hyperparameter_grid_forbidden": True,
+        },
+        "records": [{
+            "candidate_id": candidate_id,
+            "generation": 1,
+            "parent_candidate_id": None,
+            "parent_evidence": {"failure_type": "sampling_variance"},
+            "construction_route": "unbiased estimator",
+            "status": "DERIVATION_REQUIRED",
+            "revision_count": 0,
+            "experiments": [],
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        }],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    if freeze_ledger:
+        freeze_candidate_derivation(tmp_path, candidate_id)
     return card_path, implementation_path
 
 
@@ -841,7 +884,9 @@ def test_algorithm_definition_is_host_evidence_independent_but_registration_is_n
     first = tmp_path / "local1660"
     second = tmp_path / "remote4090"
     _write_candidate_registration_fixture(first)
-    card_path, implementation_path = _write_candidate_registration_fixture(second)
+    card_path, implementation_path = _write_candidate_registration_fixture(
+        second, freeze_ledger=False,
+    )
     matrix_path = second / "audit" / "LONG_CAUSAL_MATRIX.json"
     matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
     matrix["host_evidence"] = "remote4090"
@@ -855,10 +900,51 @@ def test_algorithm_definition_is_host_evidence_independent_but_registration_is_n
     implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
     implementation["derivation_card_sha256"] = file_sha256(card_path)
     implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    ledger_path = second / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    ledger["evidence_identity"]["causal_matrix_sha256"] = file_sha256(matrix_path)
+    ledger_path.write_text(json.dumps(ledger), encoding="utf-8")
+    freeze_candidate_derivation(second, "G1-TEST")
     local = load_candidate_registration(first, "G1-TEST")
     remote = load_candidate_registration(second, "G1-TEST")
     assert local.algorithm_fingerprint == remote.algorithm_fingerprint
     assert local.candidate_fingerprint != remote.candidate_fingerprint
+
+
+def test_candidate_registration_requires_frozen_hypothesis_ledger(tmp_path):
+    card_path, implementation_path = _write_candidate_registration_fixture(
+        tmp_path, freeze_ledger=False,
+    )
+    with pytest.raises(RuntimeError, match="not frozen for gates"):
+        load_candidate_registration(tmp_path, "G1-TEST")
+    frozen = freeze_candidate_derivation(tmp_path, "G1-TEST")
+    repeated = freeze_candidate_derivation(tmp_path, "G1-TEST")
+    assert frozen.hypothesis_ledger_sha256 == repeated.hypothesis_ledger_sha256
+    import json
+
+    ledger_path = tmp_path / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    ledger["records"].append({
+        "candidate_id": "G1-SIBLING",
+        "generation": 1,
+        "status": "DERIVATION_REQUIRED",
+        "revision_count": 0,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    ledger_path.write_text(json.dumps(ledger), encoding="utf-8")
+    after_sibling = load_candidate_registration(tmp_path, "G1-TEST")
+    assert after_sibling.candidate_fingerprint == frozen.candidate_fingerprint
+    assert after_sibling.hypothesis_ledger_sha256 != frozen.hypothesis_ledger_sha256
+
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card["formula"] = "E[g_new] = E[g_UNSB] + 0"
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["derivation_card_sha256"] = file_sha256(card_path)
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="may not be silently rewritten"):
+        freeze_candidate_derivation(tmp_path, "G1-TEST")
 
 
 def _write_passed_candidate_gate(output_root: Path):

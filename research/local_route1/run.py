@@ -9,6 +9,7 @@ from pathlib import Path
 from .anchors import run_anchor, summarize_anchors
 from .candidate_runner import freeze_for_seed_validation, run_candidate, summarize_candidate
 from .candidate_gate import run_candidate_gate
+from .candidates import freeze_candidate_derivation
 from .causal_audit import DEFAULT_HORIZONS, build_causal_matrix, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
 from .lineage import write_lineage
@@ -40,7 +41,9 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
     value.add_argument("--candidate-id")
     value.add_argument(
-        "--candidate-action", choices=["status", "gate", "train", "evaluate", "freeze"], default="status",
+        "--candidate-action",
+        choices=["status", "register", "gate", "train", "evaluate", "freeze"],
+        default="status",
         help="candidate stage action; status never launches training",
     )
     value.add_argument("--validation-seed", type=int, choices=[2027, 2028])
@@ -170,6 +173,12 @@ def main(argv: list[str] | None = None) -> int:
         if args.candidate_action == "status":
             result = validate_candidate_ready(args.output, args.candidate_id)
             return_code = 0 if str(result.get("status", "")).startswith("READY_") else 6
+        elif args.candidate_action == "register":
+            result = freeze_candidate_derivation(
+                args.output, args.candidate_id,
+            ).to_dict()
+            result["status"] = "FROZEN_FOR_CANDIDATE_GATES"
+            return_code = 0
         elif args.candidate_action == "gate":
             result = run_candidate_gate(
                 output_root=args.output,
