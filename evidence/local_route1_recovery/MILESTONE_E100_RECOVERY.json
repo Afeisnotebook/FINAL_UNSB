@@ -1,0 +1,23 @@
+{
+  "schema": "final-unsb-route1-milestone-recovery-v1",
+  "status": "PASS",
+  "disposition": "RECOVERED_MISSING_METRIC",
+  "lane": "plain",
+  "epoch": 100,
+  "updates": 15000,
+  "source_checkpoint_sha256": "4739b84d31331d31859a971bebb12eb152b24b546ae11f2f92eab782f9f079ac",
+  "source_scientific_state_sha256": "4550c251c84cd04e333da31cc17fcf345c7c4d41504afb1ce045067d30731f56",
+  "metric_payload_sha256": "25eb768781861698d53129bc24c3088e403f1f07f95e93b5c0130aeef26159c6",
+  "repeat_payload_sha256": "25eb768781861698d53129bc24c3088e403f1f07f95e93b5c0130aeef26159c6",
+  "parent_state_hash_before": "fc4ba2d2a6d64154ffdd6bf5aad5153b2c4a3ecb95738625f2db0defe0c26a7f",
+  "parent_state_hash_after": "fc4ba2d2a6d64154ffdd6bf5aad5153b2c4a3ecb95738625f2db0defe0c26a7f",
+  "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4",
+  "macro_psnr": 13.0361776784566,
+  "macro_ssim": 0.479391085604827,
+  "macro_lpips": 0.495213664855276,
+  "lpips_requested": true,
+  "lpips_available": true,
+  "confirmation20_opened": false,
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2"
+}

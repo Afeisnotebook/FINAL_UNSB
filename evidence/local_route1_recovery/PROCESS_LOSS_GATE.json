@@ -1,0 +1,20 @@
+{
+  "schema": "final-unsb-route1-process-loss-gate-v1",
+  "status": "PASS",
+  "started": "2026-08-29T23:58:49.951833+08:00",
+  "completed": "2026-08-30T00:04:38.037086+08:00",
+  "deliberate_termination": true,
+  "killed_exit_code": 1,
+  "surviving_data_epoch": 1,
+  "surviving_updates": 150,
+  "surviving_checkpoint_sha256": "5dd287a3df42915c4b53e9960c90ea900d90a9d1c34ee429d70c2384dba09cb3",
+  "recovered_data_epoch": 2,
+  "recovered_updates": 300,
+  "recovered_scientific_state_sha256": "8f4a334dead6de398045005a6dec90df7ea41fe6e1a2772a58bd90b4e7b98db5",
+  "accepted_reference_scientific_state_sha256": "8f4a334dead6de398045005a6dec90df7ea41fe6e1a2772a58bd90b4e7b98db5",
+  "exact_reference_match": true,
+  "temporary_files_after_kill": [],
+  "confirmation20_opened": false,
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2"
+}

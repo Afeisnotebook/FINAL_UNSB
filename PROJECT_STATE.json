@@ -1,9 +1,30 @@
 {
   "schema_version": 1,
   "updated": "2026-08-29",
-  "phase": "LOCAL_ROUTE1_ENGINEERING_GATE_PASSED",
-  "active_code_commit": "a4883ebc5c060e5726acf4ef0a7d701cc20fa088",
+  "phase": "LOCAL_ROUTE1_DURABLE_EXECUTOR_REGISTRATION_PENDING",
+  "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "frozen_executor": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "immutable_during_anchor_execution": true
+  },
+  "anchor_progress": {
+    "plain": {"data_epoch": 100, "updates": 15000, "target_data_epoch": 200},
+    "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
+    "hnek": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
+    "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
+    "plain_e100_checkpoint_verified": true,
+    "plain_e100_official_metric_pending_recovery": false,
+    "plain_e100_metric_payload_sha256": "25eb768781861698d53129bc24c3088e403f1f07f95e93b5c0130aeef26159c6",
+    "confirmation20_opened": false
+  },
+  "execution_incident": {
+    "status": "CODE_AND_FAULT_GATE_PASS",
+    "summary": "Two hidden descendant process trees ended without traceback near plain e60 and e100; checkpoint state survived but the original executor had no durable supervisor or exit audit.",
+    "scientific_invalidity": false,
+    "wall_clock_idle_hours_approx": 20
+  },
   "canonical_source": {
     "parent_repository": "https://github.com/Afeisnotebook/UNSB_RESEARCH",
     "parent_commit": "071246a5530cbb0b26081914e3692ed9d56142e4",
@@ -48,5 +69,5 @@
     "two-epoch continuous versus one-plus-resume exact identity",
     "discovery70 CRN evaluation repeat and parent-state isolation"
   ],
-  "next_gate": "Run the matched small25 plain e1-e200 anchor from the committed shared e0, then continuous HJ and HNEK; do not run DT or derive candidates until proxy calibration is complete."
+  "next_gate": "Register the current-user FINAL_UNSB_ROUTE1_EXECUTOR scheduled task from the committed operational scripts and accept the first official e100-to-e105 chunk with complete event and checkpoint evidence."
 }
