@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "LOCAL_PLAIN_E200_ACCEPTED_THREE_HOST_METHOD_ANCHORS_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "46a0ada",
+  "development_head_at_state_write": "e42c625",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -17,7 +17,7 @@
       "latest_observed_data_epoch": 200,
       "target_data_epoch": 200
     },
-    "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
+    "hj": {"latest_observed_data_epoch": 7, "latest_observed_updates": 1050, "target_data_epoch": 200},
     "hnek": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
@@ -140,8 +140,8 @@
     "plain_e200_checkpoint_and_metric_verified": true,
     "plain_e200_macro_psnr": 17.43805859097264,
     "plain_e200_evidence": "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json",
-    "latest_observed_hj_data_epoch": 84,
-    "latest_observed_independent_hnek_data_epoch": 40,
+    "latest_observed_hj_data_epoch": 110,
+    "latest_observed_independent_hnek_data_epoch": 75,
     "independent_hnek_output_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_HNEK_PARALLEL",
     "independent_hnek_handoff_status": "ARMED_WAITING_FOR_HJ_FINAL_CHUNK",
     "independent_hnek_handoff_evidence": "evidence/remote_route1_offload/REMOTE4090_HNEK_HANDOFF_ARMED.json",
@@ -168,10 +168,12 @@
     "selected_data_hash_mismatches": 0,
     "shared_e0_file_and_scientific_hash_match": true,
     "initial_observed_data_epoch": 1,
-    "latest_observed_plain_data_epoch": 64,
-    "latest_observed_independent_hnek_data_epoch": 24,
+    "latest_observed_plain_data_epoch": 88,
+    "latest_observed_independent_hnek_data_epoch": 49,
     "independent_hnek_output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
     "independent_hnek_admission": "QUARANTINED_UNTIL_SAME_HOST_PLAIN_E200_HASH_VERIFIED",
+    "independent_hnek_autoimport_status": "ARMED_WAITING_FOR_SOURCE_AND_MATCHED_PLAIN_E200",
+    "independent_hnek_autoimport_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_AUTOIMPORT_ARMED.json",
     "supervisor": "screen:FINAL_UNSB_ROUTE1_REMOTE5090",
     "evidence": "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
     "auditor_status": "WAITING_FOR_ANCHORS",
@@ -186,5 +188,5 @@
     "seed_validation_commit": "2cefec4",
     "status": "READY_BUT_BLOCKED_UNTIL_CAUSAL_ATLAS_AND_DERIVATION"
   },
-  "next_gate": "Accept local plain e200 with the full-state milestone verifier; complete and explicitly import same-host independent HNEK trees without overwrite; evaluate proxy before DT; then execute frozen causal auditors and derive formulas only from immutable atlas rows."
+  "next_gate": "Finish and verify same-host HJ/HNEK e200 anchors, import independent HNEK trees without overwrite, evaluate the proxy before DT, then execute frozen causal auditors and derive new formulas only from immutable atlas rows."
 }
