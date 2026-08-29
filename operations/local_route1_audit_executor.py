@@ -15,8 +15,10 @@ import hashlib
 import json
 import os
 import subprocess
+import threading
 import time
 import traceback
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -26,6 +28,45 @@ from typing import Any
 TASK_NAME = "FINAL_UNSB_ROUTE1_AUDITOR"
 ANCHOR_TERMINAL = {"PAUSED_PROXY_NOT_CALIBRATED", "ANCHOR_PHASE_COMPLETE"}
 EXPECTED_MANIFEST = "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+
+
+def post_audit_terminal_state(anchor_status: str) -> str:
+    if anchor_status == "PAUSED_PROXY_NOT_CALIBRATED":
+        return "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED"
+    if anchor_status == "ANCHOR_PHASE_COMPLETE":
+        return "PHASE_C_COMPLETE_DERIVATION_REQUIRED"
+    raise ValueError(f"unsupported terminal anchor status: {anchor_status}")
+
+
+def required_terminal_lanes(anchor_status: str) -> tuple[str, ...]:
+    if anchor_status == "ANCHOR_PHASE_COMPLETE":
+        return ("plain", "hj", "hnek", "dt")
+    if anchor_status == "PAUSED_PROXY_NOT_CALIBRATED":
+        return ("plain", "hj", "hnek")
+    raise ValueError(f"unsupported terminal anchor status: {anchor_status}")
+
+
+def validate_terminal_verification(payload: dict[str, Any], lane: str) -> None:
+    if payload.get("schema") != "final-unsb-route1-milestone-verification-v1":
+        raise RuntimeError(f"{lane} terminal verification schema mismatch")
+    if payload.get("status") != "ACCEPTED_MILESTONE":
+        raise RuntimeError(f"{lane} terminal milestone is not accepted")
+    identity = payload.get("identity", {})
+    if identity.get("probe_id") != lane or int(identity.get("data_epoch", -1)) != 200:
+        raise RuntimeError(f"{lane} terminal verification identity mismatch")
+    integrity = payload.get("integrity", {})
+    for key in (
+        "checkpoint_file_hash_matches_sidecar",
+        "scientific_state_hash_matches_sidecar",
+        "metric_protocol_matches",
+        "evaluation_bundle_matches_frozen_crn",
+    ):
+        if integrity.get(key) is not True:
+            raise RuntimeError(f"{lane} terminal verification failed {key}")
+    if integrity.get("paired_metric_used_for_training_control") is not False:
+        raise RuntimeError(f"{lane} terminal verification used paired training control")
+    if integrity.get("confirmation20_opened") is not False:
+        raise RuntimeError(f"{lane} terminal verification opened confirmation20")
 
 
 def now() -> str:
@@ -134,7 +175,9 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "manifest_sha256": EXPECTED_MANIFEST,
         "poll_seconds": 30,
         "child_stall_seconds": 2700,
+        "terminal_verification_timeout_seconds": 3600,
         "maximum_job_failures": 3,
+        "maximum_parallel_jobs": int(getattr(args, "maximum_parallel_jobs", 1)),
         "horizons": [1, 8, 32, 200],
         "label_horizons": [200],
         "paired_controller_access": False,
@@ -162,6 +205,9 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("paired controller access is forbidden")
     if contract.get("confirmation20_opened") is not False:
         raise RuntimeError("confirmation20 lock violated")
+    parallel = int(contract.get("maximum_parallel_jobs", 1))
+    if parallel < 1 or parallel > 2:
+        raise RuntimeError("maximum_parallel_jobs must be one or two")
 
 
 def verify_audit_worktree(contract: dict[str, Any]) -> dict[str, str]:
@@ -199,21 +245,25 @@ class AuditExecutor:
         self.events = self.operations / "AUDIT_EXECUTOR_EVENTS.jsonl"
         self.state_path = self.operations / "AUDIT_EXECUTION_STATE.json"
         self.python = Path(self.contract["python"])
+        self._io_lock = threading.RLock()
+        self._failure_lock = threading.RLock()
 
     def event(self, event: str, **fields: Any) -> None:
-        append_jsonl(self.events, {
-            "schema": "final-unsb-route1-audit-executor-event-v1",
-            "time": now(), "event": event, "executor_pid": os.getpid(),
-            **self.identity, "confirmation20_opened": False, **fields,
-        })
+        with self._io_lock:
+            append_jsonl(self.events, {
+                "schema": "final-unsb-route1-audit-executor-event-v1",
+                "time": now(), "event": event, "executor_pid": os.getpid(),
+                **self.identity, "confirmation20_opened": False, **fields,
+            })
 
     def state(self, status: str, **fields: Any) -> None:
-        atomic_json(self.state_path, {
-            "schema": "final-unsb-route1-audit-execution-state-v1",
-            "updated": now(), "status": status, "executor_pid": os.getpid(),
-            **self.identity, "paired_controller_access": False,
-            "confirmation20_opened": False, **fields,
-        })
+        with self._io_lock:
+            atomic_json(self.state_path, {
+                "schema": "final-unsb-route1-audit-execution-state-v1",
+                "updated": now(), "status": status, "executor_pid": os.getpid(),
+                **self.identity, "paired_controller_access": False,
+                "confirmation20_opened": False, **fields,
+            })
 
     def anchor_state(self) -> dict[str, Any]:
         path = self.operations / "EXECUTION_STATE.json"
@@ -236,6 +286,38 @@ class AuditExecutor:
                 last_status = status
             self.state("WAITING_FOR_ANCHORS", anchor_status=status)
             time.sleep(int(self.contract["poll_seconds"]))
+
+    def wait_for_terminal_verifications(self, anchor_status: str) -> dict[str, str]:
+        required = required_terminal_lanes(anchor_status)
+        root = self.operations / "milestone_verifications"
+        timeout = int(self.contract.get("terminal_verification_timeout_seconds", 3600))
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            accepted: dict[str, str] = {}
+            missing = []
+            for lane in required:
+                path = root / f"{lane.upper()}_E200_VERIFICATION.json"
+                if not path.is_file():
+                    missing.append(lane)
+                    continue
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                validate_terminal_verification(payload, lane)
+                accepted[lane] = file_sha256(path)
+            if not missing:
+                self.event(
+                    "TERMINAL_MILESTONES_VERIFIED",
+                    anchor_status=anchor_status, verification_sha256=accepted,
+                )
+                return accepted
+            self.state(
+                "WAITING_FOR_TERMINAL_VERIFICATIONS",
+                anchor_status=anchor_status, required_lanes=list(required),
+                accepted_lanes=sorted(accepted), missing_lanes=missing,
+            )
+            time.sleep(int(self.contract["poll_seconds"]))
+        raise TimeoutError(
+            f"terminal milestone verification timed out for {required}"
+        )
 
     def _base_command(self) -> list[str]:
         return [
@@ -263,11 +345,34 @@ class AuditExecutor:
         return self.operations / "AUDIT_FAILURE_COUNTS.json"
 
     def failure_count(self, key: str, *, success: bool) -> int:
-        path = self._failures_path()
-        payload = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
-        payload[key] = 0 if success else int(payload.get(key, 0)) + 1
-        atomic_json(path, payload)
-        return int(payload[key])
+        with self._failure_lock:
+            path = self._failures_path()
+            payload = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+            payload[key] = 0 if success else int(payload.get(key, 0)) + 1
+            atomic_json(path, payload)
+            return int(payload[key])
+
+    def _job_row_count(self, probe: str, epoch: int) -> int:
+        count = 0
+        for path in (
+            self.run_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl",
+            self.run_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl",
+        ):
+            if not path.is_file():
+                continue
+            try:
+                rows = [
+                    json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()
+                    if line.strip()
+                ]
+            except (FileNotFoundError, json.JSONDecodeError):
+                continue
+            count += sum(
+                row.get("probe") == probe
+                and int(row.get("data_epoch", -1)) == int(epoch)
+                for row in rows
+            )
+        return count
 
     def run_job(self, probe: str, epoch: int) -> None:
         key = self._job_key(probe, epoch)
@@ -288,16 +393,16 @@ class AuditExecutor:
                 process = subprocess.Popen(argv, cwd=self.repo, stdout=out, stderr=err)
             self.event("AUDIT_JOB_START", probe=probe, data_epoch=epoch, child_pid=process.pid, attempt=attempt)
             last_progress = time.time()
-            atlas = self.run_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
-            last_mtime = atlas.stat().st_mtime if atlas.is_file() else 0.0
+            last_rows = self._job_row_count(probe, epoch)
             while process.poll() is None:
-                current_mtime = atlas.stat().st_mtime if atlas.is_file() else 0.0
-                if current_mtime > last_mtime:
-                    last_mtime = current_mtime
+                current_rows = self._job_row_count(probe, epoch)
+                if current_rows > last_rows:
+                    last_rows = current_rows
                     last_progress = time.time()
                 self.state(
                     "AUDIT_JOB_RUNNING", probe=probe, data_epoch=epoch,
-                    child_pid=process.pid, seconds_since_row_progress=time.time() - last_progress,
+                    child_pid=process.pid, rows_persisted=current_rows,
+                    seconds_since_row_progress=time.time() - last_progress,
                 )
                 if time.time() - last_progress > int(self.contract["child_stall_seconds"]):
                     process.terminate()
@@ -347,22 +452,81 @@ class AuditExecutor:
     def run(self) -> int:
         self.event("AUDIT_EXECUTOR_START", contract=str(self.contract_path))
         anchor = self.wait_for_anchors()
+        terminal_verifications = self.wait_for_terminal_verifications(
+            str(anchor.get("status"))
+        )
         jobs = self.prepare_queue()
-        self.event("AUDIT_EXECUTION_START", anchor_status=anchor.get("status"), jobs=len(jobs))
-        for index, (probe, epoch) in enumerate(jobs, 1):
-            self.state("AUDIT_QUEUE_RUNNING", job_index=index, jobs=len(jobs), probe=probe, data_epoch=epoch)
-            self.run_job(probe, epoch)
-        derive = self.run_short("derive", log_name="audit_derive_queue.log")
-        if derive.returncode != 0:
-            raise RuntimeError("causal matrix is incomplete after all queued audit jobs")
+        self.event(
+            "AUDIT_EXECUTION_START", anchor_status=anchor.get("status"), jobs=len(jobs),
+            terminal_verification_sha256=terminal_verifications,
+        )
+        maximum_parallel = min(
+            len(jobs), int(self.contract.get("maximum_parallel_jobs", 1))
+        )
+        self.event(
+            "AUDIT_WORKER_POOL_START", jobs=len(jobs),
+            maximum_parallel_jobs=maximum_parallel,
+        )
+        self.state(
+            "AUDIT_QUEUE_RUNNING", jobs=len(jobs),
+            maximum_parallel_jobs=maximum_parallel,
+        )
+        with ThreadPoolExecutor(
+            max_workers=maximum_parallel, thread_name_prefix="route1-audit",
+        ) as pool:
+            pending_jobs = iter(jobs)
+            futures = {}
+            for _ in range(maximum_parallel):
+                probe, epoch = next(pending_jobs)
+                futures[pool.submit(self.run_job, probe, epoch)] = (probe, epoch)
+            completed_jobs = 0
+            while futures:
+                completed, _ = wait(futures, return_when=FIRST_COMPLETED)
+                for future in completed:
+                    probe, epoch = futures.pop(future)
+                    future.result()
+                    completed_jobs += 1
+                    self.event(
+                        "AUDIT_QUEUE_JOB_ACCEPTED", probe=probe, data_epoch=epoch,
+                        completed_jobs=completed_jobs, jobs=len(jobs),
+                    )
+                    try:
+                        next_probe, next_epoch = next(pending_jobs)
+                    except StopIteration:
+                        continue
+                    futures[pool.submit(
+                        self.run_job, next_probe, next_epoch,
+                    )] = (next_probe, next_epoch)
         matrix_path = self.run_root / "audit" / "LONG_CAUSAL_MATRIX.json"
         matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
         if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
             raise RuntimeError("causal matrix did not reach COMPLETE_CAUSAL_AUDIT")
+        terminal = post_audit_terminal_state(str(anchor.get("status")))
+        if terminal == "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED":
+            self.state(
+                terminal,
+                atlas_rows=matrix.get("rows"),
+                ranked_failure_mechanisms=matrix.get("ranked_failure_mechanisms", []),
+                derivation_started=False,
+                reason=(
+                    "HJ/HNEK did not calibrate the proxy. Diagnose lineage/proxy distortion "
+                    "and obtain user adjudication before DT or candidate generation."
+                ),
+            )
+            self.event(
+                "AUDIT_EXECUTOR_PROXY_ADJUDICATION_REQUIRED",
+                atlas_rows=matrix.get("rows"), derivation_started=False,
+            )
+            self.disable_task("phase_c_complete_proxy_adjudication_required")
+            return 0
+        derive = self.run_short("derive", log_name="audit_derive_queue.log")
+        if derive.returncode != 0:
+            raise RuntimeError("completed causal matrix did not produce a derivation queue")
         self.state(
-            "PHASE_C_COMPLETE_DERIVATION_REQUIRED",
+            terminal,
             atlas_rows=matrix.get("rows"),
             ranked_failure_mechanisms=matrix.get("ranked_failure_mechanisms", []),
+            derivation_started=True,
         )
         self.event("AUDIT_EXECUTOR_COMPLETE", atlas_rows=matrix.get("rows"))
         self.disable_task("phase_c_complete_derivation_required")
@@ -381,6 +545,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--data-root", type=Path)
     value.add_argument("--manifest", type=Path)
     value.add_argument("--python", type=Path)
+    value.add_argument("--maximum-parallel-jobs", type=int, choices=(1, 2), default=1)
     return value
 
 
