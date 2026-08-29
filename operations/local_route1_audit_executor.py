@@ -36,6 +36,37 @@ def post_audit_terminal_state(anchor_status: str) -> str:
     raise ValueError(f"unsupported terminal anchor status: {anchor_status}")
 
 
+def required_terminal_lanes(anchor_status: str) -> tuple[str, ...]:
+    if anchor_status == "ANCHOR_PHASE_COMPLETE":
+        return ("plain", "hj", "hnek", "dt")
+    if anchor_status == "PAUSED_PROXY_NOT_CALIBRATED":
+        return ("plain", "hj", "hnek")
+    raise ValueError(f"unsupported terminal anchor status: {anchor_status}")
+
+
+def validate_terminal_verification(payload: dict[str, Any], lane: str) -> None:
+    if payload.get("schema") != "final-unsb-route1-milestone-verification-v1":
+        raise RuntimeError(f"{lane} terminal verification schema mismatch")
+    if payload.get("status") != "ACCEPTED_MILESTONE":
+        raise RuntimeError(f"{lane} terminal milestone is not accepted")
+    identity = payload.get("identity", {})
+    if identity.get("probe_id") != lane or int(identity.get("data_epoch", -1)) != 200:
+        raise RuntimeError(f"{lane} terminal verification identity mismatch")
+    integrity = payload.get("integrity", {})
+    for key in (
+        "checkpoint_file_hash_matches_sidecar",
+        "scientific_state_hash_matches_sidecar",
+        "metric_protocol_matches",
+        "evaluation_bundle_matches_frozen_crn",
+    ):
+        if integrity.get(key) is not True:
+            raise RuntimeError(f"{lane} terminal verification failed {key}")
+    if integrity.get("paired_metric_used_for_training_control") is not False:
+        raise RuntimeError(f"{lane} terminal verification used paired training control")
+    if integrity.get("confirmation20_opened") is not False:
+        raise RuntimeError(f"{lane} terminal verification opened confirmation20")
+
+
 def now() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat()
 
@@ -142,6 +173,7 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "manifest_sha256": EXPECTED_MANIFEST,
         "poll_seconds": 30,
         "child_stall_seconds": 2700,
+        "terminal_verification_timeout_seconds": 3600,
         "maximum_job_failures": 3,
         "horizons": [1, 8, 32, 200],
         "label_horizons": [200],
@@ -244,6 +276,38 @@ class AuditExecutor:
                 last_status = status
             self.state("WAITING_FOR_ANCHORS", anchor_status=status)
             time.sleep(int(self.contract["poll_seconds"]))
+
+    def wait_for_terminal_verifications(self, anchor_status: str) -> dict[str, str]:
+        required = required_terminal_lanes(anchor_status)
+        root = self.operations / "milestone_verifications"
+        timeout = int(self.contract.get("terminal_verification_timeout_seconds", 3600))
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            accepted: dict[str, str] = {}
+            missing = []
+            for lane in required:
+                path = root / f"{lane.upper()}_E200_VERIFICATION.json"
+                if not path.is_file():
+                    missing.append(lane)
+                    continue
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                validate_terminal_verification(payload, lane)
+                accepted[lane] = file_sha256(path)
+            if not missing:
+                self.event(
+                    "TERMINAL_MILESTONES_VERIFIED",
+                    anchor_status=anchor_status, verification_sha256=accepted,
+                )
+                return accepted
+            self.state(
+                "WAITING_FOR_TERMINAL_VERIFICATIONS",
+                anchor_status=anchor_status, required_lanes=list(required),
+                accepted_lanes=sorted(accepted), missing_lanes=missing,
+            )
+            time.sleep(int(self.contract["poll_seconds"]))
+        raise TimeoutError(
+            f"terminal milestone verification timed out for {required}"
+        )
 
     def _base_command(self) -> list[str]:
         return [
@@ -355,8 +419,14 @@ class AuditExecutor:
     def run(self) -> int:
         self.event("AUDIT_EXECUTOR_START", contract=str(self.contract_path))
         anchor = self.wait_for_anchors()
+        terminal_verifications = self.wait_for_terminal_verifications(
+            str(anchor.get("status"))
+        )
         jobs = self.prepare_queue()
-        self.event("AUDIT_EXECUTION_START", anchor_status=anchor.get("status"), jobs=len(jobs))
+        self.event(
+            "AUDIT_EXECUTION_START", anchor_status=anchor.get("status"), jobs=len(jobs),
+            terminal_verification_sha256=terminal_verifications,
+        )
         for index, (probe, epoch) in enumerate(jobs, 1):
             self.state("AUDIT_QUEUE_RUNNING", job_index=index, jobs=len(jobs), probe=probe, data_epoch=epoch)
             self.run_job(probe, epoch)

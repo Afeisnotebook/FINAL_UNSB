@@ -159,6 +159,32 @@ def test_audit_executor_waits_for_an_explicit_anchor_terminal_state():
         audit_executor.post_audit_terminal_state("CHUNK_RUNNING")
 
 
+def test_audit_terminal_verification_scope_and_integrity():
+    assert audit_executor.required_terminal_lanes("ANCHOR_PHASE_COMPLETE") == (
+        "plain", "hj", "hnek", "dt"
+    )
+    assert audit_executor.required_terminal_lanes("PAUSED_PROXY_NOT_CALIBRATED") == (
+        "plain", "hj", "hnek"
+    )
+    payload = {
+        "schema": "final-unsb-route1-milestone-verification-v1",
+        "status": "ACCEPTED_MILESTONE",
+        "identity": {"probe_id": "dt", "data_epoch": 200},
+        "integrity": {
+            "checkpoint_file_hash_matches_sidecar": True,
+            "scientific_state_hash_matches_sidecar": True,
+            "metric_protocol_matches": True,
+            "evaluation_bundle_matches_frozen_crn": True,
+            "paired_metric_used_for_training_control": False,
+            "confirmation20_opened": False,
+        },
+    }
+    audit_executor.validate_terminal_verification(payload, "dt")
+    payload["integrity"]["confirmation20_opened"] = True
+    with pytest.raises(RuntimeError, match="confirmation20"):
+        audit_executor.validate_terminal_verification(payload, "dt")
+
+
 def test_candidate_executor_command_has_no_selection_or_early_stop_inputs(tmp_path):
     contract = {
         "python": str(tmp_path / "python"),
