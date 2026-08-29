@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-route1-terminal-verification-gated-auditors-v1",
+  "recorded": "2026-08-30T05:51:42+08:00",
+  "status": "ARMED_ON_LOCAL_4090_5090",
+  "main_git_commit": "193aa4d",
+  "audit_git_commit": "3e86728789b910a7d26f1c760c72d6933e10616d",
+  "supervisor_sha256": "b54afcdf9b2f37277098c18197b3875435377ac876899032a676c03306114392",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "f837c87412315628fc4eaa4e0c79b84d5163ba0788a20b89b2d3abc6b0d41758",
+  "gate": {
+    "calibrated_proxy_required_lanes": ["plain", "hj", "hnek", "dt"],
+    "uncalibrated_proxy_required_lanes": ["plain", "hj", "hnek"],
+    "required_verification_status": "ACCEPTED_MILESTONE",
+    "required_epoch": 200,
+    "terminal_verification_timeout_seconds": 3600,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "executors": {
+    "local_gtx1660": {
+      "supervisor": "Windows scheduled task FINAL_UNSB_ROUTE1_AUDITOR",
+      "executor_pid": 14672,
+      "state": "WAITING_FOR_ANCHORS",
+      "contract_created": "2026-08-30T05:48:31.776028+08:00"
+    },
+    "remote_rtx4090": {
+      "supervisor": "tmux:FINAL_UNSB_ROUTE1_REMOTE_AUDITOR",
+      "executor_pid": 1322025,
+      "state": "WAITING_FOR_ANCHORS",
+      "contract_created": "2026-08-30T05:49:00.571569+08:00"
+    },
+    "remote_rtx5090": {
+      "supervisor": "screen:FINAL_UNSB_ROUTE1_AUDITOR5090",
+      "executor_pid": 26807,
+      "state": "WAITING_FOR_ANCHORS",
+      "contract_created": "2026-08-30T05:51:32.179749+08:00"
+    }
+  },
+  "verification": {
+    "full_repository_tests": "82 passed",
+    "audit_branch_tests": "17 passed",
+    "all_three_contracts_bind_expected_supervisor_hash": true,
+    "all_three_contracts_bind_expected_audit_commit": true,
+    "all_three_states_are_target_blind": true,
+    "training_processes_restarted": false,
+    "training_update_or_protocol_changed": false
+  },
+  "scientific_boundary": "The auditors remain dormant until accepted e200 terminal verifications exist. Arming them does not authorize candidate generation before the causal matrix and does not consume paired metrics as training control."
+}

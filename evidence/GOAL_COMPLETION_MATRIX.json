@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T05:42:30+08:00",
+  "updated": "2026-08-30T05:51:42+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -58,7 +58,8 @@
         "evidence/remote_route1_offload/TERMINAL_AUDITOR_REDEPLOYMENT.json",
         "evidence/remote_route1_offload/PROXY_GATED_AUDITORS_ARMED.json",
         "evidence/remote_route1_offload/DYNAMIC_AUDIT_SELECTION_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/PROXY_GATED_AUDIT_SCOPE_REDEPLOYMENT.json"
+        "evidence/remote_route1_offload/PROXY_GATED_AUDIT_SCOPE_REDEPLOYMENT.json",
+        "evidence/remote_route1_offload/TERMINAL_VERIFICATION_GATED_AUDITORS_ARMED.json"
       ],
       "boundary": "The zero-LR terminal artifact has been removed and all three executors are source-bound, but a waiting auditor or audit queue is not causal evidence."
     },
@@ -97,7 +98,7 @@
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "80 pytest tests passing at implementation commit 12a5d82",
+        "82 pytest tests passing at implementation commit 193aa4d",
         "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
       ],
       "boundary": "This must be rerun after every future scientific implementation and at final delivery."
@@ -111,12 +112,12 @@
   ],
   "current_accepted_scientific_boundary": {
     "local_plain": "e200 accepted",
-    "local_hj": "running at e48; local same-host long replicate remains pending",
+    "local_hj": "running at e52; local same-host long replicate remains pending",
     "remote4090_plain": "e200 accepted",
     "remote4090_hj_hnek": "both e200 accepted; proxy CALIBRATED; HJ late-three +0.649 dB and HNEK +0.806 dB",
     "remote4090_handoff": "missed pause race recovered without state mixing; partial canonical HNEK e1 is quarantined and verified independent HNEK e200 imported",
-    "remote5090_plain_hnek": "running at plain e174 / HNEK e135; HNEK remains quarantined until same-host plain e200",
-    "dt": "remote4090 DT running from shared e0 after proxy calibration",
+    "remote5090_plain_hnek": "running at plain e180 with independent HNEK in parallel; HNEK remains quarantined until same-host plain e200",
+    "dt": "remote4090 DT running at e21 from shared e0 after proxy calibration",
     "causal_atlas": "not started",
     "new_algorithm": "not yet generated",
     "confirmation20_opened": false
