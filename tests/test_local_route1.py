@@ -286,6 +286,38 @@ def test_audit_queue_uses_e175_label_and_terminal_e200_vector_field(tmp_path):
     assert jobs[200]["branch_semantics"] == "terminal_base_lr_vector_field_no_future_label"
 
 
+def test_audit_queue_brackets_first_reversal_and_maximum_drawdown(tmp_path):
+    evidence = tmp_path / "evidence"
+    evidence.mkdir()
+    trajectory = [
+        {"epoch": epoch, "macro_psnr_delta": value}
+        for epoch, value in (
+            (20, 0.1), (40, 0.5), (60, -0.1), (80, -0.4),
+            (100, 0.2), (150, 0.1), (175, 0.0), (200, 0.05),
+        )
+    ]
+    (evidence / "ANCHOR_TRAJECTORIES.json").write_text(
+        __import__("json").dumps({"summaries": [{"probe_id": "hj", "trajectory": trajectory}]}),
+        encoding="utf-8",
+    )
+    for lane in ("plain", "hj"):
+        milestone = tmp_path / "anchors" / lane / "milestones"
+        milestone.mkdir(parents=True)
+        for epoch, _value in (
+            (20, 0.1), (40, 0.5), (60, -0.1), (80, -0.4),
+            (100, 0.2), (150, 0.1), (175, 0.0), (200, 0.05),
+        ):
+            (milestone / f"e{epoch:03d}.pt").write_bytes(b"checkpoint")
+
+    queue = prepare_audit_queue(tmp_path)
+    jobs = {row["data_epoch"]: row for row in queue["jobs"]}
+    assert "first_sign_reversal_left" in jobs[40]["selection_reasons"]
+    assert "first_sign_reversal_right" in jobs[60]["selection_reasons"]
+    assert "maximum_benefit" in jobs[40]["selection_reasons"]
+    assert "maximum_drawdown_peak" in jobs[40]["selection_reasons"]
+    assert "maximum_drawdown_trough" in jobs[80]["selection_reasons"]
+
+
 def test_sampling_variance_uses_actual_correction_fields(monkeypatch, tmp_path):
     before = {"block.weight": torch.tensor([0.0, 0.0])}
 
