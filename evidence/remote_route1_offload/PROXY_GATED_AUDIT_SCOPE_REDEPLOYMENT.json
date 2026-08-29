@@ -1,0 +1,44 @@
+{
+  "schema": "final-unsb-route1-proxy-gated-audit-scope-redeployment-v1",
+  "created": "2026-08-30T05:09:20+08:00",
+  "reason": "When proxy calibration fails, DT is intentionally blocked. The causal queue must identify DT as excluded_by_proxy_gate rather than as a missing or replay-required checkpoint.",
+  "semantics": {
+    "calibrated_proxy": "HJ, HNEK and DT enter the long causal queue after all registered anchors finish.",
+    "uncalibrated_proxy": "HJ and HNEK enter the long causal queue; unrun DT is recorded as excluded_by_proxy_gate and derivation remains blocked pending proxy adjudication.",
+    "dt_mechanism_falsified_by_exclusion": false,
+    "paired_metric_used_for_training_control": false,
+    "confirmation20_opened": false
+  },
+  "source_identity": {
+    "main_commit": "afcd1f4",
+    "audit_branch": "audit-terminal-vector-field",
+    "audit_commit": "3e86728789b910a7d26f1c760c72d6933e10616d",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
+  },
+  "verification": {
+    "main_full_pytest": "76 passed",
+    "audit_branch_local_tests": "17 passed",
+    "remote4090_audit_tests": "17 passed",
+    "remote5090_audit_tests": "17 passed",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "durable_auditors": {
+    "local": {
+      "executor_pid": 13744,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "3e86728789b910a7d26f1c760c72d6933e10616d"
+    },
+    "remote4090": {
+      "executor_pid": 1317955,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "3e86728789b910a7d26f1c760c72d6933e10616d"
+    },
+    "remote5090": {
+      "executor_pid": 25131,
+      "status": "WAITING_FOR_ANCHORS",
+      "audit_commit": "3e86728789b910a7d26f1c760c72d6933e10616d"
+    }
+  },
+  "anchor_checkpoints_modified": false
+}
