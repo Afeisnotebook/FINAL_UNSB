@@ -28,6 +28,14 @@ ANCHOR_TERMINAL = {"PAUSED_PROXY_NOT_CALIBRATED", "ANCHOR_PHASE_COMPLETE"}
 EXPECTED_MANIFEST = "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
 
 
+def post_audit_terminal_state(anchor_status: str) -> str:
+    if anchor_status == "PAUSED_PROXY_NOT_CALIBRATED":
+        return "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED"
+    if anchor_status == "ANCHOR_PHASE_COMPLETE":
+        return "PHASE_C_COMPLETE_DERIVATION_REQUIRED"
+    raise ValueError(f"unsupported terminal anchor status: {anchor_status}")
+
+
 def now() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat()
 
@@ -352,17 +360,36 @@ class AuditExecutor:
         for index, (probe, epoch) in enumerate(jobs, 1):
             self.state("AUDIT_QUEUE_RUNNING", job_index=index, jobs=len(jobs), probe=probe, data_epoch=epoch)
             self.run_job(probe, epoch)
-        derive = self.run_short("derive", log_name="audit_derive_queue.log")
-        if derive.returncode != 0:
-            raise RuntimeError("causal matrix is incomplete after all queued audit jobs")
         matrix_path = self.run_root / "audit" / "LONG_CAUSAL_MATRIX.json"
         matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
         if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
             raise RuntimeError("causal matrix did not reach COMPLETE_CAUSAL_AUDIT")
+        terminal = post_audit_terminal_state(str(anchor.get("status")))
+        if terminal == "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED":
+            self.state(
+                terminal,
+                atlas_rows=matrix.get("rows"),
+                ranked_failure_mechanisms=matrix.get("ranked_failure_mechanisms", []),
+                derivation_started=False,
+                reason=(
+                    "HJ/HNEK did not calibrate the proxy. Diagnose lineage/proxy distortion "
+                    "and obtain user adjudication before DT or candidate generation."
+                ),
+            )
+            self.event(
+                "AUDIT_EXECUTOR_PROXY_ADJUDICATION_REQUIRED",
+                atlas_rows=matrix.get("rows"), derivation_started=False,
+            )
+            self.disable_task("phase_c_complete_proxy_adjudication_required")
+            return 0
+        derive = self.run_short("derive", log_name="audit_derive_queue.log")
+        if derive.returncode != 0:
+            raise RuntimeError("completed causal matrix did not produce a derivation queue")
         self.state(
-            "PHASE_C_COMPLETE_DERIVATION_REQUIRED",
+            terminal,
             atlas_rows=matrix.get("rows"),
             ranked_failure_mechanisms=matrix.get("ranked_failure_mechanisms", []),
+            derivation_started=True,
         )
         self.event("AUDIT_EXECUTOR_COMPLETE", atlas_rows=matrix.get("rows"))
         self.disable_task("phase_c_complete_derivation_required")

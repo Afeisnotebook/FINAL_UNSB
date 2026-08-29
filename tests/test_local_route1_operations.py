@@ -149,6 +149,14 @@ def test_audit_executor_waits_for_an_explicit_anchor_terminal_state():
         "PAUSED_PROXY_NOT_CALIBRATED", "ANCHOR_PHASE_COMPLETE"
     }
     assert audit_executor.AuditExecutor._job_key("hnek", 100) == "hnek:e100"
+    assert audit_executor.post_audit_terminal_state("ANCHOR_PHASE_COMPLETE") == (
+        "PHASE_C_COMPLETE_DERIVATION_REQUIRED"
+    )
+    assert audit_executor.post_audit_terminal_state("PAUSED_PROXY_NOT_CALIBRATED") == (
+        "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED"
+    )
+    with pytest.raises(ValueError, match="unsupported terminal anchor status"):
+        audit_executor.post_audit_terminal_state("CHUNK_RUNNING")
 
 
 def test_candidate_executor_command_has_no_selection_or_early_stop_inputs(tmp_path):
