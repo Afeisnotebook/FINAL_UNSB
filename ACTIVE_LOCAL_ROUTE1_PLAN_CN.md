@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`THREE_HOST_MATCHED_ANCHORS_RUNNING / LOCAL_AND_REMOTE4090_PLAIN_E200_VERIFIED / PHASE_C_DURABLE_WAIT`
+状态：`REMOTE4090_PROXY_CALIBRATED_DT_RUNNING / 5090_MATCHED_REPLICA_RUNNING / PHASE_C_DURABLE_WAIT`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -27,7 +27,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 导入canonical root，绝不覆盖已有lane。详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 03:29）
+## 当前执行事实（2026-08-30 06:05）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
@@ -40,16 +40,18 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   一致；后续每个关键e200都使用同一验收边界。
 - 同一plain进程此前也在e60附近无traceback消失，说明失败属于进程托管而非e100
   科学路径。隔离LPIPS评估已正常完成420张图像。
-- 4090同宿主plain已正式完成并接受e200；canonical HJ与隔离HNEK正在并行。HNEK
-  交接器已arm：只在HJ最终e195→e200 child运行时暂停调度父进程，待HJ自然写完、
-  独立HNEK完整验收到e200后显式导入并恢复；不改变任何训练update。
+- 4090同宿主plain、continuous HJ与HNEK均已完成并接受e200。HJ晚三点宏PSNR
+  delta均值为`+0.649331 dB`，HNEK为`+0.806229 dB`，两者均通过注册的域覆盖规则，
+  因而small25 proxy已正式`CALIBRATED`。一次HNEK交接竞态已通过隔离、哈希验收、
+  可恢复quarantine和显式导入解决，没有混合full state。
 - 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；canonical
-  plain与隔离HNEK正在并行。HNEK结果在同机plain e200前继续封存。
-- DT尚未启动；每个宿主仍必须先完成HJ/HNEK proxy裁决。中间paired指标不用于调度、
-  停止或算法选择，因此当前状态不能描述成“算法搜索成功/失败”。
+  plain当前到e192，隔离HNEK到e154。HNEK结果在同机plain e200验收前继续封存。
+- 4090 DT已在proxy校准后从共同e0启动并到e46。注册介入在e45自然归零，trace已确认
+  e45/e46的`U_match=0`；其余e46--e200用于观察有限支持校正改变的内生状态如何在原生
+  UNSB下传播，不是路线二handoff实验。中间paired指标不控制训练。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
-- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `b7ebc4e`，当前
+- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `3e86728`，当前
   状态为 `WAITING_FOR_ANCHORS`。它只在anchor executor到达显式终态后使用GPU，按
   atlas row原子落盘并可恢复。审计同时覆盖连续介入、短pulse后的原生流传播以及
   batch/latent-time correction方差；pulse只作因果诊断，不是路线二策略。Phase C完成后
@@ -63,6 +65,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   路由；分析commit、源码和atlas/variance/queue输入hash将单独记录，不改原分支行。
 - 候选执行链已区分算法定义指纹与host/e0证据执行指纹，并要求源码绑定的可执行gate
   hook实际通过数学不变量、zero identity、resume、跨状态和400--800 update工程门。
+- 新候选derivation card还必须绑定长期矩阵、历史证据索引、UNSB对象图和SEARCH-005
+  等价性边界，声明与旧实现的实质差别、四类数学改动、适用状态、恢复成本及三项消融；
+  因果矩阵完成后会初始化不可静默覆盖的`HYPOTHESIS_LEDGER.json`。候选executor同时
+  绑定产生plain e200的GPU/PyTorch/CUDA环境及baseline哈希，跨宿主delta会在启动前失败。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式

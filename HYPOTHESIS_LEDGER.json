@@ -8,21 +8,24 @@
     "reversal_observed",
     "mechanism_falsified",
     "active_probe",
-    "active_derived_candidate"
+    "active_derived_candidate",
+    "positive_probe_not_candidate"
   ],
   "active_probes": [
     {
       "id": "P-HJ-CONTINUOUS-E200",
       "family": "HJ",
-      "status": "active_probe",
+      "status": "positive_probe_not_candidate",
       "purpose": "calibrate the small25/batch1 long-horizon proxy and reveal when Layer-0 PatchNCE correction changes causal sign",
-      "not_a_claim": "HJ is not the presumed winner and is not the only route-1 direction"
+      "not_a_claim": "HJ is not the presumed winner and is not the only route-1 direction",
+      "remote4090_e200_late_three_macro_psnr_delta_db": 0.6493313327204753
     },
     {
       "id": "P-HNEK-PHYSICAL-E200",
       "family": "HNEK",
-      "status": "active_probe",
-      "purpose": "calibrate the proxy and trace physical-horizon/residual-coordinate conditioning over 200 data epochs"
+      "status": "positive_probe_not_candidate",
+      "purpose": "calibrate the proxy and trace physical-horizon/residual-coordinate conditioning over 200 data epochs",
+      "remote4090_e200_late_three_macro_psnr_delta_db": 0.8062285254627106
     },
     {
       "id": "P-DT-PHYSICAL-SCHEDULE-E200",
@@ -32,6 +35,14 @@
       "candidate_eligible": false
     }
   ],
+  "remote4090_proxy": {
+    "status": "CALIBRATED",
+    "dt_latest_observed_data_epoch": 46,
+    "dt_intervention_zero_from_e45_observed": true,
+    "causal_audit_status": "WAITING_FOR_DT_E200_TERMINAL_VERIFICATION",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
   "prior_evidence_reclassified": [
     {
       "id": "H-TIME-ACTIVE",
