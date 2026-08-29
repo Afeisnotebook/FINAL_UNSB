@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T04:52:30+08:00",
+  "updated": "2026-08-30T05:42:30+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -26,14 +26,16 @@
     {
       "id": 2,
       "requirement": "Proxy is calibrated, or proxy distortion has causal proof and user adjudication.",
-      "status": "PENDING_LONG_HJ_HNEK",
-      "evidence": [],
-      "next_proof": "Complete host-matched HJ/HNEK e150/e175/e200 trajectories and run the frozen proxy evaluator."
+      "status": "PROVEN_CALIBRATED_REMOTE4090",
+      "evidence": [
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
+      ],
+      "boundary": "Both HJ and HNEK passed the registered late-three and domain-coverage rule on the same 4090 plain trajectory. This calibrates the proxy; it does not select either probe as the final algorithm."
     },
     {
       "id": 3,
       "requirement": "DT/HJ/HNEK and other primary probes yield usable long causal evidence.",
-      "status": "PHASE_A_PROVEN_LONG_RUNTIME_PENDING",
+      "status": "HJ_HNEK_LONG_PROVEN_DT_RUNNING_CAUSAL_PENDING",
       "evidence": [
         "evidence/lineage/DT_LINEAGE.json",
         "evidence/lineage/HJ_LINEAGE.json",
@@ -41,19 +43,22 @@
         "evidence/lineage/MECHANISM_OBJECT_MAP.json",
         "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
         "evidence/local_route1_progress/HJ_E10_MILESTONE_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json"
+        "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
       ],
-      "missing": ["HJ e200", "HNEK e200", "proxy decision", "DT e200 if proxy calibrated", "counterfactual rows"]
+      "missing": ["DT e200", "counterfactual rows"]
     },
     {
       "id": 4,
       "requirement": "Real LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX are complete.",
-      "status": "PENDING_ANCHORS",
+      "status": "PENDING_DT_E200_THEN_AUTOMATIC_AUDIT",
       "evidence": [
         "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
         "evidence/local_route1_progress/TERMINAL_AUDIT_LR_BOUNDARY.json",
         "evidence/remote_route1_offload/TERMINAL_AUDITOR_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/PROXY_GATED_AUDITORS_ARMED.json"
+        "evidence/remote_route1_offload/PROXY_GATED_AUDITORS_ARMED.json",
+        "evidence/remote_route1_offload/DYNAMIC_AUDIT_SELECTION_REDEPLOYMENT.json",
+        "evidence/remote_route1_offload/PROXY_GATED_AUDIT_SCOPE_REDEPLOYMENT.json"
       ],
       "boundary": "The zero-LR terminal artifact has been removed and all three executors are source-bound, but a waiting auditor or audit queue is not causal evidence."
     },
@@ -79,19 +84,21 @@
     {
       "id": 8,
       "requirement": "Per-domain trajectories, absolute/relative decomposition, complexity, risk, and reproduction commands are delivered.",
-      "status": "PARTIAL_BASELINE_ONLY",
+      "status": "PARTIAL_LONG_PROBE_TRAJECTORIES",
       "evidence": [
         "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json"
+        "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json",
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
       ],
-      "missing": ["probe trajectories", "candidate trajectories", "absolute/relative decomposition", "final reproduction commands"]
+      "missing": ["DT trajectory", "candidate trajectories", "absolute/relative decomposition", "final reproduction commands"]
     },
     {
       "id": 9,
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "71 pytest tests passing at implementation commit 2872f8385fdda7f7993964ead1231c791a7efdd9"
+        "80 pytest tests passing at implementation commit 12a5d82",
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
       ],
       "boundary": "This must be rerun after every future scientific implementation and at final delivery."
     },
@@ -104,11 +111,12 @@
   ],
   "current_accepted_scientific_boundary": {
     "local_plain": "e200 accepted",
-    "local_hj": "e20 checkpoint present; e10 scientific-state hash and CRN metric payload accepted; long result pending",
+    "local_hj": "running at e48; local same-host long replicate remains pending",
     "remote4090_plain": "e200 accepted",
-    "remote4090_hj_hnek": "running at approximately HJ e141 / HNEK e112; automatic e200 integrity verification armed",
-    "remote5090_plain_hnek": "running at approximately plain e114 / HNEK e75; HNEK quarantined until same-host plain e200; automatic e200 integrity verification armed",
-    "dt": "blocked by proxy",
+    "remote4090_hj_hnek": "both e200 accepted; proxy CALIBRATED; HJ late-three +0.649 dB and HNEK +0.806 dB",
+    "remote4090_handoff": "missed pause race recovered without state mixing; partial canonical HNEK e1 is quarantined and verified independent HNEK e200 imported",
+    "remote5090_plain_hnek": "running at plain e174 / HNEK e135; HNEK remains quarantined until same-host plain e200",
+    "dt": "remote4090 DT running from shared e0 after proxy calibration",
     "causal_atlas": "not started",
     "new_algorithm": "not yet generated",
     "confirmation20_opened": false
