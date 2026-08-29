@@ -82,11 +82,12 @@
     "status": "DURABLE_AUDITOR_REGISTERED_WAITING_FOR_ANCHORS",
     "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
     "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
-    "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_237db92",
-    "audit_git_commit": "237db927238380f853eb51398fde7a82e563d1a4",
+    "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_3ac84d4",
+    "audit_git_commit": "3ac84d4fa71aaa4b1e4f82769ae4639f7bfaade5",
+    "audit_scope": "continuous operator validity plus pulse-to-native propagation and 8-replicate batch/latent-time correction variance",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
   },
-  "next_gate": "Complete plain, HJ and HNEK e200 under the durable executor. The independent Phase C task will wait without GPU overlap and automatically audit every ready matched state after proxy adjudication."
+  "next_gate": "Complete plain, HJ and HNEK e200 under the durable executor. The independent Phase C task will wait without GPU overlap and automatically audit correction validity, native-flow propagation and sampling variance after proxy adjudication."
 }
