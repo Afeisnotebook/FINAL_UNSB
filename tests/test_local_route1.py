@@ -624,6 +624,53 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
     )
     assert signal["leave_one_method_out_future_sign_accuracy"] == pytest.approx(1.0)
     assert signal["future_200_step_delta_spearman"] == pytest.approx(1.0)
+    assert signal["shared_driver_eligible"] is True
+    assert screen["eligible_shared_driver_signals"]
+
+
+def test_target_blind_screen_retains_method_specific_signal_without_unifying_it():
+    rows = []
+    for epoch, score in ((20, 1.0), (40, 0.5), (60, -0.5), (100, -1.0)):
+        common = {
+            "probe": "hj",
+            "data_epoch": epoch,
+            "source_state": "plain",
+            "operator_mode": "registered",
+            "branch_regime": "continuous_intervention",
+        }
+        rows.append({
+            **common,
+            "horizon": 1,
+            "update_geometry": {
+                "correction_reference_cosine": score,
+                "correction_norm": 0.2,
+                "reference_norm": 1.0,
+            },
+            "next_independent_native_consensus": {"cosine": score},
+            "native_component_directional_derivatives": {},
+            "reference_observation": {"bridge": {"rollout_velocity_l2": 1.0}},
+            "proposal_observation": {"bridge": {"rollout_velocity_l2": 1.0}},
+        })
+        rows.append({
+            **common,
+            "horizon": 200,
+            "post_branch_development_label": {
+                "macro_psnr_delta": score,
+                "domain_psnr_delta": {f"d{index}": score for index in range(6)},
+            },
+        })
+    screen = target_blind_signal_screen(rows, [])
+    assert screen["status"] == "ELIGIBLE_SIGNALS_FOUND"
+    assert screen["eligible_shared_driver_signals"] == []
+    assert "correction_next_native_cosine" in screen[
+        "eligible_method_specific_driver_signals"
+    ]["hj"]
+    signal = next(
+        row for row in screen["signals"]
+        if row["feature"] == "correction_next_native_cosine"
+    )
+    assert signal["shared_driver_eligible"] is False
+    assert signal["method_specific_driver_eligible_for"] == ["hj"]
     assert signal["mean_domain_sign_agreement_of_six"] == pytest.approx(6.0)
     assert signal["paired_label_available_to_controller"] is False
 
@@ -938,6 +985,41 @@ def test_signal_driven_candidate_requires_matrix_eligible_driver(tmp_path):
     implementation["derivation_card_sha256"] = file_sha256(card_path)
     implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
     with pytest.raises(RuntimeError, match="not an eligible target-blind signal"):
+        load_candidate_registration(tmp_path, "G1-TEST")
+
+
+def test_method_specific_candidate_cannot_borrow_another_probes_signal(tmp_path):
+    import json
+
+    card_path, implementation_path = _write_candidate_registration_fixture(tmp_path)
+    matrix_path = tmp_path / "audit" / "LONG_CAUSAL_MATRIX.json"
+    matrix = {
+        "status": "COMPLETE_CAUSAL_AUDIT",
+        "ranked_failure_mechanisms": [{
+            "failure_type": "sampling_variance",
+            "candidate_generation_eligible": True,
+            "supporting_probes": ["hj", "hnek"],
+        }],
+        "target_blind_signal_screen": {
+            "eligible_shared_driver_signals": [],
+            "eligible_method_specific_driver_signals": {
+                "hj": ["correction_next_native_cosine"],
+            },
+        },
+    }
+    matrix_path.write_text(json.dumps(matrix), encoding="utf-8")
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card.update({
+        "construction_authority": "eligible_method_specific_signal",
+        "target_blind_driver_signal": "correction_next_native_cosine",
+        "target_blind_driver_probe": "hnek",
+        "causal_matrix_sha256": file_sha256(matrix_path),
+    })
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["derivation_card_sha256"] = file_sha256(card_path)
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="declared method-specific probe"):
         load_candidate_registration(tmp_path, "G1-TEST")
 
 

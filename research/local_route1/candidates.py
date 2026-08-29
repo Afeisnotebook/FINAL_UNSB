@@ -175,6 +175,7 @@ def _validate_card(
     authority = card.get("construction_authority")
     if authority not in (
         "eligible_target_blind_signal",
+        "eligible_method_specific_signal",
         "independent_unbiased_reparameterization",
     ):
         raise RuntimeError(
@@ -183,25 +184,65 @@ def _validate_card(
         )
     if authority == "independent_unbiased_reparameterization" and not card.get("unbiased_proof"):
         raise RuntimeError("an independent unbiased route requires unbiased_proof")
-    if authority == "eligible_target_blind_signal":
+    if authority in (
+        "eligible_target_blind_signal", "eligible_method_specific_signal",
+    ):
         parent = card.get("parent_evidence")
         if not isinstance(parent, dict) or not parent.get("failure_type"):
             raise RuntimeError("signal-driven card requires a parent failure_type")
         eligible_mechanisms = {
-            row.get("failure_type")
+            row.get("failure_type"): row
             for row in matrix.get("ranked_failure_mechanisms", [])
             if row.get("candidate_generation_eligible") is True
         }
         if parent["failure_type"] not in eligible_mechanisms:
             raise RuntimeError("card parent mechanism is not eligible in the causal matrix")
+        parent_mechanism = eligible_mechanisms[parent["failure_type"]]
         driver = card.get("target_blind_driver_signal")
-        eligible_signals = set(
-            (matrix.get("target_blind_signal_screen") or {}).get(
-                "eligible_driver_signals", []
+        screen = matrix.get("target_blind_signal_screen") or {}
+        if authority == "eligible_target_blind_signal":
+            eligible_signals = set(screen.get(
+                "eligible_shared_driver_signals",
+                screen.get("eligible_driver_signals", []),
+            ))
+            if not driver or driver not in eligible_signals:
+                raise RuntimeError(
+                    "card driver is not an eligible target-blind signal shared across probes"
+                )
+            mechanism_drivers = parent_mechanism.get(
+                "eligible_target_blind_driver_signals"
             )
-        )
-        if not driver or driver not in eligible_signals:
-            raise RuntimeError("card driver is not an eligible target-blind signal")
+            if mechanism_drivers is not None and driver not in set(mechanism_drivers):
+                raise RuntimeError(
+                    "card driver is not evidence-linked to the declared parent mechanism"
+                )
+        else:
+            driver_probe = card.get("target_blind_driver_probe")
+            method_specific = screen.get(
+                "eligible_method_specific_driver_signals", {}
+            )
+            if (
+                not driver_probe
+                or driver not in set(method_specific.get(driver_probe, []))
+            ):
+                raise RuntimeError(
+                    "card driver is not eligible for the declared method-specific probe"
+                )
+            supporting = set(parent_mechanism.get("supporting_probes", []))
+            if driver_probe not in supporting:
+                raise RuntimeError(
+                    "method-specific driver probe does not support the parent mechanism"
+                )
+            mechanism_drivers = parent_mechanism.get(
+                "eligible_method_specific_driver_signals_by_probe"
+            )
+            if (
+                mechanism_drivers is not None
+                and driver not in set(mechanism_drivers.get(driver_probe, []))
+            ):
+                raise RuntimeError(
+                    "method-specific driver is not evidence-linked to the declared parent mechanism"
+                )
     if card.get("paired_target_available_to_training") is not False:
         raise RuntimeError("derivation card must explicitly deny paired target access")
     if card_path.suffix.lower() != ".json":
@@ -404,7 +445,8 @@ def load_candidate_registration(
         "candidate_id", "lineage_evidence", "prior_equivalence_audit",
         "unsb_object", "formula", "identity_or_unbiased_condition",
         "target_inaccessibility_proof", "construction_authority", "unbiased_proof",
-        "target_blind_driver_signal", "objective_change", "estimator_change",
+        "target_blind_driver_signal", "target_blind_driver_probe",
+        "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
         "algorithm_state_variables", "expected_applicable_state",
         "falsifying_experiment", "compute_cost", "memory_cost",

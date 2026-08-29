@@ -1558,64 +1558,126 @@ def _precursor_lead_fraction(records: list[dict]) -> tuple[float, list[dict]]:
     return fraction, outcomes
 
 
+def _signal_performance(records: list[dict]) -> dict:
+    labels = [bool(row["future_positive"]) for row in records]
+    predictions = [float(row["score"]) > 0.0 for row in records]
+    domain_counts = [
+        sum(
+            (delta > 0.0) == prediction
+            for delta in record["domain_psnr_delta"].values()
+        )
+        for record, prediction in zip(records, predictions)
+    ]
+    lead_fraction, lead_rows = _precursor_lead_fraction(records)
+    correlation = _spearman(
+        [float(row["score"]) for row in records],
+        [float(row["future_macro_psnr_delta"]) for row in records],
+    )
+    return {
+        "records": len(records),
+        "future_sign_accuracy": (
+            0.0 if not records else float(np.mean([
+                prediction == label
+                for prediction, label in zip(predictions, labels)
+            ]))
+        ),
+        "balanced_future_sign_accuracy": _balanced_accuracy(labels, predictions),
+        "future_200_step_delta_spearman": correlation,
+        "mean_domain_sign_agreement_of_six": (
+            0.0 if not domain_counts else float(np.mean(domain_counts))
+        ),
+        "rows_with_at_least_four_domains_agreeing_fraction": (
+            0.0 if not domain_counts else float(np.mean([
+                value >= 4 for value in domain_counts
+            ]))
+        ),
+        "reversal_precursor_lead_fraction": lead_fraction,
+        "reversal_precursor_cases": lead_rows,
+    }
+
+
 def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> dict:
     """Join post-branch labels offline and screen interpretable observables."""
     feature_records = _signal_records(rows, variance_rows)
     signals = []
     for feature, records in sorted(feature_records.items()):
-        labels = [bool(row["future_positive"]) for row in records]
-        predictions = [float(row["score"]) > 0.0 for row in records]
-        heldout = {}
+        global_metrics = _signal_performance(records)
+        per_method = {}
         for probe in sorted({row["probe"] for row in records}):
-            selected = [index for index, row in enumerate(records) if row["probe"] == probe]
-            heldout[probe] = float(np.mean([predictions[index] == labels[index] for index in selected]))
+            selected = [row for row in records if row["probe"] == probe]
+            per_method[probe] = _signal_performance(selected)
+        heldout = {
+            probe: values["future_sign_accuracy"]
+            for probe, values in per_method.items()
+        }
         lomo = 0.0 if not heldout else float(np.mean(list(heldout.values())))
-        domain_counts = [
-            sum((delta > 0.0) == prediction for delta in record["domain_psnr_delta"].values())
-            for record, prediction in zip(records, predictions)
-        ]
-        lead_fraction, lead_rows = _precursor_lead_fraction(records)
-        correlation = _spearman(
-            [float(row["score"]) for row in records],
-            [float(row["future_macro_psnr_delta"]) for row in records],
-        )
-        passes = (
+        shared_passes = (
             len(records) >= 6
             and len(heldout) >= 2
             and lomo >= 0.65
-            and correlation >= 0.30
-            and float(np.mean(domain_counts)) >= 4.0
-            and (not lead_rows or lead_fraction >= 0.5)
+            and global_metrics["future_200_step_delta_spearman"] >= 0.30
+            and global_metrics["mean_domain_sign_agreement_of_six"] >= 4.0
+            and (
+                not global_metrics["reversal_precursor_cases"]
+                or global_metrics["reversal_precursor_lead_fraction"] >= 0.5
+            )
         )
+        method_specific_passes = sorted([
+            probe for probe, values in per_method.items()
+            if values["records"] >= 4
+            and values["future_sign_accuracy"] >= 0.65
+            and values["future_200_step_delta_spearman"] >= 0.30
+            and values["mean_domain_sign_agreement_of_six"] >= 4.0
+            and (
+                not values["reversal_precursor_cases"]
+                or values["reversal_precursor_lead_fraction"] >= 0.5
+            )
+        ])
         signals.append({
             "feature": feature,
             "records": len(records),
             "probes": sorted(heldout),
             "leave_one_method_out_future_sign_accuracy": lomo,
             "heldout_accuracy_by_method": heldout,
-            "balanced_future_sign_accuracy": _balanced_accuracy(labels, predictions),
-            "future_200_step_delta_spearman": correlation,
-            "mean_domain_sign_agreement_of_six": float(np.mean(domain_counts)),
-            "rows_with_at_least_four_domains_agreeing_fraction": float(np.mean([value >= 4 for value in domain_counts])),
-            "reversal_precursor_lead_fraction": lead_fraction,
-            "reversal_precursor_cases": lead_rows,
-            "driver_eligible": passes,
+            "per_method_performance": per_method,
+            **{
+                key: value for key, value in global_metrics.items()
+                if key != "records"
+            },
+            "shared_driver_eligible": shared_passes,
+            "method_specific_driver_eligible_for": method_specific_passes,
+            "driver_eligible": bool(shared_passes or method_specific_passes),
             "threshold": "mathematical zero; no paired threshold fitting",
             "paired_label_available_to_controller": False,
         })
-    eligible = [row["feature"] for row in signals if row["driver_eligible"]]
+    shared_eligible = [
+        row["feature"] for row in signals if row["shared_driver_eligible"]
+    ]
+    method_specific: dict[str, list[str]] = defaultdict(list)
+    for row in signals:
+        for probe in row["method_specific_driver_eligible_for"]:
+            method_specific[probe].append(row["feature"])
+    method_specific = {
+        probe: sorted(features) for probe, features in sorted(method_specific.items())
+    }
+    eligible = sorted(set(shared_eligible).union(*(
+        set(features) for features in method_specific.values()
+    ))) if method_specific else sorted(set(shared_eligible))
     return {
         "schema": "final-unsb-local-route1-target-blind-signal-screen-v1",
         "status": "ELIGIBLE_SIGNALS_FOUND" if eligible else "NO_ELIGIBLE_SHARED_SIGNAL",
         "criteria": {
             "minimum_records": 6,
             "minimum_methods": 2,
+            "minimum_method_specific_records": 4,
             "leave_one_method_out_future_sign_accuracy": 0.65,
             "future_200_step_delta_spearman": 0.30,
             "mean_domain_sign_agreement_of_six": 4.0,
             "minimum_reversal_lead_fraction_when_observed": 0.5,
         },
         "signals": signals,
+        "eligible_shared_driver_signals": shared_eligible,
+        "eligible_method_specific_driver_signals": method_specific,
         "eligible_driver_signals": eligible,
         "paired_metrics_used_only_as_offline_post_branch_labels": True,
         "paired_metrics_accessed_by_controller": False,
@@ -1628,35 +1690,65 @@ def _rank_failure_mechanisms(
     signal_screen: dict, rows: list[dict], variance_rows: list[dict],
 ) -> list[dict]:
     mechanisms: list[dict] = []
-    eligible = set(signal_screen.get("eligible_driver_signals", []))
+    shared_eligible = set(signal_screen.get(
+        "eligible_shared_driver_signals",
+        signal_screen.get("eligible_driver_signals", []),
+    ))
+    method_specific_eligible = {
+        probe: set(features)
+        for probe, features in signal_screen.get(
+            "eligible_method_specific_driver_signals", {}
+        ).items()
+    }
+
+    def driver_evidence(
+        candidate_features: set[str], supporting_probes: list[str],
+    ) -> tuple[list[str], dict[str, list[str]]]:
+        shared = sorted(candidate_features & shared_eligible)
+        by_probe = {
+            probe: sorted(candidate_features & method_specific_eligible.get(probe, set()))
+            for probe in supporting_probes
+            if candidate_features & method_specific_eligible.get(probe, set())
+        }
+        return shared, by_probe
+
     sign_support = [
         row["probe"] for row in probe_summaries
         if row["next_batch_consensus_mean"] is not None
         and row["next_batch_consensus_mean"] < 0.0
     ]
     if sign_support:
+        shared_drivers, method_drivers = driver_evidence(
+            {"correction_next_native_cosine", "replicated_next_batch_consensus"},
+            sign_support,
+        )
         mechanisms.append({
             "failure_type": "correction_sign_reversal",
             "supporting_probes": sign_support,
             "cross_probe_support": len(sign_support),
             "observable": "correction cosine with next independent native update",
             "construction_route": "future_batch_consensus_or_one_sided_constraint",
-            "candidate_generation_eligible": bool(
-                {"correction_next_native_cosine", "replicated_next_batch_consensus"} & eligible
-            ),
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
         })
     state_support = [
         row["probe"] for row in probe_summaries
         if row["case_counts"].get("plain_state_help_self_state_harm", 0) > 0
     ]
     if state_support:
+        shared_drivers, method_drivers = driver_evidence(
+            set(signal_screen.get("eligible_driver_signals", [])), state_support,
+        )
         mechanisms.append({
             "failure_type": "state_feedback_missing",
             "supporting_probes": state_support,
             "cross_probe_support": len(state_support),
             "observable": "same operator helps S_plain but harms its own induced state",
             "construction_route": "state_conditional_self_null_intervention",
-            "candidate_generation_eligible": bool(eligible),
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
         })
     amplitude_support = [
         row["probe"] for row in probe_summaries
@@ -1665,17 +1757,20 @@ def _rank_failure_mechanisms(
         and (row["next_batch_consensus_mean"] or 0.0) >= 0.0
     ]
     if amplitude_support:
+        shared_drivers, method_drivers = driver_evidence(
+            {"correction_within_native_scale_margin"}, amplitude_support,
+        )
         mechanisms.append({
             "failure_type": "correct_direction_unstable_magnitude",
             "supporting_probes": amplitude_support,
             "cross_probe_support": len(amplitude_support),
             "observable": "correction/native Adam displacement ratio",
             "construction_route": "adam_metric_trust_region",
-            "candidate_generation_eligible": bool(
-                "correction_within_native_scale_margin" in eligible
-            ),
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
             "ineligible_reason": (
-                None if "correction_within_native_scale_margin" in eligible else
+                None if shared_drivers or method_drivers else
                 "the target-blind native-scale margin did not pass the signal screen"
             ),
         })
@@ -1772,9 +1867,9 @@ def _rank_failure_mechanisms(
         if cases:
             rollout_support.append({"probe": probe, "cases": cases})
     if rollout_support:
-        drivers = sorted({
+        shared_drivers, method_drivers = driver_evidence({
             "rollout_speed_stability_margin", "rollout_velocity_growth_margin",
-        } & eligible)
+        }, [row["probe"] for row in rollout_support])
         mechanisms.append({
             "failure_type": "rollout_distribution_speed",
             "supporting_probes": [row["probe"] for row in rollout_support],
@@ -1782,11 +1877,12 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(rollout_support),
             "observable": "proposal/reference rollout velocity ratio at the current unpaired state",
             "construction_route": "bridge_gap_constrained_adaptive_teacher",
-            "candidate_generation_eligible": bool(drivers),
-            "eligible_target_blind_driver_signals": drivers,
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
             "ineligible_reason": (
-                None if drivers else
-                "rollout speed preceded harm but did not pass the cross-method signal screen"
+                None if shared_drivers or method_drivers else
+                "rollout speed preceded harm but did not pass the shared or method-specific signal screen"
             ),
         })
     coordinate_support = []
@@ -1817,6 +1913,9 @@ def _rank_failure_mechanisms(
             coordinate_support.append({"probe": probe, "cases": cases})
     if coordinate_support:
         driver = "low_time_conditioning_spread_margin"
+        shared_drivers, method_drivers = driver_evidence(
+            {driver}, [row["probe"] for row in coordinate_support],
+        )
         mechanisms.append({
             "failure_type": "coordinate_horizon_imbalance",
             "supporting_probes": [row["probe"] for row in coordinate_support],
@@ -1824,10 +1923,11 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(coordinate_support),
             "observable": "bridge-time correction-norm coefficient of variation",
             "construction_route": "identity_adaptive_coordinate",
-            "candidate_generation_eligible": driver in eligible,
-            "target_blind_driver_signal": driver,
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
             "ineligible_reason": (
-                None if driver in eligible else
+                None if shared_drivers or method_drivers else
                 "time conditioning was imbalanced but no target-blind safe driver passed"
             ),
         })
