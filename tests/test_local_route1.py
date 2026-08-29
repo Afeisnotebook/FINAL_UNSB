@@ -318,6 +318,48 @@ def test_audit_queue_brackets_first_reversal_and_maximum_drawdown(tmp_path):
     assert "maximum_drawdown_trough" in jobs[80]["selection_reasons"]
 
 
+def test_uncalibrated_proxy_excludes_unrun_dt_without_calling_it_missing(tmp_path):
+    evidence = tmp_path / "evidence"
+    evidence.mkdir()
+    trajectory = [
+        {"epoch": epoch, "macro_psnr_delta": -0.1}
+        for epoch in (20, 100, 150, 175, 200)
+    ]
+    (evidence / "ANCHOR_TRAJECTORIES.json").write_text(
+        __import__("json").dumps({
+            "summaries": [
+                {"probe_id": "hj", "trajectory": trajectory, "complete_e200": True},
+                {"probe_id": "hnek", "trajectory": trajectory, "complete_e200": True},
+                {"probe_id": "dt", "trajectory": [], "complete_e200": False},
+            ]
+        }),
+        encoding="utf-8",
+    )
+    (evidence / "PROXY_CALIBRATION.json").write_text(
+        __import__("json").dumps({"status": "NOT_CALIBRATED_PAUSE"}),
+        encoding="utf-8",
+    )
+    for lane in ("plain", "hj", "hnek"):
+        milestone = tmp_path / "anchors" / lane / "milestones"
+        milestone.mkdir(parents=True)
+        for epoch in (20, 100, 150, 175, 200):
+            (milestone / f"e{epoch:03d}.pt").write_bytes(b"checkpoint")
+
+    queue = prepare_audit_queue(tmp_path)
+    assert queue["status"] == "READY"
+    assert {row["probe"] for row in queue["jobs"]} == {"hj", "hnek"}
+    assert queue["missing_or_replay"] == []
+    assert queue["excluded_probes"] == [{
+        "probe": "dt",
+        "reason": "excluded_by_proxy_gate",
+        "proxy_status": "NOT_CALIBRATED_PAUSE",
+        "scientific_interpretation": (
+            "DT was deliberately not run; this is not a missing checkpoint or "
+            "mechanism falsification."
+        ),
+    }]
+
+
 def test_sampling_variance_uses_actual_correction_fields(monkeypatch, tmp_path):
     before = {"block.weight": torch.tensor([0.0, 0.0])}
 
