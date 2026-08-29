@@ -27,14 +27,14 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 07:45）
+## 当前执行事实（2026-08-30 07:55）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
 - 本地plain已正式完成并接受e200（30000 updates），PSNR `18.095297`、SSIM
   `0.583635`、LPIPS `0.316534`；完整文件hash和重算scientific-state hash均与sidecar
   一致。current-user计划任务`FINAL_UNSB_ROUTE1_EXECUTOR`已自动从共同e0启动HJ；当前
-  已到e99（14850 updates），继续按最多5 data epochs分块执行。
+  已到e103（15450 updates），继续按最多5 data epochs分块执行。
 - 通用milestone验收器已在本地e175和4090 plain e200上实际重算checkpoint文件hash、
   scientific-state hash、420张discovery70 CRN、六域计数和LPIPS，结果与已有正式证据
   一致；后续每个关键e200都使用同一验收边界。
@@ -45,7 +45,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   因而small25 proxy已正式`CALIBRATED`。一次HNEK交接竞态已通过隔离、哈希验收、
   可恢复quarantine和显式导入解决，没有混合full state。
 - 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；plain与隔离
-  HNEK均已验收e200并导入canonical root，HJ当前到e67。HNEK晚三点宏delta均值虽为
+  HNEK均已验收e200并导入canonical root，HJ当前到e75。HNEK晚三点宏delta均值虽为
   `+0.608222 dB`，但只有一个晚期点达到4/6域正，单独不足以校准该宿主；DT继续锁定到
   HJ e200，不能为了提高利用率绕过科学依赖。
 - 5090已利用剩余算力启动HNEK固定点的部分因果审计。e20首两条记录已验证audit/training
@@ -61,7 +61,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
 - 4090持久审计器固定于audit commit `729826f`、source fingerprint `41434187...5e1a`。
   四锚点终态哈希验收后冻结了25个审计点：HJ 8个、HNEK 9个、DT 8个；无缺失和重放。
-  当前两个隔离worker并行审计DT e20/e60，已形成54条atlas row和4条variance row，已检查
+  当前两个隔离worker并行审计DT e60/e100，已形成70条atlas row和12条variance row，已检查
   的记录均证明parent full-state hash前后相同、paired controller访问为false、
   confirmation20未打开；实测双流GPU利用率
   约95%，不再增加第三个进程。审计覆盖连续介入、短pulse后的原生流传播以及8重复
@@ -88,6 +88,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   前兆领先性、六域一致性、冻结的1/8/32步反事实收益、最小数学复杂度、最小计算/恢复
   成本。复杂度和成本在矩阵阶段仅是构造家族下界，最终必须由derivation card替换为实际
   算法开销；这不等于提前写好算法。实现见`3d650d1`。
+- 一次因果修订不再依赖手工改ledger。`641559a`新增追加式G2授权：只有G1完成e200且
+  当前实现长期为负、target-blind缺陷量数值上确实下降但收益仍反转、并形成新的因果
+  失败理由时才能创建；同一父机制只能一次，G2不能再生G3，窗口、handoff、网格和paired
+  控制全部硬拒绝。G2 card必须绑定父候选、修订请求和缺陷证据哈希。
 - DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
   forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
   路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。

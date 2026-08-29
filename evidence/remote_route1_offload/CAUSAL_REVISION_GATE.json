@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-causal-revision-gate-v1",
+  "created": "2026-08-30T07:55:00+08:00",
+  "implementation_commit": "641559a",
+  "purpose": "Make the one allowed Generation-2 revision executable and append-only instead of relying on an informal ledger edit after a negative result.",
+  "required_authority": {
+    "parent_generation": 1,
+    "parent_derivation_frozen": true,
+    "parent_complete_data_epoch": 200,
+    "parent_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+    "target_blind_defect_numerically_reduced": true,
+    "long_horizon_benefit_reversed": true,
+    "new_causal_failure_reason_required": true,
+    "mathematical_change_from_parent_required": true,
+    "maximum_revisions_per_parent_mechanism": 1
+  },
+  "forbidden": {
+    "fixed_window_or_handoff": true,
+    "hyperparameter_grid_search": true,
+    "paired_target_control": true,
+    "generation2_spawning_generation3": true,
+    "silent_rewrite_of_generation1": true
+  },
+  "binding": {
+    "source_e200_trajectory_sha256": true,
+    "target_blind_defect_evidence_sha256": true,
+    "revision_request_sha256_in_generation2_card": true,
+    "parent_candidate_id_in_generation2_card": true,
+    "causal_revision_reason_in_algorithm_fingerprint": true
+  },
+  "verification": {
+    "pytest": "93 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
