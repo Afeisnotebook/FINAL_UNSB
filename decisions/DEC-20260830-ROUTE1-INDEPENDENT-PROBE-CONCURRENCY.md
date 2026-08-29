@@ -29,6 +29,15 @@ HNEK：它与 HJ 都从同一个 shared e0 独立开始，原先“必须等 HJ 
 - 独立保存 checkpoint、日志和 lock；不得与 canonical HNEK 同时写同一目录；
 - 保持 paired controller 禁止和 confirmation20 封存。
 
+5090 的补充调度允许在同机 matched plain 仍运行时提前启动 HNEK，但必须同时满足：
+
+- canonical executor contract、运行状态、训练 worktree、manifest、train view、data root
+  和 shared e0 全部精确匹配；
+- 输出标记为 `QUARANTINED`，在本机 plain e200 checkpoint/hash 验证完成前不得比较、
+  排名、审计或导入 canonical root；
+- HNEK 返回时再次验证 plain e200；若仍未完成，结果继续封存并以非成功状态退出；
+- 这一放宽只改变任务启动顺序，不改变训练 update，也不放宽 DT 的 proxy gate。
+
 并行结果仍只能与本机 plain 比较。它完成后若要提供给 canonical auditor，必须先停止
 canonical 对同一 lane 的写入，核验完整 checkpoint/hash，再以显式 import evidence
 合并；不得静默覆盖。
@@ -39,4 +48,3 @@ canonical 对同一 lane 的写入，核验完整 checkpoint/hash，再以显式
 - 因果审计可将不同 checkpoint/branch 分配给独立进程；
 - 最多两个已冻结候选可在隔离 root 并行，但每个仍需自己的 gate/full state；
 - 较大 batch 只可作为显式标注的非科学 throughput micro-run，不能进入路线一排行榜。
-

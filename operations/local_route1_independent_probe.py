@@ -111,6 +111,83 @@ def validate_e0_sidecar(sidecar: dict[str, Any]) -> None:
         raise RuntimeError("shared e0 manifest mismatch")
 
 
+def validate_inflight_plain_contract(
+    *, matched_plain_root: Path, training_repo: Path, train_view: Path,
+    data_root: Path, manifest: Path,
+) -> dict[str, Any]:
+    """Prove that the future matched baseline is already running on this host.
+
+    This does not accept a comparison.  It only permits an independent probe to
+    accumulate into a quarantined output root while the exact matched plain run
+    finishes.  The probe result cannot be promoted until plain e200 validates.
+    """
+
+    contract_path = matched_plain_root / "operations" / "EXECUTOR_CONTRACT.json"
+    state_path = matched_plain_root / "operations" / "EXECUTION_STATE.json"
+    if not contract_path.is_file() or not state_path.is_file():
+        raise FileNotFoundError("matched plain executor contract/state missing")
+    contract = read_json(contract_path)
+    state = read_json(state_path)
+    expected_contract = {
+        "schema": "final-unsb-route1-executor-contract-v1",
+        "executor_repo": str(training_repo),
+        "run_root": str(matched_plain_root),
+        "train_view": str(train_view),
+        "data_root": str(data_root),
+        "manifest": str(manifest),
+        "training_git_commit": EXPECTED_TRAINING_COMMIT,
+        "training_protocol_fingerprint": EXPECTED_PROTOCOL,
+        "manifest_sha256": EXPECTED_MANIFEST,
+        "confirmation20_opened": False,
+    }
+    for key, value in expected_contract.items():
+        actual = contract.get(key)
+        if key in {"executor_repo", "run_root", "train_view", "data_root", "manifest"}:
+            actual = str(Path(str(actual)).resolve())
+        if actual != value:
+            raise RuntimeError(f"matched plain executor contract mismatch for {key}")
+    expected_state = {
+        "git_commit": EXPECTED_TRAINING_COMMIT,
+        "protocol_fingerprint": EXPECTED_PROTOCOL,
+        "manifest_sha256": EXPECTED_MANIFEST,
+        "confirmation20_opened": False,
+    }
+    for key, value in expected_state.items():
+        if state.get(key) != value:
+            raise RuntimeError(f"matched plain executor state mismatch for {key}")
+    if state.get("lane") != "plain" or state.get("status") not in {
+        "CHUNK_RUNNING", "CHUNK_COMPLETE", "LANE_COMPLETE_E200",
+    }:
+        raise RuntimeError("matched plain is not the active/complete canonical lane")
+    current = int(state.get("current_data_epoch", 0))
+    if not 0 <= current <= 200:
+        raise RuntimeError("matched plain current epoch is invalid")
+    return {
+        "matched_plain_status": "INFLIGHT_QUARANTINED",
+        "matched_plain_current_data_epoch": current,
+        "matched_plain_executor_pid": int(state.get("executor_pid", -1)),
+        "matched_plain_contract_sha256": file_sha256(contract_path),
+    }
+
+
+def validate_plain_e200(matched_plain_root: Path) -> dict[str, Any]:
+    plain_checkpoint = matched_plain_root / "anchors" / "plain" / "full_state_latest.pt"
+    plain_sidecar_path = Path(str(plain_checkpoint) + ".json")
+    if not plain_checkpoint.is_file() or not plain_sidecar_path.is_file():
+        raise FileNotFoundError("same-host plain e200 checkpoint/sidecar missing")
+    plain_sidecar = read_json(plain_sidecar_path)
+    validate_plain_sidecar(plain_sidecar)
+    checkpoint_hash = file_sha256(plain_checkpoint)
+    if checkpoint_hash != plain_sidecar.get("full_state_sha256"):
+        raise RuntimeError("matched plain checkpoint file hash mismatch")
+    return {
+        "matched_plain_status": "E200_VERIFIED",
+        "matched_plain_checkpoint": str(plain_checkpoint.resolve()),
+        "matched_plain_checkpoint_sha256": checkpoint_hash,
+        "matched_plain_scientific_state_sha256": plain_sidecar["scientific_state_sha256"],
+    }
+
+
 def process_exists(pid: int) -> bool:
     pid = int(pid)
     if pid <= 0:
@@ -153,7 +230,8 @@ def exclusive_lock(path: Path):
 
 def validate_and_materialize_e0(
     *, training_repo: Path, matched_plain_root: Path, output_root: Path,
-    manifest: Path,
+    train_view: Path, data_root: Path, manifest: Path,
+    allow_matched_plain_inflight: bool,
 ) -> dict[str, Any]:
     if output_root.resolve() == matched_plain_root.resolve():
         raise RuntimeError("independent probe must use an isolated output root")
@@ -163,15 +241,6 @@ def validate_and_materialize_e0(
         raise RuntimeError("immutable training worktree is dirty")
     if file_sha256(manifest) != EXPECTED_MANIFEST:
         raise RuntimeError("manifest hash mismatch")
-
-    plain_checkpoint = matched_plain_root / "anchors" / "plain" / "full_state_latest.pt"
-    plain_sidecar_path = Path(str(plain_checkpoint) + ".json")
-    if not plain_checkpoint.is_file() or not plain_sidecar_path.is_file():
-        raise FileNotFoundError("same-host plain e200 checkpoint/sidecar missing")
-    plain_sidecar = read_json(plain_sidecar_path)
-    validate_plain_sidecar(plain_sidecar)
-    if file_sha256(plain_checkpoint) != plain_sidecar.get("full_state_sha256"):
-        raise RuntimeError("matched plain checkpoint file hash mismatch")
 
     source_e0 = matched_plain_root / "shared_e0" / "e0.pt"
     source_e0_sidecar = Path(str(source_e0) + ".json")
@@ -193,10 +262,20 @@ def validate_and_materialize_e0(
         raise RuntimeError("isolated output e0 changed during materialization")
     validate_e0_sidecar(read_json(target_e0_sidecar))
 
+    try:
+        plain_evidence = validate_plain_e200(matched_plain_root)
+    except (FileNotFoundError, RuntimeError):
+        if not allow_matched_plain_inflight:
+            raise
+        plain_evidence = validate_inflight_plain_contract(
+            matched_plain_root=matched_plain_root,
+            training_repo=training_repo,
+            train_view=train_view,
+            data_root=data_root,
+            manifest=manifest,
+        )
     return {
-        "matched_plain_checkpoint": str(plain_checkpoint.resolve()),
-        "matched_plain_checkpoint_sha256": file_sha256(plain_checkpoint),
-        "matched_plain_scientific_state_sha256": plain_sidecar["scientific_state_sha256"],
+        **plain_evidence,
         "shared_e0_file_sha256": EXPECTED_E0_FILE,
         "shared_e0_scientific_state_sha256": EXPECTED_E0_SCIENTIFIC,
     }
@@ -227,6 +306,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--lane", choices=ALLOWED_LANES, required=True)
     value.add_argument("--gpu", type=int, default=0)
     value.add_argument("--stop-after-epoch", type=int, default=200)
+    value.add_argument("--allow-matched-plain-inflight", action="store_true")
     value.add_argument("--preflight-only", action="store_true")
     return value
 
@@ -242,7 +322,9 @@ def main(argv: list[str] | None = None) -> int:
     with exclusive_lock(operations / f"INDEPENDENT_{args.lane.upper()}.lock"):
         evidence = validate_and_materialize_e0(
             training_repo=training_repo, matched_plain_root=matched_plain_root,
-            output_root=output_root, manifest=manifest,
+            output_root=output_root, train_view=args.train_view.resolve(),
+            data_root=args.data_root.resolve(), manifest=manifest,
+            allow_matched_plain_inflight=bool(args.allow_matched_plain_inflight),
         )
         anchors, protocol_fingerprint = install_frozen_imports(training_repo)
         if protocol_fingerprint(manifest) != EXPECTED_PROTOCOL:
@@ -255,7 +337,15 @@ def main(argv: list[str] | None = None) -> int:
         contract = {
             "schema": "final-unsb-route1-independent-probe-contract-v1",
             "created": now(),
-            "status": "PREFLIGHT_PASS" if args.preflight_only else "RUNNING",
+            "status": (
+                "PREFLIGHT_PASS_QUARANTINED"
+                if args.preflight_only and evidence["matched_plain_status"] == "INFLIGHT_QUARANTINED"
+                else "PREFLIGHT_PASS"
+                if args.preflight_only
+                else "RUNNING_QUARANTINED"
+                if evidence["matched_plain_status"] == "INFLIGHT_QUARANTINED"
+                else "RUNNING"
+            ),
             "lane": args.lane,
             "training_repo": str(training_repo),
             "training_git_commit": EXPECTED_TRAINING_COMMIT,
@@ -271,6 +361,7 @@ def main(argv: list[str] | None = None) -> int:
             "scheduling_dependency_bypassed": "HJ completion before HNEK launch",
             "training_update_changed": False,
             "batch_size_changed": False,
+            "matched_plain_inflight_launch_allowed": bool(args.allow_matched_plain_inflight),
             "cross_host_state_used": False,
             "paired_controller_access": False,
             "confirmation20_opened": False,
@@ -289,10 +380,16 @@ def main(argv: list[str] | None = None) -> int:
         def independent_guard(candidate_root: Path, probe_id: str) -> None:
             if Path(candidate_root).resolve() != output_root or probe_id != args.lane:
                 raise RuntimeError("independent scheduling guard scope violation")
-            current_plain = read_json(
-                Path(str(matched_plain_root / "anchors/plain/full_state_latest.pt") + ".json")
-            )
-            validate_plain_sidecar(current_plain)
+            if evidence["matched_plain_status"] == "E200_VERIFIED":
+                validate_plain_e200(matched_plain_root)
+            else:
+                validate_inflight_plain_contract(
+                    matched_plain_root=matched_plain_root,
+                    training_repo=training_repo,
+                    train_view=args.train_view.resolve(),
+                    data_root=args.data_root.resolve(),
+                    manifest=manifest,
+                )
 
         anchors.assert_anchor_order = independent_guard
         try:
@@ -308,7 +405,38 @@ def main(argv: list[str] | None = None) -> int:
             )
         finally:
             anchors.assert_anchor_order = original_guard
-        atomic_json(operations / "INDEPENDENT_PROBE_RESULT.json", result)
+        try:
+            final_plain_evidence = validate_plain_e200(matched_plain_root)
+        except (FileNotFoundError, RuntimeError) as exc:
+            contract.update({
+                "status": "COMPLETE_QUARANTINED_PENDING_MATCHED_PLAIN_E200",
+                "completed": now(),
+                "promotion_error": str(exc),
+            })
+            atomic_json(operations / "INDEPENDENT_PROBE_CONTRACT.json", contract)
+            atomic_json(operations / "INDEPENDENT_PROBE_RESULT.json", {
+                "status": "QUARANTINED_PENDING_MATCHED_PLAIN_E200",
+                "result": result,
+                "confirmation20_opened": False,
+            })
+            append_jsonl(operations / "INDEPENDENT_PROBE_EVENTS.jsonl", {
+                "time": now(), "event": "RUN_RETURN_QUARANTINED", "result": result,
+                "promotion_error": str(exc), "confirmation20_opened": False,
+            })
+            print(json.dumps({"status": contract["status"], "result": result}, ensure_ascii=False, indent=2))
+            return 75
+        contract.update({
+            "status": "COMPLETE_MATCHED_BASELINE_VERIFIED",
+            "completed": now(),
+            **final_plain_evidence,
+        })
+        atomic_json(operations / "INDEPENDENT_PROBE_CONTRACT.json", contract)
+        atomic_json(operations / "INDEPENDENT_PROBE_RESULT.json", {
+            "status": "COMPLETE_MATCHED_BASELINE_VERIFIED",
+            "result": result,
+            **final_plain_evidence,
+            "confirmation20_opened": False,
+        })
         append_jsonl(operations / "INDEPENDENT_PROBE_EVENTS.jsonl", {
             "time": now(), "event": "RUN_RETURN", "result": result,
             "confirmation20_opened": False,
