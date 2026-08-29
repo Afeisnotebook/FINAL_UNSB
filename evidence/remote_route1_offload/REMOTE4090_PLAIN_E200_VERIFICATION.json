@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-route1-remote4090-plain-e200-verification-v1",
+  "recorded": "2026-08-30T02:36:45+08:00",
+  "status": "ACCEPTED_HOST_BASELINE_ONLY",
+  "host": "192.168.0.30",
+  "scientific_boundary": "This is the remote4090 matched baseline. It is not compared with local or 5090 methods and makes no algorithm-quality claim before same-host methods finish.",
+  "identity": {
+    "probe_id": "plain",
+    "seed": 2026,
+    "data_epoch": 200,
+    "updates": 30000,
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4"
+  },
+  "checkpoint": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/anchors/plain/milestones/e200.pt",
+    "file_sha256": "8a71dbe2fc1867d41905ab8afffe60e78561d5f094e5ef875606f4d165b1ba5c",
+    "scientific_state_sha256": "8c3ec915600cf2553ae65939ecc786df582c96c41e5eaabf4ae3b2d252a6305d",
+    "sidecar_sha256": "6757d1d01049526af0a241bfff2dbebefafd14798a4c064c2ade2d0f4ca29c48",
+    "payload_step": 30000,
+    "physical_epoch_completed": 200
+  },
+  "discovery70_metric": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/anchors/plain/metrics/e200.json",
+    "file_sha256": "ce41323152fb396acb98605ef6b4d650bb9477498fe9f7968ca8c8a2840b8a9f",
+    "images": 420,
+    "count_per_domain": 70,
+    "macro_psnr": 17.43805859097264,
+    "macro_ssim": 0.5516294765330496,
+    "macro_lpips": 0.3343400211916083,
+    "per_domain": {
+      "FoggyCityscapes": {"psnr": 16.609469181484883, "ssim": 0.574602581347738, "lpips": 0.30775072957788197},
+      "LowLightTrafficData": {"psnr": 12.985740916218795, "ssim": 0.37488785215786524, "lpips": 0.5071384357554573},
+      "RSCityscapes": {"psnr": 19.97013263923028, "ssim": 0.5945382109710149, "lpips": 0.2988659445728574},
+      "RainCityscapes": {"psnr": 20.65207297130245, "ssim": 0.6785024374723434, "lpips": 0.21982936199222292},
+      "RainDS-syn": {"psnr": 17.03813951872883, "ssim": 0.536744059409414, "lpips": 0.3234145460384233},
+      "SnowTrafficData": {"psnr": 17.372796318870623, "ssim": 0.5505017178399222, "lpips": 0.34904110921280723}
+    }
+  },
+  "integrity": {
+    "checkpoint_sidecar_identity_matches": true,
+    "metric_protocol_matches": true,
+    "evaluation_bundle_matches_frozen_crn": true,
+    "confirmation20_opened": false,
+    "remote_hj_started_after_plain_e200": true
+  }
+}
