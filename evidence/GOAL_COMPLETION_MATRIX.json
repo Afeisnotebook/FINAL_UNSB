@@ -1,0 +1,106 @@
+{
+  "schema": "final-unsb-route1-goal-completion-matrix-v1",
+  "updated": "2026-08-30T03:46:00+08:00",
+  "goal_status": "IN_PROGRESS",
+  "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
+  "scope_override": {
+    "original_local_only_text": true,
+    "later_user_authorized_4090_and_5090": true,
+    "effective_rule": "Remote work is allowed only as host-matched route-1 execution. Cross-host method-minus-plain, full-dataset expansion, confirmation20, and route-2 control remain forbidden."
+  },
+  "requirements": [
+    {
+      "id": 1,
+      "requirement": "Persistent execution and fault recovery no longer depend on a Codex child process.",
+      "status": "PROVEN",
+      "evidence": [
+        "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
+        "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
+        "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json"
+      ],
+      "boundary": "Durability is proven for anchors; candidate executors must still pass their own source-bound gate before use."
+    },
+    {
+      "id": 2,
+      "requirement": "Proxy is calibrated, or proxy distortion has causal proof and user adjudication.",
+      "status": "PENDING_LONG_HJ_HNEK",
+      "evidence": [],
+      "next_proof": "Complete host-matched HJ/HNEK e150/e175/e200 trajectories and run the frozen proxy evaluator."
+    },
+    {
+      "id": 3,
+      "requirement": "DT/HJ/HNEK and other primary probes yield usable long causal evidence.",
+      "status": "PARTIAL_RUNTIME_ONLY",
+      "evidence": [
+        "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
+        "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json"
+      ],
+      "missing": ["HJ e200", "HNEK e200", "proxy decision", "DT e200 if proxy calibrated", "counterfactual rows"]
+    },
+    {
+      "id": 4,
+      "requirement": "Real LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX are complete.",
+      "status": "PENDING_ANCHORS",
+      "evidence": [
+        "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json"
+      ],
+      "boundary": "A waiting auditor or audit queue is not causal evidence."
+    },
+    {
+      "id": 5,
+      "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
+      "status": "NOT_YET_DERIVABLE",
+      "evidence": [],
+      "gate": "Algorithm formulas may be created only after immutable causal-matrix evidence exists."
+    },
+    {
+      "id": 6,
+      "requirement": "The allowed one causal revision is completed or evidence shows it is inapplicable.",
+      "status": "NOT_REACHED",
+      "evidence": []
+    },
+    {
+      "id": 7,
+      "requirement": "One CANDIDATE.json and two fallback/closed directions are delivered.",
+      "status": "NOT_REACHED",
+      "evidence": []
+    },
+    {
+      "id": 8,
+      "requirement": "Per-domain trajectories, absolute/relative decomposition, complexity, risk, and reproduction commands are delivered.",
+      "status": "PARTIAL_BASELINE_ONLY",
+      "evidence": [
+        "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
+        "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json"
+      ],
+      "missing": ["probe trajectories", "candidate trajectories", "absolute/relative decomposition", "final reproduction commands"]
+    },
+    {
+      "id": 9,
+      "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
+      "status": "ONGOING_PASS",
+      "evidence": [
+        "61 pytest tests passing at development commit c072241 and a clean pushed main branch"
+      ],
+      "boundary": "This must be rerun after every future scientific implementation and at final delivery."
+    },
+    {
+      "id": 10,
+      "requirement": "Final report separates scientific conclusions, engineering failures, proxy distortion, and untested hypotheses.",
+      "status": "NOT_REACHED",
+      "evidence": []
+    }
+  ],
+  "current_accepted_scientific_boundary": {
+    "local_plain": "e200 accepted",
+    "local_hj": "e1 runtime core identity accepted; long result pending",
+    "remote4090_plain": "e200 accepted",
+    "remote4090_hj_hnek": "running",
+    "remote5090_plain_hnek": "running; HNEK quarantined until same-host plain e200",
+    "dt": "blocked by proxy",
+    "causal_atlas": "not started",
+    "new_algorithm": "not yet generated",
+    "confirmation20_opened": false
+  },
+  "completion_claim_allowed": false
+}
