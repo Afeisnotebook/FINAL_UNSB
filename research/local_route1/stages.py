@@ -9,6 +9,52 @@ from .protocol import load_protocol
 from .runtime import write_json
 
 
+def _dynamic_audit_epoch_reasons(trajectory: list[dict]) -> dict[int, list[str]]:
+    """Select the registered states that bracket the first reversal and worst drawdown.
+
+    The paired trajectory is used only after every anchor has finished.  It chooses
+    states to *label* counterfactual evidence; none of these values is visible to a
+    training proposal or controller.
+    """
+    ordered = sorted(trajectory, key=lambda row: int(row["epoch"]))
+    reasons: dict[int, list[str]] = {}
+
+    def add(epoch: int, reason: str) -> None:
+        bucket = reasons.setdefault(int(epoch), [])
+        if reason not in bucket:
+            bucket.append(reason)
+
+    for previous, current in zip(ordered, ordered[1:]):
+        if float(previous["macro_psnr_delta"]) * float(current["macro_psnr_delta"]) < 0.0:
+            add(int(previous["epoch"]), "first_sign_reversal_left")
+            add(int(current["epoch"]), "first_sign_reversal_right")
+            break
+
+    if not ordered:
+        return reasons
+    maximum = max(ordered, key=lambda row: float(row["macro_psnr_delta"]))
+    add(int(maximum["epoch"]), "maximum_benefit")
+
+    running_peak = ordered[0]
+    worst_pair: tuple[dict, dict] | None = None
+    worst_drawdown = 0.0
+    for current in ordered[1:]:
+        drawdown = float(running_peak["macro_psnr_delta"]) - float(
+            current["macro_psnr_delta"]
+        )
+        if drawdown > worst_drawdown:
+            worst_drawdown = drawdown
+            worst_pair = (running_peak, current)
+        if float(current["macro_psnr_delta"]) > float(
+            running_peak["macro_psnr_delta"]
+        ):
+            running_peak = current
+    if worst_pair is not None and worst_drawdown > 0.0:
+        add(int(worst_pair[0]["epoch"]), "maximum_drawdown_peak")
+        add(int(worst_pair[1]["epoch"]), "maximum_drawdown_trough")
+    return reasons
+
+
 def prepare_audit_queue(output_root: Path) -> dict:
     """Select causal-audit states without pretending pending audits are evidence."""
     protocol = load_protocol()
@@ -33,21 +79,23 @@ def prepare_audit_queue(output_root: Path) -> dict:
     for summary in evidence["summaries"]:
         probe = summary["probe_id"]
         trajectory = summary["trajectory"]
-        dynamic = []
-        for previous, current in zip(trajectory, trajectory[1:]):
-            if previous["macro_psnr_delta"] * current["macro_psnr_delta"] < 0:
-                dynamic.extend([previous["epoch"], current["epoch"]])
-        if trajectory:
-            peak = max(trajectory, key=lambda row: row["macro_psnr_delta"])["epoch"]
-            final = trajectory[-1]["epoch"]
-            dynamic.extend([peak, final])
-        for epoch in sorted(set(fixed + dynamic)):
+        dynamic_reasons = _dynamic_audit_epoch_reasons(trajectory)
+        selection_reasons = {
+            int(epoch): ["fixed_long_horizon_state"] for epoch in fixed
+        }
+        for epoch, reasons in dynamic_reasons.items():
+            bucket = selection_reasons.setdefault(int(epoch), [])
+            bucket.extend(reason for reason in reasons if reason not in bucket)
+        for epoch in sorted(selection_reasons):
             method = output_root / "anchors" / probe / "milestones" / f"e{epoch:03d}.pt"
             plain = output_root / "anchors" / "plain" / "milestones" / f"e{epoch:03d}.pt"
             # Dynamic epochs that are not registered milestones require a later
             # deterministic replay from the nearest prior full state.
             if not method.is_file() or not plain.is_file():
-                missing.append({"probe": probe, "epoch": epoch, "needs_replay": True})
+                missing.append({
+                    "probe": probe, "epoch": epoch, "needs_replay": True,
+                    "selection_reasons": selection_reasons[epoch],
+                })
                 continue
             terminal = epoch >= int(protocol["local_view"]["target_epochs"])
             branch_horizons = [1, 8, 32] if terminal else [1, 8, 32, 200]
@@ -55,6 +103,7 @@ def prepare_audit_queue(output_root: Path) -> dict:
                 "probe": probe,
                 "data_epoch": epoch,
                 "updates": epoch * 150,
+                "selection_reasons": selection_reasons[epoch],
                 "plain_state": str(plain),
                 "method_state": str(method),
                 "operators": ["u0(S_plain)", "ui(S_plain)", "u0(S_method)", "ui(S_method)"],
