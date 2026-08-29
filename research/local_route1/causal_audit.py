@@ -65,6 +65,7 @@ ATLAS_SCHEMA = "final-unsb-local-route1-reversal-atlas-row-v1"
 MATRIX_SCHEMA = "final-unsb-local-route1-causal-matrix-v1"
 DEFAULT_HORIZONS = (1, 8, 32, 200)
 DEFAULT_VARIANCE_REPLICATES = 8
+TERMINAL_LOCAL_HORIZONS = (1, 8, 32)
 
 
 @dataclass(frozen=True)
@@ -382,6 +383,29 @@ def _branch_snapshot(model, primary, secondary, *, step: int) -> str:
     return full_state_hash(payload)
 
 
+def _restore_terminal_base_lrs(model) -> tuple[float, ...]:
+    """Restore only step scale for an e200 local vector-field diagnostic.
+
+    The registered e200 checkpoint has already taken its final scheduler step,
+    leaving every optimizer LR at zero.  Keeping zero would make every probe
+    appear to self-null.  Adam moments and scheduler state remain untouched;
+    only the immutable base LR is restored inside the disposable branch.
+    """
+    if len(model.optimizers) != len(model.schedulers):
+        raise RuntimeError("terminal LR audit requires optimizer/scheduler identity")
+    restored: list[float] = []
+    for optimizer, scheduler in zip(model.optimizers, model.schedulers):
+        base_lrs = tuple(float(value) for value in scheduler.base_lrs)
+        if len(optimizer.param_groups) != len(base_lrs):
+            raise RuntimeError("terminal LR audit param-group identity mismatch")
+        if not base_lrs or any(value <= 0.0 for value in base_lrs):
+            raise RuntimeError("terminal LR audit requires positive frozen base LRs")
+        for group, value in zip(optimizer.param_groups, base_lrs):
+            group["lr"] = value
+            restored.append(value)
+    return tuple(restored)
+
+
 def _run_branch(
     *,
     source: dict,
@@ -433,6 +457,14 @@ def _run_branch(
             torch.cuda.manual_seed_all(int(rng_seed_override))
     step = int(source["step"])
     target_steps = int(source.get("target_steps", 30_000))
+    terminal_extension = step >= target_steps
+    restored_base_lrs: tuple[float, ...] = ()
+    if terminal_extension:
+        if int(horizon) not in TERMINAL_LOCAL_HORIZONS:
+            raise RuntimeError(
+                "terminal vector-field audit is local-only and may not cross a scheduler boundary"
+            )
+        restored_base_lrs = _restore_terminal_base_lrs(model)
     before = _cpu_state_dict(model.netG)
     captured = _install_first_step_component_capture(model) if capture_components else {}
     losses_sum: dict[str, float] = defaultdict(float)
@@ -528,6 +560,11 @@ def _run_branch(
             "intervention_steps": (
                 "continuous" if intervention_steps is None else int(intervention_steps)
             ),
+            "branch_semantics": (
+                "terminal_base_lr_vector_field"
+                if terminal_extension else "registered_training_continuation"
+            ),
+            "terminal_restored_base_lrs": list(restored_base_lrs),
             **{
                 key: value for key, value in averaged_diagnostics.items()
                 if key.startswith(("dt_", "hj_", "hnek_"))
@@ -588,13 +625,18 @@ def _operator_modes(probe: str, data_epoch: int) -> tuple[str, ...]:
     return ("registered",)
 
 
-def _audit_regimes(horizons: Iterable[int]) -> tuple[tuple[str, int, int | None], ...]:
+def _audit_regimes(
+    horizons: Iterable[int], *, start_step: int | None = None,
+    target_steps: int = 30_000,
+) -> tuple[tuple[str, int, int | None], ...]:
     """Registered continuous branches plus diagnostic pulse propagation.
 
     Pulse branches are causal diagnostics only.  They do not authorize a
     finite-window candidate, handoff, or exit policy.
     """
     values = sorted({int(value) for value in horizons})
+    if start_step is not None and int(start_step) >= int(target_steps):
+        values = [value for value in values if value in TERMINAL_LOCAL_HORIZONS]
     regimes: list[tuple[str, int, int | None]] = [
         ("continuous_intervention", horizon, None) for horizon in values
     ]
@@ -637,7 +679,10 @@ def audit_cell(
     results: list[dict] = []
     for source_label, parent in (("plain", plain_parent), (cell.probe, method_parent)):
         for operator_mode in _operator_modes(cell.probe, cell.data_epoch):
-            for branch_regime, horizon, intervention_steps in _audit_regimes(horizons):
+            for branch_regime, horizon, intervention_steps in _audit_regimes(
+                horizons, start_step=cell.step,
+                target_steps=int(parent.get("target_steps", 30_000)),
+            ):
                 row_key = {
                     "probe": cell.probe,
                     "data_epoch": int(cell.data_epoch),
@@ -650,7 +695,8 @@ def audit_cell(
                 row_id = object_sha256(row_key)
                 if row_id in skip_row_ids:
                     continue
-                evaluate_after = horizon in label_set
+                terminal_extension = cell.step >= int(parent.get("target_steps", 30_000))
+                evaluate_after = horizon in label_set and not terminal_extension
                 reference, _ = _run_branch(
                     source=copy.deepcopy(parent), target_probe="plain",
                     source_label=source_label, operator_mode="registered",
@@ -707,6 +753,8 @@ def audit_cell(
                     "reference_operator": "native_unsb",
                     "proposal_operator": cell.probe,
                     "diagnostic_scope": (
+                        "terminal base-LR local vector field; no post-training future label"
+                        if terminal_extension else
                         "continuous operator validity"
                         if intervention_steps is None else
                         "pulse propagation under later native UNSB; not a route-2 policy"
@@ -1137,7 +1185,9 @@ def _expected_row_keys(queue: dict) -> set[tuple[str, int, str, str, str, int | 
         epoch = int(job["data_epoch"])
         for source in ("plain", probe):
             for mode in _operator_modes(probe, epoch):
-                for regime, horizon, intervention_steps in _audit_regimes(DEFAULT_HORIZONS):
+                for regime, horizon, intervention_steps in _audit_regimes(
+                    DEFAULT_HORIZONS, start_step=epoch * 150,
+                ):
                     expected.add((probe, epoch, source, mode, regime, intervention_steps, horizon))
     return expected
 

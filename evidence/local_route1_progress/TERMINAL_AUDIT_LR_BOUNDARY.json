@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-route1-terminal-audit-lr-boundary-v1",
+  "recorded": "2026-08-30T04:45:00+08:00",
+  "source": "accepted local plain full-state checkpoints",
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "checkpoints": [
+    {
+      "data_epoch": 175,
+      "step": 26250,
+      "full_state_sha256": "c964d27017f8f5bcab8040a15b09a42c1a382f4630c7aac4ee91f8154582d9dc",
+      "scientific_state_sha256": "9bc12ad15d54aa8126dcd1407bd03417778196f9141635de5d5c1161c1b082a6",
+      "optimizer_lrs": [0.0001, 0.0001, 0.0001, 0.0001],
+      "scheduler_last_epochs": [175, 175, 175, 175]
+    },
+    {
+      "data_epoch": 200,
+      "step": 30000,
+      "full_state_sha256": "9ae05330bac7cad0bac035fd9cfd3bc8e601817435bf77ac0a2f45d820238004",
+      "scientific_state_sha256": "2bc7f61e03a8547bec1bf42502ca44b5273f487288909def45d57313be73f279",
+      "optimizer_lrs": [0.0, 0.0, 0.0, 0.0],
+      "scheduler_last_epochs": [200, 200, 200, 200]
+    }
+  ],
+  "adjudication": {
+    "late_in_domain_labeled_checkpoint": 175,
+    "terminal_checkpoint": 200,
+    "terminal_horizons_updates": [1, 8, 32],
+    "terminal_base_lr_restore_only": true,
+    "terminal_adam_moments_reset": false,
+    "terminal_scheduler_state_reset": false,
+    "terminal_future_paired_label": false,
+    "terminal_200_step_extension": false
+  },
+  "paired_metric_used_for_training_control": false,
+  "confirmation20_opened": false
+}

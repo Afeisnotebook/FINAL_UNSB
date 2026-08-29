@@ -22,6 +22,7 @@ from research.local_route1.causal_audit import (
     _audit_regimes,
     _initialize_operator_costate,
     _operator_modes,
+    _restore_terminal_base_lrs,
     append_unique_rows,
     build_causal_matrix,
     target_blind_signal_screen,
@@ -51,6 +52,7 @@ from research.local_route1.seed_validation import (
     _e0_identity,
     validate_seed_freeze,
 )
+from research.local_route1.stages import prepare_audit_queue
 from research.local_route1.observations import (
     component_directional_derivatives,
     state_dict_delta_cosine,
@@ -230,6 +232,58 @@ def test_dt_registered_and_forced_active_diagnostics_are_separate():
     assert _operator_modes("dt", 40) == ("registered",)
     assert _operator_modes("dt", 100) == ("registered", "forced_active_diagnostic")
     assert _operator_modes("hj", 200) == ("registered",)
+
+
+def test_terminal_audit_is_local_and_never_fabricates_future_e200_label():
+    registered = _audit_regimes((1, 8, 32, 200), start_step=29_999)
+    terminal = _audit_regimes((1, 8, 32, 200), start_step=30_000)
+    assert any(horizon == 200 for _regime, horizon, _pulse in registered)
+    assert {horizon for _regime, horizon, _pulse in terminal} == {1, 8, 32}
+    assert not any(horizon == 200 for _regime, horizon, _pulse in terminal)
+
+
+def test_terminal_lr_restore_preserves_moments_and_scheduler_state():
+    parameter = torch.nn.Parameter(torch.tensor([1.0]))
+    optimizer = torch.optim.Adam([parameter], lr=0.0)
+    optimizer.state[parameter]["exp_avg"] = torch.tensor([0.25])
+    optimizer.state[parameter]["exp_avg_sq"] = torch.tensor([0.5])
+    scheduler = SimpleNamespace(base_lrs=[0.0001], last_epoch=200)
+    model = SimpleNamespace(optimizers=[optimizer], schedulers=[scheduler])
+    before = {
+        name: value.clone() if torch.is_tensor(value) else value
+        for name, value in optimizer.state[parameter].items()
+    }
+    restored = _restore_terminal_base_lrs(model)
+    assert restored == (0.0001,)
+    assert optimizer.param_groups[0]["lr"] == pytest.approx(0.0001)
+    assert scheduler.last_epoch == 200
+    for name, value in before.items():
+        assert torch.equal(optimizer.state[parameter][name], value)
+
+
+def test_audit_queue_uses_e175_label_and_terminal_e200_vector_field(tmp_path):
+    evidence = tmp_path / "evidence"
+    evidence.mkdir()
+    trajectory = [
+        {"epoch": epoch, "macro_psnr_delta": value}
+        for epoch, value in ((20, 0.1), (100, 0.2), (150, -0.1), (175, -0.2), (200, -0.3))
+    ]
+    (evidence / "ANCHOR_TRAJECTORIES.json").write_text(
+        __import__("json").dumps({"summaries": [{"probe_id": "hj", "trajectory": trajectory}]}),
+        encoding="utf-8",
+    )
+    for lane in ("plain", "hj"):
+        milestone = tmp_path / "anchors" / lane / "milestones"
+        milestone.mkdir(parents=True)
+        for epoch in (20, 100, 150, 175, 200):
+            (milestone / f"e{epoch:03d}.pt").write_bytes(b"checkpoint")
+    queue = prepare_audit_queue(tmp_path)
+    assert queue["status"] == "READY"
+    jobs = {row["data_epoch"]: row for row in queue["jobs"]}
+    assert 200 in jobs[175]["branch_horizons_updates"]
+    assert jobs[175]["branch_semantics"] == "registered_training_continuation"
+    assert jobs[200]["branch_horizons_updates"] == [1, 8, 32]
+    assert jobs[200]["branch_semantics"] == "terminal_base_lr_vector_field_no_future_label"
 
 
 def test_sampling_variance_uses_actual_correction_fields(monkeypatch, tmp_path):
