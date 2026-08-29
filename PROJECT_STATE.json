@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "b2e44809018ee06a9bbd185afe3d144ceb90c551",
+  "development_head_at_state_write": "bd6006a9946d27cce2e90a492c5d4a5dbe3b0060",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -206,6 +206,7 @@
     "auditor_evidence": "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
     "hnek_e200_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_E200_VERIFICATION.json",
     "early_fixed_hnek_audit_evidence": "evidence/remote_route1_offload/REMOTE5090_EARLY_FIXED_HNEK_AUDIT.json",
+    "hnek_dynamic_audit_selection_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_DYNAMIC_AUDIT_SELECTION.json",
     "proxy_calibration": {
       "status": "INSUFFICIENT_HNEK_ALONE_WAITING_FOR_HJ_E200",
       "hnek_late_three_macro_psnr_delta_db": 0.6082221582704617,

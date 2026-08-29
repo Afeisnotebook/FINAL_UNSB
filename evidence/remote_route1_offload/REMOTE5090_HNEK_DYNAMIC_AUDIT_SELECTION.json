@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-remote5090-hnek-dynamic-audit-selection-v1",
+  "observed_at": "2026-08-30T07:30:00+08:00",
+  "host_alias": "final-unsb-5090",
+  "selector": {
+    "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "function": "research.local_route1.stages._dynamic_audit_epoch_reasons",
+    "inputs_complete_same_host_plain_and_hnek_trajectories": true
+  },
+  "macro_psnr_delta_db": {
+    "e1": 0.13555871500801153,
+    "e5": 0.745520413835095,
+    "e10": 1.0814779843172548,
+    "e20": -0.3993416291748204,
+    "e40": 1.486908663045595,
+    "e60": 0.4118485537279586,
+    "e80": -0.1882340871329511,
+    "e100": -1.0499178713724984,
+    "e125": 1.1678646120192617,
+    "e150": 1.7448760884257961,
+    "e175": 0.4939676681881586,
+    "e200": -0.4141783494144704
+  },
+  "dynamic_reasons": {
+    "e10": ["first_sign_reversal_left"],
+    "e20": ["first_sign_reversal_right"],
+    "e40": ["maximum_drawdown_peak"],
+    "e100": ["maximum_drawdown_trough"],
+    "e150": ["maximum_benefit"]
+  },
+  "fixed_epochs": [20, 100, 150, 175, 200],
+  "selected_union": [10, 20, 40, 100, 150, 175, 200],
+  "execution": {
+    "active_initial_cell": {"probe": "hnek", "data_epoch": 20},
+    "idempotent_selected_chain_screen": "FINAL_UNSB_ROUTE1_5090_EARLY_HNEK_CHAIN",
+    "selected_chain_screen_pid": 32084,
+    "automatic_failure_retries": 0,
+    "maximum_total_gpu_processes": 2
+  },
+  "scientific_boundary": {
+    "paired_trajectory_used_only_for_offline_audit_state_selection": true,
+    "paired_training_control": false,
+    "proxy_bypassed": false,
+    "dt_started": false,
+    "complete_matrix_claimed": false,
+    "candidate_formula_allowed": false,
+    "dynamic_selection_depends_on_unfinished_hj_or_dt": false
+  },
+  "confirmation20_opened": false
+}
