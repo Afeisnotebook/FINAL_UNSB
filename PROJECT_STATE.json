@@ -102,6 +102,9 @@
     "gpu_gate": "PASS",
     "initial_observed_data_epoch": 3,
     "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
+    "auditor_status": "WAITING_FOR_ANCHORS",
+    "auditor_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
+    "auditor_evidence": "evidence/remote_route1_offload/REMOTE4090_AUDITOR_START.json",
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
