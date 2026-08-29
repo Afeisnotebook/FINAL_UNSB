@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`THREE_HOST_MATCHED_ANCHORS_RUNNING / LOCAL_PLAIN_E175_VERIFIED / REMOTE4090_PLAIN_E200_VERIFIED / PHASE_C_DURABLE_WAIT`
+状态：`THREE_HOST_MATCHED_ANCHORS_RUNNING / LOCAL_AND_REMOTE4090_PLAIN_E200_VERIFIED / PHASE_C_DURABLE_WAIT`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -31,9 +31,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
-- 本地plain已正式接受到e175（26250 updates），PSNR `17.746803`、SSIM
-  `0.567855`、LPIPS `0.338626`；当前训练已到e195附近，仍由current-user计划任务
-  `FINAL_UNSB_ROUTE1_EXECUTOR`按最多5 data epochs分块继续，尚未把e200写成已完成。
+- 本地plain已正式完成并接受e200（30000 updates），PSNR `18.095297`、SSIM
+  `0.583635`、LPIPS `0.316534`；完整文件hash和重算scientific-state hash均与sidecar
+  一致。current-user计划任务`FINAL_UNSB_ROUTE1_EXECUTOR`已自动从共同e0启动HJ，
+  继续按最多5 data epochs分块执行。
 - 通用milestone验收器已在本地e175和4090 plain e200上实际重算checkpoint文件hash、
   scientific-state hash、420张discovery70 CRN、六域计数和LPIPS，结果与已有正式证据
   一致；后续每个关键e200都使用同一验收边界。

@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-route1-milestone-verification-v1",
+  "recorded": "2026-08-30T03:41:04.228038+08:00",
+  "status": "ACCEPTED_CANONICAL_MILESTONE",
+  "identity": {
+    "probe_id": "plain",
+    "seed": 2026,
+    "data_epoch": 200,
+    "updates": 30000,
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4"
+  },
+  "checkpoint": {
+    "path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\milestones\\e200.pt",
+    "file_sha256": "9ae05330bac7cad0bac035fd9cfd3bc8e601817435bf77ac0a2f45d820238004",
+    "scientific_state_sha256": "2bc7f61e03a8547bec1bf42502ca44b5273f487288909def45d57313be73f279",
+    "sidecar_sha256": "0d7479d79b575789cc1a30c8a1b906c5ca27a431083d89c604422395458b79fd"
+  },
+  "discovery70_metric": {
+    "path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\metrics\\e200.json",
+    "file_sha256": "ee6baa467bde24a87890613d9d634e9c038ff58aeaf9f32b230b559f14edb648",
+    "images": 420,
+    "macro_psnr": 18.095297074266455,
+    "macro_ssim": 0.5836349919793151,
+    "macro_lpips": 0.3165342919173695,
+    "per_domain": {
+      "FoggyCityscapes": {"psnr": 18.36292122698701, "ssim": 0.6554645189217159, "lpips": 0.24395929681403297},
+      "LowLightTrafficData": {"psnr": 12.95808752349607, "ssim": 0.3708199230687959, "lpips": 0.5167069452149528},
+      "RSCityscapes": {"psnr": 20.97156877768993, "ssim": 0.6450907153742654, "lpips": 0.25715849569865634},
+      "RainCityscapes": {"psnr": 21.63764226319465, "ssim": 0.7281661629676819, "lpips": 0.18757713011332922},
+      "RainDS-syn": {"psnr": 16.92533435620893, "ssim": 0.5356787749699183, "lpips": 0.34380252978631426},
+      "SnowTrafficData": {"psnr": 17.71622829802214, "ssim": 0.5665898565735136, "lpips": 0.3500013538769313}
+    }
+  },
+  "completion_transition": {
+    "plain_run_state": "COMPLETE_E200",
+    "plain_final_data_epoch": 200,
+    "plain_final_updates": 30000,
+    "next_lane": "hj",
+    "next_lane_chunk": "e000_to_e005",
+    "next_lane_child_pid_at_observation": 3652,
+    "durable_executor_pid": 9444,
+    "scheduled_task_running": true
+  },
+  "integrity": {
+    "checkpoint_file_hash_matches_sidecar": true,
+    "scientific_state_hash_recomputed_and_matches_sidecar": true,
+    "metric_protocol_matches": true,
+    "evaluation_bundle_matches_frozen_crn": true,
+    "all_six_domains_have_70_images": true,
+    "lpips_requested_and_available": true,
+    "paired_metric_used_for_training_control": false,
+    "confirmation20_opened": false
+  },
+  "verifier": {
+    "source": "operations/local_route1_verify_milestone.py",
+    "source_sha256": "50daeb593c49a76be024eec13f6ddd7dbe18943f4db4fec05ca92add2c8c63a7"
+  },
+  "claim_boundary": "This accepts the canonical plain control at e200. It does not rank or select any intervention algorithm."
+}

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "phase": "THREE_HOST_MATCHED_ANCHORS_RUNNING_WITH_PARALLEL_HNEK_AND_DURABLE_AUDITORS",
+  "phase": "LOCAL_PLAIN_E200_ACCEPTED_THREE_HOST_METHOD_ANCHORS_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "fd2c7d0",
+  "development_head_at_state_write": "46a0ada",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -12,9 +12,9 @@
   },
   "anchor_progress": {
     "plain": {
-      "accepted_data_epoch": 175,
-      "accepted_updates": 26250,
-      "latest_observed_data_epoch": 195,
+      "accepted_data_epoch": 200,
+      "accepted_updates": 30000,
+      "latest_observed_data_epoch": 200,
       "target_data_epoch": 200
     },
     "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
@@ -41,6 +41,18 @@
       "scientific_state_sha256": "9bc12ad15d54aa8126dcd1407bd03417778196f9141635de5d5c1161c1b082a6",
       "checkpoint_and_scientific_hash_verified": true,
       "evidence": "evidence/local_route1_progress/PLAIN_E175_VERIFICATION.json"
+    },
+    "plain_e200": {
+      "macro_psnr": 18.095297074266455,
+      "macro_ssim": 0.5836349919793151,
+      "macro_lpips": 0.3165342919173695,
+      "images": 420,
+      "checkpoint_sha256": "9ae05330bac7cad0bac035fd9cfd3bc8e601817435bf77ac0a2f45d820238004",
+      "scientific_state_sha256": "2bc7f61e03a8547bec1bf42502ca44b5273f487288909def45d57313be73f279",
+      "checkpoint_and_scientific_hash_verified": true,
+      "run_state": "COMPLETE_E200",
+      "next_lane": "hj",
+      "evidence": "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json"
     },
     "confirmation20_opened": false
   },
