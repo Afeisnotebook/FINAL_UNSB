@@ -16,25 +16,30 @@ Read, in order, before changing code or launching compute:
 
 ## Fixed objective
 
-Continue local route-1 research on the GTX 1660 and discover/reconstruct a new
-UNSB algorithm whose benefit can remain valid over a true 200-data-epoch
-horizon.  DT, HJ, HNEK, PCOA and the later sampling/teacher/latent mechanisms
-are evidence probes, not a frozen candidate list.  HJ is the first temporal
-positive control because it owns the clearest historical delayed-benefit
-trajectory; it is not the only research direction or the presumed winner.
+Continue route-1 research on the clean UNSB baseline and discover/reconstruct a
+new algorithm whose benefit can remain valid over a true 200-data-epoch
+horizon.  The local GTX 1660 remains canonical; the explicitly authorized RTX
+4090 and RTX 5090 are host-matched execution nodes.  DT, HJ, HNEK, PCOA and the
+later sampling/teacher/latent mechanisms are evidence probes, not a frozen
+candidate list.  HJ is the first temporal positive control because it owns the
+clearest historical delayed-benefit trajectory; it is not the only research
+direction or the presumed winner.
 
-The prior four-server/four-lane plan is suspended.  Do not prepare or authorize
-4090 work unless the user explicitly reopens it after the local route-1 gate.
+The prior four-server/four-lane plan is suspended.  Later user instructions did
+explicitly authorize one RTX 4090 and one RTX 5090 for the bounded host-matched
+route-1 scope.  This does not authorize full-data work, confirmation20,
+route-2, cross-host deltas, or the old frozen-lane plan.
 
 ## Current role separation
 
 - **Research Codex** maintains the long-horizon evidence atlas, performs
   lineage audits, constructs derivation cards and implements evidence-driven
   route-1 candidates.
-- **Local executor** runs only committed matched local protocols and may not
-  use paired targets as training/controller inputs.
-- Historical server tooling remains in the repository for provenance only and
-  is inactive during this phase.
+- **Executors** run only committed, per-host matched protocols and may not use
+  paired targets as training/controller inputs. Checkpoints never continue
+  across hosts and a method is compared only with its same-host plain.
+- **Remote 4090/5090 nodes** may run the authorized small25 anchors, causal
+  audits, and evidence-frozen candidates after their own preflight gates.
 
 ## Drift firewall
 
@@ -56,7 +61,8 @@ The prior four-server/four-lane plan is suspended.  Do not prepare or authorize
 - TA_MINIMAL's direct restored-time implementation has an actual matched e200
   negative result and remains a negative control.  Do not generalize this to
   all time/coordinate algorithms.
-- Do not launch 4090/server work in the current phase.
+- Do not expand remote work beyond the authorized host-matched small25 route-1
+  scope or treat server availability as permission to preselect algorithms.
 - `confirmation` remains inaccessible until a committed candidate-freeze
   decision exists. Discovery results may not change code or lane settings.
 - A semantic implementation defect restarts the affected trajectory from e0.
@@ -72,9 +78,9 @@ silently reinterpret the goal.
 
 ## Completion standard
 
-The local phase is not complete merely when HJ is reproduced.  Completion
+The route-1 phase is not complete merely when HJ is reproduced.  Completion
 requires: a corrected long-horizon evidence atlas spanning the principal probe
 families; at least one new evidence-derived algorithm with a derivation card;
-a matched true-200-epoch local trajectory for the promoted candidate; and an
-honest candidate/fallback decision.  Positive benefit is a scientific target,
-not a guaranteed outcome.
+a matched true-200-epoch trajectory on an authorized host for the promoted
+candidate; and an honest candidate/fallback decision. Positive benefit is a
+scientific target, not a guaranteed outcome.

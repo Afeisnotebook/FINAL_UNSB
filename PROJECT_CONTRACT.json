@@ -35,10 +35,14 @@
   "suspended_server_lane_contract": "configs/FOUR_LANES.json",
   "data_contract": "DATA_CONTRACT.json",
   "authorization_required": {
-    "status": "GRANTED_LIMITED",
-    "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
-    "host": "192.168.0.30",
-    "scope": "supplementary host-matched small25 route1 replica after preflight",
+    "status": "GRANTED_MULTI_HOST_ROUTE1_ONLY",
+    "decisions": [
+      "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
+      "decisions/DEC-20260830-ROUTE1-REMOTE5090.md",
+      "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md"
+    ],
+    "hosts": ["local GTX 1660", "192.168.0.30 RTX 4090", "final-unsb-5090 RTX 5090"],
+    "scope": "host-matched small25 route1 anchors, causal audits, and evidence-frozen candidates after per-host preflight",
     "excludes": [
       "former four-server/four-lane plan",
       "full-data execution",
@@ -47,5 +51,5 @@
       "cross-host method-minus-plain comparisons"
     ]
   },
-  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen local protocol before its paired target metrics are read. Server execution remains suspended until an explicit user decision."
+  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen protocol before its paired target metrics are read. The two explicitly authorized servers may execute only the host-matched route1 scope in the listed decisions; any broader server use requires a new user decision."
 }
