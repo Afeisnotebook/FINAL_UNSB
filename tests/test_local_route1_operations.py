@@ -6,6 +6,7 @@ from types import SimpleNamespace
 import pytest
 
 from operations import local_route1_audit_executor as audit_executor
+from operations import local_route1_candidate_executor as candidate_executor
 from operations.local_route1_executor import (
     EXPECTED_MANIFEST,
     EXPECTED_PROTOCOL,
@@ -147,3 +148,74 @@ def test_audit_executor_waits_for_an_explicit_anchor_terminal_state():
         "PAUSED_PROXY_NOT_CALIBRATED", "ANCHOR_PHASE_COMPLETE"
     }
     assert audit_executor.AuditExecutor._job_key("hnek", 100) == "hnek:e100"
+
+
+def test_candidate_executor_command_has_no_selection_or_early_stop_inputs(tmp_path):
+    contract = {
+        "python": str(tmp_path / "python"),
+        "candidate_id": "G1-01-SAFE",
+        "run_root": str(tmp_path / "run"),
+        "train_view": str(tmp_path / "view"),
+        "data_root": str(tmp_path / "data"),
+        "manifest": str(tmp_path / "manifest.csv"),
+    }
+    argv = candidate_executor.candidate_train_command(contract, 125)
+    assert argv[argv.index("--candidate-id") + 1] == "G1-01-SAFE"
+    assert argv[argv.index("--engineering-stop-after-epoch") + 1] == "125"
+    assert "--resume" in argv
+    assert not any("psnr" in value.lower() or "threshold" in value.lower() for value in argv)
+    with pytest.raises(ValueError, match="unsafe candidate id"):
+        candidate_executor.safe_candidate_id("../escape")
+
+
+def test_candidate_executor_contract_closes_paired_control_and_locks_script(
+    tmp_path, monkeypatch,
+):
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_text("frozen", encoding="utf-8")
+    supervisor = tmp_path / "candidate_executor.py"
+    supervisor.write_text("# frozen", encoding="utf-8")
+    monkeypatch.setattr(
+        candidate_executor, "file_sha256",
+        lambda path: (
+            candidate_executor.EXPECTED_MANIFEST
+            if Path(path) == manifest else "supervisor-hash"
+        ),
+    )
+    contract = {
+        "schema": "final-unsb-route1-candidate-executor-contract-v1",
+        "candidate_repo": str(tmp_path),
+        "candidate_git_commit": "abc",
+        "candidate_id": "G1-TEST",
+        "candidate_fingerprint": "fingerprint",
+        "run_root": str(tmp_path),
+        "train_view": str(tmp_path),
+        "data_root": str(tmp_path),
+        "manifest": str(manifest),
+        "manifest_sha256": candidate_executor.EXPECTED_MANIFEST,
+        "python": str(tmp_path / "python"),
+        "supervisor_script": str(supervisor),
+        "supervisor_sha256": "supervisor-hash",
+        "chunk_data_epochs_max": 5,
+        "target_data_epochs": 200,
+        "paired_metric_early_stop": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    candidate_executor.validate_contract(contract)
+    contract["paired_metric_early_stop"] = True
+    with pytest.raises(RuntimeError, match="paired_metric_early_stop=false"):
+        candidate_executor.validate_contract(contract)
+
+
+def test_candidate_executor_status_requires_evidence_gate_and_locks(tmp_path):
+    ready = {
+        "status": "READY_FOR_MATCHED_E200",
+        "candidate_fingerprint": "frozen",
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    assert candidate_executor._parse_status(json.dumps(ready))["candidate_fingerprint"] == "frozen"
+    ready["status"] = "READY_FOR_CANDIDATE_GATES"
+    with pytest.raises(RuntimeError, match="not ready for e200"):
+        candidate_executor._parse_status(json.dumps(ready))
