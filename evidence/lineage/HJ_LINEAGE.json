@@ -1,0 +1,91 @@
+{
+  "schema": "final-unsb-route1-probe-lineage-v1",
+  "probe": "hj",
+  "lineage_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "baseline": {
+    "source_hashes": {
+      "src/models/sb_model.py": "59fbdb1c93e49695de10ecd7633bbbd684e98faf4787c5ea7edec2d92ebb5f12"
+    },
+    "clean_profile": {
+      "model": "sb",
+      "mode": "sb",
+      "dataset_mode": "unaligned",
+      "direction": "AtoB",
+      "sampling_measure": "official_image_proportional_unpaired",
+      "batch_size": 1,
+      "num_threads": 0,
+      "load_size": 128,
+      "crop_size": 128,
+      "preprocess": "resize_and_crop",
+      "no_flip": true,
+      "n_epochs": 200,
+      "n_epochs_decay": 0,
+      "lr": 0.0001,
+      "beta1": 0.5,
+      "beta2": 0.999,
+      "lambda_GAN": 1.0,
+      "lambda_SB": 1.0,
+      "lambda_NCE": 1.0,
+      "tau": 0.01,
+      "num_timesteps": 5,
+      "nce_idt": true,
+      "nce_layers": "0,4,8,12,16",
+      "nce_T": 0.07,
+      "num_patches": 256,
+      "netF": "mlp_sample",
+      "netG": "resnet_9blocks_cond",
+      "netD": "basic_cond",
+      "deterministic": true,
+      "tf32": false
+    },
+    "scientific_clock": "data_epoch = 150 optimizer updates on small25"
+  },
+  "historical_to_clean_semantics": {
+    "shared": [
+      "UNSB G/F/D/E object family",
+      "T=5 bridge",
+      "tau=.01",
+      "GAN/SB/NCE weights all 1",
+      "constant lr=1e-4 for 200 epochs"
+    ],
+    "must_not_be_conflated": [
+      "historical batch16/train160 trajectories versus local batch1/small25 proxy",
+      "data epochs versus raw optimizer updates",
+      "old nondeterministic implementation versus deterministic port",
+      "paired evaluation labels versus target-blind training observables"
+    ]
+  },
+  "confirmation20_opened": false,
+  "lineage": {
+    "historical_core_hash": "503a4e092470cd7355230495f10f094402fb7efb570ca9a632bdf75f4ab64e0a",
+    "local_source_hashes": {
+      "src/models/hj/__init__.py": "9ade9fac8215c4eb0d16b5e46051f5f00191fe7fc318a6f3379a55ce81852a20",
+      "src/models/hj/core.py": "fbda55fa92e10d8838be434b57260266ecda7152f1d54767937cadf5e48f0d1c",
+      "src/models/hj/diagnostics.py": "d3325fca0a8fb688c0a8d6e52003b14cf0ecd1abb00b234ff8eeba29ec182676",
+      "src/models/hj/model.py": "9f716101afce382f6ad6d51b925ad9acf839a0f86f2752b1cdef68990c4f6bc3",
+      "src/models/hj/projection.py": "21c1977ff6c537ebb3c8eadfd9ddc6c8a1699a2bccccf60b8033638d8a577c5c",
+      "src/models/hj/structure.py": "d25ac0d78c7fc45b91b2fed81cea1000c84e9602c19e2df2b70859ed5fb353b3",
+      "src/models/hj_model.py": "7c354e88fb4d2a92b659d82e0f46829d93185998891241e63dba560e0a2b18a6"
+    },
+    "intentional_port_delta": [
+      "inactive HJ now preserves canonical CPU-then-device RNG draw exactly",
+      "step-relative SEARCH-001 activation is disabled; physical epoch 5 is authoritative"
+    ],
+    "physical_protocol": "plain-identical e1-e4; Layer-0 true/joint/central-consensus from the first batch of e5 through e200",
+    "historical_trajectory_delta_db": {
+      "e100": -0.3524,
+      "e125": 0.5057,
+      "e150": 2.4497,
+      "e175": 3.6307,
+      "e200": 1.3324
+    }
+  },
+  "unsb_objects": [
+    "Layer-0 PatchNCE feature finite-difference risk",
+    "one-sided structure projection"
+  ],
+  "claim_boundary": "This proves source and protocol provenance only; it does not prove that the probe is a sustained algorithm or a route-1 candidate."
+}
+
