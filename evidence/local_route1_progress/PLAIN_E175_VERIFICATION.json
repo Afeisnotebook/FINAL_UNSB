@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-local-route1-plain-milestone-verification-v1",
+  "recorded": "2026-08-30T02:48:31+08:00",
+  "status": "ACCEPTED_CANONICAL_MILESTONE",
+  "identity": {
+    "probe_id": "plain",
+    "seed": 2026,
+    "data_epoch": 175,
+    "updates": 26250,
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4"
+  },
+  "checkpoint": {
+    "path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\milestones\\e175.pt",
+    "file_sha256": "c964d27017f8f5bcab8040a15b09a42c1a382f4630c7aac4ee91f8154582d9dc",
+    "scientific_state_sha256": "9bc12ad15d54aa8126dcd1407bd03417778196f9141635de5d5c1161c1b082a6",
+    "sidecar_sha256": "2036365ac05ad3a8993747a9bf846febe00bad902ff8791422cf9a3b5deb3567",
+    "payload_step": 26250,
+    "physical_epoch_completed": 175
+  },
+  "discovery70_metric": {
+    "path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\anchors\\plain\\metrics\\e175.json",
+    "file_sha256": "c444b4b472298b569af7edec2e80e3b085062d2d90161f578e6c4fa2b4ce258d",
+    "images": 420,
+    "count_per_domain": 70,
+    "macro_psnr": 17.7468032921948,
+    "macro_ssim": 0.5678549617883705,
+    "macro_lpips": 0.3386260885922682,
+    "per_domain": {
+      "FoggyCityscapes": {"psnr": 17.93918740776774, "ssim": 0.6311942939247404, "lpips": 0.2773629407797541},
+      "LowLightTrafficData": {"psnr": 12.629122691006472, "ssim": 0.36491049932582037, "lpips": 0.5251552381685802},
+      "RSCityscapes": {"psnr": 20.31927274970865, "ssim": 0.6044397154024669, "lpips": 0.30768547909600397},
+      "RainCityscapes": {"psnr": 21.2625508308385, "ssim": 0.7143124546323504, "lpips": 0.21382763194186347},
+      "RainDS-syn": {"psnr": 16.71684655642842, "ssim": 0.532574161035674, "lpips": 0.3379725722329957},
+      "SnowTrafficData": {"psnr": 17.613839517419034, "ssim": 0.559698646409171, "lpips": 0.36975266933441164}
+    }
+  },
+  "integrity": {
+    "checkpoint_file_hash_matches_sidecar": true,
+    "scientific_state_hash_matches_sidecar": true,
+    "metric_protocol_matches": true,
+    "evaluation_bundle_matches_frozen_crn": true,
+    "training_resumed_after_metric": true,
+    "paired_metric_used_for_training_control": false,
+    "confirmation20_opened": false
+  },
+  "claim_boundary": "This accepts a plain control milestone only. It does not rank algorithms or alter the fixed e200 trajectory."
+}
