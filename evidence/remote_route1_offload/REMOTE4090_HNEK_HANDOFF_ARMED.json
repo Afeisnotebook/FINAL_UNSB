@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-route1-independent-hnek-handoff-arm-v1",
+  "recorded": "2026-08-30T03:09:29+08:00",
+  "status": "ARMED_WAITING_FOR_HJ_FINAL_CHUNK",
+  "canonical_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+  "source_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_HNEK_PARALLEL",
+  "executor_pid_at_arm": 1291844,
+  "durable_session": "tmux:FINAL_UNSB_ROUTE1_4090_HNEK_HANDOFF",
+  "handoff_source_commit": "b38fe518f7290c895c57207cf87df57a6af89f4a",
+  "handoff_script_sha256": "89341e4b8f696985f45eac3708e7478d32e045d9ab29619995ac1956f880fcdf",
+  "handoff_record_sha256": "e5d6a54185a16becd2132f4b9e2df31c1eccf93bb108770dc88ddca0de493638",
+  "executor_contract_sha256": "c15f2fd6f2f3ffbeb9e60111038ae1e0a2773dfe7c6b1ac2a542b66246c93cc0",
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "behavior": {
+    "pause_condition": "canonical HJ chunk e195->e200 is running",
+    "pause_target": "durable executor parent only",
+    "hj_child_continues": true,
+    "import_requires_independent_hnek_e200_and_same_host_plain_hash": true,
+    "overwrite_allowed": false,
+    "resume_requires_verified_import_receipt": true
+  },
+  "training_update_changed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This schedules an explicit future operational handoff. It neither accepts HNEK nor changes HJ, HNEK, or plain scientific updates."
+}
