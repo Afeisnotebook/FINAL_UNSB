@@ -35,7 +35,7 @@
   "hard_gates": [
     "input and target stems match physically within each domain",
     "zero identity overlap across train/discovery/confirmation",
-    "all four servers produce the same canonical manifest hash",
+    "all authorized execution hosts produce the same canonical manifest hash",
     "train count equals 8553 before epoch is defined",
     "materialized training views contain symlinks or hardlinks, not modified pixels"
   ]
