@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "phase": "MULTI_HOST_ROUTE1_ANCHORS_RUNNING_PHASE_C_AND_CANDIDATE_INFRASTRUCTURE_READY",
+  "phase": "THREE_HOST_MATCHED_ANCHORS_RUNNING_WITH_PARALLEL_HNEK_AND_DURABLE_AUDITORS",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "2203c1a",
+  "development_head_at_state_write": "fd2c7d0",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -14,7 +14,7 @@
     "plain": {
       "accepted_data_epoch": 175,
       "accepted_updates": 26250,
-      "latest_observed_data_epoch": 175,
+      "latest_observed_data_epoch": 195,
       "target_data_epoch": 200
     },
     "hj": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
@@ -114,7 +114,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "PLAIN_E200_ACCEPTED_HJ_RUNNING",
+    "status": "PLAIN_E200_ACCEPTED_HJ_AND_INDEPENDENT_HNEK_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "supplementary host-matched route1 replica; never mix a remote method with local plain",
@@ -128,6 +128,12 @@
     "plain_e200_checkpoint_and_metric_verified": true,
     "plain_e200_macro_psnr": 17.43805859097264,
     "plain_e200_evidence": "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json",
+    "latest_observed_hj_data_epoch": 84,
+    "latest_observed_independent_hnek_data_epoch": 40,
+    "independent_hnek_output_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_HNEK_PARALLEL",
+    "independent_hnek_handoff_status": "ARMED_WAITING_FOR_HJ_FINAL_CHUNK",
+    "independent_hnek_handoff_evidence": "evidence/remote_route1_offload/REMOTE4090_HNEK_HANDOFF_ARMED.json",
+    "parallel_probe_evidence": "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
     "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
     "auditor_status": "WAITING_FOR_ANCHORS",
     "auditor_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
@@ -136,7 +142,7 @@
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "PREFLIGHT_PASS_PLAIN_RUNNING",
+    "status": "PREFLIGHT_PASS_PLAIN_AND_QUARANTINED_HNEK_RUNNING",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -150,8 +156,15 @@
     "selected_data_hash_mismatches": 0,
     "shared_e0_file_and_scientific_hash_match": true,
     "initial_observed_data_epoch": 1,
+    "latest_observed_plain_data_epoch": 64,
+    "latest_observed_independent_hnek_data_epoch": 24,
+    "independent_hnek_output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
+    "independent_hnek_admission": "QUARANTINED_UNTIL_SAME_HOST_PLAIN_E200_HASH_VERIFIED",
     "supervisor": "screen:FINAL_UNSB_ROUTE1_REMOTE5090",
     "evidence": "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
+    "auditor_status": "WAITING_FOR_ANCHORS",
+    "auditor_commit": "b7ebc4e34869eac32770b8e19b24b521c68ac7a6",
+    "auditor_evidence": "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -161,5 +174,5 @@
     "seed_validation_commit": "2cefec4",
     "status": "READY_BUT_BLOCKED_UNTIL_CAUSAL_ATLAS_AND_DERIVATION"
   },
-  "next_gate": "Complete local canonical plus 4090/5090 host-matched plain/HJ/HNEK e200 trajectories without cross-host mixing; run DT only after each host's proxy calibration, execute the frozen causal auditor, then reanalyze immutable atlas rows before deriving any formula."
+  "next_gate": "Accept local plain e200 with the full-state milestone verifier; complete and explicitly import same-host independent HNEK trees without overwrite; evaluate proxy before DT; then execute frozen causal auditors and derive formulas only from immutable atlas rows."
 }

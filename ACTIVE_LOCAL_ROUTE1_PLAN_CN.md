@@ -1,10 +1,10 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`LOCAL_PLAIN_E150_VERIFIED / REMOTE_PLAIN_E100_VERIFIED / PHASE_C_READY`
+状态：`THREE_HOST_MATCHED_ANCHORS_RUNNING / LOCAL_PLAIN_E175_VERIFIED / REMOTE4090_PLAIN_E200_VERIFIED / PHASE_C_DURABLE_WAIT`
 日期：2026-08-30
-当前硬件：GTX 1660 6GB  
+当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
-## 2026-08-30 单机远程算力补充
+## 2026-08-30 多宿主算力补充
 
 用户已明确授权 `192.168.0.30` 的RTX 4090作为受控算力副本。该授权不恢复旧四lane
 计划，也不改变本地canonical：远端方法必须与远端plain从同一shared e0完整matched，
@@ -18,23 +18,34 @@ shared e0文件/科学状态hash复制一致，CPU/GPU门全部通过。独立tm
 remote plain；训练commit仍为`0da2a37`。compact证据见
 `evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json`。
 
-## 当前执行事实（2026-08-30 01:59）
+用户随后又明确授权一台RTX 5090，并授权主控在不改变科学目标的前提下决定batch与
+并发。当前决定是：科学lane继续固定batch1；通过同宿主、同e0、隔离output root的
+独立进程并行提高总吞吐。batch增大会改变unpaired B采样、PatchNCE negatives、Adam
+轨迹及HJ/DT校正对象，不能与现有长期证据直接比较。4090当前并行HJ/HNEK，5090当前
+并行plain/HNEK；实测GPU利用率约85--98%。5090并行HNEK在本机plain e200验哈希前
+保持`QUARANTINED`，不得比较或排名。并行结果只能显式验完整文件树和同机plain hash后
+导入canonical root，绝不覆盖已有lane。详细边界见
+`decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
+
+## 当前执行事实（2026-08-30 03:29）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
-- 本地plain已正式接受到e150（22500 updates）。e150 checkpoint文件hash和科学状态
-  hash均与sidecar一致；正式discovery70为PSNR `17.279563`、SSIM `0.557963`、
-  LPIPS `0.356093`，共420张，confirmation20仍关闭。e125训练状态保存后子进程曾以
-  `0xC000013A`退出；
-  守护器从冻结e125状态补回官方指标后继续，未跳过milestone、未重算训练路径。
-- current-user计划任务 `FINAL_UNSB_ROUTE1_EXECUTOR` 已从冻结e100恢复。首个正式
-  e100→e105分块以exit code 0接纳，输出checkpoint SHA256为
-  `1de7ebf0674ea24e27cc72d19636634b30a48199db57acb40cbb5b15a805672a`；
-  随后已自动开始e105→e110。可接纳边界为e105/200，即15750/30000 updates。
+- 本地plain已正式接受到e175（26250 updates），PSNR `17.746803`、SSIM
+  `0.567855`、LPIPS `0.338626`；当前训练已到e195附近，仍由current-user计划任务
+  `FINAL_UNSB_ROUTE1_EXECUTOR`按最多5 data epochs分块继续，尚未把e200写成已完成。
+- 通用milestone验收器已在本地e175和4090 plain e200上实际重算checkpoint文件hash、
+  scientific-state hash、420张discovery70 CRN、六域计数和LPIPS，结果与已有正式证据
+  一致；后续每个关键e200都使用同一验收边界。
 - 同一plain进程此前也在e60附近无traceback消失，说明失败属于进程托管而非e100
   科学路径。隔离LPIPS评估已正常完成420张图像。
-- HJ、HNEK、DT、proxy校准和匹配状态上的长期因果审计均未启动；不得把当前状态描述成
-  “算法搜索失败”。
+- 4090同宿主plain已正式完成并接受e200；canonical HJ与隔离HNEK正在并行。HNEK
+  交接器已arm：只在HJ最终e195→e200 child运行时暂停调度父进程，待HJ自然写完、
+  独立HNEK完整验收到e200后显式导入并恢复；不改变任何训练update。
+- 5090已完成数据内容、shared e0、CPU/GPU、resume和zero-intervention门；canonical
+  plain与隔离HNEK正在并行。HNEK结果在同机plain e200前继续封存。
+- DT尚未启动；每个宿主仍必须先完成HJ/HNEK proxy裁决。中间paired指标不用于调度、
+  停止或算法选择，因此当前状态不能描述成“算法搜索成功/失败”。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
 - 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `b7ebc4e`，当前
@@ -45,8 +56,8 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - paired discovery70只在双分支冻结后作为未来标签；只有跨方法准确率、相关性、域
   一致性和反转领先性通过合同的target-blind量才可驱动自适应构造。否则只允许从
   可证明无偏的估计器/重参数化路线派生，不允许拟合退出阈值。
-- 远端4090 plain的e100 checkpoint与官方metric已实物落盘并核验；远端剩余空间约
-  451 GB。远端方法仍只允许与远端plain比较。
+- 远端4090 plain e200 checkpoint与官方metric已实物落盘并二次核验；远端剩余空间
+  约418 GB。远端方法仍只允许与同一远端plain比较。5090数据盘剩余约230 GB。
 - 在看到长期atlas之前，矩阵后处理已补齐rollout-speed与bridge-time conditioning
   路由；分析commit、源码和atlas/variance/queue输入hash将单独记录，不改原分支行。
 - 候选执行链已区分算法定义指纹与host/e0证据执行指纹，并要求源码绑定的可执行gate
@@ -153,7 +164,11 @@ DT、HJ、HNEK都必须完成，不得只审HJ。后续机制至少记录它们�
 1. `P0_PLAIN_LONG`：共享plain长期轨迹；
 2. `P1_HJ_CONTINUOUS_LONG`：按lineage冻结的权威continuous HJ，不handoff；
 3. `P2_HNEK_LONG`：按lineage冻结的bridge-coordinate锚点；
-4. `P3_DT_LONG`：按lineage冻结的direction/covariance锚点。
+4. proxy校准；
+5. 仅在`CALIBRATED`宿主运行`P3_DT_LONG`：按lineage冻结的direction/covariance锚点。
+
+这里的编号是科学依赖而不是强制串行调度。HJ与HNEK都从同一shared e0独立开始，
+可在隔离目录并行；plain必须在任何相对比较前完成并验收，DT仍受proxy硬门限制。
 
 为避免HJ成为唯一校准器，HJ和HNEK共同承担历史正对照。若二者都不能在语义等价
 条件下呈现任何晚期正信号，先暂停新算法筛查，诊断small25/batch1 proxy，而不是
@@ -233,8 +248,9 @@ u_0(S^P),\;u_i(S^P),\;u_0(S^i),\;u_i(S^i)
 不挑最佳checkpoint。若候选降低了目标缺陷但e200仍失败，允许根据新的因果证据修订
 一次；每个机制最多两代。失败后不能偷偷转向handoff或退出阈值。
 
-若第一名在seed2026晚期为正，再在本地运行seed2027；符号不一致才考虑seed2028。
-本计划不自动进入4090。
+若第一名在seed2026晚期为正，冻结算法后再运行host-matched seed2027；符号不一致才
+考虑seed2028。4090/5090现已是用户明确授权的路线一执行节点，但这不授权全量数据、
+confirmation20或跨宿主delta；这些仍需候选冻结后另行裁决。
 
 ## 7. 诚实停止与交付
 
@@ -252,8 +268,11 @@ u_0(S^P),\;u_i(S^P),\;u_0(S^i),\;u_i(S^i)
 有效但新算法均失败，才可诚实写“在已审计机制空间内未找到持续候选”，且不能用
 路线二结果冒充路线一成功。
 
-## 8. 本地资源预估
+## 8. 多宿主资源与调度
 
-现有实测约2400步/24分钟。普通30000步约5小时/lane；HJ及诊断会更慢。Phase B
-串行预计约24--36小时GPU墙钟，Phase C约4--8小时，单个新候选e200约6--10小时。
-整个发现循环预计2--4天本地连续工作，具体以首条长期轨迹实测修正。
+所有科学裁决仍以data epochs而非墙钟。单进程batch1没有吃满4090/5090，因此每张
+高端卡当前运行两个相互独立的lane；实测利用率已接近饱和，不再增加第三个进程。
+checkpoint、指标和audit只在同宿主内匹配。Phase C可在不同宿主形成独立因果副本，
+但同一宿主的atlas写入仍由单一durable auditor串行管理，避免JSONL竞争。候选派生后
+最多两个算法可分配到不同宿主并行完成各自matched e200，不能把不同宿主的method与
+plain混算。
