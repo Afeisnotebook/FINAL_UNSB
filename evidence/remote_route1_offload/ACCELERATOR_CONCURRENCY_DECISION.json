@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-route1-accelerator-concurrency-decision-v1",
+  "created": "2026-08-30T04:35:00+08:00",
+  "decision": "decisions/DEC-20260830-ROUTE1-ACCELERATOR-SCHEDULING.md",
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "training_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "batch_size": 1,
+  "max_scientific_training_streams_per_accelerator": 2,
+  "third_stream_launched": false,
+  "measurements": [
+    {
+      "host": "remote4090",
+      "lane": "hj",
+      "single_stream_chunks": 9,
+      "single_stream_seconds_per_5_data_epochs": 156.815439436171,
+      "single_stream_data_epochs_per_hour": 114.784616009233,
+      "two_stream_chunks": 18,
+      "two_stream_seconds_per_5_data_epochs_for_lane": 296.10277806388,
+      "two_stream_aggregate_data_epochs_per_hour": 121.57940643243,
+      "aggregate_improvement_fraction": 0.059198
+    },
+    {
+      "host": "remote5090",
+      "lane": "plain",
+      "single_stream_chunks": 7,
+      "single_stream_seconds_per_5_data_epochs": 222.872922182083,
+      "single_stream_data_epochs_per_hour": 80.7635123359415,
+      "two_stream_chunks": 15,
+      "two_stream_seconds_per_5_data_epochs_for_lane": 346.02,
+      "two_stream_aggregate_data_epochs_per_hour": 104.040228888503,
+      "aggregate_improvement_fraction": 0.288076
+    }
+  ],
+  "current_assignments": {
+    "remote4090": ["hj_anchor", "hnek_anchor"],
+    "remote5090": ["plain_anchor", "hnek_anchor"],
+    "local_gtx1660": ["hj_anchor"]
+  },
+  "scientific_constraints": {
+    "larger_batch_substitutes_for_batch1_e200": false,
+    "cross_host_checkpoint_continuation": false,
+    "cross_host_absolute_metric_delta": false,
+    "paired_metric_scheduling": false,
+    "confirmation20_opened": false
+  }
+}
