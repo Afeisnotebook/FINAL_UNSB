@@ -5,6 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from operations import local_route1_audit_executor as audit_executor
 from operations.local_route1_executor import (
     EXPECTED_MANIFEST,
     EXPECTED_PROTOCOL,
@@ -105,3 +106,44 @@ def test_anchor_command_explicitly_freezes_every_scientific_path(tmp_path):
     ):
         assert argv[argv.index(flag) + 1] == expected
     assert argv[argv.index("--engineering-stop-after-epoch") + 1] == "105"
+
+
+def test_audit_executor_contract_keeps_paired_and_confirmation_inputs_closed(tmp_path, monkeypatch):
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_text("frozen", encoding="utf-8")
+    supervisor = tmp_path / "audit_executor.py"
+    supervisor.write_text("# frozen", encoding="utf-8")
+    monkeypatch.setattr(
+        audit_executor, "file_sha256",
+        lambda path: (
+            audit_executor.EXPECTED_MANIFEST
+            if Path(path) == manifest else "supervisor-hash"
+        ),
+    )
+    contract = {
+        "schema": "final-unsb-route1-audit-executor-contract-v1",
+        "audit_repo": str(tmp_path),
+        "training_repo": str(tmp_path),
+        "run_root": str(tmp_path),
+        "train_view": str(tmp_path),
+        "data_root": str(tmp_path),
+        "manifest": str(manifest),
+        "python": str(tmp_path / "python.exe"),
+        "audit_git_commit": "abc",
+        "supervisor_script": str(supervisor),
+        "supervisor_sha256": "supervisor-hash",
+        "manifest_sha256": audit_executor.EXPECTED_MANIFEST,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    audit_executor.validate_contract(contract)
+    contract["paired_controller_access"] = True
+    with pytest.raises(RuntimeError, match="paired controller"):
+        audit_executor.validate_contract(contract)
+
+
+def test_audit_executor_waits_for_an_explicit_anchor_terminal_state():
+    assert audit_executor.ANCHOR_TERMINAL == {
+        "PAUSED_PROXY_NOT_CALIBRATED", "ANCHOR_PHASE_COMPLETE"
+    }
+    assert audit_executor.AuditExecutor._job_key("hnek", 100) == "hnek:e100"
