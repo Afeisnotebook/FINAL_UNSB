@@ -12,7 +12,10 @@ from .runtime import write_json
 def prepare_audit_queue(output_root: Path) -> dict:
     """Select causal-audit states without pretending pending audits are evidence."""
     protocol = load_protocol()
-    fixed = [20, 100, 150, 200]
+    # e175 remains inside the registered training domain for a 200-update
+    # future label.  e200 is terminal and uses only local base-LR vector-field
+    # diagnostics because the registered scheduler has already set LR to zero.
+    fixed = [20, 100, 150, 175, 200]
     trajectory_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     if not trajectory_path.is_file():
         result = {
@@ -46,6 +49,8 @@ def prepare_audit_queue(output_root: Path) -> dict:
             if not method.is_file() or not plain.is_file():
                 missing.append({"probe": probe, "epoch": epoch, "needs_replay": True})
                 continue
+            terminal = epoch >= int(protocol["local_view"]["target_epochs"])
+            branch_horizons = [1, 8, 32] if terminal else [1, 8, 32, 200]
             jobs.append({
                 "probe": probe,
                 "data_epoch": epoch,
@@ -53,7 +58,7 @@ def prepare_audit_queue(output_root: Path) -> dict:
                 "plain_state": str(plain),
                 "method_state": str(method),
                 "operators": ["u0(S_plain)", "ui(S_plain)", "u0(S_method)", "ui(S_method)"],
-                "branch_horizons_updates": [1, 8, 32, 200],
+                "branch_horizons_updates": branch_horizons,
                 "branch_regimes": [
                     "continuous_intervention",
                     "one_step_pulse_then_native@8/32",
@@ -65,6 +70,10 @@ def prepare_audit_queue(output_root: Path) -> dict:
                     "axes": ["independent_unpaired_batch", "latent_time_bridge_rng"],
                 },
                 "paired_label_timing": "only after every virtual branch is frozen",
+                "branch_semantics": (
+                    "terminal_base_lr_vector_field_no_future_label"
+                    if terminal else "registered_training_continuation"
+                ),
                 "status": "PENDING_EXECUTION",
             })
     status = "READY" if jobs and not any(item["epoch"] in fixed for item in missing) else "NEEDS_REPLAY_OR_CHECKPOINTS"

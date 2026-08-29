@@ -65,6 +65,7 @@ ATLAS_SCHEMA = "final-unsb-local-route1-reversal-atlas-row-v1"
 MATRIX_SCHEMA = "final-unsb-local-route1-causal-matrix-v1"
 DEFAULT_HORIZONS = (1, 8, 32, 200)
 DEFAULT_VARIANCE_REPLICATES = 8
+TERMINAL_LOCAL_HORIZONS = (1, 8, 32)
 
 
 @dataclass(frozen=True)
@@ -382,6 +383,29 @@ def _branch_snapshot(model, primary, secondary, *, step: int) -> str:
     return full_state_hash(payload)
 
 
+def _restore_terminal_base_lrs(model) -> tuple[float, ...]:
+    """Restore only step scale for an e200 local vector-field diagnostic.
+
+    The registered e200 checkpoint has already taken its final scheduler step,
+    leaving every optimizer LR at zero.  Keeping zero would make every probe
+    appear to self-null.  Adam moments and scheduler state remain untouched;
+    only the immutable base LR is restored inside the disposable branch.
+    """
+    if len(model.optimizers) != len(model.schedulers):
+        raise RuntimeError("terminal LR audit requires optimizer/scheduler identity")
+    restored: list[float] = []
+    for optimizer, scheduler in zip(model.optimizers, model.schedulers):
+        base_lrs = tuple(float(value) for value in scheduler.base_lrs)
+        if len(optimizer.param_groups) != len(base_lrs):
+            raise RuntimeError("terminal LR audit param-group identity mismatch")
+        if not base_lrs or any(value <= 0.0 for value in base_lrs):
+            raise RuntimeError("terminal LR audit requires positive frozen base LRs")
+        for group, value in zip(optimizer.param_groups, base_lrs):
+            group["lr"] = value
+            restored.append(value)
+    return tuple(restored)
+
+
 def _run_branch(
     *,
     source: dict,
@@ -433,6 +457,14 @@ def _run_branch(
             torch.cuda.manual_seed_all(int(rng_seed_override))
     step = int(source["step"])
     target_steps = int(source.get("target_steps", 30_000))
+    terminal_extension = step >= target_steps
+    restored_base_lrs: tuple[float, ...] = ()
+    if terminal_extension:
+        if int(horizon) not in TERMINAL_LOCAL_HORIZONS:
+            raise RuntimeError(
+                "terminal vector-field audit is local-only and may not cross a scheduler boundary"
+            )
+        restored_base_lrs = _restore_terminal_base_lrs(model)
     before = _cpu_state_dict(model.netG)
     captured = _install_first_step_component_capture(model) if capture_components else {}
     losses_sum: dict[str, float] = defaultdict(float)
@@ -528,6 +560,11 @@ def _run_branch(
             "intervention_steps": (
                 "continuous" if intervention_steps is None else int(intervention_steps)
             ),
+            "branch_semantics": (
+                "terminal_base_lr_vector_field"
+                if terminal_extension else "registered_training_continuation"
+            ),
+            "terminal_restored_base_lrs": list(restored_base_lrs),
             **{
                 key: value for key, value in averaged_diagnostics.items()
                 if key.startswith(("dt_", "hj_", "hnek_"))
@@ -588,13 +625,18 @@ def _operator_modes(probe: str, data_epoch: int) -> tuple[str, ...]:
     return ("registered",)
 
 
-def _audit_regimes(horizons: Iterable[int]) -> tuple[tuple[str, int, int | None], ...]:
+def _audit_regimes(
+    horizons: Iterable[int], *, start_step: int | None = None,
+    target_steps: int = 30_000,
+) -> tuple[tuple[str, int, int | None], ...]:
     """Registered continuous branches plus diagnostic pulse propagation.
 
     Pulse branches are causal diagnostics only.  They do not authorize a
     finite-window candidate, handoff, or exit policy.
     """
     values = sorted({int(value) for value in horizons})
+    if start_step is not None and int(start_step) >= int(target_steps):
+        values = [value for value in values if value in TERMINAL_LOCAL_HORIZONS]
     regimes: list[tuple[str, int, int | None]] = [
         ("continuous_intervention", horizon, None) for horizon in values
     ]
@@ -637,7 +679,10 @@ def audit_cell(
     results: list[dict] = []
     for source_label, parent in (("plain", plain_parent), (cell.probe, method_parent)):
         for operator_mode in _operator_modes(cell.probe, cell.data_epoch):
-            for branch_regime, horizon, intervention_steps in _audit_regimes(horizons):
+            for branch_regime, horizon, intervention_steps in _audit_regimes(
+                horizons, start_step=cell.step,
+                target_steps=int(parent.get("target_steps", 30_000)),
+            ):
                 row_key = {
                     "probe": cell.probe,
                     "data_epoch": int(cell.data_epoch),
@@ -650,7 +695,8 @@ def audit_cell(
                 row_id = object_sha256(row_key)
                 if row_id in skip_row_ids:
                     continue
-                evaluate_after = horizon in label_set
+                terminal_extension = cell.step >= int(parent.get("target_steps", 30_000))
+                evaluate_after = horizon in label_set and not terminal_extension
                 reference, _ = _run_branch(
                     source=copy.deepcopy(parent), target_probe="plain",
                     source_label=source_label, operator_mode="registered",
@@ -707,6 +753,8 @@ def audit_cell(
                     "reference_operator": "native_unsb",
                     "proposal_operator": cell.probe,
                     "diagnostic_scope": (
+                        "terminal base-LR local vector field; no post-training future label"
+                        if terminal_extension else
                         "continuous operator validity"
                         if intervention_steps is None else
                         "pulse propagation under later native UNSB; not a route-2 policy"
@@ -1137,7 +1185,9 @@ def _expected_row_keys(queue: dict) -> set[tuple[str, int, str, str, str, int | 
         epoch = int(job["data_epoch"])
         for source in ("plain", probe):
             for mode in _operator_modes(probe, epoch):
-                for regime, horizon, intervention_steps in _audit_regimes(DEFAULT_HORIZONS):
+                for regime, horizon, intervention_steps in _audit_regimes(
+                    DEFAULT_HORIZONS, start_step=epoch * 150,
+                ):
                     expected.add((probe, epoch, source, mode, regime, intervention_steps, horizon))
     return expected
 
@@ -1305,6 +1355,7 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
         for row in variance_rows
     }
     result: dict[str, list[dict]] = defaultdict(list)
+    temporal_rollout: list[dict] = []
     for key, row in one_step.items():
         label = labels.get(key)
         if label is None:
@@ -1319,6 +1370,20 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
         consensus = row.get("next_independent_native_consensus")
         if consensus is not None:
             features["correction_next_native_cosine"] = float(consensus["cosine"])
+        reference_bridge = row.get("reference_observation", {}).get("bridge", {})
+        proposal_bridge = row.get("proposal_observation", {}).get("bridge", {})
+        reference_velocity = reference_bridge.get("rollout_velocity_l2")
+        proposal_velocity = proposal_bridge.get("rollout_velocity_l2")
+        if reference_velocity is not None and proposal_velocity is not None:
+            features["rollout_speed_stability_margin"] = 1.0 - (
+                float(proposal_velocity) / max(float(reference_velocity), 1e-20)
+            )
+        if reference_velocity is not None:
+            temporal_rollout.append({
+                "probe": key[0], "data_epoch": key[1], "source_state": key[2],
+                "operator_mode": key[3], "native_rollout_velocity": float(reference_velocity),
+                "label": label,
+            })
         for component in ("GAN", "SB", "NCE", "TOTAL_NATIVE_REFERENCE"):
             value = row.get("native_component_directional_derivatives", {}).get(component)
             if value is not None:
@@ -1340,9 +1405,39 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
             features["low_latent_time_variance_margin"] = 0.75 - float(
                 latent["correction_variance_fraction"]
             )
+            time_means = [
+                float(values["correction_norm_mean"])
+                for values in latent.get("bridge_time_summary", {}).values()
+                if float(values.get("n", 0.0)) > 0.0
+            ]
+            if len(time_means) >= 2 and float(np.mean(time_means)) > 0.0:
+                coefficient = float(np.std(time_means) / np.mean(time_means))
+                features["low_time_conditioning_spread_margin"] = 1.0 - coefficient
         for feature, score in features.items():
             result[feature].append({
                 "probe": key[0], "data_epoch": key[1], "source_state": key[2],
+                "score": score,
+                "future_macro_psnr_delta": float(label["macro_psnr_delta"]),
+                "future_positive": bool(float(label["macro_psnr_delta"]) > 0.0),
+                "domain_psnr_delta": dict(label["domain_psnr_delta"]),
+                "paired_label_available_to_controller": False,
+            })
+    temporal_groups: dict[tuple[str, str, str], list[dict]] = defaultdict(list)
+    for record in temporal_rollout:
+        temporal_groups[
+            (record["probe"], record["source_state"], record["operator_mode"])
+        ].append(record)
+    for records in temporal_groups.values():
+        records.sort(key=lambda item: item["data_epoch"])
+        for previous, current in zip(records, records[1:]):
+            previous_velocity = float(previous["native_rollout_velocity"])
+            current_velocity = float(current["native_rollout_velocity"])
+            score = (previous_velocity - current_velocity) / max(previous_velocity, 1e-20)
+            label = current["label"]
+            result["rollout_velocity_growth_margin"].append({
+                "probe": current["probe"],
+                "data_epoch": current["data_epoch"],
+                "source_state": current["source_state"],
                 "score": score,
                 "future_macro_psnr_delta": float(label["macro_psnr_delta"]),
                 "future_positive": bool(float(label["macro_psnr_delta"]) > 0.0),
@@ -1452,7 +1547,7 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
 
 def _rank_failure_mechanisms(
     probe_summaries: list[dict], variance_summaries: list[dict],
-    signal_screen: dict,
+    signal_screen: dict, rows: list[dict], variance_rows: list[dict],
 ) -> list[dict]:
     mechanisms: list[dict] = []
     eligible = set(signal_screen.get("eligible_driver_signals", []))
@@ -1525,6 +1620,135 @@ def _rank_failure_mechanisms(
             "candidate_generation_eligible": True,
             "eligibility_basis": "unbiased estimator route does not require a paired-fitted controller",
         })
+    preferred_modes = {
+        summary["probe"]: (
+            "forced_active_diagnostic" if summary["probe"] == "dt" else "registered"
+        )
+        for summary in probe_summaries
+    }
+    labels = {
+        (row["probe"], int(row["data_epoch"]), row["source_state"], row["operator_mode"]):
+        float(row["post_branch_development_label"]["macro_psnr_delta"])
+        for row in rows
+        if row.get("branch_regime") == "continuous_intervention"
+        and int(row.get("horizon", 0)) == 200
+        and row.get("post_branch_development_label")
+    }
+    rollout_support = []
+    for probe, preferred in preferred_modes.items():
+        cases = []
+        temporal: dict[str, list[dict]] = defaultdict(list)
+        for row in rows:
+            if row.get("probe") != probe or row.get("operator_mode") != preferred:
+                continue
+            if row.get("branch_regime") != "continuous_intervention" or int(row.get("horizon", 0)) != 1:
+                continue
+            key = (probe, int(row["data_epoch"]), row["source_state"], preferred)
+            label = labels.get(key)
+            reference = row.get("reference_observation", {}).get("bridge", {}).get(
+                "rollout_velocity_l2"
+            )
+            proposal = row.get("proposal_observation", {}).get("bridge", {}).get(
+                "rollout_velocity_l2"
+            )
+            if label is None or reference is None or proposal is None:
+                continue
+            ratio = float(proposal) / max(float(reference), 1e-20)
+            temporal[str(row["source_state"])].append({
+                "data_epoch": int(row["data_epoch"]),
+                "native_rollout_velocity": float(reference),
+                "future_200_step_macro_psnr_delta": label,
+            })
+            if ratio > 1.0 and label <= 0.0:
+                cases.append({
+                    "failure_mode": "proposal_speed_excess",
+                    "data_epoch": int(row["data_epoch"]),
+                    "source_state": row["source_state"],
+                    "proposal_reference_velocity_ratio": ratio,
+                    "future_200_step_macro_psnr_delta": label,
+                })
+        for source_state, state_rows in temporal.items():
+            state_rows.sort(key=lambda item: item["data_epoch"])
+            for previous, current in zip(state_rows, state_rows[1:]):
+                previous_velocity = float(previous["native_rollout_velocity"])
+                current_velocity = float(current["native_rollout_velocity"])
+                if (
+                    current_velocity > previous_velocity
+                    and float(current["future_200_step_macro_psnr_delta"]) <= 0.0
+                ):
+                    cases.append({
+                        "failure_mode": "native_rollout_velocity_growth",
+                        "source_state": source_state,
+                        "previous_data_epoch": int(previous["data_epoch"]),
+                        "data_epoch": int(current["data_epoch"]),
+                        "velocity_growth_ratio": (
+                            (current_velocity - previous_velocity)
+                            / max(previous_velocity, 1e-20)
+                        ),
+                        "future_200_step_macro_psnr_delta": float(
+                            current["future_200_step_macro_psnr_delta"]
+                        ),
+                    })
+        if cases:
+            rollout_support.append({"probe": probe, "cases": cases})
+    if rollout_support:
+        drivers = sorted({
+            "rollout_speed_stability_margin", "rollout_velocity_growth_margin",
+        } & eligible)
+        mechanisms.append({
+            "failure_type": "rollout_distribution_speed",
+            "supporting_probes": [row["probe"] for row in rollout_support],
+            "supporting_cases": rollout_support,
+            "cross_probe_support": len(rollout_support),
+            "observable": "proposal/reference rollout velocity ratio at the current unpaired state",
+            "construction_route": "bridge_gap_constrained_adaptive_teacher",
+            "candidate_generation_eligible": bool(drivers),
+            "eligible_target_blind_driver_signals": drivers,
+            "ineligible_reason": (
+                None if drivers else
+                "rollout speed preceded harm but did not pass the cross-method signal screen"
+            ),
+        })
+    coordinate_support = []
+    for probe, preferred in preferred_modes.items():
+        cases = []
+        for row in variance_rows:
+            if row.get("probe") != probe or row.get("operator_mode") != preferred:
+                continue
+            if row.get("axis") != "latent_time_bridge_rng":
+                continue
+            time_means = [
+                float(values["correction_norm_mean"])
+                for values in row.get("bridge_time_summary", {}).values()
+                if float(values.get("n", 0.0)) > 0.0
+            ]
+            if len(time_means) < 2 or float(np.mean(time_means)) <= 0.0:
+                continue
+            coefficient = float(np.std(time_means) / np.mean(time_means))
+            if coefficient > 1.0:
+                cases.append({
+                    "data_epoch": int(row["data_epoch"]),
+                    "source_state": row["source_state"],
+                    "time_conditioning_coefficient_of_variation": coefficient,
+                })
+        if cases:
+            coordinate_support.append({"probe": probe, "cases": cases})
+    if coordinate_support:
+        driver = "low_time_conditioning_spread_margin"
+        mechanisms.append({
+            "failure_type": "coordinate_horizon_imbalance",
+            "supporting_probes": [row["probe"] for row in coordinate_support],
+            "supporting_cases": coordinate_support,
+            "cross_probe_support": len(coordinate_support),
+            "observable": "bridge-time correction-norm coefficient of variation",
+            "construction_route": "identity_adaptive_coordinate",
+            "candidate_generation_eligible": driver in eligible,
+            "target_blind_driver_signal": driver,
+            "ineligible_reason": (
+                None if driver in eligible else
+                "time conditioning was imbalanced but no target-blind safe driver passed"
+            ),
+        })
     return sorted(
         mechanisms,
         key=lambda row: (-int(row["cross_probe_support"]), row["failure_type"]),
@@ -1570,6 +1794,24 @@ def build_causal_matrix(output_root: Path) -> dict:
     matrix = {
         "schema": MATRIX_SCHEMA,
         "status": "COMPLETE_CAUSAL_AUDIT" if complete else "PARTIAL_CAUSAL_AUDIT",
+        "analysis_identity": {
+            "analysis_git_commit": git_commit(),
+            "analysis_source_fingerprint": object_sha256([
+                (Path(__file__).name, portable_source_sha256(Path(__file__))),
+            ]),
+            "reversal_atlas_sha256": (
+                file_sha256(atlas_path) if atlas_path.is_file() else None
+            ),
+            "sampling_variance_atlas_sha256": (
+                file_sha256(output_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl")
+                if (output_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl").is_file()
+                else None
+            ),
+            "audit_queue_sha256": file_sha256(queue_path) if queue_path.is_file() else None,
+            "branch_rows_modified_by_analysis": False,
+            "paired_metrics_accessed_by_controller": False,
+            "confirmation20_opened": False,
+        },
         "rows": len(rows),
         "expected_rows": len(expected),
         "missing_rows": [
@@ -1593,7 +1835,9 @@ def build_causal_matrix(output_root: Path) -> dict:
         "sampling_variance_summaries": variance_summaries,
         "target_blind_signal_screen": signal_screen,
         "ranked_failure_mechanisms": (
-            _rank_failure_mechanisms(summaries, variance_summaries, signal_screen)
+            _rank_failure_mechanisms(
+                summaries, variance_summaries, signal_screen, rows, variance_rows,
+            )
             if complete else []
         ),
         "pulse_branches_are_diagnostics_not_exit_policies": True,
