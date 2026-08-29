@@ -1,0 +1,101 @@
+{
+  "schema": "final-unsb-route1-search005-reuse-boundary-v1",
+  "source": {
+    "repository": "E:\\UNSB_Expl\\UNSB_RESEARCH",
+    "search": "SEARCH-005-long-horizon-operator-discovery",
+    "declared_source_commit": "3674a390e9fde997ec1261660c2a96f2a7d49aa6",
+    "files": {
+      "RESULTS.md": "dc1ab0e4a7fd4f418e70ccce257ef83419a017706c3d31b001ef5eb6f4418420",
+      "artifacts/CAUSAL_MATRIX.json": "f97fe9b6d1169a00c86f79bdb0ea2978c1eb9a6b20fc9ce5ce688da92cfba628",
+      "artifacts/HYPOTHESIS_LEDGER.json": "2606032c816137970eb905b56a739c85c7fe981d110d2c1631afdc717c6620c2",
+      "artifacts/ROUTE1_STOP.json": "a4316fa7ad4cf15195da8491552b5139c52fdc0149dbac31bc41984b22319cd1",
+      "src/model_operators.py": "c731c7a087adc7c9b23017233b21a7e7521bbba2bf69f4e9dcc88560e3bcb141"
+    }
+  },
+  "time_scale_adjudication": {
+    "small25_updates_per_data_epoch": 150,
+    "micro_800_data_epochs": 5.333333333333333,
+    "small_2400_data_epochs": 16.0,
+    "current_required_data_epochs": 200,
+    "decision": "closed_current_short_protocol_not_route1_exhausted",
+    "reason": "SEARCH-005 tested derived candidates for at most 16 small25 data epochs; its label long-horizon was relative to its micro funnel and is not equivalent to the current true-e200 objective."
+  },
+  "candidate_reclassification": [
+    {
+      "candidate_id": "G1-DT-CNDRP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "do not rerun the same coordinatewise DT sensitivity preconditioner unless the new e200 atlas establishes a different variance failure"
+    },
+    {
+      "candidate_id": "G2-DT-BCNRP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "block-scalar confidence scaling is not a fresh candidate"
+    },
+    {
+      "candidate_id": "G1-HJ-ACMP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "same-batch Adam-metric projection is not a fresh candidate"
+    },
+    {
+      "candidate_id": "G2-HJ-FBCMP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "previous/current-batch positive-cosine gating is not a fresh candidate; a new construction requires a materially different causal observable or operator"
+    },
+    {
+      "candidate_id": "G1-HNEK-ELIPRC",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "the tested entropy-rate coordinate correction is closed, not the physical-coordinate parent mechanism"
+    },
+    {
+      "candidate_id": "G1-HNEK-PHCRP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "direct endpoint contraction under a path-energy cap is not a fresh candidate"
+    },
+    {
+      "candidate_id": "G2-HNEK-PHRSUP",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "the tested one-sided physical-rate constraint is closed unless the e200 atlas identifies a different constrained object"
+    },
+    {
+      "candidate_id": "G1-GAME-PCOA",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 16.0,
+      "reuse_rule": "raw optimistic coupled-game innovation is not a fresh candidate"
+    },
+    {
+      "candidate_id": "G2-GAME-NPOOA",
+      "status": "short_horizon_negative_current_implementation",
+      "maximum_data_epochs": 5.333333333333333,
+      "reuse_rule": "norm-preserving orthogonal optimistic correction is not a fresh candidate"
+    },
+    {
+      "candidate_id": "G1-DT-HNEK-BCAVP",
+      "status": "implementation_identity_on_tested_clean_base",
+      "maximum_data_epochs": 0.0,
+      "reuse_rule": "odd-latent cancellation was exactly null; do not present it as tested negative or rerun without measurable odd-latent defect"
+    }
+  ],
+  "reusable_evidence": [
+    "full-state actual-update branch construction",
+    "pulse-then-native propagation as a diagnostic rather than a handoff candidate",
+    "G/F versus D/E versus optimizer-moment hybrid attribution",
+    "independent-batch bias-variance decomposition",
+    "zero-intervention and full-state-resume engineering invariants",
+    "operator implementations as comparison classes and negative controls"
+  ],
+  "not_reusable_as_current_conclusion": [
+    "route1_exhausted_under_registered_cap",
+    "complete_no_sustained_candidate as a true-e200 claim",
+    "PCOA as the current mandatory fallback",
+    "the old six Generation-1 names as a preregistered current candidate list"
+  ],
+  "current_search_rule": "The new true-e200 causal atlas may reuse old measurement code and may rule out an exactly equivalent construction, but Generation-1 formulas must be routed from the new evidence. Paired targets remain post-branch labels only.",
+  "confirmation20_opened": false
+}
