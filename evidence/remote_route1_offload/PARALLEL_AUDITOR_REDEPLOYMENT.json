@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-route1-parallel-auditor-redeployment-v1",
+  "recorded": "2026-08-30T06:41:05+08:00",
+  "reason": "Use independent causal cells to consume accelerator compute without changing the batch-1 scientific process or the serial same-parent branch semantics inside each cell.",
+  "main_implementation_commit": "93c28b2",
+  "audit_execution_branch": "audit-terminal-vector-field",
+  "audit_execution_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
+  "supervisor_sha256": "1a8a57c6fa8de617f0a4aee36a05e042645a00eefd8d379de7c478e10ee9ad69",
+  "executors": {
+    "local_gtx1660": {
+      "maximum_parallel_jobs": 1,
+      "executor_pid": 14936,
+      "status": "WAITING_FOR_ANCHORS",
+      "contract_sha256": "9da6c759e5df8b06da715aa426368abd1fec41386e37e1634fc93a5f505ff7b1"
+    },
+    "remote4090": {
+      "maximum_parallel_jobs": 2,
+      "executor_pid": 1325891,
+      "status": "WAITING_FOR_ANCHORS",
+      "contract_sha256": "68c8081078f36d3444d81479393cc32f16b82f5daa77958dd9220126bc218809"
+    },
+    "remote5090": {
+      "maximum_parallel_jobs": 2,
+      "executor_pid": 29324,
+      "status": "WAITING_FOR_ANCHORS",
+      "contract_sha256": "bb7ad31c6f3e3e206a371f2ece62ee68d0f48511fc5c55d58dc4d2359928b818"
+    }
+  },
+  "isolation": {
+    "per_cell_work_directory": true,
+    "cross_process_atlas_lock": true,
+    "cross_process_matrix_lock": true,
+    "per_job_progress_accounting": true,
+    "bounded_submission_after_failure": true,
+    "serial_plain_proposal_branches_within_cell": true,
+    "parent_state_hash_required": true
+  },
+  "pre_redeployment_outputs": {
+    "long_reversal_atlas_exists": false,
+    "sampling_variance_atlas_exists": false,
+    "claim": "No previously written causal row was overwritten or reinterpreted by this redeployment."
+  },
+  "scientific_constraints": {
+    "batch_size_changed": false,
+    "training_update_changed": false,
+    "horizons_changed": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_generation_started": false
+  },
+  "claim_boundary": "This record proves safe parallel-auditor deployment only. It is not causal evidence and does not authorize a candidate before the immutable matrix is complete."
+}
