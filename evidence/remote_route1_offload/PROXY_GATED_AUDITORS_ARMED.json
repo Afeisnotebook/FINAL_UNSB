@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-route1-proxy-gated-auditors-armed-v1",
+  "recorded": "2026-08-30T04:52:30+08:00",
+  "implementation_commit": "9be2bfde3a9b9b712f10236fc4c30a6ebede7909",
+  "supervisor_sha256": "681468a9e3f45c232700dad8427778a8175658ab91df4228a207220aabb001c5",
+  "audit_execution_commit": "8233c3279b4fc6e1a5903e879f58476a389d8941",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "f837c87412315628fc4eaa4e0c79b84d5163ba0788a20b89b2d3abc6b0d41758",
+  "terminal_routes": {
+    "ANCHOR_PHASE_COMPLETE": "PHASE_C_COMPLETE_DERIVATION_REQUIRED",
+    "PAUSED_PROXY_NOT_CALIBRATED": "PHASE_C_COMPLETE_PROXY_ADJUDICATION_REQUIRED"
+  },
+  "uncalibrated_proxy_behavior": {
+    "causal_atlas_runs": true,
+    "causal_matrix_runs": true,
+    "derive_stage_runs": false,
+    "dt_runs": false,
+    "candidate_generation_runs": false,
+    "required_next_authority": "proxy distortion diagnosis and user adjudication"
+  },
+  "executors": {
+    "local_gtx1660": {
+      "executor_pid": 5332,
+      "status": "WAITING_FOR_ANCHORS",
+      "supervisor": "Windows scheduled task FINAL_UNSB_ROUTE1_AUDITOR"
+    },
+    "remote4090": {
+      "executor_pid": 1316230,
+      "status": "WAITING_FOR_ANCHORS",
+      "supervisor": "tmux:FINAL_UNSB_ROUTE1_REMOTE_AUDITOR"
+    },
+    "remote5090": {
+      "executor_pid": 23798,
+      "status": "WAITING_FOR_ANCHORS",
+      "supervisor": "screen:FINAL_UNSB_ROUTE1_AUDITOR5090"
+    }
+  },
+  "checkpoints_modified": false,
+  "training_update_changed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This enforces the proxy gate after Phase C; it does not prove calibration or discover a candidate."
+}
