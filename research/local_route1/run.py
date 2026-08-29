@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from .anchors import run_anchor, summarize_anchors
-from .candidate_runner import run_candidate, summarize_candidate
+from .candidate_runner import freeze_for_seed_validation, run_candidate, summarize_candidate
 from .candidate_gate import run_candidate_gate
 from .causal_audit import DEFAULT_HORIZONS, build_causal_matrix, run_audit_job
 from .gates import run_cpu_gates, run_gpu_gates
@@ -40,7 +40,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--lane", choices=["plain", "hj", "hnek", "dt"])
     value.add_argument("--candidate-id")
     value.add_argument(
-        "--candidate-action", choices=["status", "gate", "train", "evaluate"], default="status",
+        "--candidate-action", choices=["status", "gate", "train", "evaluate", "freeze"], default="status",
         help="candidate stage action; status never launches training",
     )
     value.add_argument("--validation-seed", type=int, choices=[2027, 2028])
@@ -192,8 +192,11 @@ def main(argv: list[str] | None = None) -> int:
                 engineering_stop_after_epoch=args.engineering_stop_after_epoch,
             )
             return_code = 0
-        else:
+        elif args.candidate_action == "evaluate":
             result = summarize_candidate(args.output, args.candidate_id)
+            return_code = 0
+        else:
+            result = freeze_for_seed_validation(args.output, args.candidate_id)
             return_code = 0
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return return_code

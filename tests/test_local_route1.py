@@ -12,6 +12,10 @@ from research.local_route1.candidates import (
     validate_candidate_id,
 )
 from research.local_route1.candidate_gate import _validate_gate_report
+from research.local_route1.candidate_runner import (
+    late_rolling_drawdown,
+    plain_collapse_adjudication,
+)
 from research.local_route1.causal_audit import (
     AuditCell,
     BranchResult,
@@ -95,6 +99,29 @@ def test_lineage_split_emits_every_required_probe_and_mechanism_object_map():
     object_map = documents["MECHANISM_OBJECT_MAP.json"]
     assert object_map["later_mechanisms"]["LBST"]["unsb_object"] == "rollout distribution"
     assert object_map["confirmation20_opened"] is False
+
+
+def test_candidate_late_stability_and_plain_collapse_are_hard_gates():
+    stable = [
+        {"epoch": 100, "macro_psnr": 18.0, "plain_macro_psnr": 17.9},
+        {"epoch": 125, "macro_psnr": 18.1, "plain_macro_psnr": 18.0},
+        {"epoch": 150, "macro_psnr": 18.2, "plain_macro_psnr": 18.0},
+        {"epoch": 175, "macro_psnr": 18.25, "plain_macro_psnr": 18.05},
+        {"epoch": 200, "macro_psnr": 18.3, "plain_macro_psnr": 18.1},
+    ]
+    assert late_rolling_drawdown(stable) == pytest.approx(0.0)
+    assert plain_collapse_adjudication(stable[-3:])["status"] == "PASS_NOT_PLAIN_COLLAPSE"
+
+    collapsing = [
+        {"epoch": 150, "macro_psnr": 18.0, "plain_macro_psnr": 18.0},
+        {"epoch": 175, "macro_psnr": 17.8, "plain_macro_psnr": 17.6},
+        {"epoch": 200, "macro_psnr": 17.6, "plain_macro_psnr": 17.2},
+    ]
+    assert plain_collapse_adjudication(collapsing)["status"].startswith("FAIL_")
+    peaked = stable[:-1] + [
+        {"epoch": 200, "macro_psnr": 16.9, "plain_macro_psnr": 18.1},
+    ]
+    assert late_rolling_drawdown(peaked) > 0.3
 
 
 def test_dt_core_semantics_and_physical_schedule_are_frozen():

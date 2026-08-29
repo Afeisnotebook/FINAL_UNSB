@@ -27,6 +27,7 @@ from .runtime import (
     save_full_state,
     write_json,
 )
+from .seed_validation import SEED_FREEZE_SCHEMA
 
 
 def _read_json(path: Path) -> dict:
@@ -136,6 +137,45 @@ def _backfill_current_milestone_if_needed(
     )
 
 
+def late_rolling_drawdown(trajectory: list[dict], *, window: int = 3) -> float | None:
+    """Return best rolling absolute PSNR minus the terminal rolling PSNR."""
+    values = [float(row["macro_psnr"]) for row in trajectory]
+    if len(values) < int(window) or int(window) <= 0:
+        return None
+    rolling = [
+        float(np.mean(values[index - window:index]))
+        for index in range(window, len(values) + 1)
+    ]
+    return float(max(rolling) - rolling[-1])
+
+
+def plain_collapse_adjudication(late: list[dict]) -> dict:
+    """Reject a relative win when both method and plain collapse late.
+
+    A stable candidate may remain admissible when plain declines, but a method
+    that also loses more than 0.3 dB from e150 to e200 cannot claim that its
+    relative advantage is an absolute-quality improvement.
+    """
+    if len(late) != 3 or [int(row["epoch"]) for row in late] != [150, 175, 200]:
+        return {"status": "INCOMPLETE", "threshold_db": -0.3}
+    candidate_change = float(late[-1]["macro_psnr"] - late[0]["macro_psnr"])
+    plain_change = float(
+        late[-1]["plain_macro_psnr"] - late[0]["plain_macro_psnr"]
+    )
+    both_collapse = plain_change < -0.3 and candidate_change < -0.3
+    return {
+        "status": (
+            "FAIL_RELATIVE_ADVANTAGE_COINCIDES_WITH_BOTH_COLLAPSING"
+            if both_collapse else "PASS_NOT_PLAIN_COLLAPSE"
+        ),
+        "threshold_db": -0.3,
+        "candidate_e150_to_e200_change_db": candidate_change,
+        "plain_e150_to_e200_change_db": plain_change,
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }
+
+
 def summarize_candidate(output_root: Path, candidate_id: str) -> dict:
     registration = load_candidate_registration(output_root, candidate_id, require_gate=True)
     protocol = load_protocol()
@@ -164,6 +204,8 @@ def summarize_candidate(output_root: Path, candidate_id: str) -> dict:
         None if not complete or not absolute_psnr
         else float(max(absolute_psnr) - absolute_psnr[-1])
     )
+    rolling_drawdown = late_rolling_drawdown(trajectory)
+    collapse = plain_collapse_adjudication(late)
     numeric_gate = bool(
         complete
         and late_mean is not None and late_mean > 0.0
@@ -172,6 +214,8 @@ def summarize_candidate(output_root: Path, candidate_id: str) -> dict:
         and average_worst is not None and average_worst > -1.0
         and late_ssim is not None and late_ssim >= 0.0
         and late_lpips is not None and late_lpips <= 0.0
+        and rolling_drawdown is not None and rolling_drawdown <= 0.3
+        and collapse["status"] == "PASS_NOT_PLAIN_COLLAPSE"
     )
     result = {
         "schema": "final-unsb-route1-candidate-trajectory-v1",
@@ -193,14 +237,42 @@ def summarize_candidate(output_root: Path, candidate_id: str) -> dict:
         "late_mean_macro_ssim_delta": late_ssim,
         "late_mean_macro_lpips_delta": late_lpips,
         "candidate_absolute_peak_to_e200_drawdown": peak_to_terminal_drawdown,
-        "plain_collapse_adjudication": (
-            "REQUIRED_BEFORE_PROMOTION" if numeric_gate else "NOT_APPLICABLE_YET"
-        ),
+        "candidate_best_to_terminal_three_point_rolling_drawdown": rolling_drawdown,
+        "maximum_allowed_rolling_drawdown_db": 0.3,
+        "plain_collapse_adjudication": collapse,
         "paired_metrics_used_for_training_or_gate": False,
         "confirmation20_opened": False,
     }
     write_json(candidate_root / "CANDIDATE_TRAJECTORY.json", result)
     return result
+
+
+def freeze_for_seed_validation(output_root: Path, candidate_id: str) -> dict:
+    """Freeze a positive seed2026 algorithm without changing its definition."""
+    registration = load_candidate_registration(output_root, candidate_id, require_gate=True)
+    trajectory = summarize_candidate(output_root, candidate_id)
+    if trajectory.get("status") != "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION":
+        raise RuntimeError("seed validation freeze requires the complete positive e200 gate")
+    collapse = trajectory.get("plain_collapse_adjudication", {})
+    if collapse.get("status") != "PASS_NOT_PLAIN_COLLAPSE":
+        raise RuntimeError("candidate did not pass the plain-collapse adjudication")
+    trajectory_path = _candidate_root(output_root, candidate_id) / "CANDIDATE_TRAJECTORY.json"
+    freeze = {
+        "schema": SEED_FREEZE_SCHEMA,
+        "status": "FROZEN_FOR_SEED_VALIDATION",
+        "candidate_id": candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "seed2026_candidate_fingerprint": registration.candidate_fingerprint,
+        "seed2026_trajectory_sha256": file_sha256(trajectory_path),
+        "plain_collapse_adjudication": collapse["status"],
+        "authorized_seeds": [2027, 2028],
+        "seed2028_requires_seed2027_sign_inconsistency": True,
+        "algorithm_changes_after_freeze_forbidden": True,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    write_json(_candidate_root(output_root, candidate_id) / "SEED_VALIDATION_FREEZE.json", freeze)
+    return freeze
 
 
 def run_candidate(
