@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-route1-remote5090-hnek-e200-verification-v1",
+  "recorded": "2026-08-30T07:02:00+08:00",
+  "host": "remote5090",
+  "lane": "hnek",
+  "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "execution": {
+    "status": "COMPLETE_E200",
+    "updates": 30000,
+    "data_epochs": 200,
+    "batch_size": 1,
+    "wall_seconds": 14130.130645751953,
+    "source_mode": "independent_quarantined_probe_then_verified_import",
+    "imported_files": 41,
+    "imported_tree_sha256": "08da35717eb0d4d41e91bcec82a1a52a6be5590d6700d5472d8a321a43681663"
+  },
+  "terminal_verification": {
+    "status": "ACCEPTED_MILESTONE",
+    "recorded": "2026-08-30T06:58:52.331195+08:00",
+    "checkpoint_file_sha256": "563488c8842ac4fabaff587fb7476a30600330eaa14b04023d2f3a45bd785c6b",
+    "scientific_state_sha256": "03f5105ad8efc78116d839bcf5ac128bd1ca34d658498a7f2851e69f14f84ba3",
+    "metric_file_sha256": "707a1950a854146051cccfd45545d64ed539ccab8e4624816c7d881b8c7227e6",
+    "images": 420,
+    "macro_psnr": 17.36262596873981,
+    "macro_ssim": 0.5754823206081277,
+    "macro_lpips": 0.33768893907822317,
+    "checkpoint_file_hash_matches_sidecar": true,
+    "scientific_state_hash_matches_sidecar": true,
+    "metric_protocol_matches": true,
+    "evaluation_bundle_matches_frozen_crn": true
+  },
+  "matched_late_trajectory": [
+    {
+      "data_epoch": 150,
+      "macro_psnr_delta_db": 1.7448760884257961,
+      "positive_domains": 6,
+      "worst_domain_delta_db": 1.4482576862519174
+    },
+    {
+      "data_epoch": 175,
+      "macro_psnr_delta_db": 0.4939676681881586,
+      "positive_domains": 3,
+      "worst_domain_delta_db": -0.871848300145512
+    },
+    {
+      "data_epoch": 200,
+      "macro_psnr_delta_db": -0.4141783494144704,
+      "positive_domains": 3,
+      "worst_domain_delta_db": -1.8690490336374843
+    }
+  ],
+  "late_three_mean_macro_psnr_delta_db": 0.6082218023998281,
+  "late_points_with_four_of_six_positive_domains": 1,
+  "proxy_adjudication": {
+    "status": "INSUFFICIENT_ALONE_WAIT_FOR_HJ",
+    "late_three_mean_positive": true,
+    "minimum_two_late_points_with_four_of_six_positive_domains": false,
+    "dt_unlocked": false,
+    "reason": "HNEK alone does not satisfy the frozen domain-coverage arm of the proxy rule; remote5090 must wait for its HJ e200 result."
+  },
+  "training_update_changed": false,
+  "paired_metric_used_for_training_control": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This accepts one same-host HNEK trajectory and preserves the DT proxy gate. It neither ranks a final algorithm nor alters the remote4090 primary causal audit."
+}
