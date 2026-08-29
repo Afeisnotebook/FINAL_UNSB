@@ -1,0 +1,18 @@
+{
+  "schema": "final-unsb-local-route1-phase-c-auditor-registration-v1",
+  "time": "2026-08-30T00:26:21.506720+08:00",
+  "status": "WAITING_FOR_ANCHORS",
+  "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
+  "executor_pid_at_acceptance": 5988,
+  "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_237db92",
+  "audit_git_commit": "237db927238380f853eb51398fde7a82e563d1a4",
+  "training_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "121fe1480fa9ededadf9d15dde78dba8b1d54fae57df831416f440a8d70159f9",
+  "anchor_status_at_registration": "CHUNK_RUNNING",
+  "gpu_overlap_policy": "wait for PAUSED_PROXY_NOT_CALIBRATED or ANCHOR_PHASE_COMPLETE",
+  "row_persistence": "atomic append/deduplicate after each completed source-state/operator/horizon row",
+  "terminal_boundary": "PHASE_C_COMPLETE_DERIVATION_REQUIRED",
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

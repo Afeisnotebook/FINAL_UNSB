@@ -79,10 +79,14 @@
     "Phase C audit core matches the frozen training worktree semantic fingerprint"
   ],
   "phase_c": {
-    "status": "ACTUAL_UPDATE_AUDITOR_IMPLEMENTED_TESTED_NOT_YET_RUN_ON_MATCHED_METHOD_STATES",
+    "status": "DURABLE_AUDITOR_REGISTERED_WAITING_FOR_ANCHORS",
     "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
+    "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
+    "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_237db92",
+    "audit_git_commit": "237db927238380f853eb51398fde7a82e563d1a4",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
   },
-  "next_gate": "Complete plain e200 under the durable executor while finishing the resumable Phase C audit scheduler; then run HJ and HNEK e200 before proxy calibration."
+  "next_gate": "Complete plain, HJ and HNEK e200 under the durable executor. The independent Phase C task will wait without GPU overlap and automatically audit every ready matched state after proxy adjudication."
 }

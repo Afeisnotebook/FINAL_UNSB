@@ -18,6 +18,9 @@
   “算法搜索失败”。
 - 冻结executor worktree固定于`0da2a37`。恢复后训练仍使用原协议指纹
   `b0786b...9b2`；主开发worktree负责补齐审计和候选执行器，不得污染锚点身份。
+- 独立计划任务 `FINAL_UNSB_ROUTE1_AUDITOR` 已固定于audit commit `237db92`，当前
+  状态为 `WAITING_FOR_ANCHORS`。它只在anchor executor到达显式终态后使用GPU，按
+  atlas row原子落盘并可恢复；Phase C完成后停在数学推导门，不会把模板冒充新算法。
 
 持久恢复门已完整通过：缺失milestone两次一致回填、5-data-epoch幂等chunk、外部
 计划任务托管、退出审计、15分钟stall检测、人为终止后的精确恢复，以及首个正式
