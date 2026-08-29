@@ -229,6 +229,54 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
             ],
             "status": "DERIVATION_REQUIRED_NOT_IMPLEMENTED",
         })
+    matrix_sha256 = file_sha256(matrix_path)
+    atlas_sha256 = file_sha256(atlas_path)
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger_identity = {
+        "causal_matrix_sha256": matrix_sha256,
+        "reversal_atlas_sha256": atlas_sha256,
+        "historical_evidence_index_sha256": file_sha256(historical_index_path),
+        "mechanism_object_map_sha256": file_sha256(mechanism_map_path),
+        "reuse_boundary_sha256": file_sha256(reuse_boundary_path),
+    }
+    if ledger_path.is_file():
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+        if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+            raise RuntimeError("hypothesis ledger schema mismatch")
+        if ledger.get("evidence_identity") != ledger_identity:
+            raise RuntimeError(
+                "hypothesis ledger is stale for the completed causal evidence"
+            )
+    else:
+        ledger = {
+            "schema": "final-unsb-route1-hypothesis-ledger-v1",
+            "status": "ACTIVE_DERIVATION",
+            "evidence_identity": ledger_identity,
+            "generation_policy": {
+                "maximum_generation1_candidates": 3,
+                "maximum_revisions_per_mechanism": 1,
+                "maximum_components_per_composition": 2,
+                "fixed_window_or_hyperparameter_grid_forbidden": True,
+            },
+            "records": [
+                {
+                    "candidate_id": card["candidate_id"],
+                    "generation": 1,
+                    "parent_candidate_id": None,
+                    "parent_evidence": card["parent_evidence"],
+                    "construction_route": card["construction_route"],
+                    "status": "DERIVATION_REQUIRED",
+                    "revision_count": 0,
+                    "experiments": [],
+                    "paired_controller_access": False,
+                    "confirmation20_opened": False,
+                }
+                for card in cards
+            ],
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        }
+        write_json(ledger_path, ledger)
     result = {
         "schema": "local-route1-derive-stage-v1",
         "status": (
@@ -272,6 +320,17 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
             ),
         },
         "cards": cards,
+        "hypothesis_ledger": {
+            "path": str(ledger_path.resolve()),
+            "sha256": file_sha256(ledger_path),
+            "status": ledger["status"],
+            "records": len(ledger["records"]),
+            "rule": (
+                "The ledger is append-only scientific history. Candidate closure or "
+                "one allowed revision must record the causal reason and experiment; "
+                "paired development scores cannot rewrite the parent hypothesis."
+            ),
+        },
         "guard": (
             "No paired-fitted controller may be generated. A failure mechanism without an eligible target-blind driver may only proceed through an independently justified unbiased construction."
         ),

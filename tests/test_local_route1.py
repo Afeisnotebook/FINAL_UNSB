@@ -53,6 +53,7 @@ from research.local_route1.seed_validation import (
     _e0_identity,
     validate_seed_freeze,
 )
+from research.local_route1.stages import derive_from_completed_atlas
 from research.local_route1.stages import prepare_audit_queue
 from research.local_route1.observations import (
     component_directional_derivatives,
@@ -540,6 +541,36 @@ def test_target_blind_signal_screen_uses_offline_labels_without_fitting_threshol
     assert signal["future_200_step_delta_spearman"] == pytest.approx(1.0)
     assert signal["mean_domain_sign_agreement_of_six"] == pytest.approx(6.0)
     assert signal["paired_label_available_to_controller"] is False
+
+
+def test_derive_initializes_evidence_bound_hypothesis_ledger(tmp_path):
+    import json
+
+    audit = tmp_path / "audit"
+    audit.mkdir(parents=True)
+    atlas = audit / "LONG_REVERSAL_ATLAS.jsonl"
+    atlas.write_text(json.dumps({"row_id": "causal-row"}) + "\n", encoding="utf-8")
+    matrix = audit / "LONG_CAUSAL_MATRIX.json"
+    matrix.write_text(json.dumps({
+        "status": "COMPLETE_CAUSAL_AUDIT",
+        "ranked_failure_mechanisms": [{
+            "failure_type": "sampling_variance",
+            "candidate_generation_eligible": True,
+            "cross_probe_support": 2,
+        }],
+        "target_blind_signal_screen": {"eligible_driver_signals": []},
+    }), encoding="utf-8")
+    result = derive_from_completed_atlas(tmp_path)
+    assert result["status"] == "DERIVATION_CARDS_REQUIRED"
+    ledger_path = tmp_path / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert ledger["status"] == "ACTIVE_DERIVATION"
+    assert ledger["records"][0]["candidate_id"] == "G1-01-SAMPLING-VARIANCE"
+    assert ledger["records"][0]["status"] == "DERIVATION_REQUIRED"
+    assert ledger["generation_policy"]["maximum_revisions_per_mechanism"] == 1
+    assert ledger["paired_controller_access"] is False
+    repeated = derive_from_completed_atlas(tmp_path)
+    assert repeated["hypothesis_ledger"]["sha256"] == result["hypothesis_ledger"]["sha256"]
 
 
 def test_rollout_growth_signal_uses_only_past_and_current_unpaired_state():
