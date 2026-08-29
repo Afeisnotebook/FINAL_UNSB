@@ -1685,6 +1685,180 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
     }
 
 
+_MINIMUM_ROUTE_COMPLEXITY = {
+    "correction_sign_reversal": {
+        "operator_components": 1, "extra_gradient_or_forward_passes": 1,
+        "persistent_model_copies": 0,
+    },
+    "correct_direction_unstable_magnitude": {
+        "operator_components": 1, "extra_gradient_or_forward_passes": 0,
+        "persistent_model_copies": 0,
+    },
+    "sampling_variance": {
+        "operator_components": 1, "extra_gradient_or_forward_passes": 1,
+        "persistent_model_copies": 0,
+    },
+    "coordinate_horizon_imbalance": {
+        "operator_components": 1, "extra_gradient_or_forward_passes": 0,
+        "persistent_model_copies": 0,
+    },
+    "rollout_distribution_speed": {
+        "operator_components": 2, "extra_gradient_or_forward_passes": 1,
+        "persistent_model_copies": 1,
+    },
+    "state_feedback_missing": {
+        "operator_components": 2, "extra_gradient_or_forward_passes": 0,
+        "persistent_model_copies": 0,
+    },
+}
+
+
+def _rank_mechanisms_by_discovery_evidence(
+    mechanisms: list[dict], signal_screen: dict, rows: list[dict],
+) -> list[dict]:
+    """Attach the preregistered discovery evidence and rank lexicographically.
+
+    Paired branch deltas are read only after both branches are frozen.  They rank
+    hypotheses offline and are never exposed to a training-time observable.
+    Complexity values are lower bounds for the construction family, not a
+    prewritten candidate formula; the derivation card must replace them with the
+    exact cost of the derived operator.
+    """
+    signal_index = {
+        signal["feature"]: signal
+        for signal in signal_screen.get("signals", [])
+    }
+    ranked = []
+    for raw in mechanisms:
+        mechanism = dict(raw)
+        signal_metrics = []
+        for feature in mechanism.get("eligible_target_blind_driver_signals", []):
+            signal = signal_index.get(feature)
+            if signal is not None:
+                signal_metrics.append({
+                    "scope": "shared",
+                    "feature": feature,
+                    "probe": None,
+                    "reversal_precursor_lead_fraction": float(
+                        signal.get("reversal_precursor_lead_fraction", 0.0)
+                    ),
+                    "reversal_precursor_cases": len(
+                        signal.get("reversal_precursor_cases", [])
+                    ),
+                    "mean_domain_sign_agreement_of_six": float(
+                        signal.get("mean_domain_sign_agreement_of_six", 0.0)
+                    ),
+                })
+        for probe, features in mechanism.get(
+            "eligible_method_specific_driver_signals_by_probe", {}
+        ).items():
+            for feature in features:
+                signal = signal_index.get(feature)
+                performance = (
+                    signal.get("per_method_performance", {}).get(probe)
+                    if signal is not None else None
+                )
+                if performance is not None:
+                    signal_metrics.append({
+                        "scope": "method_specific",
+                        "feature": feature,
+                        "probe": probe,
+                        "reversal_precursor_lead_fraction": float(
+                            performance.get("reversal_precursor_lead_fraction", 0.0)
+                        ),
+                        "reversal_precursor_cases": len(
+                            performance.get("reversal_precursor_cases", [])
+                        ),
+                        "mean_domain_sign_agreement_of_six": float(
+                            performance.get("mean_domain_sign_agreement_of_six", 0.0)
+                        ),
+                    })
+        observed_leads = [
+            item["reversal_precursor_lead_fraction"] for item in signal_metrics
+            if item["reversal_precursor_cases"] > 0
+        ]
+        precursor_score = (
+            0.0 if not observed_leads else float(np.mean(observed_leads))
+        )
+        domain_score = (
+            0.0 if not signal_metrics else float(np.mean([
+                item["mean_domain_sign_agreement_of_six"]
+                for item in signal_metrics
+            ]))
+        )
+        supporting_probes = set(mechanism.get("supporting_probes", []))
+        short_labels = [
+            float(row["post_branch_development_label"]["macro_psnr_delta"])
+            for row in rows
+            if row.get("probe") in supporting_probes
+            and row.get("operator_mode") == _preferred_operator_mode(
+                str(row["probe"]), int(row["data_epoch"])
+            )
+            and row.get("branch_regime") == "continuous_intervention"
+            and int(row.get("horizon", 0)) in (1, 8, 32)
+            and row.get("post_branch_development_label")
+        ]
+        short_positive_fraction = (
+            0.0 if not short_labels else float(np.mean([
+                value > 0.0 for value in short_labels
+            ]))
+        )
+        short_mean_delta = (
+            0.0 if not short_labels else float(np.mean(short_labels))
+        )
+        complexity = dict(_MINIMUM_ROUTE_COMPLEXITY.get(
+            str(mechanism.get("failure_type")),
+            {
+                "operator_components": 3,
+                "extra_gradient_or_forward_passes": 2,
+                "persistent_model_copies": 1,
+            },
+        ))
+        simplicity_score = 1.0 / max(float(complexity["operator_components"]), 1.0)
+        cost_score = 1.0 / (
+            1.0
+            + float(complexity["extra_gradient_or_forward_passes"])
+            + float(complexity["persistent_model_copies"])
+        )
+        mechanism["discovery_ranking_evidence"] = {
+            "cross_probe_support": int(mechanism.get("cross_probe_support", 0)),
+            "target_blind_precursor_lead_fraction": precursor_score,
+            "target_blind_domain_sign_agreement_of_six": domain_score,
+            "eligible_signal_evidence": signal_metrics,
+            "short_counterfactual": {
+                "horizons_updates": [1, 8, 32],
+                "records": len(short_labels),
+                "positive_fraction": short_positive_fraction,
+                "mean_macro_psnr_delta": short_mean_delta,
+                "paired_label_available_to_controller": False,
+            },
+            "minimum_route_complexity_prior": complexity,
+            "mathematical_simplicity_score": simplicity_score,
+            "compute_and_recovery_cost_score": cost_score,
+            "ranking_policy": (
+                "lexicographic: cross-probe support, observed precursor lead, "
+                "domain consistency, short counterfactual benefit, mathematical "
+                "simplicity, minimum compute/recovery cost"
+            ),
+        }
+        mechanism["_ranking_key"] = (
+            -int(mechanism.get("cross_probe_support", 0)),
+            -precursor_score,
+            -domain_score,
+            -short_positive_fraction,
+            -short_mean_delta,
+            -simplicity_score,
+            -cost_score,
+            str(mechanism.get("failure_type")),
+        )
+        ranked.append(mechanism)
+    ranked.sort(key=lambda item: item["_ranking_key"])
+    for rank, mechanism in enumerate(ranked, 1):
+        mechanism["evidence_rank"] = rank
+        del mechanism["_ranking_key"]
+    return ranked
+
+
 def _rank_failure_mechanisms(
     probe_summaries: list[dict], variance_summaries: list[dict],
     signal_screen: dict, rows: list[dict], variance_rows: list[dict],
@@ -1931,9 +2105,8 @@ def _rank_failure_mechanisms(
                 "time conditioning was imbalanced but no target-blind safe driver passed"
             ),
         })
-    return sorted(
-        mechanisms,
-        key=lambda row: (-int(row["cross_probe_support"]), row["failure_type"]),
+    return _rank_mechanisms_by_discovery_evidence(
+        mechanisms, signal_screen, rows,
     )
 
 

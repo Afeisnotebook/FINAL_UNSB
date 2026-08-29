@@ -758,6 +758,60 @@ def test_rollout_growth_signal_uses_only_past_and_current_unpaired_state():
     assert signal["paired_label_available_to_controller"] is False
 
 
+def test_failure_mechanism_ranking_uses_all_discovery_contract_dimensions():
+    mechanisms = [
+        {
+            "failure_type": "sampling_variance",
+            "supporting_probes": ["hj", "hnek"],
+            "cross_probe_support": 2,
+            "candidate_generation_eligible": True,
+        },
+        {
+            "failure_type": "correction_sign_reversal",
+            "supporting_probes": ["hj", "hnek"],
+            "cross_probe_support": 2,
+            "candidate_generation_eligible": True,
+            "eligible_target_blind_driver_signals": [
+                "correction_next_native_cosine"
+            ],
+            "eligible_method_specific_driver_signals_by_probe": {},
+        },
+    ]
+    screen = {
+        "signals": [{
+            "feature": "correction_next_native_cosine",
+            "reversal_precursor_lead_fraction": 1.0,
+            "reversal_precursor_cases": [{"probe": "hj"}],
+            "mean_domain_sign_agreement_of_six": 5.0,
+            "per_method_performance": {},
+        }],
+    }
+    rows = []
+    for probe in ("hj", "hnek"):
+        rows.append({
+            "probe": probe,
+            "data_epoch": 20,
+            "source_state": probe,
+            "operator_mode": "registered",
+            "branch_regime": "continuous_intervention",
+            "horizon": 8,
+            "post_branch_development_label": {"macro_psnr_delta": 0.2},
+        })
+    ranked = causal_audit._rank_mechanisms_by_discovery_evidence(
+        mechanisms, screen, rows,
+    )
+    assert [row["failure_type"] for row in ranked] == [
+        "correction_sign_reversal", "sampling_variance",
+    ]
+    evidence = ranked[0]["discovery_ranking_evidence"]
+    assert evidence["target_blind_precursor_lead_fraction"] == pytest.approx(1.0)
+    assert evidence["target_blind_domain_sign_agreement_of_six"] == pytest.approx(5.0)
+    assert evidence["short_counterfactual"]["records"] == 2
+    assert evidence["short_counterfactual"]["positive_fraction"] == pytest.approx(1.0)
+    assert evidence["short_counterfactual"]["paired_label_available_to_controller"] is False
+    assert "minimum_route_complexity_prior" in evidence
+
+
 def _write_candidate_registration_fixture(
     tmp_path: Path, candidate_id: str = "G1-TEST", *, freeze_ledger: bool = True,
 ):
