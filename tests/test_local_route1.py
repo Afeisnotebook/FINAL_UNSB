@@ -1167,6 +1167,95 @@ def test_candidate_registration_requires_frozen_hypothesis_ledger(tmp_path):
         freeze_candidate_derivation(tmp_path, "G1-TEST")
 
 
+def test_causal_revision_requires_negative_e200_and_is_once_per_mechanism(tmp_path):
+    import json
+
+    from research.local_route1.candidates import register_candidate_revision
+
+    parent_card_path, parent_implementation_path = _write_candidate_registration_fixture(
+        tmp_path
+    )
+    candidate_root = tmp_path / "candidates" / "G1-TEST"
+    candidate_root.mkdir(parents=True)
+    trajectory_path = candidate_root / "CANDIDATE_TRAJECTORY.json"
+    trajectory_path.write_text(json.dumps({
+        "schema": "final-unsb-route1-candidate-trajectory-v1",
+        "candidate_id": "G1-TEST",
+        "status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+        "trajectory": [{"epoch": 200, "macro_psnr_delta": -0.1}],
+        "paired_metrics_used_for_training_or_gate": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    defect_path = candidate_root / "DEFECT_ADJUDICATION.json"
+    defect_path.write_text(json.dumps({
+        "schema": "final-unsb-route1-candidate-defect-adjudication-v1",
+        "candidate_id": "G1-TEST",
+        "data_epoch_adjudicated": 200,
+        "target_blind_defect_reduced": True,
+        "long_horizon_benefit_reversed": True,
+        "new_causal_failure_reason": "the safe direction remained biased in one block",
+        "target_blind_defect_measurement": {
+            "observable": "block correction variance",
+            "desired_direction": "decrease",
+            "reference_value": 1.0,
+            "candidate_value": 0.4,
+        },
+        "paired_target_used_to_compute_defect": False,
+        "paired_metric_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    revisions = tmp_path / "derive" / "revisions"
+    revisions.mkdir(parents=True)
+
+    def write_request(candidate_id: str):
+        path = revisions / f"{candidate_id}.json"
+        path.write_text(json.dumps({
+            "schema": "final-unsb-route1-causal-revision-request-v1",
+            "parent_candidate_id": "G1-TEST",
+            "revision_candidate_id": candidate_id,
+            "source_candidate_trajectory_sha256": file_sha256(trajectory_path),
+            "defect_evidence_path": "candidates/G1-TEST/DEFECT_ADJUDICATION.json",
+            "defect_evidence_sha256": file_sha256(defect_path),
+            "new_causal_failure_reason": "the safe direction remained biased in one block",
+            "mathematical_change_from_parent": "replace biased block removal with an unbiased estimator",
+            "construction_route": "causal revision of the estimator",
+            "fixed_window_or_handoff": False,
+            "hyperparameter_grid_search": False,
+            "paired_target_available_to_revision": False,
+            "confirmation20_opened": False,
+        }), encoding="utf-8")
+
+    write_request("G2-TEST")
+    result = register_candidate_revision(tmp_path, "G1-TEST", "G2-TEST")
+    assert result["status"] == "DERIVATION_REQUIRED"
+    revision_card = json.loads(parent_card_path.read_text(encoding="utf-8"))
+    revision_card.update({
+        "candidate_id": "G2-TEST",
+        "parent_candidate_id": "G1-TEST",
+        "revision_request_sha256": file_sha256(revisions / "G2-TEST.json"),
+        "causal_revision_reason": "the safe direction remained biased in one block",
+    })
+    revision_card_path = tmp_path / "derive" / "cards" / "G2-TEST.json"
+    revision_card_path.write_text(json.dumps(revision_card), encoding="utf-8")
+    revision_implementation = json.loads(
+        parent_implementation_path.read_text(encoding="utf-8")
+    )
+    revision_implementation.update({
+        "candidate_id": "G2-TEST",
+        "derivation_card_sha256": file_sha256(revision_card_path),
+    })
+    (tmp_path / "derive" / "implementations" / "G2-TEST.json").write_text(
+        json.dumps(revision_implementation), encoding="utf-8"
+    )
+    frozen_revision = freeze_candidate_derivation(tmp_path, "G2-TEST")
+    assert frozen_revision.candidate_id == "G2-TEST"
+    repeated = register_candidate_revision(tmp_path, "G1-TEST", "G2-TEST")
+    assert repeated["record"]["candidate_id"] == "G2-TEST"
+    write_request("G2-SECOND")
+    with pytest.raises(RuntimeError, match="already used its one revision"):
+        register_candidate_revision(tmp_path, "G1-TEST", "G2-SECOND")
+
+
 def _write_passed_candidate_gate(output_root: Path):
     import json
 

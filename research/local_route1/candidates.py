@@ -14,6 +14,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 from .causal_audit import training_core_fingerprint
 from .protocol import ROOT, ProbeSpec, file_sha256, load_protocol, object_sha256
 from .runtime import write_json
@@ -47,6 +49,8 @@ CARD_REQUIRED_FIELDS = (
 IMPLEMENTATION_SCHEMA = "final-unsb-route1-candidate-implementation-v1"
 GATE_SCHEMA = "final-unsb-route1-candidate-gate-v1"
 REGISTRATION_SCHEMA = "final-unsb-route1-candidate-registration-v1"
+REVISION_REQUEST_SCHEMA = "final-unsb-route1-causal-revision-request-v1"
+DEFECT_ADJUDICATION_SCHEMA = "final-unsb-route1-candidate-defect-adjudication-v1"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 
@@ -446,6 +450,7 @@ def load_candidate_registration(
         "unsb_object", "formula", "identity_or_unbiased_condition",
         "target_inaccessibility_proof", "construction_authority", "unbiased_proof",
         "target_blind_driver_signal", "target_blind_driver_probe",
+        "parent_candidate_id", "revision_request_sha256", "causal_revision_reason",
         "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
         "algorithm_state_variables", "expected_applicable_state",
@@ -605,6 +610,18 @@ def freeze_candidate_derivation(
     if len(records) != 1:
         raise RuntimeError("candidate must occupy exactly one pre-created ledger slot")
     record = records[0]
+    if int(record.get("generation", 1)) == 2:
+        authorization = record.get("revision_authorization") or {}
+        required_revision_bindings = {
+            "parent_candidate_id": record.get("parent_candidate_id"),
+            "revision_request_sha256": authorization.get("revision_request_sha256"),
+            "causal_revision_reason": authorization.get("new_causal_failure_reason"),
+        }
+        for key, value in required_revision_bindings.items():
+            if not value or registration.card.get(key) != value:
+                raise RuntimeError(
+                    f"revision derivation card is not bound to its causal authorization: {key}"
+                )
     bindings = {
         "derivation_card_sha256": file_sha256(registration.card_path),
         "implementation_sha256": file_sha256(registration.implementation_path),
@@ -635,3 +652,176 @@ def freeze_candidate_derivation(
     })
     write_json(ledger_path, ledger)
     return load_candidate_registration(output_root, candidate_id)
+
+
+def register_candidate_revision(
+    output_root: Path, parent_candidate_id: str, revision_candidate_id: str,
+) -> dict:
+    """Append the single evidence-authorized Generation-2 slot for a mechanism."""
+    output_root = Path(output_root).resolve()
+    parent_candidate_id = validate_candidate_id(parent_candidate_id)
+    revision_candidate_id = validate_candidate_id(revision_candidate_id)
+    if parent_candidate_id == revision_candidate_id:
+        raise RuntimeError("revision candidate id must differ from its parent")
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    if not ledger_path.is_file():
+        raise RuntimeError("derive stage must create the hypothesis ledger first")
+    ledger = _read_json(ledger_path)
+    if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+        raise RuntimeError("hypothesis ledger schema mismatch")
+    if int(ledger.get("generation_policy", {}).get(
+        "maximum_revisions_per_mechanism", -1
+    )) != 1:
+        raise RuntimeError("hypothesis ledger does not authorize exactly one revision")
+    parents = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == parent_candidate_id
+    ]
+    if len(parents) != 1 or parents[0].get("status") != "FROZEN_FOR_GATES":
+        raise RuntimeError("revision parent must be one frozen Generation-1 candidate")
+    parent = parents[0]
+    if int(parent.get("generation", 0)) != 1:
+        raise RuntimeError("a Generation-2 candidate cannot spawn another revision")
+    trajectory_path = (
+        output_root / "candidates" / parent_candidate_id / "CANDIDATE_TRAJECTORY.json"
+    )
+    if not trajectory_path.is_file():
+        raise RuntimeError("causal revision requires the parent's complete e200 trajectory")
+    trajectory = _read_json(trajectory_path)
+    if (
+        trajectory.get("candidate_id") != parent_candidate_id
+        or trajectory.get("status") != "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION"
+        or not any(int(row.get("epoch", -1)) == 200 for row in trajectory.get("trajectory", []))
+    ):
+        raise RuntimeError(
+            "causal revision is allowed only after a negative complete e200 adjudication"
+        )
+    request_path = (
+        output_root / "derive" / "revisions" / f"{revision_candidate_id}.json"
+    )
+    if not request_path.is_file():
+        raise RuntimeError(f"causal revision request missing: {request_path}")
+    request = _read_json(request_path)
+    required = {
+        "schema": REVISION_REQUEST_SCHEMA,
+        "parent_candidate_id": parent_candidate_id,
+        "revision_candidate_id": revision_candidate_id,
+        "source_candidate_trajectory_sha256": file_sha256(trajectory_path),
+        "fixed_window_or_handoff": False,
+        "hyperparameter_grid_search": False,
+        "paired_target_available_to_revision": False,
+        "confirmation20_opened": False,
+    }
+    for key, value in required.items():
+        if request.get(key) != value:
+            raise RuntimeError(f"invalid causal revision request field: {key}")
+    for key in (
+        "new_causal_failure_reason", "mathematical_change_from_parent",
+        "construction_route", "defect_evidence_path", "defect_evidence_sha256",
+    ):
+        if not isinstance(request.get(key), str) or not request[key].strip():
+            raise RuntimeError(f"causal revision request requires non-empty {key}")
+    evidence_relative = Path(request["defect_evidence_path"])
+    if evidence_relative.is_absolute():
+        raise RuntimeError("revision defect evidence path must be relative to the run root")
+    evidence_path = (output_root / evidence_relative).resolve()
+    if not evidence_path.is_relative_to(output_root) or not evidence_path.is_file():
+        raise RuntimeError("revision defect evidence must exist inside the run root")
+    if file_sha256(evidence_path) != request["defect_evidence_sha256"]:
+        raise RuntimeError("revision defect evidence hash mismatch")
+    defect = _read_json(evidence_path)
+    defect_required = {
+        "schema": DEFECT_ADJUDICATION_SCHEMA,
+        "candidate_id": parent_candidate_id,
+        "data_epoch_adjudicated": 200,
+        "target_blind_defect_reduced": True,
+        "long_horizon_benefit_reversed": True,
+        "paired_target_used_to_compute_defect": False,
+        "paired_metric_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }
+    for key, value in defect_required.items():
+        if defect.get(key) != value:
+            raise RuntimeError(f"invalid candidate defect adjudication field: {key}")
+    measurement = defect.get("target_blind_defect_measurement")
+    if not isinstance(measurement, dict):
+        raise RuntimeError("defect adjudication requires a target-blind measurement")
+    for key in ("observable", "reference_value", "candidate_value"):
+        if key not in measurement:
+            raise RuntimeError(f"target-blind defect measurement missing {key}")
+    try:
+        reference_value = float(measurement["reference_value"])
+        candidate_value = float(measurement["candidate_value"])
+    except (TypeError, ValueError) as error:
+        raise RuntimeError("target-blind defect values must be finite numbers") from error
+    if not np.isfinite(reference_value) or not np.isfinite(candidate_value):
+        raise RuntimeError("target-blind defect values must be finite numbers")
+    desired = measurement.get("desired_direction")
+    reduced = (
+        candidate_value < reference_value if desired == "decrease" else
+        candidate_value > reference_value if desired == "increase" else False
+    )
+    if not reduced:
+        raise RuntimeError("target-blind defect measurement does not demonstrate reduction")
+    if defect.get("new_causal_failure_reason") != request["new_causal_failure_reason"]:
+        raise RuntimeError("revision request and defect adjudication causal reasons differ")
+    request_sha256 = file_sha256(request_path)
+    existing_id = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == revision_candidate_id
+    ]
+    if existing_id:
+        if (
+            len(existing_id) == 1
+            and existing_id[0].get("revision_authorization", {}).get(
+                "revision_request_sha256"
+            ) == request_sha256
+        ):
+            return {
+                "schema": "final-unsb-route1-causal-revision-registration-v1",
+                "status": existing_id[0]["status"],
+                "record": existing_id[0],
+                "hypothesis_ledger_sha256": file_sha256(ledger_path),
+                "confirmation20_opened": False,
+            }
+        raise RuntimeError("revision candidate id is already bound to different evidence")
+    parent_failure = (parent.get("parent_evidence") or {}).get("failure_type")
+    if not parent_failure:
+        raise RuntimeError("revision parent has no causal failure mechanism")
+    revisions_for_mechanism = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict)
+        and int(row.get("generation", 0)) == 2
+        and (row.get("parent_evidence") or {}).get("failure_type") == parent_failure
+    ]
+    if revisions_for_mechanism:
+        raise RuntimeError("the parent failure mechanism already used its one revision")
+    record = {
+        "candidate_id": revision_candidate_id,
+        "generation": 2,
+        "parent_candidate_id": parent_candidate_id,
+        "parent_evidence": parent.get("parent_evidence"),
+        "construction_route": request["construction_route"],
+        "status": "DERIVATION_REQUIRED",
+        "revision_count": 1,
+        "revision_authorization": {
+            "revision_request_sha256": request_sha256,
+            "source_candidate_trajectory_sha256": file_sha256(trajectory_path),
+            "defect_evidence_sha256": file_sha256(evidence_path),
+            "new_causal_failure_reason": request["new_causal_failure_reason"],
+            "mathematical_change_from_parent": request["mathematical_change_from_parent"],
+            "paired_metric_used_for_training_or_control": False,
+        },
+        "experiments": [],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    ledger["records"].append(record)
+    write_json(ledger_path, ledger)
+    return {
+        "schema": "final-unsb-route1-causal-revision-registration-v1",
+        "status": "DERIVATION_REQUIRED",
+        "record": record,
+        "hypothesis_ledger_sha256": file_sha256(ledger_path),
+        "confirmation20_opened": False,
+    }
