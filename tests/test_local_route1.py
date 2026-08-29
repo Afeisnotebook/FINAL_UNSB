@@ -567,6 +567,32 @@ def test_algorithm_fingerprint_is_seed_e0_independent_but_execution_is_not(tmp_p
     assert registration_2026.candidate_fingerprint != registration_2027.candidate_fingerprint
 
 
+def test_algorithm_definition_is_host_evidence_independent_but_registration_is_not(tmp_path):
+    import json
+
+    first = tmp_path / "local1660"
+    second = tmp_path / "remote4090"
+    _write_candidate_registration_fixture(first)
+    card_path, implementation_path = _write_candidate_registration_fixture(second)
+    matrix_path = second / "audit" / "LONG_CAUSAL_MATRIX.json"
+    matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+    matrix["host_evidence"] = "remote4090"
+    matrix_path.write_text(json.dumps(matrix), encoding="utf-8")
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card["causal_matrix_sha256"] = file_sha256(matrix_path)
+    card["parent_evidence"] = {
+        "failure_type": "sampling_variance", "host": "remote4090",
+    }
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    implementation = json.loads(implementation_path.read_text(encoding="utf-8"))
+    implementation["derivation_card_sha256"] = file_sha256(card_path)
+    implementation_path.write_text(json.dumps(implementation), encoding="utf-8")
+    local = load_candidate_registration(first, "G1-TEST")
+    remote = load_candidate_registration(second, "G1-TEST")
+    assert local.algorithm_fingerprint == remote.algorithm_fingerprint
+    assert local.candidate_fingerprint != remote.candidate_fingerprint
+
+
 def _write_passed_candidate_gate(output_root: Path):
     import json
 

@@ -258,15 +258,28 @@ def load_candidate_registration(
     e0_file_sha256, e0_state_sha256, base_protocol_fingerprint = _base_e0_identity(output_root)
     protocol = load_protocol()
     candidate_training_core = training_core_fingerprint(ROOT)
+    definition_card_fields = (
+        "candidate_id", "unsb_object", "formula", "identity_or_unbiased_condition",
+        "target_inaccessibility_proof", "construction_authority", "unbiased_proof",
+        "target_blind_driver_signal", "objective_change", "estimator_change",
+        "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
+        "algorithm_state_variables",
+    )
+    definition_implementation_fields = (
+        "schema", "candidate_id", "model", "method", "training_target_access",
+        "paired_controller_access", "state_contract", "zero_intervention",
+        "gate_hook",
+    )
     algorithm_fingerprint_payload = {
         "schema": "final-unsb-route1-algorithm-fingerprint-v1",
-        "candidate_id": candidate_id,
-        "card_sha256": card_sha256,
-        "implementation_sha256": file_sha256(implementation_path),
+        "definition_card": {
+            key: card.get(key) for key in definition_card_fields if key in card
+        },
+        "definition_implementation": {
+            key: implementation.get(key)
+            for key in definition_implementation_fields if key in implementation
+        },
         "sources": sources,
-        "causal_matrix_sha256": matrix_sha256,
-        "reversal_atlas_sha256": atlas_sha256,
-        "candidate_training_core_fingerprint": candidate_training_core,
         "common_training_protocol": protocol["common"],
         "manifest_sha256": protocol["manifest"]["sha256"],
     }
@@ -274,6 +287,11 @@ def load_candidate_registration(
     fingerprint_payload = {
         "schema": REGISTRATION_SCHEMA,
         "algorithm_fingerprint": algorithm_fingerprint,
+        "card_sha256": card_sha256,
+        "implementation_sha256": file_sha256(implementation_path),
+        "causal_matrix_sha256": matrix_sha256,
+        "reversal_atlas_sha256": atlas_sha256,
+        "candidate_training_core_fingerprint": candidate_training_core,
         "base_e0_file_sha256": e0_file_sha256,
         "base_e0_scientific_state_sha256": e0_state_sha256,
         "base_protocol_fingerprint": base_protocol_fingerprint,
