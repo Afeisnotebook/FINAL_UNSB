@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T03:46:00+08:00",
+  "updated": "2026-08-30T04:12:00+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -16,7 +16,9 @@
       "evidence": [
         "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
-        "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json"
+        "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
+        "evidence/remote_route1_offload/REMOTE4090_HNEK_AUTOCOMPLETE_ARMED.json",
+        "evidence/remote_route1_offload/REMOTE5090_HNEK_AUTOIMPORT_ARMED.json"
       ],
       "boundary": "Durability is proven for anchors; candidate executors must still pass their own source-bound gate before use."
     },
@@ -33,6 +35,7 @@
       "status": "PARTIAL_RUNTIME_ONLY",
       "evidence": [
         "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
+        "evidence/local_route1_progress/HJ_E10_MILESTONE_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json"
       ],
       "missing": ["HJ e200", "HNEK e200", "proxy decision", "DT e200 if proxy calibrated", "counterfactual rows"]
@@ -80,7 +83,7 @@
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "61 pytest tests passing at development commit c072241 and a clean pushed main branch"
+        "66 pytest tests passing for the f422e54 code state; subsequent cf13827 changes only one data-contract sentence"
       ],
       "boundary": "This must be rerun after every future scientific implementation and at final delivery."
     },
@@ -93,7 +96,7 @@
   ],
   "current_accepted_scientific_boundary": {
     "local_plain": "e200 accepted",
-    "local_hj": "e1 runtime core identity accepted; long result pending",
+    "local_hj": "e10 checkpoint, scientific-state hash and CRN metric payload accepted; long result pending",
     "remote4090_plain": "e200 accepted",
     "remote4090_hj_hnek": "running",
     "remote5090_plain_hnek": "running; HNEK quarantined until same-host plain e200",
