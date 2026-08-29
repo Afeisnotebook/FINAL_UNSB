@@ -1252,10 +1252,210 @@ def _variance_summary(rows: list[dict], probe: str) -> dict:
     return {"probe": probe, "axes": axes, "rows": len(selected)}
 
 
+def _average_ranks(values: list[float]) -> np.ndarray:
+    order = sorted(range(len(values)), key=lambda index: values[index])
+    ranks = np.zeros(len(values), dtype=np.float64)
+    start = 0
+    while start < len(order):
+        end = start + 1
+        while end < len(order) and values[order[end]] == values[order[start]]:
+            end += 1
+        rank = 0.5 * (start + end - 1) + 1.0
+        for position in range(start, end):
+            ranks[order[position]] = rank
+        start = end
+    return ranks
+
+
+def _spearman(first: list[float], second: list[float]) -> float:
+    if len(first) < 2 or len(first) != len(second):
+        return 0.0
+    left, right = _average_ranks(first), _average_ranks(second)
+    if float(np.std(left)) == 0.0 or float(np.std(right)) == 0.0:
+        return 0.0
+    return float(np.corrcoef(left, right)[0, 1])
+
+
+def _balanced_accuracy(labels: list[bool], predictions: list[bool]) -> float:
+    scores = []
+    for value in (False, True):
+        indices = [index for index, label in enumerate(labels) if label is value]
+        if indices:
+            scores.append(float(np.mean([predictions[index] is value for index in indices])))
+    return 0.0 if not scores else float(np.mean(scores))
+
+
+def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, list[dict]]:
+    labels = {}
+    one_step = {}
+    for row in rows:
+        preferred = "forced_active_diagnostic" if row["probe"] == "dt" else "registered"
+        if row["operator_mode"] != preferred or row["branch_regime"] != "continuous_intervention":
+            continue
+        key = (row["probe"], int(row["data_epoch"]), row["source_state"], row["operator_mode"])
+        if int(row["horizon"]) == 200 and row.get("post_branch_development_label"):
+            labels[key] = row["post_branch_development_label"]
+        if int(row["horizon"]) == 1:
+            one_step[key] = row
+    variance_index = {
+        (
+            row["probe"], int(row["data_epoch"]), row["source_state"],
+            row["operator_mode"], row["axis"],
+        ): row
+        for row in variance_rows
+    }
+    result: dict[str, list[dict]] = defaultdict(list)
+    for key, row in one_step.items():
+        label = labels.get(key)
+        if label is None:
+            continue
+        features: dict[str, float] = {
+            "correction_native_cosine": float(row["update_geometry"]["correction_reference_cosine"]),
+            "correction_within_native_scale_margin": 1.0 - (
+                float(row["update_geometry"]["correction_norm"])
+                / max(float(row["update_geometry"]["reference_norm"]), 1e-20)
+            ),
+        }
+        consensus = row.get("next_independent_native_consensus")
+        if consensus is not None:
+            features["correction_next_native_cosine"] = float(consensus["cosine"])
+        for component in ("GAN", "SB", "NCE", "TOTAL_NATIVE_REFERENCE"):
+            value = row.get("native_component_directional_derivatives", {}).get(component)
+            if value is not None:
+                # A negative native-loss directional derivative is the safe
+                # mathematical direction, hence the sign inversion.
+                features[f"native_{component.lower()}_descent_score"] = -float(
+                    value["gradient_correction_cosine"]
+                )
+        batch = variance_index.get((*key, "independent_unpaired_batch"))
+        latent = variance_index.get((*key, "latent_time_bridge_rng"))
+        if batch is not None:
+            next_mean = batch.get("next_independent_batch_native_cosine_mean")
+            if next_mean is not None:
+                features["replicated_next_batch_consensus"] = float(next_mean)
+            features["low_batch_variance_margin"] = 0.75 - float(
+                batch["correction_variance_fraction"]
+            )
+        if latent is not None:
+            features["low_latent_time_variance_margin"] = 0.75 - float(
+                latent["correction_variance_fraction"]
+            )
+        for feature, score in features.items():
+            result[feature].append({
+                "probe": key[0], "data_epoch": key[1], "source_state": key[2],
+                "score": score,
+                "future_macro_psnr_delta": float(label["macro_psnr_delta"]),
+                "future_positive": bool(float(label["macro_psnr_delta"]) > 0.0),
+                "domain_psnr_delta": dict(label["domain_psnr_delta"]),
+                "paired_label_available_to_controller": False,
+            })
+    return result
+
+
+def _precursor_lead_fraction(records: list[dict]) -> tuple[float, list[dict]]:
+    grouped: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for record in records:
+        grouped[(record["probe"], record["source_state"])].append(record)
+    outcomes = []
+    for key, values in grouped.items():
+        values = sorted(values, key=lambda item: item["data_epoch"])
+        seen_positive = False
+        reversal_epoch = None
+        for value in values:
+            if value["future_positive"]:
+                seen_positive = True
+            elif seen_positive:
+                reversal_epoch = int(value["data_epoch"])
+                break
+        if reversal_epoch is None:
+            continue
+        negative_signal_epochs = [
+            int(value["data_epoch"]) for value in values
+            if float(value["score"]) <= 0.0 and int(value["data_epoch"]) <= reversal_epoch
+        ]
+        outcomes.append({
+            "probe": key[0], "source_state": key[1],
+            "reversal_epoch": reversal_epoch,
+            "first_nonpositive_signal_epoch": (
+                None if not negative_signal_epochs else min(negative_signal_epochs)
+            ),
+            "precedes_or_matches": bool(negative_signal_epochs),
+        })
+    fraction = 0.0 if not outcomes else float(np.mean([row["precedes_or_matches"] for row in outcomes]))
+    return fraction, outcomes
+
+
+def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> dict:
+    """Join post-branch labels offline and screen interpretable observables."""
+    feature_records = _signal_records(rows, variance_rows)
+    signals = []
+    for feature, records in sorted(feature_records.items()):
+        labels = [bool(row["future_positive"]) for row in records]
+        predictions = [float(row["score"]) > 0.0 for row in records]
+        heldout = {}
+        for probe in sorted({row["probe"] for row in records}):
+            selected = [index for index, row in enumerate(records) if row["probe"] == probe]
+            heldout[probe] = float(np.mean([predictions[index] == labels[index] for index in selected]))
+        lomo = 0.0 if not heldout else float(np.mean(list(heldout.values())))
+        domain_counts = [
+            sum((delta > 0.0) == prediction for delta in record["domain_psnr_delta"].values())
+            for record, prediction in zip(records, predictions)
+        ]
+        lead_fraction, lead_rows = _precursor_lead_fraction(records)
+        correlation = _spearman(
+            [float(row["score"]) for row in records],
+            [float(row["future_macro_psnr_delta"]) for row in records],
+        )
+        passes = (
+            len(records) >= 6
+            and len(heldout) >= 2
+            and lomo >= 0.65
+            and correlation >= 0.30
+            and float(np.mean(domain_counts)) >= 4.0
+            and (not lead_rows or lead_fraction >= 0.5)
+        )
+        signals.append({
+            "feature": feature,
+            "records": len(records),
+            "probes": sorted(heldout),
+            "leave_one_method_out_future_sign_accuracy": lomo,
+            "heldout_accuracy_by_method": heldout,
+            "balanced_future_sign_accuracy": _balanced_accuracy(labels, predictions),
+            "future_200_step_delta_spearman": correlation,
+            "mean_domain_sign_agreement_of_six": float(np.mean(domain_counts)),
+            "rows_with_at_least_four_domains_agreeing_fraction": float(np.mean([value >= 4 for value in domain_counts])),
+            "reversal_precursor_lead_fraction": lead_fraction,
+            "reversal_precursor_cases": lead_rows,
+            "driver_eligible": passes,
+            "threshold": "mathematical zero; no paired threshold fitting",
+            "paired_label_available_to_controller": False,
+        })
+    eligible = [row["feature"] for row in signals if row["driver_eligible"]]
+    return {
+        "schema": "final-unsb-local-route1-target-blind-signal-screen-v1",
+        "status": "ELIGIBLE_SIGNALS_FOUND" if eligible else "NO_ELIGIBLE_SHARED_SIGNAL",
+        "criteria": {
+            "minimum_records": 6,
+            "minimum_methods": 2,
+            "leave_one_method_out_future_sign_accuracy": 0.65,
+            "future_200_step_delta_spearman": 0.30,
+            "mean_domain_sign_agreement_of_six": 4.0,
+            "minimum_reversal_lead_fraction_when_observed": 0.5,
+        },
+        "signals": signals,
+        "eligible_driver_signals": eligible,
+        "paired_metrics_used_only_as_offline_post_branch_labels": True,
+        "paired_metrics_accessed_by_controller": False,
+        "confirmation20_opened": False,
+    }
+
+
 def _rank_failure_mechanisms(
     probe_summaries: list[dict], variance_summaries: list[dict],
+    signal_screen: dict,
 ) -> list[dict]:
     mechanisms: list[dict] = []
+    eligible = set(signal_screen.get("eligible_driver_signals", []))
     sign_support = [
         row["probe"] for row in probe_summaries
         if row["next_batch_consensus_mean"] is not None
@@ -1268,6 +1468,9 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(sign_support),
             "observable": "correction cosine with next independent native update",
             "construction_route": "future_batch_consensus_or_one_sided_constraint",
+            "candidate_generation_eligible": bool(
+                {"correction_next_native_cosine", "replicated_next_batch_consensus"} & eligible
+            ),
         })
     state_support = [
         row["probe"] for row in probe_summaries
@@ -1280,6 +1483,7 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(state_support),
             "observable": "same operator helps S_plain but harms its own induced state",
             "construction_route": "state_conditional_self_null_intervention",
+            "candidate_generation_eligible": bool(eligible),
         })
     amplitude_support = [
         row["probe"] for row in probe_summaries
@@ -1294,6 +1498,13 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(amplitude_support),
             "observable": "correction/native Adam displacement ratio",
             "construction_route": "adam_metric_trust_region",
+            "candidate_generation_eligible": bool(
+                "correction_within_native_scale_margin" in eligible
+            ),
+            "ineligible_reason": (
+                None if "correction_within_native_scale_margin" in eligible else
+                "the target-blind native-scale margin did not pass the signal screen"
+            ),
         })
     variance_support = []
     for row in variance_summaries:
@@ -1311,6 +1522,8 @@ def _rank_failure_mechanisms(
             "cross_probe_support": len(variance_support),
             "observable": "actual correction-field variance across independent unpaired batches and latent/time/bridge RNG",
             "construction_route": "unbiased_stratified_or_antithetic_estimator",
+            "candidate_generation_eligible": True,
+            "eligibility_basis": "unbiased estimator route does not require a paired-fitted controller",
         })
     return sorted(
         mechanisms,
@@ -1347,6 +1560,13 @@ def build_causal_matrix(output_root: Path) -> dict:
     summaries = [_classify_probe(rows, probe) for probe in probes]
     variance_summaries = [_variance_summary(variance_rows, probe) for probe in probes]
     complete = bool(expected) and not missing and not missing_variance
+    signal_screen = target_blind_signal_screen(rows, variance_rows) if complete else {
+        "schema": "final-unsb-local-route1-target-blind-signal-screen-v1",
+        "status": "BLOCKED_CAUSAL_ATLAS_INCOMPLETE",
+        "eligible_driver_signals": [],
+        "paired_metrics_accessed_by_controller": False,
+        "confirmation20_opened": False,
+    }
     matrix = {
         "schema": MATRIX_SCHEMA,
         "status": "COMPLETE_CAUSAL_AUDIT" if complete else "PARTIAL_CAUSAL_AUDIT",
@@ -1371,8 +1591,10 @@ def build_causal_matrix(output_root: Path) -> dict:
         ],
         "probe_summaries": summaries,
         "sampling_variance_summaries": variance_summaries,
+        "target_blind_signal_screen": signal_screen,
         "ranked_failure_mechanisms": (
-            _rank_failure_mechanisms(summaries, variance_summaries) if complete else []
+            _rank_failure_mechanisms(summaries, variance_summaries, signal_screen)
+            if complete else []
         ),
         "pulse_branches_are_diagnostics_not_exit_policies": True,
         "paired_labels_joined_only_after_branches": True,

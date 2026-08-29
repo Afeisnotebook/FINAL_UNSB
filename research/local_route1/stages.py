@@ -103,7 +103,10 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
     matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
     if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
         raise RuntimeError("causal matrix exists but is not complete")
-    mechanisms = list(matrix.get("ranked_failure_mechanisms", []))[:3]
+    ranked = list(matrix.get("ranked_failure_mechanisms", []))
+    mechanisms = [
+        row for row in ranked if row.get("candidate_generation_eligible") is True
+    ][:3]
     cards = []
     route = {
         "correction_sign_reversal": "future_batch_consensus_or_one_sided_constraint",
@@ -111,6 +114,7 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
         "sampling_variance": "unbiased_stratified_or_antithetic_estimator",
         "coordinate_horizon_imbalance": "identity_adaptive_coordinate",
         "rollout_distribution_speed": "bridge_gap_constrained_adaptive_teacher",
+        "state_feedback_missing": "state_conditional_self_null_intervention",
     }
     for index, mechanism in enumerate(mechanisms, 1):
         kind = mechanism["failure_type"]
@@ -130,9 +134,17 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
         })
     result = {
         "schema": "local-route1-derive-stage-v1",
-        "status": "DERIVATION_CARDS_REQUIRED",
+        "status": (
+            "DERIVATION_CARDS_REQUIRED"
+            if cards else "NO_ELIGIBLE_DRIVER_OR_UNBIASED_ROUTE"
+        ),
         "maximum_generation1_candidates": 3,
+        "ranked_failure_mechanisms": ranked,
+        "target_blind_signal_screen": matrix.get("target_blind_signal_screen"),
         "cards": cards,
+        "guard": (
+            "No paired-fitted controller may be generated. A failure mechanism without an eligible target-blind driver may only proceed through an independently justified unbiased construction."
+        ),
         "confirmation20_opened": False,
     }
     write_json(output_root / "derive" / "DERIVATION_QUEUE.json", result)

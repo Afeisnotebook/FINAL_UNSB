@@ -13,6 +13,7 @@ from research.local_route1.causal_audit import (
     _operator_modes,
     append_unique_rows,
     build_causal_matrix,
+    target_blind_signal_screen,
 )
 from research.local_route1.evaluate import select_discovery70
 from research.local_route1.interfaces import CounterfactualAuditor, StateObservation
@@ -218,13 +219,23 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
                 "branch_regime": regime,
                 "intervention_steps": intervention_steps,
                 "horizon": horizon,
-                "update_geometry": {"correction_norm": 0.5, "reference_norm": 1.0},
+                "update_geometry": {
+                    "correction_norm": 0.5,
+                    "reference_norm": 1.0,
+                    "correction_reference_cosine": -0.4,
+                },
                 "next_independent_native_consensus": (
                     {"cosine": -0.4}
                     if horizon == 1 and regime == "continuous_intervention" else None
                 ),
                 "post_branch_development_label": (
-                    {"macro_psnr_delta": 0.2 if source == "plain" else -0.1}
+                    {
+                        "macro_psnr_delta": 0.2 if source == "plain" else -0.1,
+                        "domain_psnr_delta": {
+                            f"d{index}": 0.2 if source == "plain" else -0.1
+                            for index in range(6)
+                        },
+                    }
                     if horizon == 200 else None
                 ),
             })
@@ -255,3 +266,47 @@ def test_causal_matrix_refuses_to_rank_until_every_registered_row_exists(tmp_pat
     assert "correction_sign_reversal" in failure_types
     assert "state_feedback_missing" in failure_types
     assert "sampling_variance" in failure_types
+
+
+def test_target_blind_signal_screen_uses_offline_labels_without_fitting_thresholds():
+    rows = []
+    for probe in ("dt", "hj", "hnek"):
+        mode = "forced_active_diagnostic" if probe == "dt" else "registered"
+        for epoch, score in ((20, 1.0), (100, -1.0)):
+            common = {
+                "probe": probe,
+                "data_epoch": epoch,
+                "source_state": "plain",
+                "operator_mode": mode,
+                "branch_regime": "continuous_intervention",
+            }
+            rows.append({
+                **common,
+                "horizon": 1,
+                "update_geometry": {
+                    "correction_reference_cosine": score,
+                    "correction_norm": 0.2,
+                    "reference_norm": 1.0,
+                },
+                "next_independent_native_consensus": {"cosine": score},
+                "native_component_directional_derivatives": {},
+            })
+            rows.append({
+                **common,
+                "horizon": 200,
+                "post_branch_development_label": {
+                    "macro_psnr_delta": score,
+                    "domain_psnr_delta": {f"d{index}": score for index in range(6)},
+                },
+            })
+    screen = target_blind_signal_screen(rows, [])
+    assert screen["status"] == "ELIGIBLE_SIGNALS_FOUND"
+    assert "correction_next_native_cosine" in screen["eligible_driver_signals"]
+    signal = next(
+        row for row in screen["signals"]
+        if row["feature"] == "correction_next_native_cosine"
+    )
+    assert signal["leave_one_method_out_future_sign_accuracy"] == pytest.approx(1.0)
+    assert signal["future_200_step_delta_spearman"] == pytest.approx(1.0)
+    assert signal["mean_domain_sign_agreement_of_six"] == pytest.approx(6.0)
+    assert signal["paired_label_available_to_controller"] is False
