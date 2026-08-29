@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-independent-hnek-autoimport-arm-v1",
+  "recorded": "2026-08-30T03:59:10+08:00",
+  "status": "WAITING_FOR_SOURCE_AND_MATCHED_PLAIN_E200",
+  "canonical_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_E200",
+  "source_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
+  "durable_session": "screen:FINAL_UNSB_ROUTE1_5090_HNEK_AUTOIMPORT",
+  "watcher_pid_at_observation": 18821,
+  "watcher_source_commit": "bffb5af319dd8f818b8eb2b67af4a4d01616b3ff",
+  "watcher_sha256": "eef2aabc2d950036375e742ca22689179ef1c14715e50d6d420129423505dbd4",
+  "importer_sha256": "89341e4b8f696985f45eac3708e7478d32e045d9ab29619995ac1956f880fcdf",
+  "watch_record_sha256_at_observation": "3c4ebbe616ca394090ae60330b77eeb0f827ce378c9ad1bbaa6147c043a86492",
+  "initial_observation": {
+    "canonical_plain_data_epoch": 86,
+    "independent_hnek_ready": false,
+    "timeout_seconds": 43200
+  },
+  "admission_conditions": [
+    "canonical same-host plain is exactly e200 and checkpoint hash matches",
+    "independent HNEK contract and result are COMPLETE_MATCHED_BASELINE_VERIFIED",
+    "independent HNEK full state and RUN_STATE are e200",
+    "canonical HNEK has not started and destination directory does not exist",
+    "source matched-plain file and scientific hashes still match canonical plain",
+    "copied file-tree hashes are identical and an IMPORT_VERIFIED receipt is written"
+  ],
+  "overwrite_allowed": false,
+  "training_update_changed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "The watcher only hardens future state transfer. No HNEK result is accepted or compared at this stage."
+}
