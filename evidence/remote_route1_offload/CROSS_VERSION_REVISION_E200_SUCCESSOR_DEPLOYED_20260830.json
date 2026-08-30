@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-route1-cross-version-revision-successor-deployment-v1",
+  "recorded_at": "2026-08-30T20:09:59+08:00",
+  "host": "192.168.0.30",
+  "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+  "worktree": "/home/yc/FINAL_UNSB_REVISION_SUCCESSOR_4412553",
+  "git_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
+  "worktree_clean": true,
+  "remote_test_result": {
+    "command": "/home/yc/anaconda3/envs/unsb_cov/bin/pytest -q",
+    "passed": 165,
+    "failed": 0,
+    "duration_seconds": 2.51
+  },
+  "contract": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_REVISION_SUCCESSOR_CONTRACT_4412553.json",
+    "sha256": "a6f33cf6d2f37ab77bc39aace56127750fe86fe28dc1360cd55b023fecf4d85d"
+  },
+  "durable_session": "tmux:FINAL_UNSB_REVISION_SUCCESSOR_4412553",
+  "initial_state": {
+    "status": "WAITING_FOR_TARGET_BLIND_REVISION_NEED",
+    "supervisor_pid": 1422863,
+    "waiting_for": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_FINAL_CAUSAL_REVISION_OUTCOME.json",
+    "paired_controller_access": false,
+    "paired_metric_scheduling": false,
+    "confirmation20_opened": false
+  },
+  "execution_policy": {
+    "development_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "requires_mathematically_frozen_generation2_child": true,
+    "requires_explicit_execution_authorization": true,
+    "refuses_to_invent_revision_formula": true,
+    "best_checkpoint_selection": false,
+    "fixed_window_or_handoff": false,
+    "paired_training_control": false
+  },
+  "impact_on_active_scientific_runs": {
+    "pcrsmg_training_identity_changed": false,
+    "pcrsmg_process_interrupted": false,
+    "seed2027_or_seed2028_started": false,
+    "revision_training_started": false
+  },
+  "claim_boundary": "This deployment closes the execution gap after a negative causal audit. It does not preselect or invent a revision, does not make the current e125 reversal terminal, and does not claim a positive or cross-seed result."
+}

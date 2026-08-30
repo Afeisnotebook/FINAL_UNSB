@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T19:46:11+08:00",
+  "state_snapshot_time": "2026-08-30T20:09:59+08:00",
   "phase": "GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "c7e3e95224005ac2ecb010acaf0a838fd3f2a1ed",
+  "development_head_at_state_write": "4412553088be4d764ed0ac3874918e49da1a7bd3",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -239,7 +239,7 @@
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 126,
+        "latest_observed_data_epoch": 147,
         "target_data_epoch": 200,
         "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
@@ -260,12 +260,13 @@
       "paired_metric_early_stop": false
     },
     "generation1_successor": {
-      "status": "SINGLE_SEED_SOURCE_BOUND_RANKING_NEGATIVE_SUBSPACE_AUDIT_AND_WINNER_ABLATION_ARMED",
-      "git_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
+      "status": "SINGLE_SEED_SOURCE_BOUND_RANKING_NEGATIVE_SUBSPACE_AUDIT_MATHEMATICAL_REVISION_AND_WINNER_ABLATION_ARMED",
+      "git_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
       "durable_sessions": [
         "tmux:FINAL_UNSB_SINGLE_SEED_CROSS_23dc0c8",
         "tmux:FINAL_UNSB_NEGATIVE_SUCCESSOR_6f3edf5",
-        "tmux:FINAL_UNSB_SINGLE_SEED_ABLATIONS_23dc0c8"
+        "tmux:FINAL_UNSB_SINGLE_SEED_ABLATIONS_23dc0c8",
+        "tmux:FINAL_UNSB_REVISION_SUCCESSOR_4412553"
       ],
       "freeze_only_numeric_gate_winner": true,
       "development_selection_seeds": [2026],
@@ -277,10 +278,12 @@
       "terminal_integrity_verification_before_ranking": true,
       "winner_proposal_observable_full_e200_ablations": true,
       "negative_replica_subspace_geometry": true,
+      "negative_path_generation2_e200_executor": true,
       "single_seed_proposal_challenger_selection": true,
       "evidence": [
         "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
         "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
       ]
     },
@@ -330,9 +333,9 @@
     },
     "latest_observed_dt_data_epoch": 200,
     "generation1_candidates": {
-      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 176, "target_data_epoch": 200},
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
-      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 51, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 57, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -359,6 +362,9 @@
     "negative_causal_successor_commit": "6f3edf5ef518320c541e459a7c0c671f7f9ca813",
     "negative_causal_successor_status": "ARMED_WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION",
     "negative_causal_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
+    "causal_revision_successor_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
+    "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
+    "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
     "winner_ablation_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
     "winner_ablation_successor_status": "ARMED_WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
     "winner_ablation_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
