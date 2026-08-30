@@ -89,7 +89,9 @@ def materialize(output_root: Path) -> dict:
                 raise RuntimeError(f"non-identical implementation already exists: {candidate_id}")
         else:
             write_json(implementation_path, implementation)
-        results.append(freeze_candidate_derivation(output_root, candidate_id))
+        results.append(
+            freeze_candidate_derivation(output_root, candidate_id).to_dict()
+        )
     return {
         "schema": "final-unsb-route1-generation1-materialization-v1",
         "status": "TWO_CANDIDATES_FROZEN_FOR_GATES",
@@ -108,4 +110,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
