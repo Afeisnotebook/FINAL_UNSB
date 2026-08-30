@@ -1,0 +1,86 @@
+{
+  "schema": "final-unsb-route1-mcrb-formula-implementation-audit-v1",
+  "recorded": "2026-08-30T22:56:00+08:00",
+  "status": "FORMULA_IMPLEMENTATION_EQUIVALENT_WITH_DECLARED_NUMERIC_MARGIN",
+  "scope": "Read-only audit of the frozen MCRB derivation card, exact 5090 training sources and target-blind e1/e80 method state. This is not an e200 quality decision.",
+  "training_identity": {
+    "git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+    "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+    "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+    "worktree_clean": true
+  },
+  "source_identity": {
+    "derivation_card_sha256": "0b2cf33d68a859908bedd34e083f04ea14307cd9283a54213e4897bd507ccc56",
+    "mcrb_operator_sha256": "352377e4c7049cbd7f6f8b1beea5c69f953b98b29ce279a6a5a5df507ccc0a23",
+    "model_registry_sha256": "43ce842cd44e360103c676c45bf5d2c5235c113d1799a20ca96e9bdf074f0a11",
+    "training_gate_source_sha256": "f55281c1a098decbe3c7e3593faecc585dcfc247c5b030820ba0b7a8805858c5",
+    "card_and_operator_match_current_main": true,
+    "later_main_gate_extensions_change_algorithm": false
+  },
+  "formula_to_code": [
+    {
+      "claim": "The moving defect is one half of the mean squared difference between current and one-epoch-EMA log directional covariance fields on the same current bridge state and common latent bundle.",
+      "implementation": "_mcrb_direction_covariance_defect constructs one latent list under RNG preservation, evaluates current and teacher on identical X_t/time/latents, computes log_direction_covariance and returns 0.5*difference.square().mean().",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "The constrained object is the exact displacement proposed by native Adam, not a raw gradient or auxiliary loss.",
+      "implementation": "_generator_optimizer_step stores pre-step parameters, calls the complete superclass generator optimizer step, and defines native displacement as post-Adam minus pre-Adam parameters.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "Safe native displacement is identity; unsafe displacement is projected onto the tangent halfspace while native Adam moments are retained.",
+      "implementation": "project_actual_displacement returns the original tensor list for dot<=0 or numerically zero tangent. Only unsafe parameters are overwritten with old+projected after the native optimizer has already updated its state; optimizer state is never rewritten.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "The temporal reference follows the committed candidate and self-nulls at a stable state.",
+      "implementation": "_update_mcrb_teacher runs after the projected/native displacement is committed with decay exp(-log(2)/150), updates floating state by EMA and copies nonfloating buffers.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "The observation is target blind and does not change rollout, endpoint forward, inference, D, E or F updates.",
+      "implementation": "The mixin overrides only the generator optimizer-step hook, reads the already formed unpaired real_A_noisy/time state, uses no evaluation dataset or paired field, restores CPU/CUDA RNG, and delegates all native losses and other player steps.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "EMA, counters and diagnostics are exactly resumable.",
+      "implementation": "get_extra_training_state and load_extra_training_state bind teacher weights, half-life, update/intervention counters, correction sum and last geometry; half-life mismatch fails closed.",
+      "verdict": "MATCH"
+    }
+  ],
+  "declared_numeric_boundary": {
+    "analytic_operator": "d*=d0-<a,d0>/||a||^2*a for an unsafe d0",
+    "represented_float32_operator": "adds 8*finfo(dtype).eps*max(1,abs(<a,d0>)) to the numerator before subtraction",
+    "reason": "prevent the represented float32 displacement from rounding back to the unsafe side",
+    "consequence": "The float32 result is a slightly interior feasible point rather than the literal boundary argmin; the derivation card already declares this dtype-derived feasibility margin.",
+    "tunable_projection_strength_present": false,
+    "scientific_identity_changed": false
+  },
+  "target_blind_execution_snapshot": {
+    "e1": {
+      "updates": 150,
+      "interventions": 81,
+      "intervention_fraction": 0.54,
+      "cumulative_correction_l2": 0.017458992453315263,
+      "last_covariance_gap_rms": 3.975913023757931,
+      "last_native_derivative": 3.9929434933869397,
+      "last_projected_derivative": -0.00000396539999697465
+    },
+    "e80": {
+      "updates": 12000,
+      "interventions": 6739,
+      "intervention_fraction": 0.5615833333333333,
+      "cumulative_correction_l2": 16.145802600321417,
+      "mean_correction_l2_per_intervention": 0.0023958751447279145,
+      "last_covariance_gap_rms": 0.7752510943344498,
+      "last_native_derivative": -1.1236666482004842,
+      "last_intervened": false
+    },
+    "interpretation": "The registered operator is materially active and has not accidentally collapsed to plain. Milestone diagnostics are descriptive target-blind state only; they do not authorize early stopping, code change or a PSNR claim."
+  },
+  "remaining_scientific_question": "Only the complete matched e200 trajectory can decide whether this mathematically faithful current implementation yields sustained quality benefit.",
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
