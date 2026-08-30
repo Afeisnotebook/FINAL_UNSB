@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-winner-ablation-gates-and-proposal-e200-start-v1",
+  "observed_at": "2026-08-31T01:28:01+08:00",
+  "status": "BOTH_GPU_GATES_PASS_PROPOSAL_ONLY_E200_RUNNING",
+  "parent_candidate": {
+    "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    "selection_role": "current_best_seed2026_e200_fallback",
+    "source_e200_selection_sha256": "0c94f510c6c6c76f63ed08377a0dc0f4bb83aa2af96ec22b804684c85b6aa9c2",
+    "projected_full_receipt_reused": true
+  },
+  "source_identity": {
+    "gate_git_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "training_host": "remote4090",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "seed": 2026,
+    "batch_size": 1,
+    "target_data_epochs": 200
+  },
+  "gpu_gates": {
+    "proposal_only": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "status": "PASS_LONG_RUN",
+      "algorithm_fingerprint": "0f0bda5033ab6f25ccb625dd3618232c8b90742866d81710bd2a61760f174ed6",
+      "candidate_fingerprint": "51d2e317db10341cc7a6aca3c5a5d69a95c7d6f36aa090da94210992ea62c1a1",
+      "gate_artifact_sha256": "a849fd7de6b13965d1d08dd607887f61406d29a2cc77bb37727603ecc3b93007",
+      "micro_updates": 400,
+      "micro_finite": true,
+      "active_method_diagnostic": "pcrsmg_proposal",
+      "zero_intervention_identity": true,
+      "resume_exact": true,
+      "cross_state_parent_hashes_preserved": true,
+      "target_blind": true
+    },
+    "observable_only": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-OBSERVABLE-ONLY",
+      "status": "PASS_LONG_RUN",
+      "algorithm_fingerprint": "4390b47a360834898c39a9bdea4b965bb329d194f5689c36854db44fd375f414",
+      "candidate_fingerprint": "a750e454cca9fbc19f32a45b2a0cb4c68031e8eb5936c00a550b32a320f92519",
+      "gate_artifact_sha256": "37caf16a8a188bdf2510d6b614cb963198df31fb619cf49afea925b3db8b04e9",
+      "micro_updates": 400,
+      "micro_finite": true,
+      "complete_next_update_dynamics_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+      "observer_metadata_excluded_from_identity_hash": true,
+      "resume_exact": true,
+      "cross_state_parent_hashes_preserved": true,
+      "target_blind": true
+    }
+  },
+  "long_run_snapshot": {
+    "supervisor_pid": 1452591,
+    "status": "WINNER_ABLATION_E200_RUNNING_SINGLE_STREAM",
+    "execution_policy": "SEQUENTIAL_SINGLE_STREAM_BY_MEASURED_WALL_CLOCK",
+    "maximum_parallel_e200_executors": 1,
+    "active_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "active_executor_pid": 1453304,
+    "latest_observed_data_epoch": 8,
+    "completed_candidate_ids": [],
+    "proposal_executor_contract_sha256": "6a4ea4175e99320d28d46cb603748bca423353f41c425087c5dad2c9faa0123e",
+    "scientific_early_stop": false
+  },
+  "emergency_single_seed_policy": {
+    "included_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "cross_seed_stability_claimed": false,
+    "saved_compute_use": "winner mechanism ablations before repeated initialization"
+  },
+  "safety": {
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "route2_or_handoff": false
+  },
+  "claim_boundary": "Both winner-specific executable GPU gates are complete. The proposal-only e200 experiment is nonterminal at this snapshot; no scientific result or final winner claim is made before its complete fixed e200 trajectory and the subsequent observable-only e200 trajectory exist."
+}

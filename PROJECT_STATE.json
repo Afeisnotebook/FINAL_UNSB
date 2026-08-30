@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T01:17:29+08:00",
-  "phase": "ALL_CANDIDATE_E200_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
+  "state_snapshot_time": "2026-08-31T01:28:01+08:00",
+  "phase": "ALL_CANDIDATE_E200_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "1cb93a4d81fe848d24fbef249c8890ae14ae3f4c",
+  "development_head_at_state_write": "9f7ff56bd9415b332288870db183e1ecd133d018",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -192,7 +192,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_CANDIDATES_E200_COMPLETE_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
+    "status": "ALL_CANDIDATES_E200_COMPLETE_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "authoritative host-matched Generation-1 ranking runtime; never mix a remote method with local or 5090 plain",
@@ -454,8 +454,8 @@
     "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
     "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
     "winner_ablation_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
-    "winner_ablation_successor_status": "PC_RSMG_FALLBACK_FROZEN_GPU_GATES_RUNNING_THEN_SEQUENTIAL_E200",
-    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
+    "winner_ablation_successor_status": "PC_RSMG_FALLBACK_FROZEN_BOTH_GPU_GATES_PASS_PROPOSAL_ONLY_E200_RUNNING",
+    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json",
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
@@ -478,7 +478,17 @@
     "all_candidate_terminal_selection_evidence": "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json",
     "amtnc_e200_terminal_evidence": "evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json",
     "mcrb_e200_terminal_evidence": "evidence/remote_route1_offload/MCRB_E200_TERMINAL_20260831.json",
-    "status": "PC_RSMG_SINGLE_SEED_FALLBACK_FROZEN_WINNER_ABLATION_GPU_GATES_RUNNING"
+    "winner_ablation_runtime": {
+      "status": "PROPOSAL_ONLY_E200_RUNNING",
+      "active_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "latest_observed_data_epoch": 8,
+      "target_data_epoch": 200,
+      "maximum_parallel_e200_executors": 1,
+      "proposal_only_gate_status": "PASS_LONG_RUN",
+      "observable_only_gate_status": "PASS_LONG_RUN",
+      "evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json"
+    },
+    "status": "PC_RSMG_SINGLE_SEED_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING"
   },
   "next_gate": "Complete PC-RSMG proposal-only and observable-only as sequential single-stream seed2026 e200 ablations after both short GPU gates pass. Reuse the existing projected/full PC-RSMG receipt, adjudicate all three complete trajectories, allow a complete proposal-only challenger to replace full under the emergency policy, and materialize the unique CANDIDATE plus two alternates. Seeds 2027/2028 remain deferred."
 }

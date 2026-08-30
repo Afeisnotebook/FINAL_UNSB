@@ -28,10 +28,13 @@ AM-TNC给出了目前最清楚的正而脆弱信号：晚三点PSNR均值`+0.105
 排第三。因为没有方法通过全部数值门，PC-RSMG只被冻结为seed2026当前最优fallback，
 不是已证实的稳定赢家；AM-TNC是正终点递补。
 
-截至`2026-08-31 01:17 +08:00`，4090持久后继已启动PC-RSMG的机制消融。projected/full
-直接复用原完整e200 receipt；proposal-only和observable-only先并行完成短GPU门，随后
-严格单流、依次从共同e0各跑真实e200。完整结果可以证明收益究竟来自双随机proposal、
-observable/投影还是二者组合；在两条消融结束前不会生成最终`CANDIDATE.json`。
+截至`2026-08-31 01:28 +08:00`，PC-RSMG的proposal-only和observable-only均已通过
+完整短GPU门，包括zero-intervention身份、精确resume、跨状态父hash隔离、target-blind
+以及400-update有限性。projected/full直接复用原完整e200 receipt；proposal-only现已从
+共同e0进入真实e200，快照为e8，结束后才由同一持久后继启动observable-only。完整结果
+可以证明收益究竟来自双随机proposal、observable/投影还是二者组合；在两条消融结束前
+不会生成最终`CANDIDATE.json`。compact证据见
+`evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json`。
 seed2027/2028继续延期，confirmation20、全量数据、路线二、退出阈值和handoff仍关闭。
 
 ## 为什么此前的“路线一完成”需要重审

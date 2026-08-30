@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T01:17:29+08:00",
+  "updated": "2026-08-31T01:28:01+08:00",
   "goal_status": "IN_PROGRESS_PC_RSMG_FALLBACK_WINNER_ABLATIONS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -197,7 +197,7 @@
     {
       "id": 11,
       "requirement": "The selected algorithm has proposal-only, observable-only and projected/full ablation evidence rather than definitions alone.",
-      "status": "WINNER_FROZEN_GPU_GATES_RUNNING_LONG_E200_EXPERIMENTS_PENDING",
+      "status": "WINNER_FROZEN_BOTH_GPU_GATES_PASS_PROPOSAL_ONLY_E200_RUNNING",
       "evidence": [
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
@@ -221,9 +221,10 @@
         ,"decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md"
         ,"evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json"
+        ,"evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json"
       ],
       "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Projected/full reuses the selected source-bound e200 receipt; proposal-only then observable-only run as two sequential single-stream e200 trajectories. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
-      "missing": ["winner-specific executable GPU gates complete", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
+      "missing": ["proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
   "current_accepted_scientific_boundary": {
@@ -231,7 +232,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP, PC-RSMG and AM-TNC complete e200. AM-TNC has late-three PSNR +0.105 dB and e200 +0.383 dB but late LPIPS fails. Frozen ranking selects PC-RSMG as current fallback by the preregistered late-three-first order, with AM-TNC second",
     "remote5090": "all anchors and MCRB e200 complete. MCRB ends at -0.730 dB with 3/6 domains positive and worst domain -2.175 dB, so its current implementation is negative, no 4090 replay started and no cross-host delta was merged",
     "new_algorithms": "BVCP, PC-RSMG, AM-TNC and MCRB all have complete long trajectories; none passes every strict gate. AM-TNC is a positive-but-fragile alternate and PC-RSMG is the current-best seed2026 fallback under the frozen primary ranking",
-    "successor": "commit 77bb987 completed source-bound terminal selection, froze PC-RSMG under the emergency single-seed policy, and started its proposal-only and observable-only GPU gates. Long ablations remain sequential single-stream; final CANDIDATE waits for both e200 trajectories",
+    "successor": "commit 77bb987 completed source-bound terminal selection and froze PC-RSMG under the emergency single-seed policy. Both winner-specific GPU gates passed; proposal-only is running to fixed e200, after which the same persistent sequential successor starts observable-only. Final CANDIDATE waits for both e200 trajectories",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

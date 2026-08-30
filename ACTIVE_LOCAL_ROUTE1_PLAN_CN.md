@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`ALL_CANDIDATES_E200_COMPLETE / PCRSMG_FALLBACK_FROZEN / WINNER_ABLATION_GATES_RUNNING`
+状态：`ALL_CANDIDATES_E200_COMPLETE / PCRSMG_FALLBACK_FROZEN / PROPOSAL_ONLY_E200_RUNNING`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -27,7 +27,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-31 01:17）
+## 当前执行事实（2026-08-31 01:28）
 
 - 4090权威474/140长期因果矩阵已冻结；BVCP、PC-RSMG和唯一二代修订AM-TNC均已
   完成同宿主matched e200。独立MCRB也已在5090完成e200；终点`-0.730 dB`且域护栏
@@ -39,7 +39,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   BVCP排第三。没有方法通过全部数值门，因此PC-RSMG被明确冻结为当前seed2026 fallback，
   不声称跨seed稳定或严格成功。
 - PC-RSMG projected/full直接复用其完整e200 receipt；proposal-only和observable-only
-  已启动短GPU身份门，门通过后按实测墙钟严格单流、依次各跑真实e200。长程并发上限为1。
+  已通过短GPU身份门。proposal-only已从共同e0进入真实e200（快照e8），完成后才启动
+  observable-only；按实测墙钟严格单流，长程并发上限为1。两门及运行身份见
+  `evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json`。
 - 本地1660的HJ e200审计完成；HNEK已完成e1/e5并在e20长虚拟分支中持久化13行，
   仅作补充，不替代4090权威因果矩阵。
 - 最终交付不再用候选ID猜executor合同文件名；它按receipt中的候选、训练commit、算法/
