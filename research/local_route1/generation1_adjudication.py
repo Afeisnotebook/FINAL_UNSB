@@ -15,10 +15,12 @@ import statistics
 from pathlib import Path
 from typing import Any, Iterable
 
+import torch
+
 from .candidate_runner import freeze_for_seed_validation
 from .candidates import load_candidate_registration, validate_candidate_id
-from .protocol import file_sha256
-from .runtime import write_json
+from .protocol import file_sha256, load_protocol
+from .runtime import full_state_hash, write_json
 
 
 SCHEMA = "final-unsb-route1-generation1-e200-adjudication-v1"
@@ -40,6 +42,129 @@ def _number(value: Any, *, default: float) -> float:
     except (TypeError, ValueError):
         return float(default)
     return result if math.isfinite(result) else float(default)
+
+
+def _metric_crn_identity(metric: dict[str, Any]) -> list[tuple[Any, ...]]:
+    images = metric.get("images")
+    if not isinstance(images, list) or len(images) != 420:
+        raise RuntimeError("terminal metric must contain exactly 420 discovery images")
+    return [
+        (
+            row.get("domain"), row.get("stem"), int(row.get("order", -1)),
+            row.get("crn_bundle_sha256"),
+        )
+        for row in images if isinstance(row, dict)
+    ]
+
+
+def _validate_terminal_artifacts(
+    *, output_root: Path, candidate_id: str, registration: Any,
+) -> dict[str, Any]:
+    """Independently accept e200 state and every registered metric post-hoc."""
+    protocol = load_protocol()
+    candidate_root = output_root / "candidates" / candidate_id
+    target = int(protocol["local_view"]["target_updates_per_lane"])
+    epochs = [int(value) for value in protocol["local_view"]["trajectory_epochs"]]
+    lpips_epochs = {int(value) for value in protocol["local_view"]["lpips_epochs"]}
+
+    latest = candidate_root / "full_state_latest.pt"
+    latest_sidecar_path = Path(str(latest) + ".json")
+    if not latest.is_file() or not latest_sidecar_path.is_file():
+        raise RuntimeError(f"candidate terminal full state is missing: {candidate_id}")
+    latest_sidecar = _read_json(latest_sidecar_path)
+    required_latest = {
+        "schema": "final-unsb-local-route1-full-state-v1",
+        "probe_id": candidate_id,
+        "step": target,
+        "physical_epoch_completed": 200,
+        "target_steps": target,
+    }
+    for key, expected in required_latest.items():
+        if latest_sidecar.get(key) != expected:
+            raise RuntimeError(f"candidate terminal sidecar {key} mismatch: {candidate_id}")
+    if file_sha256(latest) != latest_sidecar.get("full_state_sha256"):
+        raise RuntimeError(f"candidate terminal checkpoint hash mismatch: {candidate_id}")
+    metadata = latest_sidecar.get("metadata", {})
+    for key, expected in {
+        "candidate_id": candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "candidate_fingerprint": registration.candidate_fingerprint,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }.items():
+        if metadata.get(key) != expected:
+            raise RuntimeError(f"candidate terminal metadata {key} mismatch: {candidate_id}")
+    payload = torch.load(latest, map_location="cpu", weights_only=False)
+    if int(payload.get("step", -1)) != target:
+        raise RuntimeError(f"candidate terminal payload is not e200: {candidate_id}")
+    if full_state_hash(payload) != latest_sidecar.get("scientific_state_sha256"):
+        raise RuntimeError(f"candidate terminal scientific state hash mismatch: {candidate_id}")
+
+    metric_hashes: dict[str, str] = {}
+    milestone_hashes: dict[str, str] = {}
+    for epoch in epochs:
+        milestone = candidate_root / "milestones" / f"e{epoch:03d}.pt"
+        sidecar_path = Path(str(milestone) + ".json")
+        metric_path = candidate_root / "metrics" / f"e{epoch:03d}.json"
+        plain_path = output_root / "anchors" / "plain" / "metrics" / f"e{epoch:03d}.json"
+        for path in (milestone, sidecar_path, metric_path, plain_path):
+            if not path.is_file():
+                raise RuntimeError(f"registered terminal evidence is missing: {path}")
+        sidecar = _read_json(sidecar_path)
+        expected_step = int(epoch * target // 200)
+        if (
+            sidecar.get("probe_id") != candidate_id
+            or int(sidecar.get("step", -1)) != expected_step
+            or int(sidecar.get("physical_epoch_completed", -1)) != epoch
+            or sidecar.get("metadata", {}).get("algorithm_fingerprint")
+            != registration.algorithm_fingerprint
+            or sidecar.get("metadata", {}).get("candidate_fingerprint")
+            != registration.candidate_fingerprint
+        ):
+            raise RuntimeError(f"candidate milestone identity mismatch: {candidate_id} e{epoch}")
+        milestone_hash = file_sha256(milestone)
+        if milestone_hash != sidecar.get("full_state_sha256"):
+            raise RuntimeError(f"candidate milestone checkpoint hash mismatch: {candidate_id} e{epoch}")
+        if epoch == 200 and sidecar.get("scientific_state_sha256") != latest_sidecar.get(
+            "scientific_state_sha256"
+        ):
+            raise RuntimeError(f"candidate e200 latest/milestone scientific state differ: {candidate_id}")
+
+        metric = _read_json(metric_path)
+        plain = _read_json(plain_path)
+        required_metric = {
+            "schema": "local-route1-discovery70-crn-single-rollout-v1",
+            "split": "discovery",
+            "count_per_domain": 70,
+            "replicates": 1,
+            "protocol_fingerprint": registration.base_protocol_fingerprint,
+            "evaluation_input_sha256": plain.get("evaluation_input_sha256"),
+            "candidate_id": candidate_id,
+            "algorithm_fingerprint": registration.algorithm_fingerprint,
+            "candidate_fingerprint": registration.candidate_fingerprint,
+            "epoch": epoch,
+            "updates": expected_step,
+            "data_epoch": epoch,
+            "lpips_requested": epoch in lpips_epochs,
+        }
+        for key, expected in required_metric.items():
+            if metric.get(key) != expected:
+                raise RuntimeError(f"candidate metric {key} mismatch: {candidate_id} e{epoch}")
+        if _metric_crn_identity(metric) != _metric_crn_identity(plain):
+            raise RuntimeError(f"candidate/plain CRN bundle mismatch: {candidate_id} e{epoch}")
+        milestone_hashes[str(epoch)] = milestone_hash
+        metric_hashes[str(epoch)] = file_sha256(metric_path)
+
+    return {
+        "status": "ACCEPTED_COMPLETE_E200_ARTIFACT_SET",
+        "terminal_checkpoint_sha256": file_sha256(latest),
+        "terminal_scientific_state_sha256": latest_sidecar["scientific_state_sha256"],
+        "milestone_checkpoint_sha256": milestone_hashes,
+        "metric_sha256": metric_hashes,
+        "evaluation_crn_matched_to_plain": True,
+        "paired_metric_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }
 
 
 def trajectory_rank_key(
@@ -144,6 +269,10 @@ def adjudicate_generation1(
                 "reason": f"trajectory status is {trajectory.get('status')}",
             })
             continue
+        terminal_integrity = _validate_terminal_artifacts(
+            output_root=output_root, candidate_id=candidate_id,
+            registration=registration,
+        )
         median_seconds = _median_epoch_seconds(candidate_root)
         complete.append({
             "candidate_id": candidate_id,
@@ -155,6 +284,7 @@ def adjudicate_generation1(
             "median_epoch_wall_seconds": median_seconds,
             "derivation_card": str(registration.card_path),
             "implementation": str(registration.implementation_path),
+            "terminal_integrity": terminal_integrity,
         })
 
     if pending:
@@ -210,6 +340,7 @@ def adjudicate_generation1(
             "median_epoch_wall_seconds": row["median_epoch_wall_seconds"],
             "derivation_card": row["derivation_card"],
             "implementation": row["implementation"],
+            "terminal_integrity": row["terminal_integrity"],
         })
 
     eligible = [row for row in ranked if row["trajectory"]["status"] == POSITIVE_STATUS]
@@ -251,4 +382,3 @@ def adjudicate_generation1(
     }
     write_json(output_root / "operations" / "GENERATION1_E200_ADJUDICATION.json", result)
     return result
-
