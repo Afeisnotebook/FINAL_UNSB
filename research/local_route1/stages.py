@@ -202,7 +202,9 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
     ][:3]
     cards = []
     route = {
-        "correction_sign_reversal": "future_batch_consensus_or_one_sided_constraint",
+        "correction_sign_reversal": (
+            "independent_future_native_gradient_consensus_or_one_sided_constraint"
+        ),
         "correct_direction_unstable_magnitude": "adam_metric_trust_region",
         "sampling_variance": "unbiased_stratified_or_antithetic_estimator",
         "coordinate_horizon_imbalance": "identity_adaptive_coordinate",

@@ -2189,7 +2189,15 @@ def _rank_failure_mechanisms(
             "supporting_probes": sign_support,
             "cross_probe_support": len(sign_support),
             "observable": "correction cosine with next independent native update",
-            "construction_route": "future_batch_consensus_or_one_sided_constraint",
+            "construction_route": (
+                "independent_future_native_gradient_consensus_or_one_sided_constraint"
+            ),
+            "search005_fbcmp_equivalent_forbidden": True,
+            "equivalence_boundary": (
+                "G2-HJ-FBCMP compared previous and current auxiliary correction "
+                "fields; an open construction must use the independently measured "
+                "future native UNSB field or a different evidenced operator"
+            ),
             "candidate_generation_eligible": bool(shared_drivers or method_drivers),
             "eligible_target_blind_driver_signals": shared_drivers,
             "eligible_method_specific_driver_signals_by_probe": method_drivers,

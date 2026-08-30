@@ -1002,6 +1002,17 @@ def test_probe_classification_does_not_hide_late_sign_or_scale_failure_in_mean()
     failure_types = {row["failure_type"] for row in ranked}
     assert "correction_sign_reversal" in failure_types
     assert "correct_direction_unstable_magnitude" in failure_types
+    sign = next(
+        row for row in ranked
+        if row["failure_type"] == "correction_sign_reversal"
+    )
+    assert sign["construction_route"] == (
+        "independent_future_native_gradient_consensus_or_one_sided_constraint"
+    )
+    assert sign["search005_fbcmp_equivalent_forbidden"] is True
+    assert "previous and current auxiliary correction" in sign[
+        "equivalence_boundary"
+    ]
 
 
 def test_both_state_harm_routes_to_mathematical_rewrite_not_exit_schedule():
