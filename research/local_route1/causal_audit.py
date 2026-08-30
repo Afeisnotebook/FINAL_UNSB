@@ -1963,7 +1963,7 @@ def _rank_mechanisms_by_discovery_evidence(
                 str(row["probe"]), int(row["data_epoch"])
             )
             and row.get("branch_regime") == "continuous_intervention"
-            and int(row.get("horizon", 0)) in (1, 8, 32)
+            and int(row.get("horizon", 0)) == 200
             and row.get("post_branch_development_label")
         ]
         short_positive_fraction = (
@@ -1994,7 +1994,8 @@ def _rank_mechanisms_by_discovery_evidence(
             "target_blind_domain_sign_agreement_of_six": domain_score,
             "eligible_signal_evidence": signal_metrics,
             "short_counterfactual": {
-                "horizons_updates": [1, 8, 32],
+                "horizons_updates": [200],
+                "data_epochs_at_small25": 200.0 / 150.0,
                 "records": len(short_labels),
                 "positive_fraction": short_positive_fraction,
                 "mean_macro_psnr_delta": short_mean_delta,
