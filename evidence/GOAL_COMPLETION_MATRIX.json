@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T00:00:32+08:00",
+  "updated": "2026-08-31T00:16:05+08:00",
   "goal_status": "IN_PROGRESS_GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -94,14 +94,15 @@
         "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json"
         ,"evidence/remote_route1_offload/MCRB_E125_REVERSAL_OBSERVED_20260830.json"
         ,"evidence/remote_route1_offload/AMTNC_E125_REVERSAL_OBSERVED_20260830.json"
+        ,"evidence/remote_route1_offload/MCRB_E150_FIXED_MILESTONE_20260831.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
         "BVCP_status": "complete e200; frozen current implementation is long-horizon negative; parent mechanism remains open",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "PCRSMG_status": "complete e200; late-three positive but strict terminal gate negative at -0.001379 dB; its reduced defect authorized AM-TNC",
-        "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 accepted e125/18750 updates and reached e129; its e100 +1.660 dB relative advantage reversed to -0.333 dB at e125 even though candidate absolute PSNR improved, so the unchanged run continues to e200",
-        "MCRB_status": "formula/code identity audited; independent 5090 e200 accepted e135/20250 updates after the fixed e125 descriptive reversal and continues unchanged toward e200 with conditional same-host 4090 replay",
+        "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 accepted e125/18750 updates and reached e146; its e100 +1.660 dB relative advantage reversed to -0.333 dB at e125 even though candidate absolute PSNR improved, so the unchanged run continues to e200",
+        "MCRB_status": "formula/code identity audited; independent 5090 e200 completed the first late point e150 at +0.894 dB with 6/6 domains positive and continued to e155. Candidate improvement and a plain downswing both contributed, LPIPS is unavailable for the 5090 plain e150, and no 4090 replay starts before a complete positive e200 receipt",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -215,7 +216,7 @@
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which accepted e125 and reached e129 under commit 977ce32. Its relative delta changed from +1.660 dB at e100 to -0.333 dB at e125 while candidate absolute PSNR still improved, so this is a descriptive relative reversal and not an early-control event",
-    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB accepted e135 after fixed e125 delta -0.770 dB versus e100 +2.158 dB. The reversal is descriptive, the unchanged run continues to e200, and no 5090 result may be merged into the 4090 ranking",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB completed e150 at +0.894 dB with 6/6 domains positive after its e125 reversal. Candidate PSNR rose 1.074 dB while plain declined 0.590 dB; this is only the first late point, 5090 plain LPIPS is unavailable, the unchanged run continues to e200, and no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
     "successor": "commit 77bb987 deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts source-bound sequential single-stream winner ablations. Final reproduction is bound to the unique real executor contract rather than a guessed filename; 201 local tests and 18 remote4090 terminal-chain tests pass, while terminal candidate and ablation trajectories correctly remain pending",
     "confirmation20_opened": false

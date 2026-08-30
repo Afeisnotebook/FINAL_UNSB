@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-route1-mcrb-e150-fixed-milestone-v1",
+  "recorded": "2026-08-31T00:15:50+08:00",
+  "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "method_name": "MCRB",
+  "candidate_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+  "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+  "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+  "execution_role": "independent_5090_mechanism_discovery_pending_conditional_authoritative_4090_replay",
+  "fixed_e150_observation": {
+    "updates": 22500,
+    "candidate_macro_psnr": 16.883320865345734,
+    "plain_macro_psnr": 15.989093248916094,
+    "macro_psnr_delta": 0.8942276164296405,
+    "macro_ssim_delta": 0.04633416600880175,
+    "macro_lpips_delta": null,
+    "lpips_guardrail_status": "UNAVAILABLE_FOR_5090_PLAIN_E150",
+    "positive_domains": 6,
+    "worst_domain_delta": 0.3846335863189658,
+    "per_domain_psnr_delta": {
+      "FoggyCityscapes": 1.3776243798586574,
+      "LowLightTrafficData": 0.3846335863189658,
+      "RSCityscapes": 0.6593935198856862,
+      "RainCityscapes": 0.9744075018345129,
+      "RainDS-syn": 0.6632203825869301,
+      "SnowTrafficData": 1.3060863280930821
+    },
+    "metric_sha256": "aa13d06dac3bd021b43acb13f70234bda0273aed29cc02fac0b98557a56eb738",
+    "plain_metric_sha256": "c5485ddeb8a7be811865096576af119aa729c637492c7ea9ba1cab6f086552cf",
+    "milestone_checkpoint_sha256": "ed4ba8b9c4d93fe551c67573949217c080978275ecef4f383e4de10cd6169648",
+    "milestone_sidecar_sha256": "d4692caa8da518d8d4663d6cf9953cc2744c3d81e369b72704004d19e69799ba",
+    "scientific_state_sha256": "76f054d0a3165a34b384c991298dff38a0d19061b8347d198e2dda329c02db0a"
+  },
+  "e125_to_e150_decomposition": {
+    "delta_change_db": 1.6641156998315054,
+    "candidate_absolute_change_db": 1.0737401822435775,
+    "plain_absolute_change_db": -0.590375517587928,
+    "interpretation": "MCRB improved absolutely while the same-host plain trajectory declined, so both candidate progress and a plain downswing contributed to the recovered relative advantage."
+  },
+  "live_continuation": {
+    "executor_pid": 85899,
+    "e150_to_e155_child_pid": 98445,
+    "next_chunk_started": true,
+    "scientific_early_stop": false,
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "adjudication": {
+    "status": "FIRST_LATE_POINT_POSITIVE_CONTINUE_FIXED_E200",
+    "eligible_for_authoritative_4090_replay": false,
+    "reason": "e150 is only the first member of the preregistered e150/e175/e200 late-three set. The independent-host trajectory and the terminal e200 receipt remain incomplete.",
+    "authorized_action": "Continue the unchanged MCRB trajectory to e175 and e200 and retain the absolute/relative decomposition.",
+    "forbidden_actions": [
+      "start the 4090 replay before a complete positive 5090 e200 receipt",
+      "merge the 5090 delta into the 4090 ranking",
+      "select e150 as the candidate checkpoint",
+      "fit an exit threshold or handoff",
+      "open confirmation20"
+    ]
+  }
+}
