@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
+  "state_snapshot_time": "2026-08-30T14:45:00+08:00",
+  "phase": "GENERATION1_BVCP_RSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "56f2740",
+  "development_head_at_state_write": "7b5c64613e5316dc7f4f184581cb0f97b6967a08",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -17,8 +18,8 @@
       "latest_observed_data_epoch": 200,
       "target_data_epoch": 200
     },
-    "hj": {"latest_observed_data_epoch": 107, "latest_observed_updates": 16050, "target_data_epoch": 200},
-    "hnek": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
+    "hj": {"latest_observed_data_epoch": 200, "latest_observed_updates": 30000, "target_data_epoch": 200},
+    "hnek": {"data_epoch": 80, "updates": 12000, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
     "plain_e100_official_metric_pending_recovery": false,
@@ -122,7 +123,7 @@
     ,"short counterfactual ranking uses the actually labeled 200-update branch rather than unlabeled 1/8/32-update geometry rows"
   ],
   "phase_c": {
-    "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",
+    "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
     "semantics": "u0/ui on plain and method full states with 1/8/32/200-step serial branches",
     "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
     "audit_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_AUDITOR_3908993",
@@ -131,8 +132,13 @@
     "primary_audit_host": "final-unsb-4090",
     "frozen_jobs": 25,
     "maximum_parallel_jobs": 2,
-    "first_observed_rows": 54,
-    "observed_sampling_variance_rows": 4,
+    "first_observed_rows": 474,
+    "observed_sampling_variance_rows": 140,
+    "final_reversal_rows": 474,
+    "final_sampling_variance_rows": 140,
+    "long_causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+    "long_reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
+    "final_analysis_commit": "64621661ed7617bb930ecac5a19159deb1f112cf",
     "first_rows_parent_state_unchanged": true,
     "audit_scope": "continuous operator validity, pulse-to-native propagation, 8-replicate batch/latent-time correction variance, and offline target-blind signal eligibility screening",
     "posthoc_matrix_analysis_commit": "b2e44809018ee06a9bbd185afe3d144ceb90c551",
@@ -155,7 +161,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_FOUR_ANCHORS_E200_ACCEPTED_PROXY_CALIBRATED_CAUSAL_AUDIT_RUNNING",
+    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_TWO_GENERATION1_E200_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "supplementary host-matched route1 replica; never mix a remote method with local plain",
@@ -178,13 +184,13 @@
     "independent_hnek_autocomplete_evidence": "evidence/remote_route1_offload/REMOTE4090_HNEK_AUTOCOMPLETE_ARMED.json",
     "parallel_probe_evidence": "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
     "evidence": "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
-    "auditor_status": "RUNNING_25_JOB_IMMUTABLE_QUEUE_MAX2",
+    "auditor_status": "COMPLETE_FINAL_474_REVERSAL_140_VARIANCE",
     "auditor_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
     "auditor_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
     "auditor_evidence": "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
-    "auditor_latest_reversal_rows": 83,
-    "auditor_latest_sampling_variance_rows": 13,
-    "auditor_active_jobs": ["dt_e60", "dt_e100"],
+    "auditor_latest_reversal_rows": 474,
+    "auditor_latest_sampling_variance_rows": 140,
+    "auditor_active_jobs": [],
     "latest_observed_gpu_utilization_percent": 98,
     "proxy_calibration": {
       "status": "CALIBRATED",
@@ -200,11 +206,30 @@
     "dt_e200_worst_domain_delta_db": -1.5765365947151562,
     "dt_scientific_status": "positive_probe_not_candidate",
     "dt_intervention_tail_observed_zero": true,
+    "generation1_candidates": {
+      "training_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
+        "method_name": "BVCP",
+        "gate_status": "PASS_LONG_RUN",
+        "latest_observed_data_epoch": 16,
+        "target_data_epoch": 200,
+        "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa"
+      },
+      "G1-02-SAMPLING-VARIANCE": {
+        "method_name": "RSMG",
+        "gate_status": "PASS_LONG_RUN",
+        "latest_observed_data_epoch": 13,
+        "target_data_epoch": 200,
+        "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333"
+      },
+      "execution_role": "authoritative same-runtime ranking against remote4090 plain",
+      "paired_metric_early_stop": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "PLAIN_AND_HNEK_E200_ACCEPTED_HJ_RUNNING_PROXY_NOT_YET_CALIBRATED",
+    "status": "ALL_ANCHORS_E200_COMPLETE_SUPPLEMENTAL_GENERATION1_E200_RUNNING",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -219,7 +244,7 @@
     "shared_e0_file_and_scientific_hash_match": true,
     "initial_observed_data_epoch": 1,
     "latest_observed_plain_data_epoch": 200,
-    "latest_observed_hj_data_epoch": 82,
+    "latest_observed_hj_data_epoch": 200,
     "latest_observed_independent_hnek_data_epoch": 200,
     "independent_hnek_output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
     "independent_hnek_admission": "ACCEPTED_AFTER_SAME_HOST_PLAIN_E200_HASH_VERIFICATION",
@@ -227,7 +252,7 @@
     "independent_hnek_autoimport_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_AUTOIMPORT_ARMED.json",
     "supervisor": "screen:FINAL_UNSB_ROUTE1_REMOTE5090",
     "evidence": "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
-    "auditor_status": "FINAL_SUPERVISOR_WAITING_SELECTED_HNEK_SUBGRAPH_AUDIT_RUNNING",
+    "auditor_status": "SUPPLEMENTAL_CAUSAL_EVIDENCE_COMPLETE_NOT_MERGED_WITH_4090",
     "auditor_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
     "auditor_evidence": "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
     "hnek_e200_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_E200_VERIFICATION.json",
@@ -237,10 +262,19 @@
     "hnek_audit_latest_sampling_variance_rows": 8,
     "latest_observed_gpu_utilization_percent": 98,
     "proxy_calibration": {
-      "status": "INSUFFICIENT_HNEK_ALONE_WAITING_FOR_HJ_E200",
+      "status": "CALIBRATED_BY_HJ",
       "hnek_late_three_macro_psnr_delta_db": 0.6082221582704617,
+      "hj_late_three_macro_psnr_delta_db": 0.2897780400929794,
+      "hj_e200_macro_psnr_delta_db": -0.5823944524550777,
       "late_points_with_at_least_four_positive_domains": 1,
-      "dt_locked_until_hj_e200": true
+      "dt_locked_until_hj_e200": false
+    },
+    "latest_observed_dt_data_epoch": 200,
+    "generation1_candidates": {
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 5, "target_data_epoch": 200},
+      "G1-02-SAMPLING-VARIANCE": {"latest_observed_data_epoch": 4, "target_data_epoch": 200},
+      "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
+      "runtime_equivalent_to_4090": false
     },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
@@ -252,7 +286,11 @@
     "evidence_bound_derivation_contract_commit": "266134f",
     "same_host_plain_environment_binding_commit": "79a6300",
     "causal_hypothesis_ledger_commit": "cde4d9b",
-    "status": "READY_BUT_BLOCKED_UNTIL_CAUSAL_ATLAS_AND_DERIVATION"
+    "generation1_derivation_commit": "2efe06ac71fb98b57d94fd3d683d0dee220f88ec",
+    "generation1_implementation_commit": "71321ee9d0d6523727491cafe5c4e488f096c82b",
+    "generation1_gate_commit": "b113544829575d0354b2a7ffa6c7eb7f9199e141",
+    "candidate_executor_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+    "status": "TWO_EVIDENCE_DERIVED_CANDIDATES_PASS_GATES_MATCHED_E200_RUNNING"
   },
-  "next_gate": "Complete and verify the remote4090 immutable 25-job causal audit and LONG_CAUSAL_MATRIX, then derive and implement new formulas under the historical-equivalence and target-blind contracts; do not prewrite a candidate before the matrix is frozen."
+  "next_gate": "Complete BVCP and RSMG from shared e0 to e200 without intermediate control; adjudicate e150/e175/e200, then either freeze a positive algorithm for seed2027 or use the single evidence-bound mathematical revision only when its target-blind defect decreased but long-horizon benefit reversed."
 }
