@@ -861,6 +861,89 @@ def test_signal_records_do_not_call_an_inactive_correction_low_variance():
     assert "minimum_block_correction_native_cosine" not in records
 
 
+def test_signal_records_consume_probe_internal_defects_at_mathematical_zeroes():
+    rows = []
+    for epoch, mismatch in ((20, 2.0), (40, 1.0)):
+        common = {
+            "probe": "dt", "data_epoch": epoch, "source_state": "dt",
+            "operator_mode": causal_audit._preferred_operator_mode("dt", epoch),
+            "branch_regime": "continuous_intervention",
+        }
+        rows.extend([{
+            **common, "horizon": 1,
+            "update_geometry": {
+                "correction_reference_cosine": 0.1,
+                "correction_norm": 0.2,
+                "reference_norm": 1.0,
+            },
+            "native_component_directional_derivatives": {},
+            "reference_observation": {"bridge": {}},
+            "proposal_observation": {
+                "bridge": {},
+                "method_internal": {"dt_loss_u_match": mismatch},
+            },
+        }, {
+            **common, "horizon": 200,
+            "post_branch_development_label": {
+                "macro_psnr_delta": 0.1,
+                "domain_psnr_delta": {f"d{index}": 0.1 for index in range(6)},
+            },
+        }])
+    common = {
+        "probe": "hj", "data_epoch": 20, "source_state": "hj",
+        "operator_mode": "registered",
+        "branch_regime": "continuous_intervention",
+    }
+    rows.extend([{
+        **common, "horizon": 1,
+        "update_geometry": {
+            "correction_reference_cosine": 0.1,
+            "correction_norm": 0.2,
+            "reference_norm": 1.0,
+        },
+        "native_component_directional_derivatives": {},
+        "reference_observation": {"bridge": {}},
+        "proposal_observation": {
+            "bridge": {},
+            "method_internal": {
+                "hj_active": 1.0,
+                "hj_probe_sum": 0.75,
+                "hj_risk_sum": 0.25,
+            },
+        },
+    }, {
+        **common, "horizon": 200,
+        "post_branch_development_label": {
+            "macro_psnr_delta": 0.1,
+            "domain_psnr_delta": {f"d{index}": 0.1 for index in range(6)},
+        },
+    }])
+
+    records = causal_audit._signal_records(rows, [])
+    assert [
+        item["score"]
+        for item in records["dt_covariance_mismatch_applicability"]
+    ] == pytest.approx([2.0, 1.0])
+    assert records["dt_covariance_mismatch_descent_margin"][0][
+        "score"
+    ] == pytest.approx(0.5)
+    assert records["hj_supported_structure_conflict_margin"][0][
+        "score"
+    ] == pytest.approx(0.2)
+    screen = target_blind_signal_screen(rows, [])
+    coverage = screen["probe_internal_observable_coverage"]
+    assert "dt_covariance_mismatch_descent_margin" in coverage["dt"][
+        "screened_features"
+    ]
+    assert "hj_supported_structure_conflict_margin" in coverage["hj"][
+        "screened_features"
+    ]
+    assert "low_time_conditioning_spread_margin" in coverage["hnek"][
+        "screened_features"
+    ]
+    assert screen["paired_metrics_accessed_by_controller"] is False
+
+
 def test_variance_summary_excludes_inactive_zero_correction_rows():
     rows = [{
         "probe": "hj", "data_epoch": 20, "source_state": "plain",

@@ -1481,6 +1481,7 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
     }
     result: dict[str, list[dict]] = defaultdict(list)
     temporal_rollout: list[dict] = []
+    temporal_dt_mismatch: list[dict] = []
     for key, row in one_step.items():
         label = labels.get(key)
         if label is None:
@@ -1510,6 +1511,37 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
             features["correction_next_native_cosine"] = float(consensus["cosine"])
         reference_bridge = row.get("reference_observation", {}).get("bridge", {})
         proposal_bridge = row.get("proposal_observation", {}).get("bridge", {})
+        proposal_internal = row.get("proposal_observation", {}).get(
+            "method_internal", {}
+        )
+        if key[0] == "dt":
+            mismatch = proposal_internal.get("dt_loss_u_match")
+            if mismatch is not None:
+                mismatch = max(float(mismatch), 0.0)
+                # DT's own objective has a natural identity boundary: when the
+                # covariance mismatch is zero there is no defect for DT to
+                # correct.  This is an applicability observable, not a fitted
+                # exit threshold.
+                features["dt_covariance_mismatch_applicability"] = mismatch
+                temporal_dt_mismatch.append({
+                    "probe": key[0], "data_epoch": key[1],
+                    "source_state": key[2], "operator_mode": key[3],
+                    "mismatch": mismatch, "label": label,
+                })
+        elif key[0] == "hj":
+            agreement = proposal_internal.get("hj_probe_sum")
+            risk = proposal_internal.get("hj_risk_sum")
+            active = float(proposal_internal.get("hj_active", 0.0)) > 0.0
+            if agreement is not None and risk is not None and active:
+                # The HJ probe is supported only when its two-sided structural
+                # evidence agrees above chance and the normalized risk clears
+                # the frozen mechanism's own absolute-risk boundary.  Both
+                # zero points are fixed by the mathematics/configuration, not
+                # by paired development labels.
+                features["hj_supported_structure_conflict_margin"] = min(
+                    2.0 * float(agreement) - 1.0,
+                    float(risk) - 0.05,
+                )
         reference_velocity = reference_bridge.get("rollout_velocity_l2")
         proposal_velocity = proposal_bridge.get("rollout_velocity_l2")
         if reference_velocity is not None and proposal_velocity is not None:
@@ -1663,6 +1695,28 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
             score = (previous_velocity - current_velocity) / max(previous_velocity, 1e-20)
             label = current["label"]
             result["rollout_velocity_growth_margin"].append({
+                "probe": current["probe"],
+                "data_epoch": current["data_epoch"],
+                "source_state": current["source_state"],
+                "score": score,
+                "future_macro_psnr_delta": float(label["macro_psnr_delta"]),
+                "future_positive": bool(float(label["macro_psnr_delta"]) > 0.0),
+                "domain_psnr_delta": dict(label["domain_psnr_delta"]),
+                "paired_label_available_to_controller": False,
+            })
+    dt_groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for record in temporal_dt_mismatch:
+        dt_groups[(record["probe"], record["source_state"])].append(record)
+    for records in dt_groups.values():
+        records.sort(key=lambda item: item["data_epoch"])
+        for previous, current in zip(records, records[1:]):
+            previous_mismatch = float(previous["mismatch"])
+            if previous_mismatch <= 1e-20:
+                continue
+            current_mismatch = float(current["mismatch"])
+            score = (previous_mismatch - current_mismatch) / previous_mismatch
+            label = current["label"]
+            result["dt_covariance_mismatch_descent_margin"].append({
                 "probe": current["probe"],
                 "data_epoch": current["data_epoch"],
                 "source_state": current["source_state"],
@@ -1835,6 +1889,49 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
         "eligible_shared_driver_signals": shared_eligible,
         "eligible_method_specific_driver_signals": method_specific,
         "eligible_driver_signals": eligible,
+        "probe_internal_observable_coverage": {
+            "dt": {
+                "raw_fields": [
+                    "dt_loss_u_match", "dt_lambda", "dt_chart_cells",
+                    "dt_teacher_present",
+                ],
+                "screened_features": [
+                    "dt_covariance_mismatch_applicability",
+                    "dt_covariance_mismatch_descent_margin",
+                ],
+                "natural_zero": (
+                    "zero covariance mismatch or zero current-vs-prior mismatch descent"
+                ),
+            },
+            "hj": {
+                "raw_fields": [
+                    "hj_gate_sum", "hj_risk_sum", "hj_probe_sum",
+                    "hj_risk_positive_sum", "hj_active",
+                ],
+                "screened_features": [
+                    "hj_supported_structure_conflict_margin",
+                ],
+                "natural_zero": (
+                    "two-sided probe agreement at chance or risk at the frozen 0.05 boundary"
+                ),
+            },
+            "hnek": {
+                "raw_fields": [
+                    "hnek_gamma", "hnek_physical_horizon",
+                    "hnek_residual_coordinate", "hnek_active",
+                ],
+                "screened_features": [
+                    "rollout_speed_stability_margin",
+                    "rollout_velocity_growth_margin",
+                    "low_time_conditioning_spread_margin",
+                    "minimum_time_correction_native_cosine",
+                ],
+                "natural_zero": (
+                    "identity-relative bridge speed or unit time-conditioning spread; "
+                    "HNEK configuration constants are identity metadata, not learned signals"
+                ),
+            },
+        },
         "paired_metrics_used_only_as_offline_post_branch_labels": True,
         "paired_metrics_accessed_by_controller": False,
         "confirmation20_opened": False,
