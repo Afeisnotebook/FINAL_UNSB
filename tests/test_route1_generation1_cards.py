@@ -10,6 +10,10 @@ from operations.local_route1_freeze_pcrsmg_replacement import (
     CANDIDATE_ID as REPLACEMENT_ID,
     SPEC as REPLACEMENT_SPEC,
 )
+from operations.local_route1_freeze_mcrb_generation1 import (
+    CANDIDATE_ID as MCRB_ID,
+    SPEC as MCRB_SPEC,
+)
 
 
 CARD_ROOT = ROOT / "research" / "local_route1" / "derivation_cards"
@@ -23,6 +27,7 @@ def _cards() -> list[dict]:
         "G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "G1-02-SAMPLING-VARIANCE.json",
         "G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+        "G1-03-STATE-FEEDBACK-MISSING.json",
     ]
     return [json.loads(path.read_text(encoding="utf-8")) for path in paths]
 
@@ -70,6 +75,14 @@ def test_generation1_authority_matches_the_frozen_evidence_boundary():
     assert replacement["algorithm_hyperparameters"]["gf_bundle_generated_after_de_commit"] is True
     assert "finite-learning-rate" in replacement["finite_step_coupling_change"]
 
+    mcrb = cards[MCRB_ID]
+    assert mcrb["construction_authority"] == "eligible_method_specific_signal"
+    assert mcrb["target_blind_driver_probe"] == "dt"
+    assert mcrb["target_blind_driver_signal"] == "dt_covariance_mismatch_descent_margin"
+    assert mcrb["optimizer_operator_change"] is True
+    assert mcrb["objective_change"] is False
+    assert mcrb["endpoint_law_change"] is False
+
 
 def test_generation1_materializer_registers_all_frozen_sources():
     assert set(SPECS) == {
@@ -85,3 +98,9 @@ def test_generation1_materializer_registers_all_frozen_sources():
     assert REPLACEMENT_SPEC["gate_callable"] == "run_pcrsmg_gate"
     for relative in REPLACEMENT_SPEC["sources"]:
         assert (ROOT / relative).is_file(), (REPLACEMENT_ID, relative)
+    assert MCRB_SPEC["model"] == "route1_mcrb"
+    assert MCRB_SPEC["gate_callable"] == "run_mcrb_gate"
+    assert MCRB_SPEC["method"]["mcrb_teacher_half_life_updates"] == 150
+    assert MCRB_SPEC["method"]["mcrb_u_floor"] == 1e-30
+    for relative in MCRB_SPEC["sources"]:
+        assert (ROOT / relative).is_file(), (MCRB_ID, relative)

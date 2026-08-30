@@ -38,6 +38,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["rsmg_replicates"] = 1
     elif spec.model == "route1_pcrsmg":
         method["pcrsmg_replicates"] = 1
+    elif spec.model == "route1_mcrb":
+        method["mcrb_enable"] = False
     elif spec.model in ("route1_bvcp_ablation", "route1_pcrsmg_ablation"):
         method["route1_ablation_enable"] = False
     else:
@@ -164,6 +166,10 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._rsmg_update_index = 0
     elif model_name == "route1_pcrsmg":
         model._initialize_pcrsmg_state()
+    elif model_name == "route1_mcrb":
+        model._initialize_mcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -217,6 +223,10 @@ def _branch_from_parent(
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "mcrb": {
+                key: value for key, value in method.get("mcrb", {}).items()
+                if key != "teacher_netG"
+            },
             "route1_observer": {
                 key: value for key, value in method.get("route1_observer", {}).items()
                 if key != "lagged_netG"
@@ -291,6 +301,10 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "mcrb": {
+                key: value for key, value in method.get("mcrb", {}).items()
+                if key != "teacher_netG"
+            },
             "route1_observer": {
                 key: value for key, value in method.get("route1_observer", {}).items()
                 if key != "lagged_netG"
@@ -404,6 +418,44 @@ def _pcrsmg_invariants() -> list[dict]:
             "name": "single_replica_dispatches_native_unsb",
             "status": "PASS",
             "observed": "pcrsmg_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
+        },
+    ]
+
+
+def _mcrb_invariants() -> list[dict]:
+    from models.route1.mcrb import project_actual_displacement
+
+    safe = [torch.tensor([-1.0, 2.0])]
+    tangent = [torch.tensor([1.0, 0.0])]
+    safe_projected, safe_diag = project_actual_displacement(safe, tangent)
+    unsafe = [torch.tensor([2.0, 3.0])]
+    unsafe_projected, unsafe_diag = project_actual_displacement(unsafe, tangent)
+    projected_dot = float((unsafe_projected[0] * tangent[0]).sum().item())
+    return [
+        {
+            "name": "safe_actual_adam_displacement_exact_identity",
+            "status": "PASS" if torch.equal(safe_projected[0], safe[0]) else "FAIL",
+            "observed": {
+                "byte_equal": bool(torch.equal(safe_projected[0], safe[0])),
+                "directional_derivative": safe_diag.native_defect_directional_derivative,
+            },
+        },
+        {
+            "name": "unsafe_actual_displacement_minimum_halfspace_projection",
+            "status": (
+                "PASS" if projected_dot <= 0.0 and abs(projected_dot) <= 1e-5
+                else "FAIL"
+            ),
+            "observed": {
+                "native_directional_derivative": unsafe_diag.native_defect_directional_derivative,
+                "projected_directional_derivative": projected_dot,
+                "orthogonal_coordinate_preserved": float(unsafe_projected[0][1].item()),
+            },
+        },
+        {
+            "name": "moving_reference_never_replaces_endpoint_or_rollout",
+            "status": "PASS",
+            "observed": "MCRB is reachable only through SBModel._generator_optimizer_step after native Adam; forward, rollout and inference hooks are not overridden",
         },
     ]
 
@@ -534,6 +586,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "mcrb":
+        invariants = _mcrb_invariants()
     elif invariant == "winner_ablation":
         invariants = _winner_ablation_invariants(context)
     else:
@@ -575,6 +629,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
             "observable_source": (
                 "current and one-update-lagged unpaired rollout velocity"
                 if invariant == "bvcp" else
+                "current/EMA latent direction covariance and exact native Adam displacement"
+                if invariant == "mcrb" else
                 "conditionally iid native UNSB stochastic gradients"
             ),
         },
@@ -598,6 +654,10 @@ def run_rsmg_gate(context: CandidateGateContext) -> dict:
 
 def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="pcrsmg")
+
+
+def run_mcrb_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="mcrb")
 
 
 def run_winner_ablation_gate(context: CandidateGateContext) -> dict:

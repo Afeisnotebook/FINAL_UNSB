@@ -1,0 +1,89 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "name": "Moving Covariance Rate Barrier",
+  "parent_evidence": {
+    "failure_type": "state_feedback_missing",
+    "evidence_rank": 4,
+    "supporting_probes": ["dt", "hj"],
+    "driver_scope": "dt_only",
+    "driver_records": 4,
+    "driver_future_sign_accuracy": 1.0,
+    "driver_future_200_step_delta_spearman": 0.6000000000000001,
+    "driver_reversal_precursor_lead_fraction": 1.0,
+    "driver_mean_domain_sign_agreement_of_six": 5.0
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:state_feedback_missing:rank=4:cross_probe_support=2",
+    "LONG_CAUSAL_MATRIX:dt_covariance_mismatch_descent_margin:dt:records=4:accuracy=1.0:spearman=0.6:lead=1.0:domains=5/6",
+    "LONG_CAUSAL_MATRIX:native_sb_descent_score:dt:records=5:accuracy=1.0:spearman=0.8:lead=1.0:domains=4.8/6",
+    "LONG_CAUSAL_MATRIX:generator_gradient_scale_margin:dt:records=5:accuracy=0.8:spearman=0.7:lead=1.0:domains=4.4/6",
+    "DT fixed-teacher absolute covariance matching was beneficial only while its internal mismatch descended; the same operator later harmed its induced state",
+    "SEARCH-005:G1-DT-CNDRP and G2-DT-BCNRP changed the native gradient metric from instantaneous replicate sensitivity but did not use a moving temporal covariance reference",
+    "SEARCH-005:G2-HNEK-PHRSUP constrained a physical residual-rate defect, not directional covariance drift"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "DT frozen absolute-teacher covariance regularizer",
+      "G1-DT-CNDRP coordinatewise confidence preconditioner",
+      "G2-DT-BCNRP block-scalar confidence preconditioner",
+      "G1-HJ-ACMP raw correction gradient projection",
+      "G2-HJ-FBCMP previous/current auxiliary-correction cosine gate",
+      "G2-HNEK-PHRSUP physical residual-rate gradient projection",
+      "LBST wholesale EMA rollout teacher"
+    ],
+    "material_difference": "MCRB never adds a covariance-matching loss, never scales the native gradient by a DT confidence score, never accepts or rejects an auxiliary correction, and never substitutes a teacher endpoint. It evaluates the current and a one-data-epoch EMA generator on the same current unpaired bridge state and common latent bundle only to form a moving directional-covariance gap. It then observes the exact bias-corrected Adam parameter displacement already produced by the native optimizer and, only when that actual displacement has positive first-order derivative of the moving gap, commits the unique closest Euclidean half-space projection. Adam moments remain the native moments. The moving reference follows the candidate itself and converges to it at a stable state; no plain output or frozen early value is a target.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the exact native Adam generator displacement measured against the temporal rate of the latent bridge-direction covariance field",
+  "formula": "For current unpaired bridge state X_t, physical time t and a common M-latent bundle Z, let c_theta=vec(log(clamp_min(U_reg_norm(theta;X_t,t,Z),eps_machine))). Let theta_bar be the generator EMA with decay beta=2^(-1/N), where N=150 updates is exactly one frozen small25 data epoch. Define D_k(theta)=||c_theta-stopgrad(c_theta_bar)||_2^2/(2q) and a_k=grad_theta D_k at theta_k. First let native Adam update its moments and form its exact proposed parameter displacement d0. If <a_k,d0><=0 or ||a_k||=0, commit d0 exactly. Otherwise commit d*=d0-(<a_k,d0>/||a_k||_2^2)a_k, the unique argmin_d ||d-d0||_2 subject to <a_k,d><=0; the float32 implementation moves by an additional dtype-derived machine-epsilon margin solely to keep the represented displacement on the feasible side. Then update theta_bar <- beta theta_bar+(1-beta)theta_{k+1}. D/E/F, the native losses, endpoint forward, rollout construction and inference are unchanged.",
+  "identity_or_unbiased_condition": "The operator is exact identity whenever the moving covariance gap has zero tangent or the exact native Adam displacement already makes its first-order change nonpositive. At a stable generator the EMA catches the current generator, so the gap and tangent self-null. A native fixed point with zero gradient and zero Adam moment remains fixed. The half-space projection is the minimum Euclidean alteration of an unsafe actual displacement and has no tunable strength.",
+  "objective_change": false,
+  "estimator_change": false,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "optimizer_operator_change": true,
+  "target_inaccessibility_proof": "MCRB reads only the current official unpaired training bridge state, its sampled physical time, isolated generator latents, current netG, its own recoverable EMA netG and native Adam state. Its RNG-isolated covariance observation restores all CPU/CUDA RNG. Discovery70, confirmation20, paired targets, PSNR, SSIM, LPIPS, plain checkpoints and domain-level paired labels are not addressable by the model.",
+  "expected_applicable_state": {
+    "condition": "the native optimizer proposes a parameter displacement that locally increases the candidate's own moving latent direction-covariance gap",
+    "self_null_state": "the moving covariance tangent is zero or the native actual Adam displacement is already rate-safe",
+    "evidence_scope": "the construction is authorized by DT-specific temporal mismatch evidence; HJ supports the state-feedback failure class but does not authorize a universal controller"
+  },
+  "falsifying_experiment": "Kill the implementation if disabled one-step identity, exact resume, EMA recovery, RNG isolation, minimum-displacement half-space feasibility, native Adam-moment preservation or current endpoint/inference identity fails. Close only this moving-covariance actual-displacement barrier if cross-state branches do not reduce positive target-blind covariance-gap directional derivatives or if its complete seed2026 e200 trajectory is negative.",
+  "compute_cost": "M current-generator and M no-gradient EMA-generator endpoint calls plus one covariance-defect backward per native G update; native D/E/G/F optimizer counts and data exposure are unchanged",
+  "memory_cost": "one EMA generator, M current endpoint graphs, M no-gradient EMA endpoints and one defect-gradient copy",
+  "recovery_state_cost": "EMA generator, fixed half-life, update/intervention counters, last target-blind geometry and ordinary full RNG/optimizer/sampler state",
+  "algorithm_hyperparameters": {
+    "endpoint_samples": 4,
+    "region_patch": 32,
+    "u_floor": 1e-30,
+    "teacher_half_life_updates": 150,
+    "teacher_half_life_data_epochs": 1.0,
+    "projection_epsilon": 1e-24,
+    "projection_strength": "none_exact_halfspace",
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "ema_netG_state_dict",
+    "optimizer_update_index",
+    "eligible_count",
+    "intervention_count",
+    "correction_l2_sum",
+    "last_target_blind_geometry"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "When the moving covariance tangent is nonzero, replace the native G displacement by the norm-matched negative covariance-gap tangent without the native-safe half-space projection; this isolates the moving covariance proposal and is expected to expose target bias or overcontrol.",
+    "observable_only": "Compute the common-random-number current/EMA covariance gap and exact native directional derivative, restore RNG, but commit the complete native Adam displacement unchanged.",
+    "projected_or_full": "Commit native Adam exactly when safe; otherwise commit only its unique closest Euclidean displacement with nonpositive first-order moving-gap derivative, while retaining native Adam moments."
+  },
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "eligible_method_specific_signal",
+  "target_blind_driver_signal": "dt_covariance_mismatch_descent_margin",
+  "target_blind_driver_probe": "dt",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}

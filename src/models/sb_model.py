@@ -145,7 +145,7 @@ class SBModel(BaseModel):
         self.loss_G = self.compute_G_loss()
         self.loss_G.backward()
         self._before_generator_optimizer_step()
-        self.optimizer_G.step()
+        self._generator_optimizer_step()
         if self.opt.netF == 'mlp_sample':
             self.optimizer_F.step()
 
@@ -156,6 +156,15 @@ class SBModel(BaseModel):
         hook to snapshot pre-update state without changing the native update.
         """
         return None
+
+    def _generator_optimizer_step(self):
+        """Commit the generator optimizer update.
+
+        Plain UNSB dispatches the original Adam step exactly.  A route-1
+        constrained-optimizer candidate may override this hook without
+        duplicating or reordering the native D/E/G/F game.
+        """
+        self.optimizer_G.step()
 
     def _rollout_endpoint(self, rollout_net, x, time_idx, z, *, stream):
         """Candidate hook for the no-gradient rollout endpoint only."""
