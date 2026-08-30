@@ -17,6 +17,7 @@ from operations.local_route1_cross_version_adjudicate import (
 )
 from operations.local_route1_winner_ablation_adjudicate import (
     SCHEMA as ABLATION_SCHEMA,
+    SINGLE_SEED_CHALLENGE_STATUS,
 )
 from research.local_route1.final_delivery import (
     COMPLETE_MULTI_SEED,
@@ -33,6 +34,10 @@ from research.local_route1.ablation_challenger_selection import (
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
 from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
+from research.local_route1.single_seed_development import (
+    freeze_path as single_seed_freeze_path,
+    validate_single_seed_development_freeze,
+)
 
 
 SCHEMA = "final-unsb-route1-cross-version-candidate-delivery-v1"
@@ -131,6 +136,7 @@ def _ablation(
         value.get("schema") != ABLATION_SCHEMA
         or value.get("status") not in {
             "COMPLETE_NO_SELECTION_CHANGE", ABLATION_CHALLENGE_STATUS,
+            SINGLE_SEED_CHALLENGE_STATUS,
         }
         or value.get("selected_candidate_id") != winner
         or value.get("selected_algorithm_fingerprint") != algorithm
@@ -144,11 +150,18 @@ def _ablation(
             or value.get("selection_change_blocked_pending_seed_validation") is not False
         ):
             raise RuntimeError("no-change winner ablation has contradictory selection flags")
+    elif value["status"] == ABLATION_CHALLENGE_STATUS:
+        if (
+            value.get("proposal_only_out_ranks_full") is not True
+            or value.get("selection_change_blocked_pending_seed_validation") is not True
+        ):
+            raise RuntimeError("winner ablation challenge was not held fail-closed")
     elif (
         value.get("proposal_only_out_ranks_full") is not True
-        or value.get("selection_change_blocked_pending_seed_validation") is not True
+        or value.get("selection_change_blocked_pending_seed_validation") is not False
+        or value.get("selection_ready_under_single_seed_development_policy") is not True
     ):
-        raise RuntimeError("winner ablation challenge was not held fail-closed")
+        raise RuntimeError("single-seed ablation challenge is not ready for selection")
     roles = value.get("roles")
     if not isinstance(roles, dict) or set(roles) != {
         "proposal_only", "observable_only", "projected_or_full",
@@ -265,6 +278,7 @@ def _challenger_resolution(
 
 
 def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -> None:
+    single_seed = candidate.get("single_seed_development_freeze") is not None
     lines = [
         "# FINAL_UNSB 路线一跨版本最终裁决",
         "",
@@ -276,9 +290,16 @@ def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -
         "",
         "## 消融",
         "",
-        "proposal-only、observable-only、projected/full均已从共同e0完成e200。"
-        "observable-only必须与plain保持e200完整动力学状态精确一致；若proposal-only胜过full，"
-        "只有两者都完成冻结seed裁决后才允许改变最终选择；本报告已经过该门禁。",
+        (
+            "proposal-only、observable-only、projected/full均已从共同e0完成e200。"
+            "observable-only必须与plain保持e200完整动力学状态精确一致；若proposal-only胜过full，"
+            + (
+                "按用户明确的紧急单seed开发协议使用完整seed2026/e200事后排名选择；"
+                "seed2027/2028延期，本文不声称跨seed稳定。"
+                if single_seed else
+                "只有两者都完成冻结seed裁决后才允许改变最终选择；本报告已经过该门禁。"
+            )
+        ),
         "",
         "## 备选",
         "",
@@ -322,16 +343,53 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     original_algorithm = str(original_receipt["algorithm_fingerprint"])
     if original_algorithm != cross.get("selected_algorithm_fingerprint"):
         raise RuntimeError("selected cross-version algorithm fingerprint changed")
-    original_multi_seed = _multi_seed(
-        output_root, original_winner, original_algorithm,
-    )
+    development_freeze = None
+    development_freeze_file = single_seed_freeze_path(output_root)
+    if development_freeze_file.is_file():
+        development_freeze = validate_single_seed_development_freeze(output_root)
+        if (
+            development_freeze.get("candidate_id") != original_winner
+            or development_freeze.get("algorithm_fingerprint") != original_algorithm
+        ):
+            raise RuntimeError("single-seed development freeze changed the e200 winner")
+        original_multi_seed = None
+    else:
+        original_multi_seed = _multi_seed(
+            output_root, original_winner, original_algorithm,
+        )
     ablation = _ablation(
         output_root, cross_path, original_winner, original_algorithm,
     )
-    resolution = _challenger_resolution(
-        output_root, ablation, original_winner,
-    )
-    if resolution is None:
+    resolution = None
+    if development_freeze is None:
+        resolution = _challenger_resolution(
+            output_root, ablation, original_winner,
+        )
+    if (
+        development_freeze is not None
+        and ablation["status"] == SINGLE_SEED_CHALLENGE_STATUS
+    ):
+        proposal = ablation["roles"]["proposal_only"]
+        winner = str(proposal["candidate_id"])
+        algorithm = str(proposal["algorithm_fingerprint"])
+        selected_receipt_path = Path(str(proposal["receipt_path"])).resolve()
+        selected_receipt = _validate_receipt(selected_receipt_path)
+        if (
+            selected_receipt.get("candidate_id") != winner
+            or selected_receipt.get("algorithm_fingerprint") != algorithm
+            or file_sha256(selected_receipt_path) != proposal.get("receipt_sha256")
+        ):
+            raise RuntimeError("single-seed ablation challenger receipt changed")
+        multi_seed = None
+        selected_seed_root = output_root
+        final_selection = {
+            "status": "SINGLE_SEED_ABLATION_CHALLENGER_SELECTED",
+            "selected_candidate_id": winner,
+            "selected_algorithm_fingerprint": algorithm,
+            "selection_basis": "complete_seed2026_small25_e200_posthoc_rank",
+            "cross_seed_stability_claimed": False,
+        }
+    elif resolution is None:
         winner = original_winner
         algorithm = original_algorithm
         selected_receipt = original_receipt
@@ -339,9 +397,14 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         multi_seed = original_multi_seed
         selected_seed_root = output_root
         final_selection = {
-            "status": "NO_ABLATION_CHALLENGE",
+            "status": (
+                "SINGLE_SEED_FULL_WINNER_RETAINED"
+                if development_freeze is not None else
+                "NO_ABLATION_CHALLENGE"
+            ),
             "selected_candidate_id": winner,
             "selected_algorithm_fingerprint": algorithm,
+            "cross_seed_stability_claimed": False,
         }
     else:
         winner = str(resolution["selected_candidate_id"])
@@ -399,16 +462,17 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
             "receipt_sha256": row["receipt_sha256"],
         }
     seed_results = {}
-    for seed in multi_seed["included_seeds"]:
-        if int(seed) == 2026:
-            continue
-        seed_root = selected_seed_root / "seed_validation" / f"seed{int(seed)}"
-        seed_results[str(int(seed))] = {
-            "summary": _read_json(seed_root / "SEED_VALIDATION_SUMMARY.json"),
-            "absolute_relative_domain_trajectory": _seed_domain_trajectory(
-                selected_seed_root, winner, int(seed),
-            ),
-        }
+    if multi_seed is not None:
+        for seed in multi_seed["included_seeds"]:
+            if int(seed) == 2026:
+                continue
+            seed_root = selected_seed_root / "seed_validation" / f"seed{int(seed)}"
+            seed_results[str(int(seed))] = {
+                "summary": _read_json(seed_root / "SEED_VALIDATION_SUMMARY.json"),
+                "absolute_relative_domain_trajectory": _seed_domain_trajectory(
+                    selected_seed_root, winner, int(seed),
+                ),
+            }
 
     final_root = output_root / "final"
     results = {
@@ -422,6 +486,9 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "final_selection": final_selection,
         "candidate_results": candidate_results,
         "seed_results": seed_results,
+        "multi_seed_adjudication": multi_seed,
+        "single_seed_development_freeze": development_freeze,
+        "cross_seed_stability_claimed": False,
         "winner_ablation_adjudication": ablation,
         "winner_ablation_results": ablation_results,
         "paired_metrics_used_only_after_complete_trajectories": True,
@@ -434,7 +501,25 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         row for row in ranking if row["candidate_id"] != original_winner
     )
     proposal = ablation["roles"]["proposal_only"]
-    if resolution is None:
+    if development_freeze is not None and winner != original_winner:
+        original_role = ablation["roles"]["projected_or_full"]
+        alternate_rows = [
+            {
+                "candidate_id": original_role["candidate_id"],
+                "role": "tested_original_full_operator_alternate",
+                "trajectory_status": original_role["trajectory_status"],
+                "reason_not_selected": (
+                    "lower complete seed2026 e200 posthoc rank than proposal-only"
+                ),
+            },
+            {
+                "candidate_id": generation1_runner["candidate_id"],
+                "role": "tested_generation1_alternate",
+                "trajectory_status": generation1_runner["trajectory_status"],
+                "reason_not_selected": "lower frozen post-e200 cross-version rank",
+            },
+        ]
+    elif resolution is None:
         alternate_rows = [
             {
                 "candidate_id": generation1_runner["candidate_id"],
@@ -491,7 +576,11 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     }
     write_json(final_root / "ALTERNATES.json", alternates)
 
-    classification = _classification(multi_seed)
+    classification = (
+        "single_seed_development_signal"
+        if development_freeze is not None else
+        _classification(multi_seed)
+    )
     compute_sensitive = "PCRSMG" in winner or winner == (
         "G1-02B-PLAYER-CONDITIONAL-RSMG"
     )
@@ -532,18 +621,44 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
             output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
         ),
         "ablation_challenger_selection": (
-            None if resolution is None else {
-                "path": "operations/ABLATION_CHALLENGER_SELECTION.json",
-                "sha256": file_sha256(resolution["selection_path"]),
+            {
+                "path": "operations/WINNER_ABLATION_ADJUDICATION.json",
+                "sha256": file_sha256(
+                    output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+                ),
                 "status": final_selection["status"],
+                "selection_basis": "single_seed_development_policy",
             }
+            if development_freeze is not None and winner != original_winner else
+            (
+                None if resolution is None else {
+                    "path": "operations/ABLATION_CHALLENGER_SELECTION.json",
+                    "sha256": file_sha256(resolution["selection_path"]),
+                    "status": final_selection["status"],
+                }
+            )
         ),
         "risks": [
             "small25 proxy evidence is not a full-dataset conclusion",
             "confirmation20 remains sealed",
             "4090 and 5090 runtime trajectories are independent and are not numerically merged",
+            *(
+                [
+                    "seed2027/2028 were deliberately deferred; cross-seed stability is not established"
+                ]
+                if development_freeze is not None else []
+            ),
             *(["positive signal may depend on the fixed replicated-compute budget"] if compute_sensitive else []),
         ],
+        "single_seed_development_freeze": (
+            None if development_freeze is None else {
+                "path": "operations/SINGLE_SEED_DEVELOPMENT_FREEZE.json",
+                "sha256": file_sha256(development_freeze_file),
+                "included_seeds": [2026],
+                "deferred_seeds": [2027, 2028],
+                "cross_seed_stability_claimed": False,
+            }
+        ),
         "derivation_card_path": card_path.relative_to(output_root).as_posix(),
         "derivation_card_sha256": file_sha256(card_path),
         "implementation_path": implementation_path.relative_to(output_root).as_posix(),

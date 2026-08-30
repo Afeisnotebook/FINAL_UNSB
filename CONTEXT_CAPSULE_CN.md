@@ -47,8 +47,10 @@
   这不证伪rollout-distribution父机制。
 - PC-RSMG已通过逐玩家条件语义、one-replica plain identity、resume、跨状态和
   400-update工程门，正在完整e200；其任何中间正收益都不能提前冻结候选。
-- 正向seed/消融链与全负终点缺陷—唯一数学修订链均为独立持久进程，不依赖Codex会话。
-  最新epoch、哈希和后继commit只从`PROJECT_STATE.json`读取。
+- 用户随后启用紧急单seed开发协议：完整seed2026/e200用于冻结开发候选，seed2027/2028
+  延期，释放算力优先做赢家消融、全负缺陷后的唯一数学修订和新的独立机制；这不构成
+  跨seed稳定性证明。相应后继链仍为独立持久进程，不依赖Codex会话。最新epoch、哈希
+  和后继commit只从`PROJECT_STATE.json`读取。
 
 ## 1. 原始问题
 
@@ -152,6 +154,6 @@ fancy算子，会在没有本地归因和对照的情况下消耗整周。
 ## 7. 已暂停方案的结果流程
 
 e200按宏PSNR、正域数、最差域、SSIM和e150→e200回撤排序。先在discovery80选择并
-冻结唯一候选，再一次性打开confirmation20；不能用confirmation修改方法。若有正
-候选，下一批算力才运行winner/plain seed2027，必要时2028。若全负，冻结第一名为
-weak fallback并停止把单seed图像bootstrap写成算法稳定性。
+冻结唯一候选，再一次性打开confirmation20；不能用confirmation修改方法。这里原有的
+“正候选后自动运行seed2027/2028”已被紧急单seed开发决定覆盖；延期seed仍不能被写成
+已通过，单seed图像bootstrap也不能冒充算法稳定性。

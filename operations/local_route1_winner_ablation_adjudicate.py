@@ -22,11 +22,17 @@ from operations.local_route1_cross_version_adjudicate import (
 )
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import full_state_hash, write_json
+from research.local_route1.single_seed_development import (
+    validate_single_seed_development_freeze,
+)
 
 
 SCHEMA = "final-unsb-route1-winner-ablation-adjudication-v1"
 ROLES = ("proposal_only", "observable_only", "projected_or_full")
 POSITIVE_CROSS_STATUS = "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE"
+SINGLE_SEED_CHALLENGE_STATUS = (
+    "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION"
+)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -163,10 +169,18 @@ def adjudicate(
     )
     proposal = receipts["proposal_only"]
     proposal_challenges_full = _rank_key(proposal) < _rank_key(full)
+    single_seed_policy = None
+    freeze_path = output_root / "operations" / "SINGLE_SEED_DEVELOPMENT_FREEZE.json"
+    if freeze_path.is_file():
+        single_seed_policy = validate_single_seed_development_freeze(output_root)
     result = {
         "schema": SCHEMA,
         "status": (
-            "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION"
+            (
+                SINGLE_SEED_CHALLENGE_STATUS
+                if single_seed_policy is not None else
+                "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION"
+            )
             if proposal_challenges_full else
             "COMPLETE_NO_SELECTION_CHANGE"
         ),
@@ -196,7 +210,16 @@ def adjudicate(
         "observable_only_identity": identity,
         "proposal_only_out_ranks_full": proposal_challenges_full,
         "selection_changed": False,
-        "selection_change_blocked_pending_seed_validation": proposal_challenges_full,
+        "selection_change_blocked_pending_seed_validation": (
+            proposal_challenges_full and single_seed_policy is None
+        ),
+        "selection_ready_under_single_seed_development_policy": (
+            proposal_challenges_full and single_seed_policy is not None
+        ),
+        "single_seed_development_freeze_sha256": (
+            None if single_seed_policy is None else file_sha256(freeze_path)
+        ),
+        "cross_seed_stability_claimed": False,
         "paired_metrics_used_only_after_complete_e200_trajectories": True,
         "paired_metrics_used_for_training_or_control": False,
         "paired_controller_access": False,

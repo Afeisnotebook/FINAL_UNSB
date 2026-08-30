@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`FINAL_474_140_CAUSAL_MATRIX_FROZEN / BVCP_AND_PCRSMG_PASS_GATES / MATCHED_E200_RUNNING`
+状态：`FINAL_474_140_CAUSAL_MATRIX_FROZEN / BVCP_NEGATIVE / PCRSMG_SINGLE_SEED_E200_RUNNING`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -49,18 +49,27 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - 中间paired质量不用于晋级、早停、调度或修改算法；科学裁决固定为完整轨迹后的
   e150/e175/e200。4090 PC-RSMG当前已跨过e65；固定e60描述性结果为`+2.215 dB`、
   6/6域正、护栏通过，但仍不是长期结论。5090独立跨运行时轨迹约为BVCP e140、
-  PC-RSMG e31；本地1660 HNEK约e188。
+  PC-RSMG e31。此处epoch为该快照，不得据此控制运行。
+- 本地1660 HNEK已完成并验收e200：晚三点宏PSNR delta为`-0.006937 dB`，e200为
+  `-0.493545 dB`，仅一个晚期点达到4/6域正；本地HJ/HNEK均未通过proxy校准，executor
+  已按合同暂停且未启动DT。这是宿主/proxy敏感性证据，不覆盖已校准4090的权威候选排名。
 - 5090两条batch1流实测接近饱和；4090在BVCP结束后让PC-RSMG单独运行，5 epoch耗时从
   约720--750秒降至约315--330秒。此时为填满显存再塞一条任务会延后e200关键裁决，
   因而4090暂不增加并发。显存空闲不是吞吐证据，科学batch仍为1。
+- 用户已明确启用紧急单seed开发协议：完整seed2026/small25/e200可以冻结开发候选，
+  seed2027/2028延期，不能被写成已证明跨seed稳定。释放算力按“赢家三项e200机制消融
+  →全负时唯一因果数学修订→额外独立机制”的顺序使用；不再自动重复初始状态。详见
+  `decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md`。
 - 下一硬门：两候选完整e200。若某候选通过晚三点、e200、域覆盖、最差域、SSIM/LPIPS、
-  绝对轨迹和plain-collapse门，则立即冻结公式后运行seed2027；若当前实现失败，只有在
-  target-blind缺陷量确实下降但长期收益仍反转时，才允许一次因果修订。不得转成窗口、
-  handoff、退火或paired控制。
+  绝对轨迹和plain-collapse门，则立即冻结seed2026开发身份并运行proposal-only、
+  observable-only、projected/full真实e200消融；若当前实现失败，只有在target-blind
+  缺陷量确实下降但长期收益仍反转时，才允许一次因果修订。不得转成窗口、handoff、
+  退火、paired控制或自动seed复赛。
 - source-bound正向排名、全负缺陷审计以及最终赢家proposal-only/observable-only/full
   e200消融均已由相互独立的持久后继进程等待触发；全负审计已升级为在欧氏参数空间和
   冻结pre-step Adam度量中分解双replica差异相对平均梯度的平行/正交能量。最终交付链还会
-  对真正挑战full算法的proposal-only分支执行冻结seed复赛，不能靠单seed消融替换赢家。
+  对真正挑战full算法的proposal-only分支使用完整seed2026/e200事后排名进行开发选择；
+  选择文件必须明确cross-seed stability未验证。
 - PC-RSMG源码审计已确认D/E共享bundle与post-opponent GF重抽满足逐玩家条件平均梯度
   的数学表述；同时明确不声称期望Adam步、有限步随机转移或跨运行时轨迹与plain相同。
   证据见`evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json`。
@@ -337,8 +346,9 @@ u_0(S^P),\;u_i(S^P),\;u_0(S^i),\;u_i(S^i)
 不挑最佳checkpoint。若候选降低了目标缺陷但e200仍失败，允许根据新的因果证据修订
 一次；每个机制最多两代。失败后不能偷偷转向handoff或退出阈值。
 
-若第一名在seed2026晚期为正，冻结算法后再运行host-matched seed2027；符号不一致才
-考虑seed2028。4090/5090现已是用户明确授权的路线一执行节点，但这不授权全量数据、
+若第一名在seed2026晚期为正，按紧急开发协议冻结算法并立即运行机制消融；host-matched
+seed2027/2028延期到论文复现阶段，不作为当前路线一收口门。该延期不允许表述为已证明
+跨seed稳定。4090/5090现已是用户明确授权的路线一执行节点，但这不授权全量数据、
 confirmation20或跨宿主delta；这些仍需候选冻结后另行裁决。
 
 ## 7. 诚实停止与交付

@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-local-hnek-e200-proxy-outcome-v1",
+  "recorded": "2026-08-30T19:06:13+08:00",
+  "status": "LOCAL_HNEK_E200_ACCEPTED_PROXY_NOT_CALIBRATED",
+  "host_role": "local GTX 1660 canonical stability check; not the authoritative Generation-1 ranking host",
+  "identity": {
+    "lane": "hnek",
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epochs": 200,
+    "updates": 30000,
+    "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
+  },
+  "terminal_integrity": {
+    "verification_status": "ACCEPTED_MILESTONE",
+    "verification_sha256": "0d840b2f257868b6bf0e388065b0a0ce01ffd4f961bf30927b900337dde75452",
+    "latest_checkpoint_sha256": "640f66e75d6073fc2fbb3f424ffa14e15171e694ca56444d5fed9207e1ddd52f",
+    "latest_sidecar_sha256": "2404d4292996d104a1dfb94c4dcf6dba89a7feaf4f5dcc382dbd4196ae5d2560",
+    "e200_milestone_sha256": "8731012cfb99b87af4e9a88cb1ff7c7633636bc42d964ef0fcf33137c37bcc14",
+    "e200_milestone_sidecar_sha256": "f49fdbaffb3542b1d073c9d53cb97d0e84667d9f0a109d13dc463a6a692cc549",
+    "scientific_state_sha256": "d2bd6a52be8c8bdf06c94b2aa436c674893ebab82eec828e6936580ffb96ac30",
+    "discovery_images": 420,
+    "lpips_available": true,
+    "confirmation20_opened": false
+  },
+  "late_three": [
+    {
+      "data_epoch": 150,
+      "hnek_macro_psnr": 17.4124926138222,
+      "plain_macro_psnr": 17.279563460201967,
+      "macro_psnr_delta": 0.13292915362023194,
+      "macro_ssim_delta": 0.026939202667701778,
+      "macro_lpips_delta": -0.02379718217111776,
+      "positive_domains": 3,
+      "worst_domain_psnr_delta": -1.3506790984136359
+    },
+    {
+      "data_epoch": 175,
+      "hnek_macro_psnr": 18.08660924659651,
+      "plain_macro_psnr": 17.7468032921948,
+      "macro_psnr_delta": 0.339805954401708,
+      "macro_ssim_delta": 0.03551114460542093,
+      "macro_lpips_delta": -0.014973321308692389,
+      "positive_domains": 4,
+      "worst_domain_psnr_delta": -0.3412425499178582
+    },
+    {
+      "data_epoch": 200,
+      "hnek_macro_psnr": 17.601751689256393,
+      "plain_macro_psnr": 18.095297074266455,
+      "macro_psnr_delta": -0.4935453850100622,
+      "macro_ssim_delta": 0.0053833125247841895,
+      "macro_lpips_delta": 0.023442832416012138,
+      "positive_domains": 2,
+      "worst_domain_psnr_delta": -1.363620469688204
+    }
+  ],
+  "aggregate": {
+    "late_three_mean_macro_psnr_delta": -0.006936758996040737,
+    "late_points_with_four_of_six_positive_domains": 1,
+    "late_average_worst_domain_psnr_delta": -1.0185140393398993,
+    "late_mean_macro_ssim_delta": 0.022611219932635634,
+    "late_mean_macro_lpips_delta": -0.00510922368793267,
+    "e200_macro_psnr_delta": -0.4935453850100622
+  },
+  "proxy": {
+    "status": "NOT_CALIBRATED_PAUSE",
+    "passing_probes": [],
+    "proxy_record_sha256": "15f2df24aa83feca71cbafad91c0915f581cebe33ee37cb6efd412a35969eafb",
+    "executor_status": "PAUSED_PROXY_NOT_CALIBRATED",
+    "scheduled_task_disabled": true,
+    "dt_started": false
+  },
+  "metric_sha256": {
+    "hnek_e150": "ab2056cc502976e11a21978fee3fddf2affe02946ab864741ea26c5ee7b452d9",
+    "hnek_e175": "5b901b9b705fe29b8045b42c12cb2443879ff02cfaacd3ade6fca706461daa1d",
+    "hnek_e200": "705f7f99fc353f5a8e1d386b0e815c5a359c049db711d4a698c3798c8bd3c597",
+    "plain_e150": "ba7f8474eb1a524cd3c7c17c1e945fc0a6695de41a02114702ebd44b88eccb85",
+    "plain_e175": "c444b4b472298b569af7edec2e80e3b085062d2d90161f578e6c4fa2b4ce258d",
+    "plain_e200": "ee6baa467bde24a87890613d9d634e9c038ff58aeaf9f32b230b559f14edb648"
+  },
+  "claim_boundary": "This local result diagnoses host/proxy sensitivity only. It does not negate the calibrated 4090 proxy, alter the authoritative 4090 Generation-1 ranking, or falsify the HNEK parent mechanism."
+}

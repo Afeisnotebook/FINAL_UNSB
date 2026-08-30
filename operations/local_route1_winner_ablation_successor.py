@@ -21,7 +21,9 @@ from operations.local_route1_winner_ablation_adjudicate import adjudicate
 from research.local_route1.cross_version_final_delivery import (
     materialize_cross_version_final_delivery,
 )
-from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
+from research.local_route1.single_seed_development import (
+    validate_single_seed_development_freeze,
+)
 from research.local_route1.winner_ablations import (
     POSITIVE_CROSS_STATUS,
     materialize_winner_ablation_definitions,
@@ -37,6 +39,7 @@ SOURCE_RELATIVES = (
     "operations/local_route1_candidate_terminal_receipt.py",
     "research/local_route1/winner_ablations.py",
     "research/local_route1/cross_version_final_delivery.py",
+    "research/local_route1/single_seed_development.py",
     "research/local_route1/generation1_gates.py",
     "src/models/route1/bvcp_ablation.py",
     "src/models/route1/pcrsmg_ablation.py",
@@ -81,6 +84,9 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "timeout_seconds": int(args.timeout_seconds),
         "batch_size": 1,
         "target_data_epochs": 200,
+        "selection_seeds": [2026],
+        "deferred_seed_validation": [2027, 2028],
+        "seed_validation_policy": "DEFER_ADDITIONAL_SEEDS_FOR_ALGORITHM_SEARCH",
         "paired_metric_scheduling": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -106,6 +112,14 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("winner ablations must retain scientific batch1")
     if int(contract.get("target_data_epochs", 0)) != 200:
         raise RuntimeError("winner ablations must run true e200")
+    if contract.get("selection_seeds") != [2026]:
+        raise RuntimeError("winner ablations require the frozen seed2026 winner")
+    if contract.get("deferred_seed_validation") != [2027, 2028]:
+        raise RuntimeError("winner ablation deferred seed set changed")
+    if contract.get("seed_validation_policy") != (
+        "DEFER_ADDITIONAL_SEEDS_FOR_ALGORITHM_SEARCH"
+    ):
+        raise RuntimeError("winner ablation seed policy changed")
     if int(contract.get("poll_seconds", 0)) < 15:
         raise RuntimeError("winner ablation successor poll interval too short")
     if int(contract.get("timeout_seconds", 0)) < 3600:
@@ -149,7 +163,7 @@ class WinnerAblationSuccessor:
             **fields,
         })
 
-    def wait_for_selection_and_seeds(self) -> dict[str, Any] | None:
+    def wait_for_selection_and_freeze(self) -> dict[str, Any] | None:
         started = time.time()
         cross_path = self.operations / "CROSS_VERSION_E200_ADJUDICATION.json"
         while True:
@@ -162,30 +176,25 @@ class WinnerAblationSuccessor:
                 )
                 return None
             winner = None if cross is None else str(cross["selected_candidate_id"])
-            multi_path = (
-                None if winner is None else
-                self.run_root / "candidates" / winner / "MULTI_SEED_ADJUDICATION.json"
-            )
-            multi = (
-                _read_json(multi_path)
-                if multi_path is not None and multi_path.is_file() else None
-            )
-            complete = (
-                multi is not None
-                and multi.get("schema") == MULTI_SEED_ADJUDICATION_SCHEMA
-                and multi.get("status") in ("ROUTE1_SUSTAINED_LOCAL", "MULTI_SEED_NOT_SUSTAINED")
-            )
+            freeze_path = self.operations / "SINGLE_SEED_DEVELOPMENT_FREEZE.json"
+            freeze = None
+            if freeze_path.is_file():
+                freeze = validate_single_seed_development_freeze(self.run_root)
+            complete = freeze is not None and freeze.get("candidate_id") == winner
             self.state(
-                "WAITING_FOR_WINNER_AND_FROZEN_SEEDS",
+                "WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
                 winner=winner,
                 cross_version_ready=cross is not None,
-                multi_seed_status=None if multi is None else multi.get("status"),
+                development_freeze_status=(
+                    None if freeze is None else freeze.get("status")
+                ),
+                cross_seed_stability_claimed=False,
                 elapsed_seconds=time.time() - started,
             )
             if complete:
                 return cross
             if time.time() - started > int(self.contract["timeout_seconds"]):
-                raise TimeoutError("winner ablation successor timed out waiting for selection/seeds")
+                raise TimeoutError("winner ablation successor timed out waiting for selection/freeze")
             time.sleep(int(self.contract["poll_seconds"]))
 
     def _run_checked(self, command: list[str], *, label: str) -> None:
@@ -282,7 +291,7 @@ class WinnerAblationSuccessor:
 
     def run(self) -> int:
         self.event("WINNER_ABLATION_SUCCESSOR_START", contract=str(self.contract_path))
-        cross = self.wait_for_selection_and_seeds()
+        cross = self.wait_for_selection_and_freeze()
         if cross is None:
             return 0
         frozen = materialize_winner_ablation_definitions(self.run_root)
@@ -311,13 +320,6 @@ class WinnerAblationSuccessor:
             full_receipt_path=full_receipt,
             output_path=self.operations / "WINNER_ABLATION_ADJUDICATION.json",
         )
-        if result["status"] != "COMPLETE_NO_SELECTION_CHANGE":
-            self.state(
-                "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION",
-                challenger=result["roles"]["proposal_only"]["candidate_id"],
-                final_delivery_written=False,
-            )
-            return 0
         delivery = materialize_cross_version_final_delivery(self.run_root)
         self.state(
             "WINNER_ABLATIONS_AND_FINAL_DELIVERY_COMPLETE",

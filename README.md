@@ -27,7 +27,7 @@ host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和�
 
 ## 当前阶段
 
-当前是`GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING`。本地和两台服务器均已验证
+当前是`GENERATION1_SINGLE_SEED_MATCHED_E200_RUNNING`。本地和两台服务器均已验证
 数据身份、共同e0、真实优化器更新、full-state exact resume、评估重放和confirmation锁。
 4090的plain/HJ/HNEK/DT与最终474条反转、140条采样方差因果证据已经冻结；它们用于
 生成新算法，而不是旧算法排名。
@@ -37,6 +37,10 @@ host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和�
 BVCP当前实现完成e200后为长期负，只关闭该实现；PC-RSMG已通过数学、identity、resume、
 跨状态和400-update工程门，正从共同e0运行到真实e200。固定四lane、HJ有限handoff、
 退出阈值和paired控制仍不属于当前任务。
+
+紧急成本协议以完整seed2026/e200作为开发候选冻结依据，seed2027/2028延期；节省的
+算力用于赢家机制消融、全负后的唯一证据驱动数学修订和额外独立方向。该协议不声称
+跨seed稳定，详情见`decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md`。
 
 ## 当前本地路线一入口
 

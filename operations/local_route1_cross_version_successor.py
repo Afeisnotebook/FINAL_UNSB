@@ -1,9 +1,10 @@
 """Durable post-e200 successor for candidates frozen under different code cores.
 
 Each candidate is verified inside its own immutable worktree.  Only signed
-terminal receipts cross the version boundary.  A positive cross-version winner
-is then frozen and seed-validated inside that same worktree; no candidate is
-ever loaded under a sibling's training core.
+terminal receipts cross the version boundary.  Under the emergency search
+policy, a positive seed-2026 winner is frozen as a development candidate and
+additional seeds are explicitly deferred in favor of mechanism ablations and
+mathematical revision compute.  This never claims cross-seed stability.
 """
 
 from __future__ import annotations
@@ -23,6 +24,9 @@ except ModuleNotFoundError:  # direct execution from operations/
     import local_route1_candidate_executor as support  # type: ignore[no-redef]
 
 from operations.local_route1_cross_version_adjudicate import adjudicate
+from research.local_route1.single_seed_development import (
+    materialize_single_seed_development_freeze,
+)
 
 
 SCHEMA = "final-unsb-route1-cross-version-successor-contract-v1"
@@ -33,13 +37,12 @@ EXPECTED_IDS = (
 EXPECTED_MANIFEST = "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b"
 REPO_SOURCE_RELATIVES = (
     "operations/local_route1_candidate_terminal_receipt.py",
-    "operations/local_route1_generation1_adjudicate.py",
-    "operations/local_route1_seed_executor.py",
 )
 SUCCESSOR_SOURCE_RELATIVES = (
     "operations/local_route1_cross_version_successor.py",
     "operations/local_route1_cross_version_adjudicate.py",
     "operations/local_route1_candidate_terminal_receipt.py",
+    "research/local_route1/single_seed_development.py",
 )
 
 
@@ -151,8 +154,10 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "python": str(args.python.resolve()),
         "poll_seconds": int(args.poll_seconds),
         "timeout_seconds": int(args.timeout_seconds),
-        "seed_order": [2027, 2028],
-        "seed2028_requires_seed2027_sign_inconsistency": True,
+        "selection_seeds": [2026],
+        "deferred_seed_validation": [2027, 2028],
+        "seed_validation_policy": "DEFER_ADDITIONAL_SEEDS_FOR_ALGORITHM_SEARCH",
+        "cross_seed_stability_claimed": False,
         "paired_metric_scheduling": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -198,8 +203,16 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("cross-version successor poll interval too short")
     if int(contract.get("timeout_seconds", 0)) < 3600:
         raise RuntimeError("cross-version successor timeout too short")
-    if contract.get("seed_order") != [2027, 2028]:
-        raise RuntimeError("seed order changed")
+    if contract.get("selection_seeds") != [2026]:
+        raise RuntimeError("single-seed selection identity changed")
+    if contract.get("deferred_seed_validation") != [2027, 2028]:
+        raise RuntimeError("deferred seed set changed")
+    if contract.get("seed_validation_policy") != (
+        "DEFER_ADDITIONAL_SEEDS_FOR_ALGORITHM_SEARCH"
+    ):
+        raise RuntimeError("seed validation policy changed")
+    if contract.get("cross_seed_stability_claimed") is not False:
+        raise RuntimeError("single-seed policy cannot claim cross-seed stability")
     for key in ("paired_metric_scheduling", "paired_controller_access", "confirmation20_opened"):
         if contract.get(key) is not False:
             raise RuntimeError(f"cross-version successor requires {key}=false")
@@ -289,79 +302,6 @@ class CrossVersionSuccessor:
         self.event("SOURCE_BOUND_TERMINAL_RECEIPT_ACCEPTED", candidate_id=candidate_id)
         return receipt
 
-    def freeze_single_winner(self, candidate_id: str) -> None:
-        repo = Path(self._record(candidate_id)["repo"])
-        result = subprocess.run([
-            self.contract["python"],
-            "operations/local_route1_generation1_adjudicate.py",
-            "--output", str(self.run_root),
-            "--candidate-id", candidate_id,
-            "--freeze-winner",
-        ], cwd=repo, env=_candidate_env(repo), capture_output=True, text=True, check=False)
-        if result.returncode:
-            raise RuntimeError(
-                f"winner source-identity freeze failed:\n{result.stdout}\n{result.stderr}"
-            )
-
-    def run_seed(self, candidate_id: str, seed: int) -> None:
-        repo = Path(self._record(candidate_id)["repo"])
-        contract_path = self.operations / f"SEED_EXECUTOR_CONTRACT_{candidate_id}_s{seed}.json"
-        if not contract_path.is_file():
-            command = [
-                self.contract["python"], "operations/local_route1_seed_executor.py",
-                "--init-contract", "--contract", str(contract_path),
-                "--main-repo", str(repo), "--seed-repo", str(repo),
-                "--candidate-id", candidate_id, "--validation-seed", str(seed),
-                "--run-root", str(self.run_root),
-                "--train-view", self.contract["train_view"],
-                "--data-root", self.contract["data_root"],
-                "--manifest", self.contract["manifest"],
-                "--python", self.contract["python"],
-            ]
-            result = subprocess.run(
-                command, cwd=repo, env=_candidate_env(repo), capture_output=True,
-                text=True, check=False,
-            )
-            if result.returncode:
-                raise RuntimeError(f"seed{seed} contract failed:\n{result.stdout}\n{result.stderr}")
-        stdout = self.operations / f"SEED_EXECUTOR_{candidate_id}_s{seed}.stdout.log"
-        stderr = self.operations / f"SEED_EXECUTOR_{candidate_id}_s{seed}.stderr.log"
-        with stdout.open("a", encoding="utf-8") as out, stderr.open("a", encoding="utf-8") as err:
-            process = subprocess.Popen(
-                [self.contract["python"], "operations/local_route1_seed_executor.py",
-                 "--contract", str(contract_path)],
-                cwd=repo, env=_candidate_env(repo), stdout=out, stderr=err,
-            )
-            while process.poll() is None:
-                child_state_path = self.operations / f"SEED_EXECUTION_STATE_{candidate_id}_s{seed}.json"
-                child = _read_json(child_state_path) if child_state_path.is_file() else {}
-                self.state(
-                    "FROZEN_SOURCE_IDENTITY_SEED_RUNNING",
-                    candidate_id=candidate_id, seed=seed, child_pid=process.pid,
-                    child_status=child.get("status"),
-                    plain_data_epoch=child.get("plain_data_epoch"),
-                    candidate_data_epoch=child.get("candidate_data_epoch"),
-                )
-                time.sleep(30)
-            returncode = int(process.wait())
-        if returncode:
-            raise RuntimeError(f"seed{seed} executor failed with exit code {returncode}")
-
-    def seed_summary(self, candidate_id: str) -> dict[str, Any]:
-        repo = Path(self._record(candidate_id)["repo"])
-        code = (
-            "import json; from research.local_route1.seed_validation import "
-            "summarize_multi_seed_validation as f; "
-            f"print(json.dumps(f({str(self.run_root)!r}, {candidate_id!r})))"
-        )
-        result = subprocess.run(
-            [self.contract["python"], "-c", code], cwd=repo,
-            env=_candidate_env(repo), capture_output=True, text=True, check=False,
-        )
-        if result.returncode:
-            raise RuntimeError(f"seed summary failed:\n{result.stdout}\n{result.stderr}")
-        return json.loads(result.stdout)
-
     def run(self) -> int:
         self.event("CROSS_VERSION_SUCCESSOR_START", contract=str(self.contract_path))
         self.wait_for_candidates()
@@ -377,18 +317,14 @@ class CrossVersionSuccessor:
                 fixed_window_or_handoff_started=False,
             )
             return 0
-        self.freeze_single_winner(winner)
-        self.run_seed(winner, 2027)
-        aggregate = self.seed_summary(winner)
-        if aggregate["status"] == "WAITING_FOR_AUTHORIZED_SEED2028":
-            self.run_seed(winner, 2028)
-            aggregate = self.seed_summary(winner)
+        freeze = materialize_single_seed_development_freeze(self.run_root)
         self.state(
-            "CROSS_VERSION_MULTI_SEED_ADJUDICATION_COMPLETE",
-            candidate_id=winner, final_status=aggregate["status"],
-            classification=aggregate.get("classification"),
-            included_seeds=aggregate.get("included_seeds"),
-            final_delivery_required=True,
+            "CROSS_VERSION_SINGLE_SEED_DEVELOPMENT_FREEZE_COMPLETE",
+            candidate_id=winner,
+            included_seeds=freeze["included_seeds"],
+            deferred_seeds=freeze["deferred_seeds"],
+            cross_seed_stability_claimed=False,
+            winner_ablation_required=True,
         )
         self.event("CROSS_VERSION_SUCCESSOR_COMPLETE", winner=winner)
         return 0

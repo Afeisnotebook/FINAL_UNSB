@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project_id": "FINAL_UNSB_LOCAL_ROUTE1_DISCOVERY",
-  "status": "GENERATION1_MATCHED_E200_RUNNING",
+  "status": "GENERATION1_SINGLE_SEED_MATCHED_E200_RUNNING",
   "objective": "On the deterministic clean UNSB baseline, use long-horizon evidence from multiple probe families to discover and reconstruct a new algorithm capable of retaining matched benefit over 200 data epochs.",
   "guarantees": [
     "a time-scale-correct long-horizon evidence atlas",
@@ -29,6 +29,18 @@
     "primary_checkpoint_epoch": 200,
     "trajectory_epochs": [1, 5, 10, 20, 40, 60, 80, 100, 125, 150, 175, 200],
     "confirmation_locked": true
+  },
+  "development_selection_policy": {
+    "mode": "EMERGENCY_SINGLE_SEED",
+    "selection_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "cross_seed_stability_claimed": false,
+    "saved_compute_priority": [
+      "winner mechanism ablations",
+      "one evidence-authorized mathematical revision",
+      "an additional independent mechanism before repeated initialization"
+    ],
+    "decision": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
   },
   "research_contract": "LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md",
   "probe_contract": "configs/LOCAL_ROUTE1_PROBES.json",

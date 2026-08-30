@@ -68,6 +68,10 @@ route-2, cross-host deltas, or the old frozen-lane plan.
 - A semantic implementation defect restarts the affected trajectory from e0.
 - Data/checkpoints stay outside Git. Git contains contracts, code, manifests,
   hashes, compact metrics and decisions only.
+- The emergency development selection uses only the complete seed-2026 e200
+  trajectory. Seeds 2027/2028 are deferred so compute returns to ablations,
+  causal revision and independent mechanisms. Never translate this cost policy
+  into a claim that cross-seed stability has been demonstrated.
 
 ## Required response to ambiguity
 
