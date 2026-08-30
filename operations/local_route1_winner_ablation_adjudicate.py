@@ -22,6 +22,10 @@ from operations.local_route1_cross_version_adjudicate import (
 )
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import full_state_hash, write_json
+from research.local_route1.final_selection import (
+    ALLOWED_STATUSES as TERMINAL_SELECTION_STATUSES,
+    validate_e200_selection,
+)
 from research.local_route1.single_seed_development import (
     validate_single_seed_development_freeze,
 )
@@ -136,8 +140,11 @@ def adjudicate(
     cross_adjudication_path = Path(cross_adjudication_path).resolve()
     cross = _read_json(cross_adjudication_path)
     _validate_posthoc(cross, label="cross-version e200 adjudication")
-    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") != POSITIVE_CROSS_STATUS:
-        raise RuntimeError("winner ablations require a positive frozen seed2026 cross-version winner")
+    validate_e200_selection(cross_adjudication_path)
+    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") not in (
+        TERMINAL_SELECTION_STATUSES
+    ):
+        raise RuntimeError("winner ablations require a terminal frozen seed2026 selection")
 
     receipts = {
         "proposal_only": _validate_receipt(Path(proposal_receipt_path)),
@@ -189,6 +196,10 @@ def adjudicate(
         "source_cross_version_adjudication_sha256": file_sha256(
             cross_adjudication_path
         ),
+        "source_e200_selection_path": cross_adjudication_path.relative_to(
+            output_root
+        ).as_posix(),
+        "source_e200_selection_sha256": file_sha256(cross_adjudication_path),
         "roles": {
             role: {
                 "candidate_id": receipt["candidate_id"],

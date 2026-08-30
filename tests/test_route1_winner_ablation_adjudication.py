@@ -120,8 +120,16 @@ def _cross(root: Path, winner: str, algorithm: str) -> Path:
     _write(path, {
         "schema": CROSS_SCHEMA,
         "status": "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE",
+        "ranking": [{
+            "candidate_id": winner,
+            "algorithm_fingerprint": algorithm,
+            "candidate_fingerprint": f"candidate-{winner}",
+            "training_git_commit": "a" * 40,
+        }],
         "selected_candidate_id": winner,
         "selected_algorithm_fingerprint": algorithm,
+        "selected_candidate_fingerprint": f"candidate-{winner}",
+        "selected_training_git_commit": "a" * 40,
         "paired_metrics_used_for_training_or_control": False,
         "confirmation20_opened": False,
     })

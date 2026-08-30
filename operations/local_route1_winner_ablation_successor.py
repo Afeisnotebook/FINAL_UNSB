@@ -22,10 +22,11 @@ from research.local_route1.cross_version_final_delivery import (
     materialize_cross_version_final_delivery,
 )
 from research.local_route1.single_seed_development import (
+    materialize_single_seed_development_freeze,
     validate_single_seed_development_freeze,
 )
+from research.local_route1.final_selection import resolve_e200_selection_path
 from research.local_route1.winner_ablations import (
-    POSITIVE_CROSS_STATUS,
     materialize_winner_ablation_definitions,
 )
 
@@ -40,9 +41,14 @@ SOURCE_RELATIVES = (
     "research/local_route1/winner_ablations.py",
     "research/local_route1/cross_version_final_delivery.py",
     "research/local_route1/single_seed_development.py",
+    "research/local_route1/final_selection.py",
     "research/local_route1/generation1_gates.py",
     "src/models/route1/bvcp_ablation.py",
     "src/models/route1/pcrsmg_ablation.py",
+    "src/models/route1/amtnc_ablation.py",
+    "src/models/route1/mcrb_ablation.py",
+    "src/models/route1_amtnc_ablation_model.py",
+    "src/models/route1_mcrb_ablation_model.py",
 )
 
 
@@ -165,26 +171,29 @@ class WinnerAblationSuccessor:
 
     def wait_for_selection_and_freeze(self) -> dict[str, Any] | None:
         started = time.time()
-        cross_path = self.operations / "CROSS_VERSION_E200_ADJUDICATION.json"
         while True:
-            cross = _read_json(cross_path) if cross_path.is_file() else None
-            if cross is not None and cross.get("status") != POSITIVE_CROSS_STATUS:
-                self.state(
-                    "WAITING_FOR_ROUTE1_CAUSAL_REVISION",
-                    cross_version_status=cross.get("status"),
-                    automatic_handoff_started=False,
-                )
-                return None
+            cross = None
+            cross_path = None
+            pending_reason = None
+            try:
+                cross_path = resolve_e200_selection_path(self.run_root)
+                cross = _read_json(cross_path)
+            except RuntimeError as error:
+                pending_reason = str(error)
             winner = None if cross is None else str(cross["selected_candidate_id"])
             freeze_path = self.operations / "SINGLE_SEED_DEVELOPMENT_FREEZE.json"
             freeze = None
-            if freeze_path.is_file():
+            if cross is not None and not freeze_path.is_file():
+                freeze = materialize_single_seed_development_freeze(self.run_root)
+            elif freeze_path.is_file():
                 freeze = validate_single_seed_development_freeze(self.run_root)
             complete = freeze is not None and freeze.get("candidate_id") == winner
             self.state(
                 "WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
                 winner=winner,
                 cross_version_ready=cross is not None,
+                source_e200_selection=(None if cross_path is None else str(cross_path)),
+                pending_reason=pending_reason,
                 development_freeze_status=(
                     None if freeze is None else freeze.get("status")
                 ),
@@ -314,7 +323,7 @@ class WinnerAblationSuccessor:
         full_receipt = self.operations / "terminal_receipts" / f"{winner}.json"
         result = adjudicate(
             output_root=self.run_root,
-            cross_adjudication_path=self.operations / "CROSS_VERSION_E200_ADJUDICATION.json",
+            cross_adjudication_path=resolve_e200_selection_path(self.run_root),
             proposal_receipt_path=receipts[frozen["ablation_candidate_ids"]["proposal_only"]],
             observable_receipt_path=receipts[frozen["ablation_candidate_ids"]["observable_only"]],
             full_receipt_path=full_receipt,

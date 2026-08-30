@@ -26,6 +26,7 @@ from research.local_route1.final_delivery import (
     _median_epoch_seconds,
     _seed_domain_trajectory,
 )
+from research.local_route1.generation1_adjudication import POSITIVE_STATUS
 from research.local_route1.ablation_challenger_selection import (
     CHALLENGE_STATUS as ABLATION_CHALLENGE_STATUS,
     SCHEMA as CHALLENGER_SELECTION_SCHEMA,
@@ -37,6 +38,11 @@ from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
 from research.local_route1.single_seed_development import (
     freeze_path as single_seed_freeze_path,
     validate_single_seed_development_freeze,
+)
+from research.local_route1.final_selection import (
+    ALLOWED_STATUSES as TERMINAL_SELECTION_STATUSES,
+    resolve_e200_selection_path,
+    validate_e200_selection,
 )
 
 
@@ -320,18 +326,14 @@ def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -
 
 def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
-    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
-    if not cross_path.is_file():
-        raise RuntimeError("cross-version final delivery is blocked until e200 adjudication")
+    cross_path = resolve_e200_selection_path(output_root)
     cross = _read_json(cross_path)
     _posthoc(cross, label="cross-version e200 adjudication")
+    validate_e200_selection(cross_path)
     if cross.get("schema") != CROSS_SCHEMA:
         raise RuntimeError("cross-version e200 adjudication schema mismatch")
-    if cross.get("status") != POSITIVE_CROSS_STATUS:
-        raise RuntimeError(
-            "negative cross-version outcome requires the allowed causal-revision adjudication "
-            "before final delivery"
-        )
+    if cross.get("status") not in TERMINAL_SELECTION_STATUSES:
+        raise RuntimeError("final delivery requires a terminal route-1 e200 selection")
     ranking = cross.get("ranking")
     if not isinstance(ranking, list) or len(ranking) < 2:
         raise RuntimeError("cross-version final delivery requires both complete candidates")
@@ -481,6 +483,8 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "selected_candidate_id": winner,
         "original_cross_version_winner_id": original_winner,
         "cross_version_adjudication_sha256": file_sha256(cross_path),
+        "source_e200_selection_path": cross_path.relative_to(output_root).as_posix(),
+        "source_e200_selection_sha256": file_sha256(cross_path),
         "ranking": ranking,
         "generation1_ranking": ranking,
         "final_selection": final_selection,
@@ -577,13 +581,20 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     write_json(final_root / "ALTERNATES.json", alternates)
 
     classification = (
-        "single_seed_development_signal"
-        if development_freeze is not None else
-        _classification(multi_seed)
+        (
+            "single_seed_development_signal"
+            if selected_receipt.get("trajectory_status") == POSITIVE_STATUS else
+            "weak_fallback_single_seed_development"
+        )
+        if development_freeze is not None else _classification(multi_seed)
     )
-    compute_sensitive = "PCRSMG" in winner or winner == (
-        "G1-02B-PLAYER-CONDITIONAL-RSMG"
-    )
+    compute_sensitive = any(
+        marker in winner for marker in ("PCRSMG", "AMTNC", "MCRB")
+    ) or winner in {
+        "G1-02B-PLAYER-CONDITIONAL-RSMG",
+        "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+        "G1-03-STATE-FEEDBACK-MISSING",
+    }
     reproduction_commands: dict[str, Any] = {
         "seed2026_e200": (
             "python operations/local_route1_candidate_executor.py --contract "
@@ -630,6 +641,12 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "source_bound_terminal_receipt_sha256": file_sha256(
             selected_receipt_path
         ),
+        "source_e200_selection": {
+            "path": cross_path.relative_to(output_root).as_posix(),
+            "sha256": file_sha256(cross_path),
+            "status": cross["status"],
+            "selection_role": cross.get("selection_role", "seed2026_numeric_winner"),
+        },
         "selected_fixed_checkpoint": {
             "data_epoch": 200, "best_checkpoint_selection": False,
         },

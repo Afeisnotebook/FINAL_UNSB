@@ -234,7 +234,7 @@ def _branch_from_parent(
             },
             "route1_observer": {
                 key: value for key, value in method.get("route1_observer", {}).items()
-                if key != "lagged_netG"
+                if key not in ("lagged_netG", "teacher_netG")
             },
         },
     }
@@ -526,14 +526,25 @@ def _mcrb_invariants() -> list[dict]:
 def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
     model = context.registration.spec.model
     method = context.registration.spec.method
-    role_key = (
-        "bvcp_ablation_role" if model == "route1_bvcp_ablation"
-        else "pcrsmg_ablation_role"
-    )
+    role_keys = {
+        "route1_bvcp_ablation": "bvcp_ablation_role",
+        "route1_pcrsmg_ablation": "pcrsmg_ablation_role",
+        "route1_amtnc_ablation": "amtnc_ablation_role",
+        "route1_mcrb_ablation": "mcrb_ablation_role",
+    }
+    families = {
+        "route1_bvcp_ablation": "bvcp",
+        "route1_pcrsmg_ablation": "pcrsmg",
+        "route1_amtnc_ablation": "amtnc",
+        "route1_mcrb_ablation": "mcrb",
+    }
+    if model not in role_keys:
+        raise RuntimeError("winner ablation gate received an unknown family")
+    role_key = role_keys[model]
     role = str(method.get(role_key, ""))
     if role not in ("proposal_only", "observable_only"):
         raise RuntimeError("winner ablation gate has no frozen role")
-    family = "bvcp" if model == "route1_bvcp_ablation" else "pcrsmg"
+    family = families[model]
     rows = [{
         "name": "ablation_role_is_source_frozen",
         "status": "PASS",
@@ -550,7 +561,7 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
                 "observer computes current/lagged velocity and returns current exactly"
             ),
         })
-    else:
+    elif family == "pcrsmg":
         coupled = __import__(
             "models.route1.pcrsmg", fromlist=["coupled_game_conditional_bias_example"]
         ).coupled_game_conditional_bias_example()
@@ -568,6 +579,28 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
                 "second view is diagnostic; RNG is restored before native commits"
             ),
         })
+    elif family == "amtnc":
+        rows.extend(_amtnc_invariants()[-2:])
+        rows.append({
+            "name": "amtnc_ablation_operator_scope_is_frozen",
+            "status": "PASS",
+            "observed": (
+                "fresh conditional bundles commit ordered first replicas"
+                if role == "proposal_only" else
+                "pre-update Adam geometry is discarded before exact native commit"
+            ),
+        })
+    else:
+        rows.extend(_mcrb_invariants()[:1])
+        rows.append({
+            "name": "mcrb_ablation_operator_scope_is_frozen",
+            "status": "PASS",
+            "observed": (
+                "norm-matched negative covariance tangent replaces native G displacement"
+                if role == "proposal_only" else
+                "moving covariance derivative is observed while native G displacement is retained"
+            ),
+        })
     return rows
 
 
@@ -582,10 +615,15 @@ def _next_update_dynamics(snapshot: dict[str, Any]) -> dict[str, Any]:
 def _observable_active_identity(
     context: CandidateGateContext, *, e0: dict,
 ) -> dict[str, Any] | None:
-    role = context.registration.spec.method.get(
-        "bvcp_ablation_role" if context.registration.spec.model == "route1_bvcp_ablation"
-        else "pcrsmg_ablation_role"
-    )
+    role_key = {
+        "route1_bvcp_ablation": "bvcp_ablation_role",
+        "route1_pcrsmg_ablation": "pcrsmg_ablation_role",
+        "route1_amtnc_ablation": "amtnc_ablation_role",
+        "route1_mcrb_ablation": "mcrb_ablation_role",
+    }.get(context.registration.spec.model)
+    if role_key is None:
+        raise RuntimeError("observable identity gate received an unknown ablation model")
+    role = context.registration.spec.method.get(role_key)
     if role != "observable_only":
         return None
     plain_model, pp, ps, _ = _prepare(context, _plain_spec("gate_observer_plain"), e0=e0)
@@ -769,6 +807,7 @@ def run_mcrb_gate(context: CandidateGateContext) -> dict:
 def run_winner_ablation_gate(context: CandidateGateContext) -> dict:
     if context.registration.spec.model not in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
+        "route1_amtnc_ablation", "route1_mcrb_ablation",
     ):
         raise RuntimeError("winner ablation gate received a non-ablation model")
     return _run(context, invariant="winner_ablation")

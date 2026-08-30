@@ -18,6 +18,11 @@ from operations.local_route1_cross_version_adjudicate import (
 )
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
+from research.local_route1.final_selection import (
+    ALLOWED_STATUSES as TERMINAL_SELECTION_STATUSES,
+    resolve_e200_selection_path,
+    validate_e200_selection,
+)
 
 
 SCHEMA = "final-unsb-route1-single-seed-development-freeze-v1"
@@ -46,9 +51,7 @@ def validate_single_seed_development_freeze(
         if not path.is_file():
             raise RuntimeError("single-seed development freeze is missing")
         value = _read_json(path)
-    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
-    if not cross_path.is_file():
-        raise RuntimeError("single-seed freeze has no cross-version e200 authority")
+    cross_path = resolve_e200_selection_path(output_root)
     cross = _read_json(cross_path)
     candidate_id = str(value.get("candidate_id", ""))
     receipt_path = (
@@ -64,6 +67,13 @@ def validate_single_seed_development_freeze(
         "candidate_fingerprint": cross.get("selected_candidate_fingerprint"),
         "training_git_commit": cross.get("selected_training_git_commit"),
         "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "source_e200_selection_path": cross_path.relative_to(output_root).as_posix(),
+        "source_e200_selection_sha256": file_sha256(cross_path),
+        "development_signal_classification": (
+            "positive_seed2026_e200_signal"
+            if cross.get("status") == POSITIVE_CROSS_STATUS else
+            "current_best_seed2026_e200_fallback"
+        ),
         "source_terminal_receipt_sha256": file_sha256(receipt_path),
         "included_seeds": [2026],
         "deferred_seeds": [2027, 2028],
@@ -72,8 +82,11 @@ def validate_single_seed_development_freeze(
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }
-    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") != POSITIVE_CROSS_STATUS:
-        raise RuntimeError("single-seed development freeze requires a positive e200 winner")
+    validate_e200_selection(cross_path)
+    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") not in (
+        TERMINAL_SELECTION_STATUSES
+    ):
+        raise RuntimeError("single-seed development freeze requires a terminal e200 selection")
     for key, expected in required.items():
         if value.get(key) != expected:
             raise RuntimeError(f"single-seed development freeze field mismatch: {key}")
@@ -89,12 +102,13 @@ def validate_single_seed_development_freeze(
 
 def materialize_single_seed_development_freeze(output_root: Path) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
-    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
-    if not cross_path.is_file():
-        raise RuntimeError("single-seed development freeze requires e200 adjudication")
+    cross_path = resolve_e200_selection_path(output_root)
     cross = _read_json(cross_path)
-    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") != POSITIVE_CROSS_STATUS:
-        raise RuntimeError("single-seed development freeze requires a positive e200 winner")
+    validate_e200_selection(cross_path)
+    if cross.get("schema") != CROSS_SCHEMA or cross.get("status") not in (
+        TERMINAL_SELECTION_STATUSES
+    ):
+        raise RuntimeError("single-seed development freeze requires a terminal e200 selection")
     candidate_id = str(cross["selected_candidate_id"])
     receipt_path = (
         output_root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
@@ -110,10 +124,17 @@ def materialize_single_seed_development_freeze(output_root: Path) -> dict[str, A
         "candidate_fingerprint": str(cross["selected_candidate_fingerprint"]),
         "training_git_commit": str(cross["selected_training_git_commit"]),
         "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "source_e200_selection_path": cross_path.relative_to(output_root).as_posix(),
+        "source_e200_selection_sha256": file_sha256(cross_path),
         "source_terminal_receipt_sha256": file_sha256(receipt_path),
         "included_seeds": [2026],
         "deferred_seeds": [2027, 2028],
         "evidence_scope": "small25_batch1_seed2026_true_e200",
+        "development_signal_classification": (
+            "positive_seed2026_e200_signal"
+            if cross.get("status") == POSITIVE_CROSS_STATUS else
+            "current_best_seed2026_e200_fallback"
+        ),
         "allowed_use": [
             "development candidate selection",
             "proposal-only/observable-only/full mechanism ablation",

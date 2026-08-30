@@ -8,6 +8,11 @@ from pathlib import Path
 from typing import Any
 
 from .candidates import freeze_candidate_derivation
+from .final_selection import (
+    ALLOWED_STATUSES as TERMINAL_SELECTION_STATUSES,
+    resolve_e200_selection_path,
+    validate_e200_selection,
+)
 from .protocol import ROOT, file_sha256
 from .runtime import write_json
 
@@ -29,6 +34,22 @@ WINNER_FAMILIES = {
         "ids": {
             "proposal_only": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
             "observable_only": "ABL-G1-02B-PCRSMG-OBSERVABLE-ONLY",
+        },
+    },
+    "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {
+        "family": "amtnc",
+        "model": "route1_amtnc_ablation",
+        "ids": {
+            "proposal_only": "ABL-G2-01-AMTNC-PROPOSAL-ONLY",
+            "observable_only": "ABL-G2-01-AMTNC-OBSERVABLE-ONLY",
+        },
+    },
+    "G1-03-STATE-FEEDBACK-MISSING": {
+        "family": "mcrb",
+        "model": "route1_mcrb_ablation",
+        "ids": {
+            "proposal_only": "ABL-G1-03-MCRB-PROPOSAL-ONLY",
+            "observable_only": "ABL-G1-03-MCRB-OBSERVABLE-ONLY",
         },
     },
 }
@@ -89,7 +110,8 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "falsifier": "A complete e200 trajectory below full PC-RSMG rejects G/F-only replication as the sufficient mechanism.",
             "unbiased": "D/E use their native estimator. Conditional on their realized update, linearity of expectation gives E[(g_GF(xi1)+g_GF(xi2))/2]=E[g_GF], with iid conditional variance halved.",
         }
-    return {
+    if family == "pcrsmg":
+        return {
         "name": "PC-RSMG Observable-Only Replicate Monitor",
         "formula": "Draw the native first view, snapshot all Python/NumPy/CPU/CUDA RNG states, draw a second no-gradient diagnostic view, record endpoint dispersion, restore every RNG state and the first-view tensors, then execute the exact native D/E/G/F transition from the first view.",
         "identity": "After excluding only recoverable route1_observer diagnostics, networks, optimizers, schedulers, RNG, both samplers, step and native method state must equal plain exactly.",
@@ -102,7 +124,67 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
         "expected": "Negative control proving that observation, extra forward compute and logging alone do not change native UNSB dynamics.",
         "falsifier": "Any next-update dynamics or e200 evaluation mismatch with plain is an implementation failure, not a scientific result.",
         "unbiased": "The committed transition is pathwise identical to native UNSB because the diagnostic graph is discarded and all stochastic states are restored before the first-view losses are committed.",
-    }
+        }
+    if family == "amtnc" and role == "proposal_only":
+        return {
+            "name": "AM-TNC Proposal-Only Conditional First Replica",
+            "formula": "Retain AM-TNC's fresh two-view DE and post-opponent GF bundles, compute the registered Adam-metric geometry, but commit the ordered first native gradient g1 for D, E and joint G/F. No radial component is removed.",
+            "identity": "Disabled mode dispatches native UNSB exactly. Under replica exchange the committed residual around the two-view mean changes sign, and the ordered first replica retains the native conditional mean without AM-TNC's projection.",
+            "objective_change": False, "estimator_change": True,
+            "compute": "the same two fresh gradients per D/E/GF player as full AM-TNC; the second is diagnostic only",
+            "memory": "two serial player graphs, matching full AM-TNC",
+            "recovery": "player-conditional bundle counters, schedule and discarded geometry",
+            "state": ["amtnc.update_index", "amtnc.bundle_serial", "amtnc.last_geometry"],
+            "method": {"route1_ablation_enable": True, "amtnc_ablation_role": role},
+            "expected": "Separates the fresh player-conditional sampling protocol from the Adam-metric radial cancellation operator.",
+            "falsifier": "If full AM-TNC outranks this complete e200 trajectory, the tangential operator contributes beyond conditional resampling; if this wins, the projection is unnecessary or harmful.",
+            "unbiased": "Conditional on each realized player state, g1 is an iid native-measure draw. Thus E[g1|S]=E[g_UNSB|S]; the unused second draw and recorded geometry cannot change the committed estimator.",
+        }
+    if family == "amtnc":
+        return {
+            "name": "AM-TNC Observable-Only Adam Geometry Monitor",
+            "formula": "Compute pre-native-update two-view Adam-metric consensus/radial/tangential geometry, then restore every RNG stream, network buffer, train/eval flag and bridge-view tensor before executing the ordinary one-view UNSB update.",
+            "identity": "After removing only route1_observer diagnostics, the complete next-update dynamics state and e200 evaluation must equal plain exactly.",
+            "objective_change": False, "estimator_change": False,
+            "compute": "one discarded two-view player-geometry audit plus the native update",
+            "memory": "two transient diagnostic player graphs",
+            "recovery": "route1_observer geometry counters only",
+            "state": ["route1_observer.update_index", "route1_observer.last.geometry"],
+            "method": {"route1_ablation_enable": True, "amtnc_ablation_role": role},
+            "expected": "Negative control proving that observing AM-TNC geometry and paying its diagnostic compute cannot itself alter UNSB dynamics.",
+            "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
+            "unbiased": "The diagnostic transition is discarded and all mutable stochastic/buffer state is restored before the pathwise native update.",
+        }
+    if family == "mcrb" and role == "proposal_only":
+        return {
+            "name": "MCRB Proposal-Only Moving Covariance Tangent",
+            "formula": "After realizing native Adam moments and displacement Delta, replace the generator displacement by -||Delta|| grad C/||grad C|| whenever the moving current/EMA covariance-gap tangent is nonzero. The native-safe half-space projection is removed.",
+            "identity": "Disabled mode is exact native UNSB; active mode is exact identity only when the covariance tangent or native displacement norm is zero.",
+            "objective_change": True, "estimator_change": False,
+            "compute": "one current/EMA covariance tangent plus the realized native Adam step, matching full MCRB order",
+            "memory": "one EMA generator and covariance-tangent graph",
+            "recovery": "EMA generator, tangent diagnostics and proposal counters",
+            "state": ["mcrb.teacher_netG", "mcrb.update_index", "mcrb.last"],
+            "method": {"route1_ablation_enable": True, "mcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "mcrb_projection_epsilon": 1e-24},
+            "expected": "Separates the moving covariance proposal from MCRB's native-safe half-space constraint.",
+            "falsifier": "A complete e200 trajectory below full MCRB shows that the native-safe projection, rather than the raw covariance tangent, is essential.",
+        }
+    if family == "mcrb":
+        return {
+            "name": "MCRB Observable-Only Moving Covariance Monitor",
+            "formula": "Compute the current/EMA covariance gap, its tangent and the derivative along the realized native Adam displacement, but commit that native displacement unchanged. The EMA and diagnostics live only under route1_observer.",
+            "identity": "After removing only route1_observer diagnostics, complete next-update dynamics and e200 evaluation must equal plain exactly.",
+            "objective_change": False, "estimator_change": False,
+            "compute": "one current/EMA covariance tangent in addition to the native generator update",
+            "memory": "one observer-only EMA generator and one tangent graph",
+            "recovery": "route1_observer EMA, counters and last derivative",
+            "state": ["route1_observer.teacher_netG", "route1_observer.update_index"],
+            "method": {"route1_ablation_enable": True, "mcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "mcrb_projection_epsilon": 1e-24},
+            "expected": "Negative control proving that the moving covariance observation and extra compute do not explain any gain.",
+            "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
+            "unbiased": "The committed parameter and optimizer transition is pathwise native; the observer EMA is excluded from and cannot enter subsequent native updates.",
+        }
+    raise ValueError(f"unknown winner ablation family: {family}")
 
 
 def _card(
@@ -168,7 +250,7 @@ def _implementation(candidate_id: str, family: str, role: str, card_path: Path) 
         f"src/models/route1_{family}_ablation_model.py",
         "research/local_route1/generation1_gates.py",
     ]
-    method = {"route1_ablation_enable": True, f"{family}_ablation_role": role}
+    method = dict(_role_semantics(family, role)["method"])
     if family == "bvcp":
         method["bvcp_root_epsilon"] = 1e-12
     return {
@@ -197,10 +279,11 @@ def _implementation(candidate_id: str, family: str, role: str, card_path: Path) 
 
 def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
-    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
+    cross_path = resolve_e200_selection_path(output_root)
     cross = _read_json(cross_path)
-    if cross.get("status") != POSITIVE_CROSS_STATUS:
-        raise RuntimeError("winner ablations require a positive source-bound e200 winner")
+    validate_e200_selection(cross_path)
+    if cross.get("status") not in TERMINAL_SELECTION_STATUSES:
+        raise RuntimeError("winner ablations require a terminal source-bound e200 selection")
     parent_id = str(cross["selected_candidate_id"])
     if parent_id not in WINNER_FAMILIES:
         raise RuntimeError("cross-version winner has no registered ablation family")
@@ -285,6 +368,8 @@ def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]
         "parent_candidate_id": parent_id,
         "parent_terminal_receipt_sha256": file_sha256(parent_receipt_path),
         "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "source_e200_selection_path": cross_path.relative_to(output_root).as_posix(),
+        "source_e200_selection_sha256": file_sha256(cross_path),
         "ablation_candidate_ids": ids,
         "registrations": frozen,
         "long_horizon_started": False,
@@ -293,4 +378,3 @@ def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]
     }
     write_json(output_root / "operations" / "WINNER_ABLATION_FREEZE.json", result)
     return result
-
