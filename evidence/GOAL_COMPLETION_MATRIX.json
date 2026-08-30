@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T15:20:46+08:00",
+  "updated": "2026-08-30T15:57:17+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -69,8 +69,8 @@
       ],
       "current": {
         "authoritative_host": "remote4090",
-        "BVCP_data_epoch": 44,
-        "RSMG_data_epoch": 36,
+        "BVCP_data_epoch": 74,
+        "RSMG_data_epoch": 60,
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -107,9 +107,10 @@
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "130 pytest tests passed at successor commit 528dcca",
+        "135 pytest tests passed at successor commit 2ffa1fa",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 220ce21705f3ef716de430f692f7ab7edb07399d"
+        "main pushed through 2ffa1fa4f9cc0dd5eedbd7b1acfbaa95eebec755",
+        "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json"
       ],
       "boundary": "Tests and repository cleanliness must be re-proven after final materialization."
     },
@@ -121,11 +122,11 @@
     }
   ],
   "current_accepted_scientific_boundary": {
-    "local": "plain and HJ e200 accepted; HNEK at e97; local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP e44 and RSMG e36 from common e0 are the authoritative candidate runs",
-    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e24 and RSMG e19 are active and must never be merged into the 4090 ranking",
+    "local": "plain and HJ e200 accepted; HNEK at e113; local continuation is not the authoritative Generation-1 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP e74 and RSMG e60 from common e0 are the authoritative candidate runs",
+    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e44 and RSMG e34 are active and must never be merged into the 4090 ranking",
     "new_algorithms": "BVCP and RSMG have evidence-bound derivation cards, executable implementations, identity/unbiased gates and active full e200 trajectories",
-    "successor": "durable 4090 supervisor waits for both complete e200 trajectories and can freeze only a numeric-gate winner",
+    "successor": "durable 4090 supervisor at 2ffa1fa waits for both complete e200 trajectories, independently verifies all checkpoint/metric/CRN artifacts, and can freeze only a numeric-gate winner",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

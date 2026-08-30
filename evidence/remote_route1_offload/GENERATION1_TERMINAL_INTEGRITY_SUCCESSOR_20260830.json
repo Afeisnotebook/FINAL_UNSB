@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-generation1-terminal-integrity-successor-v1",
+  "observed_at": "2026-08-30T15:57:17+08:00",
+  "status": "ARMED_WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "host": "remote4090",
+  "successor_git_commit": "2ffa1fa4f9cc0dd5eedbd7b1acfbaa95eebec755",
+  "successor_worktree": "/home/yc/FINAL_UNSB_SUCCESSOR_2ffa1fa",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/GENERATION1_SUCCESSOR_CONTRACT_2ffa1fa.json",
+  "contract_sha256": "0a3528ef3a7e7a94fd7719d73dd5fbaa93681f24f8b96faf355cd43d75263795",
+  "supervisor_pid": 1390355,
+  "supervisor_stderr_bytes": 0,
+  "candidate_executor_pids_before_after": [
+    [1378636, 1378637],
+    [1378636, 1378637]
+  ],
+  "terminal_integrity_gate": {
+    "all_registered_candidate_milestone_checkpoint_hashes_recomputed": true,
+    "e200_payload_and_scientific_state_hash_recomputed": true,
+    "all_registered_metric_identities_verified": true,
+    "all_420_per_image_crn_bundles_compared_to_same_host_plain": true,
+    "ranking_before_gate_pass_forbidden": true
+  },
+  "training_core_fingerprint": "2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
+  "full_pytest": "135 passed",
+  "candidate_training_code_changed": false,
+  "candidate_checkpoint_or_rng_touched": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "deployment_note": "The remote GitHub TLS fetch failed without changing state; the exact pushed commit was transferred as a verified complete Git bundle and installed as a detached clean worktree."
+}

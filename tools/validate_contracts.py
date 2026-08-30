@@ -68,10 +68,27 @@ def main() -> int:
     check(project["frozen"]["updates_per_local_anchor_lane"] == 30000,
           "project and probe long-horizon clocks agree")
     offload = project.get("authorization_required") or {}
-    check(offload.get("status") == "GRANTED_LIMITED"
-          and offload.get("decision") == "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
-          and offload.get("host") == "192.168.0.30",
-          "supplementary route-1 remote offload has explicit limited authorization")
+    required_decisions = {
+        "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
+        "decisions/DEC-20260830-ROUTE1-REMOTE5090.md",
+        "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md",
+    }
+    required_hosts = {
+        "local GTX 1660", "192.168.0.30 RTX 4090",
+        "final-unsb-5090 RTX 5090",
+    }
+    required_exclusions = {
+        "full-data execution", "confirmation20 access",
+        "route2 handoff or exit search",
+        "cross-host method-minus-plain comparisons",
+    }
+    check(
+        offload.get("status") == "GRANTED_MULTI_HOST_ROUTE1_ONLY"
+        and required_decisions.issubset(set(offload.get("decisions", [])))
+        and required_hosts == set(offload.get("hosts", []))
+        and required_exclusions.issubset(set(offload.get("excludes", []))),
+        "multi-host route-1 offload has explicit bounded authorization",
+    )
     check(lanes["status"] == "SUSPENDED_NOT_CURRENT",
           "former four-lane server plan is suspended")
     check(budget["status"] == "SUSPENDED_SERVER_BUDGET_NOT_CURRENT",
