@@ -150,3 +150,101 @@ def test_new_frontier_winner_runs_two_e200_ablations_before_final_selection(
     assert result["frontier_full_candidate_id"] == full_id
     assert result["selected_candidate_id"] == proposal_id
     assert result["new_frontier_ablation_e200_executors"] == 2
+
+
+def test_pre_frontier_winner_reselected_keeps_own_ablation_evidence(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    successor = _successor(tmp_path)
+    base_id = "BASE"
+    full_id = "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING"
+    proposal_id = "ABL-F1-01-PCNR-PROPOSAL-ONLY"
+    observable_id = "ABL-F1-01-PCNR-OBSERVABLE-ONLY"
+    base_evidence = {
+        "proposal_only": {"candidate_id": base_id},
+        "observable_only": {"candidate_id": "BASE-OBSERVE"},
+        "projected_or_full": {"candidate_id": "BASE-FULL"},
+    }
+    successor._base_delivery = lambda: (
+        {"candidate_id": base_id},
+        {"selected_candidate_id": base_id, "winner_ablation_results": base_evidence},
+    )
+    paths = {}
+    for candidate_id in (base_id, full_id, proposal_id, observable_id):
+        path = successor.operations / "terminal_receipts" / f"{candidate_id}.json"
+        _write(path, {"candidate_id": candidate_id})
+        paths[candidate_id] = path
+    base_ablation_path = successor.operations / "WINNER_ABLATION_ADJUDICATION.json"
+    _write(base_ablation_path, {"roles": base_evidence})
+    frontier_selection = {
+        "selected_candidate_id": full_id,
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }
+    frontier_selection_path = successor.operations / FINAL_SELECTION
+    _write(frontier_selection_path, frontier_selection)
+    monkeypatch.setattr(
+        module, "_same_host_selection",
+        lambda *_args: (
+            frontier_selection, paths[full_id], {"candidate_id": full_id},
+        ),
+    )
+    monkeypatch.setattr(
+        module, "materialize_winner_ablation_definitions",
+        lambda *_args, **_kwargs: {
+            "ablation_candidate_ids": {
+                "proposal_only": proposal_id,
+                "observable_only": observable_id,
+            }
+        },
+    )
+    successor.run_gates = lambda _ids: None
+    successor.run_e200 = lambda _ids: None
+    monkeypatch.setattr(module, "materialize_receipt", lambda *_args: None)
+
+    def fake_ablation(**kwargs):
+        roles = {
+            "proposal_only": {"candidate_id": proposal_id},
+            "observable_only": {"candidate_id": observable_id},
+            "projected_or_full": {"candidate_id": full_id},
+        }
+        value = {
+            "status": "COMPLETE_NO_SELECTION_CHANGE",
+            "roles": roles,
+            "paired_metrics_used_for_training_or_control": False,
+            "confirmation20_opened": False,
+        }
+        _write(kwargs["output_path"], value)
+        return value
+
+    monkeypatch.setattr(module, "adjudicate_ablations", fake_ablation)
+
+    def fake_rank(_paths, output_path):
+        value = {
+            "selected_candidate_id": base_id,
+            "paired_metrics_used_for_training_or_control": False,
+            "confirmation20_opened": False,
+        }
+        _write(output_path, value)
+        return value
+
+    monkeypatch.setattr(module, "rank_receipts", fake_rank)
+    monkeypatch.setattr(
+        module, "_validate_receipt",
+        lambda path: {
+            "candidate_id": Path(path).stem,
+            "algorithm_fingerprint": f"algorithm-{Path(path).stem}",
+        },
+    )
+
+    assert successor.run() == 0
+    result = json.loads((successor.operations / RESULT).read_text())
+    assert result["status"] == (
+        "PRE_FRONTIER_SELECTED_WINNER_RETAINED_AFTER_FRONTIER_ABLATIONS"
+    )
+    assert result["selected_candidate_id"] == base_id
+    assert result["winner_ablation_evidence"] == base_evidence
+    assert result["winner_ablation_adjudication_path"] == str(base_ablation_path)
+    assert result["frontier_challenger_ablation_evidence"][
+        "projected_or_full"
+    ]["candidate_id"] == full_id

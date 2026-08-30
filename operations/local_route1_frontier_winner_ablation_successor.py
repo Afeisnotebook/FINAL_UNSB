@@ -311,9 +311,8 @@ class FrontierWinnerAblationSuccessor(WinnerAblationSuccessor):
         final_id = str(post["selected_candidate_id"])
         final_receipt_path = self.operations / "terminal_receipts" / f"{final_id}.json"
         final_receipt = _validate_receipt(final_receipt_path)
-        result = {
+        common = {
             "schema": "final-unsb-route1-frontier-winner-ablation-result-v1",
-            "status": "FRONTIER_SELECTED_ALGORITHM_ABLATIONS_COMPLETE",
             "frontier_full_candidate_id": selected_id,
             "selected_candidate_id": final_id,
             "selected_algorithm_fingerprint": final_receipt["algorithm_fingerprint"],
@@ -322,9 +321,6 @@ class FrontierWinnerAblationSuccessor(WinnerAblationSuccessor):
             "post_ablation_selection_path": str(post_path),
             "post_ablation_selection_sha256": support.file_sha256(post_path),
             "post_ablation_selection": post,
-            "winner_ablation_adjudication_path": str(ablation_path),
-            "winner_ablation_adjudication_sha256": support.file_sha256(ablation_path),
-            "winner_ablation_evidence": ablation["roles"],
             "ablation_candidate_ids": frozen["ablation_candidate_ids"],
             "new_frontier_ablation_e200_executors": 2,
             "paired_metrics_used_only_after_complete_e200_trajectories": True,
@@ -332,6 +328,44 @@ class FrontierWinnerAblationSuccessor(WinnerAblationSuccessor):
             "paired_controller_access": False,
             "confirmation20_opened": False,
         }
+        if final_id == base_id:
+            base_ablation_path = (
+                self.operations / "WINNER_ABLATION_ADJUDICATION.json"
+            )
+            base_evidence = base_results.get("winner_ablation_results")
+            if not base_ablation_path.is_file() or not isinstance(base_evidence, dict):
+                raise RuntimeError(
+                    "reselected pre-frontier winner lacks its own e200 ablations"
+                )
+            result = {
+                **common,
+                "status": (
+                    "PRE_FRONTIER_SELECTED_WINNER_RETAINED_AFTER_"
+                    "FRONTIER_ABLATIONS"
+                ),
+                "winner_ablation_adjudication_path": str(base_ablation_path),
+                "winner_ablation_adjudication_sha256": support.file_sha256(
+                    base_ablation_path
+                ),
+                "winner_ablation_evidence": base_evidence,
+                "frontier_challenger_ablation_adjudication_path": str(
+                    ablation_path
+                ),
+                "frontier_challenger_ablation_adjudication_sha256": (
+                    support.file_sha256(ablation_path)
+                ),
+                "frontier_challenger_ablation_evidence": ablation["roles"],
+            }
+        else:
+            result = {
+                **common,
+                "status": "FRONTIER_SELECTED_ALGORITHM_ABLATIONS_COMPLETE",
+                "winner_ablation_adjudication_path": str(ablation_path),
+                "winner_ablation_adjudication_sha256": support.file_sha256(
+                    ablation_path
+                ),
+                "winner_ablation_evidence": ablation["roles"],
+            }
         write_json(self.operations / RESULT, result)
         self.state(
             result["status"], selected_candidate_id=final_id,

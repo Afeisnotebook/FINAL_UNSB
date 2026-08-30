@@ -182,6 +182,7 @@ def _winner_specific_selection(
     _posthoc_closed(result, label="frontier winner ablation result")
     if result.get("status") not in (
         "REUSED_PRE_FRONTIER_SELECTED_WINNER_ABLATIONS",
+        "PRE_FRONTIER_SELECTED_WINNER_RETAINED_AFTER_FRONTIER_ABLATIONS",
         "FRONTIER_SELECTED_ALGORITHM_ABLATIONS_COMPLETE",
     ):
         raise RuntimeError("frontier selected algorithm ablations are not complete")
