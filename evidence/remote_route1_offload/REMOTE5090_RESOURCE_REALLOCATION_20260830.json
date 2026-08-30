@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-remote-resource-reallocation-v1",
+  "recorded_at": "2026-08-30T21:37:00+08:00",
+  "host": "final-unsb-5090",
+  "status": "REDUNDANT_REPLICATION_PAUSED_INDEPENDENT_MECHANISM_PRIORITIZED",
+  "development_policy": {
+    "development_seed": 2026,
+    "deferred_seeds": [2027, 2028],
+    "single_seed_sufficient_for_development_selection": true,
+    "cross_seed_stability_claimed": false,
+    "saved_compute_priority": [
+      "independent evidence-authorized mechanism",
+      "one causal mathematical revision",
+      "winner mechanism ablations",
+      "repeated initialization only if later explicitly authorized"
+    ]
+  },
+  "paused_execution": {
+    "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    "role": "same-seed supplemental cross-host replication",
+    "reason": "The source-bound 4090 seed2026 e200 trajectory is already authoritative. Continuing a second same-seed copy had lower information value than completing independent MCRB and was slowing both streams on one GPU.",
+    "preserved_data_epoch": 88,
+    "preserved_updates": 13200,
+    "preserved_scientific_state_sha256": "2b69a64a7d092dea7b77ff73b87902990bd75a35722bf0b703a7c29e32c16b14",
+    "checkpoint_deleted": false,
+    "resumable": true,
+    "scientific_early_stop_claimed": false
+  },
+  "prioritized_execution": {
+    "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+    "method_name": "MCRB",
+    "role": "independent third mechanism",
+    "data_epoch_at_reallocation": 16,
+    "updates_at_reallocation": 2400,
+    "executor_pid_at_reallocation": 85899,
+    "child_pid_at_reallocation": 87563,
+    "target_data_epochs": 200,
+    "paired_metric_early_stop": false,
+    "confirmation20_opened": false
+  },
+  "resource_observation": {
+    "gpu_memory_used_mib_after_pause": 1854,
+    "previous_two-stream_memory_used_mib": 4219,
+    "scientific_batch_size_unchanged": 1,
+    "reason_batch_not_increased": "Increasing batch size changes the official unpaired sampling, PatchNCE negatives, adversarial game and Adam dynamics; resource utilization is increased through independent streams rather than protocol mutation."
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This is a reversible compute-priority decision, not a scientific result. The paused PC-RSMG e88 state remains recoverable and is not interpreted as an endpoint."
+}
