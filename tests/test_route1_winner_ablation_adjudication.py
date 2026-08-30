@@ -270,3 +270,39 @@ def test_winner_ablation_adjudication_accepts_terminal_fallback_source(tmp_path)
     )
     assert result["status"] == "COMPLETE_NO_SELECTION_CHANGE"
     assert result["selected_candidate_id"] == full_id
+
+
+def test_strict_gate_pass_proposal_outranks_higher_late_mean_fallback(tmp_path):
+    full_id = "G1-FULL-NEGATIVE"
+    proposal_id = "ABL-PROPOSAL-POSITIVE"
+    observable_id = "ABL-OBSERVE"
+    full = _receipt(
+        tmp_path, full_id, late=0.6, algorithm="algorithm-full",
+        status=NEGATIVE_STATUS,
+    )
+    proposal = _receipt(
+        tmp_path, proposal_id, late=0.5, status=POSITIVE_STATUS,
+    )
+    observable = _receipt(
+        tmp_path, observable_id, late=0.0, status=NEGATIVE_STATUS,
+    )
+    _observable_plain_identity(tmp_path, observable_id)
+    cross = _cross(
+        tmp_path, full_id, "algorithm-full", status=CROSS_VERSION_NEGATIVE_STATUS,
+    )
+
+    result = adjudicate(
+        output_root=tmp_path,
+        cross_adjudication_path=cross,
+        proposal_receipt_path=proposal,
+        observable_receipt_path=observable,
+        full_receipt_path=full,
+        output_path=tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json",
+    )
+
+    assert result["status"] == (
+        "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION"
+    )
+    assert result["proposal_only_out_ranks_full"] is True
+    assert result["proposal_only_strict_gate_pass"] is True
+    assert result["projected_or_full_strict_gate_pass"] is False

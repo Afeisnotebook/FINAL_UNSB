@@ -26,6 +26,7 @@ from research.local_route1.final_selection import (
     ALLOWED_STATUSES as TERMINAL_SELECTION_STATUSES,
     validate_e200_selection,
 )
+from research.local_route1.generation1_adjudication import POSITIVE_STATUS
 from research.local_route1.single_seed_development import (
     validate_single_seed_development_freeze,
 )
@@ -43,6 +44,14 @@ OBSERVABLE_ONLY_METRIC_METADATA_FIELDS = {
     "candidate_id",
     "probe_id",
 }
+
+
+def _scientific_rank_key(receipt: dict[str, Any]) -> tuple[Any, ...]:
+    """Apply the registered sustained gate before ranking qualified trajectories."""
+    return (
+        0 if receipt.get("trajectory_status") == POSITIVE_STATUS else 1,
+        *_rank_key(receipt),
+    )
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -235,7 +244,9 @@ def adjudicate(
         output_root, str(receipts["observable_only"]["candidate_id"]),
     )
     proposal = receipts["proposal_only"]
-    proposal_challenges_full = _rank_key(proposal) < _rank_key(full)
+    proposal_challenges_full = (
+        _scientific_rank_key(proposal) < _scientific_rank_key(full)
+    )
     single_seed_policy = None
     freeze_path = output_root / "operations" / "SINGLE_SEED_DEVELOPMENT_FREEZE.json"
     if freeze_path.is_file():
@@ -279,6 +290,16 @@ def adjudicate(
             )
         },
         "observable_only_identity": identity,
+        "ranking_policy": (
+            "strict sustained-e200 gate first; registered late-three/e200/domain/"
+            "guardrail/cost rank within the same eligibility tier"
+        ),
+        "proposal_only_strict_gate_pass": (
+            proposal.get("trajectory_status") == POSITIVE_STATUS
+        ),
+        "projected_or_full_strict_gate_pass": (
+            full.get("trajectory_status") == POSITIVE_STATUS
+        ),
         "proposal_only_out_ranks_full": proposal_challenges_full,
         "selection_changed": False,
         "selection_change_blocked_pending_seed_validation": (
