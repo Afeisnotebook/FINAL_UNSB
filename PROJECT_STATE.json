@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T00:43:50+08:00",
+  "state_snapshot_time": "2026-08-31T00:48:37+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "2dedf9bd109ca492c4f40121c678f214e71f2c6e",
+  "development_head_at_state_write": "9bfd3875861ae30dea0a3c1fb596d21316c12e40",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -290,8 +290,8 @@
         "generation": 2,
         "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 150,
-        "latest_executor_progress_data_epoch": 150,
+        "latest_observed_data_epoch": 175,
+        "latest_executor_progress_data_epoch": 176,
         "target_data_epoch": 200,
         "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
         "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
@@ -312,7 +312,14 @@
         "e150_worst_domain_delta_db": -0.16654563511838916,
         "e150_macro_lpips_delta": 0.005948997874345163,
         "e150_status": "FIRST_LATE_POINT_POSITIVE_WITH_LPIPS_GUARDRAIL_FAIL_CONTINUE_FIXED_E200",
-        "e150_evidence": "evidence/remote_route1_offload/AMTNC_E150_FIXED_MILESTONE_20260831.json"
+        "e150_evidence": "evidence/remote_route1_offload/AMTNC_E150_FIXED_MILESTONE_20260831.json",
+        "e175_descriptive_only_macro_psnr_delta_db": -0.604078558019502,
+        "e175_positive_domains": 1,
+        "e175_worst_domain_delta_db": -1.2120901962193962,
+        "e175_macro_ssim_delta": -0.010337434992903738,
+        "e175_macro_lpips_delta": 0.01820590336407929,
+        "e175_status": "SECOND_LATE_POINT_NEGATIVE_WITH_ABSOLUTE_AND_GUARDRAIL_REGRESSION_CONTINUE_FIXED_E200",
+        "e175_evidence": "evidence/remote_route1_offload/AMTNC_E175_FIXED_MILESTONE_20260831.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false

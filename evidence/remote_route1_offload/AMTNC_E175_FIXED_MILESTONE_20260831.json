@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-route1-amtnc-e175-fixed-milestone-v1",
+  "recorded": "2026-08-31T00:48:37+08:00",
+  "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "method_name": "AM-TNC",
+  "candidate_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+  "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+  "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+  "execution_role": "authoritative_4090_single_allowed_evidence_driven_revision",
+  "fixed_e175_observation": {
+    "updates": 26250,
+    "candidate_macro_psnr": 16.540798283239003,
+    "plain_macro_psnr": 17.144876841258505,
+    "macro_psnr_delta": -0.604078558019502,
+    "macro_ssim_delta": -0.010337434992903738,
+    "macro_lpips_delta": 0.01820590336407929,
+    "lpips_guardrail_status": "WORSE_THAN_PLAIN_AT_E175",
+    "positive_domains": 1,
+    "worst_domain_delta": -1.2120901962193962,
+    "per_domain_psnr_delta": {
+      "FoggyCityscapes": -0.9756997278040203,
+      "LowLightTrafficData": 0.3222368178536055,
+      "RSCityscapes": -1.2120901962193962,
+      "RainCityscapes": -0.7733337496611057,
+      "RainDS-syn": -0.7371149106025037,
+      "SnowTrafficData": -0.24846958168357958
+    },
+    "metric_sha256": "6612065eaa1ddde73f3659bca9f0529fb0bf7f2b1a6bdf74a95cbbb218f2b748",
+    "plain_metric_sha256": "abce3061dea8a47c8bedf86c391af9ffca288078a13bb064506b38c1c4175fa3",
+    "milestone_checkpoint_sha256": "94cb8dd3a0d1c1658ed71337030b0eba3b644b711ae84698578192687a81569c",
+    "milestone_sidecar_sha256": "7acb4b66881ea042ad38f9a0abc05ac62b8f7ce39a84f6013ad86cfe95a2e982",
+    "scientific_state_sha256": "8b287c6677feaee3c056d41eee79e887d6c11c1fc04c4dee6448d41ca4151a40"
+  },
+  "e150_to_e175_decomposition": {
+    "delta_change_db": -1.1409281661707382,
+    "candidate_absolute_change_db": -0.2491417714511428,
+    "plain_absolute_change_db": 0.8917863947195954,
+    "interpretation": "AM-TNC declined in absolute PSNR while the same-host plain improved, so the e175 relative loss combines candidate regression and plain recovery."
+  },
+  "live_continuation": {
+    "executor_pid": 1431466,
+    "e175_to_e180_child_pid": 1450385,
+    "next_chunk_started": true,
+    "scientific_early_stop": false,
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "adjudication": {
+    "status": "SECOND_LATE_POINT_NEGATIVE_WITH_ABSOLUTE_AND_GUARDRAIL_REGRESSION_CONTINUE_FIXED_E200",
+    "terminal_candidate_gate_passed": false,
+    "reason": "The second late point is negative with one of six domains positive, candidate absolute regression, and both SSIM and LPIPS guardrail failures. The registered e200 endpoint is still required for the complete trajectory.",
+    "authorized_action": "Continue the unchanged AM-TNC trajectory to e200 and preserve the failure decomposition for terminal causal adjudication.",
+    "forbidden_actions": [
+      "stop or modify AM-TNC from this paired observation",
+      "select the e150 checkpoint",
+      "fit an exit threshold, annealing schedule or handoff",
+      "open confirmation20"
+    ]
+  }
+}
