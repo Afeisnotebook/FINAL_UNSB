@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-route1-cross-version-negative-causal-successor-deployment-v1",
+  "status": "ARMED_WAITING_FOR_CROSS_VERSION_E200_OUTCOME",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "source_commit": "85c03fba76d3fdc44d0e456ae23b7788a828da80",
+  "successor_repo": "/home/yc/FINAL_UNSB_NEG_SUCCESSOR_85c03fb",
+  "candidate_compatible_repos": {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
+      "repo": "/home/yc/FINAL_UNSB_BVCP_NEG_AUDIT_85c03fb",
+      "git_commit": "7d02324842c705b4798b4ba3516d2a8b58283d4e"
+    },
+    "G1-02B-PLAYER-CONDITIONAL-RSMG": {
+      "repo": "/home/yc/FINAL_UNSB_PCRSMG_NEG_AUDIT_85c03fb",
+      "git_commit": "949399bce7784f7e4be17be1aecc7a8794c5cd06"
+    }
+  },
+  "shared_defect_auditor_sha256": "21ac70ba8763235b4d5ede7b9369a6c48d48d18805044b74ba4dd35a412a3c12",
+  "remote_targeted_pytest": "3 passed in each candidate-compatible worktree",
+  "local_full_pytest": "144 passed",
+  "tmux_session": "FINAL_UNSB_NEGATIVE_SUCCESSOR_85c03fb",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_NEGATIVE_SUCCESSOR_CONTRACT_85c03fb.json",
+  "contract_sha256": "0ce9e6e8626046c4821559e59d332580b799a3b457aebf66d1de1b561b96da2e",
+  "initial_state": {
+    "status": "WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION",
+    "state_sha256_at_verification": "ff0c626f1606db868065451e462c5381d130c3356679eef670bd1680eee281df",
+    "stderr_bytes": 0
+  },
+  "activation_condition": "Both source-bound candidate trajectories finish e200 and the authoritative 4090 cross-version adjudication reports that neither passes the registered numeric gate.",
+  "automatic_actions_after_activation": [
+    "measure BVCP rollout-speed constraint reduction at its unchanged source-bound e200 checkpoint",
+    "measure fixed-state per-player conditional native-gradient variance reduction for PC-RSMG at its unchanged source-bound e200 checkpoint",
+    "require a material PC-RSMG variance ratio below 0.8 rather than treating sampling noise below 1.0 as causal evidence",
+    "aggregate source-bound trajectory and algorithm fingerprints without importing sibling candidate code",
+    "route at most one evidence-supported parent to manual mathematical derivation"
+  ],
+  "scientific_limit": "The PC-RSMG audit is a target-blind fixed-state per-player conditional-variance proxy. It is not represented as proof that the complete finite-step sequential game has been corrected.",
+  "positive_cross_version_behavior": "Exit as inapplicable; the positive winner seed and ablation successors retain authority.",
+  "forbidden_automatic_actions": [
+    "derive or train a revision without a new derivation card and gates",
+    "change replica count or tune a fixed intervention window",
+    "start route-2 handoff",
+    "read paired metrics for training control",
+    "open confirmation20"
+  ],
+  "scientific_contract": {
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "defect_audit_samples": 32,
+    "best_checkpoint_selection": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "running_candidate_worktrees_modified": false,
+  "temporary_transfer_bundles_removed": true
+}

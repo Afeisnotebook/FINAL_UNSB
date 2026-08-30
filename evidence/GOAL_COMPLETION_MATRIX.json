@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T16:58:00+08:00",
+  "updated": "2026-08-30T17:36:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -88,9 +88,10 @@
       "status": "PENDING_COMPLETE_E200_OUTCOME",
       "evidence": [
         "evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json",
-        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_CAUSAL_SUCCESSOR_ARMED_20260830.json"
       ],
-      "rule": "A positive eligible winner makes revision inapplicable. A negative current implementation may revise once only after a target-blind defect measurement proves reduction and supplies a new causal failure reason."
+      "rule": "A positive eligible winner makes revision inapplicable. If both source-bound e200 implementations are negative, the armed successor measures each parent defect at the unchanged terminal state and routes at most one mathematically eligible revision; it never auto-derives a window, threshold controller or handoff."
     },
     {
       "id": 7,
@@ -115,8 +116,9 @@
       "status": "ONGOING_PASS",
       "evidence": [
         "139 pytest tests passed at cross-version successor commit 0aa0beb",
+        "144 pytest tests passed at negative causal successor commit 85c03fb",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through e728064",
+        "main pushed through 85c03fb",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
