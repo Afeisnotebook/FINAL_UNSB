@@ -675,6 +675,48 @@ def test_target_blind_screen_retains_method_specific_signal_without_unifying_it(
     assert signal["paired_label_available_to_controller"] is False
 
 
+def test_shared_signal_requires_every_probe_to_pass_not_only_the_mean():
+    rows = []
+    for probe, correct in (("dt", True), ("hj", True), ("hnek", False)):
+        for epoch, score in ((20, 1.0), (40, 0.5), (60, -0.5), (100, -1.0)):
+            label = score if correct else -score
+            common = {
+                "probe": probe, "data_epoch": epoch, "source_state": probe,
+                "operator_mode": causal_audit._preferred_operator_mode(probe, epoch),
+                "branch_regime": "continuous_intervention",
+            }
+            rows.append({
+                **common, "horizon": 1,
+                "update_geometry": {
+                    "correction_reference_cosine": score,
+                    "correction_norm": 0.2,
+                    "reference_norm": 1.0,
+                },
+                "next_independent_native_consensus": {"cosine": score},
+                "native_component_directional_derivatives": {},
+                "reference_observation": {"bridge": {}},
+                "proposal_observation": {"bridge": {}},
+            })
+            rows.append({
+                **common, "horizon": 200,
+                "post_branch_development_label": {
+                    "macro_psnr_delta": label,
+                    "domain_psnr_delta": {
+                        f"d{index}": label for index in range(6)
+                    },
+                },
+            })
+    screen = target_blind_signal_screen(rows, [])
+    signal = next(
+        row for row in screen["signals"]
+        if row["feature"] == "correction_next_native_cosine"
+    )
+    assert signal["mean_per_method_future_sign_accuracy"] == pytest.approx(2 / 3)
+    assert signal["leave_one_method_out_future_sign_accuracy"] == pytest.approx(0.0)
+    assert signal["shared_driver_eligible"] is False
+    assert signal["method_specific_driver_eligible_for"] == ["dt", "hj"]
+
+
 def test_signal_records_expose_low_dimensional_block_domain_and_time_consensus():
     common = {
         "probe": "hj",

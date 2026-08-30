@@ -1760,11 +1760,12 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
             probe: values["future_sign_accuracy"]
             for probe, values in per_method.items()
         }
-        lomo = 0.0 if not heldout else float(np.mean(list(heldout.values())))
+        lomo_mean = 0.0 if not heldout else float(np.mean(list(heldout.values())))
+        lomo_minimum = 0.0 if not heldout else float(np.min(list(heldout.values())))
         shared_passes = (
             len(records) >= 6
             and len(heldout) >= 2
-            and lomo >= 0.65
+            and lomo_minimum >= 0.65
             and global_metrics["future_200_step_delta_spearman"] >= 0.30
             and global_metrics["mean_domain_sign_agreement_of_six"] >= 4.0
             and (
@@ -1787,7 +1788,8 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
             "feature": feature,
             "records": len(records),
             "probes": sorted(heldout),
-            "leave_one_method_out_future_sign_accuracy": lomo,
+            "leave_one_method_out_future_sign_accuracy": lomo_minimum,
+            "mean_per_method_future_sign_accuracy": lomo_mean,
             "heldout_accuracy_by_method": heldout,
             "per_method_performance": per_method,
             **{
