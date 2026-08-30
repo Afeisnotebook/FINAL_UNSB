@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-route1-winner-ablation-and-cross-final-gates-v1",
+  "status": "CODE_AND_FAIL_CLOSED_TESTS_COMPLETE_EXPERIMENTS_PENDING_WINNER",
+  "date": "2026-08-30",
+  "purpose": "Prevent the cross-version winner from being delivered before actual proposal-only, observable-only and projected/full small25 e200 evidence exists.",
+  "implemented": [
+    "source-bound three-role terminal-receipt adjudication",
+    "common e0/protocol/manifest/plain authority enforcement",
+    "observable-only exact e200 scientific-state and evaluation identity enforcement",
+    "proposal-only challenger detection that blocks final selection",
+    "cross-version final CANDIDATE/RESULTS/ALTERNATES/report materialization without importing sibling candidate code"
+  ],
+  "source_files": [
+    "operations/local_route1_winner_ablation_adjudicate.py",
+    "operations/local_route1_cross_version_finalize.py",
+    "research/local_route1/cross_version_final_delivery.py"
+  ],
+  "tests": {
+    "command": "python -m pytest -q",
+    "result": "142 passed",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "scientific_boundary": {
+    "winner_known": false,
+    "ablation_implementations_frozen": false,
+    "ablation_e200_trajectories_complete": false,
+    "final_delivery_complete": false,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "paired_metrics_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "resource_policy": "Only the eventual winner receives long-horizon ablations. High-end GPUs use concurrent independent batch-1 streams; scientific batch size is not enlarged."
+}

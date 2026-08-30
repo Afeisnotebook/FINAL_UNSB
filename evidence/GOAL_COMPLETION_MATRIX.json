@@ -131,13 +131,16 @@
     {
       "id": 11,
       "requirement": "The selected algorithm has proposal-only, observable-only and projected/full ablation evidence rather than definitions alone.",
-      "status": "DEFINITIONS_FROZEN_EXPERIMENTS_PENDING_WINNER",
+      "status": "EXECUTION_AND_ADJUDICATION_GATES_READY_EXPERIMENTS_PENDING_WINNER",
       "evidence": [
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
-        "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json"
+        "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+        "operations/local_route1_winner_ablation_adjudicate.py",
+        "research/local_route1/cross_version_final_delivery.py",
+        "evidence/remote_route1_offload/WINNER_ABLATION_AND_CROSS_FINAL_GATES_20260830.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions in a derivation card are not accepted as experimental results.",
-      "missing": ["winner identity", "proposal-only implementation/gate/e200", "observable-only implementation/gate/e200", "full-vs-ablation matched adjudication"]
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must be exact plain scientific identity at e200, and a proposal-only challenger blocks the original winner from final delivery.",
+      "missing": ["winner identity", "proposal-only implementation/gate/e200", "observable-only implementation/gate/e200", "full-vs-ablation matched result artifact"]
     }
   ],
   "current_accepted_scientific_boundary": {
