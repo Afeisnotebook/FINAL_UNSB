@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T15:11:16+08:00",
+  "state_snapshot_time": "2026-08-30T16:05:10+08:00",
   "phase": "GENERATION1_BVCP_RSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "8fdd18775f11b140164f51caae3411e32256f7c1",
+  "development_head_at_state_write": "4c614691e43897f3c9bf4d911e90883b2ba9cb59",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -19,7 +19,7 @@
       "target_data_epoch": 200
     },
     "hj": {"latest_observed_data_epoch": 200, "latest_observed_updates": 30000, "target_data_epoch": 200},
-    "hnek": {"data_epoch": 93, "updates": 13950, "target_data_epoch": 200},
+    "hnek": {"data_epoch": 113, "updates": 16950, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
     "plain_e100_official_metric_pending_recovery": false,
@@ -212,14 +212,14 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
         "method_name": "BVCP",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 38,
+        "latest_observed_data_epoch": 80,
         "target_data_epoch": 200,
         "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa"
       },
       "G1-02-SAMPLING-VARIANCE": {
         "method_name": "RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 30,
+        "latest_observed_data_epoch": 63,
         "target_data_epoch": 200,
         "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333"
       },
@@ -228,15 +228,16 @@
     },
     "generation1_successor": {
       "status": "ARMED_WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
-      "git_commit": "4678c87cd78480c077f6608a4d061f080ccff752",
-      "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR",
+      "git_commit": "2ffa1fa4f9cc0dd5eedbd7b1acfbaa95eebec755",
+      "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR_2ffa1fa",
       "freeze_only_numeric_gate_winner": true,
       "seed2027_after_complete_e200_only": true,
       "seed2028_requires_seed2027_sign_inconsistency": true,
       "negative_path_stops_for_causal_revision": true,
       "final_delivery_after_complete_seed_adjudication": true,
       "negative_e200_target_blind_defect_audit": true,
-      "evidence": "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_PORTABLE_DELIVERY_20260830.json"
+      "terminal_integrity_verification_before_ranking": true,
+      "evidence": "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json"
     },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
@@ -284,8 +285,8 @@
     },
     "latest_observed_dt_data_epoch": 200,
     "generation1_candidates": {
-      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 19, "target_data_epoch": 200},
-      "G1-02-SAMPLING-VARIANCE": {"latest_observed_data_epoch": 15, "target_data_epoch": 200},
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 44, "target_data_epoch": 200},
+      "G1-02-SAMPLING-VARIANCE": {"latest_observed_data_epoch": 34, "target_data_epoch": 200},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
