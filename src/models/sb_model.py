@@ -144,9 +144,23 @@ class SBModel(BaseModel):
             self.optimizer_F.zero_grad()
         self.loss_G = self.compute_G_loss()
         self.loss_G.backward()
+        self._before_generator_optimizer_step()
         self.optimizer_G.step()
         if self.opt.netF == 'mlp_sample':
             self.optimizer_F.step()
+
+    def _before_generator_optimizer_step(self):
+        """Candidate hook executed after G/F backward and before the G step.
+
+        Plain UNSB deliberately does nothing here.  Route-1 candidates use the
+        hook to snapshot pre-update state without changing the native update.
+        """
+        return None
+
+    def _rollout_endpoint(self, rollout_net, x, time_idx, z, *, stream):
+        """Candidate hook for the no-gradient rollout endpoint only."""
+        del stream
+        return rollout_net(x, time_idx, z)
 
     def _sample_training_time_idx(self, T):
         official = torch.randint(T, size=[1])
@@ -201,13 +215,17 @@ class SBModel(BaseModel):
                 time_idx = (t * torch.ones(size=[self.real_A.shape[0]], device=self.real_A.device)).long()
                 time     = times[time_idx]
                 z        = torch.randn(size=[self.real_A.shape[0],4*self.opt.ngf], device=self.real_A.device)
-                Xt_1     = rollout_net(Xt, time_idx, z)
+                Xt_1     = self._rollout_endpoint(
+                    rollout_net, Xt, time_idx, z, stream="A"
+                )
 
                 Xt2       = self.real_A2 if (t == 0) else (1-inter) * Xt2 + inter * Xt_12.detach() + (scale * tau).sqrt() * torch.randn_like(Xt2).to(self.real_A.device)
                 time_idx = (t * torch.ones(size=[self.real_A.shape[0]], device=self.real_A.device)).long()
                 time     = times[time_idx]
                 z        = torch.randn(size=[self.real_A.shape[0],4*self.opt.ngf], device=self.real_A.device)
-                Xt_12    = rollout_net(Xt2, time_idx, z)
+                Xt_12    = self._rollout_endpoint(
+                    rollout_net, Xt2, time_idx, z, stream="A2"
+                )
 
 
                 if self.opt.nce_idt:
@@ -215,7 +233,9 @@ class SBModel(BaseModel):
                     time_idx = (t * torch.ones(size=[self.real_A.shape[0]], device=self.real_A.device)).long()
                     time     = times[time_idx]
                     z        = torch.randn(size=[self.real_A.shape[0],4*self.opt.ngf], device=self.real_A.device)
-                    Xt_1B = rollout_net(XtB, time_idx, z)
+                    Xt_1B = self._rollout_endpoint(
+                        rollout_net, XtB, time_idx, z, stream="B"
+                    )
             if self.opt.nce_idt:
                 self.XtB = XtB.detach()
             self.real_A_noisy = Xt.detach()
