@@ -173,7 +173,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_SINGLE_SEED_BVCP_AND_PCRSMG_E200_RUNNING",
+    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_AMTNC_GENERATION2_E200_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "authoritative host-matched Generation-1 ranking runtime; never mix a remote method with local or 5090 plain",
@@ -238,8 +238,8 @@
       },
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
-        "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 156,
+        "gate_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+        "latest_observed_data_epoch": 200,
         "target_data_epoch": 200,
         "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
@@ -256,9 +256,28 @@
         "e150_descriptive_only_macro_psnr_delta_db": 1.3708965709386227,
         "e150_descriptive_only_positive_domains": 4,
         "e150_guardrails_pass": true,
-        "trajectory_status": "NONMONOTONE_REVERSAL_AND_RECOVERY_E200_ADJUDICATION_PENDING",
+        "trajectory_status": "LATE_THREE_POSITIVE_E200_NEAR_NEUTRAL_STRICT_TERMINAL_GATE_FAIL",
+        "late_three_macro_psnr_delta_db": 0.620959,
+        "e200_macro_psnr_delta_db": -0.0013789368,
+        "e200_positive_domains": 3,
+        "target_blind_defect_variance_ratio": 0.7208930823,
+        "causal_revision_authorized": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
         "e125_evidence": "evidence/remote_route1_offload/PCRSMG_E125_REVERSAL_OBSERVED_20260830.json",
-        "e150_evidence": "evidence/remote_route1_offload/PCRSMG_E150_FIXED_MILESTONE_RECOVERY_20260830.json"
+        "e150_evidence": "evidence/remote_route1_offload/PCRSMG_E150_FIXED_MILESTONE_RECOVERY_20260830.json",
+        "e200_evidence": "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json"
+      },
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {
+        "method_name": "AM-TNC",
+        "generation": 2,
+        "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+        "gate_status": "PASS_LONG_RUN",
+        "latest_observed_data_epoch": 25,
+        "target_data_epoch": 200,
+        "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+        "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+        "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+        "execution_role": "the single evidence-authorized mathematical revision on the authoritative 4090 runtime",
+        "evidence": "evidence/remote_route1_offload/AMTNC_CAUSAL_REVISION_GATE_AND_E200_START_20260830.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
@@ -295,7 +314,7 @@
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "ALL_ANCHORS_E200_COMPLETE_SUPPLEMENTAL_BVCP_AND_PCRSMG_E200_RUNNING",
+    "status": "ALL_ANCHORS_E200_COMPLETE_MCRB_E200_RUNNING_REDUNDANT_PCRSMG_PAUSED",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -339,7 +358,8 @@
     "generation1_candidates": {
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
-      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 57, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 88, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication paused to prioritize independent mechanism", "resumable": true},
+      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 36, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; requires 4090 same-host rerun only if positive"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -372,13 +392,16 @@
     "winner_ablation_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
     "winner_ablation_successor_status": "ARMED_WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
     "winner_ablation_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
+    "extended_winner_ablation_commit": "058a5e5ba371803a851b03c83189a0f754bb301b",
+    "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
+    "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
     "retired_multi_seed_successors": [
       "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
       "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
       "945b8cfcd557367c307ce08f3eccb8e4476c6c17"
     ],
     "pcrsmg_mathematical_implementation_audit": "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
-    "status": "BVCP_AND_PCRSMG_VALID_SINGLE_SEED_E200_RUNNING_POST_E200_ABLATION_AND_REVISION_SUCCESSORS_ARMED"
+    "status": "AMTNC_4090_AND_MCRB_5090_E200_RUNNING_EXTENDED_WINNER_ABLATION_CHAIN_READY"
   },
-  "next_gate": "Let PC-RSMG complete true e200 without intermediate quality control; verify every terminal checkpoint, metric and CRN artifact under each frozen code identity, then rank only the authoritative 4090 seed2026 trajectories. A positive winner immediately receives proposal-only/observable-only/full e200 ablations; a negative pair enters the single allowed causal mathematical revision. Seeds 2027/2028 are deferred and 5090 remains cross-runtime corroboration only."
+  "next_gate": "Let AM-TNC on 4090 and MCRB on 5090 complete true e200 without intermediate quality control. If MCRB is positive, rerun it from common e0 on the authoritative 4090 before any numeric merge; otherwise keep it supplemental-negative. Freeze the resulting same-host seed2026 winner or honest fallback, then run that identity's proposal-only/observable-only/full e200 ablations. Seeds 2027/2028 remain deferred."
 }

@@ -108,8 +108,14 @@
     {
       "id": 7,
       "requirement": "One CANDIDATE.json and two fallback/closed directions are delivered.",
-      "status": "NOT_REACHED",
-      "missing": ["complete seed2026 e200 ranking", "winner e200 ablations or causal revision", "final fail-closed materialization"]
+      "status": "GENERATION2_AND_INDEPENDENT_MECHANISM_E200_RUNNING",
+      "evidence": [
+        "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json",
+        "evidence/remote_route1_offload/AMTNC_CAUSAL_REVISION_GATE_AND_E200_START_20260830.json",
+        "evidence/remote_route1_offload/MCRB_GATE_AND_E200_START_20260830.json",
+        "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json"
+      ],
+      "missing": ["AM-TNC and MCRB terminal e200 decisions", "authoritative all-candidate seed2026 ranking", "winner e200 ablations", "final fail-closed materialization"]
     },
     {
       "id": 8,
@@ -119,6 +125,8 @@
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json"
+        ,"research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json"
+        ,"research/local_route1/derivation_cards/G1-03-STATE-FEEDBACK-MISSING.json"
       ],
       "missing": ["candidate e150/e175/e200 rows", "final ranking and reproduction command bound to the selected fingerprint", "winner proposal-only and observable-only experimental trajectories"]
     },
@@ -167,6 +175,7 @@
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_SELECTION_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
+        ,"evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json"
       ],
       "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
@@ -174,10 +183,10 @@
   ],
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP reached e200 with a negative current-implementation label; PC-RSMG was observed at e103 and continues from common e0; old RSMG e71 is engineering-invalid",
-    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e163 and PC-RSMG e44 continue; no 5090 result may be merged into the 4090 ranking",
-    "new_algorithms": "BVCP is a valid complete e200 negative current implementation, not a falsification of its parent mechanism; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and continues without scientific early stop",
-    "successor": "single-seed source-bound ranking and winner-ablation successors at 23dc0c8 are durably waiting; the old automatic seed2027/2028 chains are retired; negative causal routing remains at 6f3edf5 with two-replica Euclidean/Adam subspace geometry, without modifying active training identities",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e25 and continues from common e0 under commit 977ce32",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e36; no 5090 result may be merged into the 4090 ranking",
+    "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
+    "successor": "commit 058a5e5 generalizes source-bound terminal selection and proposal-only/observable-only/full ablations to AM-TNC and MCRB; 185 tests pass locally and on 4090, while winner-specific GPU gates and e200 ablation trajectories correctly remain pending final selection",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

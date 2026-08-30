@@ -17,9 +17,11 @@
   跨seed稳定。
 
 当前真实阶段以`PROJECT_STATE.json`为准：4090的plain/HJ/HNEK/DT和474条长期反转、
-140条采样方差因果图谱已经冻结。图谱生成了BVCP与PC-RSMG两个新算法；BVCP冻结当前
-实现已完成e200且为长期负，PC-RSMG正在从共同e0运行真实e200。当前工作不是重新跑
-lineage或锚点，也不是用BVCP失败结束父机制搜索。
+140条采样方差因果图谱已经冻结。BVCP与PC-RSMG均已完成e200：BVCP为长期负；
+PC-RSMG晚三点仍为正但e200为-0.00138 dB，因此当前实现未通过严格终点门。终点
+target-blind审计据此授权唯一二代修订AM-TNC；它正在4090从共同e0运行e200。紧急
+单seed协议释放的另一份算力用于独立机制MCRB，它正在5090运行e200。两台宿主的
+数值不合并；只有MCRB在5090为正时，才会在4090完成同plain身份的权威复赛。
 
 ## 为什么此前的“路线一完成”需要重审
 
@@ -42,11 +44,12 @@ lineage或锚点，也不是用BVCP失败结束父机制搜索。
 1. 已完成DT/HJ/HNEK与clean canonical的语义谱系和200-data-epoch锚点审计。
 2. 已在4090冻结target-blind长期因果图谱，并从最清楚的rollout移动与采样方差机理
    构造两项新算法；旧名字没有候选保护席位。
-3. 当前让PC-RSMG在权威4090和独立5090完成真正的e200 matched trajectory；中间
-   paired分数只作固定描述，不控制代码、调度或退出。
-4. e200后由source-bound后继执行单seed开发排名。正向赢家直接做三项真实e200消融；
-   若两项全负，先做target-blind终点缺陷和梯度子空间审计，再只允许一次证据授权的
-   数学修订。seed2027/2028不自动启动。
+3. 当前让AM-TNC在权威4090、MCRB在独立5090完成真正的e200；中间paired分数只作
+   固定描述，不控制代码、调度或退出。PC-RSMG的冗余5090复现已在e88安全暂停，资源
+   让给独立机制。
+4. e200后先决定MCRB是否需要4090同宿主复赛，再由source-bound总排名冻结单seed
+   开发赢家。最终赢家的proposal-only、observable-only、projected/full均从共同e0
+   运行真实e200；seed2027/2028不自动启动。
 5. 任何宿主都不得读取confirmation20、运行全量数据、搜索handoff/退出窗口或把方法
    分数减去另一宿主的plain。
 

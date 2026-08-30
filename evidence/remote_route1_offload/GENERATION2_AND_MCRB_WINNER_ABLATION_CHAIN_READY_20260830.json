@@ -1,0 +1,71 @@
+{
+  "schema": "final-unsb-route1-extended-winner-ablation-chain-ready-v1",
+  "recorded": "2026-08-30T22:07:00+08:00",
+  "status": "SOURCE_CODE_AND_CPU_GATES_READY_WINNER_SPECIFIC_GPU_GATES_PENDING_SELECTION",
+  "git_commit": "058a5e5ba371803a851b03c83189a0f754bb301b",
+  "purpose": "Prevent the e200 pipeline from stopping after a Generation-2 or independent-mechanism winner by extending source-bound selection, mechanism ablations and final delivery beyond the original BVCP/PC-RSMG-only registry.",
+  "supported_full_candidates": {
+    "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {
+      "family": "amtnc",
+      "proposal_only": "ABL-G2-01-AMTNC-PROPOSAL-ONLY",
+      "observable_only": "ABL-G2-01-AMTNC-OBSERVABLE-ONLY"
+    },
+    "G1-03-STATE-FEEDBACK-MISSING": {
+      "family": "mcrb",
+      "proposal_only": "ABL-G1-03-MCRB-PROPOSAL-ONLY",
+      "observable_only": "ABL-G1-03-MCRB-OBSERVABLE-ONLY"
+    }
+  },
+  "selection_semantics": {
+    "historical_generation1_adjudication_overwritten": false,
+    "authorized_generation2_revision_must_finish_before_fallback_freeze": true,
+    "explicit_all_candidate_same_host_selection_has_highest_precedence": true,
+    "negative_terminal_selection_can_freeze_an_honest_current_best_fallback": true,
+    "cross_host_receipts_can_be_numerically_merged": false,
+    "selection_seed": 2026,
+    "deferred_seeds": [2027, 2028],
+    "cross_seed_stability_claimed": false
+  },
+  "ablation_semantics": {
+    "amtnc_proposal_only": "retain fresh player-conditional two-view schedule but commit the ordered first native gradient, removing Adam-metric radial cancellation",
+    "amtnc_observable_only": "measure pre-update Adam geometry, restore RNG/buffers/modes/views, then commit exact native UNSB",
+    "mcrb_proposal_only": "replace native G displacement by a norm-matched negative moving covariance tangent, removing the native-safe half-space projection",
+    "mcrb_observable_only": "measure the moving covariance derivative while committing the exact native Adam displacement",
+    "observable_e200_requirement": "exact plain next-update dynamics after excluding only route1_observer",
+    "each_role_target_data_epochs": 200,
+    "batch_size": 1
+  },
+  "verification": {
+    "local_pytest": "185 passed",
+    "remote4090_pytest": "185 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "remote4090_isolated_worktree": "/home/yc/FINAL_UNSB_WINNER_058a5e5",
+    "winner_specific_gpu_gate": "PENDING_FINAL_WINNER_IDENTITY",
+    "proposal_only_e200": "NOT_STARTED",
+    "observable_only_e200": "NOT_STARTED"
+  },
+  "active_scientific_runs_unchanged": {
+    "remote4090": {
+      "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+      "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+      "observed_data_epoch": 25,
+      "target_data_epoch": 200
+    },
+    "remote5090": {
+      "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+      "training_git_commit": "7fa9081",
+      "observed_data_epoch": 36,
+      "target_data_epoch": 200
+    },
+    "local1060": {
+      "task": "HJ e150 target-blind 200-step audit",
+      "process_id": 13628,
+      "status": "RUNNING",
+      "reversal_atlas_rows_observed": 56
+    }
+  },
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
