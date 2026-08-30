@@ -352,6 +352,7 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     report = (final / "FINAL_ROUTE1_REPORT.md").read_text(encoding="utf-8")
     for heading in ("## 科学结论", "## 工程失败与科学结果的边界", "## 代理失真边界", "## 尚未验证"):
         assert heading in report
+    assert "晚期差距收窄是耐久性改善证据" in report
     assert materialize_frontier_final_delivery(tmp_path) == pointer
 
 

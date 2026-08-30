@@ -376,6 +376,7 @@ def _report(
         "",
         f"- 当前证据支持：{boundaries['scientific_conclusion']['supported']}",
         f"- 当前证据不支持：{boundaries['scientific_conclusion']['not_supported']}",
+        f"- 长程进展解释：{boundaries['scientific_conclusion']['long_horizon_progress']}",
         "- paired指标只在完整e200轨迹冻结后用于排序，未进入训练、控制或退出。",
         "",
         "## 工程失败与科学结果的边界",
@@ -527,6 +528,10 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
             ),
             "not_supported": (
                 "跨seed稳定性、全量一万张数据收益、confirmation20泛化或论文级最终结论。"
+            ),
+            "long_horizon_progress": (
+                "相较历史约e50即明显反转的实现，当前前沿被完整推进并裁决到e200；"
+                "晚期差距收窄是耐久性改善证据，但不能替代正终点和护栏。"
             ),
             "best_checkpoint_selection": False,
             "paired_training_control": False,
