@@ -353,3 +353,158 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     for heading in ("## 科学结论", "## 工程失败与科学结果的边界", "## 代理失真边界", "## 尚未验证"):
         assert heading in report
     assert materialize_frontier_final_delivery(tmp_path) == pointer
+
+
+def test_replayed_frontier_proposal_winner_keeps_own_complete_evidence(
+    tmp_path: Path,
+) -> None:
+    base_id = "BASE"
+    full_id = "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING"
+    proposal_id = "ABL-F1-01-PCNR-PROPOSAL-ONLY"
+    observable_id = "ABL-F1-01-PCNR-OBSERVABLE-ONLY"
+    for candidate_id, late, status in (
+        (base_id, -0.1, NEGATIVE_STATUS),
+        (full_id, 0.2, POSITIVE_STATUS),
+        (proposal_id, 0.3, POSITIVE_STATUS),
+        (observable_id, 0.0, NEGATIVE_STATUS),
+    ):
+        _receipt(tmp_path, candidate_id, late, status=status)
+    for candidate_id in (base_id, full_id, proposal_id):
+        _source_and_contract(tmp_path, candidate_id)
+
+    final = tmp_path / "final"
+    _write(final / "CANDIDATE.json", {
+        "candidate_id": base_id,
+        "confirmation20_opened": False,
+        "paired_metrics_used_for_training_or_control": False,
+    })
+    _write(final / "RESULTS.json", {
+        "selected_candidate_id": base_id,
+        "ranking": [{
+            "candidate_id": base_id, "trajectory_status": NEGATIVE_STATUS,
+            "ranking_fields": {"late_three_mean_macro_psnr_delta": -0.1,
+                               "e200_macro_psnr_delta": -0.1},
+        }],
+        "winner_ablation_results": {"projected_or_full": "base"},
+        "confirmation20_opened": False,
+        "paired_metrics_used_for_training_or_control": False,
+    })
+    _write(final / "ALTERNATES.json", {
+        "selected_candidate_id": base_id,
+        "alternates": [],
+        "confirmation20_opened": False,
+    })
+    (final / "FINAL_ROUTE1_REPORT.md").write_text("base report", encoding="utf-8")
+
+    full_receipt = tmp_path / "operations" / "terminal_receipts" / f"{full_id}.json"
+    decision = {
+        "schema": "final-unsb-route1-frontier-4090-replay-decision-v1",
+        "status": "REPLAY_REQUEST_READY_REQUIRES_4090_SOURCE_BOUND_EXECUTOR",
+        "recommended_candidate_id": full_id,
+        "recommended_algorithm_fingerprint": f"algorithm-{full_id}",
+        "complete_e200_only": True,
+        "intermediate_metric_routing": False,
+        "cross_host_deltas_merged": False,
+        "selection_seeds": [2026],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    adjudication = {
+        "schema": "final-unsb-route1-frontier-e200-adjudication-v1",
+        "selected_frontier_candidate_id": full_id,
+        "recommended_4090_replay_candidate_id": full_id,
+        "recommended_4090_replay_algorithm_fingerprint": f"algorithm-{full_id}",
+        "ranking": [{
+            "candidate_id": full_id, "trajectory_status": POSITIVE_STATUS,
+            "ranking_fields": {"late_three_mean_macro_psnr_delta": 0.2,
+                               "e200_macro_psnr_delta": 0.2},
+        }],
+        "intermediate_metric_routing": False,
+        "cross_host_deltas_merged": False,
+        "selection_seeds": [2026],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    _write(tmp_path / "operations" / "FRONTIER_5090_TERMINAL_ENVELOPE.json", {
+        "decision": decision,
+        "adjudication": adjudication,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    _write(tmp_path / "operations" / "FRONTIER_CROSS_HOST_RESULT.json", {
+        "schema": "final-unsb-route1-frontier-cross-host-result-v1",
+        "status": "COMPLETE_ONE_FRONTIER_4090_REPLAY_ADJUDICATION_REQUIRED",
+        "candidate_id": full_id,
+        "receipt_path": str(full_receipt),
+        "receipt_sha256": file_sha256(full_receipt),
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+
+    roles = {
+        "proposal_only": _role_row(tmp_path, proposal_id),
+        "observable_only": _role_row(tmp_path, observable_id),
+        "projected_or_full": _role_row(tmp_path, full_id),
+    }
+    ablation_path = tmp_path / "operations" / "FRONTIER_WINNER_ABLATION_ADJUDICATION.json"
+    _write(ablation_path, {
+        "schema": "final-unsb-route1-winner-ablation-adjudication-v1",
+        "status": "SEED2026_PROPOSAL_ONLY_CHALLENGER_READY",
+        "roles": roles,
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    })
+    post_path = tmp_path / "operations" / "ROUTE1_FRONTIER_POST_ABLATION_SELECTION.json"
+    post = {
+        "selected_candidate_id": proposal_id,
+        "ranking": [
+            {"candidate_id": proposal_id, "trajectory_status": POSITIVE_STATUS,
+             "ranking_fields": {"late_three_mean_macro_psnr_delta": 0.3,
+                                "e200_macro_psnr_delta": 0.3}},
+            {"candidate_id": full_id, "trajectory_status": POSITIVE_STATUS,
+             "ranking_fields": {"late_three_mean_macro_psnr_delta": 0.2,
+                                "e200_macro_psnr_delta": 0.2}},
+            {"candidate_id": base_id, "trajectory_status": NEGATIVE_STATUS,
+             "ranking_fields": {"late_three_mean_macro_psnr_delta": -0.1,
+                                "e200_macro_psnr_delta": -0.1}},
+        ],
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    _write(post_path, post)
+    proposal_receipt = (
+        tmp_path / "operations" / "terminal_receipts" / f"{proposal_id}.json"
+    )
+    _write(tmp_path / "operations" / "FRONTIER_WINNER_ABLATION_RESULT.json", {
+        "schema": "final-unsb-route1-frontier-winner-ablation-result-v1",
+        "status": "FRONTIER_SELECTED_ALGORITHM_ABLATIONS_COMPLETE",
+        "frontier_full_candidate_id": full_id,
+        "selected_candidate_id": proposal_id,
+        "selected_algorithm_fingerprint": f"algorithm-{proposal_id}",
+        "selected_receipt_path": str(proposal_receipt),
+        "selected_receipt_sha256": file_sha256(proposal_receipt),
+        "post_ablation_selection_path": str(post_path),
+        "post_ablation_selection_sha256": file_sha256(post_path),
+        "winner_ablation_adjudication_path": str(ablation_path),
+        "winner_ablation_adjudication_sha256": file_sha256(ablation_path),
+        "winner_ablation_evidence": roles,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+
+    pointer = materialize_frontier_final_delivery(tmp_path)
+    assert pointer["selected_candidate_id"] == proposal_id
+    candidate = json.loads((final / "CANDIDATE.json").read_text(encoding="utf-8"))
+    assert candidate["candidate_id"] == proposal_id
+    assert candidate["source_bound_terminal_receipt"]["sha256"] == file_sha256(
+        proposal_receipt
+    )
+    assert candidate["ablation_evidence"]["experimental_results"][
+        "projected_or_full"
+    ]["candidate_id"] == full_id
+    results = json.loads((final / "RESULTS.json").read_text(encoding="utf-8"))
+    assert results["host_separated_complete_frontier"]["remote5090_frontier"][
+        "selected_frontier_candidate_id"
+    ] == full_id

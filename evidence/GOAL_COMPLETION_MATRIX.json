@@ -183,7 +183,7 @@
         "200 pytest tests passed locally after adding the fail-closed first-ablation failure regression at b797eed",
         "201 pytest tests passed locally and 18 terminal-chain tests passed on remote4090 after binding final reproduction to the real executor contract at 77bb987",
         "228 pytest tests passed locally after adding algorithm-specific frontier-winner ablation binding and the frontier preservation decision",
-        "229 pytest tests passed locally after completing source-bound absolute/relative frontier evidence delivery",
+        "230 pytest tests passed locally after completing source-bound absolute/relative frontier evidence delivery and the replayed-frontier proposal-winner path",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
         "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",

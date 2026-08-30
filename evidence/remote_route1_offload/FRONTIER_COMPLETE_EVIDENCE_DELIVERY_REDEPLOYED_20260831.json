@@ -4,7 +4,7 @@
   "decision": "decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md",
   "implementation_commit": "68dcea097a371949f63974e89c9bb8e806752c65",
   "validation": {
-    "pytest": "229 passed",
+    "pytest": "230 passed including the replayed-frontier proposal-winner path",
     "compileall": "pass",
     "git_diff_check": "pass"
   },
