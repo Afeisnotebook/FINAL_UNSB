@@ -698,8 +698,25 @@ def test_signal_records_expose_low_dimensional_block_domain_and_time_consensus()
         },
         "next_independent_native_consensus": {"cosine": 0.1},
         "native_component_directional_derivatives": {},
-        "reference_observation": {"bridge": {}},
-        "proposal_observation": {"bridge": {}},
+        "reference_observation": {
+            "bridge": {
+                "independent_endpoint_separation_l2": 1.0,
+                "bridge_kdd_critic_loss": -2.0,
+            },
+            "gradient": {"diagnostics": {"generator_grad_norm": 2.0}},
+            "game_balance": {"d_to_g_loss_ratio": 1.0, "e_to_g_loss_ratio": 2.0},
+        },
+        "proposal_observation": {
+            "bridge": {
+                "independent_endpoint_separation_l2": 1.2,
+                "bridge_kdd_critic_loss": -1.0,
+            },
+            "gradient": {"diagnostics": {
+                "generator_grad_norm": 3.0,
+                "adam_moment_gradient_cosine": -0.1,
+            }},
+            "game_balance": {"d_to_g_loss_ratio": 2.0, "e_to_g_loss_ratio": 1.0},
+        },
     }, {
         **common,
         "horizon": 200,
@@ -738,6 +755,12 @@ def test_signal_records_expose_low_dimensional_block_domain_and_time_consensus()
     assert records["minimum_domain_correction_native_cosine"][0]["score"] == pytest.approx(-0.4)
     assert records["minimum_time_correction_native_cosine"][0]["score"] == pytest.approx(-0.2)
     assert records["low_max_block_variance_margin"][0]["score"] == pytest.approx(0.15)
+    assert records["endpoint_dispersion_stability_margin"][0]["score"] == pytest.approx(-0.2)
+    assert records["bridge_kdd_magnitude_stability_margin"][0]["score"] == pytest.approx(0.5)
+    assert records["generator_gradient_scale_margin"][0]["score"] == pytest.approx(-0.5)
+    assert records["adam_moment_gradient_alignment"][0]["score"] == pytest.approx(-0.1)
+    assert records["d_to_g_balance_stability_margin"][0]["score"] == pytest.approx(-1.0)
+    assert records["e_to_g_balance_stability_margin"][0]["score"] == pytest.approx(0.5)
     for feature in (
         "minimum_block_correction_native_cosine",
         "minimum_domain_correction_native_cosine",
@@ -930,6 +953,66 @@ def test_failure_mechanism_ranking_uses_all_discovery_contract_dimensions():
     assert evidence["short_counterfactual"]["positive_fraction"] == pytest.approx(1.0)
     assert evidence["short_counterfactual"]["paired_label_available_to_controller"] is False
     assert "minimum_route_complexity_prior" in evidence
+
+
+def test_matrix_can_route_endpoint_and_game_failures_without_changing_endpoint_law():
+    summaries = [{
+        "probe": "hj",
+        "next_batch_consensus_mean": None,
+        "correction_to_native_norm_ratio_mean": None,
+        "case_counts": {},
+    }]
+    common = {
+        "probe": "hj", "data_epoch": 20, "source_state": "hj",
+        "operator_mode": "registered", "branch_regime": "continuous_intervention",
+    }
+    rows = [{
+        **common, "horizon": 1,
+        "reference_observation": {
+            "bridge": {
+                "rollout_velocity_l2": 1.0,
+                "independent_endpoint_separation_l2": 1.0,
+                "bridge_kdd_critic_loss": -1.0,
+            },
+            "gradient": {"diagnostics": {"adam_moment_gradient_cosine": 0.2}},
+            "game_balance": {"d_to_g_loss_ratio": 1.0, "e_to_g_loss_ratio": 1.0},
+        },
+        "proposal_observation": {
+            "bridge": {
+                "rollout_velocity_l2": 1.0,
+                "independent_endpoint_separation_l2": 1.5,
+                "bridge_kdd_critic_loss": -2.0,
+            },
+            "gradient": {"diagnostics": {"adam_moment_gradient_cosine": -0.2}},
+            "game_balance": {"d_to_g_loss_ratio": 1.5, "e_to_g_loss_ratio": 1.0},
+        },
+    }, {
+        **common, "horizon": 200,
+        "post_branch_development_label": {
+            "macro_psnr_delta": -0.2,
+            "domain_psnr_delta": {f"d{index}": -0.2 for index in range(6)},
+        },
+    }]
+    features = [
+        "endpoint_dispersion_stability_margin",
+        "bridge_kdd_magnitude_stability_margin",
+        "d_to_g_balance_stability_margin",
+        "adam_moment_gradient_alignment",
+    ]
+    screen = {
+        "eligible_shared_driver_signals": features,
+        "eligible_driver_signals": features,
+        "eligible_method_specific_driver_signals": {},
+        "signals": [],
+    }
+    ranked = causal_audit._rank_failure_mechanisms(
+        summaries, [], screen, rows, [],
+    )
+    by_type = {row["failure_type"]: row for row in ranked}
+    assert by_type["endpoint_dispersion_instability"]["candidate_generation_eligible"] is True
+    assert by_type["endpoint_dispersion_instability"]["endpoint_law_change_forbidden"] is True
+    assert by_type["game_balance_instability"]["candidate_generation_eligible"] is True
+    assert by_type["rollout_distribution_speed"]["candidate_generation_eligible"] is True
 
 
 def _write_candidate_registration_fixture(

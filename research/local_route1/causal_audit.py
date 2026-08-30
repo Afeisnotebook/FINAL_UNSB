@@ -1472,6 +1472,52 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
                 "operator_mode": key[3], "native_rollout_velocity": float(reference_velocity),
                 "label": label,
             })
+        for field, feature in (
+            ("independent_endpoint_separation_l2", "endpoint_dispersion_stability_margin"),
+            ("bridge_kdd_critic_loss", "bridge_kdd_magnitude_stability_margin"),
+        ):
+            reference_value = reference_bridge.get(field)
+            proposal_value = proposal_bridge.get(field)
+            if (
+                reference_value is not None and proposal_value is not None
+                and abs(float(reference_value)) > 1e-20
+            ):
+                features[feature] = 1.0 - (
+                    abs(float(proposal_value)) / abs(float(reference_value))
+                )
+        reference_gradient = row.get("reference_observation", {}).get("gradient", {}).get(
+            "diagnostics", {}
+        )
+        proposal_gradient = row.get("proposal_observation", {}).get("gradient", {}).get(
+            "diagnostics", {}
+        )
+        reference_grad_norm = reference_gradient.get("generator_grad_norm")
+        proposal_grad_norm = proposal_gradient.get("generator_grad_norm")
+        if (
+            reference_grad_norm is not None and proposal_grad_norm is not None
+            and float(reference_grad_norm) > 1e-20
+        ):
+            features["generator_gradient_scale_margin"] = 1.0 - (
+                float(proposal_grad_norm) / float(reference_grad_norm)
+            )
+        proposal_adam_alignment = proposal_gradient.get("adam_moment_gradient_cosine")
+        if proposal_adam_alignment is not None:
+            features["adam_moment_gradient_alignment"] = float(proposal_adam_alignment)
+        reference_balance = row.get("reference_observation", {}).get("game_balance", {})
+        proposal_balance = row.get("proposal_observation", {}).get("game_balance", {})
+        for field, feature in (
+            ("d_to_g_loss_ratio", "d_to_g_balance_stability_margin"),
+            ("e_to_g_loss_ratio", "e_to_g_balance_stability_margin"),
+        ):
+            reference_value = reference_balance.get(field)
+            proposal_value = proposal_balance.get(field)
+            if (
+                reference_value is not None and proposal_value is not None
+                and float(reference_value) > 1e-20
+            ):
+                features[feature] = 1.0 - (
+                    float(proposal_value) / float(reference_value)
+                )
         for component in ("GAN", "SB", "NCE", "TOTAL_NATIVE_REFERENCE"):
             value = row.get("native_component_directional_derivatives", {}).get(component)
             if value is not None:
@@ -1719,12 +1765,16 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
     ))) if method_specific else sorted(set(shared_eligible))
     return {
         "schema": "final-unsb-local-route1-target-blind-signal-screen-v1",
-        "status": "ELIGIBLE_SIGNALS_FOUND" if eligible else "NO_ELIGIBLE_SHARED_SIGNAL",
+        "status": (
+            "ELIGIBLE_SIGNALS_FOUND"
+            if eligible else "NO_ELIGIBLE_TARGET_BLIND_SIGNAL"
+        ),
         "criteria": {
             "minimum_records": 6,
             "minimum_methods": 2,
             "minimum_method_specific_records": 4,
             "leave_one_method_out_future_sign_accuracy": 0.65,
+            "method_specific_future_sign_accuracy": 0.65,
             "future_200_step_delta_spearman": 0.30,
             "mean_domain_sign_agreement_of_six": 4.0,
             "minimum_reversal_lead_fraction_when_observed": 0.5,
@@ -1761,6 +1811,14 @@ _MINIMUM_ROUTE_COMPLEXITY = {
         "persistent_model_copies": 1,
     },
     "state_feedback_missing": {
+        "operator_components": 2, "extra_gradient_or_forward_passes": 0,
+        "persistent_model_copies": 0,
+    },
+    "endpoint_dispersion_instability": {
+        "operator_components": 1, "extra_gradient_or_forward_passes": 1,
+        "persistent_model_copies": 0,
+    },
+    "game_balance_instability": {
         "operator_components": 2, "extra_gradient_or_forward_passes": 0,
         "persistent_model_copies": 0,
     },
@@ -1992,7 +2050,11 @@ def _rank_failure_mechanisms(
     ]
     if amplitude_support:
         shared_drivers, method_drivers = driver_evidence(
-            {"correction_within_native_scale_margin"}, amplitude_support,
+            {
+                "correction_within_native_scale_margin",
+                "generator_gradient_scale_margin",
+                "adam_moment_gradient_alignment",
+            }, amplitude_support,
         )
         mechanisms.append({
             "failure_type": "correct_direction_unstable_magnitude",
@@ -2076,6 +2138,27 @@ def _rank_failure_mechanisms(
                     "proposal_reference_velocity_ratio": ratio,
                     "future_200_step_macro_psnr_delta": label,
                 })
+            reference_kdd = row.get("reference_observation", {}).get(
+                "bridge", {}
+            ).get("bridge_kdd_critic_loss")
+            proposal_kdd = row.get("proposal_observation", {}).get(
+                "bridge", {}
+            ).get("bridge_kdd_critic_loss")
+            if (
+                reference_kdd is not None and proposal_kdd is not None
+                and abs(float(reference_kdd)) > 1e-20
+                and abs(float(proposal_kdd)) > abs(float(reference_kdd))
+                and label <= 0.0
+            ):
+                cases.append({
+                    "failure_mode": "proposal_bridge_kdd_magnitude_excess",
+                    "data_epoch": int(row["data_epoch"]),
+                    "source_state": row["source_state"],
+                    "proposal_reference_kdd_magnitude_ratio": (
+                        abs(float(proposal_kdd)) / abs(float(reference_kdd))
+                    ),
+                    "future_200_step_macro_psnr_delta": label,
+                })
         for source_state, state_rows in temporal.items():
             state_rows.sort(key=lambda item: item["data_epoch"])
             for previous, current in zip(state_rows, state_rows[1:]):
@@ -2103,6 +2186,7 @@ def _rank_failure_mechanisms(
     if rollout_support:
         shared_drivers, method_drivers = driver_evidence({
             "rollout_speed_stability_margin", "rollout_velocity_growth_margin",
+            "bridge_kdd_magnitude_stability_margin",
         }, [row["probe"] for row in rollout_support])
         mechanisms.append({
             "failure_type": "rollout_distribution_speed",
@@ -2117,6 +2201,121 @@ def _rank_failure_mechanisms(
             "ineligible_reason": (
                 None if shared_drivers or method_drivers else
                 "rollout speed preceded harm but did not pass the shared or method-specific signal screen"
+            ),
+        })
+    endpoint_support = []
+    game_support = []
+    for probe in probes:
+        endpoint_cases = []
+        game_cases = []
+        for row in rows:
+            if (
+                row.get("probe") != probe
+                or row.get("operator_mode") != _preferred_operator_mode(
+                    probe, int(row["data_epoch"])
+                )
+                or row.get("branch_regime") != "continuous_intervention"
+                or int(row.get("horizon", 0)) != 1
+            ):
+                continue
+            key = (
+                probe, int(row["data_epoch"]), row["source_state"],
+                _preferred_operator_mode(probe, int(row["data_epoch"])),
+            )
+            label = labels.get(key)
+            if label is None or label > 0.0:
+                continue
+            reference_bridge = row.get("reference_observation", {}).get("bridge", {})
+            proposal_bridge = row.get("proposal_observation", {}).get("bridge", {})
+            reference_endpoint = reference_bridge.get("independent_endpoint_separation_l2")
+            proposal_endpoint = proposal_bridge.get("independent_endpoint_separation_l2")
+            if (
+                reference_endpoint is not None and proposal_endpoint is not None
+                and float(reference_endpoint) > 1e-20
+                and float(proposal_endpoint) > float(reference_endpoint)
+            ):
+                endpoint_cases.append({
+                    "data_epoch": int(row["data_epoch"]),
+                    "source_state": row["source_state"],
+                    "proposal_reference_endpoint_dispersion_ratio": (
+                        float(proposal_endpoint) / float(reference_endpoint)
+                    ),
+                    "future_200_step_macro_psnr_delta": label,
+                })
+            reference_balance = row.get("reference_observation", {}).get(
+                "game_balance", {}
+            )
+            proposal_balance = row.get("proposal_observation", {}).get(
+                "game_balance", {}
+            )
+            growing = {}
+            for field in ("d_to_g_loss_ratio", "e_to_g_loss_ratio"):
+                reference_value = reference_balance.get(field)
+                proposal_value = proposal_balance.get(field)
+                if (
+                    reference_value is not None and proposal_value is not None
+                    and float(reference_value) > 1e-20
+                    and float(proposal_value) > float(reference_value)
+                ):
+                    growing[field] = float(proposal_value) / float(reference_value)
+            adam_alignment = row.get("proposal_observation", {}).get(
+                "gradient", {}
+            ).get("diagnostics", {}).get("adam_moment_gradient_cosine")
+            if growing or (adam_alignment is not None and float(adam_alignment) < 0.0):
+                game_cases.append({
+                    "data_epoch": int(row["data_epoch"]),
+                    "source_state": row["source_state"],
+                    "growing_game_balance_ratios": growing,
+                    "adam_moment_gradient_cosine": (
+                        None if adam_alignment is None else float(adam_alignment)
+                    ),
+                    "future_200_step_macro_psnr_delta": label,
+                })
+        if endpoint_cases:
+            endpoint_support.append({"probe": probe, "cases": endpoint_cases})
+        if game_cases:
+            game_support.append({"probe": probe, "cases": game_cases})
+    if endpoint_support:
+        shared_drivers, method_drivers = driver_evidence(
+            {"endpoint_dispersion_stability_margin"},
+            [row["probe"] for row in endpoint_support],
+        )
+        mechanisms.append({
+            "failure_type": "endpoint_dispersion_instability",
+            "supporting_probes": [row["probe"] for row in endpoint_support],
+            "supporting_cases": endpoint_support,
+            "cross_probe_support": len(endpoint_support),
+            "observable": "latent endpoint separation under proposal versus native operator",
+            "construction_route": "endpoint_law_preserving_variance_or_constraint",
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
+            "endpoint_law_change_forbidden": True,
+            "ineligible_reason": (
+                None if shared_drivers or method_drivers else
+                "endpoint dispersion increased before harm but no safe target-blind driver passed"
+            ),
+        })
+    if game_support:
+        shared_drivers, method_drivers = driver_evidence({
+            "d_to_g_balance_stability_margin",
+            "e_to_g_balance_stability_margin",
+            "adam_moment_gradient_alignment",
+            "generator_gradient_scale_margin",
+        }, [row["probe"] for row in game_support])
+        mechanisms.append({
+            "failure_type": "game_balance_instability",
+            "supporting_probes": [row["probe"] for row in game_support],
+            "supporting_cases": game_support,
+            "cross_probe_support": len(game_support),
+            "observable": "D/G, E/G and Adam-moment geometry under proposal versus native operator",
+            "construction_route": "state_conditional_game_metric_constraint",
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
+            "ineligible_reason": (
+                None if shared_drivers or method_drivers else
+                "game imbalance preceded harm but no safe target-blind driver passed"
             ),
         })
     coordinate_support = []

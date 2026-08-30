@@ -208,6 +208,8 @@ def derive_from_completed_atlas(output_root: Path) -> dict:
         "coordinate_horizon_imbalance": "identity_adaptive_coordinate",
         "rollout_distribution_speed": "bridge_gap_constrained_adaptive_teacher",
         "state_feedback_missing": "state_conditional_self_null_intervention",
+        "endpoint_dispersion_instability": "endpoint_law_preserving_variance_or_constraint",
+        "game_balance_instability": "state_conditional_game_metric_constraint",
     }
     for index, mechanism in enumerate(mechanisms, 1):
         kind = mechanism["failure_type"]
