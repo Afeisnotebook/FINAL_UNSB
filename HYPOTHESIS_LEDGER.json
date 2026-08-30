@@ -37,9 +37,11 @@
   ],
   "remote4090_proxy": {
     "status": "CALIBRATED",
-    "dt_latest_observed_data_epoch": 46,
+    "dt_latest_observed_data_epoch": 200,
     "dt_intervention_zero_from_e45_observed": true,
-    "causal_audit_status": "WAITING_FOR_DT_E200_TERMINAL_VERIFICATION",
+    "causal_audit_status": "COMPLETE_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
+    "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+    "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
     "paired_controller_access": false,
     "confirmation20_opened": false
   },
@@ -87,6 +89,36 @@
       "scope": "the tested estimator, not all unbiased latent variance reduction"
     }
   ],
-  "active_derived_candidates": [],
+  "active_derived_candidates": [
+    {
+      "id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+      "name": "Bridge-Velocity Chord Projection",
+      "status": "active_derived_candidate",
+      "parent_failure_type": "rollout_distribution_speed",
+      "unsb_object": "endogenous no-gradient bridge rollout transition",
+      "derivation_card": "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
+      "algorithm_fingerprint": "447cdcfacabc0f13616da484a4511983df65b8b71e315eec3e5030db9c797d89",
+      "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa",
+      "scientific_protocol": "small25 batch1 seed2026 from common e0 through true e200",
+      "authoritative_host": "remote4090",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
+    {
+      "id": "G1-02-SAMPLING-VARIANCE",
+      "name": "Replicated Stochastic-Measure Gradient",
+      "status": "active_derived_candidate",
+      "parent_failure_type": "sampling_variance",
+      "unsb_object": "conditional stochastic gradient estimator of the native D/E/G/F game",
+      "derivation_card": "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
+      "algorithm_fingerprint": "ac08e7fd98bc084b247efda04c3d2110ded878bd0bc9baf12a01c2afb1938ce5",
+      "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333",
+      "scientific_protocol": "small25 batch1 seed2026 from common e0 through true e200",
+      "authoritative_host": "remote4090",
+      "compute_sensitive": true,
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    }
+  ],
   "forbidden_closure": "No parent mechanism may be marked mechanism_falsified solely from a short update-count protocol or one named implementation."
 }
