@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-mathematical-implementation-audit-v1",
+  "recorded_at": "2026-08-30T18:38:00+08:00",
+  "status": "GRADIENT_FIELD_CLAIM_SOURCE_VERIFIED_LONG_HORIZON_STILL_RUNNING",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "source_bindings": {
+    "src/models/route1/pcrsmg.py": "8498d78a1679f71a157bd0e717fd0fe2314a06293dc13c20409631bc4cd2f625",
+    "src/models/sb_model.py": "86efdeaf4d6778ce821c63d24edf4b03e514c2e1093ded832a2e3261309adf20",
+    "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json": "c6070c44b853454ecabdc6d4ed0ef3f15bcc2db4ab9ea7e28d66695b95bd93eb",
+    "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json": "325ae7d3db213ea7e882e437efde99653b09b4852c7f382e0377a3e4dff9f7a1"
+  },
+  "verified_dependency_structure": {
+    "D": "compute_D_loss reads netD, the detached generated endpoint, real_B and time_idx; it does not read netE parameters.",
+    "E": "compute_E_loss reads netE and detached endpoint pairs; it does not read netD parameters, so committing D before E does not change the E loss represented by the saved DE views.",
+    "GF": "compute_G_loss reads the post-commit netD/netE state and differentiable G/F quantities. PC-RSMG creates a new two-view GF bundle only after D and E have committed.",
+    "official_batch": "All replicas retain the same official batch-1 real_A/real_B and independently redraw only the native forward/loss stochastic variables; replicas are never concatenated into a larger image batch or PatchNCE negative pool."
+  },
+  "verified_execution_order": [
+    "DE_BUNDLE",
+    "D_COMMIT",
+    "E_COMMIT",
+    "GF_BUNDLE",
+    "GF_COMMIT"
+  ],
+  "mathematical_claim_that_is_supported": {
+    "conditioning": "Condition on the official unpaired batch and the realized network/optimizer state at which each player gradient is evaluated.",
+    "D_and_E": "Each committed gradient is the arithmetic mean of two iid native-measure gradient samples. Linearity therefore preserves the conditional mean gradient and halves ideal conditional trace variance.",
+    "GF": "The GF views are generated after the realized D/E commits and are independent of the DE estimator under the modeled iid random measure. Their mean is therefore unbiased for the GF loss-gradient field at that realized post-opponent state.",
+    "stationarity": "The expected per-player loss-gradient fields and their zeros are preserved; the algorithm changes their conditional covariance and cross-player finite-step noise coupling."
+  },
+  "claims_explicitly_not_supported": [
+    "The expected Adam parameter step is identical to plain; Adam is nonlinear in the sampled gradient and its moments.",
+    "The exact finite-learning-rate stochastic transition is identical to plain; PC-RSMG intentionally redraws GF randomness after D/E and changes cross-player covariance.",
+    "The stateful pseudorandom stream is byte-equivalent at two replicas; only pcrsmg_replicates=1 has exact plain identity.",
+    "Variance reduction alone guarantees PSNR improvement, e200 benefit, seed stability or cross-runtime stability.",
+    "The current e60 signal is a final candidate result."
+  ],
+  "rng_and_loss_sampling_boundary": {
+    "observation": "The implementation creates both forward views before evaluating their loss-specific randomness, so the exact RNG ordering differs from two serial native optimize calls.",
+    "interpretation": "Under the registered iid stochastic-measure model this is distributionally valid because the forward and loss draws remain distinct native random draws. It is not an exact seeded-transition equivalence claim.",
+    "resume_requirement": "Full CPU/CUDA/Python/NumPy RNG plus method bundle counters are checkpointed; the two-update resume gate was exact on both accelerators."
+  },
+  "existing_gate_evidence": {
+    "one_replica_exact_plain_identity": true,
+    "two_update_resume_exact": true,
+    "cross_state_epochs": [20, 100, 200],
+    "micro_updates": 400,
+    "remote4090_gate_sha256": "e1ca22398843a232a3b10177c47901709c1b264480a5f946015dab39be2f7255",
+    "remote5090_gate_sha256": "c7d64bbc7668104ecd37ad8f0d59a454299514f422dd424ddd49d40850169cd9"
+  },
+  "scientific_boundary": {
+    "paired_metric_used_for_training_or_control": false,
+    "best_checkpoint_selection": false,
+    "fixed_window_or_handoff": false,
+    "confirmation20_opened": false,
+    "long_horizon_claim_pending_e200": true
+  }
+}

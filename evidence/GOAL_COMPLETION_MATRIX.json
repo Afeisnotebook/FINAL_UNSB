@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T18:30:00+08:00",
+  "updated": "2026-08-30T18:38:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -70,6 +70,7 @@
         "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
         "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
+        "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/BVCP_E200_COMPLETE_PENDING_CROSS_ADJUDICATION_20260830.json",
         "evidence/remote_route1_offload/BVCP_TARGET_BLIND_SELF_NULL_DIAGNOSIS_20260830.json"
@@ -126,7 +127,7 @@
         "156 pytest tests passed at gradient-subspace audit commit 6f3edf5",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 6f3edf5",
+        "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
