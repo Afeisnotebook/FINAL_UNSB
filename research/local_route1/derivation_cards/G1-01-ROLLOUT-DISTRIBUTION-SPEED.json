@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+  "name": "Bridge-Velocity Chord Projection",
+  "parent_evidence": {
+    "failure_type": "rollout_distribution_speed",
+    "evidence_rank": 1,
+    "supporting_probes": [
+      "dt",
+      "hj",
+      "hnek"
+    ],
+    "driver_scope": "dt_only",
+    "driver_records": 4,
+    "driver_future_sign_accuracy": 0.75,
+    "driver_future_200_step_delta_spearman": 1.0,
+    "driver_reversal_precursor_lead_fraction": 1.0,
+    "driver_mean_domain_sign_agreement_of_six": 4.0
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:rollout_distribution_speed:rank=1:cross_probe_support=3",
+    "LONG_CAUSAL_MATRIX:rollout_velocity_growth_margin:dt:accuracy=0.75:spearman=1.0:lead=1.0",
+    "LONG_CAUSAL_MATRIX:200_update_counterfactual:records=50:positive_fraction=0.62:mean_delta=+0.1604113029",
+    "SEARCH-001:LBST fixed one-data-epoch EMA rollout teacher was late-negative",
+    "SEARCH-005:G1-HNEK-PHCRP direct radial endpoint contraction was late-negative",
+    "SEARCH-005:G2-HNEK-PHRSUP constrained a physical residual-rate gradient rather than the rollout distribution"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "LBST fixed one-data-epoch EMA rollout teacher",
+      "G1-HNEK-PHCRP pathwise radial endpoint contraction",
+      "G2-HNEK-PHRSUP physical-horizon rate-safe update projection",
+      "DT frozen absolute-teacher covariance regularizer"
+    ],
+    "material_difference": "BVCP keeps only a one-update lagged generator and uses it as a feasible direction, never as a wholesale rollout generator or an output target. On each no-grad rollout transition it is exact identity unless the current generator has a larger physical endpoint velocity than the lagged generator on the same current state and latent. When growth occurs, BVCP chooses the smallest point on the current-to-lagged endpoint chord whose velocity is no larger than the lagged velocity. The differentiable endpoint, losses, inference law and current generator remain native UNSB.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the endogenous no-gradient bridge rollout transition used to construct X_t for the native UNSB losses",
+  "formula": "At optimizer state theta_k retain the exact previous generator theta_{k-1}. For each no-grad rollout transition with current bridge state X, physical remaining horizon h>0 and common latent z, set Y=G_{theta_k}(X,t,z), Ybar=G_{theta_{k-1}}(X,t,z), a=Y-X and b=Ybar-Y. If ||a||_2<=||a+b||_2, return Y exactly. Otherwise choose lambda*=min{lambda in [0,1]: ||a+lambda b||_2<=||a+b||_2}; the feasible set is nonempty because lambda=1 is Ybar. Return Y_BVCP=Y+lambda* b for the no-grad rollout transition only. Lambda* is the first in-range root of ||a+lambda b||_2^2-||a+b||_2^2=0, with a numerically stable endpoint fallback. After the forward has been constructed and before theta_k is changed by the optimizer, copy theta_k into the lagged generator for update k+1. All final differentiable G calls and inference use theta_k without projection.",
+  "identity_or_unbiased_condition": "Exact identity holds whenever the current rollout velocity ||G_theta(X,t,z)-X||_2/h is no greater than the one-update-lagged velocity on the same X,t,z, whenever the two endpoints coincide, and whenever the intervention is disabled. The chord solution is the minimum Euclidean displacement from the current endpoint within the one-dimensional feasible chord.",
+  "objective_change": true,
+  "estimator_change": false,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "The operator reads only the current unpaired rollout state, fixed physical time, a training latent, current generator output and the checkpointed one-update-lagged generator output. It cannot address discovery70, confirmation20, paired targets, PSNR, SSIM or LPIPS. The final endpoint and inference path never call the lagged generator.",
+  "expected_applicable_state": {
+    "condition": "the native generator locally increases physical rollout velocity relative to its immediately preceding state",
+    "self_null_state": "the current generator is no faster than its lagged state on the sampled transition",
+    "evidence_scope": "driver eligibility is DT-specific; cross-probe rollout observations motivate the object but do not authorize a universal learned controller"
+  },
+  "falsifying_experiment": "Kill the current implementation if executable chord tests fail minimum-feasible-root, velocity-nonincreasing, endpoint/inference identity, zero-intervention identity or exact resume; or if e20/e100/e200 cross-state branches do not reduce the target-blind rollout-speed excess on states where it is present. A later negative e200 result closes only this one-step chord construction.",
+  "compute_cost": "one additional no-gradient generator endpoint call for each native rollout endpoint; the differentiable loss path is unchanged",
+  "memory_cost": "one full frozen generator copy plus transient current/lagged endpoint tensors",
+  "recovery_state_cost": "the exact lagged generator state, initialization flag, intervention counters and standard full RNG state",
+  "algorithm_hyperparameters": {
+    "teacher_lag_optimizer_updates": 1,
+    "velocity_norm": "per-image RMS L2 divided by physical remaining horizon",
+    "chord_root_epsilon": 1e-12,
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "lagged_netG_state_dict",
+    "lagged_state_initialized",
+    "optimizer_update_index",
+    "intervention_count",
+    "eligible_transition_count"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "Use the one-update-lagged generator wholesale for every no-grad rollout transition; this isolates the old lagged-teacher proposal and is expected to expose the LBST failure mode.",
+    "observable_only": "Compute and log the current-minus-lagged physical velocity margin with common X,t,z, but always return the current endpoint exactly.",
+    "projected_or_full": "Apply the minimum feasible chord projection only on positive velocity growth; final differentiable endpoints, all native losses and inference remain unmodified."
+  },
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "eligible_method_specific_signal",
+  "target_blind_driver_signal": "rollout_velocity_growth_margin",
+  "target_blind_driver_probe": "dt",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}
