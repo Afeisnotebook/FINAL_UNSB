@@ -56,6 +56,8 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   严格门赢家才请求一条4090同宿主复跑；全负则保留排名并跳过复跑。
   4090上的`827183a`条件后继已经通过SSH与源码身份预检，并先等待当前PC-RSMG消融
   完成；之后只消费上述完整终点决定，重新做4090 GPU门并最多复跑一个候选。
+  `2a6c7fd`最终后继也已持久化等待：它会保留pre-frontier交付原件，只以4090同宿主
+  receipt决定canonical主候选，同时输出两个递补和未合并的5090完整候选前沿。
   这把最终交付从“过早只剩一个fallback”改为“一个主排名加两个证据充分备选”，但没有
   改变长期算法发现的北极星。见
   `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。

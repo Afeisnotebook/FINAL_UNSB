@@ -1,0 +1,22 @@
+{
+  "schema": "final-unsb-route1-frontier-final-successor-armed-evidence-v1",
+  "created": "2026-08-31T02:29:10.978288+08:00",
+  "git_commit": "2a6c7fd5d64ea8dec87c23573696af20d18b4e2c",
+  "status": "WAITING_FOR_TERMINAL_FRONTIER_CROSS_HOST_RESULT",
+  "contract_sha256": "84a8dac18c526ae96a0be6e7d36b8ccfa9bfc2182462485bc1c954bea440b836",
+  "launch_sha256": "a94049128f7f33560518d112fd8601d8c9c83240c626c9323b178582555f5a75",
+  "state_sha256": "cdba18e237c26aae6155f0c11857ebdd77f8091603b6e8b236bf15c46a8571f1",
+  "requires_terminal_cross_host_result": true,
+  "preserve_pre_frontier_delivery": true,
+  "canonical_output": "final/CANDIDATE.json plus RESULTS.json, ALTERNATES.json and FINAL_ROUTE1_REPORT.md",
+  "cross_host_deltas_merged": false,
+  "selection_seeds": [
+    2026
+  ],
+  "deferred_seed_validation": [
+    2027,
+    2028
+  ],
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
