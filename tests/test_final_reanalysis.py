@@ -6,6 +6,7 @@ import pytest
 from operations.local_route1_final_reanalysis import (
     archive_collector_outputs,
     archive_retry_outputs,
+    main,
     verify_queue,
 )
 
@@ -72,3 +73,19 @@ def test_completed_collector_archive_allows_failed_reanalysis_retry(tmp_path):
         (retry_root / "LONG_CAUSAL_MATRIX.json").read_text(encoding="utf-8")
     )["status"] == "partial"
     assert not (tmp_path / "derive").exists()
+
+
+def test_final_reanalysis_failure_is_persisted_for_watchers(tmp_path):
+    contract = tmp_path / "contract.json"
+    contract.write_text(
+        json.dumps({"schema": "bad", "run_root": str(tmp_path)}) + "\n",
+        encoding="utf-8",
+    )
+    assert main(["--contract", str(contract)]) == 1
+    state = json.loads(
+        (tmp_path / "operations" / "FINAL_REANALYSIS_STATE.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert state["status"] == "FAILED"
+    assert state["paired_controller_access"] is False

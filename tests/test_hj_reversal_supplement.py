@@ -6,6 +6,7 @@ import pytest
 from operations.local_route1_hj_reversal_supplement import (
     EXPECTED_AUDIT_COMMIT,
     EXPECTED_TRAINING_CORE,
+    main,
     verify_atlases,
 )
 
@@ -62,3 +63,19 @@ def test_supplement_atlas_verifier_requires_all_three_hj_cells(tmp_path):
     _write(audit / "LONG_REVERSAL_ATLAS.jsonl", rows[:2])
     with pytest.raises(RuntimeError, match="atlas count mismatch"):
         verify_atlases(tmp_path, expected=(3, 1), require_supplement=True)
+
+
+def test_supplement_failure_is_persisted_for_upstream_watchers(tmp_path):
+    contract = tmp_path / "contract.json"
+    contract.write_text(
+        json.dumps({"schema": "bad", "run_root": str(tmp_path)}) + "\n",
+        encoding="utf-8",
+    )
+    assert main(["--contract", str(contract)]) == 1
+    state = json.loads(
+        (tmp_path / "operations" / "HJ_REVERSAL_SUPPLEMENT_STATE.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert state["status"] == "FAILED"
+    assert state["confirmation20_opened"] is False

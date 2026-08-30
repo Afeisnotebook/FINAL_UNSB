@@ -310,6 +310,26 @@ def parser() -> argparse.ArgumentParser:
     return value
 
 
+def write_failure_state(contract_path: Path, error: Exception) -> None:
+    try:
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        run_root = Path(contract["run_root"])
+        atomic_json(
+            run_root / "operations" / "HJ_REVERSAL_SUPPLEMENT_STATE.json",
+            {
+                "schema": "final-unsb-route1-hj-reversal-supplement-state-v1",
+                "updated": now(), "status": "FAILED", "pid": os.getpid(),
+                "error_type": type(error).__name__, "error": str(error),
+                "paired_controller_access": False,
+                "confirmation20_opened": False,
+            },
+        )
+    except Exception:
+        # The original exception remains authoritative when even the failure
+        # destination cannot be recovered from the contract.
+        return
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     lock = args.contract.with_suffix(args.contract.suffix + ".lock")
@@ -318,6 +338,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(execute(args.contract), ensure_ascii=False, indent=2))
         return 0
     except Exception as error:
+        write_failure_state(args.contract, error)
         print(json.dumps({
             "status": "FAILED", "error_type": type(error).__name__,
             "error": str(error), "confirmation20_opened": False,
