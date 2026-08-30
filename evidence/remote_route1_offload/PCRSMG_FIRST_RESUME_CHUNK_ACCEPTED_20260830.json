@@ -1,0 +1,29 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-first-resume-chunk-v1",
+  "recorded_at": "2026-08-30T16:56:00+08:00",
+  "status": "REMOTE4090_E5_ACCEPTED_AND_RESUMED",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "milestone": {
+    "data_epoch": 5,
+    "updates": 750,
+    "checkpoint_sha256": "b39bb4098d6572e53e70b624f2432b4e7c65762f5e5aa2972eaa393bc3fce03d",
+    "scientific_state_sha256": "1b83038e38b1bd42c5b620dce341345e92bc627f114e7e3675c4827ff4aef539",
+    "checkpoint_file_hash_matches_sidecar": true,
+    "metric_images": 420,
+    "metric_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "evaluation_input_matches_same_host_plain": true,
+    "image_order_and_crn_bundle_match_same_host_plain": true
+  },
+  "resume": {
+    "source_data_epoch": 5,
+    "next_chunk_target_data_epoch": 10,
+    "first_observed_resumed_data_epoch": 7,
+    "same_chunk_failure_count": 0
+  },
+  "quality_value_read_for_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

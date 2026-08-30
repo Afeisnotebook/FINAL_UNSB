@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T16:52:00+08:00",
+  "state_snapshot_time": "2026-08-30T16:56:00+08:00",
   "phase": "GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "development_head_at_state_write": "f2bc24be948ccca715cacea23057309c37c2fae4",
@@ -227,10 +227,11 @@
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 1,
+        "latest_observed_data_epoch": 7,
         "target_data_epoch": 200,
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
-        "execution_role": "authoritative same-runtime ranking"
+        "execution_role": "authoritative same-runtime ranking",
+        "first_resume_chunk_evidence": "evidence/remote_route1_offload/PCRSMG_FIRST_RESUME_CHUNK_ACCEPTED_20260830.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
