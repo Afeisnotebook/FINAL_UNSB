@@ -442,6 +442,13 @@ def materialize_final_delivery(output_root: Path) -> dict[str, Any]:
 
     classification = _classification(multi_seed)
     compute_sensitive = selected_id == "G1-02-SAMPLING-VARIANCE"
+    try:
+        card_relative = registration.card_path.resolve().relative_to(output_root).as_posix()
+        implementation_relative = (
+            registration.implementation_path.resolve().relative_to(output_root).as_posix()
+        )
+    except ValueError as error:
+        raise RuntimeError("final candidate evidence paths must stay inside the run root") from error
     report_path = final_root / "FINAL_ROUTE1_REPORT.md"
     _write_final_report(
         report_path, selected_id=selected_id, name=card["name"],
@@ -494,9 +501,9 @@ def materialize_final_delivery(output_root: Path) -> dict[str, Any]:
         "alternates_sha256": file_sha256(final_root / "ALTERNATES.json"),
         "final_report_path": "final/FINAL_ROUTE1_REPORT.md",
         "final_report_sha256": file_sha256(report_path),
-        "derivation_card_path": str(registration.card_path),
+        "derivation_card_path": card_relative,
         "derivation_card_sha256": file_sha256(registration.card_path),
-        "implementation_path": str(registration.implementation_path),
+        "implementation_path": implementation_relative,
         "implementation_sha256": file_sha256(registration.implementation_path),
         "source_files": implementation["source_files"],
         "reproduction_commands": _portable_commands(selected_id),
