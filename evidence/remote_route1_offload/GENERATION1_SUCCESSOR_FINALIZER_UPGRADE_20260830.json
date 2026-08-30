@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-route1-generation1-successor-finalizer-upgrade-v1",
+  "observed_at": "2026-08-30T15:32:04+08:00",
+  "status": "ARMED_WAITING_FAIL_CLOSED_FINAL_MATERIALIZATION_CHAIN",
+  "host": "remote4090",
+  "old_successor_commit": "528dcca3f106a3fce38ca8bb058659431150bbcf",
+  "new_successor_commit": "ab288988f109b43d799df19cdfb9702b0d744147",
+  "new_worktree": "/home/yc/FINAL_UNSB_SUCCESSOR_ab28898",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/GENERATION1_SUCCESSOR_CONTRACT_ab28898.json",
+  "contract_sha256": "2d62a5cc0119eaae1d4763876e9fad2415129f69c15ced7d31ab872ae9593d6e",
+  "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR",
+  "supervisor_pid": 1387662,
+  "initial_state": "WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "initial_contract_stderr_bytes": 0,
+  "initial_supervisor_stderr_bytes": 0,
+  "candidate_executor_count_before_after": [2, 2],
+  "candidate_checkpoint_or_rng_touched": false,
+  "new_terminal_action": "After complete eligible seed adjudication, materialize CANDIDATE.json, RESULTS.json, ALTERNATES.json and FINAL_ROUTE1_REPORT.md with source hashes. Incomplete states are rejected.",
+  "network_incident": {
+    "description": "The first upgrade attempt stalled in remote git fetch before worktree creation or old-supervisor termination.",
+    "action": "Terminate only the identified deployment shell/fetch child and transfer a verified complete git bundle; candidate executors and old successor remained active throughout.",
+    "scientific_state_touched": false
+  },
+  "negative_path": "No numeric-gate winner still stops for explicit target-blind causal-revision adjudication; no final candidate is fabricated.",
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
