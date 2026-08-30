@@ -168,6 +168,12 @@
     "unsb_internal_state_signal_evidence": "evidence/remote_route1_offload/UNSB_INTERNAL_STATE_SIGNAL_GATE.json",
     "real_row_partial_analyzer_smoke": "evidence/remote_route1_offload/REAL_ROW_ANALYZER_PARTIAL_SMOKE.json",
     "mechanism_evidence_boundary": "evidence/remote_route1_offload/MECHANISM_EVIDENCE_BOUNDARY_GATE.json",
+    "local_hj_terminal_audit": {
+      "status": "COMPLETE_SUPPLEMENTAL_NOT_AUTHORITY_REPLACEMENT",
+      "reversal_rows": 80,
+      "sampling_variance_rows": 24,
+      "evidence": "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
+    },
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false

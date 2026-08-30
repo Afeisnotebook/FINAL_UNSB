@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-local-route1-hj-terminal-audit-complete-v1",
+  "recorded": "2026-08-30T23:01:00+08:00",
+  "status": "HJ_SUBSET_COMPLETE_SUPPLEMENTAL_LOCAL_CAUSAL_EVIDENCE",
+  "scope": "Completed local GTX1660 HJ audit subset. The 4090 474/140 causal matrix remains the authoritative candidate-construction source; this local subset is host/proxy-sensitive supplemental evidence.",
+  "identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+    "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+    "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epoch_updates": 150
+  },
+  "completed_jobs": [10, 20, 100, 150, 175, 200],
+  "frozen_subset": {
+    "reversal_atlas_rows": 80,
+    "sampling_variance_rows": 24,
+    "reversal_subset_canonical_sha256": "cc686a87fea3c60785f77a4c6ec56ae4cf8a0d53e1558d2daa4ad922ec795e89",
+    "sampling_variance_subset_canonical_sha256": "fd2528cc82390097256d6740162d1f4259267582522c884cd4bfd32a30296e95",
+    "e200_reversal_rows": 10,
+    "e200_sampling_variance_rows": 4
+  },
+  "preterminal_state_operator_matrix": [
+    {"data_epoch": 10, "ui_on_plain_minus_u0": -0.3877062244043721, "ui_on_method_minus_u0": 0.17116539056382862},
+    {"data_epoch": 20, "ui_on_plain_minus_u0": 2.1434213674944242, "ui_on_method_minus_u0": 0.2610354278266218},
+    {"data_epoch": 100, "ui_on_plain_minus_u0": 2.217955847895185, "ui_on_method_minus_u0": -0.7831742207962407},
+    {"data_epoch": 150, "ui_on_plain_minus_u0": -0.6967872326547315, "ui_on_method_minus_u0": 1.1198458521608075},
+    {"data_epoch": 175, "ui_on_plain_minus_u0": 0.09027303459361846, "ui_on_method_minus_u0": 0.748950043496432}
+  ],
+  "preterminal_case_counts": {
+    "self_state_only_help": 2,
+    "sustainable_on_both_states": 2,
+    "plain_state_help_self_state_harm": 1
+  },
+  "e200_terminal_base_lr_vector_field": {
+    "future_paired_label_available": false,
+    "hj_source_state": {
+      "reference_update_l2": 0.08100784378593077,
+      "proposal_update_l2": 0.08100774066431474,
+      "correction_l2": 0.0025289574011639776,
+      "correction_to_native_ratio": 0.03121867319227672,
+      "reference_proposal_cosine": 0.9995126966032145,
+      "correction_reference_cosine": -0.015650112906021207,
+      "correction_next_independent_native_cosine": -0.012106600497418268,
+      "parent_state_preserved": true
+    },
+    "plain_source_state": {
+      "reference_update_l2": 0.08730175285902764,
+      "proposal_update_l2": 0.08730182168740629,
+      "correction_l2": 0.002957991384370025,
+      "correction_to_native_ratio": 0.03388238251237068,
+      "reference_proposal_cosine": 0.9994259925310655,
+      "correction_reference_cosine": -0.01691792262674195,
+      "correction_next_independent_native_cosine": -0.010487815953815283,
+      "parent_state_preserved": true
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "HJ remains state dependent: the same registered operator has switched among self-state-only, both-state and plain-help/self-harm cases over the long trajectory.",
+      "At the terminal base-LR vector field the correction is small and nearly orthogonal to the native direction, but it does not have positive next-independent-batch consensus.",
+      "All completed virtual branches preserve the parent full-state hash."
+    ],
+    "not_supported": [
+      "The e200 local vector field has no post-e200 paired future label and cannot declare the HJ parent mechanism dead.",
+      "The result does not authorize a fixed exit epoch, handoff, paired controller or modification of the running AM-TNC/MCRB candidates.",
+      "The incomplete all-probe local matrix cannot replace the completed 4090 causal matrix."
+    ]
+  },
+  "paired_metrics_accessed_by_controller": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

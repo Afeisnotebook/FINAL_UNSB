@@ -49,7 +49,8 @@
         "evidence/lineage/MECHANISM_OBJECT_MAP.json",
         "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
         "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
-        "evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json"
+        "evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json",
+        "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
       ],
       "boundary": "The primary 4090 graph contains complete long trajectories and full-state counterfactual evidence for all three historical mechanisms; this supports derivation but does not prove any old implementation is the answer."
     },
@@ -68,7 +69,7 @@
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "ONE_COMPLETE_NEGATIVE_CURRENT_IMPLEMENTATION_ONE_VALID_E200_RUNNING",
+      "status": "THREE_COMPLETE_NEGATIVE_CURRENT_IMPLEMENTATIONS_TWO_NEW_E200_RUNNING",
       "evidence": [
         "decisions/DEC-20260830-ROUTE1-GENERATION1-DERIVATION.md",
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
@@ -81,17 +82,22 @@
         "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/BVCP_E200_COMPLETE_PENDING_CROSS_ADJUDICATION_20260830.json",
-        "evidence/remote_route1_offload/BVCP_TARGET_BLIND_SELF_NULL_DIAGNOSIS_20260830.json"
+        "evidence/remote_route1_offload/BVCP_TARGET_BLIND_SELF_NULL_DIAGNOSIS_20260830.json",
+        "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json",
+        "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
+        "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
         "BVCP_status": "complete e200; frozen current implementation is long-horizon negative; parent mechanism remains open",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
-        "PCRSMG_status": "two-host gates passed; restarted from common e0; authoritative 4090 observed at e103",
+        "PCRSMG_status": "complete e200; late-three positive but strict terminal gate negative at -0.001379 dB; its reduced defect authorized AM-TNC",
+        "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 running from common e0",
+        "MCRB_status": "formula/code identity audited; independent 5090 e200 running with conditional same-host 4090 replay",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
-      "missing": ["PC-RSMG complete matched e200 trajectory", "frozen post-e200 cross-version adjudication"]
+      "missing": ["AM-TNC complete matched e200 trajectory", "MCRB complete matched e200 trajectory and conditional 4090 replay decision", "frozen all-candidate post-e200 selection"]
     },
     {
       "id": 6,
@@ -101,7 +107,9 @@
         "evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json",
         "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_CAUSAL_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json"
+        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/AMTNC_CAUSAL_REVISION_GATE_AND_E200_START_20260830.json",
+        "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json"
       ],
       "rule": "A positive eligible winner makes revision inapplicable. If both source-bound e200 implementations are negative, the armed successor measures each parent defect at the unchanged terminal state and routes at most one mathematically eligible revision; PC-RSMG evidence now separates replica disagreement parallel and orthogonal to the mean update in Euclidean and frozen pre-step Adam metrics. It never auto-derives a window, threshold controller or handoff."
     },
