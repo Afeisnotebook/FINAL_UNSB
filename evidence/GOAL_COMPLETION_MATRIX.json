@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T16:52:00+08:00",
+  "updated": "2026-08-30T16:58:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -18,7 +18,8 @@
         "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
         "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
         "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
-        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
       "boundary": "Anchors, both candidate executors and the post-e200 successor use source-bound durable supervisors with five-data-epoch chunks, heartbeats, exact resume and bounded retries."
     },
@@ -103,19 +104,21 @@
       "status": "CANDIDATE_TRAJECTORIES_RUNNING",
       "evidence": [
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
-        "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json"
+        "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
+        "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json"
       ],
-      "missing": ["candidate e150/e175/e200 rows", "final ranking and reproduction command bound to the selected fingerprint"]
+      "missing": ["candidate e150/e175/e200 rows", "final ranking and reproduction command bound to the selected fingerprint", "winner proposal-only and observable-only experimental trajectories"]
     },
     {
       "id": 9,
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "135 pytest tests passed at successor commit 2ffa1fa",
+        "139 pytest tests passed at cross-version successor commit 0aa0beb",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 2ffa1fa4f9cc0dd5eedbd7b1acfbaa95eebec755",
-        "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json"
+        "main pushed through e728064",
+        "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
       "boundary": "Tests and repository cleanliness must be re-proven after final materialization."
     },
@@ -124,14 +127,25 @@
       "requirement": "Final report separates scientific conclusions, engineering failures, proxy distortion, and untested hypotheses.",
       "status": "NOT_REACHED",
       "missing": ["complete candidate and seed/revision evidence"]
+    },
+    {
+      "id": 11,
+      "requirement": "The selected algorithm has proposal-only, observable-only and projected/full ablation evidence rather than definitions alone.",
+      "status": "DEFINITIONS_FROZEN_EXPERIMENTS_PENDING_WINNER",
+      "evidence": [
+        "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
+        "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json"
+      ],
+      "boundary": "Only the final winner receives long-horizon ablations; definitions in a derivation card are not accepted as experimental results.",
+      "missing": ["winner identity", "proposal-only implementation/gate/e200", "observable-only implementation/gate/e200", "full-vs-ablation matched adjudication"]
     }
   ],
   "current_accepted_scientific_boundary": {
-    "local": "plain and HJ e200 accepted; HNEK at e113; local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP remains valid and continues; old RSMG was stopped at e71 as engineering-invalid",
-    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP continues; old RSMG was stopped at e40 as engineering-invalid and must never be merged into ranking",
-    "new_algorithms": "BVCP has a valid active e200 trajectory; old RSMG violated its player-conditional iid derivation premise and requires a new identity plus e0 restart",
-    "successor": "the old two-candidate successor is intentionally stopped until the corrected replacement is frozen; terminal verification remains mandatory",
+    "local": "plain and HJ e200 accepted; HNEK continues beyond e139; local continuation is not the authoritative Generation-1 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG run concurrently from common e0; old RSMG e71 is engineering-invalid",
+    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP and PC-RSMG continue; no 5090 result may be merged into the 4090 ranking",
+    "new_algorithms": "BVCP remains valid; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and its first authoritative e5 checkpoint/CRN/resume chunk is accepted",
+    "successor": "source-bound cross-version successor 0aa0beb is durably waiting and will verify each candidate under its own training core before ranking and seed continuation",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false
