@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T00:23:39+08:00",
+  "updated": "2026-08-31T00:43:50+08:00",
   "goal_status": "IN_PROGRESS_GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -97,6 +97,7 @@
         ,"evidence/remote_route1_offload/MCRB_E150_FIXED_MILESTONE_20260831.json"
         ,"evidence/remote_route1_offload/MCRB_E150_NONTERMINAL_RUNTIME_AUDIT_20260831.json"
         ,"evidence/remote_route1_offload/AMTNC_E150_FIXED_MILESTONE_20260831.json"
+        ,"evidence/remote_route1_offload/MCRB_E175_FIXED_MILESTONE_20260831.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
@@ -104,7 +105,7 @@
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "PCRSMG_status": "complete e200; late-three positive but strict terminal gate negative at -0.001379 dB; its reduced defect authorized AM-TNC",
         "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 completed the first late point e150 at +0.537 dB with 5/6 domains positive, but LPIPS is worse by 0.00595 and most relative recovery came from plain decline. The unchanged run continues to e175/e200",
-        "MCRB_status": "formula/code identity audited; independent 5090 e200 completed the first late point e150 at +0.894 dB with 6/6 domains positive and continued to e155. Candidate improvement and a plain downswing both contributed, LPIPS is unavailable for the 5090 plain e150, and no 4090 replay starts before a complete positive e200 receipt",
+        "MCRB_status": "formula/code identity audited; independent 5090 e200 changed from e150 +0.894 dB/6 domains positive to e175 -0.082 dB/4 domains positive with worst domain -1.777 dB. Candidate still improved slightly but plain improved much faster; the unchanged run continues to e200 and no 4090 replay has started",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -218,7 +219,7 @@
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which completed e150 at +0.537 dB and 5/6 domains positive under commit 977ce32. LPIPS is worse by 0.00595 and most e125-to-e150 relative recovery came from plain decline, so the unchanged run still requires e175/e200",
-    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB completed e150 at +0.894 dB with 6/6 domains positive after its e125 reversal. Candidate PSNR rose 1.074 dB while plain declined 0.590 dB; this is only the first late point, 5090 plain LPIPS is unavailable, the unchanged run continues to e200, and no 5090 result may be merged into the 4090 ranking",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB completed e175 at -0.082 dB with 4/6 domains positive and worst domain -1.777 dB after e150 +0.894 dB. Candidate improved 0.261 dB from e150 while plain improved 1.238 dB; the unchanged run continues to e200, and no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
     "successor": "commit 77bb987 deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts source-bound sequential single-stream winner ablations. Final reproduction is bound to the unique real executor contract rather than a guessed filename; 201 local tests and 18 remote4090 terminal-chain tests pass, while terminal candidate and ablation trajectories correctly remain pending",
     "confirmation20_opened": false
