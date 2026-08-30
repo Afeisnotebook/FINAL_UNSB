@@ -22,7 +22,11 @@ from research.local_route1.ablation_challenger_selection import (
     WORKSPACE_SCHEMA,
     adjudicate_ablation_challenger_selection,
 )
-from research.local_route1.generation1_adjudication import POSITIVE_STATUS
+from research.local_route1.generation1_adjudication import (
+    NEGATIVE_STATUS,
+    POSITIVE_STATUS,
+)
+from research.local_route1.candidate_defect_audit import CROSS_VERSION_NEGATIVE_STATUS
 from research.local_route1.protocol import ROOT, file_sha256
 from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
 from research.local_route1.single_seed_development import (
@@ -54,10 +58,12 @@ def _metric(psnr: float, *, probe_id: str = "plain", protocol: str = "crn") -> d
     }
 
 
-def _trajectory(candidate_id: str, algorithm: str, delta: float) -> dict:
+def _trajectory(
+    candidate_id: str, algorithm: str, delta: float, *, status: str = POSITIVE_STATUS,
+) -> dict:
     return {
         "schema": "final-unsb-route1-candidate-trajectory-v1",
-        "status": POSITIVE_STATUS,
+        "status": status,
         "candidate_id": candidate_id,
         "algorithm_fingerprint": algorithm,
         "candidate_fingerprint": f"candidate-{candidate_id}",
@@ -69,7 +75,9 @@ def _trajectory(candidate_id: str, algorithm: str, delta: float) -> dict:
     }
 
 
-def _method(root: Path, candidate_id: str, delta: float) -> tuple[Path, dict]:
+def _method(
+    root: Path, candidate_id: str, delta: float, *, status: str = POSITIVE_STATUS,
+) -> tuple[Path, dict]:
     algorithm = f"algorithm-{candidate_id}"
     card_path = root / "derive" / "cards" / f"{candidate_id}.json"
     implementation_path = root / "derive" / "implementations" / f"{candidate_id}.json"
@@ -88,7 +96,7 @@ def _method(root: Path, candidate_id: str, delta: float) -> tuple[Path, dict]:
         "model": "test-model", "method": {"fixed": 1}, "source_files": [],
     })
     trajectory_path = root / "candidates" / candidate_id / "CANDIDATE_TRAJECTORY.json"
-    _write(trajectory_path, _trajectory(candidate_id, algorithm, delta))
+    _write(trajectory_path, _trajectory(candidate_id, algorithm, delta, status=status))
     _write(root / "candidates" / candidate_id / "metrics" / "e200.json", _metric(
         20.0 + delta, probe_id=candidate_id,
     ))
@@ -100,7 +108,7 @@ def _method(root: Path, candidate_id: str, delta: float) -> tuple[Path, dict]:
         "schema": RECEIPT_SCHEMA,
         "status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
         "candidate_id": candidate_id,
-        "trajectory_status": POSITIVE_STATUS,
+        "trajectory_status": status,
         "algorithm_fingerprint": algorithm,
         "candidate_fingerprint": f"candidate-{candidate_id}",
         "candidate_training_core_fingerprint": f"core-{candidate_id}",
@@ -512,3 +520,91 @@ def test_single_seed_emergency_policy_selects_complete_e200_ablation_challenger(
     assert results["seed_results"] == {}
     assert results["multi_seed_adjudication"] is None
     assert results["cross_seed_stability_claimed"] is False
+
+
+def test_single_seed_terminal_negative_selection_delivers_honest_fallback(tmp_path):
+    _write(tmp_path / "anchors" / "plain" / "metrics" / "e200.json", _metric(20.0))
+    full_path, full = _method(
+        tmp_path, "G2-FALLBACK", -0.1, status=NEGATIVE_STATUS,
+    )
+    _, runner = _method(
+        tmp_path, "G1-RUNNER", -0.3, status=NEGATIVE_STATUS,
+    )
+    proposal_path, proposal = _method(
+        tmp_path, "ABL-PROPOSAL", -0.2, status=NEGATIVE_STATUS,
+    )
+    observable_path, observable = _method(
+        tmp_path, "ABL-OBSERVE", 0.0, status=NEGATIVE_STATUS,
+    )
+    ranking = []
+    for rank, receipt in enumerate((full, runner), start=1):
+        ranking.append({
+            "rank": rank,
+            "candidate_id": receipt["candidate_id"],
+            "trajectory_status": receipt["trajectory_status"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "training_git_commit": receipt["training_git_commit"],
+            "candidate_training_core_fingerprint": receipt[
+                "candidate_training_core_fingerprint"
+            ],
+            "trajectory_sha256": receipt["trajectory_sha256"],
+            "ranking_fields": receipt["ranking_fields"],
+            "median_epoch_wall_seconds": receipt["median_epoch_wall_seconds"],
+            "terminal_integrity": receipt["terminal_integrity"],
+        })
+    selection_path = tmp_path / "operations" / "ROUTE1_FINAL_E200_SELECTION.json"
+    _write(selection_path, {
+        "schema": CROSS_SCHEMA,
+        "status": CROSS_VERSION_NEGATIVE_STATUS,
+        "ranking": ranking,
+        "selected_candidate_id": full["candidate_id"],
+        "selected_algorithm_fingerprint": full["algorithm_fingerprint"],
+        "selected_candidate_fingerprint": full["candidate_fingerprint"],
+        "selected_training_git_commit": full["training_git_commit"],
+        "selection_role": "current_best_fallback",
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    })
+    freeze = materialize_single_seed_development_freeze(tmp_path)
+    assert freeze["development_signal_classification"] == (
+        "current_best_seed2026_e200_fallback"
+    )
+    roles = {}
+    for role, path, receipt in (
+        ("proposal_only", proposal_path, proposal),
+        ("observable_only", observable_path, observable),
+        ("projected_or_full", full_path, full),
+    ):
+        roles[role] = {
+            "candidate_id": receipt["candidate_id"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "training_git_commit": receipt["training_git_commit"],
+            "trajectory_status": receipt["trajectory_status"],
+            "trajectory_sha256": receipt["trajectory_sha256"],
+            "receipt_path": str(path.resolve()),
+            "receipt_sha256": file_sha256(path),
+            "ranking_fields": receipt["ranking_fields"],
+        }
+    _write(tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json", {
+        "schema": ABLATION_SCHEMA,
+        "status": "COMPLETE_NO_SELECTION_CHANGE",
+        "selected_candidate_id": full["candidate_id"],
+        "selected_algorithm_fingerprint": full["algorithm_fingerprint"],
+        "source_cross_version_adjudication_sha256": file_sha256(selection_path),
+        "roles": roles,
+        "observable_only_identity": {
+            "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
+        },
+        "proposal_only_out_ranks_full": False,
+        "selection_change_blocked_pending_seed_validation": False,
+        "selection_changed": False,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    result = materialize_cross_version_final_delivery(tmp_path)
+    assert result["candidate_id"] == full["candidate_id"]
+    assert result["classification"] == "weak_fallback_single_seed_development"
+    assert result["source_e200_selection"]["status"] == CROSS_VERSION_NEGATIVE_STATUS

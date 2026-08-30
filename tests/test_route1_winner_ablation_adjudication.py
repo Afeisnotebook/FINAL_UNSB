@@ -16,7 +16,8 @@ from operations.local_route1_winner_ablation_adjudicate import (
     SCHEMA,
     adjudicate,
 )
-from research.local_route1.generation1_adjudication import POSITIVE_STATUS
+from research.local_route1.generation1_adjudication import NEGATIVE_STATUS, POSITIVE_STATUS
+from research.local_route1.candidate_defect_audit import CROSS_VERSION_NEGATIVE_STATUS
 from research.local_route1.protocol import ROOT, file_sha256
 from research.local_route1.runtime import full_state_hash
 
@@ -28,13 +29,14 @@ def _write(path: Path, payload: dict) -> None:
 
 def _receipt(
     root: Path, candidate_id: str, *, late: float, algorithm: str | None = None,
+    status: str = POSITIVE_STATUS,
 ) -> Path:
     path = root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
     payload = {
         "schema": RECEIPT_SCHEMA,
         "status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
         "candidate_id": candidate_id,
-        "trajectory_status": POSITIVE_STATUS,
+        "trajectory_status": status,
         "algorithm_fingerprint": algorithm or f"algorithm-{candidate_id}",
         "candidate_fingerprint": f"candidate-{candidate_id}",
         "candidate_training_core_fingerprint": f"core-{candidate_id}",
@@ -115,11 +117,14 @@ def _observable_plain_identity(root: Path, candidate_id: str) -> None:
     })
 
 
-def _cross(root: Path, winner: str, algorithm: str) -> Path:
+def _cross(
+    root: Path, winner: str, algorithm: str, *,
+    status: str = "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE",
+) -> Path:
     path = root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
     _write(path, {
         "schema": CROSS_SCHEMA,
-        "status": "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE",
+        "status": status,
         "ranking": [{
             "candidate_id": winner,
             "algorithm_fingerprint": algorithm,
@@ -189,3 +194,32 @@ def test_winner_ablation_adjudication_refuses_observable_state_drift(tmp_path):
             full_receipt_path=full,
             output_path=tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json",
         )
+
+
+def test_winner_ablation_adjudication_accepts_terminal_fallback_source(tmp_path):
+    full_id = "G2-FALLBACK"
+    observable_id = "ABL-OBSERVE"
+    full = _receipt(
+        tmp_path, full_id, late=-0.1, algorithm="algorithm-full",
+        status=NEGATIVE_STATUS,
+    )
+    proposal = _receipt(
+        tmp_path, "ABL-PROPOSAL", late=-0.2, status=NEGATIVE_STATUS,
+    )
+    observable = _receipt(
+        tmp_path, observable_id, late=0.0, status=NEGATIVE_STATUS,
+    )
+    _observable_plain_identity(tmp_path, observable_id)
+    cross = _cross(
+        tmp_path, full_id, "algorithm-full", status=CROSS_VERSION_NEGATIVE_STATUS,
+    )
+    result = adjudicate(
+        output_root=tmp_path,
+        cross_adjudication_path=cross,
+        proposal_receipt_path=proposal,
+        observable_receipt_path=observable,
+        full_receipt_path=full,
+        output_path=tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json",
+    )
+    assert result["status"] == "COMPLETE_NO_SELECTION_CHANGE"
+    assert result["selected_candidate_id"] == full_id
