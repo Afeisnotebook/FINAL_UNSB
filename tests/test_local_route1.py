@@ -166,6 +166,13 @@ def test_terminal_audit_is_local_and_never_fabricates_future_e200_label():
     assert not any(horizon == 200 for _regime, horizon, _pulse in terminal)
 
 
+def test_terminal_next_native_consensus_allows_internal_h2_without_public_row():
+    from research.local_route1.causal_audit import TERMINAL_INTERNAL_HORIZONS
+
+    assert 2 in TERMINAL_INTERNAL_HORIZONS
+    assert _audit_regimes((2,), start_step=30_000) == ()
+
+
 def test_terminal_lr_restore_preserves_moments_and_scheduler_state():
     parameter = torch.nn.Parameter(torch.tensor([1.0]))
     optimizer = torch.optim.Adam([parameter], lr=0.0)

@@ -69,6 +69,10 @@ MATRIX_SCHEMA = "final-unsb-local-route1-causal-matrix-v1"
 DEFAULT_HORIZONS = (1, 8, 32, 200)
 DEFAULT_VARIANCE_REPLICATES = 8
 TERMINAL_LOCAL_HORIZONS = (1, 8, 32)
+# The public terminal h=1 row also measures agreement with the next
+# independent native update.  That calculation needs an internal two-update
+# native branch, but h=2 is never exposed as a queue or atlas horizon.
+TERMINAL_INTERNAL_HORIZONS = tuple(sorted({*TERMINAL_LOCAL_HORIZONS, 2}))
 
 
 _ATLAS_THREAD_LOCK = threading.RLock()
@@ -504,7 +508,7 @@ def _run_branch(
     terminal_extension = step >= target_steps
     restored_base_lrs: tuple[float, ...] = ()
     if terminal_extension:
-        if int(horizon) not in TERMINAL_LOCAL_HORIZONS:
+        if int(horizon) not in TERMINAL_INTERNAL_HORIZONS:
             raise RuntimeError(
                 "terminal vector-field audit is local-only and may not cross a scheduler boundary"
             )
