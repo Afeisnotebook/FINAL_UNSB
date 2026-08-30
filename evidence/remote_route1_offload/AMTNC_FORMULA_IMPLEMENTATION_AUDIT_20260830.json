@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-route1-amtnc-formula-implementation-audit-v1",
+  "recorded": "2026-08-30T22:59:00+08:00",
+  "status": "FORMULA_IMPLEMENTATION_EQUIVALENT_CURRENT_IDENTITY",
+  "scope": "Read-only audit of the frozen AM-TNC derivation, exact 4090 training sources and target-blind method state. This does not use intermediate quality to control training and is not an e200 benefit claim.",
+  "training_identity": {
+    "git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+    "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+    "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+    "worktree_clean": true
+  },
+  "source_identity": {
+    "derivation_card_sha256": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4",
+    "amtnc_operator_sha256": "77f98563e0d9dbae35ab7527c1d9b6c58a50f93033993f54604f2d54c455d8bf",
+    "model_registry_sha256": "4c5c1927f73405c09716af3c5c6db3aac47b67c38d2a3c8b2e6f32e776eb85fe",
+    "card_and_operator_match_current_main": true
+  },
+  "formula_to_code": [
+    {
+      "claim": "For two player-conditional views, form m=(g1+g2)/2 and d=(g1-g2)/2 in the frozen pre-step Adam diagonal A.",
+      "implementation": "_commit_player freezes _adam_scales before either gradient is committed; adam_metric_tangential_gradient constructs means and half-differences and computes all A-space energies in float64 reductions.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "Remove only disagreement parallel to consensus and retain the Adam-metric tangential component.",
+      "implementation": "The committed estimator is mean+difference-(<Am,Ad>/||Am||^2)*mean. The reported radial and tangential energies use the same metric and exact orthogonal decomposition.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "Exchange symmetry makes the estimator conditionally unbiased even though the later Adam map is nonlinear.",
+      "implementation": "Swapping ordered views preserves mean and negates difference and the projection coefficient; the residual around mean is odd. Equal views return the first tuple byte-exactly, and zero consensus returns the ordered first draw.",
+      "verdict": "MATCH_ESTIMATOR_ONLY"
+    },
+    {
+      "claim": "D and E use the shared pre-opponent bundle; G/F get a fresh bundle only after D/E commit.",
+      "implementation": "The enforced schedule is DE_BUNDLE,D_COMMIT,E_COMMIT,GF_BUNDLE,GF_COMMIT. Every update checks this exact tuple and fails closed on deviation.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "Native optimizer structure, endpoint law and paired-target access remain unchanged.",
+      "implementation": "Each player calls its existing optimizer once after assigning the derived gradient; G uses the native generator hooks and F native step. The algorithm reads current unpaired forward/loss views and previous Adam second moments only.",
+      "verdict": "MATCH"
+    },
+    {
+      "claim": "The full schedule and counters are resumable and one-replica mode is exact native identity.",
+      "implementation": "replicates=1 delegates the complete native optimize_parameters. Active checkpoints bind replica count, update index, both bundle counts, last schedule and last geometry; a changed schedule or replica count fails closed.",
+      "verdict": "MATCH"
+    }
+  ],
+  "configuration_boundary": {
+    "normalization": "instance for G/D/E under the frozen common profile",
+    "dropout_disabled": true,
+    "meaning": "The two sequential views do not acquire BatchNorm running-state asymmetry under the frozen scientific configuration; the exchangeability claim is configuration-bound rather than universal to arbitrary networks with mutable forward buffers.",
+    "expected_adam_scale": "raw pre-step exp_avg_sq without bias correction, exactly as declared in the derivation card",
+    "finite_adam_displacement_unbiasedness_claimed": false
+  },
+  "target_blind_execution_snapshot": {
+    "updates": 11400,
+    "data_epochs": 76,
+    "bundle_serial": 22800,
+    "de_bundle_count": 11400,
+    "gf_bundle_count": 11400,
+    "last_schedule_exact": true,
+    "last_geometry": {
+      "D": {
+        "radial_fraction": 0.0016639705806100415,
+        "tangential_fraction": 0.9983360294193899,
+        "projection_coefficient": -0.005534800600712373
+      },
+      "E": {
+        "radial_fraction": 0.0010395188836899063,
+        "tangential_fraction": 0.9989604811163101,
+        "projection_coefficient": -0.006434261188589927
+      },
+      "GF": {
+        "radial_fraction": 0.0004698825426856665,
+        "tangential_fraction": 0.9995301174573144,
+        "projection_coefficient": 0.009562392499417916
+      }
+    },
+    "interpretation": "The implementation is preserving almost all instantaneous disagreement tangent at this fixed state, as designed. It is consequently close to—but not identical with—the ordered first-replica proposal here; the mandatory proposal-only e200 ablation is what can attribute any final result.",
+    "scientific_control_authority": false
+  },
+  "remaining_scientific_question": "Only the fixed complete e200 matched trajectory and subsequent full/proposal-only/observable-only ablations can decide sustained benefit and component attribution.",
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
