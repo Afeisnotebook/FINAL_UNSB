@@ -52,8 +52,11 @@ def main() -> int:
     evidence = load("evidence/EVIDENCE_SUMMARY.json")
 
     probe_ids = [probe["id"] for probe in probes["anchor_probes"]]
-    check(project["status"] == "LOCAL_ROUTE1_REOPENED",
-          "local route-1 contract is active")
+    check(
+        project["status"]
+        == "STRICT_PASS_PRIMARY_AND_EVIDENCE_QUALIFIED_FRONTIER_RUNNING",
+        "local route-1 contract and evidence-qualified frontier are active",
+    )
     check(probes["status"] == "ACTIVE_LOCAL_RESEARCH",
           "local long-horizon probes are active")
     check(probe_ids == state["active_probe_families"],

@@ -235,7 +235,10 @@ def validate_protocol(protocol: dict | None = None) -> list[str]:
     if int(probe_spec("dt", protocol).method.get("dtcov_search_start_step", 0)) != -1:
         errors.append("DT must use physical epoch age, not a search-step override")
     forbidden = "|".join(str(item).lower() for item in protocol.get("not_current_tasks", []))
-    for token in ("4090", "finite handoff", "paired metric controller", "best checkpoint"):
+    for token in (
+        "four-server", "cross-host", "full-data", "finite handoff",
+        "paired metric controller", "best checkpoint",
+    ):
         if token not in forbidden:
             errors.append(f"anti-drift exclusion is missing: {token}")
     return errors

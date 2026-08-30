@@ -37,4 +37,6 @@ def test_active_local_route1_probe_clock_and_scope():
         "P3_DT_LONG",
     ]
     assert "HJ finite handoff" in contract["not_current_tasks"]
-    assert "4090 planning or execution" in contract["not_current_tasks"]
+    assert "former four-server/four-frozen-lane validation" in contract["not_current_tasks"]
+    assert "unauthorized cross-host delta merging" in contract["not_current_tasks"]
+    assert "full-data execution" in contract["not_current_tasks"]

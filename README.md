@@ -27,16 +27,27 @@ host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和�
 
 ## 当前阶段
 
-当前是`GENERATION1_SINGLE_SEED_MATCHED_E200_RUNNING`。本地和两台服务器均已验证
+当前是`STRICT_PASS_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING`。本地和两台服务器均已验证
 数据身份、共同e0、真实优化器更新、full-state exact resume、评估重放和confirmation锁。
 4090的plain/HJ/HNEK/DT与最终474条反转、140条采样方差因果证据已经冻结；它们用于
 生成新算法，而不是旧算法排名。
 
 旧SEARCH-005 small25 2400 updates只有16 data epochs，旧full100 12000 updates只有
-20 data epochs，不能充当目标所需的e200长期裁决。长期因果图谱已生成两个新算法：
-BVCP当前实现完成e200后为长期负，只关闭该实现；PC-RSMG已通过数学、identity、resume、
-跨状态和400-update工程门，正从共同e0运行到真实e200。固定四lane、HJ有限handoff、
-退出阈值和paired控制仍不属于当前任务。
+20 data epochs，不能充当目标所需的e200长期裁决。长期因果图谱已经生成并完成多项新
+算法的真实e200：BVCP、PC-RSMG、AM-TNC和MCRB的当前实现均已有长期结论边界。
+PC-RSMG full虽有`+0.621 dB` late-three均值，但e200为`-0.00138 dB`；其
+proposal-only在同协议下达到late-three `+0.542 dB`、e200 `+0.451 dB`，并通过
+SSIM/LPIPS等完整门，因此按“严格资格优先、资格层内再排序”成为当前seed2026开发
+主候选。observable-only与plain的完整动力学及e200指标精确一致，收益来源被定位到
+条件原生双视图G/F估计，而不是观察开销。固定四lane、HJ有限handoff、退出阈值和
+paired控制仍不属于当前任务。
+
+搜索没有因出现当前主候选而停止。5090正在从共同e0并行推进PCNR与AM-MCRB到真实e200；
+两者只有在完整终点后才进入宿主内裁决。若AM-MCRB与独立采样机制均严格通过，预注册门
+允许最多生成一个两组件Generation-3合成；否则形成不适用证据，不放宽为网格搜索。
+最终的一个主候选只是执行优先级；严格通过或具有单一target-blind可修复缺陷的长期近
+边界方法仍保留在可信前沿，并可按一次修订额度继续。具体第二波资源规则见
+`decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
 
 紧急成本协议以完整seed2026/e200作为开发候选冻结依据，seed2027/2028延期；节省的
 算力用于赢家机制消融、全负后的唯一证据驱动数学修订和额外独立方向。该协议不声称

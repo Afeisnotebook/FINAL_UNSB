@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`PCRSMG_ABLATIONS_RUNNING / PCNR_AND_AM_MCRB_FRONTIER_E200_RUNNING`
+状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / PCNR_AND_AM_MCRB_FRONTIER_E200_RUNNING`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -27,7 +27,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-31 03:05）
+## 当前执行事实（2026-08-31 06:55）
 
 - 4090权威474/140长期因果矩阵已冻结；BVCP、PC-RSMG和唯一二代修订AM-TNC均已
   完成同宿主matched e200。独立MCRB也已在5090完成e200；终点`-0.730 dB`且域护栏
@@ -35,13 +35,12 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - AM-TNC晚三点PSNR均值`+0.105 dB`，e200为`+0.383 dB`、4/6域正，终点SSIM/LPIPS
   均改善；但晚三点平均LPIPS差`0.00628`，所以是`positive_but_fragile`递补，不是
   严格门赢家。
-- 全部4090候选按冻结排序完成：PC-RSMG晚三点`+0.621 dB`排第一，AM-TNC排第二，
-  BVCP排第三。没有方法通过全部数值门，因此PC-RSMG被明确冻结为当前seed2026 fallback，
-  不声称跨seed稳定或严格成功。
-- PC-RSMG projected/full直接复用其完整e200 receipt；proposal-only和observable-only
-  已通过短GPU身份门。proposal-only已从共同e0进入真实e200，完成后才启动
-  observable-only；按实测墙钟严格单流，长程并发上限为1。两门及运行身份见
-  `evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json`。
+- PC-RSMG projected/full、proposal-only和observable-only已全部完成真实e200。
+  full的晚三点为`+0.620959 dB`但e200为`-0.001379 dB`，严格门失败；proposal-only
+  晚三点为`+0.541507 dB`、e200为`+0.451092 dB`且完整护栏通过；observable-only的
+  完整动力学和e200指标与plain精确一致。裁决已修正为严格资格优先，因此当前canonical
+  seed2026开发主候选是`ABL-G1-02B-PCRSMG-PROPOSAL-ONLY`，不是full。见
+  `evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_E200_AND_RECOVERY_20260831.json`。
 - 本地1660的HJ/HNEK补充审计现已全部自然完成：174条反转记录、52条采样方差记录，
   matrix状态为`COMPLETE_CAUSAL_AUDIT`。本地proxy未校准，所以没有在本地启动DT或候选；
   该结果只证明proxy/宿主敏感性，不替代已校准4090的474/140权威矩阵。见
@@ -56,25 +55,27 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `PASS_LONG_RUN`，由`9c8c987`持久后继以两条隔离batch1流从共同e0并行运行到e200。
   `47bbb85`终点后继已独立武装：仅在两条source-bound e200 receipt均完整时排名，只有
   严格门赢家才请求一条4090同宿主复跑；全负则保留排名并跳过复跑。
-  4090上的`827183a`条件后继已经通过SSH与源码身份预检，并先等待当前PC-RSMG消融
-  完成；之后只消费上述完整终点决定，重新做4090 GPU门并最多复跑一个候选。
-  `dc3f982`最终链也已持久化等待：它会保留pre-frontier交付原件，只以4090同宿主
+  4090上的条件后继已经通过SSH与源码身份预检，只消费上述完整终点决定，重新做4090
+  GPU门并最多复跑一个候选。
+  最终链也已持久化等待：它会保留pre-frontier交付原件，只以4090同宿主
   receipt决定canonical主候选，同时输出两个递补和未合并的5090完整候选前沿。若新前沿
   算法胜出，还必须先完成该算法自己来源绑定的proposal-only、observable-only和full
   e200证据，不能借用PC-RSMG消融。
   这把最终交付从“过早只剩一个fallback”改为“一个主排名加两个证据充分备选”，但没有
   改变长期算法发现的北极星。见
   `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。
-- 下一硬门是4090两项PC-RSMG机制消融与5090两项前沿候选全部完成e200；不同宿主先分别
-  matched裁决，只有5090严格赢家才考虑4090同宿主复跑，任何中间checkpoint都不触发调度。
-- 03:20持久状态：4090 PC-RSMG proposal-only在e138，5090 PCNR在e39、AM-MCRB在e34；
-  三条均为batch1、seed2026、固定e200。一个主候选只是最终排序接口，不是提前停止其余
-  可信分支。当前5090双流已占满，因此先完整推进这两个不同数学方向；终点后只有新的
-  target-blind因果缺陷才能授权一次最小修订，不为“多跑几个名字”开启网格。
-- `970784c`补齐并冻结了最终证据交付：主候选与三项消融均须输出逐域candidate/plain绝对值和
+- 下一硬门是5090两项前沿候选全部完成e200；不同宿主先分别matched裁决，只有5090严格
+  赢家才考虑4090同宿主复跑，任何中间checkpoint都不触发调度。
+- 06:55持久状态：5090 PCNR在e147、AM-MCRB在e129；两条均为batch1、seed2026、
+  固定e200，GPU双流接近计算饱和。当前不塞第三条；终点后按证据合格前沿规则最多并行
+  两条合成、来源绑定消融或一次最小数学修订。一个主候选只是行动接口，不提前停止其余
+  strict-pass或因果可修复近边界分支。
+- `405197d`补齐并冻结了最终证据交付：主候选与三项消融均须输出逐域candidate/plain绝对值和
   delta，完整保留4090/5090各自前沿，并显式区分科学结论、工程失败、代理失真和未测
-  假设。新的4090终报告等待器PID 1464676已取代旧等待器；所有训练、跨机路由和算法
-  消融进程未变。
+  假设；即使前沿挑战者经自身消融后未取代原主候选，其完整轨迹也必须保留。
+- 若PCNR与AM-MCRB都严格通过，`f674e90`预注册的Generation-3门允许一个两组件合成；
+  否则只记录不适用。多候选继续资格见
+  `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 

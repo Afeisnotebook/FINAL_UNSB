@@ -1,12 +1,13 @@
 {
   "schema_version": 1,
   "project_id": "FINAL_UNSB_LOCAL_ROUTE1_DISCOVERY",
-  "status": "GENERATION1_SINGLE_SEED_MATCHED_E200_RUNNING",
+  "status": "STRICT_PASS_PRIMARY_AND_EVIDENCE_QUALIFIED_FRONTIER_RUNNING",
   "objective": "On the deterministic clean UNSB baseline, use long-horizon evidence from multiple probe families to discover and reconstruct a new algorithm capable of retaining matched benefit over 200 data epochs.",
   "guarantees": [
     "a time-scale-correct long-horizon evidence atlas",
     "at least one evidence-derived route-1 candidate and one current-best fallback",
-    "traceable code, data, configuration, checkpoint and evaluation identities"
+    "traceable code, data, configuration, checkpoint and evaluation identities",
+    "one explicit action-priority candidate without deleting the complete evidence-qualified frontier"
   ],
   "non_guarantees": [
     "positive PSNR or successful reproduction of historical methods",
@@ -38,9 +39,11 @@
     "saved_compute_priority": [
       "winner mechanism ablations",
       "one evidence-authorized mathematical revision",
-      "an additional independent mechanism before repeated initialization"
+      "an additional independent mechanism before repeated initialization",
+      "complete-e200 advancement of strict-pass or causally repairable near-boundary mechanisms"
     ],
-    "decision": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
+    "decision": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md",
+    "advancement_decision": "decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md"
   },
   "research_contract": "LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md",
   "probe_contract": "configs/LOCAL_ROUTE1_PROBES.json",
@@ -63,5 +66,5 @@
       "cross-host method-minus-plain comparisons"
     ]
   },
-  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen protocol before its paired target metrics are read. The two explicitly authorized servers may execute only the host-matched route1 scope in the listed decisions; any broader server use requires a new user decision."
+  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen protocol before its paired target metrics are read. A canonical primary does not prune complete strict-pass or causally repairable near-boundary mechanisms. The two explicitly authorized servers may execute only the host-matched route1 scope in the listed decisions; any broader server use requires a new user decision."
 }

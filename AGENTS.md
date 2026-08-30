@@ -72,6 +72,10 @@ route-2, cross-host deltas, or the old frozen-lane plan.
   trajectory. Seeds 2027/2028 are deferred so compute returns to ablations,
   causal revision and independent mechanisms. Never translate this cost policy
   into a claim that cross-seed stability has been demonstrated.
+- A canonical `CANDIDATE.json` is an action-priority interface, not an early
+  scientific pruning rule. Complete strict-pass and causally repairable
+  near-boundary mechanisms remain in the evidence-qualified frontier under
+  `DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`.
 
 ## Required response to ambiguity
 

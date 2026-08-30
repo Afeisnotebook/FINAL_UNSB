@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T03:30:06+08:00",
-  "phase": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
+  "state_snapshot_time": "2026-08-31T06:55:00+08:00",
+  "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "970784c83f2a4bbe4d8f9339e9e2dff870cd02eb",
+  "development_head_at_state_write": "ff9de3f3fef1d8ccc86598d553a3ce461d359ea6",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -199,7 +199,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_CANDIDATES_E200_COMPLETE_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING",
+    "status": "PCRSMG_THREE_ROLE_E200_COMPLETE_STRICT_PROPOSAL_PRIMARY_FRONTIER_CHAIN_WAITING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "authoritative host-matched Generation-1 ranking runtime; never mix a remote method with local or 5090 plain",
@@ -342,7 +342,7 @@
       "paired_metric_early_stop": false
     },
     "generation1_successor": {
-      "status": "SINGLE_SEED_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
+      "status": "SINGLE_SEED_STRICT_PROPOSAL_PRIMARY_THREE_ROLE_E200_COMPLETE_FRONTIER_WAITING",
       "git_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
       "durable_sessions": [
         "tmux:FINAL_UNSB_SINGLE_SEED_CROSS_23dc0c8",
@@ -385,7 +385,7 @@
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "ALL_ANCHORS_E200_COMPLETE_MCRB_TERMINAL_NEGATIVE_NO_4090_REPLAY_REDUNDANT_PCRSMG_PAUSED",
+    "status": "PCNR_AND_AM_MCRB_TWO_STREAM_MATCHED_E200_RUNNING",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -461,8 +461,8 @@
     "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
     "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
     "winner_ablation_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
-    "winner_ablation_successor_status": "PC_RSMG_FALLBACK_FROZEN_BOTH_GPU_GATES_PASS_PROPOSAL_ONLY_E200_RUNNING",
-    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json",
+    "winner_ablation_successor_status": "PC_RSMG_THREE_ROLE_E200_COMPLETE_PROPOSAL_ONLY_STRICT_PASS",
+    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_E200_AND_RECOVERY_20260831.json",
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
@@ -486,14 +486,19 @@
     "amtnc_e200_terminal_evidence": "evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json",
     "mcrb_e200_terminal_evidence": "evidence/remote_route1_offload/MCRB_E200_TERMINAL_20260831.json",
     "winner_ablation_runtime": {
-      "status": "PROPOSAL_ONLY_E200_RUNNING",
+      "status": "COMPLETE_THREE_ROLE_E200_PROPOSAL_ONLY_STRICT_PASS",
       "active_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
-      "latest_observed_data_epoch": 138,
+      "latest_observed_data_epoch": 200,
       "target_data_epoch": 200,
       "maximum_parallel_e200_executors": 1,
       "proposal_only_gate_status": "PASS_LONG_RUN",
       "observable_only_gate_status": "PASS_LONG_RUN",
-      "evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json"
+      "proposal_only_late_three_macro_psnr_delta_db": 0.5415065556765851,
+      "proposal_only_e200_macro_psnr_delta_db": 0.4510917790142841,
+      "proposal_only_strict_sustained_gate": true,
+      "projected_full_strict_sustained_gate": false,
+      "observable_only_exact_plain_identity": true,
+      "evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_E200_AND_RECOVERY_20260831.json"
     },
     "frontier_expansion": {
       "decision": "decisions/DEC-20260831-ROUTE1-FRONTIER-EXPANSION.md",
@@ -508,8 +513,8 @@
       "host": "remote5090",
       "batch_size": 1,
       "maximum_parallel_e200_executors": 2,
-      "pcnr_latest_observed_data_epoch": 39,
-      "am_mcrb_latest_observed_data_epoch": 34,
+      "pcnr_latest_observed_data_epoch": 147,
+      "am_mcrb_latest_observed_data_epoch": 129,
       "target_data_epoch": 200,
       "selection_seeds": [2026],
       "deferred_seeds": [2027, 2028],
@@ -518,23 +523,27 @@
       "terminal_successor_status": "WAITING_FOR_BOTH_COMPLETE_E200_RECEIPTS",
       "terminal_successor_evidence": "evidence/remote_route1_offload/FRONTIER_TERMINAL_SUCCESSOR_ARMED_20260831.json",
       "conditional_4090_replay_successor_commit": "827183a3720e567ad7387576f0599b1862762cb2",
-      "conditional_4090_replay_status": "WAITING_FOR_LOCAL_WINNER_ABLATIONS_THEN_COMPLETE_REMOTE_DECISION",
+      "conditional_4090_replay_status": "WAITING_FOR_COMPLETE_REMOTE_DECISION",
       "maximum_conditional_4090_replays": 1,
       "conditional_4090_replay_evidence": "evidence/remote_route1_offload/FRONTIER_CROSS_HOST_SUCCESSOR_ARMED_20260831.json",
-      "frontier_final_delivery_successor_commit": "2a6c7fd5d64ea8dec87c23573696af20d18b4e2c",
+      "frontier_final_delivery_successor_commit": "405197d",
       "frontier_final_delivery_status": "SUPERSEDED_BY_WINNER_SPECIFIC_ABLATION_BOUND_SUCCESSOR",
       "frontier_final_delivery_evidence": "evidence/remote_route1_offload/FRONTIER_FINAL_SUCCESSOR_ARMED_20260831.json",
-      "winner_specific_ablation_successor_commit": "dc3f98200432dc2e9c07a66c66358307853c10ca",
+      "winner_specific_ablation_successor_commit": "b7e595a",
       "winner_specific_ablation_successor_status": "ARMED_WAITING_FOR_TERMINAL_FRONTIER_CROSS_HOST_RESULT",
       "canonical_final_successor_status": "ARMED_WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
       "frontier_preservation_policy": "PRIMARY_RANK_PLUS_TWO_ALTERNATES_AND_HOST_SEPARATED_COMPLETE_FRONTIER",
       "early_single_candidate_pruning": false,
       "winner_specific_ablation_evidence": "evidence/remote_route1_offload/FRONTIER_WINNER_SPECIFIC_ABLATION_SUCCESSORS_ARMED_20260831.json",
-      "complete_evidence_delivery_commit": "970784c83f2a4bbe4d8f9339e9e2dff870cd02eb",
+      "complete_evidence_delivery_commit": "405197d",
       "complete_evidence_delivery_status": "ARMED_WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
-      "complete_evidence_delivery_evidence": "evidence/remote_route1_offload/FRONTIER_COMPLETE_EVIDENCE_DELIVERY_REDEPLOYED_20260831.json"
+      "complete_evidence_delivery_evidence": "evidence/remote_route1_offload/FRONTIER_TERMINAL_SEMANTICS_HARDENED_20260831.json",
+      "conditional_generation3_decision": "decisions/DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md",
+      "multi_candidate_advancement_decision": "decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md",
+      "current_primary_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "current_primary_strict_sustained_gate": true
     },
-    "status": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING"
+    "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING"
   },
-  "next_gate": "Complete PC-RSMG proposal-only and observable-only on 4090 and the frozen PCNR/AM-MCRB frontier on 5090, all as seed2026 batch1 matched e200 trajectories. Rank only within each host first; replay a 5090 winner on 4090 only if its complete strict-gate result warrants it. Then materialize one explicit primary CANDIDATE plus two evidence-backed alternates. Seeds 2027/2028 remain deferred."
+  "next_gate": "Complete the frozen PCNR/AM-MCRB seed2026 batch1 matched e200 trajectories on 5090. Rank only within that host first; replay at most one strict-gate winner on 4090. Preserve every strict-pass or causally repairable near-boundary mechanism in the evidence-qualified frontier, conditionally run the preregistered Generation-3 synthesis or one allowed causal revision, and materialize one explicit primary plus two priority alternates without deleting the complete frontier. Seeds 2027/2028 remain deferred."
 }

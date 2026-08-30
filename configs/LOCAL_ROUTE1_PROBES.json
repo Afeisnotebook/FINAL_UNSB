@@ -124,5 +124,5 @@
     "on_failure": "PAUSE_BEFORE_DT_AND_CANDIDATE_LONG_RUNS"
   },
   "mechanistic_evidence_pool": ["PCOA_NPOOA", "LBST", "PTQ", "DCUM_MACRO_MARGINAL", "AEB_BCAVP", "HJ_DERIVATIVES", "DT_DERIVATIVES", "HNEK_DERIVATIVES"],
-  "not_current_tasks": ["4090 planning or execution", "four-frozen-lane validation", "HJ finite handoff", "exit threshold search", "paired metric controller", "best checkpoint selection"]
+  "not_current_tasks": ["former four-server/four-frozen-lane validation", "unauthorized cross-host delta merging", "full-data execution", "HJ finite handoff", "exit threshold search", "paired metric controller", "best checkpoint selection"]
 }

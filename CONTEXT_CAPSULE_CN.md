@@ -45,12 +45,21 @@
   `engineering_invalid`，PC-RSMG是从共同e0重启的语义修正版。
 - BVCP冻结当前实现已完成e200并为`long_horizon_negative_current_implementation`；
   这不证伪rollout-distribution父机制。
-- PC-RSMG已通过逐玩家条件语义、one-replica plain identity、resume、跨状态和
-  400-update工程门，正在完整e200；其任何中间正收益都不能提前冻结候选。
+- PC-RSMG full与两项来源绑定消融都已完成真实e200。full late-three为
+  `+0.620959 dB`但e200为`-0.001379 dB`；proposal-only为late-three
+  `+0.541507 dB`、e200 `+0.451092 dB`并通过完整护栏；observable-only与plain精确
+  一致。按严格资格优先规则，proposal-only是当前seed2026开发主候选。
 - 用户随后启用紧急单seed开发协议：完整seed2026/e200用于冻结开发候选，seed2027/2028
   延期，释放算力优先做赢家消融、全负缺陷后的唯一数学修订和新的独立机制；这不构成
-  跨seed稳定性证明。相应后继链仍为独立持久进程，不依赖Codex会话。最新epoch、哈希
-  和后继commit只从`PROJECT_STATE.json`读取。
+  跨seed稳定性证明。5090现正从共同e0并行运行PCNR与AM-MCRB到真实e200；只有完整
+  terminal receipt可触发宿主内排名和最多一条4090复跑。若独立采样与Adam-metric
+  covariance barrier都严格通过，预注册门最多允许一个两组件合成。相应后继链仍为
+  独立持久进程，不依赖Codex会话。最新epoch、哈希和后继commit只从
+  `PROJECT_STATE.json`读取。
+- 一个canonical主候选只是后续行动接口，不是研究剪枝原则。严格通过或具有单一
+  target-blind可修复缺陷的e200近边界机制保留为可信前沿；当前5090双流完成后最多并行
+  两条由终点证据授权的合成、机制消融或一次数学修订，规则冻结在
+  `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
 
 ## 1. 原始问题
 
