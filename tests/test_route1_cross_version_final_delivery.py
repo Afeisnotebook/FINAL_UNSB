@@ -214,7 +214,7 @@ def test_cross_version_final_delivery_requires_and_includes_long_ablations(tmp_p
         "source_cross_version_adjudication_sha256": file_sha256(cross_path),
         "roles": roles,
         "observable_only_identity": {
-            "status": "EXACT_PLAIN_E200_SCIENTIFIC_IDENTITY",
+            "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
         },
         "proposal_only_out_ranks_full": False,
         "selection_changed": False,

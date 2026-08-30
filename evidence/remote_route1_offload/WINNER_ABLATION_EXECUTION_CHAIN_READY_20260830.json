@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-winner-ablation-execution-chain-readiness-v1",
+  "status": "SOURCE_AND_DURABLE_SUCCESSOR_READY_GPU_GATES_AND_E200_PENDING_WINNER",
+  "date": "2026-08-30",
+  "purpose": "Remove the post-winner manual boundary without pre-running a non-winner ablation family.",
+  "families_prepared": {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED": [
+      "BVCP wholesale one-update-lagged rollout proposal-only",
+      "BVCP velocity-margin observable-only with exact current endpoint"
+    ],
+    "G1-02B-PLAYER-CONDITIONAL-RSMG": [
+      "native one-view D/E plus fresh two-view G/F proposal-only",
+      "discarded second diagnostic view with Python/NumPy/CPU/CUDA RNG restoration and exact native first-view commit"
+    ]
+  },
+  "selection_policy": "Both families have source implementations, but only the source-bound cross-version e200 winner can materialize cards, ledger slots, fingerprints, gates and long-horizon runs.",
+  "durable_chain": [
+    "wait for positive cross-version e200 winner and completed frozen seed adjudication",
+    "materialize two winner-only source-bound ablation identities",
+    "run both 400-update/cross-state/resume/identity GPU gates concurrently",
+    "run both ablations from common e0 to true small25 e200 with independent batch-1 executors",
+    "create terminal receipts and adjudicate proposal-only/observable-only/projected-full",
+    "block final delivery if proposal-only challenges full; otherwise materialize final delivery"
+  ],
+  "identity_correction": "Existing checkpoint scientific_state_sha256 includes probe/git metadata and cannot be compared across identities. Observable-only instead loads and verifies both full checkpoints, then compares every next-update dynamics component: networks, optimizers, schedulers, native method state, all RNG streams, both samplers, step and horizon. Only the recoverable source-bound route1_observer diagnostics are excluded.",
+  "source_files": [
+    "src/models/route1/bvcp_ablation.py",
+    "src/models/route1/pcrsmg_ablation.py",
+    "src/models/route1_bvcp_ablation_model.py",
+    "src/models/route1_pcrsmg_ablation_model.py",
+    "research/local_route1/winner_ablations.py",
+    "operations/local_route1_winner_ablation_successor.py"
+  ],
+  "verification": {
+    "pytest": "143 passed",
+    "compileall": "passed",
+    "git_diff_check": "passed",
+    "gpu_gate": "pending source-bound winner",
+    "e200": "pending source-bound winner"
+  },
+  "scientific_boundary": {
+    "training_batch_size": 1,
+    "target_data_epochs": 200,
+    "best_checkpoint_selection": false,
+    "fixed_window_or_handoff": false,
+    "paired_metrics_used_for_training_or_control": false,
+    "confirmation20_opened": false,
+    "completion_claim_allowed": false
+  }
+}

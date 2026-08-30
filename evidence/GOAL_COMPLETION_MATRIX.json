@@ -136,11 +136,14 @@
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
         "operations/local_route1_winner_ablation_adjudicate.py",
+        "operations/local_route1_winner_ablation_successor.py",
+        "research/local_route1/winner_ablations.py",
         "research/local_route1/cross_version_final_delivery.py",
-        "evidence/remote_route1_offload/WINNER_ABLATION_AND_CROSS_FINAL_GATES_20260830.json"
+        "evidence/remote_route1_offload/WINNER_ABLATION_AND_CROSS_FINAL_GATES_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_EXECUTION_CHAIN_READY_20260830.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must be exact plain scientific identity at e200, and a proposal-only challenger blocks the original winner from final delivery.",
-      "missing": ["winner identity", "proposal-only implementation/gate/e200", "observable-only implementation/gate/e200", "full-vs-ablation matched result artifact"]
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded; a proposal-only challenger blocks the original winner from final delivery.",
+      "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
   "current_accepted_scientific_boundary": {

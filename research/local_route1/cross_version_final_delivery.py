@@ -136,7 +136,7 @@ def _ablation(output_root: Path, cross_path: Path, winner: str, algorithm: str) 
     }:
         raise RuntimeError("winner ablation adjudication lacks the three required roles")
     if value.get("observable_only_identity", {}).get("status") != (
-        "EXACT_PLAIN_E200_SCIENTIFIC_IDENTITY"
+        "EXACT_PLAIN_E200_DYNAMICS_IDENTITY"
     ):
         raise RuntimeError("observable-only ablation is not exact plain identity")
     for role, row in roles.items():
@@ -164,7 +164,7 @@ def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -
         "## 消融",
         "",
         "proposal-only、observable-only、projected/full均已从共同e0完成e200。"
-        "observable-only必须与plain保持e200科学状态精确一致；若proposal-only胜过full，"
+        "observable-only必须与plain保持e200完整动力学状态精确一致；若proposal-only胜过full，"
         "本交付会拒绝生成并要求重新做冻结seed裁决。",
         "",
         "## 备选",

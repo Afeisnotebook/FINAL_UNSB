@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
 import pytest
+import torch
 
 from operations.local_route1_candidate_terminal_receipt import (
     SCHEMA as RECEIPT_SCHEMA,
@@ -16,6 +18,7 @@ from operations.local_route1_winner_ablation_adjudicate import (
 )
 from research.local_route1.generation1_adjudication import POSITIVE_STATUS
 from research.local_route1.protocol import ROOT, file_sha256
+from research.local_route1.runtime import full_state_hash
 
 
 def _write(path: Path, payload: dict) -> None:
@@ -70,9 +73,36 @@ def _receipt(
 
 
 def _observable_plain_identity(root: Path, candidate_id: str) -> None:
-    state = {"physical_epoch_completed": 200, "scientific_state_sha256": "same-state"}
-    _write(root / "anchors" / "plain" / "full_state_latest.pt.json", state)
-    _write(root / "candidates" / candidate_id / "full_state_latest.pt.json", state)
+    payload = {
+        "step": 30000,
+        "physical_epoch_completed": 200,
+        "target_steps": 30000,
+        "model": {"networks": {"G": {"w": torch.tensor([1.0])}}, "optimizers": [], "schedulers": [], "method": {"search_global_step": 30000, "search_total_steps": 30000}},
+        "rng": {"python": "rng"},
+        "samplers": {"primary": {"cursor": 0}, "secondary": {"cursor": 0}},
+        "probe": {"id": "plain"},
+        "metadata": {"git": "plain"},
+    }
+    plain_checkpoint = root / "anchors" / "plain" / "full_state_latest.pt"
+    candidate_checkpoint = root / "candidates" / candidate_id / "full_state_latest.pt"
+    plain_checkpoint.parent.mkdir(parents=True, exist_ok=True)
+    candidate_checkpoint.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(payload, plain_checkpoint)
+    candidate_payload = copy.deepcopy(payload)
+    candidate_payload["probe"] = {"id": candidate_id}
+    candidate_payload["metadata"] = {"git": "candidate"}
+    candidate_payload["model"]["method"]["route1_observer"] = {
+        "family": "test", "update_index": 30000,
+    }
+    torch.save(candidate_payload, candidate_checkpoint)
+    _write(root / "anchors" / "plain" / "full_state_latest.pt.json", {
+        "physical_epoch_completed": 200,
+        "scientific_state_sha256": full_state_hash(payload),
+    })
+    _write(root / "candidates" / candidate_id / "full_state_latest.pt.json", {
+        "physical_epoch_completed": 200,
+        "scientific_state_sha256": full_state_hash(candidate_payload),
+    })
     metric = {
         "macro_psnr": 20.0,
         "images": [{"stem": "a", "psnr": 20.0}],
@@ -118,7 +148,7 @@ def test_winner_ablation_adjudication_accepts_matched_e200_receipts(tmp_path):
     assert result["schema"] == SCHEMA
     assert result["status"] == "COMPLETE_NO_SELECTION_CHANGE"
     assert result["observable_only_identity"]["status"] == (
-        "EXACT_PLAIN_E200_SCIENTIFIC_IDENTITY"
+        "EXACT_PLAIN_E200_DYNAMICS_IDENTITY"
     )
     assert set(result["roles"]) == {
         "proposal_only", "observable_only", "projected_or_full",
@@ -132,10 +162,17 @@ def test_winner_ablation_adjudication_refuses_observable_state_drift(tmp_path):
     proposal = _receipt(tmp_path, "ABL-PROPOSAL", late=0.1)
     observable = _receipt(tmp_path, observable_id, late=0.0)
     _observable_plain_identity(tmp_path, observable_id)
-    state_path = tmp_path / "candidates" / observable_id / "full_state_latest.pt.json"
-    _write(state_path, {"physical_epoch_completed": 200, "scientific_state_sha256": "drift"})
+    checkpoint = tmp_path / "candidates" / observable_id / "full_state_latest.pt"
+    payload = torch.load(checkpoint, map_location="cpu", weights_only=False)
+    payload["model"]["networks"]["G"]["w"] = torch.tensor([2.0])
+    torch.save(payload, checkpoint)
+    sidecar = tmp_path / "candidates" / observable_id / "full_state_latest.pt.json"
+    _write(sidecar, {
+        "physical_epoch_completed": 200,
+        "scientific_state_sha256": full_state_hash(payload),
+    })
     cross = _cross(tmp_path, full_id, "algorithm-full")
-    with pytest.raises(RuntimeError, match="differs from plain"):
+    with pytest.raises(RuntimeError, match="dynamics state differs from plain"):
         adjudicate(
             output_root=tmp_path,
             cross_adjudication_path=cross,

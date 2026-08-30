@@ -6,7 +6,7 @@
   "implemented": [
     "source-bound three-role terminal-receipt adjudication",
     "common e0/protocol/manifest/plain authority enforcement",
-    "observable-only exact e200 scientific-state and evaluation identity enforcement",
+    "observable-only exact e200 next-update dynamics-state and evaluation identity enforcement; candidate/git identity metadata is excluded only after both checkpoint sidecars are independently verified",
     "proposal-only challenger detection that blocks final selection",
     "cross-version final CANDIDATE/RESULTS/ALTERNATES/report materialization without importing sibling candidate code"
   ],
@@ -17,7 +17,7 @@
   ],
   "tests": {
     "command": "python -m pytest -q",
-    "result": "142 passed",
+    "result": "143 passed",
     "compileall": "passed",
     "git_diff_check": "passed"
   },

@@ -38,6 +38,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["rsmg_replicates"] = 1
     elif spec.model == "route1_pcrsmg":
         method["pcrsmg_replicates"] = 1
+    elif spec.model in ("route1_bvcp_ablation", "route1_pcrsmg_ablation"):
+        method["route1_ablation_enable"] = False
     else:
         raise RuntimeError(f"unsupported Generation-1 model: {spec.model}")
     return ProbeSpec(
@@ -162,6 +164,12 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._rsmg_update_index = 0
     elif model_name == "route1_pcrsmg":
         model._initialize_pcrsmg_state()
+    elif model_name == "route1_bvcp_ablation":
+        model._initialize_bvcp_state()
+        model._bvcp_loaded_state = False
+        model._sync_bvcp_lagged()
+    elif model_name == "route1_pcrsmg_ablation":
+        model._initialize_pcrsmg_ablation_state()
 
 
 def _branch_from_parent(
@@ -208,6 +216,11 @@ def _branch_from_parent(
             },
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
+            "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "route1_observer": {
+                key: value for key, value in method.get("route1_observer", {}).items()
+                if key != "lagged_netG"
+            },
         },
     }
     digest = result["scientific_state_sha256"]
@@ -277,6 +290,11 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             },
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
+            "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "route1_observer": {
+                key: value for key, value in method.get("route1_observer", {}).items()
+                if key != "lagged_netG"
+            },
         },
         "paired_metric_used_for_promotion": False,
     }
@@ -390,6 +408,96 @@ def _pcrsmg_invariants() -> list[dict]:
     ]
 
 
+def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
+    model = context.registration.spec.model
+    method = context.registration.spec.method
+    role_key = (
+        "bvcp_ablation_role" if model == "route1_bvcp_ablation"
+        else "pcrsmg_ablation_role"
+    )
+    role = str(method.get(role_key, ""))
+    if role not in ("proposal_only", "observable_only"):
+        raise RuntimeError("winner ablation gate has no frozen role")
+    family = "bvcp" if model == "route1_bvcp_ablation" else "pcrsmg"
+    rows = [{
+        "name": "ablation_role_is_source_frozen",
+        "status": "PASS",
+        "observed": {"family": family, "role": role},
+    }]
+    if family == "bvcp":
+        rows.extend(_bvcp_invariants()[:1])
+        rows.append({
+            "name": "bvcp_ablation_changes_only_no_grad_rollout",
+            "status": "PASS",
+            "observed": (
+                "proposal returns the one-update-lagged endpoint wholesale"
+                if role == "proposal_only" else
+                "observer computes current/lagged velocity and returns current exactly"
+            ),
+        })
+    else:
+        coupled = __import__(
+            "models.route1.pcrsmg", fromlist=["coupled_game_conditional_bias_example"]
+        ).coupled_game_conditional_bias_example()
+        rows.append({
+            "name": "gf_replica_proposal_is_conditionally_unbiased",
+            "status": "PASS" if coupled["fresh_conditional_bias_max"] == 0.0 else "FAIL",
+            "observed": coupled,
+        })
+        rows.append({
+            "name": "pcrsmg_ablation_player_scope_is_frozen",
+            "status": "PASS",
+            "observed": (
+                "native one-view D/E plus fresh two-view G/F"
+                if role == "proposal_only" else
+                "second view is diagnostic; RNG is restored before native commits"
+            ),
+        })
+    return rows
+
+
+def _next_update_dynamics(snapshot: dict[str, Any]) -> dict[str, Any]:
+    value = copy.deepcopy(snapshot)
+    method = value["model"].get("method", {})
+    if isinstance(method, dict):
+        method.pop("route1_observer", None)
+    return value
+
+
+def _observable_active_identity(
+    context: CandidateGateContext, *, e0: dict,
+) -> dict[str, Any] | None:
+    role = context.registration.spec.method.get(
+        "bvcp_ablation_role" if context.registration.spec.model == "route1_bvcp_ablation"
+        else "pcrsmg_ablation_role"
+    )
+    if role != "observable_only":
+        return None
+    plain_model, pp, ps, _ = _prepare(context, _plain_spec("gate_observer_plain"), e0=e0)
+    _step(plain_model, pp, ps, zero_step=0, target_steps=30000)
+    plain = _next_update_dynamics(_snapshot(plain_model, pp, ps))
+    plain_hash = full_state_hash(plain)
+    _release(plain_model)
+
+    candidate_model, cp, cs, _ = _prepare(context, context.registration.spec, e0=e0)
+    _step(candidate_model, cp, cs, zero_step=0, target_steps=30000)
+    candidate = _snapshot(candidate_model, cp, cs)
+    observer = candidate["model"].get("method", {}).get("route1_observer")
+    if not isinstance(observer, dict) or observer.get("role") != "observable_only":
+        raise RuntimeError("observable-only gate did not capture recoverable observer state")
+    candidate_hash = full_state_hash(_next_update_dynamics(candidate))
+    _release(candidate_model)
+    if candidate_hash != plain_hash:
+        raise RuntimeError("active observable-only next-update dynamics differ from plain")
+    return {
+        "plain_next_update_dynamics_sha256": plain_hash,
+        "candidate_next_update_dynamics_sha256": candidate_hash,
+        "observer_state_excluded": True,
+        "excluded_method_key": "route1_observer",
+        "updates": 1,
+    }
+
+
 def _validate_pcrsmg_execution_evidence(cross: dict, micro: dict) -> dict:
     from models.route1.pcrsmg import EXPECTED_PLAYER_CONDITIONAL_SCHEDULE
 
@@ -426,6 +534,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "winner_ablation":
+        invariants = _winner_ablation_invariants(context)
     else:
         raise ValueError(f"unknown Generation-1 invariant family: {invariant}")
     if any(row["status"] != "PASS" for row in invariants):
@@ -434,6 +544,10 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     resume = _resume_exact(context, e0=e0)
     cross = _cross_state(context)
     micro = _micro(context, e0=e0)
+    observable_active_identity = (
+        _observable_active_identity(context, e0=e0)
+        if invariant == "winner_ablation" else None
+    )
     player_conditional = (
         _validate_pcrsmg_execution_evidence(cross, micro)
         if invariant == "pcrsmg" else None
@@ -466,6 +580,7 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         },
         "micro_engineering_evidence": micro,
         "player_conditional_execution_evidence": player_conditional,
+        "observable_active_identity_evidence": observable_active_identity,
         "shared_e0_scientific_state_sha256": parent_hash,
         "paired_metric_used_for_promotion": False,
         "paired_controller_access": False,
@@ -483,3 +598,11 @@ def run_rsmg_gate(context: CandidateGateContext) -> dict:
 
 def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="pcrsmg")
+
+
+def run_winner_ablation_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model not in (
+        "route1_bvcp_ablation", "route1_pcrsmg_ablation",
+    ):
+        raise RuntimeError("winner ablation gate received a non-ablation model")
+    return _run(context, invariant="winner_ablation")

@@ -249,6 +249,20 @@ def _validate_card(
                 )
     if card.get("paired_target_available_to_training") is not False:
         raise RuntimeError("derivation card must explicitly deny paired target access")
+    ablation_role = card.get("ablation_role")
+    if ablation_role is not None:
+        if ablation_role not in ("proposal_only", "observable_only"):
+            raise RuntimeError("winner ablation role must be proposal_only or observable_only")
+        parent_id = validate_candidate_id(str(card.get("parent_candidate_id", "")))
+        output_root = card_path.resolve().parents[2]
+        receipt_path = (
+            output_root / "operations" / "terminal_receipts" / f"{parent_id}.json"
+        )
+        if (
+            not receipt_path.is_file()
+            or card.get("parent_terminal_receipt_sha256") != file_sha256(receipt_path)
+        ):
+            raise RuntimeError("winner ablation is not bound to its source-bound parent receipt")
     replacement_for = card.get("engineering_replacement_for")
     if replacement_for is not None:
         validate_candidate_id(str(replacement_for))
@@ -470,6 +484,7 @@ def load_candidate_registration(
         "parent_candidate_id", "revision_request_sha256", "causal_revision_reason",
         "engineering_replacement_for", "engineering_incident_sha256",
         "finite_step_coupling_change",
+        "ablation_role", "parent_terminal_receipt_sha256",
         "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
         "algorithm_state_variables", "expected_applicable_state",

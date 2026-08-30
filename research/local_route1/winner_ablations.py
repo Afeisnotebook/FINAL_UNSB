@@ -1,0 +1,296 @@
+"""Freeze source-bound long-horizon ablations after the e200 winner is known."""
+
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+from typing import Any
+
+from .candidates import freeze_candidate_derivation
+from .protocol import ROOT, file_sha256
+from .runtime import write_json
+
+
+SCHEMA = "final-unsb-route1-winner-ablation-freeze-v1"
+POSITIVE_CROSS_STATUS = "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE"
+WINNER_FAMILIES = {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
+        "family": "bvcp",
+        "model": "route1_bvcp_ablation",
+        "ids": {
+            "proposal_only": "ABL-G1-01-BVCP-PROPOSAL-ONLY",
+            "observable_only": "ABL-G1-01-BVCP-OBSERVABLE-ONLY",
+        },
+    },
+    "G1-02B-PLAYER-CONDITIONAL-RSMG": {
+        "family": "pcrsmg",
+        "model": "route1_pcrsmg_ablation",
+        "ids": {
+            "proposal_only": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+            "observable_only": "ABL-G1-02B-PCRSMG-OBSERVABLE-ONLY",
+        },
+    },
+}
+
+
+def _read_json(path: Path) -> dict[str, Any]:
+    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise RuntimeError(f"expected JSON object: {path}")
+    return value
+
+
+def _source_rows(paths: list[str]) -> list[dict[str, str]]:
+    return [{"path": path, "sha256": file_sha256(ROOT / path)} for path in paths]
+
+
+def _role_semantics(family: str, role: str) -> dict[str, Any]:
+    if family == "bvcp" and role == "proposal_only":
+        return {
+            "name": "BVCP Proposal-Only Lagged Rollout Teacher",
+            "formula": "Maintain theta_{k-1} exactly as BVCP, but for every no-gradient bridge rollout endpoint return G_{theta_{k-1}}(X,t,z) wholesale. The differentiable endpoint, native losses and inference remain current G_theta.",
+            "identity": "When route1_ablation_enable=false the exact native UNSB path is dispatched. The active proposal is identity only when current and lagged rollout endpoints coincide.",
+            "objective_change": True, "estimator_change": False,
+            "compute": "one additional no-gradient lagged generator endpoint per rollout endpoint",
+            "memory": "one full lagged generator copy",
+            "recovery": "lagged generator and intervention counters",
+            "state": ["lagged_netG_state_dict", "update_index", "endpoint_count"],
+            "method": {"route1_ablation_enable": True, "bvcp_ablation_role": role, "bvcp_root_epsilon": 1e-12},
+            "expected": "Tests whether the lagged feasible direction alone, without the BVCP minimum chord projection, explains sustained behavior.",
+            "falsifier": "A complete e200 trajectory below the full operator closes the wholesale lagged-teacher explanation for the frozen winner.",
+        }
+    if family == "bvcp":
+        return {
+            "name": "BVCP Observable-Only Velocity Monitor",
+            "formula": "Compute current and one-update-lagged rollout endpoints with common X,t,z and log their physical velocity margin, then return the current endpoint byte-for-byte. Observer state is recoverable but cannot enter outputs, gradients, RNG or samplers.",
+            "identity": "After excluding the explicitly named route1_observer diagnostics, the complete next-update dynamics state must equal plain exactly at every executable gate and at e200.",
+            "objective_change": False, "estimator_change": False,
+            "compute": "one additional no-gradient lagged generator endpoint per rollout endpoint for diagnostics only",
+            "memory": "one observer-only lagged generator copy",
+            "recovery": "route1_observer lagged generator and counters; excluded only from dynamics identity comparison",
+            "state": ["route1_observer.lagged_netG", "route1_observer.update_index"],
+            "method": {"route1_ablation_enable": True, "bvcp_ablation_role": role, "bvcp_root_epsilon": 1e-12},
+            "expected": "Negative control proving that target-blind observation and its extra compute do not change native UNSB dynamics.",
+            "falsifier": "Any next-update dynamics or e200 evaluation mismatch with plain is an implementation failure, not a scientific result.",
+        }
+    if family == "pcrsmg" and role == "proposal_only":
+        return {
+            "name": "PC-RSMG Proposal-Only G/F Replication",
+            "formula": "Commit native one-view D and E updates from the official first view. At the realized updated opponent state draw two fresh iid native-measure views and commit joint G/F once using their mean gradient.",
+            "identity": "Disabled mode dispatches native UNSB exactly. Conditional on the realized D/E-updated state, the two-view G/F estimator has the native mean and half the single-view conditional variance.",
+            "objective_change": False, "estimator_change": True,
+            "compute": "one native view for D/E plus two fresh stochastic views for G/F per optimizer update",
+            "memory": "two serial G/F replica graphs",
+            "recovery": "update index, G/F bundle counter and schedule plus ordinary RNG",
+            "state": ["pcrsmg_proposal.update_index", "pcrsmg_proposal.gf_bundle_count"],
+            "method": {"route1_ablation_enable": True, "pcrsmg_ablation_role": role},
+            "expected": "Isolates whether reducing only the generator player's conditional variance accounts for the full four-view result.",
+            "falsifier": "A complete e200 trajectory below full PC-RSMG rejects G/F-only replication as the sufficient mechanism.",
+            "unbiased": "D/E use their native estimator. Conditional on their realized update, linearity of expectation gives E[(g_GF(xi1)+g_GF(xi2))/2]=E[g_GF], with iid conditional variance halved.",
+        }
+    return {
+        "name": "PC-RSMG Observable-Only Replicate Monitor",
+        "formula": "Draw the native first view, snapshot all Python/NumPy/CPU/CUDA RNG states, draw a second no-gradient diagnostic view, record endpoint dispersion, restore every RNG state and the first-view tensors, then execute the exact native D/E/G/F transition from the first view.",
+        "identity": "After excluding only recoverable route1_observer diagnostics, networks, optimizers, schedulers, RNG, both samplers, step and native method state must equal plain exactly.",
+        "objective_change": False, "estimator_change": False,
+        "compute": "one discarded no-gradient diagnostic forward in addition to the native update",
+        "memory": "one transient diagnostic view",
+        "recovery": "route1_observer counters only; all RNG is restored before the native commit",
+        "state": ["route1_observer.update_index", "route1_observer.last"],
+        "method": {"route1_ablation_enable": True, "pcrsmg_ablation_role": role},
+        "expected": "Negative control proving that observation, extra forward compute and logging alone do not change native UNSB dynamics.",
+        "falsifier": "Any next-update dynamics or e200 evaluation mismatch with plain is an implementation failure, not a scientific result.",
+        "unbiased": "The committed transition is pathwise identical to native UNSB because the diagnostic graph is discarded and all stochastic states are restored before the first-view losses are committed.",
+    }
+
+
+def _card(
+    *, parent: dict[str, Any], parent_id: str, parent_receipt_sha256: str,
+    candidate_id: str, family: str, role: str, sibling_ids: dict[str, str],
+) -> dict[str, Any]:
+    semantics = _role_semantics(family, role)
+    card = copy.deepcopy(parent)
+    for key in (
+        "engineering_replacement_for", "engineering_incident_sha256",
+        "finite_step_coupling_change", "unbiased_proof",
+    ):
+        card.pop(key, None)
+    card.update({
+        "candidate_id": candidate_id,
+        "contract_id": candidate_id,
+        "name": semantics["name"],
+        "parent_candidate_id": parent_id,
+        "parent_terminal_receipt_sha256": parent_receipt_sha256,
+        "ablation_role": role,
+        "lineage_evidence": list(parent["lineage_evidence"]) + [
+            f"WINNER_ABLATION:{parent_id}:{role}:source-bound-e200-parent",
+        ],
+        "prior_equivalence_audit": {
+            "compared_implementations": [parent_id, sibling_ids["proposal_only"], sibling_ids["observable_only"]],
+            "material_difference": semantics["formula"],
+            "equivalent_rerun": False,
+        },
+        "formula": semantics["formula"],
+        "identity_or_unbiased_condition": semantics["identity"],
+        "objective_change": semantics["objective_change"],
+        "estimator_change": semantics["estimator_change"],
+        "coordinate_change": False,
+        "endpoint_law_change": False,
+        "expected_applicable_state": semantics["expected"],
+        "falsifying_experiment": semantics["falsifier"],
+        "compute_cost": semantics["compute"],
+        "memory_cost": semantics["memory"],
+        "recovery_state_cost": semantics["recovery"],
+        "algorithm_hyperparameters": semantics["method"],
+        "algorithm_state_variables": semantics["state"],
+        "ablation_definitions": {
+            "proposal_only": sibling_ids["proposal_only"],
+            "observable_only": sibling_ids["observable_only"],
+            "projected_or_full": parent_id,
+        },
+        "target_inaccessibility_proof": (
+            "This source-bound ablation reads only the same unpaired official batch, native stochastic variables and target-blind internal state as its parent. Discovery70, confirmation20 and paired metrics are not addressable."
+        ),
+        "paired_target_available_to_training": False,
+    })
+    if "unbiased" in semantics:
+        card["unbiased_proof"] = semantics["unbiased"]
+    return card
+
+
+def _implementation(candidate_id: str, family: str, role: str, card_path: Path) -> dict:
+    model = f"route1_{family}_ablation"
+    shared = [
+        "src/models/sb_model.py", "src/models/route1/__init__.py",
+        f"src/models/route1/{family}.py",
+        f"src/models/route1/{family}_ablation.py",
+        f"src/models/route1_{family}_ablation_model.py",
+        "research/local_route1/generation1_gates.py",
+    ]
+    method = {"route1_ablation_enable": True, f"{family}_ablation_role": role}
+    if family == "bvcp":
+        method["bvcp_root_epsilon"] = 1e-12
+    return {
+        "schema": "final-unsb-route1-candidate-implementation-v1",
+        "candidate_id": candidate_id,
+        "status": "FROZEN_FOR_GATES",
+        "derivation_card_sha256": file_sha256(card_path),
+        "model": model,
+        "method": method,
+        "training_target_access": "unpaired_only",
+        "paired_controller_access": False,
+        "state_contract": {
+            "full_state_restorable": True,
+            "zero_intervention_identity_test": True,
+            "parent_state_isolation_test": True,
+            "observer_state_excluded_only_from_dynamics_identity": role == "observable_only",
+        },
+        "zero_intervention": {"route1_ablation_enable": False},
+        "gate_hook": {
+            "module": "research.local_route1.generation1_gates",
+            "callable": "run_winner_ablation_gate",
+        },
+        "source_files": _source_rows(shared),
+    }
+
+
+def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]:
+    output_root = Path(output_root).resolve()
+    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
+    cross = _read_json(cross_path)
+    if cross.get("status") != POSITIVE_CROSS_STATUS:
+        raise RuntimeError("winner ablations require a positive source-bound e200 winner")
+    parent_id = str(cross["selected_candidate_id"])
+    if parent_id not in WINNER_FAMILIES:
+        raise RuntimeError("cross-version winner has no registered ablation family")
+    family_record = WINNER_FAMILIES[parent_id]
+    family = str(family_record["family"])
+    ids = dict(family_record["ids"])
+    parent_receipt_path = (
+        output_root / "operations" / "terminal_receipts" / f"{parent_id}.json"
+    )
+    parent_card_path = output_root / "derive" / "cards" / f"{parent_id}.json"
+    if not parent_receipt_path.is_file() or not parent_card_path.is_file():
+        raise RuntimeError("winner source-bound receipt/card is missing")
+    parent_receipt = _read_json(parent_receipt_path)
+    if (
+        parent_receipt.get("candidate_id") != parent_id
+        or parent_receipt.get("algorithm_fingerprint") != cross.get(
+            "selected_algorithm_fingerprint"
+        )
+        or parent_receipt.get("derivation_card_sha256") != file_sha256(parent_card_path)
+    ):
+        raise RuntimeError("winner receipt/card/cross-version identity mismatch")
+    parent = _read_json(parent_card_path)
+
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger = _read_json(ledger_path)
+    frozen = []
+    for role in ("proposal_only", "observable_only"):
+        candidate_id = ids[role]
+        card_path = output_root / "derive" / "cards" / f"{candidate_id}.json"
+        implementation_path = (
+            output_root / "derive" / "implementations" / f"{candidate_id}.json"
+        )
+        generated_card = _card(
+            parent=parent, parent_id=parent_id,
+            parent_receipt_sha256=file_sha256(parent_receipt_path),
+            candidate_id=candidate_id, family=family, role=role,
+            sibling_ids=ids,
+        )
+        if card_path.is_file() and _read_json(card_path) != generated_card:
+            raise RuntimeError(f"winner ablation card already differs: {candidate_id}")
+        write_json(card_path, generated_card)
+        generated_implementation = _implementation(
+            candidate_id, family, role, card_path,
+        )
+        if implementation_path.is_file() and _read_json(
+            implementation_path
+        ) != generated_implementation:
+            raise RuntimeError(f"winner ablation implementation already differs: {candidate_id}")
+        write_json(implementation_path, generated_implementation)
+
+        records = [
+            row for row in ledger.get("records", [])
+            if isinstance(row, dict) and row.get("candidate_id") == candidate_id
+        ]
+        if not records:
+            ledger["records"].append({
+                "candidate_id": candidate_id,
+                "generation": 0,
+                "parent_candidate_id": parent_id,
+                "parent_evidence": parent.get("parent_evidence"),
+                "construction_route": "winner_mechanism_ablation",
+                "ablation_role": role,
+                "status": "DERIVATION_REQUIRED",
+                "revision_count": 0,
+                "experiments": [],
+                "paired_controller_access": False,
+                "confirmation20_opened": False,
+            })
+        elif len(records) != 1 or (
+            records[0].get("parent_candidate_id") != parent_id
+            or records[0].get("ablation_role") != role
+        ):
+            raise RuntimeError(f"winner ablation ledger slot conflicts: {candidate_id}")
+        write_json(ledger_path, ledger)
+        registration = freeze_candidate_derivation(output_root, candidate_id)
+        ledger = _read_json(ledger_path)
+        frozen.append(registration.to_dict())
+
+    result = {
+        "schema": SCHEMA,
+        "status": "FROZEN_FOR_EXECUTABLE_GATES",
+        "parent_candidate_id": parent_id,
+        "parent_terminal_receipt_sha256": file_sha256(parent_receipt_path),
+        "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "ablation_candidate_ids": ids,
+        "registrations": frozen,
+        "long_horizon_started": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    write_json(output_root / "operations" / "WINNER_ABLATION_FREEZE.json", result)
+    return result
+

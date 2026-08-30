@@ -13,13 +13,15 @@ import json
 from pathlib import Path
 from typing import Any
 
+import torch
+
 from operations.local_route1_cross_version_adjudicate import (
     SCHEMA as CROSS_SCHEMA,
     _rank_key,
     _validate_receipt,
 )
 from research.local_route1.protocol import file_sha256
-from research.local_route1.runtime import write_json
+from research.local_route1.runtime import full_state_hash, write_json
 
 
 SCHEMA = "final-unsb-route1-winner-ablation-adjudication-v1"
@@ -47,25 +49,57 @@ def _validate_posthoc(payload: dict[str, Any], *, label: str) -> None:
 
 def _observable_identity(output_root: Path, candidate_id: str) -> dict[str, Any]:
     candidate_root = output_root / "candidates" / candidate_id
+    candidate_state = candidate_root / "full_state_latest.pt"
+    plain_state = output_root / "anchors" / "plain" / "full_state_latest.pt"
     candidate_state_path = candidate_root / "full_state_latest.pt.json"
     plain_state_path = output_root / "anchors" / "plain" / "full_state_latest.pt.json"
     candidate_metric_path = candidate_root / "metrics" / "e200.json"
     plain_metric_path = output_root / "anchors" / "plain" / "metrics" / "e200.json"
     for path in (
-        candidate_state_path, plain_state_path, candidate_metric_path, plain_metric_path,
+        candidate_state, plain_state, candidate_state_path, plain_state_path,
+        candidate_metric_path, plain_metric_path,
     ):
         if not path.is_file():
             raise RuntimeError(f"observable-only identity artifact missing: {path}")
-    candidate_state = _read_json(candidate_state_path)
-    plain_state = _read_json(plain_state_path)
-    if int(candidate_state.get("physical_epoch_completed", -1)) != 200:
+    candidate_sidecar = _read_json(candidate_state_path)
+    plain_sidecar = _read_json(plain_state_path)
+    if int(candidate_sidecar.get("physical_epoch_completed", -1)) != 200:
         raise RuntimeError("observable-only state is not e200")
-    if int(plain_state.get("physical_epoch_completed", -1)) != 200:
+    if int(plain_sidecar.get("physical_epoch_completed", -1)) != 200:
         raise RuntimeError("plain identity authority is not e200")
-    candidate_scientific = candidate_state.get("scientific_state_sha256")
-    plain_scientific = plain_state.get("scientific_state_sha256")
-    if not candidate_scientific or candidate_scientific != plain_scientific:
-        raise RuntimeError("observable-only scientific e200 state differs from plain")
+    candidate_payload = torch.load(candidate_state, map_location="cpu", weights_only=False)
+    plain_payload = torch.load(plain_state, map_location="cpu", weights_only=False)
+    if candidate_sidecar.get("scientific_state_sha256") != full_state_hash(candidate_payload):
+        raise RuntimeError("observable-only e200 checkpoint/sidecar integrity failed")
+    if plain_sidecar.get("scientific_state_sha256") != full_state_hash(plain_payload):
+        raise RuntimeError("plain e200 checkpoint/sidecar integrity failed")
+
+    # Candidate id, git commit and protocol metadata intentionally differ.  The
+    # dynamics authority is every state component that can change the next
+    # optimizer update.  Observable-only is permitted to write diagnostics to
+    # separate evidence files, never into this recoverable training state.
+    def dynamics(payload: dict[str, Any]) -> dict[str, Any]:
+        model = dict(payload["model"])
+        method = dict(model.get("method", {}))
+        # This is the only permitted exclusion.  The observer is recoverable
+        # for diagnostic continuity but its source-bound implementation must
+        # prove that it cannot enter forward outputs, gradients, RNG or sampler
+        # transitions.  Every other method/controller field remains compared.
+        method.pop("route1_observer", None)
+        model["method"] = method
+        return {
+            "step": payload["step"],
+            "physical_epoch_completed": payload["physical_epoch_completed"],
+            "target_steps": payload["target_steps"],
+            "model": model,
+            "rng": payload["rng"],
+            "samplers": payload["samplers"],
+        }
+
+    candidate_dynamics = full_state_hash(dynamics(candidate_payload))
+    plain_dynamics = full_state_hash(dynamics(plain_payload))
+    if candidate_dynamics != plain_dynamics:
+        raise RuntimeError("observable-only e200 dynamics state differs from plain")
 
     candidate_metric = _read_json(candidate_metric_path)
     plain_metric = _read_json(plain_metric_path)
@@ -75,9 +109,11 @@ def _observable_identity(output_root: Path, candidate_id: str) -> dict[str, Any]
     if candidate_metric != plain_metric:
         raise RuntimeError("observable-only e200 evaluation differs from plain")
     return {
-        "status": "EXACT_PLAIN_E200_SCIENTIFIC_IDENTITY",
-        "candidate_scientific_state_sha256": candidate_scientific,
-        "plain_scientific_state_sha256": plain_scientific,
+        "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
+        "candidate_full_state_sha256": file_sha256(candidate_state),
+        "plain_full_state_sha256": file_sha256(plain_state),
+        "candidate_dynamics_state_sha256": candidate_dynamics,
+        "plain_dynamics_state_sha256": plain_dynamics,
         "candidate_state_sidecar_sha256": file_sha256(candidate_state_path),
         "plain_state_sidecar_sha256": file_sha256(plain_state_path),
         "candidate_metric_sha256": file_sha256(candidate_metric_path),
