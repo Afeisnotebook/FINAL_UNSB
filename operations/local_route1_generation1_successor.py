@@ -23,6 +23,7 @@ except ModuleNotFoundError:  # direct script execution from operations/
     import local_route1_candidate_executor as support  # type: ignore[no-redef]
 
 from research.local_route1.generation1_adjudication import adjudicate_generation1
+from research.local_route1.final_delivery import materialize_final_delivery
 from research.local_route1.seed_validation import summarize_multi_seed_validation
 
 
@@ -45,6 +46,7 @@ def _source_paths(repo: Path) -> tuple[Path, ...]:
         "operations/local_route1_candidate_executor.py",
         "research/local_route1/generation1_adjudication.py",
         "research/local_route1/candidate_runner.py",
+        "research/local_route1/final_delivery.py",
         "research/local_route1/seed_validation.py",
     ))
 
@@ -272,12 +274,15 @@ class Generation1Successor:
         if aggregate["status"] == "WAITING_FOR_AUTHORIZED_SEED2028":
             self.run_seed(winner, 2028)
             aggregate = summarize_multi_seed_validation(self.run_root, winner)
+        delivery = materialize_final_delivery(self.run_root)
         self.state(
             "MULTI_SEED_ADJUDICATION_COMPLETE",
             candidate_id=winner, final_status=aggregate["status"],
             classification=aggregate.get("classification"),
             included_seeds=aggregate.get("included_seeds"),
             failed_checks=aggregate.get("failed_checks"),
+            final_candidate_status=delivery.get("status"),
+            final_candidate_path=str(self.run_root / "final" / "CANDIDATE.json"),
         )
         self.event(
             "SUCCESSOR_COMPLETE", candidate_id=winner,
