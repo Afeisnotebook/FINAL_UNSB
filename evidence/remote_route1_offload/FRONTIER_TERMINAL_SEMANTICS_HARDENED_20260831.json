@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-route1-frontier-terminal-semantics-hardened-v1",
+  "observed_at": "2026-08-31T06:45:00+08:00",
+  "status": "DEPLOYED_WAITING_FOR_TWO_5090_E200_RECEIPTS",
+  "scientific_selection": {
+    "current_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "selection_policy": "strict sustained-e200 eligibility before within-tier ranking",
+    "proposal_only_late_three_macro_psnr_delta": 0.5415065556765851,
+    "proposal_only_e200_macro_psnr_delta": 0.4510917790142841,
+    "projected_full_late_three_macro_psnr_delta": 0.6209590565901758,
+    "projected_full_e200_macro_psnr_delta": -0.001378936820813692,
+    "observable_only_exact_plain_dynamics_and_metrics": true,
+    "decision": "decisions/DEC-20260831-WINNER-ABLATION-SCIENTIFIC-GATE-FIRST.md"
+  },
+  "terminal_semantics": {
+    "selected_ablation_reproduction_identity_commit": "e43ab1f3d9ccd46a424d08312738bd37c81b0beb",
+    "reselected_base_uses_own_ablation_commit": "b7e595a530ddf895f82954554d370209d1bddfc4",
+    "tested_challenger_ablations_retained_commit": "405197da8fd84f1033c6acaa74fe8f522abc424a",
+    "canonical_primary_is_not_early_pruning": true,
+    "complete_alternates_required": 2,
+    "frontier_challenger_ablation_evidence_retained_if_reselected": true,
+    "cross_host_deltas_merged": false
+  },
+  "remote4090": {
+    "cross_host_router_pid": 1484199,
+    "winner_specific_ablation_successor_pid": 1486169,
+    "final_delivery_successor_pid": 1486569,
+    "winner_specific_worktree": "/home/yc/FINAL_UNSB_FRONTIER_RECOVERY_b7e595a",
+    "final_delivery_worktree": "/home/yc/FINAL_UNSB_FRONTIER_FINAL_405197d",
+    "training_or_replay_process_stopped": false,
+    "waiting_successors_replaced_exactly": true,
+    "new_fatal_after_redeployment": false
+  },
+  "remote5090": {
+    "pcnr_status": "RUNNING_TO_FIXED_E200",
+    "am_mcrb_status": "RUNNING_TO_FIXED_E200",
+    "scientific_early_stop": false,
+    "intermediate_metric_routing": false
+  },
+  "conditional_generation3": {
+    "decision": "decisions/DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md",
+    "maximum_candidates": 1,
+    "maximum_components": 2,
+    "requires_two_independent_strict_e200_passes": true,
+    "fixed_window_or_hyperparameter_grid": false
+  },
+  "verification": {
+    "pytest": "235 passed",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "selection_seeds": [2026],
+  "deferred_seed_validation": [2027, 2028],
+  "cross_seed_stability_claimed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
