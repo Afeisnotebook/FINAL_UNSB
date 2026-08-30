@@ -90,6 +90,8 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "timeout_seconds": int(args.timeout_seconds),
         "batch_size": 1,
         "target_data_epochs": 200,
+        "e200_execution_policy": "SEQUENTIAL_SINGLE_STREAM_BY_MEASURED_WALL_CLOCK",
+        "maximum_parallel_e200_executors": 1,
         "selection_seeds": [2026],
         "deferred_seed_validation": [2027, 2028],
         "seed_validation_policy": "DEFER_ADDITIONAL_SEEDS_FOR_ALGORITHM_SEARCH",
@@ -118,6 +120,12 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("winner ablations must retain scientific batch1")
     if int(contract.get("target_data_epochs", 0)) != 200:
         raise RuntimeError("winner ablations must run true e200")
+    if contract.get("e200_execution_policy") != (
+        "SEQUENTIAL_SINGLE_STREAM_BY_MEASURED_WALL_CLOCK"
+    ):
+        raise RuntimeError("winner ablation e200 execution policy changed")
+    if int(contract.get("maximum_parallel_e200_executors", 0)) != 1:
+        raise RuntimeError("winner ablation e200 execution must remain single-stream")
     if contract.get("selection_seeds") != [2026]:
         raise RuntimeError("winner ablations require the frozen seed2026 winner")
     if contract.get("deferred_seed_validation") != [2027, 2028]:
@@ -152,6 +160,8 @@ class WinnerAblationSuccessor:
             "updated": support.now(), "status": status,
             "supervisor_pid": os.getpid(), "batch_size": 1,
             "target_data_epochs": 200,
+            "e200_execution_policy": self.contract["e200_execution_policy"],
+            "maximum_parallel_e200_executors": 1,
             "paired_metric_scheduling": False,
             "paired_controller_access": False,
             "confirmation20_opened": False,
@@ -266,7 +276,7 @@ class WinnerAblationSuccessor:
         return path
 
     def run_e200(self, candidate_ids: list[str]) -> None:
-        processes = []
+        completed = []
         for candidate_id in candidate_ids:
             contract = self._init_executor_contract(candidate_id)
             stdout = self.operations / f"WINNER_ABLATION_EXECUTOR_{candidate_id}.stdout.log"
@@ -278,25 +288,32 @@ class WinnerAblationSuccessor:
                  "--contract", str(contract)],
                 cwd=self.repo, env=_env(self.repo), stdout=out, stderr=err,
             )
-            processes.append((candidate_id, process, out, err))
-        while any(process.poll() is None for _, process, _, _ in processes):
-            epochs = {
-                candidate_id: support.current_epoch(self.run_root, candidate_id)
-                for candidate_id, _, _, _ in processes
-            }
-            self.state(
-                "WINNER_ABLATION_E200_RUNNING",
-                children={candidate_id: process.pid for candidate_id, process, _, _ in processes},
-                current_data_epochs=epochs,
+            try:
+                while process.poll() is None:
+                    self.state(
+                        "WINNER_ABLATION_E200_RUNNING_SINGLE_STREAM",
+                        active_candidate_id=candidate_id,
+                        active_child_pid=process.pid,
+                        active_data_epoch=support.current_epoch(
+                            self.run_root, candidate_id,
+                        ),
+                        completed_candidate_ids=list(completed),
+                    )
+                    time.sleep(30)
+                returncode = int(process.wait())
+            finally:
+                out.close()
+                err.close()
+            if returncode != 0:
+                raise RuntimeError(
+                    f"winner ablation e200 executor failed: {candidate_id}"
+                )
+            completed.append(candidate_id)
+            self.event(
+                "WINNER_ABLATION_E200_CANDIDATE_COMPLETE",
+                candidate_id=candidate_id,
+                completed_candidate_ids=list(completed),
             )
-            time.sleep(30)
-        failures = []
-        for candidate_id, process, out, err in processes:
-            out.close(); err.close()
-            if int(process.wait()) != 0:
-                failures.append(candidate_id)
-        if failures:
-            raise RuntimeError(f"winner ablation e200 executors failed: {failures}")
 
     def run(self) -> int:
         self.event("WINNER_ABLATION_SUCCESSOR_START", contract=str(self.contract_path))

@@ -78,6 +78,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   seed2027/2028延期，不能被写成已证明跨seed稳定。释放算力按“赢家三项e200机制消融
   →全负时唯一因果数学修订→额外独立机制”的顺序使用；不再自动重复初始状态。详见
   `decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md`。
+- 4090赢家消融按实测总墙钟采用单流顺序执行：已完成的projected/full不重复训练，
+  proposal-only完整e200退出后才启动observable-only完整e200；这比双流争用更快，且
+  两条receipt仍缺一不可。详见`decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md`。
 - 下一硬门：两候选完整e200。若某候选通过晚三点、e200、域覆盖、最差域、SSIM/LPIPS、
   绝对轨迹和plain-collapse门，则立即冻结seed2026开发身份并运行proposal-only、
   observable-only、projected/full真实e200消融；若当前实现失败，只有在target-blind
