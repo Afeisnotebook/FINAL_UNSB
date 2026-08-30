@@ -176,6 +176,7 @@
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json"
+        ,"evidence/remote_route1_offload/MCRB_4090_PREFLIGHT_READY_20260830.json"
       ],
       "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]

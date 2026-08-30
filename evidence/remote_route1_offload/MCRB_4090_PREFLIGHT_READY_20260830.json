@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-route1-mcrb-4090-preflight-ready-v1",
+  "recorded": "2026-08-30T22:19:00+08:00",
+  "status": "PASS_LONG_RUN_READY_FOR_CONDITIONAL_SAME_HOST_E200_REPLAY",
+  "purpose": "Pay the 4090 host-specific MCRB gate cost while AM-TNC is running so a positive supplemental 5090 e200 result can enter an immediate authoritative same-host replay without changing algorithm identity.",
+  "scientific_authorization_boundary": {
+    "mcrb_4090_e200_started": false,
+    "start_condition": "the complete 5090 MCRB e200 trajectory passes its registered numeric gate",
+    "negative_5090_result_starts_4090_replay": false,
+    "paired_metric_used_inside_training_or_controller": false,
+    "cross_host_deltas_merged": false,
+    "confirmation20_opened": false
+  },
+  "identity": {
+    "training_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+    "worktree": "/home/yc/FINAL_UNSB_MCRB_7fa9081",
+    "isolated_preflight_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_MCRB_PREFLIGHT_4090",
+    "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+    "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+    "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "gate_sha256": "2414d660557c7c790343ed54c4d47ac523f574b3af87f4b28ac46b28b855b098"
+  },
+  "cross_host_identity_check": {
+    "same_training_git_commit_as_5090": true,
+    "same_algorithm_fingerprint_as_5090": true,
+    "same_candidate_fingerprint_as_5090": true,
+    "checkpoint_transfer_between_hosts_allowed": false,
+    "4090_replay_would_restart_from_common_e0": true
+  },
+  "checks": {
+    "mathematical_invariants": true,
+    "zero_intervention_identity": true,
+    "resume_exact": true,
+    "cross_state_counterfactual": true,
+    "target_blind_observable": true,
+    "micro_engineering": true,
+    "base_unsb_semantics_preserved": true,
+    "shared_e0_load_exact": true
+  },
+  "zero_intervention": {
+    "plain_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+    "candidate_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070"
+  },
+  "resume": {
+    "continuous_state_sha256": "da9add32ba83fbf33e776b678080676eab0ab5484cec304f48128916c32574e8",
+    "resumed_state_sha256": "da9add32ba83fbf33e776b678080676eab0ab5484cec304f48128916c32574e8"
+  },
+  "cross_state_plain_parent_preserved": {
+    "e20": true,
+    "e100": true,
+    "e200": true
+  },
+  "micro": {
+    "updates": 400,
+    "data_epochs": 2.6666666666666665,
+    "wall_seconds": 193.7588050365448,
+    "scientific_early_stop_authority": false
+  },
+  "active_amtnc_training_root_modified": false,
+  "active_amtnc_training_identity_modified": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

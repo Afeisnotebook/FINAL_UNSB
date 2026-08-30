@@ -395,6 +395,9 @@
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
+    "mcrb_4090_preflight_status": "PASS_LONG_RUN_CONDITIONAL_REPLAY_NOT_STARTED",
+    "mcrb_4090_preflight_identity_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+    "mcrb_4090_preflight_evidence": "evidence/remote_route1_offload/MCRB_4090_PREFLIGHT_READY_20260830.json",
     "retired_multi_seed_successors": [
       "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
       "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
