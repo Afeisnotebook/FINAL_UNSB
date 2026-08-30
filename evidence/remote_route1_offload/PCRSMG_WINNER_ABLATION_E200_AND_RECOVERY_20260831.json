@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-winner-ablation-e200-recovery-v1",
+  "observed_at": "2026-08-31T06:26:00+08:00",
+  "status": "COMPLETE_AND_FRONTIER_CHAIN_REARMED",
+  "incident": {
+    "classification": "adjudication_metadata_false_fatal",
+    "training_or_checkpoint_failure": false,
+    "candidate_metric_difference_count": 4,
+    "candidate_only_metadata_fields": [
+      "algorithm_fingerprint",
+      "candidate_fingerprint",
+      "candidate_id"
+    ],
+    "matched_plain_delta_exact_zero": true,
+    "observable_only_dynamics_state_exact_plain": true,
+    "archived_recoverably_under": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/incidents/20260831_observable_metric_metadata_false_fatal",
+    "completed_e200_training_repeated": false
+  },
+  "fix": {
+    "observable_identity_adjudication_commit": "f05f6185bf2a4aad2372ed192718b3b11c14b7fe",
+    "idempotent_completed_adjudication_resume_commit": "052f16eedef4d252cd60f26b17e388827952b638",
+    "pytest": "232 passed",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "remote4090": {
+    "recovery_worktree": "/home/yc/FINAL_UNSB_ABLATION_RECOVERY_052f16e",
+    "recovery_worktree_commit": "052f16eedef4d252cd60f26b17e388827952b638",
+    "winner_ablation_successor_status": "WINNER_ABLATIONS_AND_FINAL_DELIVERY_COMPLETE",
+    "resumed_from_complete_adjudication": true,
+    "winner_ablation_adjudication_sha256": "6cf2b5368a86fe8ba87d7bcbcdcc7937f54808989cc672a72ea58a03d7e0c3ed",
+    "pre_frontier_candidate_sha256": "304d41c4e1ccd196407d03034ec47b5f8ccf0c7844286df590269c7a031fca6b",
+    "frontier_cross_host_successor_pid": 1484199,
+    "frontier_winner_ablation_successor_pid": 1484200,
+    "frontier_final_successor_pid": 1484201,
+    "new_fatal_after_rearm": false
+  },
+  "pcrsmg_source_bound_e200_ablation": {
+    "proposal_only": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "late_three_mean_macro_psnr_delta": 0.5415065556765851,
+      "e200_macro_psnr_delta": 0.4510917790142841,
+      "late_points_with_four_of_six_positive_domains": 2,
+      "late_average_worst_domain_delta": -0.008841867048108298,
+      "late_mean_macro_ssim_delta": 0.012874742171594086,
+      "late_mean_macro_lpips_delta": -0.013357615210707219,
+      "trajectory_status": "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION"
+    },
+    "observable_only": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-OBSERVABLE-ONLY",
+      "late_three_mean_macro_psnr_delta": 0.0,
+      "e200_macro_psnr_delta": 0.0,
+      "matched_plain_delta_exact_zero": true,
+      "dynamics_state_exact_plain": true
+    },
+    "projected_or_full": {
+      "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+      "late_three_mean_macro_psnr_delta": 0.6209590565901758,
+      "e200_macro_psnr_delta": -0.001378936820813692,
+      "late_mean_macro_ssim_delta": 0.017010403448154115,
+      "late_mean_macro_lpips_delta": -0.014978799513644614
+    },
+    "adjudication_status": "COMPLETE_NO_SELECTION_CHANGE",
+    "mechanistic_reading": "The native-measure replicated G/F proposal carries sustained e200 benefit; observer compute is exact native identity, while the projected/full operator improves late-three mean but loses its terminal margin."
+  },
+  "frontier_policy": {
+    "canonical_primary_is_a_delivery_requirement_not_an_early_pruning_rule": true,
+    "complete_long_horizon_alternates_required": 2,
+    "pcnr_and_am_mcrb_continue_to_e200": true,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}
