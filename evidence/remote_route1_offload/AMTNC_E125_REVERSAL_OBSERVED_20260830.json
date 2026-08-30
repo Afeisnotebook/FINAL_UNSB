@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-route1-amtnc-e125-reversal-observation-v1",
+  "recorded": "2026-08-30T23:53:03+08:00",
+  "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "method_name": "AM-TNC",
+  "candidate_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+  "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+  "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+  "execution_role": "authoritative_4090_single_allowed_evidence_driven_revision",
+  "fixed_observations": {
+    "e100": {
+      "updates": 15000,
+      "candidate_macro_psnr": 15.079259302316572,
+      "plain_macro_psnr": 13.419710281165152,
+      "macro_psnr_delta": 1.6595490211514203,
+      "macro_ssim_delta": 0.04436898039919995,
+      "macro_lpips_delta": 0.014004620945169743,
+      "positive_domains": 6,
+      "worst_domain_delta": 0.8241272420455399,
+      "metric_sha256": "8145b1d4c8106f4777857d5a422ff997829d6b3cf4ccb7ae3a6b698d57b3cd86",
+      "plain_metric_sha256": "f3170ac21c1e23f000c5d09cce683a6c6f4ab4cd4ab2e369cd8071e4bf38aead"
+    },
+    "e125": {
+      "updates": 18750,
+      "candidate_macro_psnr": 16.53131984971611,
+      "plain_macro_psnr": 16.864104883890025,
+      "macro_psnr_delta": -0.33278503417391647,
+      "macro_ssim_delta": -0.028173414440382127,
+      "macro_lpips_delta": 0.01759870524207746,
+      "positive_domains": 2,
+      "worst_domain_delta": -1.3929853184670833,
+      "metric_sha256": "b63190da9b7c3f1dd5ad88ae0dd523329aa7dcc2a416f3701bd19ca71ffaa28a",
+      "plain_metric_sha256": "f560928644e7881c2eeb491722e270b807f1fee90eafb2ee7da090f38039e329",
+      "milestone_checkpoint_sha256": "c5882363149a8d5f7a1a1b35fb5b6b7e4b0050d7218b5aa3b8394a23a726de89",
+      "milestone_sidecar_sha256": "21848ab58fa687a398c80488ef82eb4f009cc26ff805d4151e7d5eb3f8796226",
+      "scientific_state_sha256": "d0ea5b7761a4acedab93f615e0ed55a0576df649c78899f33aaa23da7551d0c7"
+    }
+  },
+  "e100_to_e125_decomposition": {
+    "delta_change_db": -1.9923340553253368,
+    "candidate_absolute_change_db": 1.4520605473995378,
+    "plain_absolute_change_db": 3.444394602724873,
+    "interpretation": "AM-TNC improved in absolute PSNR, but the same-host plain trajectory improved substantially faster. Absolute candidate improvement therefore did not preserve its relative advantage."
+  },
+  "live_continuation": {
+    "executor_pid": 1431466,
+    "e125_to_e130_child_pid": 1445545,
+    "next_chunk_started": true,
+    "trajectory_file_exists": false,
+    "scientific_early_stop": false,
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "adjudication": {
+    "status": "REVERSAL_OBSERVED_CONTINUE_FIXED_E200",
+    "mechanism_falsified": false,
+    "current_implementation_terminally_negative": false,
+    "reason": "e125 is a preregistered descriptive milestone. The authoritative gate remains the fixed e150/e175/e200 trajectory and e200 terminal receipt.",
+    "authorized_action": "Continue the unchanged revision to e200 and retain the absolute/relative decomposition for terminal causal analysis.",
+    "forbidden_actions": [
+      "stop or modify AM-TNC from this paired observation",
+      "fit an exit threshold, annealing schedule or handoff",
+      "select the e100 checkpoint",
+      "open confirmation20"
+    ]
+  }
+}
