@@ -147,6 +147,32 @@ def run_candidate_gate(
             or player_evidence.get("expected_schedule") != expected_schedule
         ):
             raise RuntimeError("replicated player-bundle gate evidence is invalid")
+    if registration.spec.model == "route1_pcammcrb":
+        from models.route1.pcammcrb import (
+            EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE,
+        )
+        from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
+
+        parent = str(registration.spec.method.get("pcammcrb_sampling_parent", "pcnr"))
+        expected = list(
+            EXPECTED_PCNR_SCHEDULE
+            if parent == "pcnr" else EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
+        )
+        player_evidence = report.get("player_conditional_execution_evidence")
+        if not isinstance(player_evidence, dict) or (
+            player_evidence.get("sampling_parent") != parent
+            or player_evidence.get("expected_schedule") != expected
+            or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
+        ):
+            raise RuntimeError("PC-AMMCRB player/barrier execution evidence is invalid")
+        compatibility = report.get("component_compatibility_evidence")
+        if not isinstance(compatibility, dict) or (
+            compatibility.get("data_epochs") != [20, 100, 200]
+            or compatibility.get("branch_updates") != [1, 8, 32]
+            or compatibility.get("all_parent_state_hashes_preserved") is not True
+            or float(compatibility.get("minimum_observed_component_correction_cosine", -2.0)) < -0.2
+        ):
+            raise RuntimeError("PC-AMMCRB preregistered component compatibility gate failed")
     result = {
         "schema": GATE_SCHEMA,
         "status": "PASS_LONG_RUN",
@@ -156,7 +182,13 @@ def run_candidate_gate(
         "gate_git_commit": git_commit(),
         "gate_hook_module": str(module_path),
         "gate_hook_sha256": file_sha256(module_path),
-        "checks": {name: True for name in REQUIRED_CHECKS},
+        "checks": {
+            **{name: True for name in REQUIRED_CHECKS},
+            **{
+                name: True for name, passed in report.get("checks", {}).items()
+                if passed is True and name not in REQUIRED_CHECKS
+            },
+        },
         "evidence": report,
         "paired_metric_used_for_promotion": False,
         "paired_controller_access": False,

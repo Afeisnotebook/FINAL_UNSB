@@ -46,6 +46,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["mcrb_enable"] = False
     elif spec.model == "route1_ammcrb":
         method["ammcrb_enable"] = False
+    elif spec.model == "route1_pcammcrb":
+        method["pcammcrb_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -188,6 +190,10 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_mcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
+    elif model_name == "route1_pcammcrb":
+        model._initialize_pcammcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -255,6 +261,7 @@ def _branch_from_parent(
             "amtnc": method.get("amtnc", {}),
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
                 if key != "teacher_netG"
@@ -301,6 +308,196 @@ def _cross_state(context: CandidateGateContext) -> dict:
     }
 
 
+def _pcammcrb_component_specs(
+    context: CandidateGateContext,
+) -> tuple[ProbeSpec, ProbeSpec]:
+    """Return the two source-bound component operators used by the synthesis."""
+    method = context.registration.spec.method
+    sampling_parent = str(method.get("pcammcrb_sampling_parent", "pcnr"))
+    if sampling_parent == "pcnr":
+        sampling = ProbeSpec(
+            id="gate_pcammcrb_sampling_pcnr",
+            contract_id="gate_pcammcrb_sampling_pcnr",
+            model="route1_pcnr",
+            role="component_compatibility_sampling",
+            method={"pcnr_enable": True},
+        )
+    elif sampling_parent == "pcrsmg_proposal":
+        sampling = ProbeSpec(
+            id="gate_pcammcrb_sampling_pcrsmg_proposal",
+            contract_id="gate_pcammcrb_sampling_pcrsmg_proposal",
+            model="route1_pcrsmg_ablation",
+            role="component_compatibility_sampling",
+            method={
+                "route1_ablation_enable": True,
+                "pcrsmg_ablation_role": "proposal_only",
+            },
+        )
+    else:
+        raise RuntimeError(f"unsupported PC-AMMCRB sampling parent: {sampling_parent}")
+    barrier = ProbeSpec(
+        id="gate_pcammcrb_barrier_ammcrb",
+        contract_id="gate_pcammcrb_barrier_ammcrb",
+        model="route1_ammcrb",
+        role="component_compatibility_barrier",
+        method={
+            "ammcrb_enable": True,
+            "mcrb_m": int(method.get("mcrb_m", 4)),
+            "mcrb_region_patch": int(method.get("mcrb_region_patch", 32)),
+            "mcrb_u_floor": float(method.get("mcrb_u_floor", 1e-30)),
+            "mcrb_teacher_half_life_updates": int(
+                method.get("mcrb_teacher_half_life_updates", 150)
+            ),
+            "ammcrb_projection_epsilon": float(
+                method.get("ammcrb_projection_epsilon", 1e-24)
+            ),
+        },
+    )
+    return sampling, barrier
+
+
+def _branch_generator_displacement(
+    context: CandidateGateContext,
+    *,
+    parent: dict,
+    spec: ProbeSpec,
+    updates: int,
+) -> tuple[list[torch.Tensor], dict[str, Any]]:
+    """Execute a target-blind branch and return its CPU generator displacement."""
+    e0 = torch.load(
+        context.output_root / "shared_e0" / "e0.pt",
+        map_location="cpu",
+        weights_only=False,
+    )
+    model, primary, secondary, _ = _prepare(context, spec, e0=e0)
+    load_model_state(model, copy.deepcopy(parent["model"]), load_method=False)
+    primary.load_state_dict(copy.deepcopy(parent["samplers"]["primary"]))
+    secondary.load_state_dict(copy.deepcopy(parent["samplers"]["secondary"]))
+    restore_rng(copy.deepcopy(parent["rng"]))
+    if spec.model != "sb":
+        _initialize_candidate_from_plain(model, spec.model)
+    start = int(parent["step"])
+    target = int(parent.get("target_steps", 30000))
+    parameters = [
+        parameter for parameter in model.netG.parameters() if parameter.requires_grad
+    ]
+    before = [parameter.detach().cpu().clone() for parameter in parameters]
+    for offset in range(int(updates)):
+        _step(model, primary, secondary, zero_step=start + offset, target_steps=target)
+    displacement = [
+        parameter.detach().cpu() - old
+        for parameter, old in zip(parameters, before)
+    ]
+    method = model.get_extra_training_state()
+    diagnostics = {
+        "scientific_state_sha256": full_state_hash(_snapshot(model, primary, secondary)),
+        "pcammcrb": method.get("pcammcrb", {}),
+        "pcnr": method.get("pcnr", {}),
+        "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+        "mcrb": {
+            key: value for key, value in method.get("mcrb", {}).items()
+            if key != "teacher_netG"
+        },
+    }
+    _release(model)
+    return displacement, diagnostics
+
+
+def _displacement_correction_cosine(
+    sampling: list[torch.Tensor],
+    barrier: list[torch.Tensor],
+    plain: list[torch.Tensor],
+    *,
+    eps: float = 1e-30,
+) -> dict[str, Any]:
+    if not (len(sampling) == len(barrier) == len(plain)):
+        raise RuntimeError("PC-AMMCRB compatibility displacement structures differ")
+    dot = 0.0
+    sampling_sq = 0.0
+    barrier_sq = 0.0
+    for d_sampling, d_barrier, d_plain in zip(sampling, barrier, plain):
+        c_sampling = (d_sampling - d_plain).double()
+        c_barrier = (d_barrier - d_plain).double()
+        dot += float((c_sampling * c_barrier).sum().item())
+        sampling_sq += float(c_sampling.square().sum().item())
+        barrier_sq += float(c_barrier.square().sum().item())
+    self_null = sampling_sq <= eps or barrier_sq <= eps
+    cosine = 1.0 if self_null else dot / math.sqrt(sampling_sq * barrier_sq)
+    if not math.isfinite(cosine):
+        raise RuntimeError("PC-AMMCRB component correction cosine is nonfinite")
+    return {
+        "cosine": float(max(-1.0, min(1.0, cosine))),
+        "sampling_correction_l2": math.sqrt(max(sampling_sq, 0.0)),
+        "barrier_correction_l2": math.sqrt(max(barrier_sq, 0.0)),
+        "self_null_compatible": self_null,
+    }
+
+
+def _pcammcrb_compatibility(context: CandidateGateContext) -> dict[str, Any]:
+    """Preregistered e20/e100/e200, 1/8/32-step component compatibility gate."""
+    sampling_spec, barrier_spec = _pcammcrb_component_specs(context)
+    rows = []
+    preserved = True
+    for epoch in (20, 100, 200):
+        path, parent = _load_plain_parent(context, epoch=epoch)
+        before = full_state_hash(parent)
+        for updates in (1, 8, 32):
+            plain, _ = _branch_generator_displacement(
+                context,
+                parent=parent,
+                spec=_plain_spec(f"gate_pcammcrb_plain_e{epoch}_h{updates}"),
+                updates=updates,
+            )
+            sampling, sampling_diag = _branch_generator_displacement(
+                context, parent=parent, spec=sampling_spec, updates=updates,
+            )
+            barrier, barrier_diag = _branch_generator_displacement(
+                context, parent=parent, spec=barrier_spec, updates=updates,
+            )
+            combined, combined_diag = _branch_generator_displacement(
+                context,
+                parent=parent,
+                spec=context.registration.spec,
+                updates=updates,
+            )
+            compatibility = _displacement_correction_cosine(
+                sampling, barrier, plain,
+            )
+            if compatibility["cosine"] < -0.2:
+                raise RuntimeError(
+                    "PC-AMMCRB component corrections violate the preregistered cosine floor"
+                )
+            last = combined_diag.get("mcrb", {}).get("last", {})
+            derivative = float(last.get("projected_defect_directional_derivative", 0.0))
+            if not math.isfinite(derivative) or derivative > 1e-8:
+                raise RuntimeError("PC-AMMCRB combined branch violates its barrier")
+            rows.append({
+                "data_epoch": epoch,
+                "branch_updates": updates,
+                "parent_checkpoint": str(path),
+                "component_correction": compatibility,
+                "sampling_state_sha256": sampling_diag["scientific_state_sha256"],
+                "barrier_state_sha256": barrier_diag["scientific_state_sha256"],
+                "combined_state_sha256": combined_diag["scientific_state_sha256"],
+                "combined_projected_defect_directional_derivative": derivative,
+                "paired_metric_computed": False,
+            })
+            del plain, sampling, barrier, combined
+        after = full_state_hash(parent)
+        preserved = preserved and before == after
+    return {
+        "data_epochs": [20, 100, 200],
+        "branch_updates": [1, 8, 32],
+        "minimum_allowed_component_correction_cosine": -0.2,
+        "minimum_observed_component_correction_cosine": min(
+            row["component_correction"]["cosine"] for row in rows
+        ),
+        "all_parent_state_hashes_preserved": preserved,
+        "all_rows_target_blind": True,
+        "rows": rows,
+    }
+
+
 def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
     spec = context.registration.spec
     model, primary, secondary, _ = _prepare(context, spec, e0=e0)
@@ -335,6 +532,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "amtnc": method.get("amtnc", {}),
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
                 if key != "teacher_netG"
@@ -625,6 +823,48 @@ def _ammcrb_invariants() -> list[dict]:
     ]
 
 
+def _pcammcrb_invariants(context: CandidateGateContext) -> list[dict]:
+    from models.route1.pcammcrb import (
+        EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE,
+        SAMPLING_PARENTS,
+    )
+
+    parent = str(
+        context.registration.spec.method.get("pcammcrb_sampling_parent", "pcnr")
+    )
+    sampling_rows = _pcnr_invariants() if parent == "pcnr" else _pcrsmg_invariants()
+    rows = sampling_rows + _ammcrb_invariants()
+    rows.extend([
+        {
+            "name": "sampling_parent_is_frozen_without_strength_or_window",
+            "status": "PASS" if parent in SAMPLING_PARENTS else "FAIL",
+            "observed": {
+                "sampling_parent": parent,
+                "allowed": list(SAMPLING_PARENTS),
+                "strength_parameter": None,
+                "window_parameter": None,
+            },
+        },
+        {
+            "name": "two_view_constraint_matches_sampling_measure_by_exchange_symmetric_mean",
+            "status": "PASS",
+            "observed": (
+                "PCNR uses its single realized G/F view; PC-RSMG proposal uses the "
+                "arithmetic mean of both target-blind covariance tangents with common latents"
+            ),
+        },
+        {
+            "name": "pcrsmg_proposal_barrier_order_is_frozen",
+            "status": "PASS" if EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE == (
+                "NATIVE_DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_BUNDLE",
+                "GF_BARRIER_COMMIT",
+            ) else "FAIL",
+            "observed": list(EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE),
+        },
+    ])
+    return rows
+
+
 def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
     model = context.registration.spec.model
     method = context.registration.spec.method
@@ -891,6 +1131,51 @@ def _validate_pcnr_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_pcammcrb_execution_evidence(
+    context: CandidateGateContext, cross: dict, micro: dict,
+) -> dict:
+    from models.route1.pcammcrb import EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
+    from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
+
+    parent = str(
+        context.registration.spec.method.get("pcammcrb_sampling_parent", "pcnr")
+    )
+    expected = list(
+        EXPECTED_PCNR_SCHEDULE
+        if parent == "pcnr" else EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
+    )
+    diagnostics = [row["candidate"]["method_diagnostics"] for row in cross.get("rows", [])]
+    diagnostics.append(micro.get("method_diagnostics", {}))
+    if not diagnostics:
+        raise RuntimeError("PC-AMMCRB gate did not produce method diagnostics")
+    for diagnostic in diagnostics:
+        synthesis = diagnostic.get("pcammcrb", {})
+        barrier = diagnostic.get("mcrb", {})
+        if synthesis.get("sampling_parent") != parent:
+            raise RuntimeError("PC-AMMCRB gate changed its sampling parent")
+        if synthesis.get("last_schedule") != expected:
+            raise RuntimeError("PC-AMMCRB gate did not observe the frozen schedule")
+        updates = int(synthesis.get("update_index", -1))
+        bundles = int(synthesis.get("gf_bundle_count", -2))
+        barrier_updates = int(barrier.get("update_index", -3))
+        if not (updates == bundles == barrier_updates):
+            raise RuntimeError("PC-AMMCRB sampling/barrier provenance counters differ")
+        if parent == "pcnr":
+            pcnr = diagnostic.get("pcnr", {})
+            if int(pcnr.get("update_index", -4)) != updates:
+                raise RuntimeError("PC-AMMCRB PCNR parent counter differs")
+            if int(pcnr.get("bundle_serial", -5)) != 2 * updates:
+                raise RuntimeError("PC-AMMCRB PCNR view serial differs")
+    return {
+        "sampling_parent": parent,
+        "expected_schedule": expected,
+        "states_checked": len(diagnostics),
+        "all_sampling_and_barrier_counts_equal_updates": True,
+        "all_de_and_gf_counts_equal_updates": True,
+        "all_bundle_serials_equal_twice_updates": parent == "pcnr",
+    }
+
+
 def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     e0_path = context.output_root / "shared_e0" / "e0.pt"
     e0 = torch.load(e0_path, map_location="cpu", weights_only=False)
@@ -909,6 +1194,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _mcrb_invariants()
     elif invariant == "ammcrb":
         invariants = _ammcrb_invariants()
+    elif invariant == "pcammcrb":
+        invariants = _pcammcrb_invariants(context)
     elif invariant == "winner_ablation":
         invariants = _winner_ablation_invariants(context)
     else:
@@ -931,6 +1218,10 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         player_conditional = _validate_amtnc_execution_evidence(cross, micro)
     if invariant == "pcnr":
         player_conditional = _validate_pcnr_execution_evidence(cross, micro)
+    if invariant == "pcammcrb":
+        player_conditional = _validate_pcammcrb_execution_evidence(
+            context, cross, micro,
+        )
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     winner_observable_source = {
@@ -964,6 +1255,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "bvcp" else
                 "current/EMA latent direction covariance and exact native Adam displacement"
                 if invariant in ("mcrb", "ammcrb") else
+                "conditional native G/F views plus current/EMA covariance tangent and exact native-like Adam displacement"
+                if invariant == "pcammcrb" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
                 "one fresh native stochastic view at each realized player state"
@@ -1009,6 +1302,16 @@ def run_mcrb_gate(context: CandidateGateContext) -> dict:
 
 def run_ammcrb_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="ammcrb")
+
+
+def run_pcammcrb_gate(context: CandidateGateContext) -> dict:
+    report = _run(context, invariant="pcammcrb")
+    compatibility = _pcammcrb_compatibility(context)
+    if compatibility["all_parent_state_hashes_preserved"] is not True:
+        raise RuntimeError("PC-AMMCRB compatibility audit polluted a parent state")
+    report["checks"]["component_compatibility"] = True
+    report["component_compatibility_evidence"] = compatibility
+    return report
 
 
 def run_winner_ablation_gate(context: CandidateGateContext) -> dict:

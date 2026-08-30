@@ -600,6 +600,40 @@ def load_candidate_registration(
                 or player_evidence.get("expected_schedule") != expected_schedule
             ):
                 raise RuntimeError("replicated gate has invalid player-bundle provenance")
+        if implementation.get("model") == "route1_pcammcrb":
+            parent = str(
+                implementation.get("method", {}).get(
+                    "pcammcrb_sampling_parent", "pcnr"
+                )
+            )
+            expected_schedule = (
+                ["DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_VIEW", "GF_COMMIT"]
+                if parent == "pcnr" else
+                [
+                    "NATIVE_DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_BUNDLE",
+                    "GF_BARRIER_COMMIT",
+                ]
+            )
+            evidence = gate.get("evidence", {})
+            player_evidence = evidence.get("player_conditional_execution_evidence")
+            if not isinstance(player_evidence, dict) or (
+                player_evidence.get("sampling_parent") != parent
+                or player_evidence.get("expected_schedule") != expected_schedule
+                or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
+            ):
+                raise RuntimeError("PC-AMMCRB gate has invalid player/barrier provenance")
+            compatibility = evidence.get("component_compatibility_evidence")
+            if not isinstance(compatibility, dict) or (
+                compatibility.get("data_epochs") != [20, 100, 200]
+                or compatibility.get("branch_updates") != [1, 8, 32]
+                or compatibility.get("all_parent_state_hashes_preserved") is not True
+                or float(
+                    compatibility.get(
+                        "minimum_observed_component_correction_cosine", -2.0
+                    )
+                ) < -0.2
+            ):
+                raise RuntimeError("PC-AMMCRB component compatibility evidence is invalid")
 
     spec = ProbeSpec(
         id=candidate_id,
