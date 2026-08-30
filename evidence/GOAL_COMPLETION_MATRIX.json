@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T16:42:00+08:00",
+  "updated": "2026-08-30T16:52:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -68,7 +68,8 @@
         "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
         "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
-        "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json"
+        "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",

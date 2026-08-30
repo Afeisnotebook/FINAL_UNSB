@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-route1-cross-version-successor-deployment-v1",
+  "recorded_at": "2026-08-30T16:52:00+08:00",
+  "status": "ARMED_WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
+  "successor_git_commit": "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
+  "contract_sha256": "1eb30292d36ca7d4e3e9d7bacb0ec072be08e6a467e8e6aa2dbcd8fb789907bd",
+  "durable_session": "tmux:FINAL_UNSB_CROSS_SUCCESSOR_0aa0beb",
+  "candidate_receipt_identities": {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
+      "verification_git_commit": "3befbc27e73f8508a1f647b7e79cc0c139918433",
+      "training_core_fingerprint": "2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
+      "algorithm_fingerprint": "447cdcfacabc0f13616da484a4511983df65b8b71e315eec3e5030db9c797d89",
+      "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa"
+    },
+    "G1-02B-PLAYER-CONDITIONAL-RSMG": {
+      "verification_git_commit": "293d2b7a0f176de7d47f6838473fd675369b308e",
+      "training_core_fingerprint": "556200f034c22effe53f82312428ab3e6b81fe58ad182f42187df5486fe8af95",
+      "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+      "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06"
+    }
+  },
+  "receipt_verifier_sha256": "9b8d2b88e9dbe9efc6e51b5a7f96c0ee6f0580bc573bdf9f25bff5d983cc4409",
+  "post_e200_sequence": [
+    "verify each terminal state, all milestones, all metrics and all CRN identities in its own training-core-compatible worktree",
+    "materialize immutable per-candidate receipts",
+    "rank receipts without importing either candidate model into the sibling core",
+    "if a numeric-gate winner exists, freeze and run seed2027 in that winner's own worktree",
+    "run seed2028 only when the frozen sign-consistency rule authorizes it"
+  ],
+  "automatic_algorithm_revision": false,
+  "fixed_window_or_handoff": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

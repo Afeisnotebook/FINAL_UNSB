@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T16:42:00+08:00",
+  "state_snapshot_time": "2026-08-30T16:52:00+08:00",
   "phase": "GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "development_head_at_state_write": "f2bc24be948ccca715cacea23057309c37c2fae4",
@@ -316,7 +316,11 @@
     "candidate_executor_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
     "pcrsmg_implementation_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
     "pcrsmg_gate_and_start_evidence": "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
-    "status": "BVCP_AND_PCRSMG_VALID_MATCHED_E200_RUNNING"
+    "cross_version_receipt_commit": "293d2b7a0f176de7d47f6838473fd675369b308e",
+    "cross_version_successor_commit": "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
+    "cross_version_successor_status": "ARMED_WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
+    "cross_version_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+    "status": "BVCP_AND_PCRSMG_VALID_MATCHED_E200_RUNNING_SOURCE_BOUND_SUCCESSOR_ARMED"
   },
   "next_gate": "Let BVCP and PC-RSMG complete true e200 without intermediate quality control; verify every terminal checkpoint, metric and CRN artifact under each frozen code identity, then rank only the authoritative 4090 trajectories and use 5090 solely as cross-runtime corroboration."
 }
