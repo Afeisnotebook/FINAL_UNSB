@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-route1-unsb-internal-state-signal-gate-v1",
+  "created": "2026-08-30T08:04:00+08:00",
+  "implementation_commit": "cff1d49",
+  "added_target_blind_observables": [
+    "endpoint dispersion proposal/native stability margin",
+    "bridge KDD magnitude proposal/native stability margin",
+    "generator gradient scale proposal/native margin",
+    "proposal Adam-moment/gradient cosine",
+    "D/G loss-ratio proposal/native stability margin",
+    "E/G loss-ratio proposal/native stability margin"
+  ],
+  "new_evidence_routes": {
+    "endpoint_dispersion_instability": {
+      "requires_future_harm_after_endpoint_dispersion_growth": true,
+      "endpoint_law_change_forbidden": true,
+      "route": "endpoint_law_preserving_variance_or_constraint"
+    },
+    "game_balance_instability": {
+      "requires_future_harm_after_game_ratio_growth_or_negative_adam_alignment": true,
+      "route": "state_conditional_game_metric_constraint",
+      "search005_pcoa_or_npooa_equivalent_rerun_forbidden": true
+    },
+    "rollout_distribution_speed": {
+      "bridge_kdd_magnitude_excess_added_as_supporting_case": true
+    }
+  },
+  "scientific_boundary": {
+    "natural_zero_relative_or_cosine_observables_only": true,
+    "paired_threshold_fitted": false,
+    "candidate_formula_preselected": false,
+    "raw_audit_schema_changed": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "pytest": "96 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
