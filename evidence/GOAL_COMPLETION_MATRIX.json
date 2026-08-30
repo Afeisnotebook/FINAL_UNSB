@@ -1,12 +1,19 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T18:38:00+08:00",
-  "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
+  "updated": "2026-08-30T19:21:36+08:00",
+  "goal_status": "IN_PROGRESS_GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
     "original_local_only_text": true,
     "later_user_authorized_4090_and_5090": true,
-    "effective_rule": "Remote work is allowed only as host-matched route-1 execution. Cross-host method-minus-plain, full-dataset expansion, confirmation20, route-2 handoff and paired control remain forbidden."
+    "effective_rule": "Remote work is allowed only as host-matched route-1 execution. Cross-host method-minus-plain, full-dataset expansion, confirmation20, route-2 handoff and paired control remain forbidden.",
+    "emergency_single_seed_decision": {
+      "selection_seeds": [2026],
+      "deferred_seeds": [2027, 2028],
+      "cross_seed_stability_claimed": false,
+      "saved_compute_returns_to_algorithm_search": true,
+      "evidence": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
+    }
   },
   "requirements": [
     {
@@ -19,7 +26,8 @@
         "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
         "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
         "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
       "boundary": "Anchors, both candidate executors and the post-e200 successor use source-bound durable supervisors with five-data-epoch chunks, heartbeats, exact resume and bounded retries."
     },
@@ -79,7 +87,7 @@
         "authoritative_host": "remote4090",
         "BVCP_status": "complete e200; frozen current implementation is long-horizon negative; parent mechanism remains open",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
-        "PCRSMG_status": "two-host gates passed; restarted from common e0",
+        "PCRSMG_status": "two-host gates passed; restarted from common e0; authoritative 4090 observed at e103",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -101,7 +109,7 @@
       "id": 7,
       "requirement": "One CANDIDATE.json and two fallback/closed directions are delivered.",
       "status": "NOT_REACHED",
-      "missing": ["complete e200 ranking", "required seed adjudication or causal revision", "final fail-closed materialization"]
+      "missing": ["complete seed2026 e200 ranking", "winner e200 ablations or causal revision", "final fail-closed materialization"]
     },
     {
       "id": 8,
@@ -125,11 +133,13 @@
         "152 pytest tests passed at frozen challenger selection commit 449b394",
         "154 pytest tests passed at challenger-aware final delivery commit 945b8cf",
         "156 pytest tests passed at gradient-subspace audit commit 6f3edf5",
+        "157 pytest tests passed locally and on remote4090 at emergency single-seed commit 23dc0c8",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
         "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
-        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
       "boundary": "Tests and repository cleanliness must be re-proven after final materialization."
     },
@@ -156,17 +166,18 @@
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_SEED_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_SELECTION_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
+        ,"evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. A proposal-only challenger blocks the original winner, receives source-frozen seed validation in an isolated namespace, and can replace full only after both identities have complete frozen multi-seed adjudications; either resolved identity now has a tested fail-closed final-delivery path.",
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
   "current_accepted_scientific_boundary": {
-    "local": "plain and HJ e200 accepted; HNEK continues beyond e139; local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP reached e200 with a negative current-implementation label; PC-RSMG continues from common e0; old RSMG e71 is engineering-invalid",
-    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP and PC-RSMG continue; no 5090 result may be merged into the 4090 ranking",
+    "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP reached e200 with a negative current-implementation label; PC-RSMG was observed at e103 and continues from common e0; old RSMG e71 is engineering-invalid",
+    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e163 and PC-RSMG e44 continue; no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "BVCP is a valid complete e200 negative current implementation, not a falsification of its parent mechanism; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and continues without scientific early stop",
-    "successor": "source-bound cross-version successor 0aa0beb is durably waiting; winner ablations and challenger-aware final delivery 945b8cf are armed; negative causal routing was redeployed at 6f3edf5 with two-replica Euclidean/Adam subspace geometry, without modifying active training identities",
+    "successor": "single-seed source-bound ranking and winner-ablation successors at 23dc0c8 are durably waiting; the old automatic seed2027/2028 chains are retired; negative causal routing remains at 6f3edf5 with two-replica Euclidean/Adam subspace geometry, without modifying active training identities",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

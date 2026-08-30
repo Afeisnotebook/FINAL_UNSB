@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-route1-single-seed-successor-redeployment-v1",
+  "recorded": "2026-08-30T19:20:48+08:00",
+  "status": "ARMED_SINGLE_SEED_DEVELOPMENT_SELECTION_AND_WINNER_ABLATIONS",
+  "user_decision": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md",
+  "development_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
+  "remote_worktree": "/home/yc/FINAL_UNSB_SINGLE_SEED_23dc0c8",
+  "remote_tests": {
+    "pytest": "157 passed",
+    "compileall": "pass",
+    "worktree_clean": true
+  },
+  "source_sha256": {
+    "cross_version_successor": "7109463ab07d0dc364beb96b5de95dc91b54eb529e13c64135eda002baeb0462",
+    "winner_ablation_successor": "a67405950650d460fbd77fa97e5ee09c02321ad6d1325827389c22a08ebdafac",
+    "winner_ablation_adjudicator": "d3ceabbcdd0a815c3646ba3e64e3d5c66b5e1abb45f8d6a916e44bbbfe915af2",
+    "cross_version_final_delivery": "94854870bfd2cafc8c39c5d14488ee9a8d7135fc7b70eb4663fff6345afd881f",
+    "single_seed_development_freeze": "1192985859573461b6ee2d1dd652a8f17198924a14ce8176f00b4a5f8a5ad237"
+  },
+  "contracts": {
+    "cross_version": {
+      "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_SINGLE_SEED_SUCCESSOR_CONTRACT_23dc0c8.json",
+      "sha256": "06f298d2f5c15a9f08ff15150938338869cf1ec7830a2edf389e985e5d413439"
+    },
+    "winner_ablation": {
+      "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/WINNER_ABLATION_SINGLE_SEED_SUCCESSOR_CONTRACT_23dc0c8.json",
+      "sha256": "2fb03a09e68ab82e333ec0eebca9472b62f4e64cc4a0eb78cb0f8d2d75d0823e"
+    },
+    "selection_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "cross_seed_stability_claimed": false
+  },
+  "durable_sessions": {
+    "cross_version": "tmux:FINAL_UNSB_SINGLE_SEED_CROSS_23dc0c8",
+    "winner_ablation": "tmux:FINAL_UNSB_SINGLE_SEED_ABLATIONS_23dc0c8",
+    "negative_causal_revision_preserved": "tmux:FINAL_UNSB_NEGATIVE_SUCCESSOR_6f3edf5",
+    "candidate_training_preserved": "tmux:FINAL_UNSB_PCRSMG_E200_f2bc24b"
+  },
+  "initial_states": {
+    "cross_version": "WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
+    "winner_ablation": "WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
+    "pcrsmg_data_epoch": 103,
+    "pcrsmg_target_data_epoch": 200,
+    "negative_successor": "WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION"
+  },
+  "retired_sessions": [
+    "tmux:FINAL_UNSB_CROSS_SUCCESSOR_0aa0beb",
+    "tmux:FINAL_UNSB_WINNER_ABLATIONS_c154122",
+    "tmux:FINAL_UNSB_ABLATION_CHALLENGER_945b8cf"
+  ],
+  "retirement_integrity": {
+    "old_supervisor_pids_alive": false,
+    "seed_executor_processes_alive": false,
+    "candidate_training_process_changed": false,
+    "negative_revision_successor_changed": false,
+    "checkpoint_or_metric_files_deleted": false
+  },
+  "resource_policy": {
+    "scientific_batch_size": 1,
+    "current_4090_gpu_utilization_percent": 46,
+    "second_4090_stream_started_during_pcrsmg": false,
+    "reason": "A second stream previously increased the critical PC-RSMG epoch time from about 61 seconds to about 137 seconds; it would delay e200 despite free VRAM.",
+    "post_e200_saved_compute_order": [
+      "winner proposal-only/observable-only/full e200 ablations",
+      "one evidence-authorized mathematical revision if Generation-1 is negative",
+      "an independent mechanism before repeated seeds"
+    ]
+  },
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

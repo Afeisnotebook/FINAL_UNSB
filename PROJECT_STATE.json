@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T18:42:00+08:00",
-  "phase": "GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
+  "state_snapshot_time": "2026-08-30T19:21:36+08:00",
+  "phase": "GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "56cc223d36f406d3148064a7a3d9605bbe43d163",
+  "development_head_at_state_write": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -19,7 +19,16 @@
       "target_data_epoch": 200
     },
     "hj": {"latest_observed_data_epoch": 200, "latest_observed_updates": 30000, "target_data_epoch": 200},
-    "hnek": {"data_epoch": 188, "updates": 28200, "target_data_epoch": 200, "status": "DURABLE_LOCAL_CONTINUATION_RUNNING"},
+    "hnek": {
+      "data_epoch": 200,
+      "updates": 30000,
+      "target_data_epoch": 200,
+      "status": "COMPLETE_E200_LOCAL_PROXY_NOT_CALIBRATED",
+      "late_three_macro_psnr_delta_db": -0.006936758996040737,
+      "e200_macro_psnr_delta_db": -0.4935453850100622,
+      "late_points_with_four_of_six_positive_domains": 1,
+      "evidence": "evidence/local_route1_progress/LOCAL_HNEK_E200_AND_PROXY_OUTCOME_20260830.json"
+    },
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
     "plain_e100_official_metric_pending_recovery": false,
@@ -55,6 +64,8 @@
       "next_lane": "hj",
       "evidence": "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json"
     },
+    "local_proxy_status": "NOT_CALIBRATED_PAUSE",
+    "local_dt_started": false,
     "confirmation20_opened": false
   },
   "execution_incident": {
@@ -110,7 +121,7 @@
     "scheduled durable executor accepted the official e100-to-e105 production chunk and auto-started e105-to-e110",
     "e125 training state survived an external 0xC000013A interruption; the durable executor backfilled the missing official metric and accepted e130 without scientific replay",
     "Phase C audit core matches the frozen training worktree semantic fingerprint"
-    ,"seed2027/2028 runner separates frozen algorithm identity from seed-specific e0 and execution identity"
+    ,"emergency single-seed development freeze binds seed2026 e200 source identity while explicitly deferring seed2027/2028 without claiming stability"
     ,"candidate long-run gate requires a source-bound executable hook rather than a handwritten PASS record"
     ,"rollout-speed and bridge-time coordinate mechanisms are registered for pre-evidence matrix reanalysis"
     ,"corrected main-branch analyzer reads immutable audit rows and remains fail-closed while the atlas is partial"
@@ -162,7 +173,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_BVCP_AND_PCRSMG_E200_RUNNING",
+    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_SINGLE_SEED_BVCP_AND_PCRSMG_E200_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "authoritative host-matched Generation-1 ranking runtime; never mix a remote method with local or 5090 plain",
@@ -228,7 +239,7 @@
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 65,
+        "latest_observed_data_epoch": 103,
         "target_data_epoch": 200,
         "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
@@ -242,29 +253,28 @@
       "paired_metric_early_stop": false
     },
     "generation1_successor": {
-      "status": "SOURCE_BOUND_RANKING_NEGATIVE_SUBSPACE_AUDIT_WINNER_ABLATION_AND_CHALLENGER_FINAL_DELIVERY_ARMED",
-      "git_commit": "6f3edf5ef518320c541e459a7c0c671f7f9ca813",
+      "status": "SINGLE_SEED_SOURCE_BOUND_RANKING_NEGATIVE_SUBSPACE_AUDIT_AND_WINNER_ABLATION_ARMED",
+      "git_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
       "durable_sessions": [
-        "tmux:FINAL_UNSB_CROSS_SUCCESSOR_0aa0beb",
+        "tmux:FINAL_UNSB_SINGLE_SEED_CROSS_23dc0c8",
         "tmux:FINAL_UNSB_NEGATIVE_SUCCESSOR_6f3edf5",
-        "tmux:FINAL_UNSB_WINNER_ABLATIONS_c154122",
-        "tmux:FINAL_UNSB_ABLATION_CHALLENGER_945b8cf"
+        "tmux:FINAL_UNSB_SINGLE_SEED_ABLATIONS_23dc0c8"
       ],
       "freeze_only_numeric_gate_winner": true,
-      "seed2027_after_complete_e200_only": true,
-      "seed2028_requires_seed2027_sign_inconsistency": true,
+      "development_selection_seeds": [2026],
+      "deferred_seed_validation": [2027, 2028],
+      "cross_seed_stability_claimed": false,
       "negative_path_stops_for_causal_revision": true,
-      "final_delivery_after_complete_seed_adjudication": true,
+      "final_delivery_after_complete_seed2026_winner_ablations": true,
       "negative_e200_target_blind_defect_audit": true,
       "terminal_integrity_verification_before_ranking": true,
       "winner_proposal_observable_full_e200_ablations": true,
       "negative_replica_subspace_geometry": true,
-      "challenger_aware_final_delivery": true,
+      "single_seed_proposal_challenger_selection": true,
       "evidence": [
-        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
-        "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
+        "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
       ]
     },
     "confirmation20_opened": false,
@@ -313,9 +323,9 @@
     },
     "latest_observed_dt_data_epoch": 200,
     "generation1_candidates": {
-      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 140, "target_data_epoch": 200},
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 163, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
-      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 31, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 44, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -336,20 +346,22 @@
     "pcrsmg_implementation_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
     "pcrsmg_gate_and_start_evidence": "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
     "cross_version_receipt_commit": "293d2b7a0f176de7d47f6838473fd675369b308e",
-    "cross_version_successor_commit": "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
-    "cross_version_successor_status": "ARMED_WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
-    "cross_version_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+    "cross_version_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
+    "cross_version_successor_status": "ARMED_SINGLE_SEED_WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
+    "cross_version_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
     "negative_causal_successor_commit": "6f3edf5ef518320c541e459a7c0c671f7f9ca813",
     "negative_causal_successor_status": "ARMED_WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION",
     "negative_causal_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
-    "winner_ablation_successor_commit": "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
-    "winner_ablation_successor_status": "ARMED_WAITING_FOR_WINNER_AND_FROZEN_SEEDS",
-    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json",
-    "challenger_final_delivery_commit": "945b8cfcd557367c307ce08f3eccb8e4476c6c17",
-    "challenger_final_delivery_status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
-    "challenger_final_delivery_evidence": "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json",
+    "winner_ablation_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
+    "winner_ablation_successor_status": "ARMED_WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
+    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
+    "retired_multi_seed_successors": [
+      "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
+      "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
+      "945b8cfcd557367c307ce08f3eccb8e4476c6c17"
+    ],
     "pcrsmg_mathematical_implementation_audit": "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
-    "status": "BVCP_AND_PCRSMG_VALID_MATCHED_E200_RUNNING_ALL_POST_E200_SUCCESSORS_ARMED"
+    "status": "BVCP_AND_PCRSMG_VALID_SINGLE_SEED_E200_RUNNING_POST_E200_ABLATION_AND_REVISION_SUCCESSORS_ARMED"
   },
-  "next_gate": "Let BVCP and PC-RSMG complete true e200 without intermediate quality control; verify every terminal checkpoint, metric and CRN artifact under each frozen code identity, then rank only the authoritative 4090 trajectories and use 5090 solely as cross-runtime corroboration."
+  "next_gate": "Let PC-RSMG complete true e200 without intermediate quality control; verify every terminal checkpoint, metric and CRN artifact under each frozen code identity, then rank only the authoritative 4090 seed2026 trajectories. A positive winner immediately receives proposal-only/observable-only/full e200 ablations; a negative pair enters the single allowed causal mathematical revision. Seeds 2027/2028 are deferred and 5090 remains cross-runtime corroboration only."
 }
