@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T23:41:26+08:00",
+  "state_snapshot_time": "2026-08-30T23:46:10+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "development_head_at_state_write": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
@@ -389,7 +389,7 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 88, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication paused to prioritize independent mechanism", "resumable": true},
-      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 121, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832},
+      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 125, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832, "e125_descriptive_only_macro_psnr_delta_db": -0.7698880834018649, "e125_positive_domains": 2, "e125_worst_domain_delta_db": -3.1284326593762124, "e125_status": "REVERSAL_OBSERVED_CONTINUE_FIXED_E200", "e125_evidence": "evidence/remote_route1_offload/MCRB_E125_REVERSAL_OBSERVED_20260830.json"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },

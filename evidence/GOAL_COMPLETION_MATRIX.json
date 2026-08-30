@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T23:41:26+08:00",
+  "updated": "2026-08-30T23:46:10+08:00",
   "goal_status": "IN_PROGRESS_GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -91,6 +91,7 @@
         "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json",
         "research/local_route1/derivation_cards/G1-03-STATE-FEEDBACK-MISSING.json",
         "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json"
+        ,"evidence/remote_route1_offload/MCRB_E125_REVERSAL_OBSERVED_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
@@ -98,7 +99,7 @@
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "PCRSMG_status": "complete e200; late-three positive but strict terminal gate negative at -0.001379 dB; its reduced defect authorized AM-TNC",
         "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 running from common e0; observed e115/17250 updates",
-        "MCRB_status": "formula/code identity audited; independent 5090 e200 running at e121/18150 updates with conditional same-host 4090 replay",
+        "MCRB_status": "formula/code identity audited; independent 5090 e200 passed fixed e125/18750 updates with a descriptive reversal and continues unchanged toward e200 with conditional same-host 4090 replay",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -211,7 +212,7 @@
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e115 and continues from common e0 under commit 977ce32",
-    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e121; its positive e100 description remained nonterminal and no 5090 result may be merged into the 4090 ranking",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB completed fixed e125 with delta -0.770 dB after e100 +2.158 dB. The reversal is descriptive, the unchanged run continues to e200, and no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
     "successor": "commit 77bb987 deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts source-bound sequential single-stream winner ablations. Final reproduction is bound to the unique real executor contract rather than a guessed filename; 201 local tests and 18 remote4090 terminal-chain tests pass, while terminal candidate and ablation trajectories correctly remain pending",
     "confirmation20_opened": false

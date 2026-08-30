@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-route1-mcrb-e125-reversal-observation-v1",
+  "recorded": "2026-08-30T23:46:10+08:00",
+  "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "method_name": "MCRB",
+  "candidate_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+  "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+  "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+  "execution_role": "supplemental_5090_independent_mechanism_trajectory_never_numerically_merged_with_4090",
+  "fixed_observations": {
+    "e100": {
+      "updates": 15000,
+      "candidate_macro_psnr": 16.16967560687878,
+      "plain_macro_psnr": 14.012095745435948,
+      "macro_psnr_delta": 2.157579861442832,
+      "positive_domains": 4,
+      "worst_domain_delta": -1.6943967882949167,
+      "metric_sha256": "8b104256e8276f799ef7d9123d9fd747bec51f02458c65e3b84f45d599242c41",
+      "plain_metric_sha256": "fbbca0c3417c97a1cceb443ac98197555e282a1ddb2c6b6ac6d90141663ad6c0"
+    },
+    "e125": {
+      "updates": 18750,
+      "candidate_macro_psnr": 15.809580683102157,
+      "plain_macro_psnr": 16.57946876650402,
+      "macro_psnr_delta": -0.7698880834018649,
+      "macro_ssim_delta": -0.024720438747178886,
+      "macro_lpips_delta": null,
+      "positive_domains": 2,
+      "worst_domain_delta": -3.1284326593762124,
+      "metric_sha256": "f4b3400c7c6388916f9ccd3af7355eb821e629a58a1a8736860251bf8e669a3f",
+      "plain_metric_sha256": "3f0b7b49725c22eeb48ef33a74461319508c6053456b88b468684a76a5f201d0",
+      "milestone_checkpoint_sha256": "a0a07e233595c83de190e7fdf62da6662a285c12000db467341304818f8652e6",
+      "milestone_sidecar_sha256": "4593f22ddedad812238d4e68e920c7cdacc8883682c6491a27a09a92513afd1f",
+      "scientific_state_sha256": "5f06cf2cd86bddecbe8b4534fd8aefc9bf34210498fc801c5354cd846f23e2f4"
+    }
+  },
+  "e100_to_e125_decomposition": {
+    "delta_change_db": -2.927467944844697,
+    "candidate_absolute_change_db": -0.36009492377662267,
+    "plain_absolute_change_db": 2.567373021068072,
+    "interpretation": "The relative reversal combines a modest candidate decline with a much larger recovery of the same-host plain trajectory. The e100 gain therefore cannot be treated as a stable candidate advantage."
+  },
+  "live_continuation": {
+    "executor_pid": 85899,
+    "e125_to_e130_child_pid": 96167,
+    "next_chunk_started": true,
+    "trajectory_file_exists": false,
+    "scientific_early_stop": false,
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "adjudication": {
+    "status": "REVERSAL_OBSERVED_CONTINUE_FIXED_E200",
+    "mechanism_falsified": false,
+    "current_implementation_terminally_negative": false,
+    "reason": "e125 is a preregistered descriptive milestone, not the e150/e175/e200 terminal gate.",
+    "authorized_action": "Continue the unchanged candidate to e200 and preserve this milestone for later causal comparison.",
+    "forbidden_actions": [
+      "stop or modify MCRB from this paired observation",
+      "fit an exit threshold or handoff",
+      "merge the 5090 delta with the 4090 ranking",
+      "open confirmation20"
+    ]
+  }
+}

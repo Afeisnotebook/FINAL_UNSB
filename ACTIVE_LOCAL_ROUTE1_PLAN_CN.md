@@ -27,17 +27,20 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 23:41）
+## 当前执行事实（2026-08-30 23:46）
 
 - 4090权威474/140长期因果矩阵已冻结；BVCP和PC-RSMG当前实现均已完成e200并严格
   未过终点门。PC-RSMG的target-blind缺陷下降授权了唯一二代修订AM-TNC。
-- AM-TNC正在4090按`977ce32`从共同e0运行，当前固定快照为e115；独立MCRB正在5090
-  按`7fa9081`运行，当前固定快照为e121。二者均为batch1、seed2026、真实e200，且
+- AM-TNC正在4090按`977ce32`从共同e0运行，当前固定快照为e119；独立MCRB正在5090
+  按`7fa9081`运行，已完成e125并继续e130。二者均为batch1、seed2026、真实e200，且
   中间paired结果不控制训练、停止或代码。
 - AM-TNC与MCRB的derivation card—训练源码一致性已经分别复核；当前算子均真实激活，
   没有意外退化成plain，也没有发现需要中断现有轨迹的实现偏差。
 - MCRB真实e100描述性delta为`+2.158 dB`；在线集成门证明它仍是非终点观察，没有
   启动4090复赛、terminal receipt、总排名或单seed冻结。
+- MCRB e125描述性delta反转为`-0.770 dB`、2/6域正；e100→e125期间候选下降约
+  `0.360 dB`而plain恢复约`2.567 dB`。该结果已冻结为反转观察，训练继续到e200，
+  不据此拟合退出点、handoff或修改算子。
 - 4090上已按`77bb987`重新部署不依赖Codex会话的跨宿主持久后继：它只接受5090完整e200 terminal
   receipt；正结果才在4090从共同e0复赛MCRB，负结果则跳过。它等待AM-TNC终点后才
   生成全部4090 receipt总排名，随后按实测更短总墙钟依次启动真正赢家的
