@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-deployment-v1",
+  "recorded_at": "2026-08-30T16:42:00+08:00",
+  "status": "TWO_HOST_GATES_PASS_DURABLE_E200_STARTED",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "base_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "gate_claims": {
+    "one_replica_exact_plain_identity": true,
+    "two_update_continuous_resume_exact": true,
+    "cross_state_epochs": [20, 100, 200],
+    "micro_updates": 400,
+    "actual_player_schedule": [
+      "DE_BUNDLE",
+      "D_COMMIT",
+      "E_COMMIT",
+      "GF_BUNDLE",
+      "GF_COMMIT"
+    ],
+    "de_and_gf_bundle_counts_equal_updates": true,
+    "bundle_serial_equals_twice_updates": true,
+    "paired_metric_used_for_promotion": false,
+    "confirmation20_opened": false
+  },
+  "remote4090": {
+    "role": "authoritative same-runtime candidate ranking against remote4090 plain",
+    "gate_sha256": "e1ca22398843a232a3b10177c47901709c1b264480a5f946015dab39be2f7255",
+    "executor_contract_sha256": "f00817eedc904986655e8b010f399a7f561640674c85cd99522c7130cadba9c6",
+    "one_replica_plain_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+    "resume_final_state_sha256": "cc47db9cd943741e08c20c355a73b63d9bae3a8af3bff6bf29f057070d0eb808",
+    "durable_session": "tmux:FINAL_UNSB_PCRSMG_E200_f2bc24b",
+    "start_data_epoch": 0,
+    "target_data_epoch": 200
+  },
+  "remote5090": {
+    "role": "supplemental cross-runtime replication; never merge with 4090 ranking",
+    "gate_sha256": "c7d64bbc7668104ecd37ad8f0d59a454299514f422dd424ddd49d40850169cd9",
+    "executor_contract_sha256": "972ffcb5bfbb40a8fa2930204d3ba0485d514e2234fc708ce95b113d33625291",
+    "one_replica_plain_state_sha256": "6f2b70643439ea922068147680f28eff1f383b23996bffe171afd5bea946df93",
+    "resume_final_state_sha256": "e2d94164943554c675e579e3dad543a62e063106085eec52044cbff32eae813b",
+    "durable_execution": "setsid supervisor with executor/child state and heartbeat",
+    "start_data_epoch": 0,
+    "target_data_epoch": 200
+  },
+  "resource_policy": {
+    "scientific_batch_size": 1,
+    "concurrent_isolated_streams_per_accelerator": 2,
+    "stream_one": "unaffected BVCP",
+    "stream_two": "PC-RSMG",
+    "reason_not_to_increase_batch": "larger batches change unpaired sampling, PatchNCE negatives, Adam and the adversarial game",
+    "reason_not_to_add_third_stream": "two streams already produce approximately 95-99 percent compute utilization; a third would increase contention rather than throughput"
+  },
+  "old_rsmg_trajectory_rankable": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

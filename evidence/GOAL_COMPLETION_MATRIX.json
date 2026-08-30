@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T16:20:00+08:00",
-  "goal_status": "IN_PROGRESS_GENERATION1_BVCP_RUNNING_RSMG_ENGINEERING_REPAIR",
+  "updated": "2026-08-30T16:42:00+08:00",
+  "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
     "original_local_only_text": true,
@@ -59,23 +59,26 @@
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "ONE_VALID_E200_RUNNING_ONE_IMPLEMENTATION_FAILURE_REPAIR_PENDING",
+      "status": "TWO_VALID_E200_TRAJECTORIES_RUNNING",
       "evidence": [
         "decisions/DEC-20260830-ROUTE1-GENERATION1-DERIVATION.md",
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
         "evidence/remote_route1_offload/GENERATION1_GATE_FREEZE_20260830.json",
         "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
-        "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
+        "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json",
+        "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+        "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
         "BVCP_status": "valid trajectory continuing",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
+        "PCRSMG_status": "two-host gates passed; restarted from common e0",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
-      "missing": ["BVCP complete matched e200 trajectory", "player-conditional RSMG replacement gate and e0-to-e200 trajectory", "frozen post-e200 adjudication"]
+      "missing": ["BVCP complete matched e200 trajectory", "PC-RSMG complete matched e200 trajectory", "frozen post-e200 adjudication"]
     },
     {
       "id": 6,

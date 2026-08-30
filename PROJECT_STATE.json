@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T16:20:00+08:00",
-  "phase": "GENERATION1_BVCP_RUNNING_RSMG_PLAYER_STATE_CORRECTION",
+  "state_snapshot_time": "2026-08-30T16:42:00+08:00",
+  "phase": "GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "4c614691e43897f3c9bf4d911e90883b2ba9cb59",
+  "development_head_at_state_write": "f2bc24be948ccca715cacea23057309c37c2fae4",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -224,6 +224,14 @@
         "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333",
         "incident": "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
       },
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {
+        "method_name": "PC-RSMG",
+        "gate_status": "PASS_LONG_RUN",
+        "latest_observed_data_epoch": 1,
+        "target_data_epoch": 200,
+        "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+        "execution_role": "authoritative same-runtime ranking"
+      },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
     },
@@ -288,6 +296,7 @@
     "generation1_candidates": {
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 44, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 0, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -305,7 +314,9 @@
     "generation1_implementation_commit": "71321ee9d0d6523727491cafe5c4e488f096c82b",
     "generation1_gate_commit": "b113544829575d0354b2a7ffa6c7eb7f9199e141",
     "candidate_executor_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
-    "status": "BVCP_VALID_E200_RUNNING_RSMG_OLD_IMPLEMENTATION_INVALID_REPLACEMENT_PENDING"
+    "pcrsmg_implementation_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+    "pcrsmg_gate_and_start_evidence": "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
+    "status": "BVCP_AND_PCRSMG_VALID_MATCHED_E200_RUNNING"
   },
-  "next_gate": "Preserve BVCP unchanged; implement a new player-conditional RSMG identity, pass a coupled-game unbiasedness/identity/resume gate, restart it from shared e0 on 4090 and 5090, then complete true e200 terminal verification before any scientific ranking."
+  "next_gate": "Let BVCP and PC-RSMG complete true e200 without intermediate quality control; verify every terminal checkpoint, metric and CRN artifact under each frozen code identity, then rank only the authoritative 4090 trajectories and use 5090 solely as cross-runtime corroboration."
 }

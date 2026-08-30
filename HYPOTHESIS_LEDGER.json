@@ -121,6 +121,25 @@
       "compute_sensitive": true,
       "paired_controller_access": false,
       "confirmation20_opened": false
+    },
+    {
+      "id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+      "name": "Player-Conditional Replicated Stochastic-Measure Gradient",
+      "status": "active_derived_candidate",
+      "parent_failure_type": "sampling_variance",
+      "engineering_replacement_for": "G1-02-SAMPLING-VARIANCE",
+      "unsb_object": "player-conditional stochastic gradient estimator of the sequential D/E/G/F game",
+      "derivation_card": "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+      "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+      "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+      "scientific_protocol": "small25 batch1 seed2026 from common e0 through true e200",
+      "authoritative_host": "remote4090",
+      "supplemental_host": "remote5090",
+      "compute_sensitive": true,
+      "gate_status": "PASS_LONG_RUN_ON_BOTH_HOSTS",
+      "deployment_evidence": "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
     }
   ],
   "forbidden_closure": "No parent mechanism may be marked mechanism_falsified solely from a short update-count protocol or one named implementation."
