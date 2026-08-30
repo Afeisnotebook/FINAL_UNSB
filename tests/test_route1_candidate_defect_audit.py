@@ -4,9 +4,11 @@ import pytest
 import torch
 
 from research.local_route1.candidate_defect_audit import (
+    CROSS_VERSION_FINAL_OUTCOME_SCHEMA,
     GENERATION1_NEGATIVE_STATUS,
     _GradientTraceAccumulator,
     _mean_gradients,
+    adjudicate_cross_version_revision_need,
     adjudicate_revision_need,
 )
 from research.local_route1.candidates import DEFECT_ADJUDICATION_SCHEMA
@@ -71,3 +73,58 @@ def test_revision_need_stops_or_routes_only_from_target_blind_e200_evidence(tmp_
     assert result["status"] == "REVISION_DERIVATION_REQUIRED"
     assert result["selected_candidate_id"] == ids[0]
     assert result["automatic_revision_started"] is False
+
+
+def test_cross_version_revision_routing_accepts_only_source_bound_defects(tmp_path):
+    ids = ["G1-FIRST", "G1-SECOND"]
+    cross_path = tmp_path / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
+    ranking = [
+        {
+            "rank": rank,
+            "candidate_id": candidate_id,
+            "algorithm_fingerprint": f"algorithm-{candidate_id}",
+            "trajectory_sha256": f"trajectory-{candidate_id}",
+        }
+        for rank, candidate_id in enumerate(ids, start=1)
+    ]
+    _write(cross_path, {
+        "status": GENERATION1_NEGATIVE_STATUS,
+        "selected_candidate_id": ids[0],
+        "ranking": ranking,
+    })
+    for row in ranking:
+        candidate_id = row["candidate_id"]
+        _write(
+            tmp_path / "candidates" / candidate_id
+            / "TARGET_BLIND_DEFECT_ADJUDICATION.json",
+            {
+                "schema": DEFECT_ADJUDICATION_SCHEMA,
+                "candidate_id": candidate_id,
+                "algorithm_fingerprint": row["algorithm_fingerprint"],
+                "data_epoch_adjudicated": 200,
+                "source_candidate_trajectory_sha256": row["trajectory_sha256"],
+                "source_checkpoint_unchanged_after_audit": True,
+                "target_blind_defect_reduced": candidate_id == ids[1],
+                "long_horizon_benefit_reversed": True,
+                "revision_applicable": candidate_id == ids[1],
+                "paired_target_used_to_compute_defect": False,
+                "paired_metric_used_for_training_or_control": False,
+                "confirmation20_opened": False,
+            },
+        )
+    result = adjudicate_cross_version_revision_need(tmp_path, ids)
+    assert result["schema"] == CROSS_VERSION_FINAL_OUTCOME_SCHEMA
+    assert result["status"] == "REVISION_DERIVATION_REQUIRED"
+    assert result["selected_candidate_id"] == ids[1]
+    assert result["source_cross_version_adjudication_sha256"] == file_sha256(cross_path)
+    assert result["automatic_revision_started"] is False
+
+    defect_path = (
+        tmp_path / "candidates" / ids[1]
+        / "TARGET_BLIND_DEFECT_ADJUDICATION.json"
+    )
+    defect = json.loads(defect_path.read_text())
+    defect["algorithm_fingerprint"] = "changed"
+    _write(defect_path, defect)
+    with pytest.raises(RuntimeError, match="algorithm_fingerprint"):
+        adjudicate_cross_version_revision_need(tmp_path, ids)

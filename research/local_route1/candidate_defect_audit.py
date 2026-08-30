@@ -26,6 +26,9 @@ from .runtime import load_model_state, restore_rng, write_json
 
 
 FINAL_OUTCOME_SCHEMA = "final-unsb-route1-final-revision-outcome-v1"
+CROSS_VERSION_FINAL_OUTCOME_SCHEMA = (
+    "final-unsb-route1-cross-version-final-revision-outcome-v1"
+)
 GENERATION1_NEGATIVE_STATUS = (
     "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_DEFECT_ADJUDICATION_REQUIRED"
 )
@@ -149,6 +152,7 @@ def _audit_bvcp(model, *, samples: int) -> dict[str, Any]:
         "observable": "mean_positive_current_minus_lagged_rollout_rms_excess",
         "reference_value": reference,
         "candidate_value": candidate,
+        "revision_eligibility_upper_bound": min(reference, 1e-7),
         "desired_direction": "decrease",
         "samples": int(samples),
         "eligible_samples": eligible,
@@ -169,6 +173,10 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
     pending: dict[str, tuple[torch.Tensor, ...]] = {}
     for index in range(int(samples)):
         model.forward()
+        model.netG.train()
+        model.netE.train()
+        model.netD.train()
+        model.netF.train()
         model.set_requires_grad(model.netD, True)
         d_parameters = _network_parameters(model.netD)
         d_gradient = _cpu_gradients(model.compute_D_loss(), d_parameters)
@@ -210,6 +218,10 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
         "observable": "mean_per_player_two_replica_to_native_gradient_trace_variance_ratio",
         "reference_value": 1.0,
         "candidate_value": mean_ratio,
+        # Two independent replicas have an ideal conditional-variance ratio of
+        # 1/2.  Requiring a material reduction avoids routing a mathematical
+        # revision because of finite-sample noise around the native ratio.
+        "revision_eligibility_upper_bound": 0.8,
         "desired_direction": "decrease",
         "complete_native_views": int(samples),
         "paired_two_replica_estimates": int(samples) // 2,
@@ -236,11 +248,12 @@ def audit_candidate_defect(
                 "The one-step radial rollout-speed excess was reduced, but controlling only the "
                 "immediate residual norm did not preserve long-horizon transport direction or game state."
             )
-        elif registration.spec.model == "route1_rsmg":
+        elif registration.spec.model in ("route1_rsmg", "route1_pcrsmg"):
             measurement = _audit_rsmg(model, samples=samples)
             failure_reason = (
-                "Conditional native gradient variance was reduced, but the lower-variance expectation "
-                "still followed an unpaired objective direction that did not preserve long-horizon PSNR."
+                "Player-conditional native gradient variance was reduced, but the lower-variance "
+                "expected unpaired game field did not preserve long-horizon PSNR; a revision must "
+                "change the safe mathematical operator rather than tune replica count or a window."
             )
         else:
             raise RuntimeError("unsupported Generation-1 defect audit model")
@@ -252,7 +265,15 @@ def audit_candidate_defect(
         raise RuntimeError("candidate defect audit mutated its parent checkpoint")
     reference = float(measurement["reference_value"])
     candidate = float(measurement["candidate_value"])
-    reduced = math.isfinite(reference) and math.isfinite(candidate) and candidate < reference
+    eligibility_bound = float(
+        measurement.get("revision_eligibility_upper_bound", reference)
+    )
+    reduced = (
+        math.isfinite(reference)
+        and math.isfinite(candidate)
+        and math.isfinite(eligibility_bound)
+        and candidate < eligibility_bound
+    )
     negative = trajectory.get("status") == "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION"
     result = {
         "schema": DEFECT_ADJUDICATION_SCHEMA,
@@ -327,4 +348,75 @@ def adjudicate_revision_need(output_root: Path, candidate_ids: list[str]) -> dic
         "confirmation20_opened": False,
     }
     write_json(output_root / "operations" / "FINAL_CAUSAL_REVISION_OUTCOME.json", result)
+    return result
+
+
+def adjudicate_cross_version_revision_need(
+    output_root: Path, candidate_ids: list[str],
+) -> dict[str, Any]:
+    """Route negative source-bound receipts without loading sibling code."""
+    output_root = Path(output_root).resolve()
+    cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
+    cross = _read_json(cross_path)
+    if cross.get("status") != GENERATION1_NEGATIVE_STATUS:
+        raise RuntimeError(
+            "cross-version causal revision is only routed after all e200 candidates are negative"
+        )
+    ranking = cross.get("ranking")
+    if not isinstance(ranking, list) or len(ranking) < 2:
+        raise RuntimeError("cross-version negative routing requires the complete ranking")
+    ranked = {str(row["candidate_id"]): row for row in ranking}
+    if set(candidate_ids) != set(ranked):
+        raise RuntimeError("cross-version defect candidate set differs from the frozen ranking")
+    records = []
+    for raw_id in candidate_ids:
+        candidate_id = validate_candidate_id(raw_id)
+        path = (
+            output_root / "candidates" / candidate_id
+            / "TARGET_BLIND_DEFECT_ADJUDICATION.json"
+        )
+        if not path.is_file():
+            raise RuntimeError(f"target-blind candidate defect audit missing: {candidate_id}")
+        row = _read_json(path)
+        expected = ranked[candidate_id]
+        for key, value in (
+            ("candidate_id", candidate_id),
+            ("algorithm_fingerprint", expected["algorithm_fingerprint"]),
+            ("data_epoch_adjudicated", 200),
+            ("source_candidate_trajectory_sha256", expected["trajectory_sha256"]),
+            ("source_checkpoint_unchanged_after_audit", True),
+            ("paired_target_used_to_compute_defect", False),
+            ("paired_metric_used_for_training_or_control", False),
+            ("confirmation20_opened", False),
+        ):
+            if row.get(key) != value:
+                raise RuntimeError(
+                    f"cross-version defect adjudication mismatch for {candidate_id}: {key}"
+                )
+        records.append({**row, "source_sha256": file_sha256(path)})
+    applicable = [row for row in records if row.get("revision_applicable") is True]
+    rank_order = [str(row["candidate_id"]) for row in ranking]
+    applicable.sort(key=lambda row: rank_order.index(row["candidate_id"]))
+    result = {
+        "schema": CROSS_VERSION_FINAL_OUTCOME_SCHEMA,
+        "status": (
+            "REVISION_DERIVATION_REQUIRED" if applicable
+            else "NO_REVISION_APPLICABLE_FINAL_FALLBACK"
+        ),
+        "selected_candidate_id": (
+            applicable[0]["candidate_id"]
+            if applicable else cross["selected_candidate_id"]
+        ),
+        "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "candidate_defect_adjudications": records,
+        "revision_applicable_candidate_ids": [row["candidate_id"] for row in applicable],
+        "automatic_revision_started": False,
+        "fixed_window_or_handoff": False,
+        "paired_metric_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }
+    write_json(
+        output_root / "operations" / "CROSS_VERSION_FINAL_CAUSAL_REVISION_OUTCOME.json",
+        result,
+    )
     return result

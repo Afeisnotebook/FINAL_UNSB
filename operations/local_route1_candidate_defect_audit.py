@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from research.local_route1.candidate_defect_audit import (
+    adjudicate_cross_version_revision_need,
     adjudicate_revision_need,
     audit_candidate_defect,
 )
@@ -14,7 +15,7 @@ from research.local_route1.candidate_defect_audit import (
 
 DEFAULT_IDS = [
     "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
-    "G1-02-SAMPLING-VARIANCE",
+    "G1-02B-PLAYER-CONDITIONAL-RSMG",
 ]
 
 
@@ -23,13 +24,18 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--candidate-id")
     parser.add_argument("--aggregate", action="store_true")
+    parser.add_argument("--cross-version", action="store_true")
     parser.add_argument("--train-view", type=Path)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--gpu", type=int, default=0)
-    parser.add_argument("--samples", type=int, default=16)
+    parser.add_argument("--samples", type=int, default=32)
     args = parser.parse_args()
     if args.aggregate:
-        result = adjudicate_revision_need(args.output, DEFAULT_IDS)
+        result = (
+            adjudicate_cross_version_revision_need(args.output, DEFAULT_IDS)
+            if args.cross_version else
+            adjudicate_revision_need(args.output, DEFAULT_IDS)
+        )
     else:
         if not args.candidate_id or not args.train_view or not args.manifest:
             raise SystemExit("candidate audit requires --candidate-id --train-view --manifest")
