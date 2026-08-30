@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T03:05:38+08:00",
+  "updated": "2026-08-31T03:20:11+08:00",
   "goal_status": "IN_PROGRESS_WINNER_ABLATIONS_AND_EVIDENCE_DRIVEN_FRONTIER_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -153,7 +153,7 @@
     {
       "id": 8,
       "requirement": "Per-domain trajectories, absolute/relative decomposition, complexity, risk, and reproduction commands are delivered.",
-      "status": "PRIMARY_CANDIDATE_TRAJECTORIES_COMPLETE_ABLATIONS_RUNNING",
+      "status": "FINAL_SCHEMA_AND_FAIL_CLOSED_MATERIALIZER_COMPLETE_WAITING_E200_ARTIFACTS",
       "evidence": [
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
@@ -162,8 +162,10 @@
         ,"research/local_route1/derivation_cards/G1-03-STATE-FEEDBACK-MISSING.json"
         ,"evidence/remote_route1_offload/MCRB_E200_TERMINAL_20260831.json"
         ,"evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json"
+        ,"decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md"
+        ,"evidence/remote_route1_offload/FRONTIER_COMPLETE_EVIDENCE_DELIVERY_REDEPLOYED_20260831.json"
       ],
-      "missing": ["final reproduction command bound to the post-ablation selected fingerprint", "winner proposal-only and observable-only experimental trajectories"]
+      "missing": ["materialized post-frontier final files after all required e200 trajectories", "winner proposal-only and observable-only experimental trajectories"]
     },
     {
       "id": 9,
@@ -181,6 +183,7 @@
         "200 pytest tests passed locally after adding the fail-closed first-ablation failure regression at b797eed",
         "201 pytest tests passed locally and 18 terminal-chain tests passed on remote4090 after binding final reproduction to the real executor contract at 77bb987",
         "228 pytest tests passed locally after adding algorithm-specific frontier-winner ablation binding and the frontier preservation decision",
+        "229 pytest tests passed locally after completing source-bound absolute/relative frontier evidence delivery",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
         "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",
@@ -196,8 +199,12 @@
     {
       "id": 10,
       "requirement": "Final report separates scientific conclusions, engineering failures, proxy distortion, and untested hypotheses.",
-      "status": "NOT_REACHED",
-      "missing": ["complete candidate and seed/revision evidence"]
+      "status": "FINAL_REPORT_BOUNDARY_SCHEMA_COMPLETE_WAITING_MATERIALIZATION",
+      "evidence": [
+        "decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md",
+        "evidence/remote_route1_offload/FRONTIER_COMPLETE_EVIDENCE_DELIVERY_REDEPLOYED_20260831.json"
+      ],
+      "missing": ["materialized final report after terminal frontier and selected-algorithm ablations"]
     },
     {
       "id": 11,

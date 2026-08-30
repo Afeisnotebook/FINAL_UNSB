@@ -65,10 +65,14 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。
 - 下一硬门是4090两项PC-RSMG机制消融与5090两项前沿候选全部完成e200；不同宿主先分别
   matched裁决，只有5090严格赢家才考虑4090同宿主复跑，任何中间checkpoint都不触发调度。
-- 03:05持久状态：4090 PC-RSMG proposal-only在e121，5090 PCNR在e31、AM-MCRB在e27；
+- 03:20持久状态：4090 PC-RSMG proposal-only在e138，5090 PCNR在e39、AM-MCRB在e34；
   三条均为batch1、seed2026、固定e200。一个主候选只是最终排序接口，不是提前停止其余
   可信分支。当前5090双流已占满，因此先完整推进这两个不同数学方向；终点后只有新的
   target-blind因果缺陷才能授权一次最小修订，不为“多跑几个名字”开启网格。
+- `68dcea0`补齐了最终证据交付：主候选与三项消融均须输出逐域candidate/plain绝对值和
+  delta，完整保留4090/5090各自前沿，并显式区分科学结论、工程失败、代理失真和未测
+  假设。新的4090终报告等待器PID 1463925已取代旧等待器；所有训练、跨机路由和算法
+  消融进程未变。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 

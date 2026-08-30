@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-route1-frontier-complete-evidence-delivery-redeployed-v1",
+  "observed_at": "2026-08-31T03:20:11+08:00",
+  "decision": "decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md",
+  "implementation_commit": "68dcea097a371949f63974e89c9bb8e806752c65",
+  "validation": {
+    "pytest": "229 passed",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "remote4090": {
+    "final_delivery_worktree": "/home/yc/FINAL_UNSB_FRONTIER_DELIVERY_68dcea0",
+    "worktree_commit_verified": "68dcea097a371949f63974e89c9bb8e806752c65",
+    "worktree_clean": true,
+    "final_successor_pid": 1463925,
+    "final_successor_status": "WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
+    "final_contract_sha256": "b33746161ebdb1a08e1862784713e007eef8345f77144c8cbe1778d7d6c9e12e",
+    "superseded_final_successor_pid": 1461961,
+    "superseded_final_successor_stopped": true,
+    "pcrsmg_ablation_supervisor_pid": 1452591,
+    "pcrsmg_ablation_executor_pid": 1453304,
+    "pcrsmg_proposal_only_data_epoch": 138,
+    "cross_host_router_pid": 1457814,
+    "winner_specific_ablation_successor_pid": 1461960,
+    "training_or_routing_process_stopped": false
+  },
+  "remote5090": {
+    "status": "FRONTIER_E200_RUNNING_TWO_STREAMS",
+    "pcnr_data_epoch": 39,
+    "am_mcrb_data_epoch": 34,
+    "target_data_epoch": 200
+  },
+  "delivery_requirements": {
+    "source_card_implementation_receipt_contract_binding": true,
+    "selected_absolute_relative_per_domain_trajectory": true,
+    "selected_algorithm_three_role_absolute_relative_ablations": true,
+    "host_separated_complete_frontier": true,
+    "scientific_engineering_proxy_untested_boundaries": true,
+    "best_checkpoint_selection": false,
+    "cross_host_delta_merge": false,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}
