@@ -4,6 +4,7 @@ import pytest
 import torch
 
 from research.local_route1.candidate_defect_audit import (
+    CROSS_VERSION_NEGATIVE_STATUS,
     CROSS_VERSION_FINAL_OUTCOME_SCHEMA,
     GENERATION1_NEGATIVE_STATUS,
     _GradientTraceAccumulator,
@@ -121,7 +122,7 @@ def test_cross_version_revision_routing_accepts_only_source_bound_defects(tmp_pa
         for rank, candidate_id in enumerate(ids, start=1)
     ]
     _write(cross_path, {
-        "status": GENERATION1_NEGATIVE_STATUS,
+        "status": CROSS_VERSION_NEGATIVE_STATUS,
         "selected_candidate_id": ids[0],
         "ranking": ranking,
     })

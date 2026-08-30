@@ -10,17 +10,26 @@ from operations.local_route1_candidate_terminal_receipt import (
     SIDECAR_SCHEMA,
 )
 from operations.local_route1_cross_version_adjudicate import adjudicate
-from research.local_route1.generation1_adjudication import POSITIVE_STATUS
+from research.local_route1.candidate_defect_audit import (
+    CROSS_VERSION_NEGATIVE_STATUS,
+)
+from research.local_route1.generation1_adjudication import (
+    NEGATIVE_STATUS,
+    POSITIVE_STATUS,
+)
 from research.local_route1.protocol import ROOT, file_sha256
 
 
-def _receipt(tmp_path: Path, candidate_id: str, late: float) -> Path:
+def _receipt(
+    tmp_path: Path, candidate_id: str, late: float,
+    *, trajectory_status: str = POSITIVE_STATUS,
+) -> Path:
     path = tmp_path / f"{candidate_id}.json"
     payload = {
         "schema": RECEIPT_SCHEMA,
         "status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
         "candidate_id": candidate_id,
-        "trajectory_status": POSITIVE_STATUS,
+        "trajectory_status": trajectory_status,
         "algorithm_fingerprint": f"algorithm-{candidate_id}",
         "candidate_fingerprint": f"candidate-{candidate_id}",
         "candidate_training_core_fingerprint": f"core-{candidate_id}",
@@ -82,3 +91,15 @@ def test_cross_version_receipts_reject_different_plain_authority(tmp_path):
     sidecar.write_text(json.dumps(sidecar_payload), encoding="utf-8")
     with pytest.raises(RuntimeError, match="plain_e200_verification_sha256"):
         adjudicate([first, second], tmp_path / "result.json")
+
+
+def test_cross_version_all_negative_emits_the_negative_successor_status(tmp_path):
+    first = _receipt(
+        tmp_path, "G1-A", -0.1, trajectory_status=NEGATIVE_STATUS,
+    )
+    second = _receipt(
+        tmp_path, "G1-B", -0.2, trajectory_status=NEGATIVE_STATUS,
+    )
+    result = adjudicate([first, second], tmp_path / "result.json")
+    assert result["status"] == CROSS_VERSION_NEGATIVE_STATUS
+    assert result["selection_role"] == "current_best_fallback"

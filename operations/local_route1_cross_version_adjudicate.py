@@ -12,6 +12,9 @@ from research.local_route1.generation1_adjudication import (
     NEGATIVE_STATUS,
     POSITIVE_STATUS,
 )
+from research.local_route1.candidate_defect_audit import (
+    CROSS_VERSION_NEGATIVE_STATUS,
+)
 from research.local_route1.protocol import ROOT, file_sha256
 from research.local_route1.runtime import write_json
 
@@ -122,7 +125,7 @@ def adjudicate(receipt_paths: Iterable[Path], output_path: Path) -> dict[str, An
         "status": (
             "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE"
             if eligible else
-            "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_ADJUDICATION_REQUIRED"
+            CROSS_VERSION_NEGATIVE_STATUS
         ),
         "ranking": [
             {

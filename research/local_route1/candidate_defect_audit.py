@@ -32,6 +32,9 @@ CROSS_VERSION_FINAL_OUTCOME_SCHEMA = (
 GENERATION1_NEGATIVE_STATUS = (
     "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_DEFECT_ADJUDICATION_REQUIRED"
 )
+CROSS_VERSION_NEGATIVE_STATUS = (
+    "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_ADJUDICATION_REQUIRED"
+)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -512,7 +515,7 @@ def adjudicate_cross_version_revision_need(
     output_root = Path(output_root).resolve()
     cross_path = output_root / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
     cross = _read_json(cross_path)
-    if cross.get("status") != GENERATION1_NEGATIVE_STATUS:
+    if cross.get("status") != CROSS_VERSION_NEGATIVE_STATUS:
         raise RuntimeError(
             "cross-version causal revision is only routed after all e200 candidates are negative"
         )

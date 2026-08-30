@@ -24,7 +24,7 @@ except ModuleNotFoundError:  # direct execution from operations/
     import local_route1_candidate_executor as support  # type: ignore[no-redef]
 
 from research.local_route1.candidate_defect_audit import (
-    GENERATION1_NEGATIVE_STATUS,
+    CROSS_VERSION_NEGATIVE_STATUS,
     adjudicate_cross_version_revision_need,
 )
 
@@ -247,7 +247,7 @@ class CrossVersionNegativeSuccessor:
     def run(self) -> int:
         self.event("CROSS_VERSION_NEGATIVE_SUCCESSOR_START", contract=str(self.contract_path))
         cross = self.wait_for_cross()
-        if cross.get("status") != GENERATION1_NEGATIVE_STATUS:
+        if cross.get("status") != CROSS_VERSION_NEGATIVE_STATUS:
             self.state(
                 "INAPPLICABLE_POSITIVE_CROSS_VERSION_WINNER",
                 cross_status=cross.get("status"), audits_started=False,
