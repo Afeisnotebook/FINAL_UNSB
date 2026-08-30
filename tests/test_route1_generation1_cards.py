@@ -5,6 +5,7 @@ from pathlib import Path
 
 from research.local_route1.candidates import CARD_REQUIRED_FIELDS, CARD_SCHEMA
 from research.local_route1.protocol import ROOT, file_sha256
+from operations.local_route1_freeze_generation1 import SPECS
 
 
 CARD_ROOT = ROOT / "research" / "local_route1" / "derivation_cards"
@@ -56,3 +57,14 @@ def test_generation1_authority_matches_the_frozen_evidence_boundary():
     assert variance["endpoint_law_change"] is False
     assert "Var((g1+g2)/2)=Var(g)/2" in variance["unbiased_proof"]
 
+
+def test_generation1_materializer_registers_all_frozen_sources():
+    assert set(SPECS) == {
+        "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+        "G1-02-SAMPLING-VARIANCE",
+    }
+    for candidate_id, spec in SPECS.items():
+        assert spec["model"] in {"route1_bvcp", "route1_rsmg"}
+        assert spec["gate_callable"].startswith("run_")
+        for relative in spec["sources"]:
+            assert (ROOT / relative).is_file(), (candidate_id, relative)

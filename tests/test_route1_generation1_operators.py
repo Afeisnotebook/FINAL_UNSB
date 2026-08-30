@@ -4,6 +4,10 @@ import torch
 
 from models.route1.bvcp import minimum_velocity_chord_endpoint
 from models.route1.rsmg import average_replica_gradients
+from research.local_route1.generation1_gates import (
+    _bvcp_invariants,
+    _rsmg_invariants,
+)
 
 
 def test_bvcp_is_exact_identity_when_current_is_no_faster():
@@ -57,3 +61,8 @@ def test_rsmg_iid_average_halves_empirical_variance():
     ratio = float(replicated.var(unbiased=True) / single.var(unbiased=True))
     assert 0.48 < ratio < 0.52
 
+
+def test_executable_candidate_invariant_reports_pass():
+    for report in (_bvcp_invariants(), _rsmg_invariants()):
+        assert report
+        assert all(row["status"] == "PASS" for row in report)
