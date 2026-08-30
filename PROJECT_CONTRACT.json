@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project_id": "FINAL_UNSB_LOCAL_ROUTE1_DISCOVERY",
-  "status": "LOCAL_ROUTE1_REOPENED",
+  "status": "GENERATION1_MATCHED_E200_RUNNING",
   "objective": "On the deterministic clean UNSB baseline, use long-horizon evidence from multiple probe families to discover and reconstruct a new algorithm capable of retaining matched benefit over 200 data epochs.",
   "guarantees": [
     "a time-scale-correct long-horizon evidence atlas",
@@ -13,7 +13,7 @@
     "cross-seed stability",
     "paper confirmation",
     "completion of the original 400-epoch UNSB schedule",
-    "immediate eligibility for 4090 execution"
+    "eligibility for any server work beyond the explicitly authorized host-matched small25 route-1 scope"
   ],
   "frozen": {
     "seed": 2026,

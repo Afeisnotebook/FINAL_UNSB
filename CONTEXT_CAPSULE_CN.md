@@ -3,7 +3,7 @@
 这份文件专门给完全没有旧对话上下文的新 Codex。它只保留会改变最后一轮决策的
 事实，不要求接手者重新阅读旧仓库。
 
-## 0. 2026-08-29 当前优先级覆盖
+## 0. 2026-08-29 历史优先级覆盖
 
 本胶囊原来的结尾曾把项目收口为“四张4090、四条冻结lane”。用户随后明确暂停
 4090，并要求继续本地路线一算法发现。复核又发现旧 local long gate 实际只有
@@ -12,8 +12,9 @@
 - 当前目标不是HJ-only；HJ只是第一项延迟收益时间正对照；
 - DT、HJ、HNEK是首层长期锚点，PCOA/LBST/PTQ/DCUM/AEB等是算法生成证据池；
 - 旧短程失败关闭当前实现/协议，不自动判死父机制；
-- 当前要建立多方法e200长期图谱并据此构造新算法；
-- 4090、固定四lane和HJ有限handoff全部暂停。
+- 当时目标改为建立多方法e200长期图谱并据此构造新算法；该图谱现已完成，见0.2节；
+- 当时4090、固定四lane和HJ有限handoff全部暂停；4090禁用随后被0.1节的明确授权
+  覆盖，但固定四lane和handoff至今仍暂停。
 
 下文第5--7节保留的是2026-08-28形成旧四lane计划时的推理，已降级为历史背景；
 当前执行以 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md` 和最新decision为准。
@@ -24,9 +25,10 @@
 授权没有恢复旧“四卡四lane”方案，也没有改变路线一目标。当前固定职责是：
 
 - 本地 GTX 1660 继续 canonical small25/e200 轨迹；
-- RTX 4090 运行独立 host-matched 锚点与因果审计；
-- RTX 5090 在独立通过代码、数据、e0、resume 和确定性门后，运行第二个
-  host-matched 副本，并预留给冻结后的新候选与 seed 验证；
+- RTX 4090 已完成host-matched锚点与权威因果图谱，当前是Generation-1候选排名和
+  后续同运行时seed/消融的权威节点；
+- RTX 5090 已独立通过代码、数据、e0、resume和确定性门，当前运行候选的第二个
+  host-matched跨运行时副本；其结果单独报告，不能并入4090排名；
 - 只能在同一主机内做 `method - plain`，不同主机 checkpoint 和分数不得拼接；
 - 服务器虽然有全量数据，当前仍只运行 small25/e200。full-data、route2 和
   confirmation20 均未激活。
@@ -34,6 +36,19 @@
 最新算力和门禁事实见 `PROJECT_STATE.json`、
 `decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md` 和
 `decisions/DEC-20260830-ROUTE1-REMOTE5090.md`。
+
+### 0.2 当前算法发现快照
+
+- 4090长期图谱已冻结为474条reversal row和140条sampling-variance row；DT/HJ/HNEK
+  继续只是因果探针。
+- Generation-1从图谱生成BVCP与PC-RSMG。最初RSMG因复用pre-D随机bundle而
+  `engineering_invalid`，PC-RSMG是从共同e0重启的语义修正版。
+- BVCP冻结当前实现已完成e200并为`long_horizon_negative_current_implementation`；
+  这不证伪rollout-distribution父机制。
+- PC-RSMG已通过逐玩家条件语义、one-replica plain identity、resume、跨状态和
+  400-update工程门，正在完整e200；其任何中间正收益都不能提前冻结候选。
+- 正向seed/消融链与全负终点缺陷—唯一数学修订链均为独立持久进程，不依赖Codex会话。
+  最新epoch、哈希和后继commit只从`PROJECT_STATE.json`读取。
 
 ## 1. 原始问题
 
