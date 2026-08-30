@@ -1964,6 +1964,7 @@ def _rank_mechanisms_by_discovery_evidence(
             )
             and row.get("branch_regime") == "continuous_intervention"
             and int(row.get("horizon", 0)) == 200
+            and float(row.get("update_geometry", {}).get("correction_norm", 0.0)) > 1e-20
             and row.get("post_branch_development_label")
         ]
         short_positive_fraction = (

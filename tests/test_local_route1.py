@@ -1069,6 +1069,7 @@ def test_failure_mechanism_ranking_uses_all_discovery_contract_dimensions():
             "operator_mode": "registered",
             "branch_regime": "continuous_intervention",
             "horizon": 200,
+            "update_geometry": {"correction_norm": 0.2},
             "post_branch_development_label": {"macro_psnr_delta": 0.2},
         })
     ranked = causal_audit._rank_mechanisms_by_discovery_evidence(
