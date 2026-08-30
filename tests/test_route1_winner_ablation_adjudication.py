@@ -113,7 +113,28 @@ def _observable_plain_identity(root: Path, candidate_id: str) -> None:
     }
     _write(root / "anchors" / "plain" / "metrics" / "e200.json", metric)
     _write(root / "candidates" / candidate_id / "metrics" / "e200.json", {
-        **metric, "probe_id": candidate_id,
+        **metric,
+        "probe_id": candidate_id,
+        "candidate_id": candidate_id,
+        "algorithm_fingerprint": "algorithm-observable",
+        "candidate_fingerprint": "candidate-observable",
+        "matched_plain_delta": {
+            "epoch": 200,
+            "updates": 30000,
+            "macro_psnr": 20.0,
+            "plain_macro_psnr": 20.0,
+            "macro_psnr_delta": 0.0,
+            "macro_ssim_delta": 0.0,
+            "macro_lpips_delta": 0.0,
+            "positive_domains": 0,
+            "worst_domain_delta": 0.0,
+            "domain_delta": {
+                name: {"psnr": 0.0, "ssim": 0.0, "lpips": 0.0}
+                for name in ("a", "b", "c", "d", "e", "f")
+            },
+            "guardrails_pass": True,
+            "confirmation20_opened": False,
+        },
     })
 
 
@@ -163,6 +184,7 @@ def test_winner_ablation_adjudication_accepts_matched_e200_receipts(tmp_path):
     assert result["observable_only_identity"]["status"] == (
         "EXACT_PLAIN_E200_DYNAMICS_IDENTITY"
     )
+    assert result["observable_only_identity"]["matched_plain_delta_exact_zero"] is True
     assert set(result["roles"]) == {
         "proposal_only", "observable_only", "projected_or_full",
     }
@@ -186,6 +208,31 @@ def test_winner_ablation_adjudication_refuses_observable_state_drift(tmp_path):
     })
     cross = _cross(tmp_path, full_id, "algorithm-full")
     with pytest.raises(RuntimeError, match="dynamics state differs from plain"):
+        adjudicate(
+            output_root=tmp_path,
+            cross_adjudication_path=cross,
+            proposal_receipt_path=proposal,
+            observable_receipt_path=observable,
+            full_receipt_path=full,
+            output_path=tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json",
+        )
+
+
+def test_winner_ablation_adjudication_refuses_nonzero_observable_metric_delta(
+    tmp_path,
+):
+    full_id = "G1-FULL"
+    observable_id = "ABL-OBSERVE"
+    full = _receipt(tmp_path, full_id, late=0.3, algorithm="algorithm-full")
+    proposal = _receipt(tmp_path, "ABL-PROPOSAL", late=0.1)
+    observable = _receipt(tmp_path, observable_id, late=0.0)
+    _observable_plain_identity(tmp_path, observable_id)
+    metric_path = tmp_path / "candidates" / observable_id / "metrics" / "e200.json"
+    metric = json.loads(metric_path.read_text(encoding="utf-8"))
+    metric["matched_plain_delta"]["domain_delta"]["a"]["psnr"] = 0.01
+    _write(metric_path, metric)
+    cross = _cross(tmp_path, full_id, "algorithm-full")
+    with pytest.raises(RuntimeError, match="domain is not exact zero"):
         adjudicate(
             output_root=tmp_path,
             cross_adjudication_path=cross,

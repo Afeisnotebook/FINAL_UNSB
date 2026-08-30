@@ -37,6 +37,12 @@ POSITIVE_CROSS_STATUS = "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE"
 SINGLE_SEED_CHALLENGE_STATUS = (
     "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION"
 )
+OBSERVABLE_ONLY_METRIC_METADATA_FIELDS = {
+    "algorithm_fingerprint",
+    "candidate_fingerprint",
+    "candidate_id",
+    "probe_id",
+}
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -55,6 +61,42 @@ def _validate_posthoc(payload: dict[str, Any], *, label: str) -> None:
     ):
         if key in payload and payload[key] is not False:
             raise RuntimeError(f"{label} violates posthoc-only paired-metric policy: {key}")
+
+
+def _validate_zero_matched_plain_delta(
+    delta: Any, *, candidate_id: str,
+) -> None:
+    """Validate the candidate-only posthoc identity summary without hiding drift."""
+    if not isinstance(delta, dict):
+        raise RuntimeError("observable-only matched_plain_delta is missing")
+    if int(delta.get("epoch", -1)) != 200 or int(delta.get("updates", -1)) != 30000:
+        raise RuntimeError("observable-only matched_plain_delta is not the e200 authority")
+    if delta.get("confirmation20_opened") is not False:
+        raise RuntimeError("observable-only matched_plain_delta opened confirmation20")
+    if delta.get("guardrails_pass") is not True:
+        raise RuntimeError("observable-only matched_plain_delta failed guardrails")
+    if int(delta.get("positive_domains", -1)) != 0:
+        raise RuntimeError("observable-only matched_plain_delta is not exact zero")
+    for key in (
+        "macro_psnr_delta", "macro_ssim_delta", "macro_lpips_delta",
+        "worst_domain_delta",
+    ):
+        if float(delta.get(key, float("nan"))) != 0.0:
+            raise RuntimeError("observable-only matched_plain_delta is not exact zero")
+    if float(delta.get("macro_psnr", float("nan"))) != float(
+        delta.get("plain_macro_psnr", float("nan"))
+    ):
+        raise RuntimeError("observable-only matched_plain_delta macro PSNR differs")
+    domains = delta.get("domain_delta")
+    if not isinstance(domains, dict) or len(domains) != 6:
+        raise RuntimeError("observable-only matched_plain_delta domain authority is invalid")
+    for domain, values in domains.items():
+        if not isinstance(domain, str) or not isinstance(values, dict):
+            raise RuntimeError("observable-only matched_plain_delta domain row is invalid")
+        if set(values) != {"psnr", "ssim", "lpips"}:
+            raise RuntimeError("observable-only matched_plain_delta domain metrics changed")
+        if any(float(values[key]) != 0.0 for key in ("psnr", "ssim", "lpips")):
+            raise RuntimeError("observable-only matched_plain_delta domain is not exact zero")
 
 
 def _observable_identity(output_root: Path, candidate_id: str) -> dict[str, Any]:
@@ -113,9 +155,23 @@ def _observable_identity(output_root: Path, candidate_id: str) -> dict[str, Any]
 
     candidate_metric = _read_json(candidate_metric_path)
     plain_metric = _read_json(plain_metric_path)
-    ignored = {"probe_id"}
-    candidate_metric = {key: value for key, value in candidate_metric.items() if key not in ignored}
-    plain_metric = {key: value for key, value in plain_metric.items() if key not in ignored}
+    if candidate_metric.get("candidate_id") != candidate_id:
+        raise RuntimeError("observable-only e200 metric candidate identity changed")
+    for key in ("algorithm_fingerprint", "candidate_fingerprint"):
+        if not isinstance(candidate_metric.get(key), str) or not candidate_metric[key]:
+            raise RuntimeError(f"observable-only e200 metric lacks {key}")
+    _validate_zero_matched_plain_delta(
+        candidate_metric.get("matched_plain_delta"), candidate_id=candidate_id,
+    )
+    candidate_metric = {
+        key: value for key, value in candidate_metric.items()
+        if key not in OBSERVABLE_ONLY_METRIC_METADATA_FIELDS
+        and key != "matched_plain_delta"
+    }
+    plain_metric = {
+        key: value for key, value in plain_metric.items()
+        if key not in OBSERVABLE_ONLY_METRIC_METADATA_FIELDS
+    }
     if candidate_metric != plain_metric:
         raise RuntimeError("observable-only e200 evaluation differs from plain")
     return {
@@ -128,6 +184,10 @@ def _observable_identity(output_root: Path, candidate_id: str) -> dict[str, Any]
         "plain_state_sidecar_sha256": file_sha256(plain_state_path),
         "candidate_metric_sha256": file_sha256(candidate_metric_path),
         "plain_metric_sha256": file_sha256(plain_metric_path),
+        "candidate_only_metric_metadata_validated_separately": sorted(
+            OBSERVABLE_ONLY_METRIC_METADATA_FIELDS - {"probe_id"}
+        ),
+        "matched_plain_delta_exact_zero": True,
     }
 
 
