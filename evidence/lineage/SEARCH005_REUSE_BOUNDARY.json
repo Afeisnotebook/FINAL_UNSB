@@ -97,5 +97,12 @@
     "the old six Generation-1 names as a preregistered current candidate list"
   ],
   "current_search_rule": "The new true-e200 causal atlas may reuse old measurement code and may rule out an exactly equivalent construction, but Generation-1 formulas must be routed from the new evidence. Paired targets remain post-branch labels only.",
+  "current_route_disambiguation": {
+    "correction_sign_reversal": {
+      "closed_equivalent": "G2-HJ-FBCMP positive-cosine gating between previous and current auxiliary HJ correction fields",
+      "open_only_if_supported": "constraint or estimator driven by the newly audited cosine between the current auxiliary correction and an independent future native UNSB gradient field",
+      "reason": "auxiliary-correction persistence and transfer to the native vector field are different mathematical questions"
+    }
+  },
   "confirmation20_opened": false
 }
