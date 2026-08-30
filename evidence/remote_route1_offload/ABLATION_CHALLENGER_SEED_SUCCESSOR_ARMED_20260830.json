@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-ablation-challenger-seed-successor-deployment-v1",
-  "status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+  "status": "SUPERSEDED_BY_FROZEN_SEED_SELECTION_SUCCESSOR_449B394",
   "date": "2026-08-30",
   "host_role": "authoritative same-runtime 4090 continuation",
   "successor_repo": "/home/yc/FINAL_UNSB_ABLATION_CHALLENGER_1ebf7b6",

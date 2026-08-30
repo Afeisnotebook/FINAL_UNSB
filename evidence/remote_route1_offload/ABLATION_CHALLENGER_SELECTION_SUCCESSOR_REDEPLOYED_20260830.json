@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-route1-ablation-challenger-selection-successor-redeployment-v1",
+  "status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "successor_repo": "/home/yc/FINAL_UNSB_ABLATION_CHALLENGER_449b394",
+  "successor_git_commit": "449b3949bed52d0ed683a083e8608ad25a9451ea",
+  "ablation_source_repo": "/home/yc/FINAL_UNSB_ABLATIONS_c154122",
+  "ablation_source_git_commit": "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
+  "local_full_pytest": "152 passed",
+  "remote_targeted_pytest": "8 passed",
+  "tmux_session": "FINAL_UNSB_ABLATION_CHALLENGER_449b394",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/ABLATION_CHALLENGER_SUCCESSOR_CONTRACT_449b394.json",
+  "contract_sha256": "a4a6d2f374476d95faa0061b1097263eeb303d78f2b371e51f866a8ce9a6cc05",
+  "accepted_state": {
+    "status": "WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+    "state_sha256_at_verification": "83708ec62cc9cd462bf77ef92fea676702e11b91ab079f96469aaebbafd16c00",
+    "supervisor_pid": 1406549
+  },
+  "selection_policy_after_activation": [
+    "do not change selection until both the full winner and proposal-only challenger have complete frozen multi-seed records",
+    "prefer route1_sustained_local status",
+    "then rank combined late-three macro PSNR, positive-domain coverage and worst-domain delta",
+    "keep all paired metrics posthoc and write ABLATION_CHALLENGER_SELECTION.json"
+  ],
+  "replacement_incident": {
+    "type": "expected lock collision during live waiting-supervisor replacement",
+    "scientific_state_affected": false,
+    "training_process_affected": false,
+    "cause": "the new successor attempted its lock before the old waiting PID had exited",
+    "recovery": "terminate the superseded waiting tmux, verify its PID absent, allow stale-lock cleanup, quarantine the first-start fatal and restart the new immutable contract",
+    "quarantined_fatal_sha256": "30a49c3171964b6c2da12019fc9e0e9bb876fb59997b702fe315a178194cfb7e",
+    "current_root_fatal_absent": true,
+    "historical_stderr_sha256": "9177d9589c9a9faa54f97d76abc88aae732df6cb6b08d8c2ad2de49d803ba804",
+    "historical_stderr_bytes_stable_after_restart": 592
+  },
+  "scientific_contract": {
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "selection_change_before_seed_adjudication": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "running_training_or_ablation_worktrees_modified": false,
+  "temporary_transfer_bundles_removed": true
+}
