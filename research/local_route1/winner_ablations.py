@@ -52,6 +52,22 @@ WINNER_FAMILIES = {
             "observable_only": "ABL-G1-03-MCRB-OBSERVABLE-ONLY",
         },
     },
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": {
+        "family": "pcnr",
+        "model": "route1_pcnr_ablation",
+        "ids": {
+            "proposal_only": "ABL-F1-01-PCNR-PROPOSAL-ONLY",
+            "observable_only": "ABL-F1-01-PCNR-OBSERVABLE-ONLY",
+        },
+    },
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": {
+        "family": "ammcrb",
+        "model": "route1_ammcrb_ablation",
+        "ids": {
+            "proposal_only": "ABL-F1-02-AMMCRB-PROPOSAL-ONLY",
+            "observable_only": "ABL-F1-02-AMMCRB-OBSERVABLE-ONLY",
+        },
+    },
 }
 
 
@@ -184,6 +200,65 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
             "unbiased": "The committed parameter and optimizer transition is pathwise native; the observer EMA is excluded from and cannot enter subsequent native updates.",
         }
+    if family == "pcnr" and role == "proposal_only":
+        return {
+            "name": "PCNR Proposal-Only Player-Conditional Resampling",
+            "formula": "Commit one native D/E stochastic view, then draw one fresh native view after both opponent commits and use it for the single joint G/F update. This is the complete PCNR proposal because PCNR has no projection, auxiliary loss or controller.",
+            "identity": "Disabled mode dispatches native UNSB exactly. Conditional on the realized D/E-updated state, the fresh one-view G/F estimator has the native mean and native single-view variance.",
+            "objective_change": False, "estimator_change": True,
+            "compute": "two serial native stochastic views per optimizer update, identical to full PCNR",
+            "memory": "one stochastic view graph at a time",
+            "recovery": "PCNR view counters, event schedule and ordinary RNG",
+            "state": ["pcnr.update_index", "pcnr.bundle_serial", "pcnr.last_schedule"],
+            "method": {"route1_ablation_enable": True, "pcnr_ablation_role": role},
+            "expected": "Confirms that the source-frozen full result is attributable to player-conditional resampling itself rather than an unregistered side component.",
+            "falsifier": "Any non-identical complete trajectory relative to the source-frozen full PCNR under the same host/e0 is an implementation-identity failure.",
+            "unbiased": "D/E retain the native estimator. Given the realized D/E state, the fresh G/F view is distributed by the native measure, so its conditional expected vector field is unchanged.",
+        }
+    if family == "pcnr":
+        return {
+            "name": "PCNR Observable-Only Fresh-View Monitor",
+            "formula": "Draw two counterfactual native endpoint views, record their target-blind dispersion, restore Python/NumPy/CPU/CUDA RNG to the pre-diagnostic state, and then execute the ordinary shared-view UNSB transition.",
+            "identity": "After excluding route1_observer diagnostics, networks, optimizer states, schedulers, RNG, both samplers and the e200 evaluation must equal plain exactly.",
+            "objective_change": False, "estimator_change": False,
+            "compute": "two discarded no-gradient endpoint views plus the native update",
+            "memory": "two transient detached endpoints",
+            "recovery": "route1_observer counters and last dispersion only",
+            "state": ["route1_observer.update_index", "route1_observer.last"],
+            "method": {"route1_ablation_enable": True, "pcnr_ablation_role": role},
+            "expected": "Negative control proving that observing fresh-view dispersion and paying its compute cannot change native UNSB dynamics.",
+            "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
+            "unbiased": "The diagnostic views are discarded and every RNG stream is restored before the pathwise native transition.",
+        }
+    if family == "ammcrb" and role == "proposal_only":
+        return {
+            "name": "AM-MCRB Proposal-Only Adam-Metric Normal",
+            "formula": "Realize native Adam moments and displacement d0, compute the moving covariance tangent a and inverse trust metric P, then replace d0 by -sPa where s makes the proposal's H-metric norm equal to the native H-metric norm. The native-safe closest-point term is removed.",
+            "identity": "Disabled mode is exact native UNSB; active identity holds only when the tangent or native displacement has zero Adam-metric norm.",
+            "objective_change": True, "estimator_change": False,
+            "compute": "the full AM-MCRB tangent and Adam metric plus one metric-norm scaling",
+            "memory": "one EMA generator, tangent graph and diagonal inverse metric",
+            "recovery": "EMA generator, proposal counters and Adam-metric geometry",
+            "state": ["mcrb.teacher_netG", "mcrb.update_index", "mcrb.last"],
+            "method": {"route1_ablation_enable": True, "ammcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "ammcrb_projection_epsilon": 1e-24},
+            "expected": "Separates the Adam-metric moving-covariance proposal from the native-safe closest feasible displacement.",
+            "falsifier": "A complete e200 trajectory below full AM-MCRB shows that the safe closest-point term, not merely the metric normal, is necessary.",
+        }
+    if family == "ammcrb":
+        return {
+            "name": "AM-MCRB Observable-Only Adam Barrier Monitor",
+            "formula": "Compute the moving covariance tangent, realized native Adam displacement, diagonal metric and hypothetical KKT correction, but commit the native displacement unchanged. The EMA and geometry remain observer-only.",
+            "identity": "After excluding route1_observer diagnostics, complete next-update dynamics and e200 evaluation must equal plain exactly.",
+            "objective_change": False, "estimator_change": False,
+            "compute": "the full AM-MCRB target-blind geometry in addition to the native update",
+            "memory": "one observer-only EMA generator, tangent graph and inverse metric",
+            "recovery": "route1_observer EMA, counters and last geometry",
+            "state": ["route1_observer.teacher_netG", "route1_observer.update_index"],
+            "method": {"route1_ablation_enable": True, "ammcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "ammcrb_projection_epsilon": 1e-24},
+            "expected": "Negative control proving that the moving covariance/Adam observation and extra compute do not explain any gain.",
+            "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
+            "unbiased": "The committed network and optimizer transition is pathwise native; observer state cannot enter subsequent native updates.",
+        }
     raise ValueError(f"unknown winner ablation family: {family}")
 
 
@@ -277,9 +352,15 @@ def _implementation(candidate_id: str, family: str, role: str, card_path: Path) 
     }
 
 
-def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]:
+def materialize_winner_ablation_definitions(
+    output_root: Path, *, selection_path: Path | None = None,
+    freeze_filename: str = "WINNER_ABLATION_FREEZE.json",
+) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
-    cross_path = resolve_e200_selection_path(output_root)
+    cross_path = (
+        resolve_e200_selection_path(output_root)
+        if selection_path is None else Path(selection_path).resolve()
+    )
     cross = _read_json(cross_path)
     validate_e200_selection(cross_path)
     if cross.get("status") not in TERMINAL_SELECTION_STATUSES:
@@ -376,5 +457,5 @@ def materialize_winner_ablation_definitions(output_root: Path) -> dict[str, Any]
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }
-    write_json(output_root / "operations" / "WINNER_ABLATION_FREEZE.json", result)
+    write_json(output_root / "operations" / freeze_filename, result)
     return result

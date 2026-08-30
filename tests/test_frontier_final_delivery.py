@@ -9,6 +9,7 @@ from operations.local_route1_candidate_terminal_receipt import (
 )
 from research.local_route1.frontier_final_delivery import (
     CANDIDATE_SCHEMA,
+    FINAL_SELECTION,
     POINTER_SCHEMA,
     _same_host_selection,
     materialize_frontier_final_delivery,
@@ -186,9 +187,38 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
         "paired_controller_access": False,
         "confirmation20_opened": False,
     })
-    _write(tmp_path / "operations" / "FRONTIER_CROSS_HOST_RESULT.json", {
+    cross_result = {
         "schema": "final-unsb-route1-frontier-cross-host-result-v1",
         "status": "COMPLETE_REMOTE_FRONTIER_NEGATIVE_4090_REPLAY_SKIPPED",
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    _write(tmp_path / "operations" / "FRONTIER_CROSS_HOST_RESULT.json", cross_result)
+    selection, receipt_path, _ = _same_host_selection(
+        tmp_path, candidate_id, cross_result,
+    )
+    selection_path = tmp_path / "operations" / FINAL_SELECTION
+    ablation_path = tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+    _write(ablation_path, {
+        "schema": "final-unsb-route1-winner-ablation-adjudication-v1",
+        "status": "COMPLETE_NO_SELECTION_CHANGE",
+        "roles": {"projected_or_full": {"candidate_id": candidate_id}},
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    })
+    _write(tmp_path / "operations" / "FRONTIER_WINNER_ABLATION_RESULT.json", {
+        "schema": "final-unsb-route1-frontier-winner-ablation-result-v1",
+        "status": "REUSED_PRE_FRONTIER_SELECTED_WINNER_ABLATIONS",
+        "selected_candidate_id": candidate_id,
+        "selected_receipt_path": str(receipt_path),
+        "selected_receipt_sha256": file_sha256(receipt_path),
+        "post_ablation_selection_path": str(selection_path),
+        "post_ablation_selection_sha256": file_sha256(selection_path),
+        "post_ablation_selection": selection,
+        "winner_ablation_adjudication_path": str(ablation_path),
+        "winner_ablation_adjudication_sha256": file_sha256(ablation_path),
+        "winner_ablation_evidence": {"projected_or_full": "evidence"},
+        "paired_metrics_used_for_training_or_control": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
     })
@@ -201,4 +231,3 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     assert (final / "pre_frontier_delivery" / "CANDIDATE.json").is_file()
     assert len(json.loads((final / "ALTERNATES.json").read_text())["alternates"]) == 2
     assert materialize_frontier_final_delivery(tmp_path) == pointer
-

@@ -10,12 +10,32 @@ from research.local_route1.winner_ablations import WINNER_FAMILIES, _role_semant
 from research.local_route1.generation1_gates import _disabled_spec
 from models.route1.amtnc_ablation import AMTNCAblationMixin
 from models.route1.mcrb_ablation import norm_matched_negative_tangent
+from models.route1.ammcrb_ablation import (
+    adam_metric_norm_matched_negative_normal,
+)
 
 
 def test_generation2_and_third_mechanism_have_executable_ablation_families():
     expected = {
         "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": "amtnc",
         "G1-03-STATE-FEEDBACK-MISSING": "mcrb",
+    }
+    for candidate_id, family in expected.items():
+        row = WINNER_FAMILIES[candidate_id]
+        assert row["family"] == family
+        assert (ROOT / "src" / "models" / "route1" / f"{family}_ablation.py").is_file()
+        assert (ROOT / "src" / "models" / f"route1_{family}_ablation_model.py").is_file()
+        for role in ("proposal_only", "observable_only"):
+            semantics = _role_semantics(family, role)
+            assert semantics["method"][f"{family}_ablation_role"] == role
+            assert semantics["identity"]
+            assert semantics["falsifier"]
+
+
+def test_frontier_mechanisms_have_source_bound_ablation_families():
+    expected = {
+        "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": "pcnr",
+        "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": "ammcrb",
     }
     for candidate_id, family in expected.items():
         row = WINNER_FAMILIES[candidate_id]
@@ -46,6 +66,8 @@ def test_extended_ablation_zero_intervention_specs_disable_the_operator():
     for model, role_key in (
         ("route1_amtnc_ablation", "amtnc_ablation_role"),
         ("route1_mcrb_ablation", "mcrb_ablation_role"),
+        ("route1_pcnr_ablation", "pcnr_ablation_role"),
+        ("route1_ammcrb_ablation", "ammcrb_ablation_role"),
     ):
         spec = ProbeSpec(
             id=model, contract_id=model, model=model, role="candidate",
@@ -67,6 +89,26 @@ def test_mcrb_proposal_is_norm_matched_descent_and_zero_tangent_identity():
 
     identity, zero = norm_matched_negative_tangent(
         native, [torch.zeros_like(native[0])], eps=1e-24,
+    )
+    assert zero["applied"] is False
+    assert identity[0] is native[0]
+
+
+def test_ammcrb_proposal_matches_native_adam_metric_norm_and_descends():
+    native = [torch.tensor([3.0, 4.0])]
+    tangent = [torch.tensor([2.0, 1.0])]
+    inverse_metric = [torch.tensor([4.0, 1.0])]
+    proposal, diag = adam_metric_norm_matched_negative_normal(
+        native, tangent, inverse_metric, eps=1e-24,
+    )
+    assert diag["applied"] is True
+    native_metric_sq = ((native[0] ** 2) / inverse_metric[0]).sum()
+    proposal_metric_sq = ((proposal[0] ** 2) / inverse_metric[0]).sum()
+    assert torch.isclose(native_metric_sq, proposal_metric_sq)
+    assert float((proposal[0] * tangent[0]).sum()) < 0.0
+
+    identity, zero = adam_metric_norm_matched_negative_normal(
+        native, [torch.zeros_like(native[0])], inverse_metric, eps=1e-24,
     )
     assert zero["applied"] is False
     assert identity[0] is native[0]

@@ -28,6 +28,7 @@ ALTERNATES_SCHEMA = "final-unsb-route1-frontier-final-alternates-v1"
 POINTER_SCHEMA = "final-unsb-route1-frontier-final-delivery-pointer-v1"
 FINAL_SELECTION = "ROUTE1_FRONTIER_FINAL_SELECTION.json"
 POINTER = "ROUTE1_FINAL_DELIVERY_POINTER.json"
+WINNER_ABLATION_RESULT = "FRONTIER_WINNER_ABLATION_RESULT.json"
 BASE_FILES = (
     "CANDIDATE.json",
     "RESULTS.json",
@@ -158,6 +159,54 @@ def _source_files(output_root: Path, candidate_id: str) -> tuple[Path, Path, dic
     ) != candidate_id:
         raise RuntimeError("selected candidate source identity mismatch")
     return card_path, implementation_path, card, implementation
+
+
+def _winner_specific_selection(
+    output_root: Path,
+) -> tuple[dict[str, Any], Path, dict[str, Any], Path, dict[str, Any], Path, dict[str, Any]]:
+    operations = output_root / "operations"
+    result_path = operations / WINNER_ABLATION_RESULT
+    if not result_path.is_file():
+        raise RuntimeError("frontier selected algorithm ablation result is missing")
+    result = _read_json(result_path)
+    _posthoc_closed(result, label="frontier winner ablation result")
+    if result.get("status") not in (
+        "REUSED_PRE_FRONTIER_SELECTED_WINNER_ABLATIONS",
+        "FRONTIER_SELECTED_ALGORITHM_ABLATIONS_COMPLETE",
+    ):
+        raise RuntimeError("frontier selected algorithm ablations are not complete")
+
+    def bound_path(key: str, sha_key: str) -> Path:
+        path = Path(str(result.get(key, ""))).resolve()
+        if not path.is_file() or not path.is_relative_to(output_root):
+            raise RuntimeError(f"frontier winner evidence escaped run root: {key}")
+        if file_sha256(path) != result.get(sha_key):
+            raise RuntimeError(f"frontier winner evidence changed: {key}")
+        return path
+
+    selection_path = bound_path(
+        "post_ablation_selection_path", "post_ablation_selection_sha256",
+    )
+    selection = _read_json(selection_path)
+    _posthoc_closed(selection, label="frontier post-ablation selection")
+    receipt_path = bound_path("selected_receipt_path", "selected_receipt_sha256")
+    receipt = _validate_receipt(receipt_path)
+    ablation_path = bound_path(
+        "winner_ablation_adjudication_path", "winner_ablation_adjudication_sha256",
+    )
+    ablation = _read_json(ablation_path)
+    _posthoc_closed(ablation, label="selected algorithm winner ablation adjudication")
+    selected_id = str(result.get("selected_candidate_id", ""))
+    if (
+        not selected_id
+        or selection.get("selected_candidate_id") != selected_id
+        or receipt.get("candidate_id") != selected_id
+    ):
+        raise RuntimeError("frontier post-ablation selection identity mismatch")
+    evidence = result.get("winner_ablation_evidence")
+    if not isinstance(evidence, dict):
+        raise RuntimeError("frontier winner ablation result lacks role evidence")
+    return result, result_path, selection, selection_path, receipt, receipt_path, ablation
 
 
 def _executor_contract(output_root: Path, receipt: dict[str, Any]) -> tuple[Path, dict]:
@@ -294,9 +343,10 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
     ):
         raise RuntimeError("remote replay decision/cross-host result mismatch")
 
-    selection, receipt_path, receipt = _same_host_selection(
-        output_root, str(base_candidate["candidate_id"]), cross_result,
-    )
+    (
+        winner_ablation_result, winner_ablation_result_path,
+        selection, selection_path, receipt, receipt_path, winner_ablation,
+    ) = _winner_specific_selection(output_root)
     selected_id = str(receipt["candidate_id"])
     card_path, implementation_path, card, implementation = _source_files(
         output_root, selected_id,
@@ -385,12 +435,18 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         },
         "trajectory": trajectory,
         "frontier_selection": {
-            "path": f"operations/{FINAL_SELECTION}",
-            "sha256": file_sha256(operations / FINAL_SELECTION),
+            "path": selection_path.relative_to(output_root).as_posix(),
+            "sha256": file_sha256(selection_path),
             "remote_5090_host_local_adjudication": remote_adjudication,
             "cross_host_deltas_merged": False,
         },
-        "ablation_evidence": base_results.get("winner_ablation_results"),
+        "ablation_evidence": {
+            "frontier_winner_ablation_result": winner_ablation_result,
+            "winner_ablation_adjudication": winner_ablation,
+            "selected_algorithm_roles": winner_ablation_result[
+                "winner_ablation_evidence"
+            ],
+        },
         "reproduction": {
             "seed2026_e200": (
                 "python operations/local_route1_candidate_executor.py --contract "
@@ -416,6 +472,8 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         "classification": classification,
         "same_host_4090_final_selection": selection,
         "selected_trajectory": trajectory,
+        "selected_algorithm_winner_ablation_result": winner_ablation_result,
+        "selected_algorithm_winner_ablation_adjudication": winner_ablation,
         "pre_frontier_delivery": {
             "selected_candidate_id": base_candidate["candidate_id"],
             "archived_file_sha256": archived,
@@ -444,7 +502,8 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         "final_file_sha256": {
             name: file_sha256(final / name) for name in BASE_FILES
         },
-        "selection_sha256": file_sha256(operations / FINAL_SELECTION),
+        "selection_sha256": file_sha256(selection_path),
+        "winner_ablation_result_sha256": file_sha256(winner_ablation_result_path),
         "cross_host_result_sha256": file_sha256(cross_result_path),
         "remote_terminal_envelope_sha256": file_sha256(envelope_path),
         "pre_frontier_files_archived": True,
@@ -457,4 +516,3 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
     }
     write_json(pointer_path, pointer)
     return pointer
-

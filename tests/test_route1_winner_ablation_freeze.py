@@ -89,15 +89,26 @@ def test_winner_ablation_freeze_materializes_only_selected_family(monkeypatch, t
     ).exists()
 
 
-@pytest.mark.parametrize("parent_id,selection_name", [
+@pytest.mark.parametrize("parent_id,selection_name,explicit", [
     (
         "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
         "CROSS_VERSION_REVISION_E200_ADJUDICATION.json",
+        False,
     ),
-    ("G1-03-STATE-FEEDBACK-MISSING", "ROUTE1_FINAL_E200_SELECTION.json"),
+    ("G1-03-STATE-FEEDBACK-MISSING", "ROUTE1_FINAL_E200_SELECTION.json", False),
+    (
+        "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+        "ROUTE1_FRONTIER_FINAL_SELECTION.json",
+        True,
+    ),
+    (
+        "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+        "ROUTE1_FRONTIER_FINAL_SELECTION.json",
+        True,
+    ),
 ])
 def test_extended_winner_families_freeze_from_terminal_selection(
-    monkeypatch, tmp_path, parent_id, selection_name,
+    monkeypatch, tmp_path, parent_id, selection_name, explicit,
 ):
     parent_card = json.loads((
         ROOT / "research" / "local_route1" / "derivation_cards" / f"{parent_id}.json"
@@ -144,7 +155,13 @@ def test_extended_winner_families_freeze_from_terminal_selection(
         "research.local_route1.winner_ablations.freeze_candidate_derivation",
         fake_freeze,
     )
-    result = materialize_winner_ablation_definitions(tmp_path)
+    result = materialize_winner_ablation_definitions(
+        tmp_path,
+        **(
+            {"selection_path": tmp_path / "operations" / selection_name}
+            if explicit else {}
+        ),
+    )
     family = WINNER_FAMILIES[parent_id]["family"]
     for role, candidate_id in result["ablation_candidate_ids"].items():
         implementation = json.loads((

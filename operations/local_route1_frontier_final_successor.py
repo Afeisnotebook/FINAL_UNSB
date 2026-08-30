@@ -23,6 +23,7 @@ SOURCE_RELATIVES = (
     "operations/local_route1_frontier_cross_host_successor.py",
     "operations/local_route1_cross_version_adjudicate.py",
     "research/local_route1/frontier_final_delivery.py",
+    "operations/local_route1_frontier_winner_ablation_successor.py",
 )
 
 
@@ -50,6 +51,7 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "poll_seconds": int(args.poll_seconds),
         "timeout_seconds": int(args.timeout_seconds),
         "requires_terminal_cross_host_result": True,
+        "requires_selected_algorithm_specific_ablations": True,
         "preserve_pre_frontier_delivery": True,
         "cross_host_deltas_merged": False,
         "selection_seeds": [2026],
@@ -78,6 +80,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("frontier final timeout is too short")
     fixed = {
         "requires_terminal_cross_host_result": True,
+        "requires_selected_algorithm_specific_ablations": True,
         "preserve_pre_frontier_delivery": True,
         "cross_host_deltas_merged": False,
         "selection_seeds": [2026],
@@ -114,19 +117,19 @@ class FrontierFinalSuccessor:
         })
 
     def run(self) -> int:
-        result_path = self.operations / "FRONTIER_CROSS_HOST_RESULT.json"
-        fatal_path = self.operations / "FRONTIER_CROSS_HOST_SUCCESSOR_FATAL.json"
+        result_path = self.operations / "FRONTIER_WINNER_ABLATION_RESULT.json"
+        fatal_path = self.operations / "FRONTIER_WINNER_ABLATION_SUCCESSOR_FATAL.json"
         while not result_path.is_file():
             if fatal_path.is_file():
-                raise RuntimeError(f"frontier cross-host successor failed: {fatal_path}")
+                raise RuntimeError(f"frontier winner ablation successor failed: {fatal_path}")
             if time.time() - self.started > int(self.contract["timeout_seconds"]):
-                raise TimeoutError("timed out waiting for frontier cross-host result")
-            state_path = self.operations / "FRONTIER_CROSS_HOST_SUCCESSOR_STATE.json"
-            cross_state = _read_json(state_path) if state_path.is_file() else {}
+                raise TimeoutError("timed out waiting for selected algorithm ablations")
+            state_path = self.operations / "FRONTIER_WINNER_ABLATION_SUCCESSOR_STATE.json"
+            ablation_state = _read_json(state_path) if state_path.is_file() else {}
             self.state(
-                "WAITING_FOR_TERMINAL_FRONTIER_CROSS_HOST_RESULT",
-                cross_host_status=cross_state.get("status"),
-                cross_host_data_epoch=cross_state.get("data_epoch"),
+                "WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
+                winner_ablation_status=ablation_state.get("status"),
+                winner_ablation_data_epoch=ablation_state.get("active_data_epoch"),
             )
             time.sleep(int(self.contract["poll_seconds"]))
         pointer = materialize_frontier_final_delivery(self.run_root)
@@ -186,4 +189,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
