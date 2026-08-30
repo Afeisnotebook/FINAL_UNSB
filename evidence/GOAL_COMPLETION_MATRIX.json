@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T18:10:00+08:00",
+  "updated": "2026-08-30T18:15:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -60,7 +60,7 @@
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "TWO_VALID_E200_TRAJECTORIES_RUNNING",
+      "status": "ONE_COMPLETE_NEGATIVE_CURRENT_IMPLEMENTATION_ONE_VALID_E200_RUNNING",
       "evidence": [
         "decisions/DEC-20260830-ROUTE1-GENERATION1-DERIVATION.md",
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
@@ -70,17 +70,18 @@
         "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json",
         "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
         "evidence/remote_route1_offload/PCRSMG_GATE_AND_E200_START_20260830.json",
-        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/BVCP_E200_COMPLETE_PENDING_CROSS_ADJUDICATION_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
-        "BVCP_status": "valid trajectory continuing",
+        "BVCP_status": "complete e200; frozen current implementation is long-horizon negative; parent mechanism remains open",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "PCRSMG_status": "two-host gates passed; restarted from common e0",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
-      "missing": ["BVCP complete matched e200 trajectory", "PC-RSMG complete matched e200 trajectory", "frozen post-e200 adjudication"]
+      "missing": ["PC-RSMG complete matched e200 trajectory", "frozen post-e200 cross-version adjudication"]
     },
     {
       "id": 6,
@@ -157,9 +158,9 @@
   ],
   "current_accepted_scientific_boundary": {
     "local": "plain and HJ e200 accepted; HNEK continues beyond e139; local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG run concurrently from common e0; old RSMG e71 is engineering-invalid",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP reached e200 with a negative current-implementation label; PC-RSMG continues from common e0; old RSMG e71 is engineering-invalid",
     "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP and PC-RSMG continue; no 5090 result may be merged into the 4090 ranking",
-    "new_algorithms": "BVCP remains valid; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and its first authoritative e5 checkpoint/CRN/resume chunk is accepted",
+    "new_algorithms": "BVCP is a valid complete e200 negative current implementation, not a falsification of its parent mechanism; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and continues without scientific early stop",
     "successor": "source-bound cross-version successor 0aa0beb is durably waiting; winner ablations, negative causal routing and challenger-aware final delivery 945b8cf are independently armed without modifying active training identities",
     "confirmation20_opened": false
   },

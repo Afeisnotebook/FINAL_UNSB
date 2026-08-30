@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-route1-bvcp-e200-complete-pending-cross-adjudication-v1",
+  "status": "COMPLETE_E200_CURRENT_IMPLEMENTATION_NEGATIVE_PC_RSMG_CONTINUES",
+  "date": "2026-08-30",
+  "authoritative_host": "remote4090",
+  "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+  "algorithm_fingerprint": "447cdcfacabc0f13616da484a4511983df65b8b71e315eec3e5030db9c797d89",
+  "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa",
+  "training_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+  "scientific_endpoint": {
+    "data_epoch": 200,
+    "updates": 30000,
+    "batch_size": 1,
+    "best_checkpoint_selection": false,
+    "trajectory_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION"
+  },
+  "artifact_sha256": {
+    "execution_state": "02fd5410dd7302064b6349f7066821ac6b4d5cf727c06ef3c66372d547158839",
+    "full_state_latest": "429f429bc5d0cd82712afbeb4b4ed6e30aa6809a8325bf091999f9890953232c",
+    "full_state_sidecar": "4ff256f82dabf6a0f508e43d2e19dbb487c49241590ad95c60d661c155099b39",
+    "e200_metric": "5d2afe742d819ed50f9819e7b374acd7b01ec4af06d1c78ec31c4768ecf6a1eb",
+    "candidate_trajectory": "7dce74fdfe5e51ad62bb27eab96e1475cb4a9b5cbdde6c2c0f02e5d428a8dc5f"
+  },
+  "cross_successor_state": {
+    "status": "WAITING_FOR_SOURCE_BOUND_E200_TRAJECTORIES",
+    "complete_candidate_ids": ["G1-01-ROLLOUT-DISTRIBUTION-SPEED"],
+    "pending_candidate_ids": ["G1-02B-PLAYER-CONDITIONAL-RSMG"]
+  },
+  "scientific_interpretation": {
+    "closed_scope": "the frozen BVCP current implementation under the registered remote4090 small25 seed2026 e200 protocol",
+    "not_closed": "the rollout-distribution-speed or adaptive-teacher parent mechanism",
+    "ranking_not_final": true,
+    "pc_rsmg_scientific_early_stop": false,
+    "pc_rsmg_algorithm_or_schedule_changed": false
+  },
+  "paired_metrics_used_only_after_complete_trajectory": true,
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
