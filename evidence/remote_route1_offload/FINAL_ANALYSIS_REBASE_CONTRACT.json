@@ -5,8 +5,11 @@
     "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "audit_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
-    "expected_reversal_rows": 432,
-    "expected_sampling_variance_rows": 128,
+    "primary_collector_reversal_rows": 432,
+    "primary_collector_sampling_variance_rows": 128,
+    "supplemental_cells": ["hj:e040", "hj:e060", "hj:e080"],
+    "final_expected_reversal_rows": 474,
+    "final_expected_sampling_variance_rows": 140,
     "raw_rows_may_be_rewritten_by_final_analysis": false
   },
   "collector_terminal_output_boundary": {
@@ -19,7 +22,9 @@
   "required_final_reanalysis": [
     "wait for the collector to terminate successfully",
     "freeze and verify exact raw atlas, variance atlas and queue hashes",
-    "verify 432 unique finite reversal rows and 128 unique finite variance rows",
+    "append HJ e40/e60/e80 with the same immutable audit and training identities because the primary selector mistook negative-to-positive warm-up for benefit reversal",
+    "regenerate an append-only 28-cell queue that retains all 25 collected cells and adds the three HJ reversal cells",
+    "verify 474 unique finite reversal rows and 140 unique finite variance rows",
     "verify every parent-state before/after hash, audit identity and access lock",
     "archive the collector-generated matrix and derive directory without deleting them",
     "checkout the then-current tested main analyzer in an isolated clean worktree",

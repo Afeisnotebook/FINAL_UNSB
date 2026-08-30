@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-hj-reversal-coverage-repair-v1",
+  "created": "2026-08-30T08:39:00+08:00",
+  "implementation_commit": "8b24e83",
+  "observed_trajectory": {
+    "e5_macro_psnr_delta_db": -0.0011897956695783307,
+    "e10_macro_psnr_delta_db": 0.9012322810612918,
+    "e40_macro_psnr_delta_db": 1.279996056131525,
+    "e60_macro_psnr_delta_db": -0.9914307894022727,
+    "e80_macro_psnr_delta_db": 1.1444083737406334
+  },
+  "selector_defect": "The original queue stopped at the first sign crossing e5->e10, which is positive onset after warm-up rather than loss of an established benefit. It therefore omitted the first positive-to-negative HJ reversal e40->e60 and the immediate e80 recovery state.",
+  "repair": {
+    "positive_onset_kept_as_context": [5, 10],
+    "first_benefit_loss_bracket": [40, 60],
+    "post_reversal_context": [80],
+    "supplemental_cells_after_primary_queue": ["hj:e040", "hj:e060", "hj:e080"],
+    "primary_raw_rows_rewritten": false,
+    "same_frozen_audit_commit_required": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "same_training_core_fingerprint_required": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
+  },
+  "final_queue_expectation": {
+    "jobs": 28,
+    "reversal_rows": 474,
+    "sampling_variance_rows": 140
+  },
+  "scientific_boundary": {
+    "paired_values_used_only_to_select_posthoc_audit_states": true,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_formula_preselected": false
+  },
+  "verification": {
+    "pytest": "102 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
