@@ -1,0 +1,33 @@
+{
+  "schema": "final-unsb-route1-final-reanalysis-armed-v1",
+  "created": "2026-08-30T08:51:00+08:00",
+  "host_role": "4090_final_analysis_host",
+  "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+  "tmux_session": "FINAL_UNSB_FINAL_REANALYSIS",
+  "executor_pid": 1337960,
+  "observed_state": "WAITING_FOR_HJ_REVERSAL_SUPPLEMENT",
+  "contract_sha256": "3f94af4108a24b78a1c5dd63a0618b0a3caf5686105a0ccf20cb43346e5a155f",
+  "analysis_worktree": "/home/yc/FINAL_UNSB_ROUTE1_FINAL_ANALYZER_bbd4b96",
+  "analysis_git_commit": "bbd4b96d3ff4e27f6ab02f2ff07ffd24a2ff6d9f",
+  "supplement_analysis_worktree_remains_at": "0b1d9d6e358c23d1522dbdf30ad8e5b0e022d3c4",
+  "activation_contract": {
+    "required_supplement_state": "SUPPLEMENT_COMPLETE_REANALYSIS_REQUIRED",
+    "required_reversal_rows": 474,
+    "required_sampling_variance_rows": 140,
+    "required_queue_cells": 28,
+    "archive_collector_matrix_and_derive": true,
+    "raw_rows_may_be_rewritten": false,
+    "postcondition": "FINAL_REANALYSIS_COMPLETE_DERIVATION_REQUIRED",
+    "candidate_training_started": false
+  },
+  "access_guards": {
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "route2_handoff_allowed": false
+  },
+  "verification": {
+    "pytest": "107 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
