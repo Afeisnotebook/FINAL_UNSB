@@ -1,0 +1,59 @@
+from __future__ import annotations
+
+import copy
+
+import pytest
+
+from operations.local_route1_lpips_recovery import (
+    validate_complete_lpips,
+    validate_incomplete_lpips,
+    without_lpips,
+)
+
+
+def _metric(*, available: bool) -> dict:
+    lpips = 0.2 if available else None
+    return {
+        "schema": "local-route1-discovery70-crn-single-rollout-v1",
+        "split": "discovery",
+        "count_per_domain": 70,
+        "replicates": 1,
+        "probe_id": "plain",
+        "epoch": 150,
+        "updates": 22500,
+        "data_epoch": 150,
+        "lpips_requested": True,
+        "lpips_available": available,
+        "macro_lpips": lpips,
+        "macro_psnr": 17.0,
+        "confirmation20_opened": False,
+        "domains": {
+            f"d{index}": {"n": 70, "psnr": 17.0, "ssim": 0.5, "lpips": lpips}
+            for index in range(6)
+        },
+        "images": [
+            {"domain": f"d{index % 6}", "psnr": 17.0, "ssim": 0.5, "lpips": lpips}
+            for index in range(420)
+        ],
+    }
+
+
+def test_lpips_projection_preserves_and_compares_all_other_fields() -> None:
+    missing = _metric(available=False)
+    complete = _metric(available=True)
+    assert without_lpips(missing) == without_lpips(complete)
+    complete["images"][0]["psnr"] = 18.0
+    assert without_lpips(missing) != without_lpips(complete)
+
+
+def test_incomplete_and_complete_lpips_shapes_are_fail_closed() -> None:
+    validate_incomplete_lpips(_metric(available=False), lane="plain", epoch=150)
+    validate_complete_lpips(_metric(available=True))
+    broken = copy.deepcopy(_metric(available=False))
+    broken["images"][0]["lpips"] = 0.2
+    with pytest.raises(RuntimeError, match="420 nulls"):
+        validate_incomplete_lpips(broken, lane="plain", epoch=150)
+    broken = copy.deepcopy(_metric(available=True))
+    broken["domains"]["d0"]["lpips"] = None
+    with pytest.raises(RuntimeError, match="domain payload"):
+        validate_complete_lpips(broken)
