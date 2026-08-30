@@ -581,12 +581,12 @@ def load_candidate_registration(
             raise RuntimeError("paired metrics may not promote a candidate through the gate")
         if gate.get("confirmation20_opened") is not False:
             raise RuntimeError("confirmation20 must remain locked")
-        if implementation.get("model") == "route1_pcrsmg":
+        if implementation.get("model") in ("route1_pcrsmg", "route1_amtnc"):
             player_evidence = gate.get("evidence", {}).get(
                 "player_conditional_execution_evidence"
             )
             if not isinstance(player_evidence, dict):
-                raise RuntimeError("PC-RSMG gate lacks player-conditional execution evidence")
+                raise RuntimeError("replicated gate lacks player-conditional execution evidence")
             if (
                 player_evidence.get("all_de_and_gf_counts_equal_updates") is not True
                 or player_evidence.get("all_bundle_serials_equal_twice_updates") is not True
@@ -594,7 +594,7 @@ def load_candidate_registration(
                     "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
                 ]
             ):
-                raise RuntimeError("PC-RSMG gate has invalid player-bundle provenance")
+                raise RuntimeError("replicated gate has invalid player-bundle provenance")
 
     spec = ProbeSpec(
         id=candidate_id,

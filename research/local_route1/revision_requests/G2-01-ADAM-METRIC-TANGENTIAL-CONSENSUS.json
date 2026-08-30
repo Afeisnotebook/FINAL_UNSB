@@ -1,0 +1,15 @@
+{
+  "schema": "final-unsb-route1-causal-revision-request-v1",
+  "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "revision_candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "source_candidate_trajectory_sha256": "6d4ee449cdea36f156859476d4295fbf5bcb6bad8e07277eef3980bfda7cff9a",
+  "defect_evidence_path": "candidates/G1-02B-PLAYER-CONDITIONAL-RSMG/TARGET_BLIND_DEFECT_ADJUDICATION.json",
+  "defect_evidence_sha256": "e30a17c933df7b96d35388c207e31b7fe4b8eb25c5e97310e856121126bbb5a0",
+  "new_causal_failure_reason": "Player-conditional native gradient variance was reduced, but the lower-variance expected unpaired game field did not preserve long-horizon PSNR; a revision must change the safe mathematical operator rather than tune replica count or a window.",
+  "mathematical_change_from_parent": "Replace the full two-replica mean by an exchange-symmetric Adam-metric operator that cancels only replica disagreement parallel to the consensus update and retains the orthogonal disagreement. This restores the native stochastic tangent component that PC-RSMG removed while preserving the player-conditional expected gradient exactly.",
+  "construction_route": "target-blind Adam-metric radial-noise cancellation with antisymmetric tangential-noise conservation",
+  "fixed_window_or_handoff": false,
+  "hyperparameter_grid_search": false,
+  "paired_target_available_to_revision": false,
+  "confirmation20_opened": false
+}

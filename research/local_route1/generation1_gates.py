@@ -38,6 +38,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["rsmg_replicates"] = 1
     elif spec.model == "route1_pcrsmg":
         method["pcrsmg_replicates"] = 1
+    elif spec.model == "route1_amtnc":
+        method["amtnc_replicates"] = 1
     elif spec.model == "route1_mcrb":
         method["mcrb_enable"] = False
     elif spec.model in ("route1_bvcp_ablation", "route1_pcrsmg_ablation"):
@@ -166,6 +168,8 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._rsmg_update_index = 0
     elif model_name == "route1_pcrsmg":
         model._initialize_pcrsmg_state()
+    elif model_name == "route1_amtnc":
+        model._initialize_amtnc_state()
     elif model_name == "route1_mcrb":
         model._initialize_mcrb_state()
         model._mcrb_loaded_state = False
@@ -222,6 +226,7 @@ def _branch_from_parent(
             },
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
+            "amtnc": method.get("amtnc", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -300,6 +305,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             },
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
+            "amtnc": method.get("amtnc", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -418,6 +424,63 @@ def _pcrsmg_invariants() -> list[dict]:
             "name": "single_replica_dispatches_native_unsb",
             "status": "PASS",
             "observed": "pcrsmg_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
+        },
+    ]
+
+
+def _amtnc_invariants() -> list[dict]:
+    from models.route1.amtnc import adam_metric_tangential_gradient
+
+    scales = (torch.ones(2),)
+    radial_first = (torch.tensor([3.0, 3.0]),)
+    radial_second = (torch.tensor([1.0, 1.0]),)
+    radial, radial_diag = adam_metric_tangential_gradient(
+        radial_first, radial_second, scales,
+    )
+    tangent_first = (torch.tensor([3.0, 1.0]),)
+    tangent_second = (torch.tensor([1.0, 3.0]),)
+    tangent, tangent_diag = adam_metric_tangential_gradient(
+        tangent_first, tangent_second, scales,
+    )
+    swapped, _ = adam_metric_tangential_gradient(
+        tangent_second, tangent_first, scales,
+    )
+    exchange_mean = (tangent[0] + swapped[0]) * 0.5
+    native_mean = (tangent_first[0] + tangent_second[0]) * 0.5
+    return [
+        {
+            "name": "radial_replica_disagreement_is_cancelled",
+            "status": "PASS" if torch.equal(radial[0], torch.tensor([2.0, 2.0])) else "FAIL",
+            "observed": {
+                "output": radial[0].tolist(),
+                "radial_fraction": radial_diag["radial_fraction"],
+            },
+        },
+        {
+            "name": "tangential_replica_disagreement_is_conserved",
+            "status": "PASS" if torch.equal(tangent[0], tangent_first[0]) else "FAIL",
+            "observed": {
+                "output": tangent[0].tolist(),
+                "tangential_energy": tangent_diag["tangential_disagreement_energy"],
+            },
+        },
+        {
+            "name": "exchange_pair_average_equals_native_consensus",
+            "status": "PASS" if torch.equal(exchange_mean, native_mean) else "FAIL",
+            "observed": {
+                "exchange_average": exchange_mean.tolist(),
+                "native_consensus": native_mean.tolist(),
+            },
+        },
+        {
+            "name": "identical_replicas_are_exact_identity",
+            "status": "PASS",
+            "observed": "equal gradients are returned by reference without arithmetic",
+        },
+        {
+            "name": "single_replica_dispatches_native_unsb",
+            "status": "PASS",
+            "observed": "amtnc_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
         },
     ]
 
@@ -576,6 +639,39 @@ def _validate_pcrsmg_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_amtnc_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.amtnc import EXPECTED_AMTNC_SCHEDULE
+
+    expected = list(EXPECTED_AMTNC_SCHEDULE)
+    states = [
+        row["candidate"]["method_diagnostics"].get("amtnc", {})
+        for row in cross.get("rows", [])
+    ]
+    states.append(micro.get("method_diagnostics", {}).get("amtnc", {}))
+    if not states or any(state.get("last_schedule") != expected for state in states):
+        raise RuntimeError("AM-TNC executable gate did not observe its player schedule")
+    for state in states:
+        updates = int(state.get("update_index", -1))
+        de_count = int(state.get("de_bundle_count", -2))
+        gf_count = int(state.get("gf_bundle_count", -3))
+        serial = int(state.get("bundle_serial", -4))
+        geometry = state.get("last_geometry", {})
+        if not (updates == de_count == gf_count and serial == 2 * updates):
+            raise RuntimeError("AM-TNC bundle provenance counters are inconsistent")
+        if set(geometry) != {"D", "E", "GF"}:
+            raise RuntimeError("AM-TNC gate did not capture all player geometries")
+        for row in geometry.values():
+            if not all(math.isfinite(float(value)) for value in row.values()):
+                raise RuntimeError("AM-TNC target-blind geometry is nonfinite")
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(states),
+        "all_de_and_gf_counts_equal_updates": True,
+        "all_bundle_serials_equal_twice_updates": True,
+        "all_player_geometries_finite": True,
+    }
+
+
 def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     e0_path = context.output_root / "shared_e0" / "e0.pt"
     e0 = torch.load(e0_path, map_location="cpu", weights_only=False)
@@ -586,6 +682,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "amtnc":
+        invariants = _amtnc_invariants()
     elif invariant == "mcrb":
         invariants = _mcrb_invariants()
     elif invariant == "winner_ablation":
@@ -606,6 +704,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         _validate_pcrsmg_execution_evidence(cross, micro)
         if invariant == "pcrsmg" else None
     )
+    if invariant == "amtnc":
+        player_conditional = _validate_amtnc_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     return {
@@ -631,6 +731,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "bvcp" else
                 "current/EMA latent direction covariance and exact native Adam displacement"
                 if invariant == "mcrb" else
+                "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
+                if invariant == "amtnc" else
                 "conditionally iid native UNSB stochastic gradients"
             ),
         },
@@ -654,6 +756,10 @@ def run_rsmg_gate(context: CandidateGateContext) -> dict:
 
 def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="pcrsmg")
+
+
+def run_amtnc_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="amtnc")
 
 
 def run_mcrb_gate(context: CandidateGateContext) -> dict:

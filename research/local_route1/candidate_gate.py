@@ -130,10 +130,10 @@ def run_candidate_gate(
         registration=registration,
     )
     report = _validate_gate_report(function(context))
-    if registration.spec.model == "route1_pcrsmg":
+    if registration.spec.model in ("route1_pcrsmg", "route1_amtnc"):
         player_evidence = report.get("player_conditional_execution_evidence")
         if not isinstance(player_evidence, dict):
-            raise RuntimeError("PC-RSMG gate did not prove player-conditional execution")
+            raise RuntimeError("replicated player-conditional gate did not prove execution")
         if (
             player_evidence.get("all_de_and_gf_counts_equal_updates") is not True
             or player_evidence.get("all_bundle_serials_equal_twice_updates") is not True
@@ -141,7 +141,7 @@ def run_candidate_gate(
                 "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
             ]
         ):
-            raise RuntimeError("PC-RSMG player-bundle gate evidence is invalid")
+            raise RuntimeError("replicated player-bundle gate evidence is invalid")
     result = {
         "schema": GATE_SCHEMA,
         "status": "PASS_LONG_RUN",
