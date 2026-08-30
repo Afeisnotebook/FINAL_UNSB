@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-route1-generation1-accelerator-utilization-v1",
+  "observed_at": "2026-08-30T15:11:16+08:00",
+  "status": "TWO_INDEPENDENT_BATCH1_STREAMS_PER_REMOTE_GPU_ACCEPTED",
+  "scientific_decision": {
+    "batch_size": 1,
+    "increase_batch_size": false,
+    "reason": "A larger batch changes unpaired B sampling, PatchNCE negative composition, the coupled E/D/G game and Adam trajectory; it is not the frozen small25 scientific protocol.",
+    "parallelism_unit": "independent full batch-1 candidate trajectory",
+    "add_third_candidate_stream_now": false,
+    "reason_not_third": "The two required e200 trajectories already reach compute saturation during active update intervals. A third stream would compete for compute and checkpoint/evaluation I/O and delay the hard e200 gate.",
+    "paired_metric_controls_scheduling": false,
+    "confirmation20_opened": false
+  },
+  "remote4090": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "instantaneous_gpu_utilization_percent": 95,
+    "memory_used_mib": 3736,
+    "memory_total_mib": 24564,
+    "bvcp_latest_data_epoch": 38,
+    "bvcp_epoch_wall_seconds": 68.39433193206787,
+    "rsmg_latest_data_epoch": 30,
+    "rsmg_epoch_wall_seconds": 90.52805423736572,
+    "active_streams": 2,
+    "stderr_failure_observed": false
+  },
+  "remote5090": {
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "twelve_sample_sm_utilization_percent": [25, 99, 81, 2, 87, 99, 98, 98, 60, 98, 98, 99],
+    "active_update_samples_at_or_above_81_percent": 10,
+    "low_samples_interpretation": "epoch-boundary checkpoint/evaluation and process phase staggering, not sustained spare compute",
+    "memory_used_mib": 3995,
+    "memory_total_mib": 32607,
+    "bvcp_latest_data_epoch": 19,
+    "bvcp_epoch_wall_seconds": 111.38749766349792,
+    "rsmg_latest_data_epoch": 15,
+    "rsmg_epoch_wall_seconds": 140.32107973098755,
+    "active_streams": 2,
+    "role": "independent cross-runtime stability evidence; never merged with the 4090 ranking",
+    "stderr_failure_observed": false
+  },
+  "local1660": {
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "active_streams": 1,
+    "hnek_latest_data_epoch": 93,
+    "role": "continue the canonical local historical anchor without competing local jobs"
+  },
+  "reassessment_rule": "Reassess concurrency only after a required trajectory completes or if sustained utilization/throughput measurements show real idle capacity; never change the frozen batch size to improve a dashboard number."
+}

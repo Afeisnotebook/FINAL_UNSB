@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T14:45:00+08:00",
+  "state_snapshot_time": "2026-08-30T15:11:16+08:00",
   "phase": "GENERATION1_BVCP_RSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "7b5c64613e5316dc7f4f184581cb0f97b6967a08",
+  "development_head_at_state_write": "8fdd18775f11b140164f51caae3411e32256f7c1",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -19,7 +19,7 @@
       "target_data_epoch": 200
     },
     "hj": {"latest_observed_data_epoch": 200, "latest_observed_updates": 30000, "target_data_epoch": 200},
-    "hnek": {"data_epoch": 80, "updates": 12000, "target_data_epoch": 200},
+    "hnek": {"data_epoch": 93, "updates": 13950, "target_data_epoch": 200},
     "dt": {"data_epoch": 0, "updates": 0, "target_data_epoch": 200},
     "plain_e100_checkpoint_verified": true,
     "plain_e100_official_metric_pending_recovery": false,
@@ -121,6 +121,7 @@
     ,"endpoint dispersion, bridge KDD, gradient scale, Adam alignment and D/G/E balance are routed as target-blind internal-state evidence with AEB and PCOA equivalence boundaries"
     ,"inactive corrections cannot vote, state-local failures cannot be averaged away, both-state harm routes to mathematical rewrite, and shared signals must pass every probe"
     ,"short counterfactual ranking uses the actually labeled 200-update branch rather than unlabeled 1/8/32-update geometry rows"
+    ,"seed validation and final cross-seed adjudication now enforce PSNR, domain coverage, worst-domain, SSIM, LPIPS, rolling drawdown and absolute plain-collapse guards without changing the frozen candidate training core"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -211,14 +212,14 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
         "method_name": "BVCP",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 16,
+        "latest_observed_data_epoch": 38,
         "target_data_epoch": 200,
         "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa"
       },
       "G1-02-SAMPLING-VARIANCE": {
         "method_name": "RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 13,
+        "latest_observed_data_epoch": 30,
         "target_data_epoch": 200,
         "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333"
       },
@@ -271,8 +272,8 @@
     },
     "latest_observed_dt_data_epoch": 200,
     "generation1_candidates": {
-      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 5, "target_data_epoch": 200},
-      "G1-02-SAMPLING-VARIANCE": {"latest_observed_data_epoch": 4, "target_data_epoch": 200},
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 19, "target_data_epoch": 200},
+      "G1-02-SAMPLING-VARIANCE": {"latest_observed_data_epoch": 15, "target_data_epoch": 200},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },

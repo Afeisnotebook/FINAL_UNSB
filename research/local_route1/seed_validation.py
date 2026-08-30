@@ -50,6 +50,8 @@ from .runtime import (
 
 SEED_E0_SCHEMA = "final-unsb-route1-seed-validation-e0-v1"
 SEED_FREEZE_SCHEMA = "final-unsb-route1-seed-validation-freeze-v1"
+SEED_SUMMARY_SCHEMA = "final-unsb-route1-seed-validation-summary-v2"
+MULTI_SEED_ADJUDICATION_SCHEMA = "final-unsb-route1-multi-seed-adjudication-v1"
 ALLOWED_VALIDATION_SEEDS = (2027, 2028)
 
 
@@ -253,6 +255,47 @@ def _crn_fingerprint(registration: CandidateRegistration, seed: int) -> str:
     })
 
 
+def _seed_late_rolling_drawdown(
+    trajectory: list[dict], *, window: int = 3,
+) -> float | None:
+    """Seed-validation copy of the frozen candidate absolute-stability guard.
+
+    This reporting-only module deliberately does not import candidate_runner:
+    candidate_runner imports the seed-freeze schema from this module, and the
+    candidate training fingerprint must not be changed while e200 jobs run.
+    """
+    values = [float(row["macro_psnr"]) for row in trajectory]
+    if len(values) < int(window) or int(window) <= 0:
+        return None
+    rolling = [
+        float(np.mean(values[index - window:index]))
+        for index in range(window, len(values) + 1)
+    ]
+    return float(max(rolling) - rolling[-1])
+
+
+def _seed_plain_collapse_adjudication(late: list[dict]) -> dict:
+    """Apply the same e150-to-e200 absolute-quality rule to a new seed."""
+    if len(late) != 3 or [int(row["epoch"]) for row in late] != [150, 175, 200]:
+        return {"status": "INCOMPLETE", "threshold_db": -0.3}
+    candidate_change = float(late[-1]["macro_psnr"] - late[0]["macro_psnr"])
+    plain_change = float(
+        late[-1]["plain_macro_psnr"] - late[0]["plain_macro_psnr"]
+    )
+    both_collapse = plain_change < -0.3 and candidate_change < -0.3
+    return {
+        "status": (
+            "FAIL_RELATIVE_ADVANTAGE_COINCIDES_WITH_BOTH_COLLAPSING"
+            if both_collapse else "PASS_NOT_PLAIN_COLLAPSE"
+        ),
+        "threshold_db": -0.3,
+        "candidate_e150_to_e200_change_db": candidate_change,
+        "plain_e150_to_e200_change_db": plain_change,
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }
+
+
 def _execution_fingerprint(
     *, registration: CandidateRegistration, seed: int, lane: str, e0: dict,
 ) -> str:
@@ -309,8 +352,35 @@ def summarize_seed_validation(
     late = [row for row in trajectory if row["epoch"] in late_epochs]
     complete = len(late) == 3 and late[-1]["epoch"] == 200
     late_mean = None if not complete else float(np.mean([row["macro_psnr_delta"] for row in late]))
+    final_delta = None if not complete else float(late[-1]["macro_psnr_delta"])
+    average_positive_domains = (
+        None if not complete else float(np.mean([row["positive_domains"] for row in late]))
+    )
+    average_worst = (
+        None if not complete else float(np.mean([row["worst_domain_delta"] for row in late]))
+    )
+    late_ssim = (
+        None if not complete else float(np.mean([row["macro_ssim_delta"] for row in late]))
+    )
+    lpips_values = [] if not complete else [
+        row["macro_lpips_delta"] for row in late if row["macro_lpips_delta"] is not None
+    ]
+    late_lpips = None if len(lpips_values) != 3 else float(np.mean(lpips_values))
+    rolling_drawdown = _seed_late_rolling_drawdown(trajectory)
+    collapse = _seed_plain_collapse_adjudication(late)
+    numeric_gate = bool(
+        complete
+        and late_mean is not None and late_mean > 0.0
+        and final_delta is not None and final_delta > 0.0
+        and sum(row["positive_domains"] >= 4 for row in late) >= 2
+        and average_worst is not None and average_worst > -1.0
+        and late_ssim is not None and late_ssim >= 0.0
+        and late_lpips is not None and late_lpips <= 0.0
+        and rolling_drawdown is not None and rolling_drawdown <= 0.3
+        and collapse["status"] == "PASS_NOT_PLAIN_COLLAPSE"
+    )
     result = {
-        "schema": "final-unsb-route1-seed-validation-summary-v1",
+        "schema": SEED_SUMMARY_SCHEMA,
         "status": "COMPLETE" if complete else "INCOMPLETE",
         "seed": int(seed),
         "candidate_id": candidate_id,
@@ -318,13 +388,19 @@ def summarize_seed_validation(
         "trajectory": trajectory,
         "late_three_mean_macro_psnr_delta": late_mean,
         "late_sign": None if late_mean is None else ("positive" if late_mean > 0.0 else "nonpositive"),
-        "e200_macro_psnr_delta": None if not complete else late[-1]["macro_psnr_delta"],
+        "e200_macro_psnr_delta": final_delta,
         "late_points_with_four_of_six_positive_domains": sum(
             row["positive_domains"] >= 4 for row in late
         ),
-        "late_average_worst_domain_delta": (
-            None if not complete else float(np.mean([row["worst_domain_delta"] for row in late]))
-        ),
+        "late_average_positive_domains": average_positive_domains,
+        "late_average_worst_domain_delta": average_worst,
+        "late_mean_macro_ssim_delta": late_ssim,
+        "late_mean_macro_lpips_delta": late_lpips,
+        "candidate_best_to_terminal_three_point_rolling_drawdown": rolling_drawdown,
+        "maximum_allowed_rolling_drawdown_db": 0.3,
+        "plain_collapse_adjudication": collapse,
+        "numeric_gate_pass": numeric_gate,
+        "paired_metrics_used_only_after_complete_trajectory": complete,
         "paired_metric_changed_algorithm": False,
         "confirmation20_opened": False,
     }
@@ -342,6 +418,176 @@ def summarize_seed_validation(
             "paired_metric_changed_algorithm": False,
             "confirmation20_opened": False,
         })
+    return result
+
+
+def _normalized_seed2026_row(trajectory: dict) -> dict:
+    late = [
+        row for row in trajectory.get("trajectory", [])
+        if int(row.get("epoch", -1)) in (150, 175, 200)
+    ]
+    collapse = trajectory.get("plain_collapse_adjudication", {})
+    return {
+        "seed": 2026,
+        "late_three_mean_macro_psnr_delta": trajectory.get(
+            "late_three_mean_macro_psnr_delta"
+        ),
+        "late_sign": (
+            "positive"
+            if float(trajectory.get("late_three_mean_macro_psnr_delta", 0.0)) > 0.0
+            else "nonpositive"
+        ),
+        "e200_macro_psnr_delta": trajectory.get("e200_macro_psnr_delta"),
+        "late_average_positive_domains": (
+            None if len(late) != 3
+            else float(np.mean([row["positive_domains"] for row in late]))
+        ),
+        "late_average_worst_domain_delta": trajectory.get(
+            "late_average_worst_domain_delta"
+        ),
+        "late_mean_macro_ssim_delta": trajectory.get("late_mean_macro_ssim_delta"),
+        "late_mean_macro_lpips_delta": trajectory.get("late_mean_macro_lpips_delta"),
+        "candidate_best_to_terminal_three_point_rolling_drawdown": trajectory.get(
+            "candidate_best_to_terminal_three_point_rolling_drawdown"
+        ),
+        "plain_collapse_adjudication": collapse,
+        "numeric_gate_pass": (
+            trajectory.get("status")
+            == "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION"
+        ),
+    }
+
+
+def summarize_multi_seed_validation(output_root: Path, candidate_id: str) -> dict:
+    """Fail-closed route1_sustained_local adjudication across frozen seeds."""
+    output_root = Path(output_root).resolve()
+    registration = load_candidate_registration(output_root, candidate_id, require_gate=True)
+    freeze = validate_seed_freeze(output_root, registration, 2027)
+    trajectory_path = output_root / "candidates" / candidate_id / "CANDIDATE_TRAJECTORY.json"
+    seed2026 = _read_json(trajectory_path)
+    rows = [_normalized_seed2026_row(seed2026)]
+    source_hashes = {"seed2026_trajectory_sha256": file_sha256(trajectory_path)}
+
+    seed2027_path = _seed_root(output_root, 2027) / "SEED_VALIDATION_SUMMARY.json"
+    if not seed2027_path.is_file():
+        status = "WAITING_FOR_SEED2027"
+    else:
+        seed2027 = _read_json(seed2027_path)
+        if seed2027.get("schema") != SEED_SUMMARY_SCHEMA:
+            raise RuntimeError("seed2027 summary schema mismatch")
+        if seed2027.get("status") != "COMPLETE":
+            status = "WAITING_FOR_SEED2027"
+        elif seed2027.get("algorithm_fingerprint") != registration.algorithm_fingerprint:
+            raise RuntimeError("seed2027 algorithm differs from the frozen winner")
+        else:
+            rows.append(seed2027)
+            source_hashes["seed2027_summary_sha256"] = file_sha256(seed2027_path)
+            status = "READY_FOR_FINAL_ADJUDICATION"
+
+    if status == "READY_FOR_FINAL_ADJUDICATION" and rows[-1]["late_sign"] == "nonpositive":
+        seed2028_path = _seed_root(output_root, 2028) / "SEED_VALIDATION_SUMMARY.json"
+        if not seed2028_path.is_file():
+            status = "WAITING_FOR_AUTHORIZED_SEED2028"
+        else:
+            validate_seed_freeze(output_root, registration, 2028)
+            seed2028 = _read_json(seed2028_path)
+            if seed2028.get("schema") != SEED_SUMMARY_SCHEMA:
+                raise RuntimeError("seed2028 summary schema mismatch")
+            if seed2028.get("status") != "COMPLETE":
+                status = "WAITING_FOR_AUTHORIZED_SEED2028"
+            elif seed2028.get("algorithm_fingerprint") != registration.algorithm_fingerprint:
+                raise RuntimeError("seed2028 algorithm differs from the frozen winner")
+            else:
+                rows.append(seed2028)
+                source_hashes["seed2028_summary_sha256"] = file_sha256(seed2028_path)
+                status = "READY_FOR_FINAL_ADJUDICATION"
+
+    complete = status == "READY_FOR_FINAL_ADJUDICATION"
+    combined_psnr = (
+        None if not complete else float(np.mean([
+            row["late_three_mean_macro_psnr_delta"] for row in rows
+        ]))
+    )
+    combined_positive_domains = (
+        None if not complete else float(np.mean([
+            row["late_average_positive_domains"] for row in rows
+        ]))
+    )
+    combined_worst = (
+        None if not complete else float(np.mean([
+            row["late_average_worst_domain_delta"] for row in rows
+        ]))
+    )
+    all_signs_positive = complete and all(row["late_sign"] == "positive" for row in rows)
+    all_numeric_gates = complete and all(bool(row["numeric_gate_pass"]) for row in rows)
+    all_ssim_safe = complete and all(
+        row["late_mean_macro_ssim_delta"] is not None
+        and float(row["late_mean_macro_ssim_delta"]) >= 0.0
+        for row in rows
+    )
+    all_lpips_safe = complete and all(
+        row["late_mean_macro_lpips_delta"] is not None
+        and float(row["late_mean_macro_lpips_delta"]) <= 0.0
+        for row in rows
+    )
+    all_not_plain_collapse = complete and all(
+        row["plain_collapse_adjudication"].get("status") == "PASS_NOT_PLAIN_COLLAPSE"
+        for row in rows
+    )
+    sustained = bool(
+        complete
+        and all_signs_positive
+        and all_numeric_gates
+        and combined_psnr is not None and combined_psnr >= 0.15
+        and combined_positive_domains is not None and combined_positive_domains >= 4.0
+        and combined_worst is not None and combined_worst > -1.0
+        and all_ssim_safe and all_lpips_safe and all_not_plain_collapse
+    )
+    failures = []
+    checks = {
+        "all_run_seed_late_signs_positive": all_signs_positive,
+        "all_seed_numeric_gates_pass": all_numeric_gates,
+        "combined_late_macro_psnr_at_least_0_15_db": (
+            complete and combined_psnr is not None and combined_psnr >= 0.15
+        ),
+        "combined_average_positive_domains_at_least_4_of_6": (
+            complete and combined_positive_domains is not None
+            and combined_positive_domains >= 4.0
+        ),
+        "combined_average_worst_domain_above_minus_1_db": (
+            complete and combined_worst is not None and combined_worst > -1.0
+        ),
+        "all_seed_ssim_guardrails_pass": all_ssim_safe,
+        "all_seed_lpips_guardrails_pass": all_lpips_safe,
+        "all_seed_absolute_trajectories_pass_plain_collapse_guard": all_not_plain_collapse,
+    }
+    if complete:
+        failures = [name for name, passed in checks.items() if not passed]
+        status = "ROUTE1_SUSTAINED_LOCAL" if sustained else "MULTI_SEED_NOT_SUSTAINED"
+    result = {
+        "schema": MULTI_SEED_ADJUDICATION_SCHEMA,
+        "status": status,
+        "classification": "route1_sustained_local" if sustained else None,
+        "candidate_id": candidate_id,
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "seed2026_candidate_fingerprint": registration.candidate_fingerprint,
+        "seed_validation_freeze_sha256": file_sha256(_freeze_path(output_root, candidate_id)),
+        "included_seeds": [int(row["seed"]) for row in rows],
+        "per_seed": rows,
+        "combined_late_three_mean_macro_psnr_delta": combined_psnr,
+        "combined_late_average_positive_domains": combined_positive_domains,
+        "combined_late_average_worst_domain_delta": combined_worst,
+        "checks": checks,
+        "failed_checks": failures,
+        "source_hashes": source_hashes,
+        "seed2028_only_when_seed2027_sign_inconsistent": True,
+        "algorithm_changes_after_seed2026_freeze": False,
+        "paired_metrics_used_only_for_post_training_adjudication": True,
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }
+    path = output_root / "candidates" / candidate_id / "MULTI_SEED_ADJUDICATION.json"
+    write_json(path, result)
     return result
 
 

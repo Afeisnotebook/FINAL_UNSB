@@ -18,6 +18,7 @@ from .runtime import write_json
 from .seed_validation import (
     run_seed_validation_lane,
     seed_validation_status,
+    summarize_multi_seed_validation,
     summarize_seed_validation,
 )
 from .stages import derive_from_completed_atlas, prepare_audit_queue, validate_candidate_ready
@@ -50,7 +51,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--revision-candidate-id")
     value.add_argument("--validation-lane", choices=["plain", "candidate"])
     value.add_argument(
-        "--validation-action", choices=["status", "train", "evaluate"], default="status",
+        "--validation-action", choices=["status", "train", "evaluate", "aggregate"], default="status",
     )
     value.add_argument("--resume", action="store_true")
     value.add_argument("--cpu-only", action="store_true", help="gate stage only")
@@ -220,9 +221,15 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return return_code
     if args.stage == "seed_validate":
-        if not args.candidate_id or args.validation_seed is None:
+        if not args.candidate_id:
+            raise SystemExit("--stage seed_validate requires --candidate-id")
+        if args.validation_action == "aggregate":
+            result = summarize_multi_seed_validation(args.output, args.candidate_id)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
+        if args.validation_seed is None:
             raise SystemExit(
-                "--stage seed_validate requires --candidate-id and --validation-seed"
+                "seed validation status/train/evaluate requires --validation-seed"
             )
         if args.validation_action == "status":
             result = seed_validation_status(

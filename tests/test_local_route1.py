@@ -53,9 +53,14 @@ from research.local_route1.protocol import (
 )
 from research.local_route1.runtime import file_sha256, full_state_hash, read_manifest
 from research.local_route1.seed_validation import (
+    MULTI_SEED_ADJUDICATION_SCHEMA,
     SEED_FREEZE_SCHEMA,
+    SEED_SUMMARY_SCHEMA,
     _crn_fingerprint,
     _e0_identity,
+    _seed_late_rolling_drawdown,
+    _seed_plain_collapse_adjudication,
+    summarize_multi_seed_validation,
     validate_seed_freeze,
 )
 from research.local_route1.stages import derive_from_completed_atlas
@@ -1802,6 +1807,105 @@ def test_seed_validation_freezes_algorithm_and_requires_sign_authorization(tmp_p
     freeze_path.write_text(json.dumps(freeze), encoding="utf-8")
     with pytest.raises(RuntimeError, match="algorithm changed"):
         validate_seed_freeze(tmp_path, registration, 2027)
+
+
+def test_seed_validation_absolute_guards_match_candidate_policy():
+    stable = [
+        {"epoch": 150, "macro_psnr": 20.0, "plain_macro_psnr": 19.5},
+        {"epoch": 175, "macro_psnr": 20.1, "plain_macro_psnr": 19.6},
+        {"epoch": 200, "macro_psnr": 20.2, "plain_macro_psnr": 19.7},
+    ]
+    assert _seed_late_rolling_drawdown(stable) == pytest.approx(0.0)
+    assert (
+        _seed_plain_collapse_adjudication(stable)["status"]
+        == "PASS_NOT_PLAIN_COLLAPSE"
+    )
+    collapsing = [
+        {"epoch": 150, "macro_psnr": 20.0, "plain_macro_psnr": 20.0},
+        {"epoch": 175, "macro_psnr": 19.7, "plain_macro_psnr": 19.6},
+        {"epoch": 200, "macro_psnr": 19.5, "plain_macro_psnr": 19.5},
+    ]
+    assert _seed_plain_collapse_adjudication(collapsing)["status"].startswith("FAIL_")
+
+
+def test_multi_seed_adjudication_enforces_all_route1_guardrails(tmp_path):
+    registration = _write_passed_candidate_gate(tmp_path)
+    candidate_root = tmp_path / "candidates" / "G1-TEST"
+    candidate_root.mkdir(parents=True, exist_ok=True)
+    trajectory_path = candidate_root / "CANDIDATE_TRAJECTORY.json"
+    trajectory = {
+        "schema": "final-unsb-route1-candidate-trajectory-v1",
+        "status": "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION",
+        "candidate_id": "G1-TEST",
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "candidate_fingerprint": registration.candidate_fingerprint,
+        "trajectory": [
+            {
+                "epoch": epoch, "macro_psnr": 20.0 + epoch / 1000.0,
+                "plain_macro_psnr": 19.8 + epoch / 1000.0,
+                "positive_domains": 5,
+            }
+            for epoch in (150, 175, 200)
+        ],
+        "late_three_mean_macro_psnr_delta": 0.2,
+        "e200_macro_psnr_delta": 0.2,
+        "late_average_worst_domain_delta": -0.1,
+        "late_mean_macro_ssim_delta": 0.01,
+        "late_mean_macro_lpips_delta": -0.01,
+        "candidate_best_to_terminal_three_point_rolling_drawdown": 0.0,
+        "plain_collapse_adjudication": {"status": "PASS_NOT_PLAIN_COLLAPSE"},
+        "paired_metrics_used_for_training_or_gate": False,
+        "confirmation20_opened": False,
+    }
+    trajectory_path.write_text(json.dumps(trajectory), encoding="utf-8")
+    freeze = {
+        "schema": SEED_FREEZE_SCHEMA,
+        "status": "FROZEN_FOR_SEED_VALIDATION",
+        "candidate_id": "G1-TEST",
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "seed2026_candidate_fingerprint": registration.candidate_fingerprint,
+        "seed2026_trajectory_sha256": file_sha256(trajectory_path),
+        "plain_collapse_adjudication": "PASS_NOT_PLAIN_COLLAPSE",
+        "authorized_seeds": [2027, 2028],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    (candidate_root / "SEED_VALIDATION_FREEZE.json").write_text(
+        json.dumps(freeze), encoding="utf-8",
+    )
+    waiting = summarize_multi_seed_validation(tmp_path, "G1-TEST")
+    assert waiting["status"] == "WAITING_FOR_SEED2027"
+
+    seed2027_root = tmp_path / "seed_validation" / "seed2027"
+    seed2027_root.mkdir(parents=True)
+    seed2027 = {
+        "schema": SEED_SUMMARY_SCHEMA,
+        "status": "COMPLETE",
+        "seed": 2027,
+        "candidate_id": "G1-TEST",
+        "algorithm_fingerprint": registration.algorithm_fingerprint,
+        "late_three_mean_macro_psnr_delta": 0.2,
+        "late_sign": "positive",
+        "e200_macro_psnr_delta": 0.2,
+        "late_average_positive_domains": 5.0,
+        "late_average_worst_domain_delta": -0.1,
+        "late_mean_macro_ssim_delta": 0.01,
+        "late_mean_macro_lpips_delta": -0.01,
+        "candidate_best_to_terminal_three_point_rolling_drawdown": 0.0,
+        "plain_collapse_adjudication": {"status": "PASS_NOT_PLAIN_COLLAPSE"},
+        "numeric_gate_pass": True,
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }
+    (seed2027_root / "SEED_VALIDATION_SUMMARY.json").write_text(
+        json.dumps(seed2027), encoding="utf-8",
+    )
+    result = summarize_multi_seed_validation(tmp_path, "G1-TEST")
+    assert result["schema"] == MULTI_SEED_ADJUDICATION_SCHEMA
+    assert result["status"] == "ROUTE1_SUSTAINED_LOCAL"
+    assert result["classification"] == "route1_sustained_local"
+    assert result["included_seeds"] == [2026, 2027]
+    assert result["failed_checks"] == []
 
 
 def test_seed_validation_e0_and_crn_are_candidate_independent(tmp_path):
