@@ -41,7 +41,9 @@ seed2027/2028继续延期，confirmation20、全量数据、路线二、退出�
 用于一个严格受限的可信候选前沿：PCNR把D/E提交后的G/F随机视图改为条件原生重采样，
 AM-MCRB把MCRB的欧氏投影改为Adam二阶矩度量下的最小安全位移。两者都来自长期近失配
 证据而非超参网格，已通过完整GPU门，并从同一5090 e0/plain、batch1、seed2026并行跑
-真实e200。代码冻结于`c874e37`，持久调度器为`9c8c987`；compact证据见
+真实e200。代码冻结于`c874e37`，持久训练调度器为`9c8c987`；独立终点裁决器
+`47bbb85`只在两个完整receipt出现后进行5090宿主内排名，并且只有严格通过门的第一名
+才能生成一条4090复跑请求。compact证据见
 `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。4090与5090
 先各自在宿主内matched裁决，绝不直接合并小数级跨宿主delta。
 

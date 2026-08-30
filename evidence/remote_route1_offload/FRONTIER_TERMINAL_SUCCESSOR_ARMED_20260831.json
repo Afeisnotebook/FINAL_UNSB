@@ -1,0 +1,26 @@
+{
+  "schema": "final-unsb-route1-frontier-terminal-successor-armed-evidence-v1",
+  "created": "2026-08-31T02:09:53.217520+08:00",
+  "git_commit": "47bbb85b80ed96cd040ed39ab4fda8c17b43f737",
+  "status": "WAITING_FOR_COMPLETE_FRONTIER_E200",
+  "snapshot_data_epochs": {
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": 5,
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": 4
+  },
+  "contract_sha256": "002c0ef362be7404cdacccc5213d7dd892ca17b7481a42fee3e0a20a72a33cd4",
+  "launch_sha256": "df6bff8e28c3234783557dbc2c16b250d4d3ebc6bae53c3ec256ff9a3fc24cd1",
+  "state_sha256": "0194ae1dd450a8d605aecad2b6aac8dd3c7062d7b0ae6d1ed348d3a568de2f71",
+  "terminal_policy": "Only two complete source-bound e200 receipts may produce a same-host 5090 ranking; only a strict-gate pass may request one 4090 replay.",
+  "complete_e200_only": true,
+  "intermediate_metric_routing": false,
+  "cross_host_deltas_merged": false,
+  "selection_seeds": [
+    2026
+  ],
+  "deferred_seed_validation": [
+    2027,
+    2028
+  ],
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

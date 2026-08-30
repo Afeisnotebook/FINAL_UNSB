@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T01:58:00+08:00",
+  "state_snapshot_time": "2026-08-31T02:10:00+08:00",
   "phase": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "9c8c987787bd16e3fc9ea7f097daf028c33d35ff",
+  "development_head_at_state_write": "47bbb85b80ed96cd040ed39ab4fda8c17b43f737",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -492,6 +492,7 @@
       "decision": "decisions/DEC-20260831-ROUTE1-FRONTIER-EXPANSION.md",
       "algorithm_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
       "durable_successor_commit": "9c8c987787bd16e3fc9ea7f097daf028c33d35ff",
+      "terminal_adjudication_successor_commit": "47bbb85b80ed96cd040ed39ab4fda8c17b43f737",
       "status": "BOTH_GPU_GATES_PASS_TWO_HOST_MATCHED_E200_STREAMS_RUNNING",
       "candidate_ids": [
         "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
@@ -503,7 +504,9 @@
       "selection_seeds": [2026],
       "deferred_seeds": [2027, 2028],
       "cross_host_delta_merge": false,
-      "evidence": "evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json"
+      "evidence": "evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json",
+      "terminal_successor_status": "WAITING_FOR_BOTH_COMPLETE_E200_RECEIPTS",
+      "terminal_successor_evidence": "evidence/remote_route1_offload/FRONTIER_TERMINAL_SUCCESSOR_ARMED_20260831.json"
     },
     "status": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING"
   },

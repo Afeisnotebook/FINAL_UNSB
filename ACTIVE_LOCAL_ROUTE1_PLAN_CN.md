@@ -52,6 +52,8 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   新算法：PCNR（逐玩家提交后的条件原生重采样）和AM-MCRB（Adam度量下的moving
   covariance barrier）。两者的数学/源码身份冻结在`c874e37`，完整GPU门均为
   `PASS_LONG_RUN`，由`9c8c987`持久后继以两条隔离batch1流从共同e0并行运行到e200。
+  `47bbb85`终点后继已独立武装：仅在两条source-bound e200 receipt均完整时排名，只有
+  严格门赢家才请求一条4090同宿主复跑；全负则保留排名并跳过复跑。
   这把最终交付从“过早只剩一个fallback”改为“一个主排名加两个证据充分备选”，但没有
   改变长期算法发现的北极星。见
   `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。

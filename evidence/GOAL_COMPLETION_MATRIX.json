@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T01:58:00+08:00",
+  "updated": "2026-08-31T02:10:00+08:00",
   "goal_status": "IN_PROGRESS_WINNER_ABLATIONS_AND_EVIDENCE_DRIVEN_FRONTIER_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -232,7 +232,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP, PC-RSMG and AM-TNC complete e200. AM-TNC has late-three PSNR +0.105 dB and e200 +0.383 dB but late LPIPS fails. Frozen ranking selects PC-RSMG as current fallback by the preregistered late-three-first order, with AM-TNC second",
     "remote5090": "all anchors and MCRB e200 complete. MCRB ends at -0.730 dB with 3/6 domains positive and worst domain -2.175 dB, so its current implementation is negative and no cross-host delta was merged. PCNR and AM-MCRB now both have source-bound PASS_LONG_RUN gates and run concurrently from the same host e0/plain to fixed e200",
     "new_algorithms": "BVCP, PC-RSMG, AM-TNC and MCRB all have complete long trajectories; none passes every strict gate. PC-RSMG remains the current-best seed2026 fallback, while PCNR and AM-MCRB extend the credible frontier with mathematically distinct unbiased/state-metric repairs rather than hyperparameter variants",
-    "successor": "commit 77bb987 runs the sequential PC-RSMG proposal-only then observable-only e200 ablations on 4090. Commit 9c8c987 independently supervises two concurrent batch1 seed2026 e200 frontier trajectories on 5090, using candidate code frozen at c874e37. Final selection waits for all complete trajectories and will preserve one primary plus two ranked alternates",
+    "successor": "commit 77bb987 runs the sequential PC-RSMG proposal-only then observable-only e200 ablations on 4090. Commit 9c8c987 supervises two concurrent batch1 seed2026 e200 frontier trajectories on 5090 using candidate code frozen at c874e37. Independent commit 47bbb85 waits for both complete receipts and can recommend exactly one 4090 replay only after a strict terminal pass; it never reads intermediate metrics or merges cross-host deltas. Final selection waits for all required complete trajectories and preserves one primary plus two ranked alternates",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false
