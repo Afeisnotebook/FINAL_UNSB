@@ -1,6 +1,7 @@
 {
   "schema": "final-unsb-route1-cross-runtime-long-horizon-divergence-v1",
   "recorded_at": "2026-08-30T10:56:00+08:00",
+  "last_updated_at": "2026-08-30T11:47:00+08:00",
   "status": "OBSERVED_NOT_CAUSALLY_ATTRIBUTED",
   "question": "Do matched seed-2026 anchors remain numerically and scientifically equivalent across the 4090 and 5090 runtimes?",
   "shared_scientific_identity": {
@@ -36,6 +37,18 @@
       "cuda_build": "12.8",
       "cudnn": 91002,
       "driver": "595.71.05",
+      "torch_deterministic_algorithms": false,
+      "cudnn_deterministic": false,
+      "cudnn_benchmark": false
+    },
+    "local1660": {
+      "gpu": "NVIDIA GeForce GTX 1660",
+      "compute_capability": "7.5",
+      "python": "3.13.5",
+      "torch": "2.6.0+cu124",
+      "cuda_build": "12.4",
+      "cudnn": 90100,
+      "driver": "560.94",
       "torch_deterministic_algorithms": false,
       "cudnn_deterministic": false,
       "cudnn_benchmark": false
@@ -109,6 +122,25 @@
           "SnowTrafficData": 0.16929550201223265
         }
       }
+    },
+    "local1660": {
+      "hj": {
+        "e150": 0.23939575831648133,
+        "e175": -0.04761959342638337,
+        "e200": -0.6654651202227025,
+        "late_three_mean": -0.15789631844420152,
+        "e200_positive_domains": 2,
+        "e200_worst_domain": -2.6164553475133125,
+        "e200_per_domain": {
+          "FoggyCityscapes": -2.6164553475133125,
+          "LowLightTrafficData": 0.6265387710423109,
+          "RSCityscapes": -0.8294380420726704,
+          "RainCityscapes": -0.7592163088482984,
+          "RainDS-syn": 0.18823881305350199,
+          "SnowTrafficData": -0.6024586069977467
+        },
+        "hnek_status": "LOCAL_E200_PENDING"
+      }
     }
   },
   "terminal_scientific_state_sha256": {
@@ -121,7 +153,23 @@
       "plain": "68f901cc261bf2091cf5e1a94abfe115210cb8e5cb92a0185c56e55668e6b037",
       "hj": "786207fd825abe0cd7cbb4db1c26b5706654d433a7a6aaf9024ab571268862c3",
       "hnek": "03f5105ad8efc78116d839bcf5ac128bd1ca34d658498a7f2851e69f14f84ba3"
+    },
+    "local1660": {
+      "hj": "f20fd6189d0d72ca2c5ec8ccf9c8628a3e2d35621daf0511c384923d3698b046"
     }
+  },
+  "local1660_hj_e200_verification": {
+    "status": "ACCEPTED_MILESTONE",
+    "checkpoint_file_sha256": "11196eb3c16a162236afccd9275fdea7eb8f6cc8498c635c6b7ac509bf3b6c73",
+    "sidecar_sha256": "b3afabfdb13f6aac9f690f3398a9a1b8cb6e9a7c6afb19af7a7ac6f761e50ffb",
+    "metric_file_sha256": "c33649beb2a5cb45206a301398f0eb2d1ea32bc303694393147f4405bed29656",
+    "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4",
+    "images": 420,
+    "lpips_available": true,
+    "checkpoint_file_hash_matches_sidecar": true,
+    "scientific_state_hash_matches_sidecar": true,
+    "metric_protocol_matches": true,
+    "confirmation20_opened": false
   },
   "adjudication": {
     "runtime_equivalent": false,
@@ -131,12 +179,12 @@
     "remote4090_primary_causal_matrix_changed": false,
     "remote5090_role": "supplemental independent replication; never merged into the 4090 atlas",
     "mechanism_falsified": false,
-    "interpretation": "The same registered scientific protocol produced positive late-three means on both hosts, but terminal signs differed. Because the Python, PyTorch, CUDA, cuDNN, driver, and GPU architectures differ and deterministic algorithms were not globally enabled, the divergence cannot be attributed to one factor. It is evidence that terminal gain is sensitive to long-horizon numerical trajectory, not evidence that HJ/HNEK semantics differ or that their parent mechanisms are dead."
+    "interpretation": "The same registered scientific protocol produced different HJ terminal signs: positive on the 4090, negative on the 5090 and local 1660. HJ late-three was positive on both servers but negative locally; HNEK is positive at the 4090 terminal, negative at the 5090 terminal, and still pending locally. Because Python, PyTorch, CUDA, cuDNN, driver, operating system, and GPU architecture differ and deterministic algorithms were not globally enabled, the divergence cannot be attributed to one factor. It is evidence that terminal gain is sensitive to long-horizon numerical trajectory, not evidence that HJ/HNEK semantics differ or that their parent mechanisms are dead."
   },
   "route1_implication": {
     "candidate_construction_control": "None. Paired metrics remain post-trajectory labels and are not observable/controller inputs.",
     "candidate_gate_change_now": "None before the 4090 474/140 matrix is frozen.",
-    "post_freeze_requirement": "Report matched e200 results per frozen runtime instead of treating seed=2026 as cross-runtime replication. Use the ongoing local run and 5090 replication as stability evidence after the algorithm formula is frozen.",
+    "post_freeze_requirement": "Report matched e200 results per frozen runtime instead of treating seed=2026 as cross-runtime replication. Use the verified local HJ result, pending local HNEK run, and 5090 replication as stability evidence after the algorithm formula is frozen.",
     "forbidden_inference": "Do not merge host atlases, retune a candidate to 5090 terminal PSNR, or relabel a current implementation result as a parent-mechanism falsification."
   }
 }
