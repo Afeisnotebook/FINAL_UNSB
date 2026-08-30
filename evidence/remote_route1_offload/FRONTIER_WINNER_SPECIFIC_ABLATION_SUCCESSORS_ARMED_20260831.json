@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-route1-frontier-winner-specific-ablation-successors-armed-v1",
+  "observed_at": "2026-08-31T03:05:38+08:00",
+  "decision": "decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md",
+  "development_commit": "dc3f98200432dc2e9c07a66c66358307853c10ca",
+  "remote4090": {
+    "worktree": "/home/yc/FINAL_UNSB_FRONTIER_DELIVERY_dc3f982",
+    "worktree_commit_verified": "dc3f98200432dc2e9c07a66c66358307853c10ca",
+    "worktree_clean": true,
+    "winner_ablation_successor_pid": 1461960,
+    "winner_ablation_successor_status": "WAITING_FOR_TERMINAL_FRONTIER_CROSS_HOST_RESULT",
+    "winner_ablation_contract_sha256": "92fb8b1b3c153bc2bee1267645597946d41dc12a4f728c922b5dec19bd5121fe",
+    "final_successor_pid": 1461961,
+    "final_successor_status": "WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
+    "final_contract_sha256": "18c8574880503d246f3bd3d7fc99a40d095c301d415adec03f2f91ef1054adac",
+    "cross_host_router_pid": 1457814,
+    "cross_host_router_preserved": true,
+    "pcrsmg_ablation_supervisor_pid": 1452591,
+    "pcrsmg_ablation_executor_pid": 1453304,
+    "pcrsmg_active_ablation": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "pcrsmg_active_data_epoch": 121,
+    "old_final_successor_pid": 1458856,
+    "old_final_successor_stopped": true,
+    "training_processes_stopped": false
+  },
+  "remote5090": {
+    "status": "FRONTIER_E200_RUNNING_TWO_STREAMS",
+    "candidate_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+    "pcnr_data_epoch": 31,
+    "am_mcrb_data_epoch": 27,
+    "target_data_epoch": 200,
+    "maximum_parallel_e200_executors": 2
+  },
+  "delivery_policy": {
+    "canonical_primary_required": true,
+    "evidence_backed_alternates_required": 2,
+    "host_separated_complete_frontier_required": true,
+    "early_single_candidate_pruning": false,
+    "selected_algorithm_specific_e200_ablations_required": true,
+    "cross_host_delta_merge": false,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "cross_seed_stability_claimed": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}

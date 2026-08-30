@@ -49,10 +49,12 @@ AM-MCRB把MCRB的欧氏投影改为Adam二阶矩度量下的最小安全位移�
 `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。4090与5090
 先各自在宿主内matched裁决，绝不直接合并小数级跨宿主delta。
 
-最终交付也不再依赖人工接续：`2a6c7fd`后继等待上述终点链，先原样归档旧的
-`final/CANDIDATE.json`等四个文件，再以4090同宿主裁决写出唯一canonical主候选、两个
-证据备选和完整5090宿主内前沿。若没有4090复跑，旧主候选保持不变；只有复跑结果在
-4090上真实胜出时才改变主候选。
+最终交付也不再依赖人工接续：`dc3f982`后继等待上述终点链，先原样归档旧的
+`final/CANDIDATE.json`等四个文件，再以4090同宿主裁决写出一个明确canonical主候选、两个
+证据备选和完整5090宿主内前沿。主候选只是最终优先级，不是搜索阶段的提前剪枝。若PCNR
+或AM-MCRB在4090复跑后胜出，必须先完成该算法自身的proposal-only、observable-only和
+projected/full e200证据；不能借用PC-RSMG消融。若没有4090复跑，旧主候选保持不变。
+详见`decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md`。
 
 ## 为什么此前的“路线一完成”需要重审
 

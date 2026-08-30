@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T02:29:00+08:00",
+  "updated": "2026-08-31T03:05:38+08:00",
   "goal_status": "IN_PROGRESS_WINNER_ABLATIONS_AND_EVIDENCE_DRIVEN_FRONTIER_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -128,13 +128,15 @@
         "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
         "evidence/remote_route1_offload/AMTNC_E125_REVERSAL_OBSERVED_20260830.json",
         "evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json",
-        "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json"
+        "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json",
+        "decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md",
+        "evidence/remote_route1_offload/FRONTIER_WINNER_SPECIFIC_ABLATION_SUCCESSORS_ARMED_20260831.json"
       ],
       "rule": "The single authorized revision AM-TNC completed true e200 without a window, handoff or paired controller. It produced a positive PSNR endpoint and late-three mean but failed the strict late-LPIPS guardrail; no second revision is authorized."
     },
     {
       "id": 7,
-      "requirement": "One CANDIDATE.json and two fallback/closed directions are delivered.",
+      "requirement": "One explicit primary CANDIDATE.json, two evidence-backed alternates, and the host-separated complete credible frontier are delivered.",
       "status": "CURRENT_BEST_FALLBACK_FROZEN_ABLATIONS_RUNNING",
       "evidence": [
         "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json",
@@ -142,7 +144,9 @@
         "evidence/remote_route1_offload/MCRB_GATE_AND_E200_START_20260830.json",
         "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
         "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
-        "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json"
+        "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json",
+        "decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md",
+        "evidence/remote_route1_offload/FRONTIER_WINNER_SPECIFIC_ABLATION_SUCCESSORS_ARMED_20260831.json"
       ],
       "missing": ["winner e200 ablations", "final fail-closed CANDIDATE materialization"]
     },
@@ -176,6 +180,7 @@
         "199 pytest tests passed locally at measured-throughput single-stream commit 24beb4b; 11 routing/scheduling tests passed on remote4090",
         "200 pytest tests passed locally after adding the fail-closed first-ablation failure regression at b797eed",
         "201 pytest tests passed locally and 18 terminal-chain tests passed on remote4090 after binding final reproduction to the real executor contract at 77bb987",
+        "228 pytest tests passed locally after adding algorithm-specific frontier-winner ablation binding and the frontier preservation decision",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
         "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",
@@ -222,8 +227,10 @@
         ,"evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json"
         ,"evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json"
+        ,"decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md"
+        ,"evidence/remote_route1_offload/FRONTIER_WINNER_SPECIFIC_ABLATION_SUCCESSORS_ARMED_20260831.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Projected/full reuses the selected source-bound e200 receipt; proposal-only then observable-only run as two sequential single-stream e200 trajectories. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
+      "boundary": "Every credible frontier algorithm first receives its own full e200 trajectory; the canonical primary then receives source-bound long-horizon ablations. Definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Projected/full reuses the selected source-bound e200 receipt; proposal-only then observable-only run as two sequential single-stream e200 trajectories. If PCNR or AM-MCRB wins a 4090 replay, its own ablations are mandatory and PC-RSMG evidence cannot be substituted. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
       "missing": ["proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
@@ -232,7 +239,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP, PC-RSMG and AM-TNC complete e200. AM-TNC has late-three PSNR +0.105 dB and e200 +0.383 dB but late LPIPS fails. Frozen ranking selects PC-RSMG as current fallback by the preregistered late-three-first order, with AM-TNC second",
     "remote5090": "all anchors and MCRB e200 complete. MCRB ends at -0.730 dB with 3/6 domains positive and worst domain -2.175 dB, so its current implementation is negative and no cross-host delta was merged. PCNR and AM-MCRB now both have source-bound PASS_LONG_RUN gates and run concurrently from the same host e0/plain to fixed e200",
     "new_algorithms": "BVCP, PC-RSMG, AM-TNC and MCRB all have complete long trajectories; none passes every strict gate. PC-RSMG remains the current-best seed2026 fallback, while PCNR and AM-MCRB extend the credible frontier with mathematically distinct unbiased/state-metric repairs rather than hyperparameter variants",
-    "successor": "commit 77bb987 runs sequential PC-RSMG proposal-only/observable-only e200 ablations on 4090. Commit 9c8c987 runs two batch1 frontier trajectories on 5090 at candidate commit c874e37. Commit 47bbb85 waits for both complete receipts and may recommend one replay only after a strict terminal pass. Commit 827183a waits for the PC-RSMG ablations, then consumes only that terminal decision, runs a fresh 4090 GPU gate and at most one from-e0 replay. Commit 2a6c7fd waits for the cross-host terminal result, archives the pre-frontier delivery and atomically emits the canonical primary, two alternates and host-separated frontier results. None reads intermediate metrics or merges cross-host deltas",
+    "successor": "commit 77bb987 runs sequential PC-RSMG proposal-only/observable-only e200 ablations on 4090. Commit 9c8c987 runs two batch1 frontier trajectories on 5090 at candidate commit c874e37. Commit 47bbb85 waits for both complete receipts and may recommend one replay only after a strict terminal pass. Commit 827183a waits for the PC-RSMG ablations, then consumes only that terminal decision, runs a fresh 4090 GPU gate and at most one from-e0 replay. Commit dc3f982 waits for that result and, if a new frontier algorithm wins, requires its own proposal-only/observable-only/full e200 evidence before atomically emitting the canonical primary, two alternates and host-separated complete frontier. None reads intermediate metrics or merges cross-host deltas",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false
