@@ -1,0 +1,34 @@
+{
+  "schema": "final-unsb-route1-terminal-consensus-fix-verification-v1",
+  "created": "2026-08-30T09:23:00+08:00",
+  "cell": "dt:e200",
+  "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+  "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "execution": {
+    "started": "2026-08-30T09:14:05+08:00",
+    "completed": "2026-08-30T09:22:06+08:00",
+    "child_pid": 1340942,
+    "attempt_under_fixed_source": 1,
+    "exit_code": 0,
+    "failure_count_after_completion": 0
+  },
+  "cell_evidence": {
+    "reversal_rows": 20,
+    "sampling_variance_rows": 8,
+    "unique_row_design_preserved": true,
+    "reversal_parent_hash_mismatches": 0,
+    "sampling_parent_hash_mismatches": 0,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "queue_continuation": {
+    "completed_primary_jobs": 8,
+    "total_primary_jobs": 25,
+    "next_probe": "hj",
+    "hj_e5_started": true,
+    "hj_e10_started_after_dt_e200": true,
+    "scientific_early_stop": false
+  },
+  "adjudication": "ENGINEERING_DEFECT_FIXED; terminal causal evidence is now executable. This does not promote DT or any candidate mechanism."
+}
