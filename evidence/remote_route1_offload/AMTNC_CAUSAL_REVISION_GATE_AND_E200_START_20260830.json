@@ -1,0 +1,110 @@
+{
+  "schema": "final-unsb-route1-amtnc-revision-deployment-v1",
+  "recorded_at": "2026-08-30T21:34:00+08:00",
+  "status": "TARGET_BLIND_REVISION_GATE_PASS_DURABLE_E200_STARTED",
+  "host": "192.168.0.30",
+  "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "method_name": "AM-TNC",
+  "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+  "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+  "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+  "candidate_training_core_fingerprint": "e988df9a258bf6319b133ef2b9e5158aa72fada154934e862f74efe80e8d8fb8",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "seed": 2026,
+  "batch_size": 1,
+  "target_data_epochs": 200,
+  "target_updates": 30000,
+  "causal_authority": {
+    "cross_version_outcome_sha256": "e15be372b16c5fbf17295adacfdb432b14d6361ef219efaefb5c4b6c2cac3a34",
+    "status": "REVISION_DERIVATION_REQUIRED",
+    "revision_count": 1,
+    "parent_defect_adjudication_sha256": "e30a17c933df7b96d35388c207e31b7fe4b8eb25c5e97310e856121126bbb5a0",
+    "parent_trace_variance_ratio_candidate_to_native": 0.7208930823130353,
+    "parent_e200_macro_psnr_delta_db": -0.001378936820813692,
+    "new_failure_diagnosis": "Full player-conditional variance reduction was real, but it removed predominantly Adam-tangential stochastic disagreement and did not preserve terminal benefit. The authorized revision changes the operator rather than replica count, a time window or an exit threshold."
+  },
+  "audit_geometry": {
+    "pre_step_adam_orthogonal_fraction_of_replica_disagreement": {
+      "D": 0.9922045517643918,
+      "E": 0.8493373911372012,
+      "GF": 0.9619811179654035
+    },
+    "pre_step_adam_parallel_fraction_of_replica_disagreement": {
+      "D": 0.007795448235608401,
+      "E": 0.150662608862799,
+      "GF": 0.03801888203459641
+    }
+  },
+  "operator": {
+    "consensus": "m=(g1+g2)/2",
+    "disagreement": "d=(g1-g2)/2",
+    "metric": "A=diag(1/(sqrt(v_prev)+eps))",
+    "committed_gradient": "g*=m+d-(<Am,Ad>/||Am||^2)m",
+    "removed_component": "replica disagreement parallel to Adam-metric consensus",
+    "retained_component": "exchange-antisymmetric replica disagreement orthogonal to Adam-metric consensus",
+    "unbiasedness": "swapping iid replicas negates g*-m, so the exchange-pair average equals m and E[g*]=E[g_native]",
+    "self_null": "identical replicas are returned byte-exactly; one-replica mode dispatches native UNSB exactly",
+    "fixed_window": false,
+    "paired_threshold": false,
+    "tunable_projection_strength": false
+  },
+  "frozen_artifact_hashes": {
+    "revision_request_sha256": "827d8d13e084fed6a187bb3c8708c47951fe4f0a60f01a9a5ce229e502e2ae06",
+    "derivation_card_sha256": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4",
+    "implementation_sha256": "2397312ed320daa83a3be0896b4108ad771b129618dab92486f0f9dc11b35f09",
+    "hypothesis_ledger_sha256": "0d74898b8d92b96deef46706475ffe597757f33c9eea6f068887f08b1229eeb8",
+    "gate_sha256": "9f2940eca7d5299eb4666ae23f2116e0b4472b468c89fd2585f7f81fe061b71c",
+    "candidate_executor_contract_sha256": "eb7396b3652575f855d81ea2935442c16c78df1c4f752a89ed639bcf6819d99c",
+    "revision_authorization_sha256": "071efd636eca899b063d80cfca162b347c52fc935ffb45310f8156bb3c83f175",
+    "revision_successor_contract_sha256": "6ff3940cccdb8c7bdd82cdc745a2990d46768038dcf47c472e5b649220ea4155"
+  },
+  "gate_claims": {
+    "status": "PASS_LONG_RUN",
+    "zero_intervention_plain_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+    "zero_intervention_candidate_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+    "resume_continuous_state_sha256": "e18dfb898217e100f08d53a7c43acc15d5c90eb53cdea19184bded7da587926a",
+    "resume_split_state_sha256": "e18dfb898217e100f08d53a7c43acc15d5c90eb53cdea19184bded7da587926a",
+    "cross_state_epochs": [20, 100, 200],
+    "cross_state_branch_updates": 8,
+    "all_parent_state_hashes_preserved": true,
+    "micro_updates": 400,
+    "micro_data_epochs": 2.6666666666666665,
+    "micro_wall_seconds": 167.90543723106384,
+    "micro_finite": true,
+    "micro_peak_cuda_memory_mb": 2126.1064453125,
+    "player_bundle_schedule": [
+      "DE_BUNDLE",
+      "D_COMMIT",
+      "E_COMMIT",
+      "GF_BUNDLE",
+      "GF_COMMIT"
+    ],
+    "all_player_geometries_finite": true,
+    "paired_metric_used_for_promotion": false,
+    "confirmation20_opened": false
+  },
+  "durable_execution": {
+    "revision_successor_pid_at_acceptance": 1430306,
+    "candidate_executor_pid_at_acceptance": 1431466,
+    "first_chunk_child_pid_at_acceptance": 1431534,
+    "start_data_epoch": 0,
+    "first_chunk_target_data_epoch": 5,
+    "chunk_data_epochs_max": 5,
+    "full_state_resume": true,
+    "heartbeat_stall_seconds": 900,
+    "maximum_same_chunk_failures": 3
+  },
+  "resource_policy": {
+    "development_seed": 2026,
+    "deferred_seeds": [2027, 2028],
+    "scientific_batch_size": 1,
+    "saved_seed_compute_reallocated_to": "one evidence-authorized mathematical revision and an independent MCRB mechanism",
+    "cross_seed_stability_claimed": false
+  },
+  "paired_controller_access": false,
+  "paired_metric_early_stop": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "Engineering gate and durable-start evidence only. AM-TNC has no scientific benefit claim until its complete matched seed2026 e200 trajectory is fixed; no result here establishes cross-seed stability."
+}
