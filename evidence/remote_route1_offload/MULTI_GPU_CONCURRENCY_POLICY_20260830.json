@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-route1-multi-gpu-concurrency-policy-v1",
+  "recorded_at": "2026-08-30T09:30:00+08:00",
+  "status": "ACTIVE_VERIFIED",
+  "north_star": "Use additional compute only to accelerate evidence collection for a genuinely new long-horizon route-1 algorithm; do not turn the search into route-2 scheduling or a frozen-probe validation exercise.",
+  "scientific_protocol": {
+    "batch_size": 1,
+    "batch_size_changed": false,
+    "reason": "Changing batch size changes unpaired B sampling, PatchNCE negatives, the coupled E/D/G game, and the Adam trajectory. It is a different scientific protocol rather than a harmless throughput optimization.",
+    "parallelism_unit": "independent batch-1 training or causal-audit cell",
+    "data_epoch_is_authoritative": true,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "safety_invariants": {
+    "separate_cell_work_directories": true,
+    "atlas_cross_process_file_lock": true,
+    "row_id_idempotence": true,
+    "non_identical_duplicate_rejected": true,
+    "parent_state_hash_before_after_required_equal": true,
+    "formal_final_matrix_reanalysis_required": true,
+    "numerical_claim": "Concurrency changes wall-clock scheduling only. Every accepted row remains bound to its saved full state, source fingerprint, audit lineage, and deterministic row id."
+  },
+  "hosts": {
+    "remote4090": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "verified_streams": 3,
+      "verified_gpu_utilization_percent": 99,
+      "verified_memory_used_mib": 4992,
+      "verified_memory_total_mib": 24564,
+      "streams": [
+        "formal audit executor worker 1",
+        "formal audit executor worker 2",
+        "FINAL_UNSB_ROUTE1_EXTRA_AUDIT_HNEK_E200"
+      ],
+      "policy": "Keep three active GPU cells. Do not add a fourth while utilization is saturated. The extra far-future HNEK e200 cell is disjoint from the current HJ work directories; the formal executor will later accept/skip its row ids idempotently."
+    },
+    "remote5090": {
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "verified_streams": 3,
+      "verified_gpu_utilization_percent": 99,
+      "verified_memory_used_mib": 5420,
+      "verified_memory_total_mib": 32607,
+      "streams": [
+        "HJ anchor continuation",
+        "selected HNEK causal-audit chain",
+        "FINAL_UNSB_5090_EXTRA_HJ_PRECOMPUTE"
+      ],
+      "queued_after_current_work": [
+        "fixed-source HNEK e200 terminal recovery",
+        "explicit fixed-source HJ e5/e10/e20/e40/e60/e80/e100/e125/e150 audit chain",
+        "formal audit executor after all anchors become admissible"
+      ],
+      "policy": "Use at most three active GPU cells. Precomputed rows remain provisional until the formal executor and final causal-matrix verifier accept their hashes and lineage."
+    },
+    "local1660": {
+      "gpu": "NVIDIA GeForce GTX 1660",
+      "verified_streams": 1,
+      "policy": "Keep one stream because 6 GiB memory and lower compute make oversubscription counterproductive."
+    }
+  },
+  "orchestration_correction": {
+    "issue": "PowerShell expanded the shell variable in the first 5090 HJ waiting wrapper, leaving an empty --audit-epoch argument.",
+    "impact": "The wrapper was still waiting on HNEK recovery and the HJ e150 milestone; it had not started a scientific audit cell and modified no anchor or atlas row.",
+    "action": "Stopped only the malformed waiting screen and recreated it with nine explicit epoch commands, avoiding host-shell variable interpolation.",
+    "verification": "The recreated FINAL_UNSB_5090_EARLY_HJ_CHAIN_FIXED process command was inspected and contains explicit audit epochs 5, 10, 20, 40, 60, 80, 100, 125, and 150."
+  },
+  "capacity_decision": {
+    "increase_batch_size": "REJECTED_PROTOCOL_CHANGE",
+    "increase_independent_task_concurrency": "ACCEPTED_AND_VERIFIED",
+    "4090_active_stream_cap": 3,
+    "5090_active_stream_cap": 3,
+    "local1660_active_stream_cap": 1,
+    "adaptive_rule": "Reduce the cap if a scientific process reports CUDA OOM, row-progress stall, non-identical duplicate, parent-state hash mismatch, or sustained throughput regression; never relax an invariant to preserve utilization."
+  }
+}
