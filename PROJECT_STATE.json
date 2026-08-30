@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T20:09:59+08:00",
+  "state_snapshot_time": "2026-08-30T20:18:08+08:00",
   "phase": "GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "4412553088be4d764ed0ac3874918e49da1a7bd3",
+  "development_head_at_state_write": "e270cc6754fad3d52cbb887a73faf6a2ce4fd0db",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -239,7 +239,7 @@
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 147,
+        "latest_observed_data_epoch": 156,
         "target_data_epoch": 200,
         "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
@@ -253,8 +253,12 @@
         "e125_descriptive_only_macro_psnr_delta_db": -0.09957528568968144,
         "e125_descriptive_only_positive_domains": 3,
         "e125_guardrails_pass": false,
-        "trajectory_status": "REVERSAL_OBSERVED_E200_ADJUDICATION_PENDING",
-        "e125_evidence": "evidence/remote_route1_offload/PCRSMG_E125_REVERSAL_OBSERVED_20260830.json"
+        "e150_descriptive_only_macro_psnr_delta_db": 1.3708965709386227,
+        "e150_descriptive_only_positive_domains": 4,
+        "e150_guardrails_pass": true,
+        "trajectory_status": "NONMONOTONE_REVERSAL_AND_RECOVERY_E200_ADJUDICATION_PENDING",
+        "e125_evidence": "evidence/remote_route1_offload/PCRSMG_E125_REVERSAL_OBSERVED_20260830.json",
+        "e150_evidence": "evidence/remote_route1_offload/PCRSMG_E150_FIXED_MILESTONE_RECOVERY_20260830.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false

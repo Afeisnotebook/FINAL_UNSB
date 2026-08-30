@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-fixed-milestone-evidence-v1",
+  "recorded_at": "2026-08-30T20:18:08+08:00",
+  "host": "192.168.0.30",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "method_name": "PC-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "seed": 2026,
+  "batch_size": 1,
+  "data_epoch": 150,
+  "updates": 22500,
+  "matched_plain": true,
+  "macro_psnr": 17.623987017477532,
+  "plain_macro_psnr": 16.25309044653891,
+  "macro_psnr_delta_db": 1.3708965709386227,
+  "positive_domains": 4,
+  "worst_domain_delta_db": -0.08526158139988382,
+  "macro_ssim_delta": 0.03596881858649714,
+  "macro_lpips_delta": -0.022708259522914775,
+  "guardrails_pass": true,
+  "domain_psnr_delta_db": {
+    "FoggyCityscapes": 2.029721860626104,
+    "LowLightTrafficData": -0.04377783625126952,
+    "RSCityscapes": 2.132131317299809,
+    "RainCityscapes": 2.2680876780175048,
+    "RainDS-syn": -0.08526158139988382,
+    "SnowTrafficData": 1.9244779873394684
+  },
+  "artifact_hashes": {
+    "metric_sha256": "8d4f007c14553b2f889f64acc779c4bae2e24b264af67b05e26a0acfe92af659",
+    "checkpoint_sha256": "c599102e96e41bdfc5e9ad9d706da7adea5f701a3beeb132149d1443812fca69",
+    "checkpoint_sidecar_sha256": "9f818e20f116656e19aa2e6db56aebfe7d9c728a181f908ca87ce210d66bc880",
+    "scientific_state_sha256": "0354ee83709bd21cdaa8c1beb06db3199c0918d75858b76e98f32b5690084ec0"
+  },
+  "trajectory_context": {
+    "e100_macro_psnr_delta_db": 1.8840591200428296,
+    "e125_macro_psnr_delta_db": -0.09957528568968144,
+    "e150_macro_psnr_delta_db": 1.3708965709386227,
+    "interpretation": "The e125 reversal was followed by a fixed-milestone recovery at e150. This demonstrates non-monotone long-horizon behavior and forbids treating either milestone as an online exit signal."
+  },
+  "paired_controller_access": false,
+  "paired_metric_early_stop": false,
+  "confirmation20_opened": false,
+  "scientific_status": "FIXED_E150_POSITIVE_E175_E200_ADJUDICATION_PENDING",
+  "claim_boundary": "Descriptive seed2026 development evidence only. The fixed e150 recovery is not terminal, does not authorize best-checkpoint selection, and does not establish cross-seed stability."
+}
