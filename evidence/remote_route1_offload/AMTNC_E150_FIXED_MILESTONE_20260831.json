@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-route1-amtnc-e150-fixed-milestone-v1",
+  "recorded": "2026-08-31T00:20:51+08:00",
+  "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "method_name": "AM-TNC",
+  "candidate_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+  "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+  "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+  "execution_role": "authoritative_4090_single_allowed_evidence_driven_revision",
+  "fixed_e150_observation": {
+    "updates": 22500,
+    "candidate_macro_psnr": 16.789940054690145,
+    "plain_macro_psnr": 16.25309044653891,
+    "macro_psnr_delta": 0.5368496081512362,
+    "macro_ssim_delta": 0.029514559748626934,
+    "macro_lpips_delta": 0.005948997874345163,
+    "lpips_guardrail_status": "WORSE_THAN_PLAIN_AT_E150",
+    "positive_domains": 5,
+    "worst_domain_delta": -0.16654563511838916,
+    "per_domain_psnr_delta": {
+      "FoggyCityscapes": 0.006012283630042248,
+      "LowLightTrafficData": -0.16654563511838916,
+      "RSCityscapes": 0.17895456968650336,
+      "RainCityscapes": 1.1358523935535842,
+      "RainDS-syn": 0.751836929471061,
+      "SnowTrafficData": 1.3149871076846154
+    },
+    "metric_sha256": "914afe8a49545332edf9a07edb26b70e3894aacef08e9e8896a12e8e4379df6e",
+    "plain_metric_sha256": "3aa89df0f2ca622b5a9b52db81585f7da85c78aad88670b7e335bd84eb0e7df4",
+    "milestone_checkpoint_sha256": "9302ba3dc2347cc113606a64bc03c0d7e0f8b288fee8affba2c92285ee70b57f",
+    "milestone_sidecar_sha256": "c740fd18cf976156ef07db519a0d80df536459407635f28c4e76b61fb5a29754",
+    "scientific_state_sha256": "b817578af5d37a9c4ef78132579d3d4e6c2eaf6867385b99659316284c95376c"
+  },
+  "e125_to_e150_decomposition": {
+    "delta_change_db": 0.8696346423251526,
+    "candidate_absolute_change_db": 0.2586202049740365,
+    "plain_absolute_change_db": -0.6110144373511162,
+    "interpretation": "AM-TNC improved slightly while the same-host plain trajectory declined more, so most of the recovered relative advantage came from the plain downswing rather than accelerated candidate improvement."
+  },
+  "live_continuation": {
+    "executor_pid": 1431466,
+    "e150_to_e155_child_pid": 1447994,
+    "next_chunk_started": true,
+    "scientific_early_stop": false,
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "adjudication": {
+    "status": "FIRST_LATE_POINT_POSITIVE_WITH_LPIPS_GUARDRAIL_FAIL_CONTINUE_FIXED_E200",
+    "terminal_candidate_gate_passed": false,
+    "reason": "e150 is only the first late point, most of the relative recovery came from plain decline, and LPIPS is currently worse than the matched plain. The fixed e175/e200 evidence is still required.",
+    "authorized_action": "Continue the unchanged AM-TNC trajectory to e175 and e200 and retain the absolute/relative and guardrail decomposition.",
+    "forbidden_actions": [
+      "select the e150 checkpoint",
+      "change the AM-TNC operator or its strength from paired metrics",
+      "fit an exit threshold, annealing schedule or handoff",
+      "open confirmation20"
+    ]
+  }
+}
