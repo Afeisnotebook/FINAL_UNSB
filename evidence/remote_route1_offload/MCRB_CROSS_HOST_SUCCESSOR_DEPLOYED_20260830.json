@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-route1-mcrb-cross-host-successor-deployment-v1",
+  "recorded": "2026-08-30T22:45:22+08:00",
+  "status": "DEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
+  "purpose": "Durably route only the complete 5090 MCRB e200 result into the conditional 4090 same-host replay, final all-receipt selection and winner e200 ablations without depending on the Codex session.",
+  "control_identity": {
+    "git_commit": "8bee139df40e19c5bdace718489da6fed3c04a42",
+    "worktree": "/home/yc/FINAL_UNSB_CONTROL_b724f81",
+    "worktree_clean": true,
+    "successor_source_sha256": "937a387f6e34ea29002decc686915a064f61a6543ff2d0e80e07c6464bfa9874",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/MCRB_CROSS_HOST_SUCCESSOR_CONTRACT_8bee139.json",
+    "contract_sha256": "e5ddd5e98ba295c4a50a6830d1871664da24fa2607d693b51ff1cc009fa015ca",
+    "supervisor_pid_at_deployment": 1438951
+  },
+  "mcrb_training_identity": {
+    "git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+    "worktree_clean": true,
+    "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+    "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222"
+  },
+  "dedicated_ssh_link": {
+    "password_stored_in_contract_or_repository": false,
+    "public_key_sha256": "0a034ec68552151f69d95d33787c0e4af8e8ef3be7224e8dd757fbcbfc5985f6",
+    "known_hosts_sha256": "f5c641df83490a8f007d961a2b6ef49c42ffadcb041a021517eefbf82d940357",
+    "batch_mode_connection_verified": true
+  },
+  "routing_contract": {
+    "reads_intermediate_paired_metrics": false,
+    "remote_terminal_requirement": "complete e200/30000 trajectory plus accepted source-bound terminal receipt",
+    "positive_remote_status_starts_4090_replay": true,
+    "negative_remote_status_starts_4090_replay": false,
+    "4090_replay_starts_from_host_common_e0": true,
+    "cross_host_checkpoint_transfer": false,
+    "cross_host_deltas_merged": false,
+    "waits_for_amtnc_e200_before_using_4090": true,
+    "final_selection_before_winner_ablation": true,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "target_updates": 30000
+  },
+  "deployment_snapshot": {
+    "amtnc_4090_data_epoch": 64,
+    "amtnc_4090_updates": 9600,
+    "mcrb_5090_data_epoch": 74,
+    "mcrb_5090_updates": 11100,
+    "local_hj_audit_current_epoch": 200,
+    "confirmation20_opened": false
+  },
+  "tests": {
+    "local_full_pytest": "195 passed",
+    "remote4090_successor_unit_tests": "7 passed",
+    "compileall": "PASS",
+    "ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
