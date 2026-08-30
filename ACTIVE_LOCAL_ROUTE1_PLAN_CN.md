@@ -85,9 +85,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   证据生成最多三个Generation-1构造；历史已失败的future-batch selector、HJ cosine
   matching、同batch Adam projection、DT sensitivity preconditioner等不得换名重跑。
 - Generation-1排序已从原先仅按“支持探针数”修正为固定字典序：跨探针支持、已观测
-  前兆领先性、六域一致性、冻结的1/8/32步反事实收益、最小数学复杂度、最小计算/恢复
+  前兆领先性、六域一致性、冻结的200-update反事实收益、最小数学复杂度、最小计算/恢复
   成本。复杂度和成本在矩阵阶段仅是构造家族下界，最终必须由derivation card替换为实际
-  算法开销；这不等于提前写好算法。实现见`3d650d1`。
+  算法开销；这不等于提前写好算法。200 updates在small25等于1.333 data epochs，也是唯一
+  实际带discovery70 post-branch标签的短分支；1/8/32只作局部几何诊断。实现见`56f2740`。
 - 一次因果修订不再依赖手工改ledger。`641559a`新增追加式G2授权：只有G1完成e200且
   当前实现长期为负、target-blind缺陷量数值上确实下降但收益仍反转、并形成新的因果
   失败理由时才能创建；同一父机制只能一次，G2不能再生G3，窗口、handoff、网格和paired

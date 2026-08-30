@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "d9c2505",
+  "development_head_at_state_write": "56f2740",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -119,6 +119,7 @@
     ,"posthoc screening exposes nonzero block/domain/time correction consensus and rejects inactive zero-correction variance as false safety evidence"
     ,"endpoint dispersion, bridge KDD, gradient scale, Adam alignment and D/G/E balance are routed as target-blind internal-state evidence with AEB and PCOA equivalence boundaries"
     ,"inactive corrections cannot vote, state-local failures cannot be averaged away, both-state harm routes to mathematical rewrite, and shared signals must pass every probe"
+    ,"short counterfactual ranking uses the actually labeled 200-update branch rather than unlabeled 1/8/32-update geometry rows"
   ],
   "phase_c": {
     "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",

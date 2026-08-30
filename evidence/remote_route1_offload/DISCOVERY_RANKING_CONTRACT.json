@@ -1,17 +1,18 @@
 {
   "schema": "final-unsb-route1-discovery-ranking-contract-v1",
   "created": "2026-08-30T07:49:00+08:00",
-  "implementation_commit": "3d650d1",
+  "implementation_commit": "56f2740",
   "problem": "The completed-matrix derive stage was capped at three Generation-1 mechanisms, but its previous ordering used only cross-probe support and an alphabetical tie break.",
   "fixed_lexicographic_order": [
     "cross_probe_support",
     "observed_target_blind_reversal_precursor_lead_fraction",
     "target_blind_six_domain_sign_consistency",
-    "frozen_1_8_32_step_counterfactual_benefit",
+    "frozen_200_update_counterfactual_benefit_which_equals_1.333_small25_data_epochs",
     "minimum_construction_family_mathematical_complexity",
     "minimum_compute_and_recovery_cost"
   ],
   "complexity_boundary": "Complexity and cost values are explicit lower-bound priors for a construction family. The later derivation card must replace them with the exact derived operator cost; they are not prewritten formulas.",
+  "horizon_boundary": "Only the 200-update branch has a post-branch discovery70 label. The 1/8/32-update branches remain target-blind local-geometry and propagation diagnostics and are not misreported as paired short-benefit observations.",
   "scientific_boundary": {
     "paired_branch_delta_used_only_after_both_virtual_branches_are_frozen": true,
     "paired_branch_delta_available_to_training_controller": false,
