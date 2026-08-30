@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T03:27:31+08:00",
+  "state_snapshot_time": "2026-08-31T03:30:06+08:00",
   "phase": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "development_head_at_state_write": "970784c83f2a4bbe4d8f9339e9e2dff870cd02eb",
@@ -182,11 +182,15 @@
       "evidence": "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
     },
     "broader_local_terminal_audit": {
-      "status": "HNEK_E20_RUNNING_AFTER_E5_COMPLETE",
-      "probe": "hnek",
-      "data_epoch": 20,
-      "current_job_rows_persisted_at_snapshot": 13,
-      "executor_pid": 15096,
+      "status": "COMPLETE_SUPPLEMENTAL_PROXY_NOT_CALIBRATED",
+      "probes": ["hj", "hnek"],
+      "reversal_rows": 174,
+      "sampling_variance_rows": 52,
+      "executor_process_alive": false,
+      "long_reversal_atlas_sha256": "07815ce1421fa12e1b36a05829035777db79102c27ccd10404d92a271b24d9ed",
+      "sampling_variance_atlas_sha256": "e905ccacbe1f483f70b3897dad83dd487cbdbbaac69777dc71a8e1b4d56e6353",
+      "long_causal_matrix_sha256": "fd966a90f4e62a4ef9844e5a94d1e604a711d6c014ae0c5aa66b67638ddd1428",
+      "evidence": "evidence/local_route1/LOCAL_HJ_HNEK_CAUSAL_AUDIT_COMPLETE_20260831.json",
       "paired_controller_access": false,
       "confirmation20_opened": false
     },

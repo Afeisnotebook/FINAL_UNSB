@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T03:27:31+08:00",
+  "updated": "2026-08-31T03:30:06+08:00",
   "goal_status": "IN_PROGRESS_WINNER_ABLATIONS_AND_EVIDENCE_DRIVEN_FRONTIER_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -53,7 +53,8 @@
         "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
         "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
         "evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json",
-        "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
+        "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json",
+        "evidence/local_route1/LOCAL_HJ_HNEK_CAUSAL_AUDIT_COMPLETE_20260831.json"
       ],
       "boundary": "The primary 4090 graph contains complete long trajectories and full-state counterfactual evidence for all three historical mechanisms; this supports derivation but does not prove any old implementation is the answer."
     },
@@ -61,7 +62,10 @@
       "id": 4,
       "requirement": "Real LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX are complete.",
       "status": "PROVEN_COMPLETE_FROZEN",
-      "evidence": ["evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json"],
+      "evidence": [
+        "evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json",
+        "evidence/local_route1/LOCAL_HJ_HNEK_CAUSAL_AUDIT_COMPLETE_20260831.json"
+      ],
       "authority": {
         "reversal_rows": 474,
         "sampling_variance_rows": 140,
@@ -242,7 +246,7 @@
     }
   ],
   "current_accepted_scientific_boundary": {
-    "local": "plain/HJ/HNEK e200 accepted; local HJ audit is complete and supplemental HNEK audit has completed e1/e5 and is running e20. The 4090 causal matrix remains authoritative",
+    "local": "plain/HJ/HNEK e200 accepted; the supplemental HJ/HNEK audit is complete with 174 reversal and 52 sampling-variance rows. The local proxy is not calibrated, so no local DT/candidate generation was authorized; the calibrated 4090 causal matrix remains authoritative",
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP, PC-RSMG and AM-TNC complete e200. AM-TNC has late-three PSNR +0.105 dB and e200 +0.383 dB but late LPIPS fails. Frozen ranking selects PC-RSMG as current fallback by the preregistered late-three-first order, with AM-TNC second",
     "remote5090": "all anchors and MCRB e200 complete. MCRB ends at -0.730 dB with 3/6 domains positive and worst domain -2.175 dB, so its current implementation is negative and no cross-host delta was merged. PCNR and AM-MCRB now both have source-bound PASS_LONG_RUN gates and run concurrently from the same host e0/plain to fixed e200",
     "new_algorithms": "BVCP, PC-RSMG, AM-TNC and MCRB all have complete long trajectories; none passes every strict gate. PC-RSMG remains the current-best seed2026 fallback, while PCNR and AM-MCRB extend the credible frontier with mathematically distinct unbiased/state-metric repairs rather than hyperparameter variants",

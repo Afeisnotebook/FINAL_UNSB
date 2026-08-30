@@ -62,6 +62,11 @@ projected/full e200证据；不能借用PC-RSMG消融。若没有4090复跑，�
 任一终点证据或hash缺失都会拒绝交付。见
 `decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md`。
 
+本地1660补充因果审计也已结束：HJ/HNEK共174条反转记录和52条采样方差记录，完整matrix
+再次显示状态/epoch依赖和采样方差问题，但没有通过跨方法target-blind控制信号门。本地
+proxy未校准，因此没有在本地追加DT或候选；它是代理失真证据，4090的474/140矩阵仍是
+canonical因果权威。
+
 ## 为什么此前的“路线一完成”需要重审
 
 此前 small25 的 2400 updates 只有 16 data epochs；full100 的 12000 updates

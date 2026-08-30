@@ -42,8 +42,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   已通过短GPU身份门。proposal-only已从共同e0进入真实e200，完成后才启动
   observable-only；按实测墙钟严格单流，长程并发上限为1。两门及运行身份见
   `evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json`。
-- 本地1660的HJ e200审计完成；HNEK已完成e1/e5并在e20长虚拟分支中持久化13行，
-  仅作补充，不替代4090权威因果矩阵。
+- 本地1660的HJ/HNEK补充审计现已全部自然完成：174条反转记录、52条采样方差记录，
+  matrix状态为`COMPLETE_CAUSAL_AUDIT`。本地proxy未校准，所以没有在本地启动DT或候选；
+  该结果只证明proxy/宿主敏感性，不替代已校准4090的474/140权威矩阵。见
+  `evidence/local_route1/LOCAL_HJ_HNEK_CAUSAL_AUDIT_COMPLETE_20260831.json`。
 - 最终交付不再用候选ID猜executor合同文件名；它按receipt中的候选、训练commit、算法/
   候选指纹、manifest和e200边界寻找唯一真实合同并写入hash，缺失或不一致即fail closed。
 - seed2027/2028继续延期；confirmation20、全量数据、路线二、退出阈值和跨宿主delta

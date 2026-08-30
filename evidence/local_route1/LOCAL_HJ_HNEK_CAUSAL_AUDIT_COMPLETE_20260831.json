@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-local-hj-hnek-causal-audit-complete-v1",
+  "observed_at": "2026-08-31T03:23:28+08:00",
+  "status": "COMPLETE_SUPPLEMENTAL_PROXY_NOT_CALIBRATED",
+  "run_root": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200",
+  "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+  "artifacts": {
+    "long_reversal_atlas": {
+      "rows": 174,
+      "sha256": "07815ce1421fa12e1b36a05829035777db79102c27ccd10404d92a271b24d9ed"
+    },
+    "sampling_variance_atlas": {
+      "rows": 52,
+      "sha256": "e905ccacbe1f483f70b3897dad83dd487cbdbbaac69777dc71a8e1b4d56e6353"
+    },
+    "long_causal_matrix": {
+      "status": "COMPLETE_CAUSAL_AUDIT",
+      "sha256": "fd966a90f4e62a4ef9844e5a94d1e604a711d6c014ae0c5aa66b67638ddd1428"
+    },
+    "audit_execution_state_sha256": "6da1ec75c6d08c47affebdbd01355d160f057208768ae5dfe7e34a0c8cd536a2"
+  },
+  "probe_rows": {
+    "hj": 80,
+    "hnek": 94
+  },
+  "sampling_variance_rows": {
+    "hj": 24,
+    "hnek": 28
+  },
+  "causal_summary": {
+    "shared_target_blind_controller_signal": "NO_ELIGIBLE_SHARED_SIGNAL",
+    "sampling_variance_construction_eligible": true,
+    "eligible_construction_route": "unbiased_stratified_or_antithetic_estimator",
+    "rollout_speed_preceded_harm_but_failed_shared_signal_screen": true,
+    "state_operator_effect_is_state_and_epoch_dependent": true,
+    "pulse_branches_are_diagnostics_not_exit_policies": true
+  },
+  "authority_boundary": {
+    "local_proxy_calibrated": false,
+    "local_dt_or_candidate_generation_authorized": false,
+    "remote4090_proxy_calibrated": true,
+    "remote4090_matrix_remains_canonical": true,
+    "local_result_overrides_remote4090_ranking": false
+  },
+  "executor_process_alive_after_completion": false,
+  "paired_metrics_used_only_as_offline_post_branch_labels": true,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
