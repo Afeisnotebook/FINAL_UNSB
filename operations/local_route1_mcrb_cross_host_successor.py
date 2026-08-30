@@ -24,7 +24,7 @@ import traceback
 from pathlib import Path
 from typing import Any
 
-from operations import local_route1_executor as support
+from operations import local_route1_candidate_executor as support
 from research.local_route1.candidates import load_candidate_registration
 from research.local_route1.final_selection import (
     materialize_final_e200_selection,
