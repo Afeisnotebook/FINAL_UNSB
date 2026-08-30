@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-fixed-milestone-evidence-v1",
+  "recorded_at": "2026-08-30T20:47:08+08:00",
+  "host": "192.168.0.30",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "method_name": "PC-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "seed": 2026,
+  "batch_size": 1,
+  "data_epoch": 175,
+  "updates": 26250,
+  "matched_plain": true,
+  "macro_psnr": 17.638236376911223,
+  "plain_macro_psnr": 17.144876841258504,
+  "macro_psnr_delta_db": 0.4933595356527185,
+  "positive_domains": 5,
+  "worst_domain_delta_db": -0.06748450581183008,
+  "macro_ssim_delta": 0.00970275951992905,
+  "macro_lpips_delta": -0.013661910345157013,
+  "guardrails_pass": true,
+  "domain_psnr_delta_db": {
+    "FoggyCityscapes": -0.06748450581183008,
+    "LowLightTrafficData": 1.6627694489865714,
+    "RSCityscapes": 1.0503140384411758,
+    "RainCityscapes": 0.05916415752141191,
+    "RainDS-syn": 0.21966925991353747,
+    "SnowTrafficData": 0.03572481486544277
+  },
+  "evaluation_input_sha256": "3eded31c265a38f34c48b7e7216a140244e2314513b4fff396f8c64dee76dbb4",
+  "artifact_hashes": {
+    "metric_sha256": "77e63b3a9df6ad32a53d8863d565dfe0573a0a57093eeaa490eff9770470bf28",
+    "checkpoint_sha256": "992dbaf45f3aa2df63d07579a4c66a08ae70f7d7772c74556efeccd2254e77c5",
+    "checkpoint_sidecar_sha256": "be310bf6f855ec4821b18db1888ff3d81341b868818b3c365dd167e3566bf717",
+    "scientific_state_sha256": "b36b7e634cd7c36c3edddfeb977fd115f0816c7256815b5f42ee18920d0a8ef8"
+  },
+  "trajectory_context": {
+    "e100_macro_psnr_delta_db": 1.8840591200428296,
+    "e125_macro_psnr_delta_db": -0.09957528568968144,
+    "e150_macro_psnr_delta_db": 1.3708965709386227,
+    "e175_macro_psnr_delta_db": 0.4933595356527185,
+    "interpretation": "The fixed e175 point remains positive after the e125 reversal and e150 recovery. The non-monotone trajectory forbids treating a single intermediate sign as an exit or success controller; fixed e200 remains terminal."
+  },
+  "paired_controller_access": false,
+  "paired_metric_early_stop": false,
+  "confirmation20_opened": false,
+  "scientific_status": "FIXED_E175_POSITIVE_E200_ADJUDICATION_PENDING",
+  "claim_boundary": "Descriptive seed2026 development evidence only. The fixed e175 result is not terminal, does not authorize best-checkpoint selection, and does not establish cross-seed stability."
+}
