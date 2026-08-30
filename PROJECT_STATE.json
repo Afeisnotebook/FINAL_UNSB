@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "cff1d49",
+  "development_head_at_state_write": "d9c2505",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -118,6 +118,7 @@
     ,"the single allowed causal revision is executable, e200-bound, target-blind-defect-bound and append-only per parent mechanism"
     ,"posthoc screening exposes nonzero block/domain/time correction consensus and rejects inactive zero-correction variance as false safety evidence"
     ,"endpoint dispersion, bridge KDD, gradient scale, Adam alignment and D/G/E balance are routed as target-blind internal-state evidence with AEB and PCOA equivalence boundaries"
+    ,"inactive corrections cannot vote, state-local failures cannot be averaged away, both-state harm routes to mathematical rewrite, and shared signals must pass every probe"
   ],
   "phase_c": {
     "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",
@@ -147,6 +148,7 @@
     "unsb_internal_state_signal_commit": "cff1d49",
     "unsb_internal_state_signal_evidence": "evidence/remote_route1_offload/UNSB_INTERNAL_STATE_SIGNAL_GATE.json",
     "real_row_partial_analyzer_smoke": "evidence/remote_route1_offload/REAL_ROW_ANALYZER_PARTIAL_SMOKE.json",
+    "mechanism_evidence_boundary": "evidence/remote_route1_offload/MECHANISM_EVIDENCE_BOUNDARY_GATE.json",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false

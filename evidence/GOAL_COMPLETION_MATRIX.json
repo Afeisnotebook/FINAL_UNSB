@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T05:55:30+08:00",
+  "updated": "2026-08-30T08:10:00+08:00",
   "goal_status": "IN_PROGRESS",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
   "scope_override": {
@@ -35,7 +35,7 @@
     {
       "id": 3,
       "requirement": "DT/HJ/HNEK and other primary probes yield usable long causal evidence.",
-      "status": "HJ_HNEK_LONG_PROVEN_DT_RUNNING_CAUSAL_PENDING",
+      "status": "ALL_PRIMARY_LONG_PROBES_E200_COMPLETE_CAUSAL_ROWS_RUNNING",
       "evidence": [
         "evidence/lineage/DT_LINEAGE.json",
         "evidence/lineage/HJ_LINEAGE.json",
@@ -44,14 +44,15 @@
         "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
         "evidence/local_route1_progress/HJ_E10_MILESTONE_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
-        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
+        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json"
       ],
-      "missing": ["DT e200", "counterfactual rows"]
+      "missing": ["complete verified 432-row reversal atlas and 128-row variance atlas"]
     },
     {
       "id": 4,
       "requirement": "Real LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX are complete.",
-      "status": "PENDING_DT_E200_THEN_AUTOMATIC_AUDIT",
+      "status": "PRIMARY4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING",
       "evidence": [
         "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
         "evidence/local_route1_progress/TERMINAL_AUDIT_LR_BOUNDARY.json",
@@ -59,24 +60,29 @@
         "evidence/remote_route1_offload/PROXY_GATED_AUDITORS_ARMED.json",
         "evidence/remote_route1_offload/DYNAMIC_AUDIT_SELECTION_REDEPLOYMENT.json",
         "evidence/remote_route1_offload/PROXY_GATED_AUDIT_SCOPE_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/TERMINAL_VERIFICATION_GATED_AUDITORS_ARMED.json"
+        "evidence/remote_route1_offload/TERMINAL_VERIFICATION_GATED_AUDITORS_ARMED.json",
+        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
+        "evidence/remote_route1_offload/REAL_ROW_ANALYZER_PARTIAL_SMOKE.json"
       ],
-      "boundary": "The zero-LR terminal artifact has been removed and all three executors are source-bound, but a waiting auditor or audit queue is not causal evidence."
+      "boundary": "The primary atlas is producing valid immutable rows and current analysis fails closed while partial. A partial atlas is still not authority for formulas."
     },
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "NOT_YET_DERIVABLE_CONTRACT_READY",
+      "status": "NOT_YET_DERIVED_EXECUTABLE_CONTRACT_READY",
       "evidence": [
-        "decisions/DEC-20260830-ROUTE1-DERIVATION-CONTRACT.md"
+        "decisions/DEC-20260830-ROUTE1-DERIVATION-CONTRACT.md",
+        "evidence/remote_route1_offload/DISCOVERY_RANKING_CONTRACT.json",
+        "evidence/remote_route1_offload/TARGET_BLIND_SIGNAL_COVERAGE_GATE.json",
+        "evidence/remote_route1_offload/UNSB_INTERNAL_STATE_SIGNAL_GATE.json"
       ],
       "gate": "Algorithm formulas may be created only after immutable causal-matrix evidence exists."
     },
     {
       "id": 6,
       "requirement": "The allowed one causal revision is completed or evidence shows it is inapplicable.",
-      "status": "NOT_REACHED",
-      "evidence": []
+      "status": "EXECUTABLE_ONCE_ONLY_GATE_READY_NOT_REACHED",
+      "evidence": ["evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json"]
     },
     {
       "id": 7,
@@ -91,17 +97,18 @@
       "evidence": [
         "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
+        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
+        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json"
       ],
-      "missing": ["DT trajectory", "candidate trajectories", "absolute/relative decomposition", "final reproduction commands"]
+      "missing": ["candidate trajectories", "candidate absolute/relative decomposition", "final reproduction commands"]
     },
     {
       "id": 9,
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "82 pytest tests passing at implementation commit 193aa4d",
-        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
+        "100 pytest tests passing at implementation commit d9c2505",
+        "evidence/remote_route1_offload/MECHANISM_EVIDENCE_BOUNDARY_GATE.json"
       ],
       "boundary": "This must be rerun after every future scientific implementation and at final delivery."
     },
@@ -114,13 +121,13 @@
   ],
   "current_accepted_scientific_boundary": {
     "local_plain": "e200 accepted",
-    "local_hj": "running at e52; local same-host long replicate remains pending",
+    "local_hj": "running past e107; local same-host long replicate remains pending",
     "remote4090_plain": "e200 accepted",
     "remote4090_hj_hnek": "both e200 accepted; proxy CALIBRATED; HJ late-three +0.649 dB and HNEK +0.806 dB",
     "remote4090_handoff": "missed pause race recovered without state mixing; partial canonical HNEK e1 is quarantined and verified independent HNEK e200 imported",
-    "remote5090_plain_hnek": "running at plain e180 with independent HNEK in parallel; HNEK remains quarantined until same-host plain e200",
-    "dt": "remote4090 DT running at e21 from shared e0 after proxy calibration",
-    "causal_atlas": "not started",
+    "remote5090_plain_hnek": "plain and HNEK e200 accepted; HJ is running past e85 and selected HNEK causal subgraph is running",
+    "dt": "remote4090 DT e200 accepted as positive_probe_not_candidate; finite-support tail did not preserve terminal benefit",
+    "causal_atlas": "primary4090 immutable audit running; last compact observation exceeded 90/432 reversal rows and 20/128 variance rows; final matrix remains blocked",
     "new_algorithm": "not yet generated",
     "confirmation20_opened": false
   },

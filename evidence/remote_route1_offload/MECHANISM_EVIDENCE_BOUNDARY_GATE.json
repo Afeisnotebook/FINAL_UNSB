@@ -1,0 +1,24 @@
+{
+  "schema": "final-unsb-route1-mechanism-evidence-boundary-gate-v1",
+  "created": "2026-08-30T08:10:00+08:00",
+  "implementation_commits": ["c3c407e", "b16482f", "b89a9f9", "d9c2505"],
+  "boundaries": {
+    "inactive_zero_correction": "retained in the raw atlas as identity evidence but excluded from signal, variance-dominance and mechanism votes",
+    "state_local_sign_failure": "any negative next-independent-batch correction cosine is retained even when the probe-wide mean remains positive",
+    "state_local_scale_failure": "any correctly directed correction larger than the native update is retained even when the probe-wide mean ratio remains below one",
+    "both_state_harm": "routes to a current-state rate or curvature mathematical reformulation; fixed exit, handoff and annealing are forbidden",
+    "shared_signal": "every observed probe must individually pass 0.65 accuracy; a mean pass cannot hide one failed probe",
+    "method_specific_signal": "a signal that fails sharing may remain eligible only for the probes that independently pass"
+  },
+  "scientific_boundary": {
+    "formula_generated_before_complete_matrix": false,
+    "paired_threshold_fitted": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "pytest": "100 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}

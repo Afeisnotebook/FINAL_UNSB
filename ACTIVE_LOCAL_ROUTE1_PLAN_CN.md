@@ -103,6 +103,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - 当前分析器已在4090独立目录用真实raw快照烟测：86/432 reversal rows、17/128 variance
   rows时严格返回`PARTIAL_CAUSAL_AUDIT`和退出码7，ranked mechanism为0，screen保持blocked，
   stderr为空。它没有触碰primary atlas，证明新增后处理在真实schema上兼容且仍fail-closed。
+- 机制证据边界进一步固定：零校正只作identity、不参与排名；单状态负方向或过大幅值不会
+  被全程均值掩盖；plain/self两种状态都受害时只能做当前状态rate/curvature数学重写；
+  “共享信号”要求每个探针单独过0.65，不能用平均值掩盖失败探针。当前完整测试为100项。
 - DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
   forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
   路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。
