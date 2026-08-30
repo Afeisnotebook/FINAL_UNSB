@@ -35,6 +35,7 @@
     "main_4090_mcrb_candidate_directory_exists": false,
     "remote_terminal_receipt_exists": false,
     "route1_final_e200_selection_exists": false,
+    "single_seed_development_freeze_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/SINGLE_SEED_DEVELOPMENT_FREEZE.json",
     "single_seed_development_freeze_exists": false,
     "cross_host_deltas_merged": false,
     "selection_seeds": [
