@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T19:21:36+08:00",
-  "goal_status": "IN_PROGRESS_GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200",
+  "updated": "2026-08-30T23:32:05+08:00",
+  "goal_status": "IN_PROGRESS_GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
     "original_local_only_text": true,
@@ -27,7 +27,8 @@
         "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
         "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
+        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
       "boundary": "Anchors, both candidate executors and the post-e200 successor use source-bound durable supervisors with five-data-epoch chunks, heartbeats, exact resume and bounded retries."
     },
@@ -85,15 +86,18 @@
         "evidence/remote_route1_offload/BVCP_TARGET_BLIND_SELF_NULL_DIAGNOSIS_20260830.json",
         "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json",
         "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
-        "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json"
+        "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
+        "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json",
+        "research/local_route1/derivation_cards/G1-03-STATE-FEEDBACK-MISSING.json",
+        "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
         "BVCP_status": "complete e200; frozen current implementation is long-horizon negative; parent mechanism remains open",
         "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "PCRSMG_status": "complete e200; late-three positive but strict terminal gate negative at -0.001379 dB; its reduced defect authorized AM-TNC",
-        "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 running from common e0",
-        "MCRB_status": "formula/code identity audited; independent 5090 e200 running with conditional same-host 4090 replay",
+        "AMTNC_status": "formula/code identity audited; authoritative 4090 e200 running from common e0; observed e106/15900 updates",
+        "MCRB_status": "formula/code identity audited; independent 5090 e200 running at e114/17100 updates with conditional same-host 4090 replay",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
@@ -121,7 +125,8 @@
         "evidence/remote_route1_offload/PCRSMG_E200_TERMINAL_AND_CROSS_ADJUDICATION_20260830.json",
         "evidence/remote_route1_offload/AMTNC_CAUSAL_REVISION_GATE_AND_E200_START_20260830.json",
         "evidence/remote_route1_offload/MCRB_GATE_AND_E200_START_20260830.json",
-        "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json"
+        "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
       "missing": ["AM-TNC and MCRB terminal e200 decisions", "authoritative all-candidate seed2026 ranking", "winner e200 ablations", "final fail-closed materialization"]
     },
@@ -150,12 +155,16 @@
         "154 pytest tests passed at challenger-aware final delivery commit 945b8cf",
         "156 pytest tests passed at gradient-subspace audit commit 6f3edf5",
         "157 pytest tests passed locally and on remote4090 at emergency single-seed commit 23dc0c8",
+        "199 pytest tests passed locally at measured-throughput single-stream commit 24beb4b; 11 routing/scheduling tests passed on remote4090",
+        "200 pytest tests passed locally after adding the fail-closed first-ablation failure regression at b797eed",
         "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
         "scientific source pushed through 6f3edf5; compact deployment evidence pushed at 0601439",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json"
+        "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
       "boundary": "Tests and repository cleanliness must be re-proven after final materialization."
     },
@@ -188,17 +197,19 @@
         ,"evidence/remote_route1_offload/MCRB_CROSS_HOST_SUCCESSOR_DEPLOYED_20260830.json"
         ,"evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json"
         ,"evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json"
+        ,"evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
+        ,"decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. Projected/full reuses the selected source-bound e200 receipt; proposal-only then observable-only run as two sequential single-stream e200 trajectories. Under the explicit emergency protocol, a proposal-only challenger may replace full by the complete seed2026/e200 posthoc rank; the delivery must state that seed2027/2028 are deferred and cross-seed stability is not established.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e82 and continues from common e0 under commit 977ce32",
-    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e91; no 5090 result may be merged into the 4090 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e106 and continues from common e0 under commit 977ce32",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e114; its positive e100 description remained nonterminal and no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
-    "successor": "commit 8bee139 deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts winner ablations; 195 local tests and 7 remote4090 successor tests pass, while terminal candidate and ablation trajectories correctly remain pending",
+    "successor": "commit 24beb4b deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts source-bound sequential single-stream winner ablations; 200 local tests and 11 remote4090 routing/scheduling tests pass, while terminal candidate and ablation trajectories correctly remain pending",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false
