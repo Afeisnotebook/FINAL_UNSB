@@ -1,0 +1,81 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "name": "Player-Conditional Replicated Stochastic-Measure Gradient",
+  "parent_evidence": {
+    "failure_type": "sampling_variance",
+    "evidence_rank": 3,
+    "supporting_probes": ["dt", "hj", "hnek"],
+    "dt_latent_time_bridge_variance_fraction": 0.8245040279678186,
+    "hj_independent_batch_variance_fraction": 0.872739367754447,
+    "hj_latent_time_bridge_variance_fraction": 0.8728196261383675,
+    "hnek_independent_batch_variance_fraction": 0.69973459359457
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:sampling_variance:rank=3:cross_probe_support=3",
+    "SAMPLING_VARIANCE_ATLAS:DT latent/time/bridge variance dominated 7/7 active rows",
+    "SAMPLING_VARIANCE_ATLAS:HJ independent-batch and latent/time/bridge variance dominated 22/22 rows each",
+    "SAMPLING_VARIANCE_ATLAS:HNEK independent-batch variance dominated 9/18 rows",
+    "INC-20260830-RSMG-PLAYER-STATE:the first implementation reused a pre-D replica bundle after D/E changed and was frozen as engineering-invalid"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "invalid G1-02 RSMG shared pre-D bundle",
+      "AEB antithetic endpoint averaging",
+      "PTQ physical-time resampling",
+      "G1-HJ-ACMP antithetic HJ-correction projection"
+    ],
+    "material_difference": "PC-RSMG does not reuse the opponent-update replica bundle for G/F. It commits D and E, discards that bundle, and only then draws a fresh conditionally iid G/F bundle. This changes cross-player stochastic coupling while preserving each player's expected native UNSB gradient field at the state where that player is optimized. It does not average endpoints, change the time/domain measure, concatenate PatchNCE replicas, add a loss, or access paired targets.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the player-conditional stochastic gradient estimator of the sequential native D, E, then joint G/F UNSB game",
+  "formula": "Let S_k and b_k be the current full state and one official batch-1 unpaired draw. Draw xi_DE^1,xi_DE^2 iid from the native stochastic measure and commit D with their mean gradient. Because L_E does not read theta_D, use the same iid pair to commit E. Let S_k^{DE} be the resulting opponent-updated state. Then independently draw xi_GF^1,xi_GF^2 from the native measure at S_k^{DE} and commit joint G/F with gbar_GF=(g_GF(S_k^{DE},b_k,xi_GF^1)+g_GF(S_k^{DE},b_k,xi_GF^2))/2. Adam is applied once per native player after averaging. The two bundles use four serial batch-1 forwards and are never concatenated.",
+  "identity_or_unbiased_condition": "For p in {D,E}, conditional on the pre-opponent state and official batch, the two DE draws are iid and E[gbar_p]=E[g_p]. Conditional on the realized updated opponent state S_k^{DE}, the fresh GF draws are independent of the DE estimator, hence E[gbar_GF|S_k^{DE},b_k]=E[g_GF|S_k^{DE},b_k] and Var(gbar_GF|S_k^{DE},b_k)=Var(g_GF|S_k^{DE},b_k)/2. Setting pcrsmg_replicates=1 dispatches the original optimize_parameters path exactly.",
+  "objective_change": false,
+  "estimator_change": true,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "Both player bundles receive the same official unpaired batch-1 tensors and draw only native latent, bridge-noise, time and PatchNCE randomness. Bundle count and order are fixed. No held-out pair, metric, domain-label controller or confirmation sample is addressable.",
+  "expected_applicable_state": {
+    "condition": "latent/time/bridge or independent-batch randomness dominates the observed update variation",
+    "self_null_state": "one replica is byte-identical to plain; at two replicas the expected per-player vector field and native stationary conditions are unchanged",
+    "compute_only_risk": "any gain is compute-sensitive because the method performs four stochastic forward/loss views per optimizer update"
+  },
+  "falsifying_experiment": "Kill as engineering-invalid if the actual event order is not DE_BUNDLE,D_COMMIT,E_COMMIT,GF_BUNDLE,GF_COMMIT, if GF bundle counters do not restore exactly, if a coupled-game fixed-state gate finds conditional mean bias, if one-replica identity or resume is not exact, or if replicas create cross-image PatchNCE negatives. A valid negative e200 result closes only this two-replica player-conditional estimator.",
+  "compute_cost": "approximately four native stochastic forward views per optimizer update: two shared by D/E and two freshly drawn for G/F; native player optimizer-step count and data exposure remain unchanged",
+  "memory_cost": "replica graphs are executed/accumulated serially and the DE bundle is deleted before GF construction, keeping peak activation memory near a two-replica implementation rather than four simultaneous graphs",
+  "recovery_state_cost": "replica count, update index, DE/GF bundle counters, bundle serial, last event schedule and ordinary Python/NumPy/CPU/CUDA RNG state",
+  "algorithm_hyperparameters": {
+    "stochastic_replicates_per_player_bundle": 2,
+    "player_bundles": ["DE", "GF"],
+    "gf_bundle_generated_after_de_commit": true,
+    "data_batch_size_per_replica": 1,
+    "patchnce_cross_replica_negatives": false,
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "optimizer_update_index",
+    "replica_count",
+    "bundle_serial",
+    "de_bundle_count",
+    "gf_bundle_count",
+    "last_player_schedule"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "Apply the fresh two-replica player-conditional bundle only to G/F while D and E retain one native view.",
+    "observable_only": "Draw and log the second DE/GF views but commit the first-view native gradients only.",
+    "projected_or_full": "Use two iid replicas for D/E and, after their commits, a new two-replica bundle for joint G/F; no projection, auxiliary loss or endpoint averaging."
+  },
+  "engineering_replacement_for": "G1-02-SAMPLING-VARIANCE",
+  "engineering_incident_sha256": "58bb67047fbe110d8f08392aed86c41a75dae28d23eddc0c31648387483aad15",
+  "finite_step_coupling_change": "PC-RSMG intentionally replaces native same-view cross-player correlation with player-conditional independent randomness. It preserves each player's expected loss gradient field at its realized optimization state, not the exact finite-learning-rate stochastic transition of plain UNSB.",
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "independent_unbiased_reparameterization",
+  "unbiased_proof": "Condition on the official batch and the state at which each player is optimized. D and E each receive the average of two iid native-measure gradients, so linearity gives the native expected field and independence halves variance. After their optimizer steps, the G/F bundle is redrawn independently; conditional on the realized updated D/E state, the same argument gives the native G/F expected field and half variance. This removes the conditional bias caused by reusing randomness that helped create the opponent state. Adam is applied once after each mean estimator. The finite-step cross-player noise coupling changes, but the expected per-player objectives and their stationary conditions do not.",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}

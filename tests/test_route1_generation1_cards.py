@@ -6,6 +6,10 @@ from pathlib import Path
 from research.local_route1.candidates import CARD_REQUIRED_FIELDS, CARD_SCHEMA
 from research.local_route1.protocol import ROOT, file_sha256
 from operations.local_route1_freeze_generation1 import SPECS
+from operations.local_route1_freeze_pcrsmg_replacement import (
+    CANDIDATE_ID as REPLACEMENT_ID,
+    SPEC as REPLACEMENT_SPEC,
+)
 
 
 CARD_ROOT = ROOT / "research" / "local_route1" / "derivation_cards"
@@ -18,6 +22,7 @@ def _cards() -> list[dict]:
     assert [path.name for path in paths] == [
         "G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "G1-02-SAMPLING-VARIANCE.json",
+        "G1-02B-PLAYER-CONDITIONAL-RSMG.json",
     ]
     return [json.loads(path.read_text(encoding="utf-8")) for path in paths]
 
@@ -57,6 +62,14 @@ def test_generation1_authority_matches_the_frozen_evidence_boundary():
     assert variance["endpoint_law_change"] is False
     assert "Var((g1+g2)/2)=Var(g)/2" in variance["unbiased_proof"]
 
+    replacement = cards[REPLACEMENT_ID]
+    assert replacement["construction_authority"] == "independent_unbiased_reparameterization"
+    assert replacement["engineering_replacement_for"] == "G1-02-SAMPLING-VARIANCE"
+    assert replacement["objective_change"] is False
+    assert replacement["endpoint_law_change"] is False
+    assert replacement["algorithm_hyperparameters"]["gf_bundle_generated_after_de_commit"] is True
+    assert "finite-learning-rate" in replacement["finite_step_coupling_change"]
+
 
 def test_generation1_materializer_registers_all_frozen_sources():
     assert set(SPECS) == {
@@ -68,3 +81,7 @@ def test_generation1_materializer_registers_all_frozen_sources():
         assert spec["gate_callable"].startswith("run_")
         for relative in spec["sources"]:
             assert (ROOT / relative).is_file(), (candidate_id, relative)
+    assert REPLACEMENT_SPEC["model"] == "route1_pcrsmg"
+    assert REPLACEMENT_SPEC["gate_callable"] == "run_pcrsmg_gate"
+    for relative in REPLACEMENT_SPEC["sources"]:
+        assert (ROOT / relative).is_file(), (REPLACEMENT_ID, relative)

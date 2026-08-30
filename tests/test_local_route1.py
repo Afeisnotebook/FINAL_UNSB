@@ -15,6 +15,7 @@ from research.local_route1.candidates import (
     IMPLEMENTATION_SCHEMA,
     freeze_candidate_derivation,
     load_candidate_registration,
+    register_engineering_replacement,
     validate_candidate_id,
 )
 from research.local_route1.candidate_gate import _validate_gate_report
@@ -70,6 +71,44 @@ from research.local_route1.observations import (
     state_dict_delta_cosine,
     state_dict_update_geometry,
 )
+
+
+def test_engineering_replacement_is_append_only_and_does_not_consume_revision(tmp_path):
+    ledger_path = tmp_path / "derive" / "HYPOTHESIS_LEDGER.json"
+    ledger_path.parent.mkdir(parents=True)
+    ledger_path.write_text(json.dumps({
+        "schema": "final-unsb-route1-hypothesis-ledger-v1",
+        "generation_policy": {"maximum_revisions_per_mechanism": 1},
+        "records": [{
+            "candidate_id": "G1-02-SAMPLING-VARIANCE",
+            "generation": 1,
+            "parent_candidate_id": None,
+            "parent_evidence": {"failure_type": "sampling_variance"},
+            "construction_route": "unbiased_stratified_or_antithetic_estimator",
+            "status": "FROZEN_FOR_GATES",
+            "revision_count": 0,
+            "algorithm_fingerprint": "ac08e7fd98bc084b247efda04c3d2110ded878bd0bc9baf12a01c2afb1938ce5",
+        }],
+    }), encoding="utf-8")
+    first = register_engineering_replacement(
+        tmp_path,
+        "G1-02-SAMPLING-VARIANCE",
+        "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    )
+    second = register_engineering_replacement(
+        tmp_path,
+        "G1-02-SAMPLING-VARIANCE",
+        "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    )
+    assert first["status"] == "DERIVATION_REQUIRED"
+    assert second["status"] == "DERIVATION_REQUIRED"
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert len(ledger["records"]) == 2
+    assert ledger["records"][0]["status"] == "IMPLEMENTATION_INVALID"
+    replacement = ledger["records"][1]["engineering_replacement"]
+    assert replacement["restart_from_common_e0"] is True
+    assert replacement["consumes_generation1_scientific_slot"] is False
+    assert replacement["consumes_causal_revision"] is False
 
 
 def test_route1_protocol_uses_physical_epoch_and_cli_aliases():

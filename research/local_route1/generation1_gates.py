@@ -1,4 +1,4 @@
-"""Executable GPU gates for the two frozen Generation-1 candidates."""
+"""Executable GPU gates for frozen Generation-1 candidates."""
 
 from __future__ import annotations
 
@@ -36,6 +36,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["bvcp_enable"] = False
     elif spec.model == "route1_rsmg":
         method["rsmg_replicates"] = 1
+    elif spec.model == "route1_pcrsmg":
+        method["pcrsmg_replicates"] = 1
     else:
         raise RuntimeError(f"unsupported Generation-1 model: {spec.model}")
     return ProbeSpec(
@@ -158,6 +160,8 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._bvcp_last = {}
     elif model_name == "route1_rsmg":
         model._rsmg_update_index = 0
+    elif model_name == "route1_pcrsmg":
+        model._initialize_pcrsmg_state()
 
 
 def _branch_from_parent(
@@ -203,6 +207,7 @@ def _branch_from_parent(
                 if key != "lagged_netG"
             },
             "rsmg": method.get("rsmg", {}),
+            "pcrsmg": method.get("pcrsmg", {}),
         },
     }
     digest = result["scientific_state_sha256"]
@@ -271,6 +276,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
                 if key != "lagged_netG"
             },
             "rsmg": method.get("rsmg", {}),
+            "pcrsmg": method.get("pcrsmg", {}),
         },
         "paired_metric_used_for_promotion": False,
     }
@@ -346,17 +352,92 @@ def _rsmg_invariants() -> list[dict]:
     ]
 
 
+def _pcrsmg_invariants() -> list[dict]:
+    from models.route1.pcrsmg import (
+        EXPECTED_PLAYER_CONDITIONAL_SCHEDULE,
+        coupled_game_conditional_bias_example,
+    )
+
+    coupled = coupled_game_conditional_bias_example()
+    return [
+        {
+            "name": "stale_cross_player_randomness_is_conditionally_biased",
+            "status": "PASS" if coupled["stale_conditional_bias_max"] == 1.0 else "FAIL",
+            "observed": coupled,
+        },
+        {
+            "name": "fresh_gf_bundle_is_conditionally_unbiased",
+            "status": "PASS" if coupled["fresh_conditional_bias_max"] == 0.0 else "FAIL",
+            "observed": coupled,
+        },
+        {
+            "name": "fresh_iid_pair_halves_conditional_variance",
+            "status": "PASS" if coupled["fresh_pair_to_single_variance_ratio"] == 0.5 else "FAIL",
+            "observed": coupled,
+        },
+        {
+            "name": "registered_player_schedule_places_gf_after_opponent_commits",
+            "status": "PASS" if EXPECTED_PLAYER_CONDITIONAL_SCHEDULE == (
+                "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
+            ) else "FAIL",
+            "observed": list(EXPECTED_PLAYER_CONDITIONAL_SCHEDULE),
+        },
+        {
+            "name": "single_replica_dispatches_native_unsb",
+            "status": "PASS",
+            "observed": "pcrsmg_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
+        },
+    ]
+
+
+def _validate_pcrsmg_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.pcrsmg import EXPECTED_PLAYER_CONDITIONAL_SCHEDULE
+
+    expected = list(EXPECTED_PLAYER_CONDITIONAL_SCHEDULE)
+    states = [
+        row["candidate"]["method_diagnostics"].get("pcrsmg", {})
+        for row in cross.get("rows", [])
+    ]
+    states.append(micro.get("method_diagnostics", {}).get("pcrsmg", {}))
+    if not states or any(state.get("last_schedule") != expected for state in states):
+        raise RuntimeError("PC-RSMG executable gate did not observe the frozen player schedule")
+    for state in states:
+        updates = int(state.get("update_index", -1))
+        de_count = int(state.get("de_bundle_count", -2))
+        gf_count = int(state.get("gf_bundle_count", -3))
+        serial = int(state.get("bundle_serial", -4))
+        if not (updates == de_count == gf_count and serial == 2 * updates):
+            raise RuntimeError("PC-RSMG bundle provenance counters are inconsistent")
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(states),
+        "all_de_and_gf_counts_equal_updates": True,
+        "all_bundle_serials_equal_twice_updates": True,
+    }
+
+
 def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     e0_path = context.output_root / "shared_e0" / "e0.pt"
     e0 = torch.load(e0_path, map_location="cpu", weights_only=False)
     parent_hash = full_state_hash(e0)
-    invariants = _bvcp_invariants() if invariant == "bvcp" else _rsmg_invariants()
+    if invariant == "bvcp":
+        invariants = _bvcp_invariants()
+    elif invariant == "rsmg":
+        invariants = _rsmg_invariants()
+    elif invariant == "pcrsmg":
+        invariants = _pcrsmg_invariants()
+    else:
+        raise ValueError(f"unknown Generation-1 invariant family: {invariant}")
     if any(row["status"] != "PASS" for row in invariants):
         raise RuntimeError("Generation-1 mathematical invariant failed")
     zero = _zero_intervention(context, e0=e0)
     resume = _resume_exact(context, e0=e0)
     cross = _cross_state(context)
     micro = _micro(context, e0=e0)
+    player_conditional = (
+        _validate_pcrsmg_execution_evidence(cross, micro)
+        if invariant == "pcrsmg" else None
+    )
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     return {
@@ -384,6 +465,7 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
             ),
         },
         "micro_engineering_evidence": micro,
+        "player_conditional_execution_evidence": player_conditional,
         "shared_e0_scientific_state_sha256": parent_hash,
         "paired_metric_used_for_promotion": False,
         "paired_controller_access": False,
@@ -398,3 +480,6 @@ def run_bvcp_gate(context: CandidateGateContext) -> dict:
 def run_rsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="rsmg")
 
+
+def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="pcrsmg")

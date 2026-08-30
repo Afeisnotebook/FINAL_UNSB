@@ -249,6 +249,22 @@ def _validate_card(
                 )
     if card.get("paired_target_available_to_training") is not False:
         raise RuntimeError("derivation card must explicitly deny paired target access")
+    replacement_for = card.get("engineering_replacement_for")
+    if replacement_for is not None:
+        validate_candidate_id(str(replacement_for))
+        incident_path = (
+            ROOT / "evidence" / "remote_route1_offload"
+            / "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
+        )
+        if (
+            not incident_path.is_file()
+            or card.get("engineering_incident_sha256") != file_sha256(incident_path)
+        ):
+            raise RuntimeError("engineering replacement is not bound to its incident")
+        if not card.get("finite_step_coupling_change"):
+            raise RuntimeError(
+                "engineering replacement must disclose its finite-step coupling change"
+            )
     if card_path.suffix.lower() != ".json":
         raise RuntimeError("derivation card must be canonical JSON")
 
@@ -402,6 +418,7 @@ def _validate_hypothesis_ledger(
         "parent_evidence": record.get("parent_evidence"),
         "construction_route": record.get("construction_route"),
         "revision_count": record.get("revision_count"),
+        "engineering_replacement": record.get("engineering_replacement"),
         **expected,
         "freeze_event": record.get("freeze_event"),
         "paired_controller_access": False,
@@ -451,6 +468,8 @@ def load_candidate_registration(
         "target_inaccessibility_proof", "construction_authority", "unbiased_proof",
         "target_blind_driver_signal", "target_blind_driver_probe",
         "parent_candidate_id", "revision_request_sha256", "causal_revision_reason",
+        "engineering_replacement_for", "engineering_incident_sha256",
+        "finite_step_coupling_change",
         "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
         "algorithm_state_variables", "expected_applicable_state",
@@ -547,6 +566,20 @@ def load_candidate_registration(
             raise RuntimeError("paired metrics may not promote a candidate through the gate")
         if gate.get("confirmation20_opened") is not False:
             raise RuntimeError("confirmation20 must remain locked")
+        if implementation.get("model") == "route1_pcrsmg":
+            player_evidence = gate.get("evidence", {}).get(
+                "player_conditional_execution_evidence"
+            )
+            if not isinstance(player_evidence, dict):
+                raise RuntimeError("PC-RSMG gate lacks player-conditional execution evidence")
+            if (
+                player_evidence.get("all_de_and_gf_counts_equal_updates") is not True
+                or player_evidence.get("all_bundle_serials_equal_twice_updates") is not True
+                or player_evidence.get("expected_schedule") != [
+                    "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
+                ]
+            ):
+                raise RuntimeError("PC-RSMG gate has invalid player-bundle provenance")
 
     spec = ProbeSpec(
         id=candidate_id,
@@ -622,6 +655,21 @@ def freeze_candidate_derivation(
                 raise RuntimeError(
                     f"revision derivation card is not bound to its causal authorization: {key}"
                 )
+    engineering_replacement = record.get("engineering_replacement")
+    if engineering_replacement is not None:
+        required_replacement_bindings = {
+            "engineering_replacement_for": engineering_replacement.get(
+                "parent_candidate_id"
+            ),
+            "engineering_incident_sha256": engineering_replacement.get(
+                "incident_sha256"
+            ),
+        }
+        for key, value in required_replacement_bindings.items():
+            if not value or registration.card.get(key) != value:
+                raise RuntimeError(
+                    f"engineering replacement card binding mismatch: {key}"
+                )
     bindings = {
         "derivation_card_sha256": file_sha256(registration.card_path),
         "implementation_sha256": file_sha256(registration.implementation_path),
@@ -652,6 +700,129 @@ def freeze_candidate_derivation(
     })
     write_json(ledger_path, ledger)
     return load_candidate_registration(output_root, candidate_id)
+
+
+def register_engineering_replacement(
+    output_root: Path, parent_candidate_id: str, replacement_candidate_id: str,
+) -> dict:
+    """Replace an implementation-invalid hypothesis without a scientific revision.
+
+    This path cannot rescue a negative result.  It requires an immutable
+    semantic incident that forbids scientific adjudication and requires an e0
+    restart under a new identity.  The original record remains in the ledger.
+    """
+    output_root = Path(output_root).resolve()
+    parent_candidate_id = validate_candidate_id(parent_candidate_id)
+    replacement_candidate_id = validate_candidate_id(replacement_candidate_id)
+    if parent_candidate_id == replacement_candidate_id:
+        raise RuntimeError("engineering replacement requires a new candidate id")
+
+    incident_path = (
+        ROOT / "evidence" / "remote_route1_offload"
+        / "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
+    )
+    if not incident_path.is_file():
+        raise RuntimeError("engineering incident evidence is missing")
+    incident = _read_json(incident_path)
+    if (
+        incident.get("schema") != "final-unsb-route1-semantic-incident-v1"
+        or incident.get("candidate_id") != parent_candidate_id
+        or incident.get("classification") != "implementation_failure"
+        or incident.get("scientific_conclusion_allowed") is not False
+        or incident.get("parent_mechanism_falsified") is not False
+        or incident.get("required_repair", {}).get("new_candidate_identity") is not True
+        or incident.get("required_repair", {}).get("restart_from_common_e0") is not True
+    ):
+        raise RuntimeError("incident does not authorize an engineering replacement")
+
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    if not ledger_path.is_file():
+        raise RuntimeError("derive stage must create the hypothesis ledger first")
+    ledger = _read_json(ledger_path)
+    if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+        raise RuntimeError("hypothesis ledger schema mismatch")
+    parents = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == parent_candidate_id
+    ]
+    if len(parents) != 1:
+        raise RuntimeError("engineering replacement parent is not unique")
+    parent = parents[0]
+    invalid_algorithm = incident.get("invalid_identity", {}).get(
+        "algorithm_fingerprint"
+    )
+    if (
+        int(parent.get("generation", 0)) != 1
+        or parent.get("algorithm_fingerprint") != invalid_algorithm
+        or parent.get("status") not in ("FROZEN_FOR_GATES", "IMPLEMENTATION_INVALID")
+    ):
+        raise RuntimeError("incident does not match the frozen Generation-1 parent")
+
+    incident_sha256 = file_sha256(incident_path)
+    replacements = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == replacement_candidate_id
+    ]
+    if replacements:
+        replacement = replacements[0]
+        binding = replacement.get("engineering_replacement") or {}
+        if (
+            len(replacements) != 1
+            or binding.get("parent_candidate_id") != parent_candidate_id
+            or binding.get("incident_sha256") != incident_sha256
+        ):
+            raise RuntimeError("replacement id is already bound to different evidence")
+        return {
+            "schema": "final-unsb-route1-engineering-replacement-registration-v1",
+            "status": replacement["status"],
+            "record": replacement,
+            "hypothesis_ledger_sha256": file_sha256(ledger_path),
+            "confirmation20_opened": False,
+        }
+
+    already_replaced = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict)
+        and (row.get("engineering_replacement") or {}).get("parent_candidate_id")
+        == parent_candidate_id
+    ]
+    if already_replaced:
+        raise RuntimeError("implementation-invalid parent already has a replacement")
+
+    parent["status"] = "IMPLEMENTATION_INVALID"
+    parent["scientific_result_admissible"] = False
+    parent["engineering_incident"] = {
+        "path": incident_path.relative_to(ROOT).as_posix(),
+        "sha256": incident_sha256,
+    }
+    record = {
+        "candidate_id": replacement_candidate_id,
+        "generation": 1,
+        "parent_candidate_id": parent_candidate_id,
+        "parent_evidence": parent.get("parent_evidence"),
+        "construction_route": parent.get("construction_route"),
+        "status": "DERIVATION_REQUIRED",
+        "revision_count": 0,
+        "engineering_replacement": {
+            "parent_candidate_id": parent_candidate_id,
+            "incident_sha256": incident_sha256,
+            "consumes_generation1_scientific_slot": False,
+            "consumes_causal_revision": False,
+            "restart_from_common_e0": True,
+        },
+        "experiments": [],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    ledger["records"].append(record)
+    write_json(ledger_path, ledger)
+    return {
+        "schema": "final-unsb-route1-engineering-replacement-registration-v1",
+        "status": "DERIVATION_REQUIRED",
+        "record": record,
+        "hypothesis_ledger_sha256": file_sha256(ledger_path),
+        "confirmation20_opened": False,
+    }
 
 
 def register_candidate_revision(

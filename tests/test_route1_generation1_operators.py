@@ -4,8 +4,13 @@ import torch
 
 from models.route1.bvcp import minimum_velocity_chord_endpoint
 from models.route1.rsmg import average_replica_gradients
+from models.route1.pcrsmg import (
+    EXPECTED_PLAYER_CONDITIONAL_SCHEDULE,
+    coupled_game_conditional_bias_example,
+)
 from research.local_route1.generation1_gates import (
     _bvcp_invariants,
+    _pcrsmg_invariants,
     _rsmg_invariants,
 )
 
@@ -62,7 +67,17 @@ def test_rsmg_iid_average_halves_empirical_variance():
     assert 0.48 < ratio < 0.52
 
 
+def test_pcrsmg_coupled_game_requires_fresh_generator_bundle():
+    observed = coupled_game_conditional_bias_example()
+    assert observed["stale_conditional_bias_max"] == 1.0
+    assert observed["fresh_conditional_bias_max"] == 0.0
+    assert observed["fresh_pair_to_single_variance_ratio"] == 0.5
+    assert EXPECTED_PLAYER_CONDITIONAL_SCHEDULE == (
+        "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
+    )
+
+
 def test_executable_candidate_invariant_reports_pass():
-    for report in (_bvcp_invariants(), _rsmg_invariants()):
+    for report in (_bvcp_invariants(), _rsmg_invariants(), _pcrsmg_invariants()):
         assert report
         assert all(row["status"] == "PASS" for row in report)
