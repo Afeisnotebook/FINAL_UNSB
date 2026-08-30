@@ -1,6 +1,7 @@
 {
   "schema": "final-unsb-route1-multi-gpu-concurrency-policy-v1",
   "recorded_at": "2026-08-30T09:30:00+08:00",
+  "last_updated_at": "2026-08-30T09:38:00+08:00",
   "status": "ACTIVE_VERIFIED",
   "north_star": "Use additional compute only to accelerate evidence collection for a genuinely new long-horizon route-1 algorithm; do not turn the search into route-2 scheduling or a frozen-probe validation exercise.",
   "scientific_protocol": {
@@ -24,16 +25,29 @@
   "hosts": {
     "remote4090": {
       "gpu": "NVIDIA GeForce RTX 4090",
-      "verified_streams": 3,
+      "verified_streams": 4,
       "verified_gpu_utilization_percent": 99,
-      "verified_memory_used_mib": 4992,
+      "verified_memory_used_mib": 6709,
       "verified_memory_total_mib": 24564,
       "streams": [
         "formal audit executor worker 1",
         "formal audit executor worker 2",
-        "FINAL_UNSB_ROUTE1_EXTRA_AUDIT_HNEK_E200"
+        "independent descending HNEK cell A",
+        "independent descending HNEK cell B"
       ],
-      "policy": "Keep three active GPU cells. Do not add a fourth while utilization is saturated. The extra far-future HNEK e200 cell is disjoint from the current HJ work directories; the formal executor will later accept/skip its row ids idempotently."
+      "completed_extra_cell": {
+        "cell": "hnek:e200",
+        "reversal_rows": 10,
+        "variance_rows": 4,
+        "parent_hash_mismatches": 0,
+        "duplicate_row_ids": 0,
+        "paired_controller_accesses": 0,
+        "confirmation20_accesses": 0,
+        "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+        "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+        "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
+      },
+      "policy": "Keep four active GPU cells. The formal executor advances from the queue front while two extra workers audit distinct HNEK cells from the far end; dependent e125/e100 workers preserve four-way occupancy after e175/e150. Do not add a fifth stream."
     },
     "remote5090": {
       "gpu": "NVIDIA GeForce RTX 5090",
@@ -68,9 +82,19 @@
   "capacity_decision": {
     "increase_batch_size": "REJECTED_PROTOCOL_CHANGE",
     "increase_independent_task_concurrency": "ACCEPTED_AND_VERIFIED",
-    "4090_active_stream_cap": 3,
+    "4090_active_stream_cap": 4,
     "5090_active_stream_cap": 3,
     "local1660_active_stream_cap": 1,
     "adaptive_rule": "Reduce the cap if a scientific process reports CUDA OOM, row-progress stall, non-identical duplicate, parent-state hash mismatch, or sustained throughput regression; never relax an invariant to preserve utilization."
+  },
+  "4090_four_stream_benchmark": {
+    "sampling": "ten consecutive nvidia-smi dmon samples after the fourth independent cell initialized",
+    "sm_utilization_percent": [99, 99, 99, 99, 99, 99, 99, 99, 0, 99],
+    "memory_used_mib": 6709,
+    "new_worker_stderr_bytes": {
+      "hnek_e175": 0,
+      "hnek_e150": 0
+    },
+    "decision": "ACCEPT_FOUR_STREAM_CAP"
   }
 }
