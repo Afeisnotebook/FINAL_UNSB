@@ -879,6 +879,34 @@ def test_probe_classification_does_not_hide_late_sign_or_scale_failure_in_mean()
     assert "correct_direction_unstable_magnitude" in failure_types
 
 
+def test_both_state_harm_routes_to_mathematical_rewrite_not_exit_schedule():
+    summary = {
+        "probe": "hj",
+        "next_batch_consensus_mean": 0.2,
+        "next_batch_consensus_negative_rows": 0,
+        "correction_to_native_norm_ratio_mean": 0.2,
+        "correct_direction_overscale_rows": 0,
+        "case_counts": {"harmful_on_both_states": 2},
+    }
+    screen = {
+        "eligible_shared_driver_signals": ["adam_moment_gradient_alignment"],
+        "eligible_driver_signals": ["adam_moment_gradient_alignment"],
+        "eligible_method_specific_driver_signals": {},
+        "signals": [],
+    }
+    ranked = causal_audit._rank_failure_mechanisms(
+        [summary], [], screen, [], [],
+    )
+    mechanism = next(
+        row for row in ranked
+        if row["failure_type"] == "state_independent_late_bias"
+    )
+    assert mechanism["candidate_generation_eligible"] is True
+    assert mechanism["construction_route"] == "current_state_rate_or_curvature_reformulation"
+    assert mechanism["fixed_exit_or_handoff_forbidden"] is True
+    assert mechanism["fixed_annealing_forbidden"] is True
+
+
 def test_derive_initializes_evidence_bound_hypothesis_ledger(tmp_path):
     import json
 

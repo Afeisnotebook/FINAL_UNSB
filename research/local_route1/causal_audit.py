@@ -1864,6 +1864,10 @@ _MINIMUM_ROUTE_COMPLEXITY = {
         "operator_components": 2, "extra_gradient_or_forward_passes": 0,
         "persistent_model_copies": 0,
     },
+    "state_independent_late_bias": {
+        "operator_components": 2, "extra_gradient_or_forward_passes": 0,
+        "persistent_model_copies": 0,
+    },
     "endpoint_dispersion_instability": {
         "operator_components": 1, "extra_gradient_or_forward_passes": 1,
         "persistent_model_copies": 0,
@@ -2097,6 +2101,31 @@ def _rank_failure_mechanisms(
             "candidate_generation_eligible": bool(shared_drivers or method_drivers),
             "eligible_target_blind_driver_signals": shared_drivers,
             "eligible_method_specific_driver_signals_by_probe": method_drivers,
+        })
+    late_bias_support = [
+        row["probe"] for row in probe_summaries
+        if row["case_counts"].get("harmful_on_both_states", 0) > 0
+    ]
+    if late_bias_support:
+        shared_drivers, method_drivers = driver_evidence(
+            set(signal_screen.get("eligible_driver_signals", [])),
+            late_bias_support,
+        )
+        mechanisms.append({
+            "failure_type": "state_independent_late_bias",
+            "supporting_probes": late_bias_support,
+            "cross_probe_support": len(late_bias_support),
+            "observable": "the registered correction harms both native and self-induced states",
+            "construction_route": "current_state_rate_or_curvature_reformulation",
+            "candidate_generation_eligible": bool(shared_drivers or method_drivers),
+            "eligible_target_blind_driver_signals": shared_drivers,
+            "eligible_method_specific_driver_signals_by_probe": method_drivers,
+            "fixed_exit_or_handoff_forbidden": True,
+            "fixed_annealing_forbidden": True,
+            "ineligible_reason": (
+                None if shared_drivers or method_drivers else
+                "late state-independent bias has no eligible target-blind reformulation signal"
+            ),
         })
     amplitude_support = [
         row["probe"] for row in probe_summaries
