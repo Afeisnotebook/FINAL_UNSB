@@ -492,6 +492,18 @@ def test_single_seed_emergency_policy_selects_complete_e200_ablation_challenger(
     assert result["ablation_challenger_selection"]["status"] == (
         "SINGLE_SEED_ABLATION_CHALLENGER_SELECTED"
     )
+    commands = result["reproduction_commands"]
+    assert "seed_validation" not in commands
+    assert commands["deferred_seed_validation"] == {
+        "status": "DEFERRED_BY_SINGLE_SEED_EMERGENCY_POLICY",
+        "requires_new_user_authorization": True,
+        "included_in_current_execution": False,
+        "deferred_seeds": [2027, 2028],
+        "command_template": (
+            "python operations/local_route1_seed_executor.py --contract "
+            "<SELECTED_SEED_ROOT>/operations/SEED_EXECUTOR_CONTRACT_ABL-PROPOSAL_s<SEED>.json"
+        ),
+    }
     results = json.loads((tmp_path / "final" / "RESULTS.json").read_text())
     assert results["seed_results"] == {}
     assert results["multi_seed_adjudication"] is None

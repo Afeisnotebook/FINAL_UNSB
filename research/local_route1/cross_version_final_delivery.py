@@ -584,6 +584,36 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     compute_sensitive = "PCRSMG" in winner or winner == (
         "G1-02B-PLAYER-CONDITIONAL-RSMG"
     )
+    reproduction_commands: dict[str, Any] = {
+        "seed2026_e200": (
+            "python operations/local_route1_candidate_executor.py --contract "
+            f"<RUN_ROOT>/operations/CANDIDATE_EXECUTOR_CONTRACT_{winner}.json"
+        ),
+        "source_identity": (
+            f"checkout training_git_commit {selected_receipt['training_git_commit']} "
+            "for the full candidate; do not load it under a sibling training core"
+        ),
+    }
+    if development_freeze is not None:
+        # The emergency development policy deliberately spends the matched
+        # seed2027/2028 budget on algorithm ablations and revision.  Keep a
+        # future replication template for provenance, but do not present it as
+        # an active next command to a fresh controller reading CANDIDATE.json.
+        reproduction_commands["deferred_seed_validation"] = {
+            "status": "DEFERRED_BY_SINGLE_SEED_EMERGENCY_POLICY",
+            "requires_new_user_authorization": True,
+            "included_in_current_execution": False,
+            "deferred_seeds": [2027, 2028],
+            "command_template": (
+                "python operations/local_route1_seed_executor.py --contract "
+                f"<SELECTED_SEED_ROOT>/operations/SEED_EXECUTOR_CONTRACT_{winner}_s<SEED>.json"
+            ),
+        }
+    else:
+        reproduction_commands["seed_validation"] = (
+            "python operations/local_route1_seed_executor.py --contract "
+            f"<SELECTED_SEED_ROOT>/operations/SEED_EXECUTOR_CONTRACT_{winner}_s<SEED>.json"
+        )
     report_path = final_root / "FINAL_ROUTE1_REPORT.md"
     candidate = {
         "schema": SCHEMA,
@@ -664,20 +694,7 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "implementation_path": implementation_path.relative_to(output_root).as_posix(),
         "implementation_sha256": file_sha256(implementation_path),
         "source_files": implementation["source_files"],
-        "reproduction_commands": {
-            "seed2026_e200": (
-                "python operations/local_route1_candidate_executor.py --contract "
-                f"<RUN_ROOT>/operations/CANDIDATE_EXECUTOR_CONTRACT_{winner}.json"
-            ),
-            "seed_validation": (
-                "python operations/local_route1_seed_executor.py --contract "
-                f"<SELECTED_SEED_ROOT>/operations/SEED_EXECUTOR_CONTRACT_{winner}_s<SEED>.json"
-            ),
-            "source_identity": (
-                f"checkout training_git_commit {selected_receipt['training_git_commit']} "
-                "for the full candidate; do not load it under a sibling training core"
-            ),
-        },
+        "reproduction_commands": reproduction_commands,
         "training_batch_size": 1,
         "target_data_epochs": 200,
         "paired_controller_access": False,
