@@ -110,6 +110,27 @@ def test_anchor_command_explicitly_freezes_every_scientific_path(tmp_path):
     assert argv[argv.index("--engineering-stop-after-epoch") + 1] == "105"
 
 
+def test_candidate_executor_fatal_error_updates_canonical_state(tmp_path):
+    contract = tmp_path / "candidate_contract.json"
+    contract.write_text(
+        json.dumps({
+            "schema": "invalid",
+            "run_root": str(tmp_path),
+            "candidate_id": "G1-test",
+        }) + "\n",
+        encoding="utf-8",
+    )
+    assert candidate_executor.main(["--contract", str(contract)]) == 1
+    state = json.loads(
+        (tmp_path / "operations" / "CANDIDATE_EXECUTION_STATE_G1-test.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert state["status"] == "FAILED"
+    assert state["candidate_id"] == "G1-test"
+    assert state["paired_controller_access"] is False
+
+
 def test_audit_executor_contract_keeps_paired_and_confirmation_inputs_closed(tmp_path, monkeypatch):
     manifest = tmp_path / "manifest.csv"
     manifest.write_text("frozen", encoding="utf-8")

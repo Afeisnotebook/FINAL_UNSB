@@ -573,6 +573,20 @@ def main(argv: list[str] | None = None) -> int:
             run_root / "operations" / f"CANDIDATE_EXECUTOR_FATAL_{candidate_id}.json",
             failure,
         )
+        atomic_json(
+            run_root / "operations" / f"CANDIDATE_EXECUTION_STATE_{candidate_id}.json",
+            {
+                "schema": "final-unsb-route1-candidate-execution-state-v1",
+                "updated": now(), "status": "FAILED", "executor_pid": os.getpid(),
+                "candidate_id": candidate_id,
+                "exception_type": type(exc).__name__, "exception": str(exc),
+                "fatal_record": str(
+                    run_root / "operations" / f"CANDIDATE_EXECUTOR_FATAL_{candidate_id}.json"
+                ),
+                "paired_controller_access": False,
+                "confirmation20_opened": False,
+            },
+        )
         return 1
 
 
