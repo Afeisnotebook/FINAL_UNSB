@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-route1-generation1-successor-armed-v1",
+  "observed_at": "2026-08-30T15:18:18+08:00",
+  "status": "ARMED_WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "host": "remote4090",
+  "successor_git_commit": "528dcca3f106a3fce38ca8bb058659431150bbcf",
+  "successor_worktree": "/home/yc/FINAL_UNSB_SUCCESSOR_528dcca",
+  "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR",
+  "supervisor_pid": 1386240,
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/GENERATION1_SUCCESSOR_CONTRACT.json",
+  "contract_sha256": "5d40e1c62ec1449e5de9e83334eb57e6a77f8fde51e0a5b3241c62eae59419f8",
+  "initial_state_sha256": "4ab8583645b79daa82ea732ace102ccaf6010a914a2e1ce4a4d405a0e84c0888",
+  "initial_state": "WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "candidate_ids": [
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+    "G1-02-SAMPLING-VARIANCE"
+  ],
+  "automatic_path": [
+    "wait for both complete CANDIDATE_TRAJECTORY.json files",
+    "run the frozen post-e200 ranking and numeric gates",
+    "freeze only a numeric-gate-passing winner",
+    "run host-matched seed2027 plain to e200 then unchanged candidate to e200",
+    "run seed2028 only if seed2027 late-sign inconsistency authorizes it",
+    "write fail-closed multi-seed adjudication"
+  ],
+  "negative_path": "If neither candidate passes the seed2026 numeric gate, stop at causal-revision-required; do not start a window, handoff, revision, or seed run.",
+  "preflight_incident": {
+    "description": "The first deployment probe used a direct script entry on a host without screen; import validation failed before contract creation or supervisor launch.",
+    "scientific_state_touched": false,
+    "candidate_process_touched": false,
+    "resolution": "Use the tested module entry inside a clean detached worktree and a persistent tmux session."
+  },
+  "initial_contract_stderr_bytes": 0,
+  "initial_supervisor_stderr_bytes": 0,
+  "successor_worktree_clean": true,
+  "algorithm_revision_path": false,
+  "handoff_or_window_path": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

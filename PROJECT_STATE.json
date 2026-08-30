@@ -226,6 +226,16 @@
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
     },
+    "generation1_successor": {
+      "status": "ARMED_WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+      "git_commit": "528dcca3f106a3fce38ca8bb058659431150bbcf",
+      "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR",
+      "freeze_only_numeric_gate_winner": true,
+      "seed2027_after_complete_e200_only": true,
+      "seed2028_requires_seed2027_sign_inconsistency": true,
+      "negative_path_stops_for_causal_revision": true,
+      "evidence": "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json"
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
