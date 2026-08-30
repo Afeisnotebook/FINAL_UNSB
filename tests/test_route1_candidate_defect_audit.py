@@ -7,6 +7,8 @@ from research.local_route1.candidate_defect_audit import (
     CROSS_VERSION_FINAL_OUTCOME_SCHEMA,
     GENERATION1_NEGATIVE_STATUS,
     _GradientTraceAccumulator,
+    _ReplicaGeometryAccumulator,
+    _adam_update_space_scales,
     _mean_gradients,
     adjudicate_cross_version_revision_need,
     adjudicate_revision_need,
@@ -35,6 +37,37 @@ def test_gradient_trace_accumulator_and_replica_mean_are_exact():
     replicated.add(_mean_gradients(rows[2], rows[3]))
     assert native.trace_variance() > 0.0
     assert replicated.trace_variance() == pytest.approx(1.0)
+
+
+def test_replica_geometry_exactly_separates_parallel_and_orthogonal_noise():
+    orthogonal = _ReplicaGeometryAccumulator()
+    orthogonal.add(
+        (torch.tensor([3.0, 1.0]),),
+        (torch.tensor([1.0, 3.0]),),
+    )
+    orthogonal_summary = orthogonal.summary()
+    assert orthogonal_summary["parallel_fraction_of_difference"] == pytest.approx(0.0)
+    assert orthogonal_summary["orthogonal_fraction_of_difference"] == pytest.approx(1.0)
+
+    parallel = _ReplicaGeometryAccumulator()
+    parallel.add(
+        (torch.tensor([3.0, 3.0]),),
+        (torch.tensor([1.0, 1.0]),),
+        scales=(torch.tensor([1.0, 2.0]),),
+    )
+    parallel_summary = parallel.summary()
+    assert parallel_summary["parallel_fraction_of_difference"] == pytest.approx(1.0)
+    assert parallel_summary["orthogonal_fraction_of_difference"] == pytest.approx(0.0)
+
+
+def test_adam_update_space_scale_uses_the_frozen_pre_step_second_moment():
+    parameter = torch.nn.Parameter(torch.tensor([1.0, 2.0]))
+    optimizer = torch.optim.Adam([parameter], eps=1e-8)
+    optimizer.state[parameter]["exp_avg_sq"] = torch.tensor([4.0, 9.0])
+    scale, = _adam_update_space_scales((parameter,), (optimizer,))
+    assert scale.tolist() == pytest.approx([
+        1.0 / (2.0 + 1e-8), 1.0 / (3.0 + 1e-8),
+    ])
 
 
 def test_revision_need_stops_or_routes_only_from_target_blind_e200_evidence(tmp_path):

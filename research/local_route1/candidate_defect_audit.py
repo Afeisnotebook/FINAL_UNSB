@@ -87,6 +87,119 @@ class _GradientTraceAccumulator:
         return float(numerator / float(self.count - 1))
 
 
+class _ReplicaGeometryAccumulator:
+    """Accumulate the exact mean/disagreement geometry of iid gradient pairs."""
+
+    def __init__(self) -> None:
+        self.pairs = 0
+        self.difference_energy = 0.0
+        self.parallel_energy = 0.0
+        self.orthogonal_energy = 0.0
+        self.mean_energy = 0.0
+        self.signed_cosine_sum = 0.0
+        self.absolute_cosine_sum = 0.0
+        self.cosine_count = 0
+
+    def add(
+        self, first: tuple[torch.Tensor, ...], second: tuple[torch.Tensor, ...],
+        *, scales: tuple[torch.Tensor, ...] | None = None,
+    ) -> None:
+        if len(first) != len(second) or (
+            scales is not None and len(scales) != len(first)
+        ):
+            raise RuntimeError("replica geometry structures differ")
+        mean_sq = difference_sq = mean_difference = 0.0
+        for index, (left, right) in enumerate(zip(first, second)):
+            mean = (left.double() + right.double()) * 0.5
+            difference = (left.double() - right.double()) * 0.5
+            if scales is not None:
+                scale = scales[index].double()
+                mean = mean * scale
+                difference = difference * scale
+            mean_sq += float(mean.square().sum().item())
+            difference_sq += float(difference.square().sum().item())
+            mean_difference += float((mean * difference).sum().item())
+        parallel = (
+            mean_difference * mean_difference / mean_sq
+            if mean_sq > 0.0 else 0.0
+        )
+        parallel = min(max(parallel, 0.0), max(difference_sq, 0.0))
+        orthogonal = max(difference_sq - parallel, 0.0)
+        self.pairs += 1
+        self.mean_energy += mean_sq
+        self.difference_energy += difference_sq
+        self.parallel_energy += parallel
+        self.orthogonal_energy += orthogonal
+        if mean_sq > 0.0 and difference_sq > 0.0:
+            cosine = mean_difference / math.sqrt(mean_sq * difference_sq)
+            cosine = min(max(cosine, -1.0), 1.0)
+            self.signed_cosine_sum += cosine
+            self.absolute_cosine_sum += abs(cosine)
+            self.cosine_count += 1
+
+    def summary(self) -> dict[str, Any]:
+        if self.pairs < 1 or not math.isfinite(self.difference_energy):
+            raise RuntimeError("replica geometry requires finite gradient pairs")
+        denominator = self.difference_energy
+        return {
+            "pairs": int(self.pairs),
+            "mean_gradient_energy": float(self.mean_energy),
+            "antisymmetric_difference_energy": float(denominator),
+            "difference_parallel_to_mean_energy": float(self.parallel_energy),
+            "difference_orthogonal_to_mean_energy": float(self.orthogonal_energy),
+            "parallel_fraction_of_difference": (
+                None if denominator <= 0.0 else
+                float(self.parallel_energy / denominator)
+            ),
+            "orthogonal_fraction_of_difference": (
+                None if denominator <= 0.0 else
+                float(self.orthogonal_energy / denominator)
+            ),
+            "mean_signed_mean_difference_cosine": (
+                None if self.cosine_count == 0 else
+                float(self.signed_cosine_sum / self.cosine_count)
+            ),
+            "mean_absolute_mean_difference_cosine": (
+                None if self.cosine_count == 0 else
+                float(self.absolute_cosine_sum / self.cosine_count)
+            ),
+            "cosine_pairs": int(self.cosine_count),
+        }
+
+
+def _adam_update_space_scales(
+    parameters: tuple[torch.nn.Parameter, ...],
+    optimizers: tuple[torch.optim.Optimizer, ...],
+) -> tuple[torch.Tensor, ...]:
+    """Return the frozen pre-step Adam diagonal map from gradient to update."""
+    records: dict[int, tuple[torch.optim.Optimizer, float]] = {}
+    for optimizer in optimizers:
+        for group in optimizer.param_groups:
+            epsilon = float(group.get("eps", 1e-8))
+            for parameter in group["params"]:
+                key = id(parameter)
+                if key in records:
+                    raise RuntimeError("parameter appears in multiple audit optimizers")
+                records[key] = (optimizer, epsilon)
+    scales = []
+    for parameter in parameters:
+        record = records.get(id(parameter))
+        if record is None:
+            raise RuntimeError("audit parameter is missing from its Adam optimizer")
+        optimizer, epsilon = record
+        second_moment = optimizer.state.get(parameter, {}).get("exp_avg_sq")
+        if second_moment is None:
+            scale = torch.ones_like(parameter, device="cpu", dtype=torch.float32)
+        else:
+            scale = (
+                second_moment.detach().cpu().float().sqrt().add(epsilon).reciprocal()
+            )
+        if not bool(torch.isfinite(scale).all().item()):
+            raise RuntimeError("Adam update-space audit scale is nonfinite")
+        scales.append(scale)
+    return tuple(scales)
+
+
 def _mean_gradients(
     first: tuple[torch.Tensor, ...], second: tuple[torch.Tensor, ...],
 ) -> tuple[torch.Tensor, ...]:
@@ -170,6 +283,32 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
         "GF": _GradientTraceAccumulator(),
     }
     paired = {name: _GradientTraceAccumulator() for name in players}
+    model.netG.train()
+    model.netE.train()
+    model.netD.train()
+    model.netF.train()
+    model.set_requires_grad(model.netD, True)
+    model.set_requires_grad(model.netE, True)
+    parameters = {
+        "D": _network_parameters(model.netD),
+        "E": _network_parameters(model.netE),
+        "GF": _network_parameters(model.netG, model.netF),
+    }
+    gf_optimizers = [model.optimizer_G]
+    if getattr(model.opt, "netF", None) == "mlp_sample":
+        gf_optimizers.append(model.optimizer_F)
+    update_scales = {
+        "D": _adam_update_space_scales(parameters["D"], (model.optimizer_D,)),
+        "E": _adam_update_space_scales(parameters["E"], (model.optimizer_E,)),
+        "GF": _adam_update_space_scales(parameters["GF"], tuple(gf_optimizers)),
+    }
+    geometry = {
+        name: {
+            "parameter_euclidean": _ReplicaGeometryAccumulator(),
+            "pre_step_adam_update_space": _ReplicaGeometryAccumulator(),
+        }
+        for name in players
+    }
     pending: dict[str, tuple[torch.Tensor, ...]] = {}
     for index in range(int(samples)):
         model.forward()
@@ -178,17 +317,14 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
         model.netD.train()
         model.netF.train()
         model.set_requires_grad(model.netD, True)
-        d_parameters = _network_parameters(model.netD)
-        d_gradient = _cpu_gradients(model.compute_D_loss(), d_parameters)
+        d_gradient = _cpu_gradients(model.compute_D_loss(), parameters["D"])
 
         model.set_requires_grad(model.netE, True)
-        e_parameters = _network_parameters(model.netE)
-        e_gradient = _cpu_gradients(model.compute_E_loss(), e_parameters)
+        e_gradient = _cpu_gradients(model.compute_E_loss(), parameters["E"])
 
         model.set_requires_grad(model.netD, False)
         model.set_requires_grad(model.netE, False)
-        gf_parameters = _network_parameters(model.netG, model.netF)
-        gf_gradient = _cpu_gradients(model.compute_G_loss(), gf_parameters)
+        gf_gradient = _cpu_gradients(model.compute_G_loss(), parameters["GF"])
         model.set_requires_grad(model.netD, True)
         model.set_requires_grad(model.netE, True)
 
@@ -197,7 +333,12 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
             if index % 2 == 0:
                 pending[name] = gradient
             else:
-                paired[name].add(_mean_gradients(pending.pop(name), gradient))
+                first = pending.pop(name)
+                paired[name].add(_mean_gradients(first, gradient))
+                geometry[name]["parameter_euclidean"].add(first, gradient)
+                geometry[name]["pre_step_adam_update_space"].add(
+                    first, gradient, scales=update_scales[name],
+                )
     ratios = {}
     for name in players:
         native = players[name].trace_variance()
@@ -206,6 +347,10 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
             "native_trace_variance": native,
             "two_replica_trace_variance": replicated,
             "variance_ratio": None if native <= 0.0 else float(replicated / native),
+            "replica_disagreement_geometry": {
+                metric: accumulator.summary()
+                for metric, accumulator in geometry[name].items()
+            },
         }
     finite_ratios = [
         row["variance_ratio"] for row in ratios.values()
@@ -226,6 +371,15 @@ def _audit_rsmg(model, *, samples: int) -> dict[str, Any]:
         "complete_native_views": int(samples),
         "paired_two_replica_estimates": int(samples) // 2,
         "players": ratios,
+        "geometry_role": (
+            "Target-blind revision evidence only. Geometry does not alter the "
+            "registered total-variance eligibility test or select an algorithm."
+        ),
+        "pre_step_adam_update_space_definition": (
+            "Each gradient coordinate is divided by sqrt(exp_avg_sq)+eps from "
+            "the unchanged e200 Adam state. Bias-correction scalars and the "
+            "current gradient's future second-moment update are excluded."
+        ),
         "same_official_unpaired_batch": True,
         "patchnce_cross_replica_negatives": False,
     }
