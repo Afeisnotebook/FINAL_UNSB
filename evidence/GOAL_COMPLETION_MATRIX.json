@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T17:57:00+08:00",
+  "updated": "2026-08-30T18:10:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -119,8 +119,9 @@
         "144 pytest tests passed at negative causal successor commit 85c03fb",
         "150 pytest tests passed at ablation challenger successor commit 1ebf7b6",
         "152 pytest tests passed at frozen challenger selection commit 449b394",
+        "154 pytest tests passed at challenger-aware final delivery commit 945b8cf",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 449b394",
+        "main pushed through 945b8cf",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
@@ -147,9 +148,10 @@
         "evidence/remote_route1_offload/WINNER_ABLATION_EXECUTION_CHAIN_READY_20260830.json",
         "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json",
         "evidence/remote_route1_offload/ABLATION_CHALLENGER_SEED_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/ABLATION_CHALLENGER_SELECTION_SUCCESSOR_REDEPLOYED_20260830.json"
+        "evidence/remote_route1_offload/ABLATION_CHALLENGER_SELECTION_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. A proposal-only challenger blocks the original winner from final delivery, then receives source-frozen seed validation in an isolated namespace before any selection can change.",
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. A proposal-only challenger blocks the original winner, receives source-frozen seed validation in an isolated namespace, and can replace full only after both identities have complete frozen multi-seed adjudications; either resolved identity now has a tested fail-closed final-delivery path.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],
@@ -158,7 +160,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG run concurrently from common e0; old RSMG e71 is engineering-invalid",
     "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP and PC-RSMG continue; no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "BVCP remains valid; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and its first authoritative e5 checkpoint/CRN/resume chunk is accepted",
-    "successor": "source-bound cross-version successor 0aa0beb is durably waiting and will verify each candidate under its own training core before ranking and seed continuation",
+    "successor": "source-bound cross-version successor 0aa0beb is durably waiting; winner ablations, negative causal routing and challenger-aware final delivery 945b8cf are independently armed without modifying active training identities",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

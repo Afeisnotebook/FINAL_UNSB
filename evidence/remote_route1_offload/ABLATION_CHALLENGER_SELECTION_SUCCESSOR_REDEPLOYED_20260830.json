@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-ablation-challenger-selection-successor-redeployment-v1",
-  "status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+  "status": "SUPERSEDED_BY_CHALLENGER_AWARE_FINAL_DELIVERY_945b8cf",
   "date": "2026-08-30",
   "host_role": "authoritative same-runtime 4090 continuation",
   "successor_repo": "/home/yc/FINAL_UNSB_ABLATION_CHALLENGER_449b394",
@@ -43,5 +43,6 @@
     "confirmation20_opened": false
   },
   "running_training_or_ablation_worktrees_modified": false,
-  "temporary_transfer_bundles_removed": true
+  "temporary_transfer_bundles_removed": true,
+  "superseded_by": "evidence/remote_route1_offload/ABLATION_CHALLENGER_FINAL_DELIVERY_SUCCESSOR_REDEPLOYED_20260830.json"
 }

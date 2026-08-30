@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-route1-ablation-challenger-final-delivery-successor-redeployment-v1",
+  "status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "successor_repo": "/home/yc/FINAL_UNSB_ABLATION_CHALLENGER_945b8cf",
+  "successor_git_commit": "945b8cfcd557367c307ce08f3eccb8e4476c6c17",
+  "ablation_source_repo": "/home/yc/FINAL_UNSB_ABLATIONS_c154122",
+  "ablation_source_git_commit": "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
+  "local_full_pytest": "154 passed",
+  "remote_targeted_pytest": "11 passed",
+  "tmux_session": "FINAL_UNSB_ABLATION_CHALLENGER_945b8cf",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/ABLATION_CHALLENGER_SUCCESSOR_CONTRACT_945b8cf.json",
+  "contract_sha256": "33856882bfdb82a81b635e07087a5ff55a6b24043f1ee29d74e0a189be329139",
+  "accepted_state": {
+    "status": "WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+    "state_sha256_at_verification": "e1f4579072f5fd7c1d72a04ff320a56c015011ef2e912e7604ca9f5df2062777",
+    "supervisor_pid": 1408302,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "root_fatal_absent": true
+  },
+  "new_terminal_behavior": [
+    "if no proposal-only challenge exists, the ordinary winner-ablation successor retains authority",
+    "if a proposal-only e200 trajectory challenges full, freeze and run its registered seed2027 and conditionally seed2028 in an isolated workspace",
+    "compare full and proposal only after both frozen multi-seed adjudications are complete",
+    "materialize CANDIDATE.json, RESULTS.json and two alternates for either the retained full operator or the selected proposal-only challenger",
+    "bind every selected receipt, card, implementation, seed workspace and selection artifact by path and SHA256"
+  ],
+  "scientific_contract": {
+    "training_batch_size": 1,
+    "target_data_epochs": 200,
+    "best_checkpoint_selection": false,
+    "selection_change_before_both_seed_adjudications": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "running_training_or_ablation_worktrees_modified": false,
+  "supersedes_successor_commit": "449b3949bed52d0ed683a083e8608ad25a9451ea"
+}
