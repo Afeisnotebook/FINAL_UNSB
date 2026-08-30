@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T23:05:14+08:00",
+  "state_snapshot_time": "2026-08-30T23:28:05+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "5acd0fa66c352c8452f1fb1fc47e045f7b65c793",
+  "development_head_at_state_write": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -133,6 +133,8 @@
     ,"inactive corrections cannot vote, state-local failures cannot be averaged away, both-state harm routes to mathematical rewrite, and shared signals must pass every probe"
     ,"short counterfactual ranking uses the actually labeled 200-update branch rather than unlabeled 1/8/32-update geometry rows"
     ,"seed validation and final cross-seed adjudication now enforce PSNR, domain coverage, worst-domain, SSIM, LPIPS, rolling drawdown and absolute plain-collapse guards without changing the frozen candidate training core"
+    ,"a live MCRB e100 metric remained nonterminal: no 4090 replay, terminal receipt, ranking, development freeze or ablation was allowed before complete e200"
+    ,"winner proposal-only and observable-only e200 ablations are source-bound to a measured-throughput sequential single-stream contract; projected/full reuses the selected terminal receipt"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -173,6 +175,15 @@
       "reversal_rows": 80,
       "sampling_variance_rows": 24,
       "evidence": "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
+    },
+    "broader_local_terminal_audit": {
+      "status": "HNEK_E1_RUNNING_AFTER_HJ_SUBSET_COMPLETE",
+      "probe": "hnek",
+      "data_epoch": 1,
+      "rows_persisted_at_snapshot": 10,
+      "executor_pid": 15096,
+      "paired_controller_access": false,
+      "confirmation20_opened": false
     },
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
@@ -277,7 +288,7 @@
         "generation": 2,
         "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 82,
+        "latest_observed_data_epoch": 102,
         "target_data_epoch": 200,
         "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
         "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
@@ -310,18 +321,20 @@
       "negative_path_generation2_e200_executor": true,
       "single_seed_proposal_challenger_selection": true,
       "mcrb_cross_host_successor": {
-        "status": "DEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
-        "git_commit": "8bee139df40e19c5bdace718489da6fed3c04a42",
-        "supervisor_pid_at_deployment": 1438951,
+        "status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200_WITH_SINGLE_STREAM_FINAL_ABLATIONS",
+        "git_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+        "supervisor_pid_at_deployment": 1442875,
         "remote_e200_only_routing": true,
         "conditional_4090_replay": true,
         "final_selection_before_winner_ablation": true,
-        "evidence": "evidence/remote_route1_offload/MCRB_CROSS_HOST_SUCCESSOR_DEPLOYED_20260830.json"
+        "evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
       },
       "evidence": [
         "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
         "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
       ]
     },
@@ -374,7 +387,7 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 88, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication paused to prioritize independent mechanism", "resumable": true},
-      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 91, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay"},
+      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 110, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -404,18 +417,18 @@
     "causal_revision_successor_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
     "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
     "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
-    "winner_ablation_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
-    "winner_ablation_successor_status": "ARMED_WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
-    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
+    "winner_ablation_successor_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+    "winner_ablation_successor_status": "SOURCE_BOUND_SEQUENTIAL_SINGLE_STREAM_CONTRACT_READY_WAITING_FOR_E200_WINNER",
+    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
     "mcrb_4090_preflight_status": "PASS_LONG_RUN_CONDITIONAL_REPLAY_NOT_STARTED",
     "mcrb_4090_preflight_identity_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
     "mcrb_4090_preflight_evidence": "evidence/remote_route1_offload/MCRB_4090_PREFLIGHT_READY_20260830.json",
-    "mcrb_cross_host_successor_commit": "8bee139df40e19c5bdace718489da6fed3c04a42",
-    "mcrb_cross_host_successor_status": "DEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
-    "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/MCRB_CROSS_HOST_SUCCESSOR_DEPLOYED_20260830.json",
+    "mcrb_cross_host_successor_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+    "mcrb_cross_host_successor_status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
+    "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
     "mcrb_formula_implementation_audit": "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "amtnc_formula_implementation_audit": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "retired_multi_seed_successors": [
@@ -426,5 +439,5 @@
     "pcrsmg_mathematical_implementation_audit": "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
     "status": "AMTNC_4090_AND_MCRB_5090_E200_RUNNING_EXTENDED_WINNER_ABLATION_CHAIN_READY"
   },
-  "next_gate": "Let AM-TNC on 4090 and MCRB on 5090 complete true e200 without intermediate quality control. If MCRB is positive, rerun it from common e0 on the authoritative 4090 before any numeric merge; otherwise keep it supplemental-negative. Freeze the resulting same-host seed2026 winner or honest fallback, then run that identity's proposal-only/observable-only/full e200 ablations. Seeds 2027/2028 remain deferred."
+  "next_gate": "Let AM-TNC on 4090 and MCRB on 5090 complete true e200 without intermediate quality control. If MCRB is positive, rerun it from common e0 on the authoritative 4090 before any numeric merge; otherwise keep it supplemental-negative. Freeze the resulting same-host seed2026 winner or honest fallback, reuse its projected/full receipt, then run proposal-only followed by observable-only as sequential single-stream e200 ablations. Seeds 2027/2028 remain deferred."
 }

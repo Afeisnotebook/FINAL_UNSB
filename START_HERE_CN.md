@@ -25,6 +25,11 @@ target-blind审计据此授权唯一二代修订AM-TNC；它正在4090从共同e
 4090侧已用与5090逐字相同的`7fa9081`身份提前通过MCRB宿主门禁，但尚未启动长训；
 因此正结果可立即复赛，负结果不会额外消耗一条4090 e200。
 
+截至`2026-08-30 23:28 +08:00`，AM-TNC到e102，MCRB到e110；MCRB的真实e100
+描述性delta为`+2.158 dB`，但已验证它不会触发早停、4090复赛、排名或冻结，科学硬门
+仍是完整e200。最终赢家的projected/full使用其既有完整receipt，不重复训练；4090按
+实测总墙钟依次运行proposal-only和observable-only两条e200消融，seed2027/2028仍延期。
+
 ## 为什么此前的“路线一完成”需要重审
 
 此前 small25 的 2400 updates 只有 16 data epochs；full100 的 12000 updates
@@ -50,15 +55,16 @@ target-blind审计据此授权唯一二代修订AM-TNC；它正在4090从共同e
    固定描述，不控制代码、调度或退出。PC-RSMG的冗余5090复现已在e88安全暂停，资源
    让给独立机制。
 4. e200后先决定MCRB是否需要4090同宿主复赛，再由source-bound总排名冻结单seed
-   开发赢家。最终赢家的proposal-only、observable-only、projected/full均从共同e0
-   运行真实e200；seed2027/2028不自动启动。
+   开发赢家。projected/full使用赢家已经从共同e0完成的e200 receipt；proposal-only
+   和observable-only也从共同e0依次完成真实e200；seed2027/2028不自动启动。
 5. 任何宿主都不得读取confirmation20、运行全量数据、搜索handoff/退出窗口或把方法
    分数减去另一宿主的plain。
 
 上述第4步由4090上的持久跨宿主后继执行，不依赖Codex会话存活：它只读取5090完整
 e200 terminal receipt；完整正结果才启动4090 MCRB复赛，完整负结果则跳过。它同时等待
 AM-TNC e200，最终统一冻结4090同宿主总排名后才启动赢家消融。协议见
-`decisions/DEC-20260830-MCRB-CROSS-HOST-DURABLE-ROUTING.md`。
+`decisions/DEC-20260830-MCRB-CROSS-HOST-DURABLE-ROUTING.md`和
+`decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md`。
 
 完整边界见 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`。旧 `configs/FOUR_LANES.json`
 只保留为暂停方案的历史记录，不得执行。

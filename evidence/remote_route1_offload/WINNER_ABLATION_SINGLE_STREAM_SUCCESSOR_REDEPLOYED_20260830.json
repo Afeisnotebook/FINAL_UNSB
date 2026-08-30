@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-route1-winner-ablation-single-stream-successor-redeployment-v1",
+  "recorded": "2026-08-30T23:28:05+08:00",
+  "development_git_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+  "decision": "decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md",
+  "reason": "Measured 4090 total wall clock is lower when the two required batch1 e200 ablations run sequentially rather than as contending streams.",
+  "verification": {
+    "local_full_suite": "199 passed in 18.77s",
+    "remote4090_routing_and_scheduling_suite": "11 passed in 0.68s",
+    "worktree": "/home/yc/FINAL_UNSB_CONTROL_24beb4b",
+    "worktree_head": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+    "worktree_clean": true
+  },
+  "cross_host_successor": {
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/MCRB_CROSS_HOST_SUCCESSOR_CONTRACT_24beb4b.json",
+    "contract_sha256": "39809f6ef995c0c722effbcdf01f4bd1239eef90c7d9bc2a983c6981bffd9f74",
+    "retired_control_only_pid": 1438951,
+    "retired_pid_alive_after_redeployment": false,
+    "active_pid": 1442875,
+    "active_pid_alive": true,
+    "state": "WAITING_FOR_REMOTE_MCRB_E200",
+    "observed_remote_epoch": 110,
+    "observed_remote_updates": 16500,
+    "scientific_training_interrupted": false
+  },
+  "winner_ablation_successor": {
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/WINNER_ABLATION_SUCCESSOR_CONTRACT_24beb4b1dcd0.json",
+    "contract_sha256": "8b3c3dfe3ec420ff27d27eeeb7744ea46de1ccaccf8bfc7e443d29792585b86b",
+    "source_sha256": "a7e86d3d4638dae8f0c445666c460966aaebc1796921e040d0e258faa9008f9e",
+    "e200_execution_policy": "SEQUENTIAL_SINGLE_STREAM_BY_MEASURED_WALL_CLOCK",
+    "maximum_parallel_e200_executors": 1,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "selection_seeds": [
+      2026
+    ],
+    "deferred_seed_validation": [
+      2027,
+      2028
+    ],
+    "proposal_only_required": true,
+    "observable_only_required": true,
+    "projected_full_source_receipt_required": true,
+    "final_delivery_requires_all_three": true
+  },
+  "live_scientific_jobs_at_redeployment": {
+    "amtnc_4090": {
+      "data_epoch": 102,
+      "updates": 15300,
+      "candidate_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a"
+    },
+    "mcrb_5090": {
+      "data_epoch": 110,
+      "updates": 16500,
+      "candidate_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e"
+    },
+    "local_hnek_audit": {
+      "data_epoch": 1,
+      "rows_persisted": 10,
+      "status": "AUDIT_JOB_RUNNING"
+    }
+  },
+  "guardrails": {
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "batch_size_changed": false,
+    "candidate_algorithm_changed": false,
+    "candidate_checkpoint_changed": false,
+    "seed2027_or_seed2028_started": false,
+    "route2_or_handoff_started": false
+  },
+  "status": "DEPLOYED_WAITING_FOR_COMPLETE_SOURCE_BOUND_E200_SELECTION"
+}
