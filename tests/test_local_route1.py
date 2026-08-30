@@ -907,8 +907,8 @@ def test_signal_records_consume_probe_internal_defects_at_mathematical_zeroes():
             "bridge": {},
             "method_internal": {
                 "hj_active": 1.0,
-                "hj_probe_sum": 0.75,
-                "hj_risk_sum": 0.25,
+                "hj_probe_sum": 1.5,
+                "hj_risk_sum": 0.5,
             },
         },
     }, {

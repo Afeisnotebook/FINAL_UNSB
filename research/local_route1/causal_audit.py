@@ -1533,14 +1533,22 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
             risk = proposal_internal.get("hj_risk_sum")
             active = float(proposal_internal.get("hj_active", 0.0)) > 0.0
             if agreement is not None and risk is not None and active:
+                # The frozen SB profile has nce_idt=True and one HJ layer, so
+                # calculate_NCE_loss records one A->B and one identity probe
+                # per optimizer step.  The immutable row contains their sum;
+                # restore a per-probe mean before applying the mathematical
+                # chance/risk boundaries.
+                diagnostic_calls_per_step = 2.0
+                agreement = float(agreement) / diagnostic_calls_per_step
+                risk = float(risk) / diagnostic_calls_per_step
                 # The HJ probe is supported only when its two-sided structural
                 # evidence agrees above chance and the normalized risk clears
                 # the frozen mechanism's own absolute-risk boundary.  Both
                 # zero points are fixed by the mathematics/configuration, not
                 # by paired development labels.
                 features["hj_supported_structure_conflict_margin"] = min(
-                    2.0 * float(agreement) - 1.0,
-                    float(risk) - 0.05,
+                    2.0 * agreement - 1.0,
+                    risk - 0.05,
                 )
         reference_velocity = reference_bridge.get("rollout_velocity_l2")
         proposal_velocity = proposal_bridge.get("rollout_velocity_l2")
@@ -1912,7 +1920,8 @@ def target_blind_signal_screen(rows: list[dict], variance_rows: list[dict]) -> d
                     "hj_supported_structure_conflict_margin",
                 ],
                 "natural_zero": (
-                    "two-sided probe agreement at chance or risk at the frozen 0.05 boundary"
+                    "per-probe two-sided agreement at chance or per-probe risk at "
+                    "the frozen 0.05 boundary; raw A-to-B plus identity sums are divided by two"
                 ),
             },
             "hnek": {
