@@ -28,14 +28,22 @@ AM-TNC给出了目前最清楚的正而脆弱信号：晚三点PSNR均值`+0.105
 排第三。因为没有方法通过全部数值门，PC-RSMG只被冻结为seed2026当前最优fallback，
 不是已证实的稳定赢家；AM-TNC是正终点递补。
 
-截至`2026-08-31 01:28 +08:00`，PC-RSMG的proposal-only和observable-only均已通过
+截至`2026-08-31 01:58 +08:00`，PC-RSMG的proposal-only和observable-only均已通过
 完整短GPU门，包括zero-intervention身份、精确resume、跨状态父hash隔离、target-blind
 以及400-update有限性。projected/full直接复用原完整e200 receipt；proposal-only现已从
-共同e0进入真实e200，快照为e8，结束后才由同一持久后继启动observable-only。完整结果
+共同e0进入真实e200，结束后才由同一持久后继启动observable-only。完整结果
 可以证明收益究竟来自双随机proposal、observable/投影还是二者组合；在两条消融结束前
 不会生成最终`CANDIDATE.json`。compact证据见
 `evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json`。
 seed2027/2028继续延期，confirmation20、全量数据、路线二、退出阈值和handoff仍关闭。
+
+“唯一候选”是最终交付的主排名要求，不是提前终止算法发现的规则。5090的空闲算力现已
+用于一个严格受限的可信候选前沿：PCNR把D/E提交后的G/F随机视图改为条件原生重采样，
+AM-MCRB把MCRB的欧氏投影改为Adam二阶矩度量下的最小安全位移。两者都来自长期近失配
+证据而非超参网格，已通过完整GPU门，并从同一5090 e0/plain、batch1、seed2026并行跑
+真实e200。代码冻结于`c874e37`，持久调度器为`9c8c987`；compact证据见
+`evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。4090与5090
+先各自在宿主内matched裁决，绝不直接合并小数级跨宿主delta。
 
 ## 为什么此前的“路线一完成”需要重审
 
@@ -58,20 +66,20 @@ seed2027/2028继续延期，confirmation20、全量数据、路线二、退出�
 1. 已完成DT/HJ/HNEK与clean canonical的语义谱系和200-data-epoch锚点审计。
 2. 已在4090冻结target-blind长期因果图谱，并从最清楚的rollout移动与采样方差机理
    构造两项新算法；旧名字没有候选保护席位。
-3. 当前让AM-TNC在权威4090、MCRB在独立5090完成真正的e200；中间paired分数只作
-   固定描述，不控制代码、调度或退出。PC-RSMG的冗余5090复现已在e88安全暂停，资源
-   让给独立机制。
-4. e200后先决定MCRB是否需要4090同宿主复赛，再由source-bound总排名冻结单seed
-   开发赢家。projected/full使用赢家已经从共同e0完成的e200 receipt；proposal-only
-   和observable-only也从共同e0依次完成真实e200；seed2027/2028不自动启动。
-5. 任何宿主都不得读取confirmation20、运行全量数据、搜索handoff/退出窗口或把方法
+3. AM-TNC与MCRB均已完成e200；PC-RSMG是当前fallback但还在完成proposal-only和
+   observable-only真实e200机制消融。中间paired分数只作固定描述，不控制代码、调度或退出。
+4. 5090同时推进PCNR与AM-MCRB两个证据驱动的新候选到e200。两者不是旧算法网格，
+   也不因任何中间checkpoint提前淘汰；完整结果先在5090宿主内与matched plain裁决。
+5. 所有轨迹完成后保留一个明确主候选和两个有完整证据的备选；只有5090候选严格通过时
+   才考虑4090同宿主复跑，seed2027/2028不自动启动。
+6. 任何宿主都不得读取confirmation20、运行全量数据、搜索handoff/退出窗口或把方法
    分数减去另一宿主的plain。
 
-上述第4步由4090上的持久跨宿主后继执行，不依赖Codex会话存活：它只读取5090完整
-e200 terminal receipt；完整正结果才启动4090 MCRB复赛，完整负结果则跳过。它同时等待
-AM-TNC e200，最终统一冻结4090同宿主总排名后才启动赢家消融。协议见
-`decisions/DEC-20260830-MCRB-CROSS-HOST-DURABLE-ROUTING.md`和
-`decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md`。
+上述长任务均由独立持久后继执行，不依赖Codex会话存活。4090后继固定顺序完成PC-RSMG
+的两项机制消融；5090后继并行完成PCNR和AM-MCRB，并在单条失败时保留另一条继续运行。
+最终只读取完整e200 terminal receipt作科学裁决。协议见
+`decisions/DEC-20260830-WINNER-ABLATION-SINGLE-STREAM.md`和
+`decisions/DEC-20260831-ROUTE1-FRONTIER-EXPANSION.md`。
 
 完整边界见 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`。旧 `configs/FOUR_LANES.json`
 只保留为暂停方案的历史记录，不得执行。

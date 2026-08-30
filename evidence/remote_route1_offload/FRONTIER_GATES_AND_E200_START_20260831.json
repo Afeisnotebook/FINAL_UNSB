@@ -1,0 +1,73 @@
+{
+  "schema": "final-unsb-route1-frontier-gates-and-e200-start-v1",
+  "created": "2026-08-31T01:59:25.339022+08:00",
+  "decision": "The unique primary remains a final ranking output, not a premature search cutoff. Two evidence-distinct frontier candidates run concurrently on the idle 5090.",
+  "host_role": "independent host-matched 5090 route-1 execution; deltas may only use this host plain",
+  "control_git_commit": "9c8c987787bd16e3fc9ea7f097daf028c33d35ff",
+  "candidate_git_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+  "maximum_parallel_e200_executors": 2,
+  "batch_size": 1,
+  "seed": 2026,
+  "target_data_epochs": 200,
+  "updates_per_candidate": 30000,
+  "deferred_seeds": [
+    2027,
+    2028
+  ],
+  "cross_seed_stability_claimed": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "intermediate_metric_control": false,
+  "candidate_frontier": {
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": {
+      "algorithm_fingerprint": "3423a51ff77f5605c7daac7d0b0317d7596e0e7cde256671fcb19f2c5b4ac186",
+      "candidate_fingerprint": "98b34509d168fde02b5d3cc7d0ddfd2dea2dbb7a8d93db597b340be605a215c6",
+      "gpu_gate": {
+        "status": "PASS_LONG_RUN",
+        "sha256": "813afe75f4ce6bb9a0352659046480252f0b873b568cbfb33cc345c125442830",
+        "checks": {
+          "mathematical_invariants": true,
+          "zero_intervention_identity": true,
+          "resume_exact": true,
+          "cross_state_counterfactual": true,
+          "target_blind_observable": true,
+          "micro_engineering": true,
+          "base_unsb_semantics_preserved": true,
+          "shared_e0_load_exact": true
+        },
+        "paired_metric_used_for_promotion": false
+      },
+      "executor_contract_sha256": "8b42151b0c55400beb2ea7766f70df3e51622d56bb651ea03170800151450146",
+      "execution_status": "CANDIDATE_CHUNK_RUNNING",
+      "snapshot_data_epoch": 0,
+      "target_data_epoch": 200
+    },
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": {
+      "algorithm_fingerprint": "d6317303f3aa124b677d7637c97d5d08f24eb11ff526a83a2fe7d2f3b30851ea",
+      "candidate_fingerprint": "b221e5a74302d47d95c01c26f9c87067c08f375ea90bb58eaddbccd38b30fd14",
+      "gpu_gate": {
+        "status": "PASS_LONG_RUN",
+        "sha256": "665e4c532a8aaf98e5d46cfb0fd5ae5b47d0028b6b00630b7e5f62b9240066bc",
+        "checks": {
+          "mathematical_invariants": true,
+          "zero_intervention_identity": true,
+          "resume_exact": true,
+          "cross_state_counterfactual": true,
+          "target_blind_observable": true,
+          "micro_engineering": true,
+          "base_unsb_semantics_preserved": true,
+          "shared_e0_load_exact": true
+        },
+        "paired_metric_used_for_promotion": false
+      },
+      "executor_contract_sha256": "a495b649950aa73aff30394060e29bf451055fff66caf7c96efc7cff3ac44f94",
+      "execution_status": "CANDIDATE_CHUNK_RUNNING",
+      "snapshot_data_epoch": 0,
+      "target_data_epoch": 200
+    }
+  },
+  "successor_contract_sha256": "6c0021380644e89c85b6d724bdfc6e543d24f4d7692eff8f40e49fe954d1c1e5",
+  "successor_launch_sha256": "03142fe28143f6110315c7047318bfdbcd1c917faf9f6d68aab5b2efbb6f21dc",
+  "successor_state_sha256": "b90ddf30fb5a066878f43da79eaeeca4a38870af01a900884908c3654c3ca437"
+}

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T01:28:01+08:00",
-  "phase": "ALL_CANDIDATE_E200_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING",
+  "state_snapshot_time": "2026-08-31T01:58:00+08:00",
+  "phase": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "9f7ff56bd9415b332288870db183e1ecd133d018",
+  "development_head_at_state_write": "9c8c987787bd16e3fc9ea7f097daf028c33d35ff",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -481,14 +481,31 @@
     "winner_ablation_runtime": {
       "status": "PROPOSAL_ONLY_E200_RUNNING",
       "active_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
-      "latest_observed_data_epoch": 8,
+      "latest_observed_data_epoch": 37,
       "target_data_epoch": 200,
       "maximum_parallel_e200_executors": 1,
       "proposal_only_gate_status": "PASS_LONG_RUN",
       "observable_only_gate_status": "PASS_LONG_RUN",
       "evidence": "evidence/remote_route1_offload/PCRSMG_WINNER_ABLATION_GATES_AND_PROPOSAL_E200_START_20260831.json"
     },
-    "status": "PC_RSMG_SINGLE_SEED_FALLBACK_FROZEN_PROPOSAL_ONLY_E200_RUNNING"
+    "frontier_expansion": {
+      "decision": "decisions/DEC-20260831-ROUTE1-FRONTIER-EXPANSION.md",
+      "algorithm_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+      "durable_successor_commit": "9c8c987787bd16e3fc9ea7f097daf028c33d35ff",
+      "status": "BOTH_GPU_GATES_PASS_TWO_HOST_MATCHED_E200_STREAMS_RUNNING",
+      "candidate_ids": [
+        "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+        "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER"
+      ],
+      "host": "remote5090",
+      "batch_size": 1,
+      "maximum_parallel_e200_executors": 2,
+      "selection_seeds": [2026],
+      "deferred_seeds": [2027, 2028],
+      "cross_host_delta_merge": false,
+      "evidence": "evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json"
+    },
+    "status": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING"
   },
-  "next_gate": "Complete PC-RSMG proposal-only and observable-only as sequential single-stream seed2026 e200 ablations after both short GPU gates pass. Reuse the existing projected/full PC-RSMG receipt, adjudicate all three complete trajectories, allow a complete proposal-only challenger to replace full under the emergency policy, and materialize the unique CANDIDATE plus two alternates. Seeds 2027/2028 remain deferred."
+  "next_gate": "Complete PC-RSMG proposal-only and observable-only on 4090 and the frozen PCNR/AM-MCRB frontier on 5090, all as seed2026 batch1 matched e200 trajectories. Rank only within each host first; replay a 5090 winner on 4090 only if its complete strict-gate result warrants it. Then materialize one explicit primary CANDIDATE plus two evidence-backed alternates. Seeds 2027/2028 remain deferred."
 }
