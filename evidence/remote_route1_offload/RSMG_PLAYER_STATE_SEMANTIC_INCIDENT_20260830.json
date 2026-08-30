@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-route1-semantic-incident-v1",
+  "recorded_at": "2026-08-30T16:20:00+08:00",
+  "incident_id": "INC-20260830-RSMG-PLAYER-STATE",
+  "candidate_id": "G1-02-SAMPLING-VARIANCE",
+  "method_name": "Replicated Stochastic-Measure Gradient",
+  "classification": "implementation_failure",
+  "scientific_conclusion_allowed": false,
+  "parent_mechanism_falsified": false,
+  "frozen_derivation_requirement": "For each native player in D, E, then joint (G,F) order, construct two conditionally iid stochastic views at that player's current conditional state; commit earlier players before constructing the next player's views.",
+  "implemented_semantics": "src/models/route1/rsmg.py constructed one two-view bundle before every player update, then reused it after D and E had changed. The G/F views were therefore not freshly sampled conditional on the updated D/E state.",
+  "proof_failure": "The implementation did not satisfy the card's player-conditional iid premise for G/F. Consequently the registered per-player conditional unbiasedness statement and variance-halving proof do not apply to this trajectory.",
+  "why_existing_gate_missed_it": "The gate checked replica-count identity plus an abstract mean/variance estimator, but did not exercise the coupled sequential D/E/G/F game or assert that the G/F bundle was generated after the opponent updates.",
+  "containment": {
+    "old_trajectory_resumable": false,
+    "old_trajectory_rankable": false,
+    "checkpoints_preserved": true,
+    "successor_stopped": true,
+    "bvcp_affected": false,
+    "paired_metric_used_for_detection_or_redesign": false,
+    "confirmation20_opened": false
+  },
+  "frozen_runs": {
+    "remote4090": {
+      "role": "formerly authoritative; now engineering-invalid",
+      "accepted_data_epoch": 71,
+      "accepted_updates": 10650,
+      "full_state_sha256": "25fc8f9b46a6990bc7c1ba768812642a44a4759d4d4f28d48fe2900043db23f4",
+      "scientific_state_sha256": "3bb2ae209ce9fa2137cff4fd5dd8d989ed8c87a857d699639fd3c2672ed22f9d",
+      "executor_pid_stopped": 1378637,
+      "child_pid_stopped": 1391686
+    },
+    "remote5090": {
+      "role": "formerly supplemental; now engineering-invalid",
+      "accepted_data_epoch": 40,
+      "accepted_updates": 6000,
+      "full_state_sha256": "0c09e428c417ff2f9d04a3be4cc4a51014050480de117ada2162be83b9eda101",
+      "scientific_state_sha256": "1bb2fd8063e77679f07446278e13637d5c735a299e2bac6c981fd8d93f22b5d0",
+      "executor_pid_stopped": 63424,
+      "child_pid_stopped": 69512
+    }
+  },
+  "invalid_identity": {
+    "training_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+    "algorithm_fingerprint": "ac08e7fd98bc084b247efda04c3d2110ded878bd0bc9baf12a01c2afb1938ce5",
+    "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333",
+    "candidate_training_core_fingerprint": "2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1"
+  },
+  "required_repair": {
+    "new_candidate_identity": true,
+    "restart_from_common_e0": true,
+    "fresh_gf_replica_bundle_after_de_commit": true,
+    "coupled_game_unbiasedness_gate": true,
+    "replica_bundle_provenance_resume_state": true,
+    "old_artifacts_must_remain_append_only": true
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T15:57:17+08:00",
-  "goal_status": "IN_PROGRESS_GENERATION1_MATCHED_E200",
+  "updated": "2026-08-30T16:20:00+08:00",
+  "goal_status": "IN_PROGRESS_GENERATION1_BVCP_RUNNING_RSMG_ENGINEERING_REPAIR",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
     "original_local_only_text": true,
@@ -59,22 +59,23 @@
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "MATHEMATICS_AND_IMPLEMENTATION_PROVEN_E200_RUNNING",
+      "status": "ONE_VALID_E200_RUNNING_ONE_IMPLEMENTATION_FAILURE_REPAIR_PENDING",
       "evidence": [
         "decisions/DEC-20260830-ROUTE1-GENERATION1-DERIVATION.md",
         "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
         "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
         "evidence/remote_route1_offload/GENERATION1_GATE_FREEZE_20260830.json",
-        "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json"
+        "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
+        "evidence/remote_route1_offload/RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
       ],
       "current": {
         "authoritative_host": "remote4090",
-        "BVCP_data_epoch": 74,
-        "RSMG_data_epoch": 60,
+        "BVCP_status": "valid trajectory continuing",
+        "RSMG_status": "engineering-invalid at e71; no scientific conclusion",
         "target_data_epoch": 200,
         "scientific_early_stop": false
       },
-      "missing": ["both complete matched e200 trajectories and frozen post-e200 adjudication"]
+      "missing": ["BVCP complete matched e200 trajectory", "player-conditional RSMG replacement gate and e0-to-e200 trajectory", "frozen post-e200 adjudication"]
     },
     {
       "id": 6,
@@ -123,10 +124,10 @@
   ],
   "current_accepted_scientific_boundary": {
     "local": "plain and HJ e200 accepted; HNEK at e113; local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP e74 and RSMG e60 from common e0 are the authoritative candidate runs",
-    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e44 and RSMG e34 are active and must never be merged into the 4090 ranking",
-    "new_algorithms": "BVCP and RSMG have evidence-bound derivation cards, executable implementations, identity/unbiased gates and active full e200 trajectories",
-    "successor": "durable 4090 supervisor at 2ffa1fa waits for both complete e200 trajectories, independently verifies all checkpoint/metric/CRN artifacts, and can freeze only a numeric-gate winner",
+    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP remains valid and continues; old RSMG was stopped at e71 as engineering-invalid",
+    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP continues; old RSMG was stopped at e40 as engineering-invalid and must never be merged into ranking",
+    "new_algorithms": "BVCP has a valid active e200 trajectory; old RSMG violated its player-conditional iid derivation premise and requires a new identity plus e0 restart",
+    "successor": "the old two-candidate successor is intentionally stopped until the corrected replacement is frozen; terminal verification remains mandatory",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false
