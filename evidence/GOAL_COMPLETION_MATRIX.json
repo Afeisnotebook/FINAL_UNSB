@@ -195,8 +195,8 @@
   ],
   "current_accepted_scientific_boundary": {
     "local": "plain/HJ/HNEK e200 accepted; local HJ/HNEK did not calibrate the proxy, the executor paused before DT, and local continuation is not the authoritative Generation-1 ranking",
-    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e64 and continues from common e0 under commit 977ce32",
-    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e74; no 5090 result may be merged into the 4090 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e82 and continues from common e0 under commit 977ce32",
+    "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e91; no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
     "successor": "commit 8bee139 deploys a password-free persistent cross-host successor that accepts only complete 5090 e200 evidence, conditionally starts the 4090 MCRB replay, freezes the all-4090 receipt ranking, and only then starts winner ablations; 195 local tests and 7 remote4090 successor tests pass, while terminal candidate and ablation trajectories correctly remain pending",
     "confirmation20_opened": false
