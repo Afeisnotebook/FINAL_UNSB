@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T07:34:00+08:00",
+  "state_snapshot_time": "2026-08-31T07:48:26+08:00",
   "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
+  "development_head_at_state_write": "fa060163247c01aefaef2288f817efc89248f13e",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -138,6 +138,7 @@
     ,"final CANDIDATE reproduction resolves the unique real executor contract by receipt-bound identity and fails closed on missing, ambiguous or mismatched contracts"
     ,"the live 4090 control contracts and process tree were audited after midnight: only seed2026 is selectable, seeds2027/2028 are deferred, and no deferred-seed process or run directory exists"
     ,"the credible frontier is preserved through complete e200 rather than pruned to one early candidate, while canonical selection remains an explicit final priority rank"
+    ,"the 5090 second wave is capped at two evidence-qualified e200 trajectories; a durable source-bound parent-ablation successor preserves an independent strict mechanism or reserves its slot for a target-blind near-boundary revision instead of filling the GPU with unsupported ideas"
     ,"a new frontier winner cannot inherit PC-RSMG ablations: proposal-only, observable-only and projected/full evidence is bound to the selected algorithm identity"
     ,"frontier final delivery preserves selected and ablation per-domain candidate/plain absolute trajectories, host-separated full rankings and explicit scientific/engineering/proxy/untested boundaries"
   ],
@@ -513,8 +514,8 @@
       "host": "remote5090",
       "batch_size": 1,
       "maximum_parallel_e200_executors": 2,
-      "pcnr_latest_observed_data_epoch": 163,
-      "am_mcrb_latest_observed_data_epoch": 144,
+      "pcnr_latest_observed_data_epoch": 174,
+      "am_mcrb_latest_observed_data_epoch": 153,
       "target_data_epoch": 200,
       "selection_seeds": [2026],
       "deferred_seeds": [2027, 2028],
@@ -547,6 +548,12 @@
       "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
       "frontier_advancement_successor_pid_at_deployment": 126899,
       "frontier_advancement_successor_evidence": "evidence/remote_route1_offload/FRONTIER_ADVANCEMENT_SUCCESSOR_ARMED_20260831.json",
+      "second_wave_parent_ablation_commit": "fa060163247c01aefaef2288f817efc89248f13e",
+      "second_wave_parent_ablation_successor_status": "ARMED_WAITING_FOR_COMPLETE_E200_ADVANCEMENT_CLASSIFICATION",
+      "second_wave_parent_ablation_successor_pid_at_deployment": 128179,
+      "second_wave_parent_ablation_successor_evidence": "evidence/remote_route1_offload/SECOND_WAVE_PARENT_ABLATION_SUCCESSOR_ARMED_20260831.json",
+      "maximum_second_wave_e200_trajectories": 2,
+      "unique_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
       "multi_candidate_advancement_decision": "decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md",
       "current_primary_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
       "current_primary_strict_sustained_gate": true

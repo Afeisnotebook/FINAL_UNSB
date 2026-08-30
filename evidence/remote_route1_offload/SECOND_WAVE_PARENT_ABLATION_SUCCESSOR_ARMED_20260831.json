@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-second-wave-parent-ablation-successor-deployment-v1",
+  "observed_at": "2026-08-31T07:48:04+08:00",
+  "status": "ARMED_WAITING_FOR_COMPLETE_E200_ADVANCEMENT_CLASSIFICATION",
+  "host": "final-unsb-5090",
+  "git_commit": "fa060163247c01aefaef2288f817efc89248f13e",
+  "worktree": "/root/autodl-tmp/FINAL_UNSB_SECOND_WAVE_fa06016",
+  "worktree_clean": true,
+  "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+  "durable_session": "screen:FINAL_UNSB_SECOND_WAVE_fa06016",
+  "supervisor_pid_at_deployment": 128179,
+  "contract_sha256": "98a7d1982d15eab10e13dab58f2ff2aede4982605136d34cd62f1e086f1499c8",
+  "routing_source_sha256": "dd8828bf57104cdd68cc44822865abd6e391aa719071c1c180f90926e406d992",
+  "maximum_parent_ablations": 1,
+  "maximum_second_wave_e200_trajectories_including_generation3_or_revision": 2,
+  "routing": {
+    "near_boundary_present": "reserve this slot for a separate target-blind defect audit and one mathematically authorized revision",
+    "both_strict": "run the fixed source-bound ablation of the strict frontier parent not selected for 4090 replay",
+    "sole_strict_without_near_boundary": "run that strict parent's fixed source-bound ablation",
+    "no_strict_without_near_boundary": "do not fill the GPU with an unsupported candidate"
+  },
+  "fixed_parent_ablation_roles": {
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": "observable_only",
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": "proposal_only"
+  },
+  "generation3_ledger_freeze_is_serialized_before_parent_ablation_freeze": true,
+  "generation3_and_parent_ablation_e200_may_run_concurrently_after_freeze": true,
+  "frontier_epochs_at_nearby_observation": {
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": 174,
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": 153
+  },
+  "gpu_utilization_percent_at_observation": 96,
+  "selection_seeds": [2026],
+  "deferred_seed_validation": [2027, 2028],
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

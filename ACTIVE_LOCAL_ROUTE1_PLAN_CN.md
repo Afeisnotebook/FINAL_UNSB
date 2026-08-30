@@ -27,7 +27,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-31 06:55）
+## 当前执行事实（2026-08-31 07:48）
 
 - 4090权威474/140长期因果矩阵已冻结；BVCP、PC-RSMG和唯一二代修订AM-TNC均已
   完成同宿主matched e200。独立MCRB也已在5090完成e200；终点`-0.730 dB`且域护栏
@@ -66,7 +66,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json`。
 - 下一硬门是5090两项前沿候选全部完成e200；不同宿主先分别matched裁决，只有5090严格
   赢家才考虑4090同宿主复跑，任何中间checkpoint都不触发调度。
-- 06:55持久状态：5090 PCNR在e147、AM-MCRB在e129；两条均为batch1、seed2026、
+- 07:48持久状态：5090 PCNR在e174、AM-MCRB在e153；两条均为batch1、seed2026、
   固定e200，GPU双流接近计算饱和。当前不塞第三条；终点后按证据合格前沿规则最多并行
   两条合成、来源绑定消融或一次最小数学修订。一个主候选只是行动接口，不提前停止其余
   strict-pass或因果可修复近边界分支。
@@ -80,6 +80,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - `9e68794`新增了独立终点分类后继：完整e200后才把当前两条分为strict、待target-blind
   审计的近边界、证据递补或关闭当前算子。近边界分类本身不授权改公式，必须另有无配对
   缺陷证据；因此第二波不会因为GPU空闲而随意制造算法。
+- `fa06016`已在5090以独立screen守护器武装第二波来源绑定消融。它只消费完整终点分类：
+  若存在近边界则把该名额留给后续target-blind缺陷审计与一次数学修订；否则最多运行一条
+  预固定父算法消融。它先等待Generation-3完成共享ledger冻结，再允许两条e200训练并行，
+  因而不会因并发覆盖算法谱系。唯一`CANDIDATE.json`只表示行动优先级，不承担科学剪枝。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 
