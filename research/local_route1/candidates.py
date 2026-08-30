@@ -581,7 +581,14 @@ def load_candidate_registration(
             raise RuntimeError("paired metrics may not promote a candidate through the gate")
         if gate.get("confirmation20_opened") is not False:
             raise RuntimeError("confirmation20 must remain locked")
-        if implementation.get("model") in ("route1_pcrsmg", "route1_amtnc"):
+        if implementation.get("model") in (
+            "route1_pcrsmg", "route1_amtnc", "route1_pcnr",
+        ):
+            expected_schedule = (
+                ["DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_VIEW", "GF_COMMIT"]
+                if implementation.get("model") == "route1_pcnr" else
+                ["DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT"]
+            )
             player_evidence = gate.get("evidence", {}).get(
                 "player_conditional_execution_evidence"
             )
@@ -590,9 +597,7 @@ def load_candidate_registration(
             if (
                 player_evidence.get("all_de_and_gf_counts_equal_updates") is not True
                 or player_evidence.get("all_bundle_serials_equal_twice_updates") is not True
-                or player_evidence.get("expected_schedule") != [
-                    "DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT",
-                ]
+                or player_evidence.get("expected_schedule") != expected_schedule
             ):
                 raise RuntimeError("replicated gate has invalid player-bundle provenance")
 

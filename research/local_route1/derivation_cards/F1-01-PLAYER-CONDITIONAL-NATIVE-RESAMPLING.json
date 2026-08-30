@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+  "name": "Player-Conditional Native Resampling",
+  "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "parent_evidence": {
+    "failure_type": "sampling_variance",
+    "parent_late_three_macro_psnr_delta_db": 0.6209590565901758,
+    "parent_e200_macro_psnr_delta_db": -0.001378936820813692,
+    "parent_target_blind_two_replica_to_native_trace_variance_ratio": 0.7208930823130353,
+    "interpretation": "Fresh post-opponent G/F sampling remains causally justified, while long-horizon evidence does not justify deleting native stochastic variance for every player."
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:sampling_variance:cross_probe_support=3",
+    "INC-20260830-RSMG-PLAYER-STATE:reusing a pre-opponent bundle for post-opponent G/F is semantically invalid",
+    "G1-02B:complete e200 had +0.620959 dB late-three mean but -0.001379 dB endpoint after two-replica averaging",
+    "G2-01:AM-TNC recovered a positive +0.383135 dB endpoint while retaining stochastic tangent noise, but failed the late LPIPS guardrail",
+    "WINNER_ABLATION:PC-RSMG proposal-only separately tests G/F averaging; PCNR removes averaging entirely and retains only the conditionally fresh player transition"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "native UNSB shared stochastic view",
+      "G1-02 invalid shared pre-D RSMG bundle",
+      "G1-02B PC-RSMG two-replica D/E and fresh two-replica G/F means",
+      "G2-01 AM-TNC Adam-tangential two-replica estimator",
+      "PC-RSMG proposal-only native D/E plus averaged fresh G/F"
+    ],
+    "material_difference": "PCNR commits exactly one native D/E view, then draws exactly one new native G/F view after D/E commit. It neither averages replicas nor retains an exchange-antisymmetric correction. It removes only the conditional cross-player reuse of randomness, preserves native per-player stochastic variance, and costs two rather than four forward/loss views.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the stochastic coupling of the sequential native D/E opponent transition and the subsequent joint G/F gradient estimator",
+  "formula": "At full state S_k and official unpaired batch b_k draw one native stochastic view xi_DE. Commit native D and E using xi_DE, producing realized opponent-updated state S_k^{DE}. Discard the view, independently draw one native xi_GF after those commits, and commit joint G/F with g_GF(S_k^{DE},b_k,xi_GF). Thus E[g_GF|S_k^{DE},b_k] is the native conditional field without averaging away its variance. D and E retain their original one-view estimators. Setting pcnr_enable=false dispatches the original SBModel transition exactly.",
+  "identity_or_unbiased_condition": "For D and E the estimator is the native one-view gradient. Conditional on the realized opponent-updated state S_k^{DE} and official batch, xi_GF is freshly drawn from the native stochastic measure, so E[g_GF(S_k^{DE},b_k,xi_GF)|S_k^{DE},b_k] equals the native conditional expected G/F field. Disabling PCNR is byte-identical to plain. No additional fixed point or loss is introduced.",
+  "objective_change": false,
+  "estimator_change": true,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "PCNR reads only the current official unpaired batch and the native latent, time, bridge-noise and PatchNCE randomness. Its event order and one fresh G/F draw are fixed in source. It cannot address discovery pairs, PSNR, SSIM, LPIPS, domain labels, plain outputs or confirmation20.",
+  "expected_applicable_state": {
+    "condition": "the reused stochastic view is conditionally coupled to the realized D/E state but reducing native per-player noise creates an overly deterministic long-horizon trajectory",
+    "self_null_state": "pcnr_enable=false is exact plain; when the opponent transition is insensitive to its stochastic view, fresh and reused G/F estimators have the same conditional law",
+    "causal_scope": "separates conditional player resampling from replica variance reduction and Adam-tangential noise conservation"
+  },
+  "falsifying_experiment": "Kill as mathematically invalid if the event order is not DE_VIEW,D_COMMIT,E_COMMIT,GF_VIEW,GF_COMMIT, if counts do not equal updates, if disabled identity or resume differs from plain, or if the fresh G/F view is drawn before D/E commit. Close only this one-view player-conditional resampling operator if its complete host-matched seed2026 e200 trajectory is negative.",
+  "compute_cost": "two native batch-1 stochastic forward/loss views per optimizer update: one shared by D/E and one freshly drawn for G/F; optimizer-step count and data exposure remain native",
+  "memory_cost": "one stochastic view graph at a time; the D/E view is released before the G/F view, so peak activation memory remains near native batch1",
+  "recovery_state_cost": "update index, two view counters, bundle serial, last event schedule and ordinary optimizer/sampler/RNG state",
+  "algorithm_hyperparameters": {
+    "views_per_player_state": 1,
+    "gf_view_drawn_after_de_commit": true,
+    "data_batch_size": 1,
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "optimizer_update_index",
+    "bundle_serial",
+    "de_view_count",
+    "gf_view_count",
+    "last_player_schedule"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "The full PCNR operator: one D/E view followed by one fresh post-opponent G/F view.",
+    "observable_only": "Draw a counterfactual fresh G/F view, restore RNG and tensors, and commit the ordinary native shared-view transition.",
+    "projected_or_full": "Not a projection: use the source-frozen player-conditional one-view resampling transition exactly."
+  },
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "independent_unbiased_reparameterization",
+  "unbiased_proof": "D and E use their native one-sample estimators. Given the random opponent state produced by those commits, the later xi_GF draw is independent and distributed exactly as the native stochastic measure. Conditional expectation therefore recovers the native G/F vector field at the state where G/F is actually optimized. Taking total expectation preserves the native per-player expected objectives and stationary conditions while changing only finite-step cross-player noise coupling.",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}

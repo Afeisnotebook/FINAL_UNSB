@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+  "name": "Adam-Metric Moving Covariance Rate Barrier",
+  "parent_candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "parent_evidence": {
+    "failure_type": "state_feedback_missing",
+    "parent_late_three_macro_psnr_delta_db": 0.027366095863468942,
+    "parent_e150_macro_psnr_delta_db": 0.8942276164296405,
+    "parent_e150_positive_domains": 6,
+    "parent_e200_macro_psnr_delta_db": -0.7299582922786065,
+    "parent_intervention_fraction_at_e200": 0.5155333333333333,
+    "parent_cumulative_euclidean_correction_l2_at_e200": 45.080425511856944
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:state_feedback_missing:rank=4:cross_probe_support=2",
+    "LONG_CAUSAL_MATRIX:dt_covariance_mismatch_descent_margin:accuracy=1.0:spearman=0.6:lead=1.0:domains=5/6",
+    "G1-03 MCRB:e150 +0.894228 dB with 6/6 domains positive, followed by e200 -0.729958 dB",
+    "G1-03 MCRB:e200 intervened on 15466/30000 updates and accumulated 45.0804 Euclidean correction L2, so the practical trajectory did not enter its nominal self-null regime",
+    "G2-01 AM-TNC:pre-step Adam geometry was necessary to distinguish radial and tangential stochastic directions"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "G1-03 MCRB Euclidean closest half-space projection",
+      "G2-01 AM-TNC Adam-metric replica-disagreement projection",
+      "DT fixed covariance loss",
+      "HJ Euclidean auxiliary-gradient projection",
+      "MCRB proposal-only norm-matched negative tangent"
+    ],
+    "material_difference": "AM-MCRB retains MCRB's moving target-blind covariance-rate half-space and exact safe identity, but replaces Euclidean parameter distance by the diagonal trust metric induced by Adam's realized post-native-step second moment. The unique correction follows H^{-1}a rather than a, changes no loss or endpoint, and preserves native Adam moments. It is neither replica geometry nor a tuned soft barrier.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the exact native Adam generator displacement constrained by a moving latent direction-covariance rate in the optimizer's own diagonal trust geometry",
+  "formula": "Let a_k=grad_theta D_k be MCRB's current-versus-one-epoch-EMA log-direction-covariance tangent and let d0 be the exact native Adam generator displacement after its moments update. Define H_k=diag(sqrt(v_k)+eps), using Adam's realized post-step raw second moment, and P_k=H_k^{-1}. If <a_k,d0><=0 or <a_k,P_k a_k>=0, commit d0 exactly. Otherwise commit d*=d0-lambda P_k a_k with lambda=<a_k,d0>/<a_k,P_k a_k>. This is the unique argmin_d 1/2(d-d0)^T H_k(d-d0) subject to <a_k,d><=0. A common normalization of P_k cancels, and a dtype-derived margin only keeps the represented float32 displacement feasible. Then update the EMA from the committed generator.",
+  "identity_or_unbiased_condition": "The operator is exact identity for every native displacement that already has nonpositive first-order covariance-gap rate or whenever the tangent vanishes. At a native fixed point with zero Adam displacement it remains fixed. The constraint is source-defined and scale-free; no strength, epoch, paired threshold or plain reference exists.",
+  "objective_change": false,
+  "estimator_change": false,
+  "coordinate_change": true,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "AM-MCRB reads only current unpaired bridge tensors, native latent/time draws, current netG, its recoverable EMA netG, the exact native Adam displacement and Adam exp_avg_sq. All covariance observation RNG is restored. Paired images, PSNR, SSIM, LPIPS, plain checkpoints, domain labels and confirmation20 are not addressable.",
+  "expected_applicable_state": {
+    "condition": "MCRB's covariance-rate signal is useful but Euclidean projection repeatedly removes displacement in coordinates that Adam regards as costly or poorly scaled",
+    "self_null_state": "native Adam displacement is rate-safe or the moving tangent vanishes",
+    "causal_scope": "tests whether the parent near-miss is a metric mismatch rather than evidence against moving covariance feedback itself"
+  },
+  "falsifying_experiment": "Kill as mathematically invalid if safe identity, Adam-metric KKT feasibility, disabled plain identity, full-state resume, EMA recovery, RNG isolation or native Adam-moment preservation fails. Close this metric revision if it does not reduce normalized intervention cost in cross-state branches or its complete host-matched seed2026 e200 trajectory is negative.",
+  "compute_cost": "the same M current and M EMA endpoint calls plus one defect backward as MCRB, with one additional diagonal Adam-metric denominator and correction per native G update",
+  "memory_cost": "one EMA generator, M current endpoint graphs, M no-gradient EMA endpoints, a defect-gradient copy and one normalized diagonal inverse-metric tensor per generator parameter",
+  "recovery_state_cost": "EMA generator, fixed half-life, update/intervention/correction counters, last Adam-metric barrier geometry and ordinary optimizer/sampler/RNG state",
+  "algorithm_hyperparameters": {
+    "endpoint_samples": 4,
+    "region_patch": 32,
+    "u_floor": 1e-30,
+    "teacher_half_life_updates": 150,
+    "metric": "normalized_post_step_adam_inverse_root_second_moment",
+    "projection_epsilon": 1e-24,
+    "projection_strength": "none_exact_metric_halfspace",
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "ema_netG_state_dict",
+    "optimizer_update_index",
+    "eligible_count",
+    "intervention_count",
+    "correction_l2_sum",
+    "last_adam_metric_barrier_geometry"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "Use the Adam-metric negative normal with native metric norm, removing the native-safe closest-point term.",
+    "observable_only": "Compute the moving tangent, native derivative and Adam-metric KKT correction but commit the native Adam displacement unchanged.",
+    "projected_or_full": "Commit native Adam exactly when safe; otherwise apply the unique Adam-metric closest feasible displacement."
+  },
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "eligible_method_specific_signal",
+  "target_blind_driver_signal": "dt_covariance_mismatch_descent_margin",
+  "target_blind_driver_probe": "dt",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}

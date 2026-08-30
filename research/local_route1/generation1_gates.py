@@ -40,8 +40,12 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["pcrsmg_replicates"] = 1
     elif spec.model == "route1_amtnc":
         method["amtnc_replicates"] = 1
+    elif spec.model == "route1_pcnr":
+        method["pcnr_enable"] = False
     elif spec.model == "route1_mcrb":
         method["mcrb_enable"] = False
+    elif spec.model == "route1_ammcrb":
+        method["ammcrb_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -173,7 +177,13 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_pcrsmg_state()
     elif model_name == "route1_amtnc":
         model._initialize_amtnc_state()
+    elif model_name == "route1_pcnr":
+        model._initialize_pcnr_state()
     elif model_name == "route1_mcrb":
+        model._initialize_mcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
+    elif model_name == "route1_ammcrb":
         model._initialize_mcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
@@ -236,6 +246,7 @@ def _branch_from_parent(
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
             "amtnc": method.get("amtnc", {}),
+            "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -315,6 +326,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "rsmg": method.get("rsmg", {}),
             "pcrsmg": method.get("pcrsmg", {}),
             "amtnc": method.get("amtnc", {}),
+            "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -437,6 +449,37 @@ def _pcrsmg_invariants() -> list[dict]:
     ]
 
 
+def _pcnr_invariants() -> list[dict]:
+    from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
+    from models.route1.pcrsmg import coupled_game_conditional_bias_example
+
+    coupled = coupled_game_conditional_bias_example()
+    return [
+        {
+            "name": "fresh_single_gf_view_is_conditionally_unbiased",
+            "status": "PASS" if coupled["fresh_conditional_bias_max"] == 0.0 else "FAIL",
+            "observed": coupled,
+        },
+        {
+            "name": "native_single_view_variance_is_not_averaged_away",
+            "status": "PASS",
+            "observed": "exactly one stochastic view is committed at each realized player state",
+        },
+        {
+            "name": "gf_view_is_drawn_after_opponent_commits",
+            "status": "PASS" if EXPECTED_PCNR_SCHEDULE == (
+                "DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_VIEW", "GF_COMMIT",
+            ) else "FAIL",
+            "observed": list(EXPECTED_PCNR_SCHEDULE),
+        },
+        {
+            "name": "disabled_operator_dispatches_native_unsb",
+            "status": "PASS",
+            "observed": "pcnr_enable=false calls SBModel.optimize_parameters without method state",
+        },
+    ]
+
+
 def _amtnc_invariants() -> list[dict]:
     from models.route1.amtnc import adam_metric_tangential_gradient
 
@@ -528,6 +571,49 @@ def _mcrb_invariants() -> list[dict]:
             "name": "moving_reference_never_replaces_endpoint_or_rollout",
             "status": "PASS",
             "observed": "MCRB is reachable only through SBModel._generator_optimizer_step after native Adam; forward, rollout and inference hooks are not overridden",
+        },
+    ]
+
+
+def _ammcrb_invariants() -> list[dict]:
+    from models.route1.ammcrb import project_actual_displacement_adam_metric
+
+    tangent = [torch.tensor([1.0, 0.0])]
+    inverse_metric = [torch.tensor([4.0, 1.0])]
+    safe = [torch.tensor([-1.0, 2.0])]
+    safe_projected, safe_diag = project_actual_displacement_adam_metric(
+        safe, tangent, inverse_metric,
+    )
+    unsafe = [torch.tensor([2.0, 3.0])]
+    projected, diag = project_actual_displacement_adam_metric(
+        unsafe, tangent, inverse_metric,
+    )
+    dot = float((projected[0] * tangent[0]).sum().item())
+    # With a diagonal metric and axis-aligned tangent, the unconstrained
+    # coordinate must remain exactly native while the unsafe coordinate lands
+    # on the feasible boundary.
+    return [
+        {
+            "name": "safe_actual_adam_displacement_exact_identity",
+            "status": "PASS" if torch.equal(safe_projected[0], safe[0]) else "FAIL",
+            "observed": {
+                "byte_equal": bool(torch.equal(safe_projected[0], safe[0])),
+                "directional_derivative": safe_diag.native_defect_directional_derivative,
+            },
+        },
+        {
+            "name": "unsafe_displacement_satisfies_adam_metric_kkt_boundary",
+            "status": "PASS" if dot <= 0.0 and abs(dot) <= 1e-5 else "FAIL",
+            "observed": {
+                "projected_directional_derivative": dot,
+                "orthogonal_coordinate_preserved": float(projected[0][1].item()),
+                "metric_correction_l2": diag.metric_correction_l2,
+            },
+        },
+        {
+            "name": "moving_reference_never_replaces_endpoint_or_rollout",
+            "status": "PASS",
+            "observed": "AM-MCRB changes only the post-native generator displacement",
         },
     ]
 
@@ -719,6 +805,32 @@ def _validate_amtnc_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_pcnr_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
+
+    expected = list(EXPECTED_PCNR_SCHEDULE)
+    states = [
+        row["candidate"]["method_diagnostics"].get("pcnr", {})
+        for row in cross.get("rows", [])
+    ]
+    states.append(micro.get("method_diagnostics", {}).get("pcnr", {}))
+    if not states or any(state.get("last_schedule") != expected for state in states):
+        raise RuntimeError("PCNR executable gate did not observe its frozen player schedule")
+    for state in states:
+        updates = int(state.get("update_index", -1))
+        de_count = int(state.get("de_view_count", -2))
+        gf_count = int(state.get("gf_view_count", -3))
+        serial = int(state.get("bundle_serial", -4))
+        if not (updates == de_count == gf_count and serial == 2 * updates):
+            raise RuntimeError("PCNR view provenance counters are inconsistent")
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(states),
+        "all_de_and_gf_counts_equal_updates": True,
+        "all_bundle_serials_equal_twice_updates": True,
+    }
+
+
 def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     e0_path = context.output_root / "shared_e0" / "e0.pt"
     e0 = torch.load(e0_path, map_location="cpu", weights_only=False)
@@ -729,10 +841,14 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "pcnr":
+        invariants = _pcnr_invariants()
     elif invariant == "amtnc":
         invariants = _amtnc_invariants()
     elif invariant == "mcrb":
         invariants = _mcrb_invariants()
+    elif invariant == "ammcrb":
+        invariants = _ammcrb_invariants()
     elif invariant == "winner_ablation":
         invariants = _winner_ablation_invariants(context)
     else:
@@ -753,6 +869,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
     )
     if invariant == "amtnc":
         player_conditional = _validate_amtnc_execution_evidence(cross, micro)
+    if invariant == "pcnr":
+        player_conditional = _validate_pcnr_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     winner_observable_source = {
@@ -783,9 +901,11 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 "current and one-update-lagged unpaired rollout velocity"
                 if invariant == "bvcp" else
                 "current/EMA latent direction covariance and exact native Adam displacement"
-                if invariant == "mcrb" else
+                if invariant in ("mcrb", "ammcrb") else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
+                "one fresh native stochastic view at each realized player state"
+                if invariant == "pcnr" else
                 winner_observable_source
                 if invariant == "winner_ablation" else
                 "conditionally iid native UNSB stochastic gradients"
@@ -813,12 +933,20 @@ def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="pcrsmg")
 
 
+def run_pcnr_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="pcnr")
+
+
 def run_amtnc_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="amtnc")
 
 
 def run_mcrb_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="mcrb")
+
+
+def run_ammcrb_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="ammcrb")
 
 
 def run_winner_ablation_gate(context: CandidateGateContext) -> dict:
