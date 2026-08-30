@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T17:36:00+08:00",
+  "updated": "2026-08-30T17:51:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -117,8 +117,9 @@
       "evidence": [
         "139 pytest tests passed at cross-version successor commit 0aa0beb",
         "144 pytest tests passed at negative causal successor commit 85c03fb",
+        "150 pytest tests passed at ablation challenger successor commit 1ebf7b6",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 85c03fb",
+        "main pushed through 1ebf7b6",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
@@ -143,9 +144,10 @@
         "research/local_route1/cross_version_final_delivery.py",
         "evidence/remote_route1_offload/WINNER_ABLATION_AND_CROSS_FINAL_GATES_20260830.json",
         "evidence/remote_route1_offload/WINNER_ABLATION_EXECUTION_CHAIN_READY_20260830.json",
-        "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/ABLATION_CHALLENGER_SEED_SUCCESSOR_ARMED_20260830.json"
       ],
-      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded; a proposal-only challenger blocks the original winner from final delivery.",
+      "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded. A proposal-only challenger blocks the original winner from final delivery, then receives source-frozen seed validation in an isolated namespace before any selection can change.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]
     }
   ],

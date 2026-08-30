@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-route1-ablation-challenger-seed-successor-deployment-v1",
+  "status": "ARMED_WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "successor_repo": "/home/yc/FINAL_UNSB_ABLATION_CHALLENGER_1ebf7b6",
+  "successor_git_commit": "1ebf7b6de67028643b58e4d2451d28db9462c3bb",
+  "ablation_source_repo": "/home/yc/FINAL_UNSB_ABLATIONS_c154122",
+  "ablation_source_git_commit": "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
+  "remote_targeted_pytest": "6 passed",
+  "local_full_pytest": "150 passed",
+  "tmux_session": "FINAL_UNSB_ABLATION_CHALLENGER_1ebf7b6",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/ABLATION_CHALLENGER_SUCCESSOR_CONTRACT_1ebf7b6.json",
+  "contract_sha256": "359010d56b2aad5d815040acc0bcdf16e6c4dacf332912919c5a2a798cf8fcf3",
+  "initial_state": {
+    "status": "WAITING_FOR_WINNER_ABLATION_ADJUDICATION",
+    "state_sha256_at_verification": "86974a0bd2aa03883ec9456f5d9fe94abf74e1fc6cd44e84bbc8b33953ef4430",
+    "stderr_bytes": 0
+  },
+  "activation_condition": "The complete source-bound proposal-only e200 ablation outranks the full winner and selection remains explicitly blocked pending frozen seed validation.",
+  "automatic_actions_after_activation": [
+    "copy and hash-bind the challenger's causal matrix, atlas, ledger, card, implementation, gate, shared e0 and seed2026 trajectory into an isolated seed workspace",
+    "freeze the already-complete proposal-only algorithm without changing its formula",
+    "run matched seed2027 plain and challenger to true e200",
+    "run seed2028 only after the registered seed2027 sign-inconsistency authorization",
+    "write a complete challenger multi-seed record while keeping final selection frozen"
+  ],
+  "namespace_isolation": "The original full winner owns the legacy seed_validation/seed<N> namespace. The challenger receives a separate hash-bound run root, so no full-winner seed checkpoint or result can be overwritten or reused.",
+  "no_challenger_behavior": "Exit as inapplicable without starting any additional training.",
+  "scientific_contract": {
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "selection_change_before_seed_adjudication": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "running_training_or_ablation_worktrees_modified": false,
+  "temporary_transfer_bundles_removed": true
+}
