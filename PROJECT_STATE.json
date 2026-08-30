@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T00:20:51+08:00",
+  "state_snapshot_time": "2026-08-31T00:23:39+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "f9c57f687993ed14ff3f92d0d1cd3c3975ab4ab5",
+  "development_head_at_state_write": "749a94c12ea047817c723c792d263e7f213e072d",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -448,6 +448,7 @@
     "mcrb_cross_host_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
     "mcrb_cross_host_successor_status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
     "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
+    "mcrb_e150_nonterminal_runtime_audit": "evidence/remote_route1_offload/MCRB_E150_NONTERMINAL_RUNTIME_AUDIT_20260831.json",
     "mcrb_formula_implementation_audit": "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "amtnc_formula_implementation_audit": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "single_seed_runtime_audit": "evidence/remote_route1_offload/SINGLE_SEED_RUNTIME_AUDIT_20260831.json",

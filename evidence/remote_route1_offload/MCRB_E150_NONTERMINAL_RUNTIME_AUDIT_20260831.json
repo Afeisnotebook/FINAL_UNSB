@@ -1,0 +1,29 @@
+{
+  "schema": "final-unsb-route1-mcrb-e150-nonterminal-runtime-audit-v1",
+  "recorded": "2026-08-31T00:23:39+08:00",
+  "triggering_observation": "MCRB e150 macro PSNR delta +0.8942276164296405 dB with 6/6 domains positive",
+  "deployed_control_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+  "successor_state": {
+    "status": "WAITING_FOR_REMOTE_MCRB_E200",
+    "remote_data_epoch": 158,
+    "remote_updates": 23700,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "cross_host_deltas_merged": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "forbidden_outputs_absent": {
+    "mcrb_4090_candidate_root": true,
+    "mcrb_terminal_receipt": true,
+    "single_seed_development_freeze": true,
+    "winner_ablation_selection": true,
+    "final_candidate_json": true
+  },
+  "adjudication": {
+    "status": "E150_POSITIVE_REMAINS_DESCRIPTIVE_ONLY",
+    "proof": "The first positive late point did not start a 4090 replay, merge a cross-host delta, freeze a candidate, start an ablation or materialize final delivery.",
+    "next_allowed_trigger": "Only a complete source-bound 5090 e200 terminal receipt may authorize the conditional 4090 MCRB replay."
+  }
+}
