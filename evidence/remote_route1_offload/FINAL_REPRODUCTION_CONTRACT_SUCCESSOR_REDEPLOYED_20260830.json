@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-route1-final-reproduction-contract-successor-redeployment-v1",
+  "recorded": "2026-08-30T23:40:10+08:00",
+  "development_git_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+  "defect": "Final CANDIDATE.json guessed an executor-contract filename from the full candidate id, while deployed AM-TNC and MCRB contracts use non-semantic abbreviated filenames.",
+  "risk_if_unfixed": "The advertised seed2026 reproduction command could point to a nonexistent file even though the scientific trajectory and receipt were valid.",
+  "repair": {
+    "selection_rule": "Discover the unique executor contract by candidate_id, then bind schema, training commit, algorithm fingerprint, candidate fingerprint, manifest, e200 target and target-blind guardrails to the selected terminal receipt.",
+    "missing_contract_behavior": "fail closed",
+    "ambiguous_contract_behavior": "fail closed",
+    "identity_mismatch_behavior": "fail closed",
+    "candidate_json_fields": [
+      "reproduction_commands.seed2026_e200",
+      "reproduction_commands.seed2026_executor_contract.path",
+      "reproduction_commands.seed2026_executor_contract.sha256",
+      "reproduction_commands.seed2026_executor_contract.training_git_commit",
+      "reproduction_commands.seed2026_executor_contract.algorithm_fingerprint",
+      "reproduction_commands.seed2026_executor_contract.candidate_fingerprint"
+    ]
+  },
+  "verification": {
+    "local_full_suite": "201 passed in 19.04s",
+    "remote4090_terminal_chain_suite": "18 passed in 0.71s",
+    "remote_worktree": "/home/yc/FINAL_UNSB_CONTROL_77bb987",
+    "remote_worktree_head": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+    "remote_worktree_clean": true,
+    "final_delivery_source_sha256": "55af0cfbdbb2336c15370825677981939787b8546b1df7ec6b87d275f0b877b2"
+  },
+  "durable_routing": {
+    "cross_host_contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/MCRB_CROSS_HOST_SUCCESSOR_CONTRACT_77bb987.json",
+    "cross_host_contract_sha256": "da1878e58df8c4f60b9bf7e59281c8ea13fc71b9f59cf3e8c5c636e459c7ae65",
+    "winner_ablation_contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/WINNER_ABLATION_SUCCESSOR_CONTRACT_77bb987e4f4d.json",
+    "winner_ablation_contract_sha256": "15217d9a976369e0e83ce8203bd62056378e1ac03960f907be85a45cbbf22524",
+    "retired_control_only_pid": 1442875,
+    "retired_pid_alive": false,
+    "active_pid": 1444417,
+    "active_pid_alive": true,
+    "state": "WAITING_FOR_REMOTE_MCRB_E200",
+    "remote_mcrb_epoch_at_acceptance": 121,
+    "remote_mcrb_updates_at_acceptance": 18150,
+    "scientific_training_interrupted": false
+  },
+  "guardrails": {
+    "selection_seeds": [
+      2026
+    ],
+    "deferred_seed_validation": [
+      2027,
+      2028
+    ],
+    "maximum_parallel_e200_executors": 1,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_algorithm_changed": false,
+    "candidate_checkpoint_changed": false
+  },
+  "status": "DEPLOYED_WAITING_FOR_COMPLETE_E200_SELECTION"
+}

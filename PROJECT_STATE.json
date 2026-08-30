@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T23:28:05+08:00",
+  "state_snapshot_time": "2026-08-30T23:41:26+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+  "development_head_at_state_write": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -135,6 +135,7 @@
     ,"seed validation and final cross-seed adjudication now enforce PSNR, domain coverage, worst-domain, SSIM, LPIPS, rolling drawdown and absolute plain-collapse guards without changing the frozen candidate training core"
     ,"a live MCRB e100 metric remained nonterminal: no 4090 replay, terminal receipt, ranking, development freeze or ablation was allowed before complete e200"
     ,"winner proposal-only and observable-only e200 ablations are source-bound to a measured-throughput sequential single-stream contract; projected/full reuses the selected terminal receipt"
+    ,"final CANDIDATE reproduction resolves the unique real executor contract by receipt-bound identity and fails closed on missing, ambiguous or mismatched contracts"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -180,7 +181,7 @@
       "status": "HNEK_E1_RUNNING_AFTER_HJ_SUBSET_COMPLETE",
       "probe": "hnek",
       "data_epoch": 1,
-      "rows_persisted_at_snapshot": 10,
+      "rows_persisted_at_snapshot": 16,
       "executor_pid": 15096,
       "paired_controller_access": false,
       "confirmation20_opened": false
@@ -288,7 +289,7 @@
         "generation": 2,
         "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 102,
+        "latest_observed_data_epoch": 115,
         "target_data_epoch": 200,
         "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
         "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
@@ -322,12 +323,12 @@
       "single_seed_proposal_challenger_selection": true,
       "mcrb_cross_host_successor": {
         "status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200_WITH_SINGLE_STREAM_FINAL_ABLATIONS",
-        "git_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
-        "supervisor_pid_at_deployment": 1442875,
+        "git_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+        "supervisor_pid_at_deployment": 1444417,
         "remote_e200_only_routing": true,
         "conditional_4090_replay": true,
         "final_selection_before_winner_ablation": true,
-        "evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json"
+        "evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json"
       },
       "evidence": [
         "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
@@ -335,6 +336,7 @@
         "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
         "evidence/remote_route1_offload/MCRB_E100_NONTERMINAL_ROUTING_INTEGRATION_20260830.json",
         "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
+        "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
         "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
       ]
     },
@@ -387,7 +389,7 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 88, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication paused to prioritize independent mechanism", "resumable": true},
-      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 110, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832},
+      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 121, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -417,18 +419,18 @@
     "causal_revision_successor_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
     "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
     "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
-    "winner_ablation_successor_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
-    "winner_ablation_successor_status": "SOURCE_BOUND_SEQUENTIAL_SINGLE_STREAM_CONTRACT_READY_WAITING_FOR_E200_WINNER",
-    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
+    "winner_ablation_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+    "winner_ablation_successor_status": "SOURCE_BOUND_SEQUENTIAL_SINGLE_STREAM_AND_REAL_REPRODUCTION_CONTRACT_READY_WAITING_FOR_E200_WINNER",
+    "winner_ablation_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
     "mcrb_4090_preflight_status": "PASS_LONG_RUN_CONDITIONAL_REPLAY_NOT_STARTED",
     "mcrb_4090_preflight_identity_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
     "mcrb_4090_preflight_evidence": "evidence/remote_route1_offload/MCRB_4090_PREFLIGHT_READY_20260830.json",
-    "mcrb_cross_host_successor_commit": "24beb4b1dcd025e753ae40bfee23b1923aef9549",
+    "mcrb_cross_host_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
     "mcrb_cross_host_successor_status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
-    "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/WINNER_ABLATION_SINGLE_STREAM_SUCCESSOR_REDEPLOYED_20260830.json",
+    "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
     "mcrb_formula_implementation_audit": "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "amtnc_formula_implementation_audit": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "retired_multi_seed_successors": [

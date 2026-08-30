@@ -27,24 +27,26 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 23:28）
+## 当前执行事实（2026-08-30 23:41）
 
 - 4090权威474/140长期因果矩阵已冻结；BVCP和PC-RSMG当前实现均已完成e200并严格
   未过终点门。PC-RSMG的target-blind缺陷下降授权了唯一二代修订AM-TNC。
-- AM-TNC正在4090按`977ce32`从共同e0运行，当前固定快照为e102；独立MCRB正在5090
-  按`7fa9081`运行，当前固定快照为e110。二者均为batch1、seed2026、真实e200，且
+- AM-TNC正在4090按`977ce32`从共同e0运行，当前固定快照为e115；独立MCRB正在5090
+  按`7fa9081`运行，当前固定快照为e121。二者均为batch1、seed2026、真实e200，且
   中间paired结果不控制训练、停止或代码。
 - AM-TNC与MCRB的derivation card—训练源码一致性已经分别复核；当前算子均真实激活，
   没有意外退化成plain，也没有发现需要中断现有轨迹的实现偏差。
 - MCRB真实e100描述性delta为`+2.158 dB`；在线集成门证明它仍是非终点观察，没有
   启动4090复赛、terminal receipt、总排名或单seed冻结。
-- 4090上已按`24beb4b`重新部署不依赖Codex会话的跨宿主持久后继：它只接受5090完整e200 terminal
+- 4090上已按`77bb987`重新部署不依赖Codex会话的跨宿主持久后继：它只接受5090完整e200 terminal
   receipt；正结果才在4090从共同e0复赛MCRB，负结果则跳过。它等待AM-TNC终点后才
   生成全部4090 receipt总排名，随后按实测更短总墙钟依次启动真正赢家的
   proposal-only/observable-only e200消融；projected/full使用赢家既有终点receipt。
   密码不写入仓库或合同。
+- 最终交付不再用候选ID猜executor合同文件名；它按receipt中的候选、训练commit、算法/
+  候选指纹、manifest和e200边界寻找唯一真实合同并写入hash，缺失或不一致即fail closed。
 - 本地1660的HJ e200终点审计已完成，冻结80条反转和24条采样方差补充证据；executor
-  已自动进入HNEK e1审计，当前持久化10行。该本地证据不替代4090权威因果矩阵，也
+  已自动进入HNEK e1审计，当前持久化16行。该本地证据不替代4090权威因果矩阵，也
   不授权窗口或handoff。
 - seed2027/2028继续延期；confirmation20、全量数据、路线二、退出阈值和跨宿主delta
   合并仍关闭。下一硬门是AM-TNC与MCRB的完整e200，而不是任何中间checkpoint。
