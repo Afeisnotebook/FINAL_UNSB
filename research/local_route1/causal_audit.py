@@ -1307,6 +1307,7 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
     one_step = [
         row for row in preferred
         if row["branch_regime"] == "continuous_intervention" and row["horizon"] == 1
+        and float(row["update_geometry"]["correction_norm"]) > 1e-20
     ]
     consensus = [
         float(row["next_independent_native_consensus"]["cosine"])
@@ -1365,10 +1366,19 @@ def _variance_summary(rows: list[dict], probe: str) -> dict:
     ]
     axes = {}
     for axis in ("independent_unpaired_batch", "latent_time_bridge_rng"):
-        axis_rows = [row for row in selected if row["axis"] == axis]
+        recorded_rows = [row for row in selected if row["axis"] == axis]
+        axis_rows = [
+            row for row in recorded_rows
+            if (
+                float(row.get("expected_correction_norm_sq", 0.0)) > 1e-30
+                or float(row.get("mean_correction_norm", 0.0)) > 1e-15
+            )
+        ]
         fractions = [float(row["correction_variance_fraction"]) for row in axis_rows]
         axes[axis] = {
             "rows": len(axis_rows),
+            "recorded_rows": len(recorded_rows),
+            "inactive_zero_correction_rows": len(recorded_rows) - len(axis_rows),
             "mean_variance_fraction": None if not fractions else float(np.mean(fractions)),
             "variance_dominated_rows": sum(value >= 0.75 for value in fractions),
             "mean_correction_norm": (
@@ -1438,10 +1448,13 @@ def _signal_records(rows: list[dict], variance_rows: list[dict]) -> dict[str, li
         label = labels.get(key)
         if label is None:
             continue
+        correction_norm = float(row["update_geometry"]["correction_norm"])
+        if correction_norm <= 1e-20:
+            continue
         features: dict[str, float] = {
             "correction_native_cosine": float(row["update_geometry"]["correction_reference_cosine"]),
             "correction_within_native_scale_margin": 1.0 - (
-                float(row["update_geometry"]["correction_norm"])
+                correction_norm
                 / max(float(row["update_geometry"]["reference_norm"]), 1e-20)
             ),
         }
@@ -2109,6 +2122,8 @@ def _rank_failure_mechanisms(
                 continue
             if row.get("branch_regime") != "continuous_intervention" or int(row.get("horizon", 0)) != 1:
                 continue
+            if float(row.get("update_geometry", {}).get("correction_norm", 0.0)) <= 1e-20:
+                continue
             key = (
                 probe,
                 int(row["data_epoch"]),
@@ -2216,6 +2231,7 @@ def _rank_failure_mechanisms(
                 )
                 or row.get("branch_regime") != "continuous_intervention"
                 or int(row.get("horizon", 0)) != 1
+                or float(row.get("update_geometry", {}).get("correction_norm", 0.0)) <= 1e-20
             ):
                 continue
             key = (

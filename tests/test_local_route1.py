@@ -811,11 +811,34 @@ def test_signal_records_do_not_call_an_inactive_correction_low_variance():
         }],
     }]
     records = causal_audit._signal_records(rows, variance_rows)
+    assert records == {}
     assert "low_batch_variance_margin" not in records
     assert "replicated_next_batch_consensus" not in records
     assert "low_max_block_variance_margin" not in records
     assert "minimum_domain_correction_native_cosine" not in records
     assert "minimum_block_correction_native_cosine" not in records
+
+
+def test_variance_summary_excludes_inactive_zero_correction_rows():
+    rows = [{
+        "probe": "hj", "data_epoch": 20, "source_state": "plain",
+        "operator_mode": "registered", "axis": "independent_unpaired_batch",
+        "mean_correction_norm": 0.0,
+        "expected_correction_norm_sq": 0.0,
+        "correction_variance_fraction": 0.0,
+    }, {
+        "probe": "hj", "data_epoch": 100, "source_state": "hj",
+        "operator_mode": "registered", "axis": "independent_unpaired_batch",
+        "mean_correction_norm": 0.2,
+        "expected_correction_norm_sq": 0.5,
+        "correction_variance_fraction": 0.8,
+    }]
+    summary = causal_audit._variance_summary(rows, "hj")
+    batch = summary["axes"]["independent_unpaired_batch"]
+    assert batch["recorded_rows"] == 2
+    assert batch["rows"] == 1
+    assert batch["inactive_zero_correction_rows"] == 1
+    assert batch["variance_dominated_rows"] == 1
 
 
 def test_derive_initializes_evidence_bound_hypothesis_ledger(tmp_path):
@@ -968,6 +991,7 @@ def test_matrix_can_route_endpoint_and_game_failures_without_changing_endpoint_l
     }
     rows = [{
         **common, "horizon": 1,
+        "update_geometry": {"correction_norm": 0.2},
         "reference_observation": {
             "bridge": {
                 "rollout_velocity_l2": 1.0,
