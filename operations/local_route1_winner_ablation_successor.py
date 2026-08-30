@@ -320,6 +320,27 @@ class WinnerAblationSuccessor:
         cross = self.wait_for_selection_and_freeze()
         if cross is None:
             return 0
+        adjudication_path = self.operations / "WINNER_ABLATION_ADJUDICATION.json"
+        if adjudication_path.is_file():
+            # Recovery may use a newer adjudicator around already source-bound,
+            # complete e200 receipts.  The final-delivery materializer performs
+            # the strict adjudication/selection/receipt checks; do not try to
+            # regenerate frozen candidate definitions (whose non-training gate
+            # hashes may legitimately differ in the recovery worktree).
+            delivery = materialize_cross_version_final_delivery(self.run_root)
+            winner = str(cross["selected_candidate_id"])
+            self.state(
+                "WINNER_ABLATIONS_AND_FINAL_DELIVERY_COMPLETE",
+                candidate_id=delivery["candidate_id"],
+                final_candidate=str(self.run_root / "final" / "CANDIDATE.json"),
+                resumed_from_complete_adjudication=True,
+            )
+            self.event(
+                "WINNER_ABLATION_SUCCESSOR_COMPLETE",
+                winner=winner,
+                resumed_from_complete_adjudication=True,
+            )
+            return 0
         frozen = materialize_winner_ablation_definitions(self.run_root)
         candidate_ids = [
             frozen["ablation_candidate_ids"][role]

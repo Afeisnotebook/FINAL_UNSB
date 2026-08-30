@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -117,3 +118,43 @@ def test_first_winner_ablation_failure_prevents_second_e200_start(
         successor.run_e200(["proposal", "observable"])
 
     assert started == ["proposal"]
+
+
+def test_complete_adjudication_resume_skips_definition_regeneration(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    successor = object.__new__(WinnerAblationSuccessor)
+    successor.contract_path = tmp_path / "contract.json"
+    successor.run_root = tmp_path / "run"
+    successor.operations = successor.run_root / "operations"
+    successor.operations.mkdir(parents=True)
+    (successor.operations / "WINNER_ABLATION_ADJUDICATION.json").write_text(
+        json.dumps({"status": "COMPLETE_NO_SELECTION_CHANGE"}),
+        encoding="utf-8",
+    )
+    successor.wait_for_selection_and_freeze = lambda: {
+        "selected_candidate_id": "FULL",
+    }
+    events: list[tuple[str, dict]] = []
+    states: list[tuple[str, dict]] = []
+    successor.event = lambda name, **fields: events.append((name, fields))
+    successor.state = lambda name, **fields: states.append((name, fields))
+
+    monkeypatch.setattr(
+        successor_module,
+        "materialize_cross_version_final_delivery",
+        lambda _root: {"candidate_id": "FULL"},
+    )
+    monkeypatch.setattr(
+        successor_module,
+        "materialize_winner_ablation_definitions",
+        lambda _root: pytest.fail("completed adjudication must not be regenerated"),
+    )
+
+    assert successor.run() == 0
+    assert states[-1][0] == "WINNER_ABLATIONS_AND_FINAL_DELIVERY_COMPLETE"
+    assert states[-1][1]["resumed_from_complete_adjudication"] is True
+    assert events[-1] == (
+        "WINNER_ABLATION_SUCCESSOR_COMPLETE",
+        {"winner": "FULL", "resumed_from_complete_adjudication": True},
+    )
