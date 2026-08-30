@@ -73,8 +73,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 - `405197d`补齐并冻结了最终证据交付：主候选与三项消融均须输出逐域candidate/plain绝对值和
   delta，完整保留4090/5090各自前沿，并显式区分科学结论、工程失败、代理失真和未测
   假设；即使前沿挑战者经自身消融后未取代原主候选，其完整轨迹也必须保留。
-- 若PCNR与AM-MCRB都严格通过，`f674e90`预注册的Generation-3门允许一个两组件合成；
-  否则只记录不适用。多候选继续资格见
+- 若AM-MCRB严格通过，`f674e90`预注册的Generation-3门使用严格通过的PCNR，或在PCNR
+  未通过时使用既有PC-RSMG proposal-only，允许一个两组件合成；兼容门失败才记录不适用。
+  多候选继续资格见
   `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）

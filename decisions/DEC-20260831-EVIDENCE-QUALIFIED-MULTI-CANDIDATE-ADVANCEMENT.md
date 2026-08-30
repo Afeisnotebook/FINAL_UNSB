@@ -45,13 +45,18 @@ paired PSNR可以在完整轨迹冻结后参与上述结果分类，但不能单
 长训。两条terminal receipt冻结后，5090最多同时推进两条新的e200轨迹，并按以下规则
 路由：
 
-- 两者都严格通过：优先运行已预注册且兼容门通过的唯一Generation-3双机制合成；同时为
-  未被4090复跑选中的严格通过父项运行一条预先固定的来源绑定消融：PCNR使用
+- AM-MCRB严格通过，且PCNR或已完成的PC-RSMG proposal-only可作为严格通过的独立
+  采样父项：优先运行已预注册且兼容门通过的唯一Generation-3双机制合成；采样父项按
+  原决定固定为“PCNR严格通过则用PCNR，否则用PC-RSMG proposal-only”。同时为未被4090
+  复跑选中的严格通过当前前沿父项运行一条预先固定的来源绑定消融：PCNR使用
   `observable-only`隔离条件重采样本身，AM-MCRB使用`proposal-only`区分Adam-metric
   normal与safe closest-point。其余消融不自动复制。
-- 只有一条严格通过：它进入既有4090同宿主复跑链；5090只在另一条属于
-  `causally_repairable_near_boundary`时推进其一次证据驱动修订，否则运行严格通过者的
-  上述预固定来源绑定消融。
+- 只有PCNR严格通过：它进入既有4090同宿主复跑链；5090只在AM-MCRB属于
+  `causally_repairable_near_boundary`时推进其一次证据驱动修订，否则运行PCNR的上述
+  预固定来源绑定消融。
+- 只有AM-MCRB严格通过：它进入4090复跑链，并与已严格通过的PC-RSMG proposal-only
+  执行Generation-3兼容门；另一条5090流只在PCNR属于可修复近边界时用于其一次修订，
+  否则用于AM-MCRB的预固定proposal-only消融。
 - 两者都未严格通过：每个独立机制只有在满足`causally_repairable_near_boundary`时才可
   各推进一次修订；不满足者停止在当前算子结论。
 - 没有合格前沿时不靠增加随机点子填满5090，也不重新打开旧算法超参网格。
