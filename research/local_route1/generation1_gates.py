@@ -42,7 +42,10 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["amtnc_replicates"] = 1
     elif spec.model == "route1_mcrb":
         method["mcrb_enable"] = False
-    elif spec.model in ("route1_bvcp_ablation", "route1_pcrsmg_ablation"):
+    elif spec.model in (
+        "route1_bvcp_ablation", "route1_pcrsmg_ablation",
+        "route1_amtnc_ablation", "route1_mcrb_ablation",
+    ):
         method["route1_ablation_enable"] = False
     else:
         raise RuntimeError(f"unsupported Generation-1 model: {spec.model}")
@@ -180,6 +183,12 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._sync_bvcp_lagged()
     elif model_name == "route1_pcrsmg_ablation":
         model._initialize_pcrsmg_ablation_state()
+    elif model_name == "route1_amtnc_ablation":
+        model._initialize_amtnc_ablation_state()
+    elif model_name == "route1_mcrb_ablation":
+        model._initialize_mcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
 
 
 def _branch_from_parent(
@@ -746,6 +755,12 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         player_conditional = _validate_amtnc_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
+    winner_observable_source = {
+        "route1_bvcp_ablation": "current/lagged unpaired rollout velocity",
+        "route1_pcrsmg_ablation": "conditionally iid native UNSB stochastic views",
+        "route1_amtnc_ablation": "pre-update Adam-metric replica geometry",
+        "route1_mcrb_ablation": "current/EMA covariance tangent and native Adam derivative",
+    }.get(context.registration.spec.model)
     return {
         "checks": {
             "mathematical_invariants": True,
@@ -771,6 +786,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "mcrb" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
+                winner_observable_source
+                if invariant == "winner_ablation" else
                 "conditionally iid native UNSB stochastic gradients"
             ),
         },
