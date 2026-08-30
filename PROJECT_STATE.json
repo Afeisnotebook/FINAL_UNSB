@@ -392,7 +392,7 @@
     "winner_ablation_successor_commit": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
     "winner_ablation_successor_status": "ARMED_WAITING_FOR_SINGLE_SEED_DEVELOPMENT_WINNER",
     "winner_ablation_successor_evidence": "evidence/remote_route1_offload/SINGLE_SEED_SUCCESSOR_REDEPLOYED_20260830.json",
-    "extended_winner_ablation_commit": "058a5e5ba371803a851b03c83189a0f754bb301b",
+    "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
     "extended_winner_ablation_evidence": "evidence/remote_route1_offload/GENERATION2_AND_MCRB_WINNER_ABLATION_CHAIN_READY_20260830.json",
     "retired_multi_seed_successors": [

@@ -186,7 +186,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP and PC-RSMG are terminal current-implementation negatives; PC-RSMG's target-blind defect reduction authorized AM-TNC, which was observed at e25 and continues from common e0 under commit 977ce32",
     "remote5090": "all anchors e200 complete; supplemental BVCP is terminal negative; redundant PC-RSMG was safely paused at e88 and independent MCRB was observed at e36; no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "AM-TNC is the one evidence-authorized Generation-2 revision and MCRB is the independent third mechanism; both passed gates and are running true e200 without paired control",
-    "successor": "commit 058a5e5 generalizes source-bound terminal selection and proposal-only/observable-only/full ablations to AM-TNC and MCRB; 185 tests pass locally and on 4090, while winner-specific GPU gates and e200 ablation trajectories correctly remain pending final selection",
+    "successor": "commit cae238b generalizes source-bound terminal selection and proposal-only/observable-only/full ablations to AM-TNC and MCRB and completes their zero-intervention/cross-state gate routing; 186 tests pass locally and on 4090, while winner-specific GPU gates and e200 ablation trajectories correctly remain pending final selection",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

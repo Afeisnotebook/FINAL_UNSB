@@ -2,7 +2,7 @@
   "schema": "final-unsb-route1-extended-winner-ablation-chain-ready-v1",
   "recorded": "2026-08-30T22:07:00+08:00",
   "status": "SOURCE_CODE_AND_CPU_GATES_READY_WINNER_SPECIFIC_GPU_GATES_PENDING_SELECTION",
-  "git_commit": "058a5e5ba371803a851b03c83189a0f754bb301b",
+  "git_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
   "purpose": "Prevent the e200 pipeline from stopping after a Generation-2 or independent-mechanism winner by extending source-bound selection, mechanism ablations and final delivery beyond the original BVCP/PC-RSMG-only registry.",
   "supported_full_candidates": {
     "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {
@@ -36,8 +36,8 @@
     "batch_size": 1
   },
   "verification": {
-    "local_pytest": "185 passed",
-    "remote4090_pytest": "185 passed",
+    "local_pytest": "186 passed",
+    "remote4090_pytest": "186 passed",
     "compileall": "PASS",
     "git_diff_check": "PASS",
     "remote4090_isolated_worktree": "/home/yc/FINAL_UNSB_WINNER_058a5e5",
