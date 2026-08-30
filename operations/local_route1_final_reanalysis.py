@@ -21,6 +21,7 @@ from operations.local_route1_hj_reversal_supplement import (
     EXPECTED_FINAL,
     EXPECTED_MANIFEST,
     EXPECTED_TRAINING_CORE,
+    _allowed_audit_identities,
     atomic_json,
     exclusive_lock,
     file_sha256,
@@ -58,6 +59,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError("final reanalysis training-core identity mismatch")
     if contract["manifest_sha256"] != EXPECTED_MANIFEST:
         raise RuntimeError("final reanalysis manifest identity mismatch")
+    _allowed_audit_identities(contract)
     if contract.get("paired_controller_access") is not False:
         raise RuntimeError("paired controller access is forbidden")
     if contract.get("confirmation20_opened") is not False:
@@ -97,9 +99,13 @@ def verify_queue(run_root: Path) -> dict[str, Any]:
     return {"jobs": 28, "queue_sha256": file_sha256(path)}
 
 
-def freeze_raw_inputs(run_root: Path) -> dict[str, Any]:
+def freeze_raw_inputs(
+    run_root: Path,
+    allowed_audit_identities: set[tuple[str, str]] | None = None,
+) -> dict[str, Any]:
     atlas = verify_atlases(
         run_root, expected=EXPECTED_FINAL, require_supplement=True,
+        allowed_audit_identities=allowed_audit_identities,
     )
     queue = verify_queue(run_root)
     result = {
@@ -238,7 +244,7 @@ def run_reanalysis(contract: dict[str, Any], operations: Path) -> None:
 def verify_final_outputs(
     run_root: Path, contract: dict[str, Any], raw: dict[str, Any],
 ) -> dict[str, Any]:
-    post = freeze_raw_inputs(run_root)
+    post = freeze_raw_inputs(run_root, _allowed_audit_identities(contract))
     for key in (
         "reversal_sha256", "variance_sha256", "queue_sha256",
         "reversal_rows", "variance_rows", "jobs",
@@ -332,7 +338,7 @@ def execute(contract_path: Path) -> dict[str, Any]:
             return existing
     state("WAITING_FOR_HJ_REVERSAL_SUPPLEMENT")
     wait_for_supplement(run_root, int(contract.get("poll_seconds", 30)))
-    raw = freeze_raw_inputs(run_root)
+    raw = freeze_raw_inputs(run_root, _allowed_audit_identities(contract))
     state("ARCHIVING_COLLECTOR_ANALYSIS", raw_evidence=raw)
     archive = archive_collector_outputs(
         run_root, str(contract["analysis_git_commit"]),

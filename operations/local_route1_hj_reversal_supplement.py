@@ -27,6 +27,9 @@ EXPECTED_PRIMARY = (432, 128)
 EXPECTED_FINAL = (474, 140)
 SUPPLEMENT_EPOCHS = (40, 60, 80)
 EXPECTED_AUDIT_COMMIT = "729826f55f2cdbd59fbc51cd64b437bb392ea21c"
+EXPECTED_AUDIT_SOURCE = (
+    "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a"
+)
 EXPECTED_TRAINING_CORE = (
     "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
 )
@@ -102,6 +105,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
         raise RuntimeError(f"HJ supplement contract missing: {missing}")
     if contract["audit_git_commit"] != EXPECTED_AUDIT_COMMIT:
         raise RuntimeError("HJ supplement audit commit differs from frozen collector")
+    _allowed_audit_identities(contract)
     if contract.get("paired_controller_access") is not False:
         raise RuntimeError("paired controller access is forbidden")
     if contract.get("confirmation20_opened") is not False:
@@ -139,8 +143,31 @@ def _finite(value: Any) -> bool:
     return True
 
 
+def _allowed_audit_identities(
+    contract: dict[str, Any] | None = None,
+) -> set[tuple[str, str]]:
+    rows = None if contract is None else contract.get("allowed_audit_identities")
+    if rows is None:
+        return {(EXPECTED_AUDIT_COMMIT, EXPECTED_AUDIT_SOURCE)}
+    if not isinstance(rows, list) or not rows:
+        raise RuntimeError("allowed_audit_identities must be a non-empty list")
+    identities: set[tuple[str, str]] = set()
+    for row in rows:
+        if not isinstance(row, dict) or not row.get("audit_git_commit") or not row.get(
+            "audit_source_fingerprint"
+        ):
+            raise RuntimeError("allowed audit identity requires commit and source fingerprint")
+        identities.add((
+            str(row["audit_git_commit"]), str(row["audit_source_fingerprint"]),
+        ))
+    if (EXPECTED_AUDIT_COMMIT, EXPECTED_AUDIT_SOURCE) not in identities:
+        raise RuntimeError("allowed audit identities omit the frozen supplement writer")
+    return identities
+
+
 def verify_atlases(
     run_root: Path, *, expected: tuple[int, int], require_supplement: bool,
+    allowed_audit_identities: set[tuple[str, str]] | None = None,
 ) -> dict[str, Any]:
     audit = run_root / "audit"
     reversal = _read_rows(audit / "LONG_REVERSAL_ATLAS.jsonl")
@@ -157,11 +184,14 @@ def verify_atlases(
             raise RuntimeError(f"nonfinite {name} row")
         if not all(row.get("confirmation20_opened") is False for row in rows):
             raise RuntimeError(f"confirmation20 opened in {name} atlas")
+    allowed = allowed_audit_identities or _allowed_audit_identities()
     if not all(
         row.get("paired_metrics_accessed_by_controller") is False
         and row["parent_state_sha256_before"] == row["parent_state_sha256_after"]
-        and row.get("audit_identity", {}).get("audit_git_commit")
-        == EXPECTED_AUDIT_COMMIT
+        and (
+            row.get("audit_identity", {}).get("audit_git_commit"),
+            row.get("audit_identity", {}).get("audit_source_fingerprint"),
+        ) in allowed
         and row.get("audit_identity", {}).get("training_core_fingerprint")
         == EXPECTED_TRAINING_CORE
         for row in reversal
@@ -170,8 +200,10 @@ def verify_atlases(
     if not all(
         row.get("paired_metrics_accessed_by_controller") is False
         and row["parent_state_sha256_before"] == row["parent_state_sha256_after"]
-        and row.get("audit_identity", {}).get("audit_git_commit")
-        == EXPECTED_AUDIT_COMMIT
+        and (
+            row.get("audit_identity", {}).get("audit_git_commit"),
+            row.get("audit_identity", {}).get("audit_source_fingerprint"),
+        ) in allowed
         and row.get("audit_identity", {}).get("training_core_fingerprint")
         == EXPECTED_TRAINING_CORE
         for row in variance
@@ -184,11 +216,26 @@ def verify_atlases(
         missing = [("hj", epoch) for epoch in SUPPLEMENT_EPOCHS if ("hj", epoch) not in observed]
         if missing:
             raise RuntimeError(f"HJ reversal supplement cells missing: {missing}")
+    observed: dict[tuple[str, str], int] = {}
+    for row in [*reversal, *variance]:
+        identity = (
+            str(row["audit_identity"]["audit_git_commit"]),
+            str(row["audit_identity"]["audit_source_fingerprint"]),
+        )
+        observed[identity] = observed.get(identity, 0) + 1
     return {
         "reversal_rows": len(reversal),
         "variance_rows": len(variance),
         "reversal_sha256": file_sha256(audit / "LONG_REVERSAL_ATLAS.jsonl"),
         "variance_sha256": file_sha256(audit / "SAMPLING_VARIANCE_ATLAS.jsonl"),
+        "observed_audit_identities": [
+            {
+                "audit_git_commit": identity[0],
+                "audit_source_fingerprint": identity[1],
+                "rows": count,
+            }
+            for identity, count in sorted(observed.items())
+        ],
     }
 
 
@@ -274,8 +321,10 @@ def execute(contract_path: Path) -> dict[str, Any]:
 
     state("WAITING_FOR_PRIMARY_AUDIT")
     wait_for_primary(run_root, int(contract.get("poll_seconds", 30)))
+    allowed = _allowed_audit_identities(contract)
     primary = verify_atlases(
         run_root, expected=EXPECTED_PRIMARY, require_supplement=False,
+        allowed_audit_identities=allowed,
     )
     append_event(events, {"time": now(), "event": "PRIMARY_VERIFIED", **primary})
     state("SUPPLEMENT_RUNNING", completed_epochs=[])
@@ -285,6 +334,7 @@ def execute(contract_path: Path) -> dict[str, Any]:
     run_job(contract, 80, operations)
     final = verify_atlases(
         run_root, expected=EXPECTED_FINAL, require_supplement=True,
+        allowed_audit_identities=allowed,
     )
     queue = regenerate_queue(contract)
     result = {

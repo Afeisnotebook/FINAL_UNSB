@@ -5,6 +5,7 @@ import pytest
 
 from operations.local_route1_hj_reversal_supplement import (
     EXPECTED_AUDIT_COMMIT,
+    EXPECTED_AUDIT_SOURCE,
     EXPECTED_TRAINING_CORE,
     main,
     verify_atlases,
@@ -20,6 +21,7 @@ def _row(row_id: str, *, epoch: int = 40) -> dict:
         "parent_state_sha256_after": "parent",
         "audit_identity": {
             "audit_git_commit": EXPECTED_AUDIT_COMMIT,
+            "audit_source_fingerprint": EXPECTED_AUDIT_SOURCE,
             "training_core_fingerprint": EXPECTED_TRAINING_CORE,
         },
         "paired_metrics_accessed_by_controller": False,
@@ -79,3 +81,21 @@ def test_supplement_failure_is_persisted_for_upstream_watchers(tmp_path):
     )
     assert state["status"] == "FAILED"
     assert state["confirmation20_opened"] is False
+
+
+def test_supplement_verifier_records_explicit_mixed_audit_lineage(tmp_path):
+    audit = tmp_path / "audit"
+    old = _row("old")
+    fixed = _row("fixed")
+    fixed["audit_identity"]["audit_git_commit"] = "fixed-commit"
+    fixed["audit_identity"]["audit_source_fingerprint"] = "fixed-source"
+    _write(audit / "LONG_REVERSAL_ATLAS.jsonl", [old, fixed])
+    _write(audit / "SAMPLING_VARIANCE_ATLAS.jsonl", [_row("variance")])
+    result = verify_atlases(
+        tmp_path, expected=(2, 1), require_supplement=False,
+        allowed_audit_identities={
+            (EXPECTED_AUDIT_COMMIT, EXPECTED_AUDIT_SOURCE),
+            ("fixed-commit", "fixed-source"),
+        },
+    )
+    assert len(result["observed_audit_identities"]) == 2
