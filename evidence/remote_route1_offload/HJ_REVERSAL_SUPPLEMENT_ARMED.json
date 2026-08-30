@@ -1,0 +1,36 @@
+{
+  "schema": "final-unsb-route1-hj-reversal-supplement-armed-v1",
+  "created": "2026-08-30T08:44:00+08:00",
+  "host_role": "4090_primary_audit_host",
+  "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+  "tmux_session": "FINAL_UNSB_HJ_REVERSAL_SUPPLEMENT",
+  "executor_pid": 1337486,
+  "observed_state": "WAITING_FOR_PRIMARY_AUDIT",
+  "contract_sha256": "396f29644095fddc0f666d586db670797208ad6772af47d4ff511565b03f3ef0",
+  "analysis_git_commit": "0b1d9d6e358c23d1522dbdf30ad8e5b0e022d3c4",
+  "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "activation_contract": {
+    "required_primary_state": "PHASE_C_COMPLETE_DERIVATION_REQUIRED",
+    "required_primary_reversal_rows": 432,
+    "required_primary_sampling_variance_rows": 128,
+    "supplemental_cells": ["hj:e040", "hj:e060", "hj:e080"],
+    "final_reversal_rows": 474,
+    "final_sampling_variance_rows": 140,
+    "postcondition": "SUPPLEMENT_COMPLETE_REANALYSIS_REQUIRED",
+    "may_run_final_reanalysis": false,
+    "may_derive_candidates": false
+  },
+  "resource_policy": {
+    "scientific_batch_size": 1,
+    "4090_primary_parallel_streams": 2,
+    "supplement_parallel_streams_after_primary": 2,
+    "reason_batch_size_not_increased": "Batch size changes unpaired B sampling, PatchNCE negative sets, estimator/game dynamics and Adam trajectory; independent batch-1 streams preserve causal comparability."
+  },
+  "access_guards": {
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "append_only_raw_atlases": true
+  }
+}
