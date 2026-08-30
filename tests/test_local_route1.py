@@ -841,6 +841,44 @@ def test_variance_summary_excludes_inactive_zero_correction_rows():
     assert batch["variance_dominated_rows"] == 1
 
 
+def test_probe_classification_does_not_hide_late_sign_or_scale_failure_in_mean():
+    rows = []
+    for epoch, cosine, ratio in ((20, 1.0, 0.2), (100, -0.2, 0.2), (150, 0.4, 2.0)):
+        rows.append({
+            "probe": "hj", "data_epoch": epoch, "source_state": "hj",
+            "operator_mode": "registered", "branch_regime": "continuous_intervention",
+            "horizon": 1,
+            "update_geometry": {
+                "correction_norm": ratio, "reference_norm": 1.0,
+            },
+            "next_independent_native_consensus": {"cosine": cosine},
+        })
+    summary = causal_audit._classify_probe(rows, "hj")
+    assert summary["next_batch_consensus_mean"] > 0.0
+    assert summary["next_batch_consensus_negative_rows"] == 1
+    assert len(summary["next_batch_consensus_sign_changes"]) == 2
+    assert summary["correction_to_native_norm_ratio_mean"] < 1.0
+    assert summary["correct_direction_overscale_rows"] == 1
+    screen = {
+        "eligible_shared_driver_signals": [
+            "correction_next_native_cosine",
+            "correction_within_native_scale_margin",
+        ],
+        "eligible_driver_signals": [
+            "correction_next_native_cosine",
+            "correction_within_native_scale_margin",
+        ],
+        "eligible_method_specific_driver_signals": {},
+        "signals": [],
+    }
+    ranked = causal_audit._rank_failure_mechanisms(
+        [summary], [], screen, rows, [],
+    )
+    failure_types = {row["failure_type"] for row in ranked}
+    assert "correction_sign_reversal" in failure_types
+    assert "correct_direction_unstable_magnitude" in failure_types
+
+
 def test_derive_initializes_evidence_bound_hypothesis_ledger(tmp_path):
     import json
 

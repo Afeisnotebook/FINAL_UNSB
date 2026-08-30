@@ -1313,11 +1313,43 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
         float(row["next_independent_native_consensus"]["cosine"])
         for row in one_step if row.get("next_independent_native_consensus")
     ]
+    consensus_records = [
+        {
+            "data_epoch": int(row["data_epoch"]),
+            "source_state": row["source_state"],
+            "cosine": float(row["next_independent_native_consensus"]["cosine"]),
+        }
+        for row in one_step if row.get("next_independent_native_consensus")
+    ]
+    consensus_sign_changes = []
+    for source_state in sorted({row["source_state"] for row in consensus_records}):
+        state_rows = sorted(
+            [row for row in consensus_records if row["source_state"] == source_state],
+            key=lambda row: row["data_epoch"],
+        )
+        for previous, current in zip(state_rows, state_rows[1:]):
+            if (previous["cosine"] > 0.0) != (current["cosine"] > 0.0):
+                consensus_sign_changes.append({
+                    "source_state": source_state,
+                    "previous_data_epoch": previous["data_epoch"],
+                    "data_epoch": current["data_epoch"],
+                    "previous_cosine": previous["cosine"],
+                    "cosine": current["cosine"],
+                })
     correction_ratios = [
         float(row["update_geometry"]["correction_norm"])
         / max(float(row["update_geometry"]["reference_norm"]), 1e-20)
         for row in one_step
     ]
+    correct_direction_overscale_rows = sum(
+        (
+            float(row["update_geometry"]["correction_norm"])
+            / max(float(row["update_geometry"]["reference_norm"]), 1e-20)
+        ) > 1.0
+        and row.get("next_independent_native_consensus") is not None
+        and float(row["next_independent_native_consensus"]["cosine"]) >= 0.0
+        for row in one_step
+    )
     cases = defaultdict(int)
     for values in by_epoch.values():
         if "plain" not in values or probe not in values:
@@ -1350,7 +1382,12 @@ def _classify_probe(rows: list[dict], probe: str) -> dict:
         "case_counts": dict(cases),
         "next_batch_consensus_mean": None if not consensus else float(np.mean(consensus)),
         "next_batch_consensus_min": None if not consensus else float(np.min(consensus)),
+        "next_batch_consensus_positive_rows": sum(value > 0.0 for value in consensus),
+        "next_batch_consensus_negative_rows": sum(value < 0.0 for value in consensus),
+        "next_batch_consensus_zero_rows": sum(value == 0.0 for value in consensus),
+        "next_batch_consensus_sign_changes": consensus_sign_changes,
         "correction_to_native_norm_ratio_mean": None if not correction_ratios else float(np.mean(correction_ratios)),
+        "correct_direction_overscale_rows": int(correct_direction_overscale_rows),
         "pulse_propagation": propagation,
         "rows": len(probe_rows),
     }
@@ -2013,8 +2050,14 @@ def _rank_failure_mechanisms(
 
     sign_support = [
         row["probe"] for row in probe_summaries
-        if row["next_batch_consensus_mean"] is not None
-        and row["next_batch_consensus_mean"] < 0.0
+        if (
+            int(row.get("next_batch_consensus_negative_rows", 0)) > 0
+            or (
+                row.get("next_batch_consensus_negative_rows") is None
+                and row.get("next_batch_consensus_mean") is not None
+                and row["next_batch_consensus_mean"] < 0.0
+            )
+        )
     ]
     if sign_support:
         shared_drivers, method_drivers = driver_evidence(
@@ -2057,9 +2100,15 @@ def _rank_failure_mechanisms(
         })
     amplitude_support = [
         row["probe"] for row in probe_summaries
-        if row["correction_to_native_norm_ratio_mean"] is not None
-        and row["correction_to_native_norm_ratio_mean"] > 1.0
-        and (row["next_batch_consensus_mean"] or 0.0) >= 0.0
+        if (
+            int(row.get("correct_direction_overscale_rows", 0)) > 0
+            or (
+                row.get("correct_direction_overscale_rows") is None
+                and row.get("correction_to_native_norm_ratio_mean") is not None
+                and row["correction_to_native_norm_ratio_mean"] > 1.0
+                and (row["next_batch_consensus_mean"] or 0.0) >= 0.0
+            )
+        )
     ]
     if amplitude_support:
         shared_drivers, method_drivers = driver_evidence(
