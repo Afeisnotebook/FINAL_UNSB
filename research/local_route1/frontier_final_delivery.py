@@ -18,6 +18,10 @@ from operations.local_route1_frontier_cross_host_successor import (
     validate_remote_decision,
 )
 from research.local_route1.generation1_adjudication import POSITIVE_STATUS
+from research.local_route1.final_delivery import (
+    _candidate_domain_trajectory,
+    _median_epoch_seconds,
+)
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
 
@@ -145,7 +149,9 @@ def _same_host_selection(
     return ranked, replay_path, replay_receipt
 
 
-def _source_files(output_root: Path, candidate_id: str) -> tuple[Path, Path, dict, dict]:
+def _source_files(
+    output_root: Path, candidate_id: str, receipt: dict[str, Any],
+) -> tuple[Path, Path, dict, dict]:
     card_path = output_root / "derive" / "cards" / f"{candidate_id}.json"
     implementation_path = (
         output_root / "derive" / "implementations" / f"{candidate_id}.json"
@@ -158,6 +164,10 @@ def _source_files(output_root: Path, candidate_id: str) -> tuple[Path, Path, dic
         "candidate_id"
     ) != candidate_id:
         raise RuntimeError("selected candidate source identity mismatch")
+    if receipt.get("derivation_card_sha256") != file_sha256(card_path):
+        raise RuntimeError("selected derivation card changed after terminal receipt")
+    if receipt.get("implementation_sha256") != file_sha256(implementation_path):
+        raise RuntimeError("selected implementation changed after terminal receipt")
     return card_path, implementation_path, card, implementation
 
 
@@ -201,11 +211,22 @@ def _winner_specific_selection(
         not selected_id
         or selection.get("selected_candidate_id") != selected_id
         or receipt.get("candidate_id") != selected_id
+        or result.get("selected_algorithm_fingerprint") not in (
+            None, receipt.get("algorithm_fingerprint"),
+        )
     ):
         raise RuntimeError("frontier post-ablation selection identity mismatch")
     evidence = result.get("winner_ablation_evidence")
     if not isinstance(evidence, dict):
         raise RuntimeError("frontier winner ablation result lacks role evidence")
+    roles = ablation.get("roles")
+    if not isinstance(roles, dict) or set(roles) != {
+        "proposal_only", "observable_only", "projected_or_full",
+    }:
+        raise RuntimeError("selected algorithm ablation lacks the three required roles")
+    role_ids = {str(row.get("candidate_id", "")) for row in roles.values()}
+    if selected_id not in role_ids:
+        raise RuntimeError("selected algorithm is not represented by its ablation roles")
     return result, result_path, selection, selection_path, receipt, receipt_path, ablation
 
 
@@ -223,6 +244,23 @@ def _executor_contract(output_root: Path, receipt: dict[str, Any]) -> tuple[Path
             and value.get("algorithm_fingerprint") == receipt.get("algorithm_fingerprint")
             and value.get("candidate_fingerprint") == receipt.get("candidate_fingerprint")
         ):
+            required = {
+                "schema": "final-unsb-route1-candidate-executor-contract-v1",
+                "manifest_sha256": receipt.get("manifest_sha256"),
+                "target_data_epochs": 200,
+                "paired_metric_early_stop": False,
+                "paired_controller_access": False,
+                "confirmation20_opened": False,
+            }
+            mismatches = {
+                key: {"expected": expected, "actual": value.get(key)}
+                for key, expected in required.items()
+                if value.get(key) != expected
+            }
+            if mismatches:
+                raise RuntimeError(
+                    f"selected candidate executor contract mismatch: {path}: {mismatches}"
+                )
             matches.append((path, value))
     if len(matches) != 1:
         raise RuntimeError(
@@ -277,8 +315,51 @@ def _alternate_rows(
     return values[:2]
 
 
-def _report(candidate: dict[str, Any], alternates: dict[str, Any]) -> str:
+def _selected_ablation_results(
+    output_root: Path, ablation: dict[str, Any],
+) -> dict[str, Any]:
+    roles = ablation["roles"]
+    values = {}
+    for role in ("proposal_only", "observable_only", "projected_or_full"):
+        row = roles[role]
+        candidate_id = str(row.get("candidate_id", ""))
+        receipt_path = Path(str(row.get("receipt_path", ""))).resolve()
+        if not receipt_path.is_file() or not receipt_path.is_relative_to(output_root):
+            raise RuntimeError(f"selected algorithm ablation receipt escaped run root: {role}")
+        if file_sha256(receipt_path) != row.get("receipt_sha256"):
+            raise RuntimeError(f"selected algorithm ablation receipt changed: {role}")
+        receipt = _validate_receipt(receipt_path)
+        if (
+            receipt.get("candidate_id") != candidate_id
+            or receipt.get("algorithm_fingerprint") != row.get(
+                "algorithm_fingerprint"
+            )
+        ):
+            raise RuntimeError(f"selected algorithm ablation identity changed: {role}")
+        trajectory_path = (
+            output_root / "candidates" / candidate_id / "CANDIDATE_TRAJECTORY.json"
+        )
+        if file_sha256(trajectory_path) != receipt.get("trajectory_sha256"):
+            raise RuntimeError(f"selected algorithm ablation trajectory changed: {role}")
+        values[role] = {
+            "candidate_id": candidate_id,
+            "trajectory_status": receipt["trajectory_status"],
+            "ranking_fields": receipt["ranking_fields"],
+            "receipt_path": receipt_path.relative_to(output_root).as_posix(),
+            "receipt_sha256": file_sha256(receipt_path),
+            "trajectory": _read_json(trajectory_path),
+            "absolute_relative_domain_trajectory": _candidate_domain_trajectory(
+                output_root, candidate_id,
+            ),
+        }
+    return values
+
+
+def _report(
+    candidate: dict[str, Any], alternates: dict[str, Any], results: dict[str, Any],
+) -> str:
     metrics = candidate["seed2026_e200_result"]
+    boundaries = candidate["conclusion_boundaries"]
     lines = [
         "# FINAL UNSB 路线一候选（frontier-complete）",
         "",
@@ -291,16 +372,62 @@ def _report(candidate: dict[str, Any], alternates: dict[str, Any]) -> str:
         "- confirmation20、全量数据、路线二、退出窗口与paired控制均未启用。",
         "- 5090结果只在5090宿主内排序；只有完成4090复跑的候选才进入主候选竞争。",
         "",
-        "## 两个递补",
+        "## 科学结论",
+        "",
+        f"- 当前证据支持：{boundaries['scientific_conclusion']['supported']}",
+        f"- 当前证据不支持：{boundaries['scientific_conclusion']['not_supported']}",
+        "- paired指标只在完整e200轨迹冻结后用于排序，未进入训练、控制或退出。",
+        "",
+        "## 工程失败与科学结果的边界",
+        "",
+        f"- {boundaries['engineering_failures']['rule']}",
+        "- 历史RSMG player-state语义错误属于engineering-invalid，不进入算法优劣排名。",
+        "",
+        "## 代理失真边界",
+        "",
+        f"- {boundaries['proxy_distortion']['rule']}",
+        "- 本地1660轨迹只作补充；canonical排序使用4090同宿主matched证据。",
+        "",
+        "## 尚未验证",
         "",
     ]
+    for item in boundaries["untested_hypotheses"]:
+        lines.append(f"- {item}")
+    lines.extend([
+        "",
+        "## 两个递补",
+        "",
+    ])
     for row in alternates["alternates"]:
         lines.append(
             f"- `{row['candidate_id']}`：{row['role']}；{row['reason_not_selected']}"
         )
     lines.extend([
         "",
-        "完整公式、复杂度、逐域轨迹、源码指纹和复现合同见同目录JSON文件。",
+        "## 宿主分离的完整候选前沿",
+        "",
+    ])
+    host_frontier = results["host_separated_complete_frontier"]
+    for host_key, title in (
+        ("remote4090_pre_frontier", "4090已完成候选"),
+        ("remote5090_frontier", "5090前沿"),
+    ):
+        lines.append(f"### {title}")
+        lines.append("")
+        ranking = host_frontier[host_key].get("ranking", [])
+        if not ranking:
+            lines.append("- 无可列出的完整排名行。")
+        for row in ranking:
+            fields = row.get("ranking_fields", {})
+            lines.append(
+                f"- `{row.get('candidate_id')}`：`{row.get('trajectory_status')}`；"
+                f"late-three `{fields.get('late_three_mean_macro_psnr_delta')}`；"
+                f"e200 `{fields.get('e200_macro_psnr_delta')}`。"
+            )
+        lines.append("")
+    lines.extend([
+        "逐域candidate/plain绝对值与delta、完整公式、复杂度、风险、源码指纹和可执行复现"
+        "合同见同目录CANDIDATE.json与RESULTS.json。",
         "",
     ])
     return "\n".join(lines)
@@ -349,12 +476,18 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
     ) = _winner_specific_selection(output_root)
     selected_id = str(receipt["candidate_id"])
     card_path, implementation_path, card, implementation = _source_files(
-        output_root, selected_id,
+        output_root, selected_id, receipt,
     )
     trajectory_path = output_root / "candidates" / selected_id / "CANDIDATE_TRAJECTORY.json"
     trajectory = _read_json(trajectory_path)
     if file_sha256(trajectory_path) != receipt.get("trajectory_sha256"):
         raise RuntimeError("selected trajectory changed after terminal receipt")
+    absolute_relative_domain_trajectory = _candidate_domain_trajectory(
+        output_root, selected_id,
+    )
+    selected_ablation_results = _selected_ablation_results(
+        output_root, winner_ablation,
+    )
     executor_path, executor = _executor_contract(output_root, receipt)
     archived = _archive_base(output_root)
 
@@ -384,6 +517,56 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         if receipt.get("trajectory_status") == POSITIVE_STATUS else
         "weak_fallback_single_seed_development"
     )
+    conclusion_boundaries = {
+        "scientific_conclusion": {
+            "supported": (
+                "该算法在共同e0、small25、batch1、seed2026的4090同宿主matched e200"
+                "协议中通过了完整长期门。"
+                if receipt.get("trajectory_status") == POSITIVE_STATUS else
+                "该算法是完整seed2026/e200证据下的当前最优fallback，但未通过全部长期门。"
+            ),
+            "not_supported": (
+                "跨seed稳定性、全量一万张数据收益、confirmation20泛化或论文级最终结论。"
+            ),
+            "best_checkpoint_selection": False,
+            "paired_training_control": False,
+        },
+        "engineering_failures": {
+            "rule": (
+                "只有source-bound完整e200 receipt进入排名；NaN、身份不一致、未完成轨迹和"
+                "历史player-state语义错误均归为工程失败，不可冒充算法负结果。"
+            ),
+            "known_excluded_incident": "G1-02-SAMPLING-VARIANCE player-state semantic mismatch",
+            "failed_or_incomplete_trajectory_ranked": False,
+        },
+        "proxy_distortion": {
+            "rule": (
+                "small25是算法发现代理；本地1660 proxy不校准不覆盖已校准的4090同宿主"
+                "证据，也不允许把small25结论外推为全量数据结论。"
+            ),
+            "canonical_ranking_host": "remote4090",
+            "cross_host_delta_merge": False,
+        },
+        "untested_hypotheses": [
+            "seed2027/2028尚未运行，单seed结果可能不稳定。",
+            "一万张全量训练视图及其真实200 data epochs尚未运行。",
+            "confirmation20仍封存，未用于选择或泛化结论。",
+            "4090与5090运行时的数值delta没有合并，跨硬件可迁移性仍未证明。",
+            "论文级计算量匹配、完整消融图表和外部数据泛化仍属于后续工作。",
+        ],
+    }
+    host_separated_complete_frontier = {
+        "remote4090_pre_frontier": {
+            "selected_candidate_id": base_results.get("selected_candidate_id"),
+            "ranking": base_results.get(
+                "ranking", base_results.get("generation1_ranking", []),
+            ),
+            "candidate_results": base_results.get("candidate_results", {}),
+        },
+        "remote4090_post_frontier": selection,
+        "remote5090_frontier": remote_adjudication,
+        "cross_host_deltas_merged": False,
+    }
     candidate = {
         "schema": CANDIDATE_SCHEMA,
         "status": "FINAL_CURRENT_BEST_ROUTE1_CANDIDATE",
@@ -396,6 +579,11 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         "candidate_training_core_fingerprint": receipt[
             "candidate_training_core_fingerprint"
         ],
+        "selected_fixed_checkpoint": {
+            "data_epoch": 200,
+            "updates": 30000,
+            "best_checkpoint_selection": False,
+        },
         "source_bound_terminal_receipt": {
             "path": receipt_path.relative_to(output_root).as_posix(),
             "sha256": file_sha256(receipt_path),
@@ -418,6 +606,12 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
             "endpoint_law_change": card.get("endpoint_law_change"),
             "target_inaccessibility_proof": card.get("target_inaccessibility_proof"),
         },
+        "algorithm_hyperparameters": card.get("algorithm_hyperparameters"),
+        "executable_configuration": {
+            "model": implementation.get("model"),
+            "method": implementation.get("method"),
+        },
+        "source_files": implementation.get("source_files", []),
         "complexity": {
             "compute_cost": card.get("compute_cost"),
             "memory_cost": card.get("memory_cost"),
@@ -429,11 +623,17 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
             "single_seed_only": True,
             "cross_seed_stability_claimed": False,
         },
+        "risks": conclusion_boundaries["untested_hypotheses"],
+        "conclusion_boundaries": conclusion_boundaries,
         "seed2026_e200_result": {
             "trajectory_status": receipt["trajectory_status"],
             **receipt["ranking_fields"],
         },
         "trajectory": trajectory,
+        "absolute_relative_domain_trajectory": absolute_relative_domain_trajectory,
+        "median_epoch_wall_seconds": _median_epoch_seconds(
+            output_root / "candidates" / selected_id,
+        ),
         "frontier_selection": {
             "path": selection_path.relative_to(output_root).as_posix(),
             "sha256": file_sha256(selection_path),
@@ -446,10 +646,12 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
             "selected_algorithm_roles": winner_ablation_result[
                 "winner_ablation_evidence"
             ],
+            "experimental_results": selected_ablation_results,
         },
         "reproduction": {
             "seed2026_e200": (
-                "python operations/local_route1_candidate_executor.py --contract "
+                "PYTHONPATH=<REPO> python -m operations.local_route1_candidate_executor "
+                "--contract "
                 f"<RUN_ROOT>/{executor_path.relative_to(output_root).as_posix()}"
             ),
             "executor_contract": {
@@ -461,6 +663,9 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
             },
             "deferred_seed_validation": [2027, 2028],
         },
+        "training_batch_size": 1,
+        "target_data_epochs": 200,
+        "target_updates": 30000,
         "confirmation20_opened": False,
         "paired_metrics_used_for_training_or_control": False,
         "paired_controller_access": False,
@@ -470,15 +675,21 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         "status": "COMPLETE",
         "selected_candidate_id": selected_id,
         "classification": classification,
+        "conclusion_boundaries": conclusion_boundaries,
         "same_host_4090_final_selection": selection,
         "selected_trajectory": trajectory,
+        "selected_absolute_relative_domain_trajectory": (
+            absolute_relative_domain_trajectory
+        ),
         "selected_algorithm_winner_ablation_result": winner_ablation_result,
         "selected_algorithm_winner_ablation_adjudication": winner_ablation,
+        "selected_algorithm_winner_ablation_results": selected_ablation_results,
         "pre_frontier_delivery": {
             "selected_candidate_id": base_candidate["candidate_id"],
             "archived_file_sha256": archived,
         },
         "remote_5090_frontier": remote_adjudication,
+        "host_separated_complete_frontier": host_separated_complete_frontier,
         "frontier_cross_host_result": cross_result,
         "cross_host_deltas_merged": False,
         "selection_seeds": [2026],
@@ -493,7 +704,7 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
     write_json(final / "RESULTS.json", results)
     write_json(final / "ALTERNATES.json", alternates)
     (final / "FINAL_ROUTE1_REPORT.md").write_text(
-        _report(candidate, alternates), encoding="utf-8",
+        _report(candidate, alternates, results), encoding="utf-8",
     )
     pointer = {
         "schema": POINTER_SCHEMA,

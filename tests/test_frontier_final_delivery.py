@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from operations.local_route1_candidate_terminal_receipt import (
     SCHEMA as RECEIPT_SCHEMA,
     SIDECAR_SCHEMA,
@@ -11,7 +13,9 @@ from research.local_route1.frontier_final_delivery import (
     CANDIDATE_SCHEMA,
     FINAL_SELECTION,
     POINTER_SCHEMA,
+    _executor_contract,
     _same_host_selection,
+    _source_files,
     materialize_frontier_final_delivery,
 )
 from research.local_route1.generation1_adjudication import (
@@ -32,11 +36,42 @@ def _receipt(
 ) -> Path:
     path = root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
     trajectory = root / "candidates" / candidate_id / "CANDIDATE_TRAJECTORY.json"
+    domains = [
+        "FoggyCityscapes", "LowLightTrafficData", "RSCityscapes",
+        "RainCityscapes", "RainDS-syn", "SnowTrafficData",
+    ]
+    plain_metric = {
+        "schema": "evaluation-v1", "count_per_domain": 70,
+        "protocol_fingerprint": "protocol", "evaluation_input_sha256": "crn",
+        "macro_psnr": 10.0, "macro_ssim": 0.5, "macro_lpips": 0.3,
+        "domains": {
+            domain: {"psnr": 10.0, "ssim": 0.5, "lpips": 0.3}
+            for domain in domains
+        },
+        "confirmation20_opened": False,
+    }
+    candidate_metric = {
+        **plain_metric,
+        "macro_psnr": 10.0 + late,
+        "macro_ssim": 0.51,
+        "macro_lpips": 0.29,
+        "domains": {
+            domain: {"psnr": 10.0 + late, "ssim": 0.51, "lpips": 0.29}
+            for domain in domains
+        },
+    }
+    _write(root / "anchors" / "plain" / "metrics" / "e200.json", plain_metric)
+    _write(root / "candidates" / candidate_id / "metrics" / "e200.json", candidate_metric)
     _write(trajectory, {
         "schema": "final-unsb-route1-candidate-trajectory-v1",
         "candidate_id": candidate_id,
         "status": status,
-        "trajectory": [{"epoch": 200, "macro_psnr_delta": late}],
+        "trajectory": [{
+            "epoch": 200, "updates": 30000,
+            "macro_psnr": 10.0 + late, "plain_macro_psnr": 10.0,
+            "macro_psnr_delta": late,
+        }],
+        "paired_metrics_used_for_training_or_gate": False,
         "confirmation20_opened": False,
     })
     payload = {
@@ -98,16 +133,51 @@ def _source_and_contract(root: Path, candidate_id: str, commit: str = "a" * 40) 
         "recovery_state_cost": "state",
         "expected_applicable_state": "state",
         "falsifying_experiment": "falsifier",
+        "algorithm_hyperparameters": {"strength": 1.0},
     })
-    _write(root / "derive" / "implementations" / f"{candidate_id}.json", {
+    implementation_path = root / "derive" / "implementations" / f"{candidate_id}.json"
+    _write(implementation_path, {
         "candidate_id": candidate_id,
+        "model": "route1_test",
+        "method": {"enabled": True},
+        "source_files": [{"path": "src/models/test.py", "sha256": "source"}],
     })
     _write(root / "operations" / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}.json", {
+        "schema": "final-unsb-route1-candidate-executor-contract-v1",
         "candidate_id": candidate_id,
         "candidate_git_commit": commit,
         "algorithm_fingerprint": f"algorithm-{candidate_id}",
         "candidate_fingerprint": f"candidate-{candidate_id}",
+        "manifest_sha256": "manifest",
+        "target_data_epochs": 200,
+        "paired_metric_early_stop": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
     })
+    receipt_path = root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["derivation_card_sha256"] = file_sha256(
+        root / "derive" / "cards" / f"{candidate_id}.json"
+    )
+    receipt["implementation_sha256"] = file_sha256(implementation_path)
+    _write(receipt_path, receipt)
+    _write(Path(str(receipt_path) + ".sha256.json"), {
+        "schema": SIDECAR_SCHEMA,
+        "candidate_id": candidate_id,
+        "receipt_sha256": file_sha256(receipt_path),
+    })
+
+
+def _role_row(root: Path, candidate_id: str) -> dict:
+    receipt_path = root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    return {
+        "candidate_id": candidate_id,
+        "trajectory_status": receipt["trajectory_status"],
+        "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+        "receipt_path": str(receipt_path),
+        "receipt_sha256": file_sha256(receipt_path),
+    }
 
 
 def test_same_host_replay_can_replace_prefrontier_fallback(tmp_path: Path) -> None:
@@ -125,12 +195,41 @@ def test_same_host_replay_can_replace_prefrontier_fallback(tmp_path: Path) -> No
     assert base.is_file()
 
 
+def test_final_source_and_executor_contract_are_receipt_bound(tmp_path: Path) -> None:
+    candidate_id = "BOUND"
+    receipt_path = _receipt(tmp_path, candidate_id, 0.2, status=POSITIVE_STATUS)
+    _source_and_contract(tmp_path, candidate_id)
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    _source_files(tmp_path, candidate_id, receipt)
+    _executor_contract(tmp_path, receipt)
+
+    card_path = tmp_path / "derive" / "cards" / f"{candidate_id}.json"
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card["formula"] = "tampered"
+    _write(card_path, card)
+    with pytest.raises(RuntimeError, match="derivation card changed"):
+        _source_files(tmp_path, candidate_id, receipt)
+
+    contract_path = (
+        tmp_path / "operations" / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}.json"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract["target_data_epochs"] = 199
+    _write(contract_path, contract)
+    with pytest.raises(RuntimeError, match="executor contract mismatch"):
+        _executor_contract(tmp_path, receipt)
+
+
 def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     tmp_path: Path,
 ) -> None:
     candidate_id = "BASE"
     _receipt(tmp_path, candidate_id, -0.1, status=NEGATIVE_STATUS)
     _source_and_contract(tmp_path, candidate_id)
+    proposal_id = "BASE-PROPOSAL"
+    observable_id = "BASE-OBSERVABLE"
+    _receipt(tmp_path, proposal_id, -0.2, status=NEGATIVE_STATUS)
+    _receipt(tmp_path, observable_id, 0.0, status=NEGATIVE_STATUS)
     final = tmp_path / "final"
     _write(final / "CANDIDATE.json", {
         "candidate_id": candidate_id,
@@ -199,10 +298,15 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     )
     selection_path = tmp_path / "operations" / FINAL_SELECTION
     ablation_path = tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+    roles = {
+        "proposal_only": _role_row(tmp_path, proposal_id),
+        "observable_only": _role_row(tmp_path, observable_id),
+        "projected_or_full": _role_row(tmp_path, candidate_id),
+    }
     _write(ablation_path, {
         "schema": "final-unsb-route1-winner-ablation-adjudication-v1",
         "status": "COMPLETE_NO_SELECTION_CHANGE",
-        "roles": {"projected_or_full": {"candidate_id": candidate_id}},
+        "roles": roles,
         "paired_metrics_used_for_training_or_control": False,
         "confirmation20_opened": False,
     })
@@ -217,7 +321,7 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
         "post_ablation_selection": selection,
         "winner_ablation_adjudication_path": str(ablation_path),
         "winner_ablation_adjudication_sha256": file_sha256(ablation_path),
-        "winner_ablation_evidence": {"projected_or_full": "evidence"},
+        "winner_ablation_evidence": roles,
         "paired_metrics_used_for_training_or_control": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -228,6 +332,24 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
     candidate = json.loads((final / "CANDIDATE.json").read_text(encoding="utf-8"))
     assert candidate["schema"] == CANDIDATE_SCHEMA
     assert candidate["candidate_id"] == candidate_id
+    assert candidate["selected_fixed_checkpoint"] == {
+        "data_epoch": 200, "updates": 30000, "best_checkpoint_selection": False,
+    }
+    assert candidate["absolute_relative_domain_trajectory"][-1]["data_epoch"] == 200
+    assert set(candidate["ablation_evidence"]["experimental_results"]) == {
+        "proposal_only", "observable_only", "projected_or_full",
+    }
+    assert candidate["conclusion_boundaries"]["proxy_distortion"][
+        "cross_host_delta_merge"
+    ] is False
+    assert "python -m operations.local_route1_candidate_executor" in candidate[
+        "reproduction"
+    ]["seed2026_e200"]
     assert (final / "pre_frontier_delivery" / "CANDIDATE.json").is_file()
     assert len(json.loads((final / "ALTERNATES.json").read_text())["alternates"]) == 2
+    results = json.loads((final / "RESULTS.json").read_text(encoding="utf-8"))
+    assert results["host_separated_complete_frontier"]["cross_host_deltas_merged"] is False
+    report = (final / "FINAL_ROUTE1_REPORT.md").read_text(encoding="utf-8")
+    for heading in ("## 科学结论", "## 工程失败与科学结果的边界", "## 代理失真边界", "## 尚未验证"):
+        assert heading in report
     assert materialize_frontier_final_delivery(tmp_path) == pointer
