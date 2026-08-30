@@ -19,7 +19,8 @@
   "fix": {
     "observable_identity_adjudication_commit": "f05f6185bf2a4aad2372ed192718b3b11c14b7fe",
     "idempotent_completed_adjudication_resume_commit": "052f16eedef4d252cd60f26b17e388827952b638",
-    "pytest": "232 passed",
+    "scientific_gate_first_ranking_commit": "c0a0cb2a0fdb4e59582d59c084ddfb2a5229187f",
+    "pytest": "233 passed",
     "compileall": "pass",
     "git_diff_check": "pass"
   },
@@ -28,8 +29,8 @@
     "recovery_worktree_commit": "052f16eedef4d252cd60f26b17e388827952b638",
     "winner_ablation_successor_status": "WINNER_ABLATIONS_AND_FINAL_DELIVERY_COMPLETE",
     "resumed_from_complete_adjudication": true,
-    "winner_ablation_adjudication_sha256": "6cf2b5368a86fe8ba87d7bcbcdcc7937f54808989cc672a72ea58a03d7e0c3ed",
-    "pre_frontier_candidate_sha256": "304d41c4e1ccd196407d03034ec47b5f8ccf0c7844286df590269c7a031fca6b",
+    "winner_ablation_adjudication_sha256": "bc03762011269c7fd6795c98b51a73f95573e2006df5a2b6cedb80c96b5888cf",
+    "pre_frontier_candidate_sha256": "62c7109b5dae5fcc633bfc093c752eba2768dabaf4e58f97233cd7bcdc63469e",
     "frontier_cross_host_successor_pid": 1484199,
     "frontier_winner_ablation_successor_pid": 1484200,
     "frontier_final_successor_pid": 1484201,
@@ -60,8 +61,12 @@
       "late_mean_macro_ssim_delta": 0.017010403448154115,
       "late_mean_macro_lpips_delta": -0.014978799513644614
     },
-    "adjudication_status": "COMPLETE_NO_SELECTION_CHANGE",
-    "mechanistic_reading": "The native-measure replicated G/F proposal carries sustained e200 benefit; observer compute is exact native identity, while the projected/full operator improves late-three mean but loses its terminal margin."
+    "adjudication_status": "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION",
+    "proposal_only_strict_gate_pass": true,
+    "projected_or_full_strict_gate_pass": false,
+    "selected_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "selection_policy": "strict sustained-e200 gate before within-tier ranking",
+    "mechanistic_reading": "The native-measure replicated G/F proposal carries sustained e200 benefit and is the current strict-pass seed2026 development candidate; observer compute is exact native identity, while the projected/full operator improves late-three mean but loses its terminal margin."
   },
   "frontier_policy": {
     "canonical_primary_is_a_delivery_requirement_not_an_early_pruning_rule": true,
