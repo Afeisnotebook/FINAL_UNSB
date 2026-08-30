@@ -23,6 +23,10 @@ except ModuleNotFoundError:  # direct script execution from operations/
     import local_route1_candidate_executor as support  # type: ignore[no-redef]
 
 from research.local_route1.generation1_adjudication import adjudicate_generation1
+from research.local_route1.candidate_defect_audit import (
+    adjudicate_revision_need,
+    audit_candidate_defect,
+)
 from research.local_route1.final_delivery import materialize_final_delivery
 from research.local_route1.seed_validation import summarize_multi_seed_validation
 
@@ -45,6 +49,7 @@ def _source_paths(repo: Path) -> tuple[Path, ...]:
         "operations/local_route1_seed_executor.py",
         "operations/local_route1_candidate_executor.py",
         "research/local_route1/generation1_adjudication.py",
+        "research/local_route1/candidate_defect_audit.py",
         "research/local_route1/candidate_runner.py",
         "research/local_route1/final_delivery.py",
         "research/local_route1/seed_validation.py",
@@ -259,12 +264,39 @@ class Generation1Successor:
             selected_candidate_id=adjudication.get("selected_candidate_id"),
         )
         if adjudication.get("status") != "SEED2026_WINNER_READY_FOR_FROZEN_SEED2027":
-            self.state(
-                "NO_NUMERIC_GATE_WINNER_CAUSAL_REVISION_REQUIRED",
-                adjudication_status=adjudication.get("status"),
-                selected_fallback=adjudication.get("selected_candidate_id"),
-                automatic_revision_started=False,
+            for candidate_id in self.contract["candidate_ids"]:
+                self.state(
+                    "TARGET_BLIND_E200_DEFECT_AUDIT_RUNNING",
+                    candidate_id=candidate_id,
+                    automatic_revision_started=False,
+                )
+                audit_candidate_defect(
+                    output_root=self.run_root, candidate_id=candidate_id,
+                    train_view=Path(self.contract["train_view"]),
+                    manifest_path=Path(self.contract["manifest"]),
+                    gpu=0, samples=16,
+                )
+            revision = adjudicate_revision_need(
+                self.run_root, list(self.contract["candidate_ids"]),
             )
+            if revision["status"] == "NO_REVISION_APPLICABLE_FINAL_FALLBACK":
+                delivery = materialize_final_delivery(self.run_root)
+                self.state(
+                    "FINAL_NEGATIVE_FALLBACK_MATERIALIZED",
+                    selected_fallback=revision["selected_candidate_id"],
+                    final_candidate_status=delivery["status"],
+                    final_candidate_path=str(self.run_root / "final" / "CANDIDATE.json"),
+                    automatic_revision_started=False,
+                )
+            else:
+                self.state(
+                    "TARGET_BLIND_DEFECT_REDUCED_REVISION_DERIVATION_REQUIRED",
+                    revision_applicable_candidate_ids=revision[
+                        "revision_applicable_candidate_ids"
+                    ],
+                    automatic_revision_started=False,
+                    fixed_window_or_handoff_started=False,
+                )
             return 0
         winner = str(adjudication["selected_candidate_id"])
         if adjudication.get("winner_frozen_for_seed2027") is not True:
