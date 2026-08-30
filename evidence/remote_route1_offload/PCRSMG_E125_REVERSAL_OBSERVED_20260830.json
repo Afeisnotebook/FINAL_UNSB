@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-fixed-milestone-observation-v1",
+  "recorded": "2026-08-30T19:46:11+08:00",
+  "status": "REVERSAL_OBSERVED_E200_ADJUDICATION_PENDING",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "host_role": "remote4090_authoritative_same_runtime_ranking",
+  "seed": 2026,
+  "batch_size": 1,
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "fixed_milestones": {
+    "e100": {
+      "updates": 15000,
+      "macro_psnr_delta_db": 1.8840591200428296,
+      "positive_domains": 4,
+      "worst_domain_delta_db": -0.9943076716990173,
+      "macro_ssim_delta": 0.05154684693330808,
+      "macro_lpips_delta": -0.02108466713911017,
+      "guardrails_pass": true
+    },
+    "e125": {
+      "updates": 18750,
+      "macro_psnr": 16.764529598200344,
+      "macro_psnr_delta_db": -0.09957528568968144,
+      "positive_domains": 3,
+      "worst_domain_delta_db": -0.5824343572264254,
+      "macro_ssim_delta": -0.006818908878735153,
+      "macro_lpips_delta": 0.003054492033663203,
+      "guardrails_pass": false,
+      "domain_psnr_delta_db": {
+        "FoggyCityscapes": -0.5824343572264254,
+        "LowLightTrafficData": 0.06604116767066692,
+        "RSCityscapes": -0.495668273314255,
+        "RainCityscapes": -0.45271010168685066,
+        "RainDS-syn": 0.7376325328065221,
+        "SnowTrafficData": 0.12968731761226238
+      }
+    }
+  },
+  "trajectory_interpretation": "A strong e100 positive window reversed by the preregistered e125 milestone. This is evidence that the full e200 trajectory is necessary; it is not an early-stop or algorithm-change signal.",
+  "scientific_action": "continue_the_frozen_candidate_unchanged_to_e200",
+  "metric_sha256": "ca92e75d406a8d74e4cfa743be6c0c3309d24897531060028f1aa0d704131013",
+  "checkpoint_sha256": "c055afe8e27f01ec5f06b00c8ef76fbb96597f9259581f9867ea7c5d9bc1dafe",
+  "checkpoint_sidecar_sha256": "9dc6e8fa4dc7cd177cc05cae8ae2a26eeb4cd34ee2c105d15a8345d44b713409",
+  "scientific_state_sha256": "5b7927bc222d2b89a19e770b89675bc56f5d7518fdbdebf0a5e5462e815b517a",
+  "best_checkpoint_selection": false,
+  "paired_metric_changed_algorithm": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

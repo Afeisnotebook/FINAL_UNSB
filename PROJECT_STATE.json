@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T19:21:36+08:00",
+  "state_snapshot_time": "2026-08-30T19:46:11+08:00",
   "phase": "GENERATION1_SINGLE_SEED_BVCP_AND_PCRSMG_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "23dc0c80f70befabd45d29ad16a89edd0979fc5e",
+  "development_head_at_state_write": "c7e3e95224005ac2ecb010acaf0a838fd3f2a1ed",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -239,7 +239,7 @@
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {
         "method_name": "PC-RSMG",
         "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 103,
+        "latest_observed_data_epoch": 126,
         "target_data_epoch": 200,
         "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
         "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
@@ -247,7 +247,14 @@
         "first_resume_chunk_evidence": "evidence/remote_route1_offload/PCRSMG_FIRST_RESUME_CHUNK_ACCEPTED_20260830.json",
         "mathematical_implementation_audit": "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
         "e60_descriptive_only_macro_psnr_delta_db": 2.215014580016204,
-        "e60_descriptive_only_positive_domains": 6
+        "e60_descriptive_only_positive_domains": 6,
+        "e100_descriptive_only_macro_psnr_delta_db": 1.8840591200428296,
+        "e100_descriptive_only_positive_domains": 4,
+        "e125_descriptive_only_macro_psnr_delta_db": -0.09957528568968144,
+        "e125_descriptive_only_positive_domains": 3,
+        "e125_guardrails_pass": false,
+        "trajectory_status": "REVERSAL_OBSERVED_E200_ADJUDICATION_PENDING",
+        "e125_evidence": "evidence/remote_route1_offload/PCRSMG_E125_REVERSAL_OBSERVED_20260830.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
@@ -323,9 +330,9 @@
     },
     "latest_observed_dt_data_epoch": 200,
     "generation1_candidates": {
-      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 163, "target_data_epoch": 200},
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 176, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
-      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 44, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
+      "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 51, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
