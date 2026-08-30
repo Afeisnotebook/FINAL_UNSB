@@ -1,0 +1,142 @@
+{
+  "schema": "final-unsb-route1-cross-runtime-long-horizon-divergence-v1",
+  "recorded_at": "2026-08-30T10:56:00+08:00",
+  "status": "OBSERVED_NOT_CAUSALLY_ATTRIBUTED",
+  "question": "Do matched seed-2026 anchors remain numerically and scientifically equivalent across the 4090 and 5090 runtimes?",
+  "shared_scientific_identity": {
+    "training_git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
+    "protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "seed": 2026,
+    "batch_size": 1,
+    "steps_per_data_epoch": 150,
+    "data_epochs": 200,
+    "hj_probe_config_sha256": "2727a690d19feaf756b2c66870f3642c6e2a98e40315d74dfc2602a321e2189a",
+    "hnek_probe_config_sha256": "f0f0473023750c5273457e7b1ddde799de8ab5989afb2b4ea133962858c06163",
+    "confirmation20_opened": false
+  },
+  "runtime_identity": {
+    "remote4090": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "compute_capability": "8.9",
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "cuda_build": "12.1",
+      "cudnn": 90100,
+      "driver": "535.183.01",
+      "torch_deterministic_algorithms": false,
+      "cudnn_deterministic": false,
+      "cudnn_benchmark": false
+    },
+    "remote5090": {
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "compute_capability": "12.0",
+      "python": "3.11.16",
+      "torch": "2.8.0+cu128",
+      "cuda_build": "12.8",
+      "cudnn": 91002,
+      "driver": "595.71.05",
+      "torch_deterministic_algorithms": false,
+      "cudnn_deterministic": false,
+      "cudnn_benchmark": false
+    }
+  },
+  "matched_results_db": {
+    "remote4090": {
+      "hj": {
+        "e150": 0.7656491173405859,
+        "e175": 1.023002936387205,
+        "e200": 0.15934194443363184,
+        "late_three_mean": 0.6493313327204743,
+        "e200_positive_domains": 4,
+        "e200_worst_domain": -0.44175123759177026,
+        "e200_per_domain": {
+          "FoggyCityscapes": 0.908228886995289,
+          "LowLightTrafficData": 0.2354906236602936,
+          "RSCityscapes": 0.2755359077717685,
+          "RainCityscapes": 0.0629246610171279,
+          "RainDS-syn": -0.0843771752509177,
+          "SnowTrafficData": -0.44175123759177026
+        }
+      },
+      "hnek": {
+        "e150": 0.8424750972136676,
+        "e175": 1.151311237697133,
+        "e200": 0.4248992414773231,
+        "late_three_mean": 0.806228525462708,
+        "e200_positive_domains": 5,
+        "e200_worst_domain": -0.31088951770593276,
+        "e200_per_domain": {
+          "FoggyCityscapes": 0.8775299604007465,
+          "LowLightTrafficData": -0.31088951770593276,
+          "RSCityscapes": 0.5787241354932782,
+          "RainCityscapes": 0.9218867510935489,
+          "RainDS-syn": 0.4110919297182072,
+          "SnowTrafficData": 0.07105218986409056
+        }
+      }
+    },
+    "remote5090": {
+      "hj": {
+        "e150": 0.9829742267871344,
+        "e175": 0.4687543459468815,
+        "e200": -0.5823944524550777,
+        "late_three_mean": 0.2897780400929794,
+        "e200_positive_domains": 1,
+        "e200_worst_domain": -1.1215132815267186,
+        "e200_per_domain": {
+          "FoggyCityscapes": 0.17442017290242262,
+          "LowLightTrafficData": -1.1215132815267186,
+          "RSCityscapes": -0.6941348014590503,
+          "RainCityscapes": -0.36603109277749724,
+          "RainDS-syn": -1.118225233484747,
+          "SnowTrafficData": -0.36888247838487587
+        }
+      },
+      "hnek": {
+        "e150": 1.744876088425796,
+        "e175": 0.49396766818815835,
+        "e200": -0.41417834941447335,
+        "late_three_mean": 0.6082218023998269,
+        "e200_positive_domains": 3,
+        "e200_worst_domain": -1.8690490336374843,
+        "e200_per_domain": {
+          "FoggyCityscapes": 1.1723524921633732,
+          "LowLightTrafficData": -0.7530488275329112,
+          "RSCityscapes": -1.8690490336374843,
+          "RainCityscapes": -1.2167385206361025,
+          "RainDS-syn": 0.012118291144052051,
+          "SnowTrafficData": 0.16929550201223265
+        }
+      }
+    }
+  },
+  "terminal_scientific_state_sha256": {
+    "remote4090": {
+      "plain": "8c3ec915600cf2553ae65939ecc786df582c96c41e5eaabf4ae3b2d252a6305d",
+      "hj": "2fd880da051023423a25abf42dffabb3738c8ccd4bdfe7aeef9c6b8c3c424042",
+      "hnek": "361362ca3cc84ede0249e07a1fde87a30bda34e51f109b0f000089b52cb12e5e"
+    },
+    "remote5090": {
+      "plain": "68f901cc261bf2091cf5e1a94abfe115210cb8e5cb92a0185c56e55668e6b037",
+      "hj": "786207fd825abe0cd7cbb4db1c26b5706654d433a7a6aaf9024ab571268862c3",
+      "hnek": "03f5105ad8efc78116d839bcf5ac128bd1ca34d658498a7f2851e69f14f84ba3"
+    }
+  },
+  "adjudication": {
+    "runtime_equivalent": false,
+    "protocol_or_lineage_mismatch_found": false,
+    "pure_hardware_causation_proven": false,
+    "same_seed_implies_cross_runtime_state_identity": false,
+    "remote4090_primary_causal_matrix_changed": false,
+    "remote5090_role": "supplemental independent replication; never merged into the 4090 atlas",
+    "mechanism_falsified": false,
+    "interpretation": "The same registered scientific protocol produced positive late-three means on both hosts, but terminal signs differed. Because the Python, PyTorch, CUDA, cuDNN, driver, and GPU architectures differ and deterministic algorithms were not globally enabled, the divergence cannot be attributed to one factor. It is evidence that terminal gain is sensitive to long-horizon numerical trajectory, not evidence that HJ/HNEK semantics differ or that their parent mechanisms are dead."
+  },
+  "route1_implication": {
+    "candidate_construction_control": "None. Paired metrics remain post-trajectory labels and are not observable/controller inputs.",
+    "candidate_gate_change_now": "None before the 4090 474/140 matrix is frozen.",
+    "post_freeze_requirement": "Report matched e200 results per frozen runtime instead of treating seed=2026 as cross-runtime replication. Use the ongoing local run and 5090 replication as stability evidence after the algorithm formula is frozen.",
+    "forbidden_inference": "Do not merge host atlases, retune a candidate to 5090 terminal PSNR, or relabel a current implementation result as a parent-mechanism falsification."
+  }
+}
