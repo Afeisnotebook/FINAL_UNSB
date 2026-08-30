@@ -146,6 +146,7 @@
     "target_blind_signal_coverage_evidence": "evidence/remote_route1_offload/TARGET_BLIND_SIGNAL_COVERAGE_GATE.json",
     "unsb_internal_state_signal_commit": "cff1d49",
     "unsb_internal_state_signal_evidence": "evidence/remote_route1_offload/UNSB_INTERNAL_STATE_SIGNAL_GATE.json",
+    "real_row_partial_analyzer_smoke": "evidence/remote_route1_offload/REAL_ROW_ANALYZER_PARTIAL_SMOKE.json",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false

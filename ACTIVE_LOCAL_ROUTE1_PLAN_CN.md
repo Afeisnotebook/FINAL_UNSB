@@ -100,6 +100,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   梯度尺度、Adam moment夹角、D/G和E/G平衡。只有这些target-blind量先恶化且冻结的
   200-step反事实为负时才形成父失败机理；endpoint构造硬禁止改变endpoint law，game构造
   仍须通过SEARCH-005等价性门，不能把失败的AEB、PCOA或NPOOA换名重跑。
+- 当前分析器已在4090独立目录用真实raw快照烟测：86/432 reversal rows、17/128 variance
+  rows时严格返回`PARTIAL_CAUSAL_AUDIT`和退出码7，ranked mechanism为0，screen保持blocked，
+  stderr为空。它没有触碰primary atlas，证明新增后处理在真实schema上兼容且仍fail-closed。
 - DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
   forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
   路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。
