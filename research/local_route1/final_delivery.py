@@ -467,6 +467,14 @@ def materialize_final_delivery(output_root: Path) -> dict[str, Any]:
         "coordinate_change": card["coordinate_change"],
         "endpoint_law_change": card["endpoint_law_change"],
         "algorithm_hyperparameters": card["algorithm_hyperparameters"],
+        "ablation_definitions": card["ablation_definitions"],
+        "parent_evidence": card["parent_evidence"],
+        "causal_matrix_sha256": card["causal_matrix_sha256"],
+        "reversal_atlas_sha256": card["reversal_atlas_sha256"],
+        "executable_configuration": {
+            "model": implementation["model"],
+            "method": implementation["method"],
+        },
         "complexity": {
             "compute": card["compute_cost"],
             "memory": card["memory_cost"],

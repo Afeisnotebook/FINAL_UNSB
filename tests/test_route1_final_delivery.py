@@ -76,10 +76,19 @@ def test_final_delivery_materializes_complete_positive_path(monkeypatch, tmp_pat
             "objective_change": False, "estimator_change": True,
             "coordinate_change": False, "endpoint_law_change": False,
             "algorithm_hyperparameters": {"fixed": 1},
+            "ablation_definitions": {
+                "proposal_only": "proposal", "observable_only": "observe",
+                "projected_or_full": "full",
+            },
+            "parent_evidence": {"failure_type": "test"},
+            "causal_matrix_sha256": "matrix",
+            "reversal_atlas_sha256": "atlas",
             "compute_cost": "two views", "memory_cost": "one accumulator",
             "recovery_state_cost": "RNG",
         })
-        _write(implementation, {"source_files": []})
+        _write(implementation, {
+            "source_files": [], "model": "test_model", "method": {"fixed": 1},
+        })
         registrations[candidate_id] = SimpleNamespace(
             algorithm_fingerprint=algorithms[candidate_id],
             candidate_fingerprint=f"execution-{candidate_id}",
@@ -129,6 +138,7 @@ def test_final_delivery_materializes_complete_positive_path(monkeypatch, tmp_pat
     assert result["status"] == "FINAL_CURRENT_BEST_ROUTE1_CANDIDATE"
     assert result["classification"] == "route1_sustained_local"
     assert result["candidate_id"] == ids[0]
+    assert result["executable_configuration"]["model"] == "test_model"
     assert result["selected_fixed_checkpoint"] == {
         "data_epoch": 200, "best_checkpoint_selection": False,
     }
