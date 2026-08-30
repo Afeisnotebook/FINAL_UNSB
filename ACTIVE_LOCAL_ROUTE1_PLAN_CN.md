@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`FINAL_474_140_CAUSAL_MATRIX_FROZEN / BVCP_AND_RSMG_PASS_GATES / MATCHED_E200_RUNNING`
+状态：`FINAL_474_140_CAUSAL_MATRIX_FROZEN / BVCP_AND_PCRSMG_PASS_GATES / MATCHED_E200_RUNNING`
 日期：2026-08-30
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -33,26 +33,29 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   `LONG_CAUSAL_MATRIX.json`状态为`COMPLETE_CAUSAL_AUDIT`。matrix SHA256为
   `dc54569a...e0d3`，atlas SHA256为`965faf9a...d2e1`。该阶段不再是运行中。
 - 证据驱动的Generation-1只冻结两个具有充分构造权限的算法，不为填满名额强造第三个：
-  BVCP（Bridge-Velocity Chord Projection）修复rollout分布移动速度；RSMG
-  （Replicated Stochastic-Measure Gradient）以条件无偏的双随机视图梯度平均降低
-  原生随机场方差。DT/HJ/HNEK仍是父证据探针，不是候选名单。
+  BVCP（Bridge-Velocity Chord Projection）修复rollout分布移动速度；PC-RSMG
+  （Player-Conditional Replicated Stochastic-Measure Gradient）在D/E提交前后分别
+  构造条件正确的双随机视图梯度估计。最初共享pre-D bundle的RSMG已经判为
+  `engineering_invalid`，没有科学结论。DT/HJ/HNEK仍是父证据探针，不是候选名单。
 - 两个算法均已通过数学不变量、zero-intervention逐位身份、active resume、e20/e100/e200
   跨状态分支、父状态隔离和400-update工程门。门禁冻结证据见
   `evidence/remote_route1_offload/GENERATION1_GATE_FREEZE_20260830.json`。
-- 4090正在从共同e0并行运行BVCP与RSMG的权威small25/e200轨迹；5090正在运行相同算法的
+- 4090正在从共同e0并行运行BVCP与PC-RSMG的权威small25/e200轨迹；5090正在运行相同算法的
   独立跨运行时复核。两处均固定batch1、seed2026、30000 updates、最多5 data epochs一个
   可恢复chunk，中期paired指标不控制训练。5090与4090运行时不等价，因此5090只作稳定性
   证据，绝不与4090 plain混算或并入4090排名。
-- 当前早期指标仅作健康检查：4090 BVCP e1/e5/e10约为
-  `+0.241/+0.167/+0.307 dB`，RSMG e1/e5约为`+0.367/+0.259 dB`。这些结果不能晋级、
-  不能早停；科学裁决仍固定为e150/e175/e200。
-- 本地1660继续原HNEK锚点，当前约e80；4090、5090两张卡的独立batch1进程均达到约
+- 中间paired质量不用于晋级、早停、调度或修改算法；科学裁决固定为完整轨迹后的
+  e150/e175/e200。4090权威轨迹当前约为BVCP e175、PC-RSMG e26；5090独立跨运行时
+  轨迹约为BVCP e109、PC-RSMG e16。
+- 本地1660继续原HNEK锚点，当前约e161；4090、5090两张卡的独立batch1进程均达到约
   98--99%利用率。显存空闲不是吞吐证据，增大batch会改变科学协议，故只使用独立进程
   并行而不改变batch。
 - 下一硬门：两候选完整e200。若某候选通过晚三点、e200、域覆盖、最差域、SSIM/LPIPS、
   绝对轨迹和plain-collapse门，则立即冻结公式后运行seed2027；若当前实现失败，只有在
   target-blind缺陷量确实下降但长期收益仍反转时，才允许一次因果修订。不得转成窗口、
   handoff、退火或paired控制。
+- source-bound正向排名、全负缺陷审计以及最终赢家proposal-only/observable-only/full
+  e200消融均已由相互独立的持久后继进程等待触发；训练终止后不会依赖Codex会话存活。
 
 ## 历史执行快照（2026-08-30 08:04，以下进度数字已由上节取代）
 
