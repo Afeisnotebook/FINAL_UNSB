@@ -28,6 +28,9 @@ except ModuleNotFoundError:  # direct execution from operations/
 from operations.local_route1_winner_ablation_adjudicate import (
     SCHEMA as ABLATION_SCHEMA,
 )
+from research.local_route1.ablation_challenger_selection import (
+    adjudicate_ablation_challenger_selection,
+)
 
 
 SCHEMA = "final-unsb-route1-ablation-challenger-successor-contract-v1"
@@ -407,8 +410,11 @@ class AblationChallengerSuccessor:
             aggregate = self.seed_summary(workspace, challenger)
         if aggregate.get("status") not in COMPLETE_SEED_STATUSES:
             raise RuntimeError("ablation challenger seed adjudication did not complete")
+        selection = adjudicate_ablation_challenger_selection(
+            self.run_root, workspace,
+        )
         self.state(
-            "ABLATION_CHALLENGER_MULTI_SEED_COMPLETE_SELECTION_STILL_FROZEN",
+            "ABLATION_CHALLENGER_MULTI_SEED_AND_SELECTION_COMPLETE",
             challenger_candidate_id=challenger,
             multi_seed_status=aggregate["status"],
             classification=aggregate.get("classification"),
@@ -418,7 +424,10 @@ class AblationChallengerSuccessor:
                 workspace / "CHALLENGER_SEED_WORKSPACE.json"
             ),
             source_authority_sha256=workspace_record["source_sha256"],
-            final_selection_adjudication_required=True,
+            selection_status=selection["status"],
+            selected_candidate_id=selection["selected_candidate_id"],
+            final_selection_adjudication_required=False,
+            final_delivery_materialization_required=True,
         )
         self.event(
             "ABLATION_CHALLENGER_SUCCESSOR_COMPLETE", candidate_id=challenger,
