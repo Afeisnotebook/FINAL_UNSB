@@ -1,12 +1,12 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T08:10:00+08:00",
-  "goal_status": "IN_PROGRESS",
-  "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors and short signals are not completion.",
+  "updated": "2026-08-30T15:20:46+08:00",
+  "goal_status": "IN_PROGRESS_GENERATION1_MATCHED_E200",
+  "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
     "original_local_only_text": true,
     "later_user_authorized_4090_and_5090": true,
-    "effective_rule": "Remote work is allowed only as host-matched route-1 execution. Cross-host method-minus-plain, full-dataset expansion, confirmation20, and route-2 control remain forbidden."
+    "effective_rule": "Remote work is allowed only as host-matched route-1 execution. Cross-host method-minus-plain, full-dataset expansion, confirmation20, route-2 handoff and paired control remain forbidden."
   },
   "requirements": [
     {
@@ -17,118 +17,115 @@
         "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
         "evidence/remote_route1_offload/REMOTE4090_PREFLIGHT_AND_START.json",
         "evidence/remote_route1_offload/REMOTE5090_PREFLIGHT_AND_START.json",
-        "evidence/remote_route1_offload/REMOTE4090_HNEK_AUTOCOMPLETE_ARMED.json",
-        "evidence/remote_route1_offload/REMOTE5090_HNEK_AUTOIMPORT_ARMED.json",
-        "evidence/remote_route1_offload/AUTO_MILESTONE_VERIFIERS_ARMED.json"
+        "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json",
+        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json"
       ],
-      "boundary": "Durability is proven for anchors; candidate executors must still pass their own source-bound gate before use."
+      "boundary": "Anchors, both candidate executors and the post-e200 successor use source-bound durable supervisors with five-data-epoch chunks, heartbeats, exact resume and bounded retries."
     },
     {
       "id": 2,
       "requirement": "Proxy is calibrated, or proxy distortion has causal proof and user adjudication.",
       "status": "PROVEN_CALIBRATED_REMOTE4090",
-      "evidence": [
-        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"
-      ],
-      "boundary": "Both HJ and HNEK passed the registered late-three and domain-coverage rule on the same 4090 plain trajectory. This calibrates the proxy; it does not select either probe as the final algorithm."
+      "evidence": ["evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json"],
+      "boundary": "HJ and HNEK both passed the registered late-three and domain-coverage rule on the same 4090 plain trajectory. They remain probes, not protected final candidates."
     },
     {
       "id": 3,
       "requirement": "DT/HJ/HNEK and other primary probes yield usable long causal evidence.",
-      "status": "ALL_PRIMARY_LONG_PROBES_E200_COMPLETE_CAUSAL_ROWS_RUNNING",
+      "status": "PROVEN_COMPLETE",
       "evidence": [
         "evidence/lineage/DT_LINEAGE.json",
         "evidence/lineage/HJ_LINEAGE.json",
         "evidence/lineage/HNEK_LINEAGE.json",
         "evidence/lineage/MECHANISM_OBJECT_MAP.json",
-        "evidence/local_route1_progress/HJ_E1_INACTIVE_CORE_IDENTITY.json",
-        "evidence/local_route1_progress/HJ_E10_MILESTONE_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE_PARALLEL_PROBES_START.json",
         "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
-        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json"
+        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
+        "evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json"
       ],
-      "missing": ["complete verified 432-row reversal atlas and 128-row variance atlas"]
+      "boundary": "The primary 4090 graph contains complete long trajectories and full-state counterfactual evidence for all three historical mechanisms; this supports derivation but does not prove any old implementation is the answer."
     },
     {
       "id": 4,
       "requirement": "Real LONG_REVERSAL_ATLAS and LONG_CAUSAL_MATRIX are complete.",
-      "status": "PRIMARY4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING",
-      "evidence": [
-        "evidence/remote_route1_offload/REMOTE5090_AUDITOR_START.json",
-        "evidence/local_route1_progress/TERMINAL_AUDIT_LR_BOUNDARY.json",
-        "evidence/remote_route1_offload/TERMINAL_AUDITOR_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/PROXY_GATED_AUDITORS_ARMED.json",
-        "evidence/remote_route1_offload/DYNAMIC_AUDIT_SELECTION_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/PROXY_GATED_AUDIT_SCOPE_REDEPLOYMENT.json",
-        "evidence/remote_route1_offload/TERMINAL_VERIFICATION_GATED_AUDITORS_ARMED.json",
-        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
-        "evidence/remote_route1_offload/REAL_ROW_ANALYZER_PARTIAL_SMOKE.json"
-      ],
-      "boundary": "The primary atlas is producing valid immutable rows and current analysis fails closed while partial. A partial atlas is still not authority for formulas."
+      "status": "PROVEN_COMPLETE_FROZEN",
+      "evidence": ["evidence/remote_route1_offload/FINAL_474_140_CAUSAL_FREEZE_20260830.json"],
+      "authority": {
+        "reversal_rows": 474,
+        "sampling_variance_rows": 140,
+        "long_reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
+        "long_causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3"
+      }
     },
     {
       "id": 5,
       "requirement": "At least one new algorithm has full mathematics, implementation, and matched e200 result.",
-      "status": "NOT_YET_DERIVED_EXECUTABLE_CONTRACT_READY",
+      "status": "MATHEMATICS_AND_IMPLEMENTATION_PROVEN_E200_RUNNING",
       "evidence": [
-        "decisions/DEC-20260830-ROUTE1-DERIVATION-CONTRACT.md",
-        "evidence/remote_route1_offload/DISCOVERY_RANKING_CONTRACT.json",
-        "evidence/remote_route1_offload/TARGET_BLIND_SIGNAL_COVERAGE_GATE.json",
-        "evidence/remote_route1_offload/UNSB_INTERNAL_STATE_SIGNAL_GATE.json"
+        "decisions/DEC-20260830-ROUTE1-GENERATION1-DERIVATION.md",
+        "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
+        "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json",
+        "evidence/remote_route1_offload/GENERATION1_GATE_FREEZE_20260830.json",
+        "evidence/remote_route1_offload/GENERATION1_E200_EXECUTION_START_20260830.json"
       ],
-      "gate": "Algorithm formulas may be created only after immutable causal-matrix evidence exists."
+      "current": {
+        "authoritative_host": "remote4090",
+        "BVCP_data_epoch": 44,
+        "RSMG_data_epoch": 36,
+        "target_data_epoch": 200,
+        "scientific_early_stop": false
+      },
+      "missing": ["both complete matched e200 trajectories and frozen post-e200 adjudication"]
     },
     {
       "id": 6,
       "requirement": "The allowed one causal revision is completed or evidence shows it is inapplicable.",
-      "status": "EXECUTABLE_ONCE_ONLY_GATE_READY_NOT_REACHED",
-      "evidence": ["evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json"]
+      "status": "PENDING_COMPLETE_E200_OUTCOME",
+      "evidence": [
+        "evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json",
+        "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json"
+      ],
+      "rule": "A positive eligible winner makes revision inapplicable. A negative current implementation may revise once only after a target-blind defect measurement proves reduction and supplies a new causal failure reason."
     },
     {
       "id": 7,
       "requirement": "One CANDIDATE.json and two fallback/closed directions are delivered.",
       "status": "NOT_REACHED",
-      "evidence": []
+      "missing": ["complete e200 ranking", "required seed adjudication or causal revision", "final fail-closed materialization"]
     },
     {
       "id": 8,
       "requirement": "Per-domain trajectories, absolute/relative decomposition, complexity, risk, and reproduction commands are delivered.",
-      "status": "PARTIAL_LONG_PROBE_TRAJECTORIES",
+      "status": "CANDIDATE_TRAJECTORIES_RUNNING",
       "evidence": [
-        "evidence/local_route1_progress/PLAIN_E200_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE4090_PLAIN_E200_VERIFICATION.json",
-        "evidence/remote_route1_offload/REMOTE4090_PROXY_CALIBRATION_AND_HANDOFF_RECOVERY.json",
-        "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json"
+        "research/local_route1/derivation_cards/G1-01-ROLLOUT-DISTRIBUTION-SPEED.json",
+        "research/local_route1/derivation_cards/G1-02-SAMPLING-VARIANCE.json"
       ],
-      "missing": ["candidate trajectories", "candidate absolute/relative decomposition", "final reproduction commands"]
+      "missing": ["candidate e150/e175/e200 rows", "final ranking and reproduction command bound to the selected fingerprint"]
     },
     {
       "id": 9,
       "requirement": "Code, tests, compact evidence, and decisions are committed and pushed.",
       "status": "ONGOING_PASS",
       "evidence": [
-        "100 pytest tests passing at implementation commit d9c2505",
-        "evidence/remote_route1_offload/MECHANISM_EVIDENCE_BOUNDARY_GATE.json"
+        "130 pytest tests passed at successor commit 528dcca",
+        "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
+        "main pushed through 220ce21705f3ef716de430f692f7ab7edb07399d"
       ],
-      "boundary": "This must be rerun after every future scientific implementation and at final delivery."
+      "boundary": "Tests and repository cleanliness must be re-proven after final materialization."
     },
     {
       "id": 10,
       "requirement": "Final report separates scientific conclusions, engineering failures, proxy distortion, and untested hypotheses.",
       "status": "NOT_REACHED",
-      "evidence": []
+      "missing": ["complete candidate and seed/revision evidence"]
     }
   ],
   "current_accepted_scientific_boundary": {
-    "local_plain": "e200 accepted",
-    "local_hj": "running past e107; local same-host long replicate remains pending",
-    "remote4090_plain": "e200 accepted",
-    "remote4090_hj_hnek": "both e200 accepted; proxy CALIBRATED; HJ late-three +0.649 dB and HNEK +0.806 dB",
-    "remote4090_handoff": "missed pause race recovered without state mixing; partial canonical HNEK e1 is quarantined and verified independent HNEK e200 imported",
-    "remote5090_plain_hnek": "plain and HNEK e200 accepted; HJ is running past e85 and selected HNEK causal subgraph is running",
-    "dt": "remote4090 DT e200 accepted as positive_probe_not_candidate; finite-support tail did not preserve terminal benefit",
-    "causal_atlas": "primary4090 immutable audit running; last compact observation exceeded 90/432 reversal rows and 20/128 variance rows; final matrix remains blocked",
-    "new_algorithm": "not yet generated",
+    "local": "plain and HJ e200 accepted; HNEK at e97; local continuation is not the authoritative Generation-1 ranking",
+    "remote4090": "plain/HJ/HNEK/DT e200, proxy calibration and 474/140 matrix complete; BVCP e44 and RSMG e36 from common e0 are the authoritative candidate runs",
+    "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP e24 and RSMG e19 are active and must never be merged into the 4090 ranking",
+    "new_algorithms": "BVCP and RSMG have evidence-bound derivation cards, executable implementations, identity/unbiased gates and active full e200 trajectories",
+    "successor": "durable 4090 supervisor waits for both complete e200 trajectories and can freeze only a numeric-gate winner",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

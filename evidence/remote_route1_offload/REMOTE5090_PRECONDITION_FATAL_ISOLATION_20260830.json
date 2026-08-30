@@ -1,0 +1,24 @@
+{
+  "schema": "final-unsb-route1-remote5090-precondition-fatal-isolation-v1",
+  "observed_at": "2026-08-30T15:20:46+08:00",
+  "status": "STALE_PRECONDITION_FATALS_ISOLATED_ACTIVE_RUNS_HEALTHY",
+  "host": "remote5090",
+  "stale_fatal_time": "2026-08-30T14:30:07+08:00",
+  "stale_failure": "The first two executors exhausted three fast e0-to-e5 attempts because the separate candidate root lacked accepted proxy calibration; no model update was committed.",
+  "active_restart": {
+    "supervisor_pids": [63423, 63424],
+    "candidate_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+    "BVCP_data_epoch": 24,
+    "RSMG_data_epoch": 19,
+    "execution_state": "CANDIDATE_CHUNK_RUNNING",
+    "restart_supervisor_stderr_bytes": 0,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "action": "Move the two immutable old fatal records from the active operations root into operations/incidents/precondition_20260830T143007 so a future real fatal is unambiguous.",
+  "active_fatal_count_after_isolation": 0,
+  "scientific_state_changed_by_isolation": false,
+  "checkpoint_changed_by_isolation": false,
+  "candidate_process_restarted_by_isolation": false,
+  "role": "5090 remains supplemental cross-runtime evidence and is never merged into the authoritative 4090 ranking."
+}
