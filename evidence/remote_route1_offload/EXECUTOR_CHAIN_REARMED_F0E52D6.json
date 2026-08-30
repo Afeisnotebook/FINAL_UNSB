@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-route1-executor-chain-rearmed-v1",
+  "created": "2026-08-30T08:54:00+08:00",
+  "reason": "Waiting executors previously logged exceptions but could leave their state JSON stale. They were safely interrupted before any supplemental raw row or final reanalysis write, and restarted with atomic FAILED-state persistence.",
+  "scientific_primary_audit_interrupted": false,
+  "prior_runtime_snapshots_preserved": [
+    "HJ_REVERSAL_SUPPLEMENT_CONTRACT.pre_f0e52d6.json",
+    "HJ_REVERSAL_SUPPLEMENT_STATE.pre_f0e52d6.json",
+    "FINAL_REANALYSIS_CONTRACT.pre_f0e52d6.json",
+    "FINAL_REANALYSIS_STATE.pre_f0e52d6.json"
+  ],
+  "frozen_chain_worktree": "/home/yc/FINAL_UNSB_ROUTE1_CHAIN_f0e52d6",
+  "git_commit": "f0e52d68f0dd6095b2e6d4be4b5c53a6f9043b8a",
+  "supplement": {
+    "tmux_session": "FINAL_UNSB_HJ_REVERSAL_SUPPLEMENT",
+    "pid": 1338292,
+    "observed_state": "WAITING_FOR_PRIMARY_AUDIT",
+    "contract_sha256": "755122d5be2a3faeb4e51718ac5a62e13acb3bfa707aeca09d799276aeba1bca"
+  },
+  "final_reanalysis": {
+    "tmux_session": "FINAL_UNSB_FINAL_REANALYSIS",
+    "pid": 1338295,
+    "observed_state": "WAITING_FOR_HJ_REVERSAL_SUPPLEMENT",
+    "contract_sha256": "50caa9183435c7d4fa011f9e761666758c9ea223e723f62a27479b566cdf8204"
+  },
+  "failure_semantics": {
+    "state_on_exception": "FAILED",
+    "upstream_waiter_stops_on_failed_state": true,
+    "silent_stall_from_executor_exception": false
+  },
+  "access_guards": {
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_training_started": false
+  },
+  "verification": {
+    "pytest": "109 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
