@@ -321,9 +321,46 @@ def test_audit_queue_brackets_first_reversal_and_maximum_drawdown(tmp_path):
     jobs = {row["data_epoch"]: row for row in queue["jobs"]}
     assert "first_sign_reversal_left" in jobs[40]["selection_reasons"]
     assert "first_sign_reversal_right" in jobs[60]["selection_reasons"]
+    assert "first_sign_reversal_after" in jobs[80]["selection_reasons"]
     assert "maximum_benefit" in jobs[40]["selection_reasons"]
     assert "maximum_drawdown_peak" in jobs[40]["selection_reasons"]
     assert "maximum_drawdown_trough" in jobs[80]["selection_reasons"]
+
+
+def test_audit_queue_ignores_warmup_crossing_before_positive_to_negative_reversal(
+    tmp_path,
+):
+    evidence = tmp_path / "evidence"
+    evidence.mkdir()
+    trajectory = [
+        {"epoch": epoch, "macro_psnr_delta": value}
+        for epoch, value in (
+            (5, -0.1), (10, 0.2), (20, 0.1), (40, 0.5),
+            (60, -0.4), (80, 0.3), (100, 0.2), (150, 0.1),
+            (175, 0.1), (200, 0.1),
+        )
+    ]
+    (evidence / "ANCHOR_TRAJECTORIES.json").write_text(
+        __import__("json").dumps({
+            "summaries": [{"probe_id": "hj", "trajectory": trajectory}]
+        }),
+        encoding="utf-8",
+    )
+    for lane in ("plain", "hj"):
+        milestone = tmp_path / "anchors" / lane / "milestones"
+        milestone.mkdir(parents=True)
+        for row in trajectory:
+            (milestone / f"e{row['epoch']:03d}.pt").write_bytes(b"checkpoint")
+
+    queue = prepare_audit_queue(tmp_path)
+    jobs = {row["data_epoch"]: row for row in queue["jobs"]}
+    assert "first_positive_onset_left" in jobs[5]["selection_reasons"]
+    assert "first_positive_onset_right" in jobs[10]["selection_reasons"]
+    assert "first_sign_reversal_left" not in jobs[5]["selection_reasons"]
+    assert "first_sign_reversal_right" not in jobs[10]["selection_reasons"]
+    assert "first_sign_reversal_left" in jobs[40]["selection_reasons"]
+    assert "first_sign_reversal_right" in jobs[60]["selection_reasons"]
+    assert "first_sign_reversal_after" in jobs[80]["selection_reasons"]
 
 
 def test_uncalibrated_proxy_excludes_unrun_dt_without_calling_it_missing(tmp_path):

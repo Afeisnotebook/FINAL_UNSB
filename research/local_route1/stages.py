@@ -11,7 +11,7 @@ from .runtime import write_json
 
 
 def _dynamic_audit_epoch_reasons(trajectory: list[dict]) -> dict[int, list[str]]:
-    """Select the registered states that bracket the first reversal and worst drawdown.
+    """Bracket positive onset, first benefit loss and worst drawdown.
 
     The paired trajectory is used only after every anchor has finished.  It chooses
     states to *label* counterfactual evidence; none of these values is visible to a
@@ -25,10 +25,33 @@ def _dynamic_audit_epoch_reasons(trajectory: list[dict]) -> dict[int, list[str]]
         if reason not in bucket:
             bucket.append(reason)
 
+    # Preserve the first onset bracket as trajectory context, but never call
+    # it a reversal.  This also keeps an append-only queue stable when an older
+    # collector already measured the warm-up crossing.
     for previous, current in zip(ordered, ordered[1:]):
-        if float(previous["macro_psnr_delta"]) * float(current["macro_psnr_delta"]) < 0.0:
+        if (
+            float(previous["macro_psnr_delta"]) <= 0.0
+            and float(current["macro_psnr_delta"]) > 0.0
+        ):
+            add(int(previous["epoch"]), "first_positive_onset_left")
+            add(int(current["epoch"]), "first_positive_onset_right")
+            break
+
+    for index, (previous, current) in enumerate(zip(ordered, ordered[1:])):
+        # Route-1 reversal means that an already-positive intervention loses
+        # its benefit.  An initial negative-to-positive warm-up crossing is
+        # not the failure event we are trying to reconstruct.
+        if (
+            float(previous["macro_psnr_delta"]) > 0.0
+            and float(current["macro_psnr_delta"]) <= 0.0
+        ):
             add(int(previous["epoch"]), "first_sign_reversal_left")
             add(int(current["epoch"]), "first_sign_reversal_right")
+            if index + 2 < len(ordered):
+                add(
+                    int(ordered[index + 2]["epoch"]),
+                    "first_sign_reversal_after",
+                )
             break
 
     if not ordered:
@@ -106,6 +129,13 @@ def prepare_audit_queue(output_root: Path) -> dict:
         selection_reasons = {
             int(epoch): ["fixed_long_horizon_state"] for epoch in fixed
         }
+        if probe == "dt":
+            selection_reasons.setdefault(40, []).append(
+                "dt_registered_active_support_state"
+            )
+            selection_reasons.setdefault(60, []).append(
+                "dt_post_support_forced_diagnostic_state"
+            )
         for epoch, reasons in dynamic_reasons.items():
             bucket = selection_reasons.setdefault(int(epoch), [])
             bucket.extend(reason for reason in reasons if reason not in bucket)
