@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-route1-target-blind-signal-coverage-gate-v1",
+  "created": "2026-08-30T08:00:00+08:00",
+  "implementation_commit": "8e934f2",
+  "problem": "The immutable audit rows recorded generator-block geometry and per-replicate domain/time correction information, but the posthoc signal screen previously exposed only global correction geometry and aggregate variance.",
+  "added_interpretable_observables": [
+    "minimum nonzero generator-block correction/native cosine",
+    "minimum per-domain mean correction/native cosine across at least two observed domains",
+    "minimum per-bridge-time mean correction/native cosine across at least two observed times",
+    "0.75 minus maximum nonzero block correction variance fraction"
+  ],
+  "zero_norm_boundary": {
+    "inactive_zero_correction_is_not_low_variance_evidence": true,
+    "zero_norm_blocks_are_excluded_from_direction_cosines": true,
+    "domain_or_time_consensus_requires_at_least_two_groups": true
+  },
+  "implementation_boundary": {
+    "immutable_audit_row_schema_changed": false,
+    "running_workers_restarted": false,
+    "analysis_only_posthoc_change": true,
+    "black_box_predictor_added": false,
+    "paired_threshold_fitted": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "pytest": "95 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}

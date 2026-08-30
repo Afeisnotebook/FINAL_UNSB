@@ -27,7 +27,7 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-30 07:55）
+## 当前执行事实（2026-08-30 08:00）
 
 - plain 的 e100 正式指标已从冻结 milestone 两次独立回填，完整payload哈希一致，
   且评估前后科学状态哈希不变。
@@ -92,6 +92,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   当前实现长期为负、target-blind缺陷量数值上确实下降但收益仍反转、并形成新的因果
   失败理由时才能创建；同一父机制只能一次，G2不能再生G3，窗口、handoff、网格和paired
   控制全部硬拒绝。G2 card必须绑定父候选、修订请求和缺陷证据哈希。
+- 原始audit一直记录block几何及每个replicate的domain/time，但旧screen没有将其转成候选
+  可用前兆。`8e934f2`补入最差非零block、最差域、最差bridge-time方向一致性和block方差
+  护栏；精确零校正不会因为零方差被误判成安全信号，域/时间量至少需要两个group。这只
+  改最终后处理，不改不可变原始行、不重启worker，也没有增加paired阈值。
 - DT矩阵后处理已在主分支`b2e4480`区分有限support内的registered机制证据与support外的
   forced-active机制诊断，并允许同一DT机制跨两种记录形成连续时间证据。e20的registered
   路径受schedule/warmup限制，故机制有效性使用forced-active；e40使用真实registered。

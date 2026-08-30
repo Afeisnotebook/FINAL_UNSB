@@ -3,7 +3,7 @@
   "updated": "2026-08-30",
   "phase": "REMOTE4090_PHASE_C_CAUSAL_AUDIT_RUNNING_OTHER_HOST_REPLICATES_ACTIVE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "641559a",
+  "development_head_at_state_write": "8e934f2",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -116,6 +116,7 @@
     ,"target-blind screening retains probe-specific precursors when no shared signal exists and binds each candidate driver to its probe and parent mechanism"
     ,"Generation-1 mechanism ranking uses the complete preregistered causal evidence order rather than cross-probe count alone"
     ,"the single allowed causal revision is executable, e200-bound, target-blind-defect-bound and append-only per parent mechanism"
+    ,"posthoc screening exposes nonzero block/domain/time correction consensus and rejects inactive zero-correction variance as false safety evidence"
   ],
   "phase_c": {
     "status": "REMOTE4090_IMMUTABLE_CAUSAL_AUDIT_RUNNING_LOCAL_AND_5090_REPLICAS_CONTINUE",
@@ -140,6 +141,8 @@
     "discovery_ranking_contract_evidence": "evidence/remote_route1_offload/DISCOVERY_RANKING_CONTRACT.json",
     "causal_revision_gate_commit": "641559a",
     "causal_revision_gate_evidence": "evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json",
+    "target_blind_signal_coverage_commit": "8e934f2",
+    "target_blind_signal_coverage_evidence": "evidence/remote_route1_offload/TARGET_BLIND_SIGNAL_COVERAGE_GATE.json",
     "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
     "paired_controller_access": false,
     "confirmation20_opened": false
@@ -172,10 +175,10 @@
     "auditor_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
     "auditor_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
     "auditor_evidence": "evidence/remote_route1_offload/REMOTE4090_DT_E200_AND_AUDIT_START.json",
-    "auditor_latest_reversal_rows": 70,
+    "auditor_latest_reversal_rows": 78,
     "auditor_latest_sampling_variance_rows": 12,
     "auditor_active_jobs": ["dt_e60", "dt_e100"],
-    "latest_observed_gpu_utilization_percent": 96,
+    "latest_observed_gpu_utilization_percent": 90,
     "proxy_calibration": {
       "status": "CALIBRATED",
       "hj_late_three_macro_psnr_delta_db": 0.6493313327204753,
@@ -209,7 +212,7 @@
     "shared_e0_file_and_scientific_hash_match": true,
     "initial_observed_data_epoch": 1,
     "latest_observed_plain_data_epoch": 200,
-    "latest_observed_hj_data_epoch": 75,
+    "latest_observed_hj_data_epoch": 79,
     "latest_observed_independent_hnek_data_epoch": 200,
     "independent_hnek_output_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_REMOTE5090_HNEK_PARALLEL",
     "independent_hnek_admission": "ACCEPTED_AFTER_SAME_HOST_PLAIN_E200_HASH_VERIFICATION",
@@ -223,7 +226,7 @@
     "hnek_e200_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_E200_VERIFICATION.json",
     "early_fixed_hnek_audit_evidence": "evidence/remote_route1_offload/REMOTE5090_EARLY_FIXED_HNEK_AUDIT.json",
     "hnek_dynamic_audit_selection_evidence": "evidence/remote_route1_offload/REMOTE5090_HNEK_DYNAMIC_AUDIT_SELECTION.json",
-    "hnek_audit_latest_reversal_rows": 24,
+    "hnek_audit_latest_reversal_rows": 27,
     "hnek_audit_latest_sampling_variance_rows": 4,
     "latest_observed_gpu_utilization_percent": 98,
     "proxy_calibration": {
