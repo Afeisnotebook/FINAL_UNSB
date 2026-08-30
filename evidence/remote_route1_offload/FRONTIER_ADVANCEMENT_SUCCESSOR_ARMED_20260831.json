@@ -1,0 +1,26 @@
+{
+  "schema": "final-unsb-route1-frontier-advancement-successor-deployment-v1",
+  "observed_at": "2026-08-31T07:34:20+08:00",
+  "status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
+  "host": "final-unsb-5090",
+  "git_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
+  "worktree": "/root/autodl-tmp/FINAL_UNSB_ADVANCE_9e68794",
+  "worktree_clean": true,
+  "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+  "durable_session": "screen:FINAL_UNSB_ADVANCE_9e68794",
+  "supervisor_pid_at_deployment": 126899,
+  "classification_order": [
+    "strict_sustained",
+    "causally_repairable_near_boundary_pending_target_blind_audit",
+    "evidence_backed_alternate",
+    "closed_current_operator"
+  ],
+  "near_boundary_is_not_revision_authorization": true,
+  "revision_still_requires_separate_target_blind_defect_audit": true,
+  "maximum_second_wave_e200_trajectories": 2,
+  "selection_seeds": [2026],
+  "deferred_seed_validation": [2027, 2028],
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

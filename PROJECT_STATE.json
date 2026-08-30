@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T07:28:00+08:00",
+  "state_snapshot_time": "2026-08-31T07:34:00+08:00",
   "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "95cefe5fbc450f9e36adc79190ea7ae6f2415721",
+  "development_head_at_state_write": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -543,6 +543,10 @@
       "conditional_generation3_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_ADJUDICATION",
       "conditional_generation3_successor_pid_at_deployment": 126168,
       "conditional_generation3_successor_evidence": "evidence/remote_route1_offload/GENERATION3_SYNTHESIS_SUCCESSOR_ARMED_20260831.json",
+      "frontier_advancement_classifier_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
+      "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
+      "frontier_advancement_successor_pid_at_deployment": 126899,
+      "frontier_advancement_successor_evidence": "evidence/remote_route1_offload/FRONTIER_ADVANCEMENT_SUCCESSOR_ARMED_20260831.json",
       "multi_candidate_advancement_decision": "decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md",
       "current_primary_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
       "current_primary_strict_sustained_gate": true

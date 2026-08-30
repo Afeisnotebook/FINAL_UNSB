@@ -77,6 +77,9 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   未通过时使用既有PC-RSMG proposal-only，允许一个两组件合成；兼容门失败才记录不适用。
   多候选继续资格见
   `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
+- `9e68794`新增了独立终点分类后继：完整e200后才把当前两条分为strict、待target-blind
+  审计的近边界、证据递补或关闭当前算子。近边界分类本身不授权改公式，必须另有无配对
+  缺陷证据；因此第二波不会因为GPU空闲而随意制造算法。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 
