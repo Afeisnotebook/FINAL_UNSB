@@ -34,6 +34,17 @@ g_k^R=\tfrac12(g_{k,1}+g_{k,2}),
 \qquad d_k^R=\operatorname{AdamStep}(g_k^R).
 \]
 
+若采样父项为两视图PC-RSMG proposal，则约束缺陷必须在产生上述梯度的同一对G/F
+bridge view上计算，并以共同latent作交换对称平均：
+
+\[
+C_k=\tfrac12(C_{k,1}+C_{k,2}),\qquad
+a_k=\nabla C_k=\tfrac12(a_{k,1}+a_{k,2}).
+\]
+
+PCNR只有一个G/F view，因此直接在该view上计算`a_k`。不得另抽一个任意view来约束
+已经形成的采样位移。
+
 随后用AM-MCRB当前moving covariance tangent `a_k`和由该实际Adam状态得到的
 `P_k=H_k^{-1}`求唯一最近可行位移：
 
@@ -57,5 +68,6 @@ d_k^R-\dfrac{\langle a_k,d_k^R\rangle}
 - 任何一个父项未严格通过，或兼容cosine失败，则形成`SYNTHESIS_INAPPLICABLE`证据，
   不用“接近通过”放松门槛。
 - 当前PCNR/AM-MCRB训练、4090复跑与赢家自身消融不因本决定停止或改变。
+- 条件实现与持久后继已冻结于`95cefe5`；后继只等待完整terminal adjudication，父门不
+  满足时写出`SYNTHESIS_INAPPLICABLE`并退出，不会为了占用空闲GPU放松条件。
 - confirmation20、seed2027/2028、全量数据、路线二和跨宿主delta仍不属于本门。
-

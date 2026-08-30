@@ -1,0 +1,36 @@
+{
+  "schema": "final-unsb-route1-generation3-successor-deployment-evidence-v1",
+  "observed_at": "2026-08-31T07:28:01+08:00",
+  "status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_ADJUDICATION",
+  "host": "final-unsb-5090",
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "git_commit": "95cefe5fbc450f9e36adc79190ea7ae6f2415721",
+  "worktree": "/root/autodl-tmp/FINAL_UNSB_G3_95cefe5",
+  "worktree_clean": true,
+  "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+  "successor_contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/GENERATION3_SUCCESSOR_CONTRACT.json",
+  "durable_session": "screen:FINAL_UNSB_G3_95cefe5",
+  "supervisor_pid_at_deployment": 126168,
+  "frontier_progress_at_deployment": {
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": 163,
+    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": 144,
+    "target_data_epoch": 200
+  },
+  "routing": {
+    "maximum_generation3_candidates": 1,
+    "maximum_components": 2,
+    "requires_strict_ammcrb_parent": true,
+    "sampling_parent": "strict PCNR, otherwise the already-strict PC-RSMG proposal-only",
+    "compatibility_states": [20, 100, 200],
+    "compatibility_branch_updates": [1, 8, 32],
+    "minimum_component_correction_cosine": -0.2,
+    "ineligible_parent_or_compatibility_outcome": "SYNTHESIS_INAPPLICABLE_NO_E200_RUN"
+  },
+  "batch_size": 1,
+  "selection_seeds": [2026],
+  "deferred_seed_validation": [2027, 2028],
+  "intermediate_metric_routing": false,
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
