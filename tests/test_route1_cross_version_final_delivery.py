@@ -530,6 +530,12 @@ def test_single_seed_terminal_negative_selection_delivers_honest_fallback(tmp_pa
     _, runner = _method(
         tmp_path, "G1-RUNNER", -0.3, status=NEGATIVE_STATUS,
     )
+    _, third = _method(
+        tmp_path, "G1-THIRD", -0.4, status=NEGATIVE_STATUS,
+    )
+    _, fourth = _method(
+        tmp_path, "G1-FOURTH", -0.5, status=NEGATIVE_STATUS,
+    )
     proposal_path, proposal = _method(
         tmp_path, "ABL-PROPOSAL", -0.2, status=NEGATIVE_STATUS,
     )
@@ -537,7 +543,7 @@ def test_single_seed_terminal_negative_selection_delivers_honest_fallback(tmp_pa
         tmp_path, "ABL-OBSERVE", 0.0, status=NEGATIVE_STATUS,
     )
     ranking = []
-    for rank, receipt in enumerate((full, runner), start=1):
+    for rank, receipt in enumerate((full, runner, third, fourth), start=1):
         ranking.append({
             "rank": rank,
             "candidate_id": receipt["candidate_id"],
@@ -608,3 +614,11 @@ def test_single_seed_terminal_negative_selection_delivers_honest_fallback(tmp_pa
     assert result["candidate_id"] == full["candidate_id"]
     assert result["classification"] == "weak_fallback_single_seed_development"
     assert result["source_e200_selection"]["status"] == CROSS_VERSION_NEGATIVE_STATUS
+    results = json.loads((tmp_path / "final" / "RESULTS.json").read_text())
+    assert set(results["candidate_results"]) == {
+        "G2-FALLBACK", "G1-RUNNER", "G1-THIRD", "G1-FOURTH",
+    }
+    alternates = json.loads((tmp_path / "final" / "ALTERNATES.json").read_text())
+    assert [row["candidate_id"] for row in alternates["alternates"]] == [
+        "G1-RUNNER", "ABL-PROPOSAL",
+    ]
