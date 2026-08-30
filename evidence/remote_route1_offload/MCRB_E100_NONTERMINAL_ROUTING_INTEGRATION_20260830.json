@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-route1-mcrb-e100-nonterminal-routing-integration-v1",
+  "recorded": "2026-08-30T23:17:12+08:00",
+  "development_head_before_record": "e927730",
+  "purpose": "Prove on the live 5090-to-4090 path that a real fixed e100 metric cannot be mistaken for complete e200 routing authority.",
+  "remote_5090": {
+    "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+    "candidate_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+    "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+    "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+    "metric_path": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/candidates/G1-03-STATE-FEEDBACK-MISSING/metrics/e100.json",
+    "metric_sha256": "8b104256e8276f799ef7d9123d9fd747bec51f02458c65e3b84f45d599242c41",
+    "data_epoch": 100,
+    "updates": 15000,
+    "macro_psnr_delta_vs_same_host_plain": 2.157579861442832,
+    "positive_domains": 4,
+    "worst_domain_delta": -1.6943967882949167,
+    "trajectory_file_exists": false,
+    "executor_status": "CANDIDATE_CHUNK_RUNNING",
+    "next_chunk": {
+      "start_data_epoch": 100,
+      "target_data_epoch": 105
+    },
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "durable_4090_successor": {
+    "source_git_commit": "8bee139df40e19c5bdace718489da6fed3c04a42",
+    "supervisor_pid": 1438951,
+    "supervisor_pid_alive": true,
+    "state": "WAITING_FOR_REMOTE_MCRB_E200",
+    "observed_remote_data_epoch": 100,
+    "observed_remote_updates": 15000,
+    "state_sha256": "40f72f161af0e0c5cc4a1520c6aff4a860367cae734a1e77bf4808314188b29c",
+    "main_4090_mcrb_candidate_directory_exists": false,
+    "remote_terminal_receipt_exists": false,
+    "route1_final_e200_selection_exists": false,
+    "single_seed_development_freeze_exists": false,
+    "cross_host_deltas_merged": false,
+    "selection_seeds": [
+      2026
+    ],
+    "deferred_seed_validation": [
+      2027,
+      2028
+    ],
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "regression_test": {
+    "test": "tests/test_mcrb_cross_host_successor.py::test_explicit_incomplete_remote_trajectory_only_waits_for_e200",
+    "test_file_git_blob_before_commit": "b00b076b41cda513d3dcd374824a0ed832a56f8e",
+    "result": "10 passed in 3.61s",
+    "coverage": "An explicit INCOMPLETE_E200 trajectory is ignored for routing, the successor records WAITING_FOR_REMOTE_MCRB_E200, and only a later complete e200 trajectory plus terminal receipt returns authority."
+  },
+  "adjudication": {
+    "status": "PASS_REAL_E100_REMAINS_NONTERMINAL",
+    "intermediate_metric_used_for_training_or_control": false,
+    "intermediate_metric_used_for_early_stop": false,
+    "intermediate_metric_used_for_candidate_selection": false,
+    "scientific_interpretation": "The positive e100 delta is an intermediate observation only. It is neither route1 success nor evidence that the e150/e175/e200 long-horizon gate will pass.",
+    "routing_invariant": "No 4090 replay, cross-host terminal receipt, final selection, single-seed freeze, or winner ablation may start before a complete source-bound e200 trajectory exists."
+  }
+}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -61,6 +62,67 @@ def test_intermediate_remote_result_cannot_route_4090_replay() -> None:
     value["trajectory"][-1] = {"epoch": 175, "updates": 26250}
     with pytest.raises(RuntimeError, match="e200/30000"):
         validate_remote_trajectory(value)
+
+
+def test_explicit_incomplete_remote_trajectory_only_waits_for_e200(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    successor = object.__new__(MCRBCrossHostSuccessor)
+    successor.contract = {
+        "remote": {
+            "run_root": "/remote/run",
+            "repo": "/remote/repo",
+            "python": "/remote/python",
+        },
+        "poll_seconds": 1,
+    }
+    successor.operations = tmp_path
+    successor.started = 0.0
+    successor._timed_out = lambda: False
+    states: list[tuple[str, dict]] = []
+    successor.state = lambda name, **fields: states.append((name, fields))
+    successor.event = lambda *_args, **_fields: None
+    monkeypatch.setattr(
+        "operations.local_route1_mcrb_cross_host_successor.time.sleep",
+        lambda _seconds: None,
+    )
+
+    trajectory_reads = 0
+
+    def remote_cat(path: str):
+        nonlocal trajectory_reads
+        if path.endswith("CANDIDATE_TRAJECTORY.json"):
+            trajectory_reads += 1
+            if trajectory_reads == 1:
+                return {
+                    "schema": "final-unsb-route1-candidate-trajectory-v1",
+                    "candidate_id": CANDIDATE_ID,
+                    "status": "INCOMPLETE_E200",
+                    "trajectory": [{"epoch": 100, "updates": 15000}],
+                }
+            return _trajectory()
+        if path.endswith("HEARTBEAT.json"):
+            return {"data_epoch": 100, "updates": 15000}
+        if path.endswith(f"{CANDIDATE_ID}.json"):
+            return _receipt()
+        raise AssertionError(path)
+
+    successor._remote_cat = remote_cat
+    successor._ssh = lambda *_args, **_kwargs: SimpleNamespace(
+        returncode=0, stdout="", stderr="",
+    )
+
+    trajectory, receipt = successor.wait_for_remote_e200()
+
+    assert trajectory["status"] == REMOTE_PASS
+    assert receipt["trajectory_status"] == REMOTE_PASS
+    assert trajectory_reads == 2
+    assert len(states) == 1
+    state, fields = states[0]
+    assert state == "WAITING_FOR_REMOTE_MCRB_E200"
+    assert fields["remote_data_epoch"] == 100
+    assert fields["remote_updates"] == 15000
+    assert fields["elapsed_seconds"] >= 0
 
 
 def test_remote_receipt_must_be_post_trajectory_and_target_blind() -> None:
