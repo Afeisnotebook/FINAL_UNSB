@@ -563,6 +563,14 @@ def test_single_seed_emergency_policy_selects_complete_e200_ablation_challenger(
     assert result["ablation_challenger_selection"]["status"] == (
         "SINGLE_SEED_ABLATION_CHALLENGER_SELECTED"
     )
+    assert result["source_e200_selection"] == {
+        "path": "operations/CROSS_VERSION_E200_ADJUDICATION.json",
+        "sha256": file_sha256(cross_path),
+        "status": "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE",
+        "selected_candidate_id": full["candidate_id"],
+        "selection_role": "original_pre_ablation_source",
+        "final_candidate_selected_by_ablation": True,
+    }
     commands = result["reproduction_commands"]
     assert "seed_validation" not in commands
     assert commands["seed2026_e200"].endswith(
@@ -574,6 +582,8 @@ def test_single_seed_emergency_policy_selects_complete_e200_ablation_challenger(
     assert commands["seed2026_executor_contract"]["path"] == (
         "operations/CANDIDATE_EXECUTOR_CONTRACT_slot_02.json"
     )
+    assert "selected source-bound candidate" in commands["source_identity"]
+    assert "for the full candidate" not in commands["source_identity"]
     assert commands["deferred_seed_validation"] == {
         "status": "DEFERRED_BY_SINGLE_SEED_EMERGENCY_POLICY",
         "requires_new_user_authorization": True,

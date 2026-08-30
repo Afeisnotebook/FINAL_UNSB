@@ -655,7 +655,8 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         },
         "source_identity": (
             f"checkout training_git_commit {selected_receipt['training_git_commit']} "
-            "for the full candidate; do not load it under a sibling training core"
+            "for the selected source-bound candidate; do not load it under a sibling "
+            "training core"
         ),
     }
     if development_freeze is not None:
@@ -698,7 +699,13 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
             "path": cross_path.relative_to(output_root).as_posix(),
             "sha256": file_sha256(cross_path),
             "status": cross["status"],
-            "selection_role": cross.get("selection_role", "seed2026_numeric_winner"),
+            "selected_candidate_id": original_winner,
+            "selection_role": (
+                "original_pre_ablation_source"
+                if winner != original_winner else
+                cross.get("selection_role", "seed2026_numeric_winner")
+            ),
+            "final_candidate_selected_by_ablation": winner != original_winner,
         },
         "selected_fixed_checkpoint": {
             "data_epoch": 200, "best_checkpoint_selection": False,
