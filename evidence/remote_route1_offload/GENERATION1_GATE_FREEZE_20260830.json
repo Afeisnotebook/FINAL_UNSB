@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-route1-generation1-gate-freeze-v1",
+  "status": "TWO_CANDIDATES_PASS_LONG_RUN",
+  "causal_evidence": {
+    "long_causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+    "long_reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
+    "hypothesis_ledger_sha256": "a664b7b4f38a59110c52706c1924c96a6cfab18abd73cc6214f8e124035de0e5"
+  },
+  "gate_git_commit": "b113544829575d0354b2a7ffa6c7eb7f9199e141",
+  "execution_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+  "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+  "candidates": [
+    {
+      "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+      "method_name": "BVCP",
+      "status": "PASS_LONG_RUN",
+      "algorithm_fingerprint": "447cdcfacabc0f13616da484a4511983df65b8b71e315eec3e5030db9c797d89",
+      "candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa",
+      "gate_record_sha256": "f7952163c7e3956b28eff80fe4d1f565f95b72d149e3f9cd0f531c6b67d3da73",
+      "checks_passed": [
+        "mathematical_invariants",
+        "zero_intervention_identity",
+        "resume_exact",
+        "cross_state_counterfactual",
+        "target_blind_observable",
+        "micro_engineering",
+        "base_unsb_semantics_preserved",
+        "shared_e0_load_exact"
+      ],
+      "micro": {
+        "updates": 400,
+        "data_epochs": 2.6666666666666665,
+        "finite": true,
+        "eligible_transition_count": 1586,
+        "intervention_count": 1586,
+        "endpoint_count": 3579,
+        "max_cuda_memory_allocated_mb": 1659.50634765625
+      },
+      "zero_intervention_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+      "active_resume_state_sha256": "4f38fd6c0468e348dbc8523c482ffee27734e31581c810e55f81f19f86f9a6eb"
+    },
+    {
+      "candidate_id": "G1-02-SAMPLING-VARIANCE",
+      "method_name": "RSMG",
+      "status": "PASS_LONG_RUN",
+      "algorithm_fingerprint": "ac08e7fd98bc084b247efda04c3d2110ded878bd0bc9baf12a01c2afb1938ce5",
+      "candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333",
+      "gate_record_sha256": "04f34a00f4e5d43c7f034ebd5e84ebe09c40be26ebb8da08dda0da953afcb93a",
+      "checks_passed": [
+        "mathematical_invariants",
+        "zero_intervention_identity",
+        "resume_exact",
+        "cross_state_counterfactual",
+        "target_blind_observable",
+        "micro_engineering",
+        "base_unsb_semantics_preserved",
+        "shared_e0_load_exact"
+      ],
+      "micro": {
+        "updates": 400,
+        "data_epochs": 2.6666666666666665,
+        "finite": true,
+        "replicates": 2,
+        "update_index": 400,
+        "max_cuda_memory_allocated_mb": 1870.09912109375
+      },
+      "zero_intervention_state_sha256": "c41d34633c47e914ad378a335a5ef4f2ac07784cc2993adee3323eaf08bfb070",
+      "active_resume_state_sha256": "b2730b4ce16cba049c401a182d3c580c42c756d185413338093acbbb44f4e44b"
+    }
+  ],
+  "cross_state_parent_hashes_preserved": true,
+  "paired_metric_used_for_promotion": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "scientific_decision": "Both evidence-derived algorithms passed engineering and mathematical gates. This record authorizes matched small25 e200 execution only; it contains no long-horizon efficacy claim."
+}
