@@ -356,6 +356,48 @@ def _selected_ablation_results(
     return values
 
 
+def _frontier_challenger_ablation_results(
+    output_root: Path, winner_ablation_result: dict[str, Any],
+) -> dict[str, Any] | None:
+    """Retain a fully tested frontier challenger when the base winner returns."""
+    if winner_ablation_result.get("status") != (
+        "PRE_FRONTIER_SELECTED_WINNER_RETAINED_AFTER_FRONTIER_ABLATIONS"
+    ):
+        return None
+    path = Path(str(winner_ablation_result.get(
+        "frontier_challenger_ablation_adjudication_path", "",
+    ))).resolve()
+    if not path.is_file() or not path.is_relative_to(output_root):
+        raise RuntimeError("frontier challenger ablation evidence escaped run root")
+    if file_sha256(path) != winner_ablation_result.get(
+        "frontier_challenger_ablation_adjudication_sha256"
+    ):
+        raise RuntimeError("frontier challenger ablation evidence changed")
+    adjudication = _read_json(path)
+    _posthoc_closed(adjudication, label="frontier challenger ablation adjudication")
+    roles = adjudication.get("roles")
+    if not isinstance(roles, dict) or set(roles) != {
+        "proposal_only", "observable_only", "projected_or_full",
+    }:
+        raise RuntimeError("frontier challenger ablation roles are incomplete")
+    if roles != winner_ablation_result.get("frontier_challenger_ablation_evidence"):
+        raise RuntimeError("frontier challenger ablation role evidence changed")
+    frontier_full = str(winner_ablation_result.get("frontier_full_candidate_id", ""))
+    if frontier_full not in {
+        str(row.get("candidate_id", "")) for row in roles.values()
+    }:
+        raise RuntimeError("frontier challenger full candidate is absent from its roles")
+    return {
+        "frontier_full_candidate_id": frontier_full,
+        "adjudication_path": path.relative_to(output_root).as_posix(),
+        "adjudication_sha256": file_sha256(path),
+        "adjudication": adjudication,
+        "experimental_results": _selected_ablation_results(
+            output_root, adjudication,
+        ),
+    }
+
+
 def _report(
     candidate: dict[str, Any], alternates: dict[str, Any], results: dict[str, Any],
 ) -> str:
@@ -489,6 +531,9 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
     )
     selected_ablation_results = _selected_ablation_results(
         output_root, winner_ablation,
+    )
+    frontier_challenger_ablation_results = _frontier_challenger_ablation_results(
+        output_root, winner_ablation_result,
     )
     executor_path, executor = _executor_contract(output_root, receipt)
     archived = _archive_base(output_root)
@@ -653,6 +698,7 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
                 "winner_ablation_evidence"
             ],
             "experimental_results": selected_ablation_results,
+            "tested_frontier_challenger": frontier_challenger_ablation_results,
         },
         "reproduction": {
             "seed2026_e200": (
@@ -690,6 +736,9 @@ def materialize_frontier_final_delivery(output_root: Path) -> dict[str, Any]:
         "selected_algorithm_winner_ablation_result": winner_ablation_result,
         "selected_algorithm_winner_ablation_adjudication": winner_ablation,
         "selected_algorithm_winner_ablation_results": selected_ablation_results,
+        "tested_frontier_challenger_ablation_results": (
+            frontier_challenger_ablation_results
+        ),
         "pre_frontier_delivery": {
             "selected_candidate_id": base_candidate["candidate_id"],
             "archived_file_sha256": archived,

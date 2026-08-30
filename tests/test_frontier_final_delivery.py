@@ -14,6 +14,7 @@ from research.local_route1.frontier_final_delivery import (
     FINAL_SELECTION,
     POINTER_SCHEMA,
     _executor_contract,
+    _frontier_challenger_ablation_results,
     _same_host_selection,
     _source_files,
     materialize_frontier_final_delivery,
@@ -354,6 +355,46 @@ def test_no_replay_materializes_idempotent_frontier_complete_delivery(
         assert heading in report
     assert "晚期差距收窄是耐久性改善证据" in report
     assert materialize_frontier_final_delivery(tmp_path) == pointer
+
+
+def test_reselected_base_retains_complete_frontier_challenger_ablations(
+    tmp_path: Path,
+) -> None:
+    full_id = "F1-FULL"
+    proposal_id = "F1-PROPOSAL"
+    observable_id = "F1-OBSERVABLE"
+    for candidate_id in (full_id, proposal_id, observable_id):
+        _receipt(
+            tmp_path, candidate_id, 0.1,
+            status=POSITIVE_STATUS if candidate_id != observable_id else NEGATIVE_STATUS,
+        )
+    roles = {
+        "proposal_only": _role_row(tmp_path, proposal_id),
+        "observable_only": _role_row(tmp_path, observable_id),
+        "projected_or_full": _role_row(tmp_path, full_id),
+    }
+    path = tmp_path / "operations" / "FRONTIER_WINNER_ABLATION_ADJUDICATION.json"
+    adjudication = {
+        "roles": roles,
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    }
+    _write(path, adjudication)
+    result = {
+        "status": "PRE_FRONTIER_SELECTED_WINNER_RETAINED_AFTER_FRONTIER_ABLATIONS",
+        "frontier_full_candidate_id": full_id,
+        "frontier_challenger_ablation_adjudication_path": str(path),
+        "frontier_challenger_ablation_adjudication_sha256": file_sha256(path),
+        "frontier_challenger_ablation_evidence": roles,
+    }
+
+    retained = _frontier_challenger_ablation_results(tmp_path, result)
+
+    assert retained is not None
+    assert retained["frontier_full_candidate_id"] == full_id
+    assert set(retained["experimental_results"]) == {
+        "proposal_only", "observable_only", "projected_or_full",
+    }
 
 
 def test_replayed_frontier_proposal_winner_keeps_own_complete_evidence(
