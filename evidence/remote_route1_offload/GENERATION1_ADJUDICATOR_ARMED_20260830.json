@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-route1-generation1-adjudicator-arming-v1",
+  "status": "FAIL_CLOSED_WAITING_FOR_BOTH_E200",
+  "adjudicator_git_commit": "8c4a2a3d72681cd2a3d97a7287f56eea8cda5ec6",
+  "host_role": "remote4090_authoritative_same_runtime_ranking",
+  "candidate_ids": [
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+    "G1-02-SAMPLING-VARIANCE"
+  ],
+  "observed_at_gate_test": {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED_data_epoch": 29,
+    "G1-02-SAMPLING-VARIANCE_data_epoch": 23,
+    "complete_candidate_count": 0,
+    "ranking_performed": false,
+    "winner_frozen_for_seed2027": false
+  },
+  "runtime_receipt_sha256": "af05c81ee0f21af85f1653c0d5ffc707a6d475180031cd6214750f63ba517c22",
+  "post_e200_behavior": {
+    "all_candidates_must_have_complete_e200_trajectory": true,
+    "ranking_uses_registered_late_three_order": true,
+    "only_numeric_gate_passing_winner_can_freeze_seed2027": true,
+    "negative_candidate_requires_target_blind_defect_adjudication": true,
+    "automatic_window_handoff_or_paired_control": false
+  },
+  "paired_metrics_used_for_training_or_control": false,
+  "confirmation20_opened": false,
+  "interpretation": "This is an execution-gate receipt, not candidate efficacy evidence. It proves that early positive metrics cannot trigger ranking or seed promotion."
+}
