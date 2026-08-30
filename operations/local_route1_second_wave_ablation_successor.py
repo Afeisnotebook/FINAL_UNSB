@@ -155,6 +155,28 @@ class SecondWaveAblationSuccessor:
             time.sleep(int(self.contract["poll_seconds"]))
         return adjudication, advancement
 
+    def wait_generation3_freeze_if_armed(self) -> None:
+        """Serialize the two derivation-ledger writers without coupling training.
+
+        The Generation-3 successor was armed before this successor and may become
+        eligible from the same terminal adjudication.  Both routes append to the
+        shared hypothesis ledger.  Waiting for its immutable freeze artifact keeps
+        that metadata transaction ordered; it does not wait for its gate or e200
+        training, so the two scientific trajectories can still run concurrently.
+        """
+        generation3_contract = self.operations / "GENERATION3_SUCCESSOR_CONTRACT.json"
+        if not generation3_contract.is_file():
+            return
+        freeze = self.operations / "GENERATION3_SYNTHESIS_FREEZE.json"
+        fatal = self.operations / "GENERATION3_SUCCESSOR_FATAL.json"
+        while not freeze.is_file():
+            if fatal.is_file():
+                raise RuntimeError(f"Generation-3 freeze prerequisite failed: {fatal}")
+            if time.time() - self.started > int(self.contract["timeout_seconds"]):
+                raise TimeoutError("timed out waiting for ordered Generation-3 freeze")
+            self.state("WAITING_FOR_ORDERED_GENERATION3_FREEZE")
+            time.sleep(int(self.contract["poll_seconds"]))
+
     def init_executor_contract(self, candidate_id: str) -> Path:
         path = self.operations / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}.json"
         if path.is_file():
@@ -178,6 +200,7 @@ class SecondWaveAblationSuccessor:
 
     def run(self) -> int:
         adjudication, advancement = self.wait_decisions()
+        self.wait_generation3_freeze_if_armed()
         frozen = materialize_second_wave_parent_ablation(
             self.run_root, adjudication_path=adjudication, advancement_path=advancement,
         )
@@ -293,4 +316,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
