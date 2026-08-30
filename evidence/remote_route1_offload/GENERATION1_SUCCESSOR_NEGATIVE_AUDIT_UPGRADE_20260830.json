@@ -1,0 +1,21 @@
+{
+  "schema": "final-unsb-route1-generation1-successor-negative-audit-upgrade-v1",
+  "observed_at": "2026-08-30T15:38:18+08:00",
+  "status": "ARMED_POSITIVE_AND_NEGATIVE_E200_PATHS",
+  "host": "remote4090",
+  "successor_git_commit": "23fd6c7c2bdf2ad17b5a8a5f58bc51ab7cecaf17",
+  "successor_worktree": "/home/yc/FINAL_UNSB_SUCCESSOR_23fd6c7",
+  "contract_sha256": "2d40b69bd6369d99c361f7677cb95c4d92ba84e7ed443eb002d749db590a41e2",
+  "supervisor_pid": 1388177,
+  "initial_state": "WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "candidate_executor_count_before_after": [2, 2],
+  "contract_stderr_bytes": 0,
+  "supervisor_stderr_bytes": 0,
+  "positive_path": "Freeze only a numeric-gate winner, run matched seed2027 and conditionally authorized seed2028, then materialize the final delivery.",
+  "negative_path": "At each negative e200 candidate state, measure only target-blind rollout-speed excess or native-gradient trace variance. If neither derived defect decreased, materialize the frozen current fallback. If a defect decreased while benefit reversed, stop for one mathematical revision derivation.",
+  "automatic_formula_generation": false,
+  "fixed_window_or_handoff": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
