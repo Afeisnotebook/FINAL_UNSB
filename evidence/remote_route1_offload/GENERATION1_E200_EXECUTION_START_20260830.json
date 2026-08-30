@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-route1-generation1-e200-execution-start-v1",
+  "status": "PRIMARY_AND_SUPPLEMENTAL_E200_RUNNING",
+  "scientific_scope": {
+    "data_view": "small25: 25 identities per domain, six domains, 150 images per side",
+    "seed": 2026,
+    "batch_size": 1,
+    "steps_per_data_epoch": 150,
+    "target_data_epochs": 200,
+    "target_updates": 30000,
+    "chunk_data_epochs_max": 5,
+    "intermediate_paired_metric_early_stop": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "concurrency_decision": {
+    "batch_size_increase": "REJECTED_AS_SCIENTIFIC_PROTOCOL_CHANGE",
+    "independent_batch1_processes": "ACCEPTED",
+    "reason": "A larger batch changes unpaired-B sampling, PatchNCE negatives, the coupled D/E/G game and the Adam trajectory. Independent processes preserve each candidate's frozen batch-1 operator while using otherwise idle accelerator capacity."
+  },
+  "primary_runtime": {
+    "host_role": "remote4090_authoritative_same_runtime_ranking",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "candidate_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+    "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+    "concurrent_candidate_processes": 2,
+    "observed_gpu_utilization_percent_range": [95, 99],
+    "observed_memory_used_mib": 3788,
+    "contracts": {
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": "eeee20fe5f66f2199240e1a6727387f9baa68b1d2063503ad81d319d7449f4ff",
+      "G1-02-SAMPLING-VARIANCE": "8045016a7253f52b493d86cafe250e5f2a639bcafcebf4e92a4423d636b06afb"
+    },
+    "matched_plain_scientific_state_sha256": "8c3ec915600cf2553ae65939ecc786df582c96c41e5eaabf4ae3b2d252a6305d"
+  },
+  "supplemental_runtime": {
+    "host_role": "remote5090_cross_runtime_replication_not_merged_into_4090_ranking",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "candidate_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+    "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+    "concurrent_candidate_processes": 2,
+    "observed_gpu_utilization_percent_after_start": 99,
+    "observed_memory_used_mib_with_finishing_dt": 5800,
+    "contracts": {
+      "G1-01-ROLLOUT-DISTRIBUTION-SPEED": "eb1541bcf5c8dcbe862b2c917ce19aee0732ad893b9b09a6db925ed813ba095c",
+      "G1-02-SAMPLING-VARIANCE": "3734516c73a634e6ea66898cba545d22ea70be639761c5ab95650a333f8e5e3f"
+    },
+    "matched_plain_scientific_state_sha256": "68f901cc261bf2091cf5e1a94abfe115210cb8e5cb92a0185c56e55668e6b037",
+    "runtime_equivalence_to_4090": false,
+    "use_in_selection": "stability and portability evidence only"
+  },
+  "shared_candidate_identity": {
+    "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+    "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
+    "G1-01_candidate_fingerprint": "82aa6a1ad5e874b9da486c9d9abe9dc3fe66f72eb4c2a7a100a2c2e872424faa",
+    "G1-02_candidate_fingerprint": "ea56e8b6ee6d12fa71fdd6773e215cd54994c3cf576cc8942dab74cfcf0ba333"
+  },
+  "5090_precondition_incident": {
+    "status": "ENGINEERING_REFUSAL_BEFORE_ANY_UPDATE",
+    "cause": "The isolated candidate run root initially omitted evidence/PROXY_CALIBRATION.json.",
+    "effect": "Both runners rejected execution at the prerequisite gate before model construction or optimizer updates.",
+    "recovery": "Copied the accepted 5090 CALIBRATED receipt, archived the original failure counters, and restarted from untouched e0.",
+    "scientific_result_created": false
+  },
+  "adjudication_boundary": "No result in this start receipt is evidence of long-horizon benefit. Authoritative adjudication remains the complete e150/e175/e200 trajectory on the 4090 runtime; 5090 is reported separately."
+}
