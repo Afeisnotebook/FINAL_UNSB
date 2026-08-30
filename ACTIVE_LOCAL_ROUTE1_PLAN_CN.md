@@ -1,6 +1,6 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`FINAL_474_140_CAUSAL_MATRIX_FROZEN / BVCP_PCRSMG_CURRENT_IMPLEMENTATIONS_NEGATIVE / AMTNC_MCRB_E200_RUNNING`
+状态：`ALL_CANDIDATES_E200_COMPLETE / PCRSMG_FALLBACK_FROZEN / WINNER_ABLATION_GATES_RUNNING`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
@@ -27,47 +27,25 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
 详细边界见
 `decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md`。
 
-## 当前执行事实（2026-08-31 00:48）
+## 当前执行事实（2026-08-31 01:17）
 
-- 4090权威474/140长期因果矩阵已冻结；BVCP和PC-RSMG当前实现均已完成e200并严格
-  未过终点门。PC-RSMG的target-blind缺陷下降授权了唯一二代修订AM-TNC。
-- AM-TNC正在4090按`977ce32`从共同e0运行，已完成第二个晚期点e175；独立MCRB正在5090
-  按`7fa9081`运行，也已完成e175。二者均继续最后25个data epochs，保持batch1、seed2026、真实e200，且
-  中间paired结果不控制训练、停止或代码。
-- AM-TNC与MCRB的derivation card—训练源码一致性已经分别复核；当前算子均真实激活，
-  没有意外退化成plain，也没有发现需要中断现有轨迹的实现偏差。
-- MCRB真实e100描述性delta为`+2.158 dB`；在线集成门证明它仍是非终点观察，没有
-  启动4090复赛、terminal receipt、总排名或单seed冻结。
-- MCRB e125描述性delta反转为`-0.770 dB`、2/6域正；e100→e125期间候选下降约
-  `0.360 dB`而plain恢复约`2.567 dB`。该结果已冻结为反转观察，训练继续到e200，
-  不据此拟合退出点、handoff或修改算子。
-- AM-TNC e125描述性delta也从e100的`+1.660 dB`反转为`-0.333 dB`、2/6域正；但
-  e100→e125候选自身提升`1.452 dB`，同宿主plain提升`3.444 dB`。这记录为相对收益
-  保持失败的中间观察，不是候选坍塌、终点裁决或修改冻结算法的授权。
-- MCRB在首个晚期点e150重新为`+0.894 dB`、6/6域正；e125→e150候选自身提升
-  `1.074 dB`，plain回撤`0.590 dB`。5090 plain e150缺少可比较LPIPS，因此该点既
-  不能独立通过全部护栏，也不能提前触发4090复赛；仍等待e175/e200。
-- AM-TNC e150为`+0.537 dB`、5/6域正，但LPIPS差`0.00595`；e125→e150候选自身
-  仅提升`0.259 dB`，plain回撤`0.611 dB`。该点的相对恢复主要来自plain下行，仍
-  不能通过完整终点门或替代e175/e200。
-- MCRB e175回到`-0.082 dB`、4/6域正，最差域`-1.777 dB`；e150→e175候选自身
-  提升`0.261 dB`，plain提升`1.238 dB`。因此e150优势没有顺畅保持，仍按冻结算子
-  跑完e200，不选择中间checkpoint。
-- AM-TNC e175为`-0.604 dB`、仅1/6域正，最差域`-1.212 dB`，SSIM和LPIPS均退化；
-  e150→e175候选自身回撤`0.249 dB`，plain提升`0.892 dB`。这同时暴露候选绝对回撤
-  与plain恢复，仍继续e200以完成冻结协议。
-- 4090上已按`77bb987`重新部署不依赖Codex会话的跨宿主持久后继：它只接受5090完整e200 terminal
-  receipt；正结果才在4090从共同e0复赛MCRB，负结果则跳过。它等待AM-TNC终点后才
-  生成全部4090 receipt总排名，随后按实测更短总墙钟依次启动真正赢家的
-  proposal-only/observable-only e200消融；projected/full使用赢家既有终点receipt。
-  密码不写入仓库或合同。
+- 4090权威474/140长期因果矩阵已冻结；BVCP、PC-RSMG和唯一二代修订AM-TNC均已
+  完成同宿主matched e200。独立MCRB也已在5090完成e200；终点`-0.730 dB`且域护栏
+  失败，因此没有触发4090复赛，也没有合并跨宿主delta。
+- AM-TNC晚三点PSNR均值`+0.105 dB`，e200为`+0.383 dB`、4/6域正，终点SSIM/LPIPS
+  均改善；但晚三点平均LPIPS差`0.00628`，所以是`positive_but_fragile`递补，不是
+  严格门赢家。
+- 全部4090候选按冻结排序完成：PC-RSMG晚三点`+0.621 dB`排第一，AM-TNC排第二，
+  BVCP排第三。没有方法通过全部数值门，因此PC-RSMG被明确冻结为当前seed2026 fallback，
+  不声称跨seed稳定或严格成功。
+- PC-RSMG projected/full直接复用其完整e200 receipt；proposal-only和observable-only
+  已启动短GPU身份门，门通过后按实测墙钟严格单流、依次各跑真实e200。长程并发上限为1。
+- 本地1660的HJ e200审计完成；HNEK已完成e1/e5并在e20长虚拟分支中持久化13行，
+  仅作补充，不替代4090权威因果矩阵。
 - 最终交付不再用候选ID猜executor合同文件名；它按receipt中的候选、训练commit、算法/
   候选指纹、manifest和e200边界寻找唯一真实合同并写入hash，缺失或不一致即fail closed。
-- 本地1660的HJ e200终点审计已完成，冻结80条反转和24条采样方差补充证据；executor
-  已完成HNEK e1并自动进入e5，当前任务已持久化6行。该本地证据不替代4090权威因果矩阵，也
-  不授权窗口或handoff。
 - seed2027/2028继续延期；confirmation20、全量数据、路线二、退出阈值和跨宿主delta
-  合并仍关闭。下一硬门是AM-TNC与MCRB的完整e200，而不是任何中间checkpoint。
+  合并仍关闭。下一硬门是两个赢家机制消融的完整e200，而不是新的中间checkpoint。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 

@@ -1,0 +1,66 @@
+{
+  "schema": "final-unsb-route1-all-candidate-e200-fallback-and-ablation-start-v1",
+  "recorded": "2026-08-31T01:17:29+08:00",
+  "authoritative_host": "remote4090",
+  "source_selection": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/ROUTE1_FINAL_E200_SELECTION.json",
+    "sha256": "0c94f510c6c6c76f63ed08377a0dc0f4bb83aa2af96ec22b804684c85b6aa9c2",
+    "status": "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_ADJUDICATION_REQUIRED",
+    "selection_scope": "all_authoritative_same_host_seed2026_e200_candidates",
+    "selection_role": "current_best_fallback",
+    "selected_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG"
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+      "late_three_mean_macro_psnr_delta": 0.6209590565901758,
+      "e200_macro_psnr_delta": -0.001378936820813692,
+      "late_mean_macro_lpips_delta": -0.014978799513644614
+    },
+    {
+      "rank": 2,
+      "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+      "late_three_mean_macro_psnr_delta": 0.10530200136643113,
+      "e200_macro_psnr_delta": 0.38313495396755926,
+      "late_mean_macro_lpips_delta": 0.0062781232571791174
+    },
+    {
+      "rank": 3,
+      "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+      "late_three_mean_macro_psnr_delta": -0.268851514577479,
+      "e200_macro_psnr_delta": -1.664355764596328,
+      "late_mean_macro_lpips_delta": 0.010777303257158847
+    }
+  ],
+  "single_seed_freeze": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/SINGLE_SEED_DEVELOPMENT_FREEZE.json",
+    "sha256": "fca2d0d41c9e8f215914c152d271afe126742f8190b93545e05a45158b3c936f",
+    "included_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "cross_seed_stability_claimed": false
+  },
+  "winner_ablation": {
+    "freeze_sha256": "2781685b86f72c26eb23073d62b282d8e21818a4e3b391863a6c98f2a3358752",
+    "supervisor_pid": 1452591,
+    "status": "WINNER_ABLATION_GPU_GATES_RUNNING",
+    "long_horizon_policy": "SEQUENTIAL_SINGLE_STREAM_BY_MEASURED_WALL_CLOCK",
+    "maximum_parallel_e200_executors": 1,
+    "target_data_epochs": 200,
+    "proposal_only_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "observable_only_candidate_id": "ABL-G1-02B-PCRSMG-OBSERVABLE-ONLY"
+  },
+  "revision_outcome": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_FINAL_CAUSAL_REVISION_RESULT.json",
+    "sha256": "57f522027c530e2be13523956860d5be338f8913ef4cebd66a624f9ec4619cbe",
+    "revision_count": 1,
+    "revision_candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "status": "REVISION_E200_COMPLETE_FINAL_ADJUDICATION"
+  },
+  "safety": {
+    "mcrb_4090_replay_started": false,
+    "cross_host_deltas_merged": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}

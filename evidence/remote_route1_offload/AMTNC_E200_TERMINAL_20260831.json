@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-route1-amtnc-e200-terminal-v1",
+  "recorded": "2026-08-31T01:14:38+08:00",
+  "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "method_name": "AM-TNC",
+  "candidate_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+  "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
+  "candidate_fingerprint": "2a9e78ff98a2dfd5994ef1d314ebe254452288486cb2e15da44119efb70c7ccd",
+  "execution_role": "authoritative_4090_single_allowed_evidence_driven_revision",
+  "terminal_e200": {
+    "updates": 30000,
+    "candidate_macro_psnr": 17.8211935449402,
+    "plain_macro_psnr": 17.43805859097264,
+    "macro_psnr_delta": 0.38313495396755926,
+    "macro_ssim_delta": 0.026037808436722987,
+    "macro_lpips_delta": -0.005320531466887102,
+    "positive_domains": 4,
+    "worst_domain_delta": -0.23918869460417191,
+    "per_domain_psnr_delta": {
+      "FoggyCityscapes": 0.47936791852006166,
+      "LowLightTrafficData": -0.23918869460417191,
+      "RSCityscapes": 0.7076303123492949,
+      "RainCityscapes": 1.1550382787085667,
+      "RainDS-syn": 0.2983468986103226,
+      "SnowTrafficData": -0.10238498977872013
+    },
+    "metric_sha256": "b120ab207e0f8b15a13b51ec9c54cda7cac6cc4a455cf18c69309fa19b16944d",
+    "plain_metric_sha256": "ce41323152fb396acb98605ef6b4d650bb9477498fe9f7968ca8c8a2840b8a9f",
+    "milestone_checkpoint_sha256": "7871e9fd2b25bf184772154480934d2d497cfa6560afe0495dfa14c94b6d2605",
+    "milestone_sidecar_sha256": "7566a9d63666369e00eb90c1e0544daed70e79146dd5821cc1930e15e45eca5c",
+    "scientific_state_sha256": "00722dd1f1507912c5d3ef557a3cd7fde9aff25355939ee5f760631bc811c80c"
+  },
+  "late_trajectory": {
+    "e150_macro_psnr_delta": 0.5368496081512362,
+    "e175_macro_psnr_delta": -0.604078558019502,
+    "e200_macro_psnr_delta": 0.38313495396755926,
+    "late_three_mean_macro_psnr_delta": 0.10530200136643113,
+    "late_mean_macro_ssim_delta": 0.015071644397482062,
+    "late_mean_macro_lpips_delta": 0.0062781232571791174,
+    "late_points_with_four_of_six_positive_domains": 2,
+    "late_average_worst_domain_delta": -0.5392748419806525,
+    "candidate_absolute_peak_to_e200_drawdown": 0.0,
+    "trajectory_sha256": "bcdce345d6b0341f57c1e6bbdbd39532ee703c3768a3ff04701820cd90814910"
+  },
+  "e175_to_e200_decomposition": {
+    "delta_change_db": 0.9872135119870613,
+    "candidate_absolute_change_db": 1.280395261701198,
+    "plain_absolute_change_db": 0.2931817497141367,
+    "interpretation": "AM-TNC recovered strongly in absolute PSNR and outpaced plain from e175 to e200, producing a positive endpoint and positive late-three PSNR mean."
+  },
+  "adjudication": {
+    "trajectory_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+    "strict_gate_failure": "late_mean_macro_lpips_delta_is_positive",
+    "positive_development_signal": true,
+    "classification": "POSITIVE_BUT_FRAGILE_SINGLE_SEED_ALTERNATE",
+    "why_not_rank_one": "The preregistered ranking prioritizes late-three macro PSNR delta; PC-RSMG has +0.620959 dB versus AM-TNC +0.105302 dB.",
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "claim_boundary": "AM-TNC is a positive endpoint and positive late-three single-seed development signal, but it is not a strict local success because average late LPIPS regressed."
+}

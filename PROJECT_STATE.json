@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T00:48:37+08:00",
-  "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
+  "state_snapshot_time": "2026-08-31T01:17:29+08:00",
+  "phase": "ALL_CANDIDATE_E200_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "9bfd3875861ae30dea0a3c1fb596d21316c12e40",
+  "development_head_at_state_write": "1cb93a4d81fe848d24fbef249c8890ae14ae3f4c",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -179,10 +179,10 @@
       "evidence": "evidence/local_route1/LOCAL_HJ_E200_TERMINAL_AUDIT_COMPLETE_20260830.json"
     },
     "broader_local_terminal_audit": {
-      "status": "HNEK_E5_RUNNING_AFTER_E1_COMPLETE",
+      "status": "HNEK_E20_RUNNING_AFTER_E5_COMPLETE",
       "probe": "hnek",
-      "data_epoch": 5,
-      "current_job_rows_persisted_at_snapshot": 6,
+      "data_epoch": 20,
+      "current_job_rows_persisted_at_snapshot": 13,
       "executor_pid": 15096,
       "paired_controller_access": false,
       "confirmation20_opened": false
@@ -192,7 +192,7 @@
     "confirmation20_opened": false
   },
   "remote_4090_offload": {
-    "status": "ALL_ANCHORS_AND_CAUSAL_MATRIX_COMPLETE_AMTNC_GENERATION2_E200_RUNNING",
+    "status": "ALL_CANDIDATES_E200_COMPLETE_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
     "host": "192.168.0.30",
     "gpu_observed": "NVIDIA GeForce RTX 4090",
     "role": "authoritative host-matched Generation-1 ranking runtime; never mix a remote method with local or 5090 plain",
@@ -289,9 +289,9 @@
         "method_name": "AM-TNC",
         "generation": 2,
         "parent_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
-        "gate_status": "PASS_LONG_RUN",
-        "latest_observed_data_epoch": 175,
-        "latest_executor_progress_data_epoch": 176,
+        "gate_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION_POSITIVE_BUT_FRAGILE_ALTERNATE",
+        "latest_observed_data_epoch": 200,
+        "latest_executor_progress_data_epoch": 200,
         "target_data_epoch": 200,
         "training_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
         "algorithm_fingerprint": "09b1ebabea5427135e299ddd05c587379c4df75d78279d2f4888c62b1a9068c7",
@@ -319,13 +319,23 @@
         "e175_macro_ssim_delta": -0.010337434992903738,
         "e175_macro_lpips_delta": 0.01820590336407929,
         "e175_status": "SECOND_LATE_POINT_NEGATIVE_WITH_ABSOLUTE_AND_GUARDRAIL_REGRESSION_CONTINUE_FIXED_E200",
-        "e175_evidence": "evidence/remote_route1_offload/AMTNC_E175_FIXED_MILESTONE_20260831.json"
+        "e175_evidence": "evidence/remote_route1_offload/AMTNC_E175_FIXED_MILESTONE_20260831.json",
+        "late_three_macro_psnr_delta_db": 0.10530200136643113,
+        "e200_macro_psnr_delta_db": 0.38313495396755926,
+        "e200_positive_domains": 4,
+        "e200_worst_domain_delta_db": -0.23918869460417191,
+        "e200_macro_ssim_delta": 0.026037808436722987,
+        "e200_macro_lpips_delta": -0.005320531466887102,
+        "late_mean_macro_lpips_delta": 0.0062781232571791174,
+        "terminal_strict_gate_failure": "late_mean_macro_lpips_delta_is_positive",
+        "terminal_classification": "POSITIVE_BUT_FRAGILE_SINGLE_SEED_ALTERNATE",
+        "e200_evidence": "evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json"
       },
       "execution_role": "authoritative same-runtime ranking against remote4090 plain",
       "paired_metric_early_stop": false
     },
     "generation1_successor": {
-      "status": "SINGLE_SEED_SOURCE_BOUND_RANKING_NEGATIVE_SUBSPACE_AUDIT_MATHEMATICAL_REVISION_AND_WINNER_ABLATION_ARMED",
+      "status": "SINGLE_SEED_FALLBACK_FROZEN_WINNER_ABLATION_GATES_RUNNING",
       "git_commit": "4412553088be4d764ed0ac3874918e49da1a7bd3",
       "durable_sessions": [
         "tmux:FINAL_UNSB_SINGLE_SEED_CROSS_23dc0c8",
@@ -346,7 +356,7 @@
       "negative_path_generation2_e200_executor": true,
       "single_seed_proposal_challenger_selection": true,
       "mcrb_cross_host_successor": {
-        "status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200_WITH_SINGLE_STREAM_FINAL_ABLATIONS",
+        "status": "MCRB_NEGATIVE_NO_4090_REPLAY_FINAL_SELECTION_COMPLETE_ABLATIONS_STARTED",
         "git_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
         "supervisor_pid_at_deployment": 1444417,
         "remote_e200_only_routing": true,
@@ -368,7 +378,7 @@
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "ALL_ANCHORS_E200_COMPLETE_MCRB_E200_RUNNING_REDUNDANT_PCRSMG_PAUSED",
+    "status": "ALL_ANCHORS_E200_COMPLETE_MCRB_TERMINAL_NEGATIVE_NO_4090_REPLAY_REDUNDANT_PCRSMG_PAUSED",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -413,7 +423,7 @@
       "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {"latest_observed_data_epoch": 189, "target_data_epoch": 200},
       "G1-02-SAMPLING-VARIANCE": {"latest_accepted_data_epoch": 40, "scientific_result_admissible": false, "status": "implementation_failure"},
       "G1-02B-PLAYER-CONDITIONAL-RSMG": {"latest_observed_data_epoch": 88, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "supplemental cross-runtime replication paused to prioritize independent mechanism", "resumable": true},
-      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 175, "latest_executor_progress_data_epoch": 175, "target_data_epoch": 200, "gate_status": "PASS_LONG_RUN", "execution_role": "independent mechanism discovery; complete positive e200 triggers durable 4090 same-host replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832, "e125_descriptive_only_macro_psnr_delta_db": -0.7698880834018649, "e125_positive_domains": 2, "e125_worst_domain_delta_db": -3.1284326593762124, "e125_status": "REVERSAL_OBSERVED_CONTINUE_FIXED_E200", "e125_evidence": "evidence/remote_route1_offload/MCRB_E125_REVERSAL_OBSERVED_20260830.json", "e150_descriptive_only_macro_psnr_delta_db": 0.8942276164296405, "e150_positive_domains": 6, "e150_worst_domain_delta_db": 0.3846335863189658, "e150_status": "FIRST_LATE_POINT_POSITIVE_CONTINUE_FIXED_E200", "e150_evidence": "evidence/remote_route1_offload/MCRB_E150_FIXED_MILESTONE_20260831.json", "e175_descriptive_only_macro_psnr_delta_db": -0.08217103656062719, "e175_positive_domains": 4, "e175_worst_domain_delta_db": -1.7774000134956438, "e175_status": "SECOND_LATE_POINT_NONPOSITIVE_AND_WORST_DOMAIN_FAIL_CONTINUE_FIXED_E200", "e175_evidence": "evidence/remote_route1_offload/MCRB_E175_FIXED_MILESTONE_20260831.json"},
+      "G1-03-STATE-FEEDBACK-MISSING": {"latest_observed_data_epoch": 200, "latest_executor_progress_data_epoch": 200, "target_data_epoch": 200, "gate_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION", "execution_role": "independent mechanism discovery; terminal negative skipped authoritative 4090 replay", "e100_descriptive_only_macro_psnr_delta_db": 2.157579861442832, "e125_descriptive_only_macro_psnr_delta_db": -0.7698880834018649, "e125_positive_domains": 2, "e125_worst_domain_delta_db": -3.1284326593762124, "e125_status": "REVERSAL_OBSERVED_CONTINUE_FIXED_E200", "e125_evidence": "evidence/remote_route1_offload/MCRB_E125_REVERSAL_OBSERVED_20260830.json", "e150_descriptive_only_macro_psnr_delta_db": 0.8942276164296405, "e150_positive_domains": 6, "e150_worst_domain_delta_db": 0.3846335863189658, "e150_status": "FIRST_LATE_POINT_POSITIVE_CONTINUE_FIXED_E200", "e150_evidence": "evidence/remote_route1_offload/MCRB_E150_FIXED_MILESTONE_20260831.json", "e175_descriptive_only_macro_psnr_delta_db": -0.08217103656062719, "e175_positive_domains": 4, "e175_worst_domain_delta_db": -1.7774000134956438, "e175_status": "SECOND_LATE_POINT_NONPOSITIVE_AND_WORST_DOMAIN_FAIL_CONTINUE_FIXED_E200", "e175_evidence": "evidence/remote_route1_offload/MCRB_E175_FIXED_MILESTONE_20260831.json", "late_three_macro_psnr_delta_db": 0.027366095863468942, "e200_macro_psnr_delta_db": -0.7299582922786065, "e200_positive_domains": 3, "e200_worst_domain_delta_db": -2.175170431515223, "e200_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION", "mcrb_4090_replay_started": false, "e200_evidence": "evidence/remote_route1_offload/MCRB_E200_TERMINAL_20260831.json"},
       "execution_role": "supplemental cross-runtime replication; never merged into 4090 ranking",
       "runtime_equivalent_to_4090": false
     },
@@ -444,7 +454,7 @@
     "causal_revision_successor_status": "ARMED_WAITING_FOR_TARGET_BLIND_REVISION_NEED",
     "causal_revision_successor_evidence": "evidence/remote_route1_offload/CROSS_VERSION_REVISION_E200_SUCCESSOR_DEPLOYED_20260830.json",
     "winner_ablation_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
-    "winner_ablation_successor_status": "SOURCE_BOUND_SEQUENTIAL_SINGLE_STREAM_AND_REAL_REPRODUCTION_CONTRACT_READY_WAITING_FOR_E200_WINNER",
+    "winner_ablation_successor_status": "PC_RSMG_FALLBACK_FROZEN_GPU_GATES_RUNNING_THEN_SEQUENTIAL_E200",
     "winner_ablation_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
     "extended_winner_ablation_commit": "cae238b5ffd3a378dd05f862071411afba620a63",
     "extended_winner_ablation_status": "AMTNC_AND_MCRB_SOURCE_BOUND_DEFINITIONS_AND_CPU_GATES_READY_GPU_GATES_PENDING_WINNER",
@@ -453,7 +463,7 @@
     "mcrb_4090_preflight_identity_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
     "mcrb_4090_preflight_evidence": "evidence/remote_route1_offload/MCRB_4090_PREFLIGHT_READY_20260830.json",
     "mcrb_cross_host_successor_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
-    "mcrb_cross_host_successor_status": "REDEPLOYED_WAITING_FOR_COMPLETE_5090_MCRB_E200",
+    "mcrb_cross_host_successor_status": "MCRB_NEGATIVE_NO_REPLAY_FINAL_SELECTION_COMPLETE_WINNER_ABLATION_STARTED",
     "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
     "mcrb_e150_nonterminal_runtime_audit": "evidence/remote_route1_offload/MCRB_E150_NONTERMINAL_RUNTIME_AUDIT_20260831.json",
     "mcrb_formula_implementation_audit": "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
@@ -465,7 +475,10 @@
       "945b8cfcd557367c307ce08f3eccb8e4476c6c17"
     ],
     "pcrsmg_mathematical_implementation_audit": "evidence/remote_route1_offload/PCRSMG_MATHEMATICAL_IMPLEMENTATION_AUDIT_20260830.json",
-    "status": "AMTNC_4090_AND_MCRB_5090_E200_RUNNING_EXTENDED_WINNER_ABLATION_CHAIN_READY"
+    "all_candidate_terminal_selection_evidence": "evidence/remote_route1_offload/ALL_CANDIDATE_E200_FALLBACK_AND_ABLATION_START_20260831.json",
+    "amtnc_e200_terminal_evidence": "evidence/remote_route1_offload/AMTNC_E200_TERMINAL_20260831.json",
+    "mcrb_e200_terminal_evidence": "evidence/remote_route1_offload/MCRB_E200_TERMINAL_20260831.json",
+    "status": "PC_RSMG_SINGLE_SEED_FALLBACK_FROZEN_WINNER_ABLATION_GPU_GATES_RUNNING"
   },
-  "next_gate": "Let AM-TNC on 4090 and MCRB on 5090 complete true e200 without intermediate quality control. If MCRB is positive, rerun it from common e0 on the authoritative 4090 before any numeric merge; otherwise keep it supplemental-negative. Freeze the resulting same-host seed2026 winner or honest fallback, reuse its projected/full receipt, then run proposal-only followed by observable-only as sequential single-stream e200 ablations. Seeds 2027/2028 remain deferred."
+  "next_gate": "Complete PC-RSMG proposal-only and observable-only as sequential single-stream seed2026 e200 ablations after both short GPU gates pass. Reuse the existing projected/full PC-RSMG receipt, adjudicate all three complete trajectories, allow a complete proposal-only challenger to replace full under the emergency policy, and materialize the unique CANDIDATE plus two alternates. Seeds 2027/2028 remain deferred."
 }

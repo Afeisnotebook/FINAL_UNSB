@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-route1-mcrb-e200-terminal-v1",
+  "recorded": "2026-08-31T01:14:58+08:00",
+  "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "method_name": "MCRB",
+  "candidate_git_commit": "7fa9081c2a2a321607bef164f62bdad9053f4b7e",
+  "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+  "candidate_fingerprint": "e3e2e29088ff149cc7dbe82d1b93c2be02dba5b74776da3e5e17da4a74785222",
+  "execution_role": "independent_5090_mechanism_discovery",
+  "terminal_e200": {
+    "updates": 30000,
+    "candidate_macro_psnr": 17.046846025875674,
+    "plain_macro_psnr": 17.77680431815428,
+    "macro_psnr_delta": -0.7299582922786065,
+    "macro_ssim_delta": -0.01013049376862385,
+    "macro_lpips_delta": -0.001381020975254832,
+    "positive_domains": 3,
+    "worst_domain_delta": -2.175170431515223,
+    "per_domain_psnr_delta": {
+      "FoggyCityscapes": 0.13494365592830704,
+      "LowLightTrafficData": 0.17038498047122097,
+      "RSCityscapes": -1.9621017197594526,
+      "RainCityscapes": -2.175170431515223,
+      "RainDS-syn": -0.5811765483636222,
+      "SnowTrafficData": 0.03337030956709697
+    },
+    "metric_sha256": "0ad66dc1d1f6e3b4e6dab8fedf1ab5c4e94a897ce5ba8c502927feffa4a36f68",
+    "plain_metric_sha256": "09ab85810d0b9123e7b3f2b0f0de492b5da81917567be3fbbc53f458bcfc533e",
+    "milestone_checkpoint_sha256": "e24a5de87be24f4fca72793d5fa1bbc265baed81cf94fd3d48bab010e30d8235",
+    "milestone_sidecar_sha256": "7b4cd41f4d7a787f56955a6108b67d6194dade30740c778caac191ed63daab92",
+    "scientific_state_sha256": "18355bf9660ee23fc334915d24ebbda1a660cfde002c166cebb36f36a5901407"
+  },
+  "late_trajectory": {
+    "e150_macro_psnr_delta": 0.8942276164296405,
+    "e175_macro_psnr_delta": -0.08217103656062719,
+    "e200_macro_psnr_delta": -0.7299582922786065,
+    "late_three_mean_macro_psnr_delta": 0.027366095863468942,
+    "late_mean_macro_ssim_delta": 0.019016946272717605,
+    "late_mean_macro_lpips_delta": null,
+    "late_points_with_four_of_six_positive_domains": 2,
+    "late_average_worst_domain_delta": -1.1893122862306338,
+    "candidate_absolute_peak_to_e200_drawdown": 0.09796212669910886,
+    "trajectory_sha256": "725286fa9842768f4e3a85c5f1577b2831de8a674ef4a1351a8c9e19fbc772cf"
+  },
+  "e175_to_e200_decomposition": {
+    "delta_change_db": -0.6477872557179793,
+    "candidate_absolute_change_db": -0.09796212669910886,
+    "plain_absolute_change_db": 0.5498251290188705,
+    "interpretation": "MCRB regressed slightly while plain improved, producing a clearly negative endpoint despite a barely positive late-three mean."
+  },
+  "routing_result": {
+    "trajectory_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+    "mcrb_4090_replay_started": false,
+    "cross_host_deltas_merged": false,
+    "selected_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    "paired_metric_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "claim_boundary": "This closes only the frozen MCRB implementation on the independent 5090 development trajectory. It does not falsify every state-feedback or covariance-rate mechanism."
+}
