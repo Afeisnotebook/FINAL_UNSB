@@ -228,7 +228,7 @@
     },
     "generation1_successor": {
       "status": "ARMED_WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
-      "git_commit": "23fd6c7c2bdf2ad17b5a8a5f58bc51ab7cecaf17",
+      "git_commit": "4678c87cd78480c077f6608a4d061f080ccff752",
       "durable_session": "tmux:FINAL_UNSB_G1_SUCCESSOR",
       "freeze_only_numeric_gate_winner": true,
       "seed2027_after_complete_e200_only": true,
@@ -236,7 +236,7 @@
       "negative_path_stops_for_causal_revision": true,
       "final_delivery_after_complete_seed_adjudication": true,
       "negative_e200_target_blind_defect_audit": true,
-      "evidence": "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_NEGATIVE_AUDIT_UPGRADE_20260830.json"
+      "evidence": "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_PORTABLE_DELIVERY_20260830.json"
     },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"

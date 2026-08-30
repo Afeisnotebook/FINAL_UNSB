@@ -1,0 +1,26 @@
+{
+  "schema": "final-unsb-route1-generation1-successor-portable-delivery-v1",
+  "observed_at": "2026-08-30T15:42:36+08:00",
+  "status": "CURRENT_DURABLE_SUCCESSOR_ARMED",
+  "host": "remote4090",
+  "successor_git_commit": "4678c87cd78480c077f6608a4d061f080ccff752",
+  "successor_worktree": "/home/yc/FINAL_UNSB_SUCCESSOR_4678c87",
+  "contract_sha256": "c9727b2a7cbc310366c07ef90b977d4b76eed432f86838efcc56f32245d11466",
+  "supervisor_pid": 1388698,
+  "initial_state": "WAITING_FOR_BOTH_MATCHED_E200_TRAJECTORIES",
+  "candidate_executor_count_before_after": [2, 2],
+  "contract_stderr_bytes": 0,
+  "supervisor_stderr_bytes": 0,
+  "terminal_delivery": [
+    "final/CANDIDATE.json",
+    "final/RESULTS.json",
+    "final/ALTERNATES.json",
+    "final/FINAL_ROUTE1_REPORT.md"
+  ],
+  "delivery_contains": "portable evidence paths, executable model/method configuration, source hashes, causal hashes, ablation definitions, complexity, risks, reproduction commands and per-domain absolute/relative trajectories",
+  "incomplete_state_materialization_rejected": true,
+  "candidate_checkpoint_or_rng_touched": false,
+  "paired_metric_scheduling": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
