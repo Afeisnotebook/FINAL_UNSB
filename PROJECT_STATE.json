@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T02:10:00+08:00",
+  "state_snapshot_time": "2026-08-31T02:19:00+08:00",
   "phase": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "47bbb85b80ed96cd040ed39ab4fda8c17b43f737",
+  "development_head_at_state_write": "827183a3720e567ad7387576f0599b1862762cb2",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -506,7 +506,11 @@
       "cross_host_delta_merge": false,
       "evidence": "evidence/remote_route1_offload/FRONTIER_GATES_AND_E200_START_20260831.json",
       "terminal_successor_status": "WAITING_FOR_BOTH_COMPLETE_E200_RECEIPTS",
-      "terminal_successor_evidence": "evidence/remote_route1_offload/FRONTIER_TERMINAL_SUCCESSOR_ARMED_20260831.json"
+      "terminal_successor_evidence": "evidence/remote_route1_offload/FRONTIER_TERMINAL_SUCCESSOR_ARMED_20260831.json",
+      "conditional_4090_replay_successor_commit": "827183a3720e567ad7387576f0599b1862762cb2",
+      "conditional_4090_replay_status": "WAITING_FOR_LOCAL_WINNER_ABLATIONS_THEN_COMPLETE_REMOTE_DECISION",
+      "maximum_conditional_4090_replays": 1,
+      "conditional_4090_replay_evidence": "evidence/remote_route1_offload/FRONTIER_CROSS_HOST_SUCCESSOR_ARMED_20260831.json"
     },
     "status": "PC_RSMG_ABLATIONS_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING"
   },

@@ -1,0 +1,27 @@
+{
+  "schema": "final-unsb-route1-frontier-cross-host-successor-armed-evidence-v1",
+  "created": "2026-08-31T02:18:42.525024+08:00",
+  "router_git_commit": "827183a3720e567ad7387576f0599b1862762cb2",
+  "candidate_git_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+  "status": "WAITING_FOR_LOCAL_WINNER_ABLATIONS",
+  "local_ablation_snapshot_data_epoch": 66,
+  "remote_ssh_preflight": true,
+  "contract_sha256": "345a418345a195edbf1c83243615449224410724f4898a98c6d987af63134c3f",
+  "launch_sha256": "381215a76631da761fe705206fb2a751dc8c3e1781c7070c6a3e3483eea22868",
+  "state_sha256": "5129c0ea6b97a5340feb767b41ddad16830772ac571b0ec954c0fd483d399969",
+  "wait_for_local_winner_ablations": true,
+  "complete_remote_e200_only": true,
+  "maximum_4090_replays": 1,
+  "batch_size": 1,
+  "selection_seeds": [
+    2026
+  ],
+  "deferred_seed_validation": [
+    2027,
+    2028
+  ],
+  "intermediate_metric_routing": false,
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
