@@ -140,7 +140,8 @@
         "research/local_route1/winner_ablations.py",
         "research/local_route1/cross_version_final_delivery.py",
         "evidence/remote_route1_offload/WINNER_ABLATION_AND_CROSS_FINAL_GATES_20260830.json",
-        "evidence/remote_route1_offload/WINNER_ABLATION_EXECUTION_CHAIN_READY_20260830.json"
+        "evidence/remote_route1_offload/WINNER_ABLATION_EXECUTION_CHAIN_READY_20260830.json",
+        "evidence/remote_route1_offload/WINNER_ABLATION_SUCCESSOR_ARMED_20260830.json"
       ],
       "boundary": "Only the final winner receives long-horizon ablations; definitions and ready adjudication code are not accepted as experimental results. Observable-only must match plain at e200 for the complete next-update dynamics state (networks, optimizers, schedulers, method state, RNG and both samplers), while identity-only metadata is excluded; a proposal-only challenger blocks the original winner from final delivery.",
       "missing": ["winner identity", "winner-specific executable GPU gates", "proposal-only e200", "observable-only e200", "full-vs-ablation matched result artifact"]

@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-winner-ablation-successor-deployment-v1",
+  "status": "ARMED_WAITING_FOR_SOURCE_BOUND_WINNER_AND_FROZEN_SEEDS",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "repo": "/home/yc/FINAL_UNSB_ABLATIONS_c154122",
+  "git_commit": "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
+  "remote_pytest": "143 passed",
+  "tmux_session": "FINAL_UNSB_WINNER_ABLATIONS_c154122",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/WINNER_ABLATION_SUCCESSOR_CONTRACT_c154122.json",
+  "contract_sha256": "60dbe84fddc97a155a4af0e603b3d721f518222ac2fcb6c52bf564f5c6a0eb64",
+  "initial_state": {
+    "status": "WAITING_FOR_WINNER_AND_FROZEN_SEEDS",
+    "state_sha256_at_verification": "afa732ada0baa1f262cb27150f9c64031e40c43a2dfd0679c6788519b9d8cb15",
+    "stderr_bytes": 0
+  },
+  "activation_conditions": [
+    "CROSS_VERSION_E200_ADJUDICATION selects a positive source-bound winner",
+    "the selected winner has completed frozen seed2027 and conditional seed2028 adjudication"
+  ],
+  "automatic_actions_after_activation": [
+    "freeze only the selected family's proposal-only and observable-only identities",
+    "run both source-bound GPU gates concurrently",
+    "run both independent batch-1 trajectories from common e0 to e200",
+    "create source-bound receipts and matched winner-ablation adjudication",
+    "block on a proposal-only challenger or materialize the final delivery"
+  ],
+  "negative_cross_version_behavior": "Record WAITING_FOR_ROUTE1_CAUSAL_REVISION and return without starting handoff, exit-threshold search or ablations.",
+  "scientific_contract": {
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "best_checkpoint_selection": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "deployment_did_not_modify_running_candidate_worktrees": true
+}
