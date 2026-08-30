@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T18:21:00+08:00",
+  "updated": "2026-08-30T18:30:00+08:00",
   "goal_status": "IN_PROGRESS_GENERATION1_BVCP_AND_PCRSMG_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -91,9 +91,10 @@
       "evidence": [
         "evidence/remote_route1_offload/CAUSAL_REVISION_GATE.json",
         "evidence/remote_route1_offload/GENERATION1_SUCCESSOR_ARMED_20260830.json",
-        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_CAUSAL_SUCCESSOR_ARMED_20260830.json"
+        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_CAUSAL_SUCCESSOR_ARMED_20260830.json",
+        "evidence/remote_route1_offload/CROSS_VERSION_NEGATIVE_SUBSPACE_AUDIT_SUCCESSOR_REDEPLOYED_20260830.json"
       ],
-      "rule": "A positive eligible winner makes revision inapplicable. If both source-bound e200 implementations are negative, the armed successor measures each parent defect at the unchanged terminal state and routes at most one mathematically eligible revision; it never auto-derives a window, threshold controller or handoff."
+      "rule": "A positive eligible winner makes revision inapplicable. If both source-bound e200 implementations are negative, the armed successor measures each parent defect at the unchanged terminal state and routes at most one mathematically eligible revision; PC-RSMG evidence now separates replica disagreement parallel and orthogonal to the mean update in Euclidean and frozen pre-step Adam metrics. It never auto-derives a window, threshold controller or handoff."
     },
     {
       "id": 7,
@@ -122,8 +123,10 @@
         "150 pytest tests passed at ablation challenger successor commit 1ebf7b6",
         "152 pytest tests passed at frozen challenger selection commit 449b394",
         "154 pytest tests passed at challenger-aware final delivery commit 945b8cf",
+        "156 pytest tests passed at gradient-subspace audit commit 6f3edf5",
+        "three candidate-compatible 4090 worktrees each passed the 7 targeted negative-audit tests at the 6f3edf5 audit source hash",
         "candidate training-core fingerprint remained 2158fc4c39f4a8f7c5f57a676063a32faca91356faa34358a03e7f93912aacb1",
-        "main pushed through 945b8cf",
+        "main pushed through 6f3edf5",
         "evidence/remote_route1_offload/GENERATION1_TERMINAL_INTEGRITY_SUCCESSOR_20260830.json",
         "evidence/remote_route1_offload/CROSS_VERSION_SUCCESSOR_ARMED_20260830.json"
       ],
@@ -162,7 +165,7 @@
     "remote4090": "plain/HJ/HNEK/DT e200 and 474/140 matrix complete; BVCP reached e200 with a negative current-implementation label; PC-RSMG continues from common e0; old RSMG e71 is engineering-invalid",
     "remote5090": "all anchors e200 complete; supplemental cross-runtime BVCP and PC-RSMG continue; no 5090 result may be merged into the 4090 ranking",
     "new_algorithms": "BVCP is a valid complete e200 negative current implementation, not a falsification of its parent mechanism; PC-RSMG passed coupled-game, identity and resume gates on both accelerators and continues without scientific early stop",
-    "successor": "source-bound cross-version successor 0aa0beb is durably waiting; winner ablations, negative causal routing and challenger-aware final delivery 945b8cf are independently armed without modifying active training identities",
+    "successor": "source-bound cross-version successor 0aa0beb is durably waiting; winner ablations and challenger-aware final delivery 945b8cf are armed; negative causal routing was redeployed at 6f3edf5 with two-replica Euclidean/Adam subspace geometry, without modifying active training identities",
     "confirmation20_opened": false
   },
   "completion_claim_allowed": false

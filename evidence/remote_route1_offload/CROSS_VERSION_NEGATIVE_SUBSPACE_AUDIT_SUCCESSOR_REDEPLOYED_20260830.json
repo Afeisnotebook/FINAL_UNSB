@@ -1,0 +1,58 @@
+{
+  "schema": "final-unsb-route1-cross-version-negative-subspace-audit-redeployment-v1",
+  "status": "ARMED_WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION",
+  "date": "2026-08-30",
+  "host_role": "authoritative same-runtime 4090 continuation",
+  "successor_repo": "/home/yc/FINAL_UNSB_NEG_SUCCESSOR_6f3edf5",
+  "successor_git_commit": "6f3edf5ef518320c541e459a7c0c671f7f9ca813",
+  "candidate_audit_repos": {
+    "G1-01-ROLLOUT-DISTRIBUTION-SPEED": {
+      "path": "/home/yc/FINAL_UNSB_BVCP_NEG_AUDIT_6f3edf5",
+      "git_commit": "c8c9d96e0e706ec3a671c4422b64cb9af5680502"
+    },
+    "G1-02B-PLAYER-CONDITIONAL-RSMG": {
+      "path": "/home/yc/FINAL_UNSB_PCRSMG_NEG_AUDIT_6f3edf5",
+      "git_commit": "99dc5432bd6667e6e4a3e8be119a4b7826cf0092"
+    }
+  },
+  "shared_candidate_defect_audit_sha256": "10274f314c8061ed6697854fa01a15f47139985c5757111b1825ff1403ee823c",
+  "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_NEGATIVE_SUCCESSOR_CONTRACT_6f3edf5.json",
+  "contract_sha256": "0617c15a64528ce011674ab43e816a6fc652e501581d7d165657fcc36c5c5186",
+  "remote_tests": {
+    "successor_repo": "7 passed",
+    "bvcp_compatible_repo": "7 passed",
+    "pcrsmg_compatible_repo": "7 passed",
+    "compileall": "passed in all three worktrees",
+    "git_diff_check": "passed in all three worktrees"
+  },
+  "accepted_state": {
+    "status": "WAITING_FOR_CROSS_VERSION_E200_ADJUDICATION",
+    "state_sha256_at_verification": "6478d7e818ebc1cb5fcc1112636cae61eab6faced7650622f301b75cf024fd64",
+    "supervisor_pid": 1411384,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "root_fatal_absent": true
+  },
+  "mathematical_upgrade": {
+    "quantity": "For two independent player-conditional replicas, decompose d=(g1-g2)/2 into components parallel and orthogonal to m=(g1+g2)/2.",
+    "metrics": [
+      "parameter-space Euclidean parallel and orthogonal energies",
+      "frozen pre-step Adam-metric parallel and orthogonal energies"
+    ],
+    "decision_boundary": "The geometry is revision evidence only. It does not change the registered total-variance eligibility test, current candidate, training update, or e200 ranking."
+  },
+  "scientific_contract": {
+    "training_batch_size": 1,
+    "target_data_epochs": 200,
+    "best_checkpoint_selection": false,
+    "fixed_window_or_handoff": false,
+    "paired_metric_scheduling": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "active_training_worktrees_modified": false,
+  "supersedes": {
+    "tmux_session": "FINAL_UNSB_NEGATIVE_SUCCESSOR_85c03fb",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CROSS_VERSION_NEGATIVE_SUCCESSOR_CONTRACT_85c03fb.json"
+  }
+}
