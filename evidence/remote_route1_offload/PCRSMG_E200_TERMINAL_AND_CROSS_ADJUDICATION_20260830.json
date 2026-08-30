@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-route1-pcrsmg-terminal-evidence-v1",
+  "recorded_at": "2026-08-30T21:14:00+08:00",
+  "host": "192.168.0.30",
+  "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+  "method_name": "PC-RSMG",
+  "training_git_commit": "f2bc24be948ccca715cacea23057309c37c2fae4",
+  "algorithm_fingerprint": "123485fd96ff8aace7c4100c894cc729c7f407d9f4672a228c6c3b5ede8e7aa7",
+  "candidate_fingerprint": "8130706aa31ac9003c9724634dd01ce1ef311628745008ae146b8a26a5c74f06",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "seed": 2026,
+  "batch_size": 1,
+  "data_epoch": 200,
+  "updates": 30000,
+  "matched_plain": true,
+  "macro_psnr": 17.436679654151828,
+  "plain_macro_psnr": 17.43805859097264,
+  "macro_psnr_delta_db": -0.001378936820813692,
+  "positive_domains": 3,
+  "worst_domain_delta_db": -0.6854266529773252,
+  "macro_ssim_delta": 0.005359632238036149,
+  "macro_lpips_delta": -0.008566228672862053,
+  "guardrails_pass": true,
+  "domain_psnr_delta_db": {
+    "FoggyCityscapes": -0.6854266529773252,
+    "LowLightTrafficData": 0.4752242008802785,
+    "RSCityscapes": -0.2442780247846308,
+    "RainCityscapes": 0.38264520419542336,
+    "RainDS-syn": 0.26196805523791156,
+    "SnowTrafficData": -0.1984064034765609
+  },
+  "late_trajectory": {
+    "e150_macro_psnr_delta_db": 1.3708965709386227,
+    "e175_macro_psnr_delta_db": 0.4933595356527185,
+    "e200_macro_psnr_delta_db": -0.001378936820813692,
+    "late_three_mean_macro_psnr_delta_db": 0.6209590565901758,
+    "late_points_with_four_of_six_positive_domains": 2,
+    "late_average_worst_domain_delta_db": -0.27939091339634636,
+    "late_mean_macro_ssim_delta": 0.017010403448154115,
+    "late_mean_macro_lpips_delta": -0.014978799513644614
+  },
+  "artifact_hashes": {
+    "metric_sha256": "57d19887bc7645dc74d3df8a068ab7fd368afe3e411ff48c2701414288861f44",
+    "milestone_checkpoint_sha256": "0607ed8a8d3614b3d68e743c41d48da354913af39abcc049194a1d6943f585be",
+    "terminal_scientific_state_sha256": "d84ef732a11a91850f31ed60ffa4b1e4c1a7311f589415659fb48b38de7e9c28",
+    "trajectory_sha256": "6d4ee449cdea36f156859476d4295fbf5bcb6bad8e07277eef3980bfda7cff9a",
+    "cross_version_adjudication_sha256": "8e8669037e63d70255b59a4b629e048108021eb0c74d23bbfd7bbbe7def6991b"
+  },
+  "cross_version_adjudication": {
+    "status": "NO_SEED2026_NUMERIC_GATE_PASS_CAUSAL_ADJUDICATION_REQUIRED",
+    "selection_role": "current_best_fallback",
+    "selected_candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+    "seed_freeze_performed": false,
+    "causal_audit_required": true
+  },
+  "paired_controller_access": false,
+  "paired_metric_early_stop": false,
+  "confirmation20_opened": false,
+  "scientific_status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+  "interpretation": "PC-RSMG retained a substantial positive late-three mean and passed SSIM/LPIPS guardrails, but the fixed e200 endpoint returned essentially to matched plain and missed the strict positive terminal gate by 0.00138 dB. This triggers target-blind defect audit and at most one evidence-driven mathematical revision; it does not justify checkpoint selection, a handoff window, seed replication, or declaring the parent variance mechanism falsified.",
+  "claim_boundary": "Complete seed2026 development evidence only. The current implementation fails the strict e200 numeric gate, remains the authoritative 4090 fallback before MCRB completes, and provides no cross-seed stability claim."
+}
