@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+from pathlib import Path
 
 import pytest
 
@@ -8,6 +9,7 @@ from operations.local_route1_mcrb_cross_host_successor import (
     CANDIDATE_ID,
     REMOTE_FAIL,
     REMOTE_PASS,
+    MCRBCrossHostSuccessor,
     validate_remote_receipt,
     validate_remote_trajectory,
 )
@@ -109,3 +111,48 @@ def test_remote_terminal_integrity_cannot_hide_paired_control() -> None:
     receipt["terminal_integrity"]["paired_metric_used_for_training_or_control"] = True
     with pytest.raises(RuntimeError, match="terminal integrity used paired"):
         validate_remote_receipt(receipt, _trajectory())
+
+
+def _orchestration_harness(status: str):
+    successor = object.__new__(MCRBCrossHostSuccessor)
+    calls: list[object] = []
+    successor.contract_path = Path("contract.json")
+    successor.event = lambda name, **fields: calls.append(("event", name, fields))
+    successor.state = lambda name, **fields: calls.append(("state", name, fields))
+    successor.wait_for_remote_e200 = lambda: (_trajectory(status), _receipt(status))
+    revision = {"ranking": [{"candidate_id": "G2-FULL"}]}
+    successor.wait_for_amtnc_revision = lambda: revision
+    successor.prepare_mcrb_4090 = lambda: calls.append("prepare_4090")
+    receipt_path = Path("mcrb-receipt.json")
+    successor.run_mcrb_4090 = lambda: calls.append("run_4090") or receipt_path
+
+    def finalize(value, receipt):
+        calls.append(("finalize", value, receipt))
+        return {"selected_candidate_id": "WINNER"}
+
+    successor.materialize_final_selection = finalize
+    successor.start_winner_ablation_successor = (
+        lambda selection: calls.append(("start_ablations", selection)) or 1234
+    )
+    return successor, calls, revision, receipt_path
+
+
+def test_complete_remote_negative_skips_4090_then_finalizes() -> None:
+    successor, calls, revision, _ = _orchestration_harness(REMOTE_FAIL)
+    assert successor.run() == 0
+    assert "prepare_4090" not in calls
+    assert "run_4090" not in calls
+    assert ("finalize", revision, None) in calls
+    finalization = calls.index(("finalize", revision, None))
+    ablation = next(index for index, row in enumerate(calls) if row[0] == "start_ablations")
+    assert finalization < ablation
+
+
+def test_complete_remote_positive_replays_before_final_selection() -> None:
+    successor, calls, revision, receipt_path = _orchestration_harness(REMOTE_PASS)
+    assert successor.run() == 0
+    prepare = calls.index("prepare_4090")
+    replay = calls.index("run_4090")
+    finalize = calls.index(("finalize", revision, receipt_path))
+    ablation = next(index for index, row in enumerate(calls) if row[0] == "start_ablations")
+    assert prepare < replay < finalize < ablation
