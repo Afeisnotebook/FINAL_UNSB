@@ -1,21 +1,21 @@
 {
   "schema": "final-unsb-route1-frontier-complete-evidence-delivery-redeployed-v1",
-  "observed_at": "2026-08-31T03:20:11+08:00",
+  "observed_at": "2026-08-31T03:27:31+08:00",
   "decision": "decisions/DEC-20260831-FRONTIER-FINAL-EVIDENCE-COMPLETENESS.md",
-  "implementation_commit": "68dcea097a371949f63974e89c9bb8e806752c65",
+  "implementation_commit": "970784c83f2a4bbe4d8f9339e9e2dff870cd02eb",
   "validation": {
     "pytest": "230 passed including the replayed-frontier proposal-winner path",
     "compileall": "pass",
     "git_diff_check": "pass"
   },
   "remote4090": {
-    "final_delivery_worktree": "/home/yc/FINAL_UNSB_FRONTIER_DELIVERY_68dcea0",
-    "worktree_commit_verified": "68dcea097a371949f63974e89c9bb8e806752c65",
+    "final_delivery_worktree": "/home/yc/FINAL_UNSB_FRONTIER_DELIVERY_970784c",
+    "worktree_commit_verified": "970784c83f2a4bbe4d8f9339e9e2dff870cd02eb",
     "worktree_clean": true,
-    "final_successor_pid": 1463925,
+    "final_successor_pid": 1464676,
     "final_successor_status": "WAITING_FOR_SELECTED_ALGORITHM_SPECIFIC_ABLATIONS",
-    "final_contract_sha256": "b33746161ebdb1a08e1862784713e007eef8345f77144c8cbe1778d7d6c9e12e",
-    "superseded_final_successor_pid": 1461961,
+    "final_contract_sha256": "9fc23245cd216af4d3d648d61ef80d8fd48379c681db41d089d3a4b5fc30006c",
+    "superseded_final_successor_pid": 1463925,
     "superseded_final_successor_stopped": true,
     "pcrsmg_ablation_supervisor_pid": 1452591,
     "pcrsmg_ablation_executor_pid": 1453304,

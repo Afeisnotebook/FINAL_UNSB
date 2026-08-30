@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-31T03:20:11+08:00",
+  "updated": "2026-08-31T03:27:31+08:00",
   "goal_status": "IN_PROGRESS_WINNER_ABLATIONS_AND_EVIDENCE_DRIVEN_FRONTIER_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {

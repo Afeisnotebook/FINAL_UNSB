@@ -56,7 +56,7 @@ AM-MCRB把MCRB的欧氏投影改为Adam二阶矩度量下的最小安全位移�
 projected/full e200证据；不能借用PC-RSMG消融。若没有4090复跑，旧主候选保持不变。
 详见`decisions/DEC-20260831-FRONTIER-PRESERVATION-AND-WINNER-ABLATION-BINDING.md`。
 
-终交付本身也已升级到`68dcea0`：它不再只输出主候选摘要，而是强制保留主候选及三项
+终交付本身也已升级到`970784c`：它不再只输出主候选摘要，而是强制保留主候选及三项
 机制消融的逐域candidate/plain绝对轨迹和delta、4090/5090宿主分离完整前沿、公式与
 源码/合同身份，并在最终报告中分别说明科学结论、工程失败、代理失真和未测试假设。
 任一终点证据或hash缺失都会拒绝交付。见
