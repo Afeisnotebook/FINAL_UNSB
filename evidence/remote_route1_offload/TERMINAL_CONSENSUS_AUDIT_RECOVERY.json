@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-route1-terminal-consensus-audit-recovery-v1",
+  "created": "2026-08-30T09:16:00+08:00",
+  "failure": {
+    "host_role": "4090_primary_causal_audit",
+    "cell": "dt:e200",
+    "attempts": 3,
+    "first_failure": "2026-08-30T09:02:11+08:00",
+    "terminal_failure": "2026-08-30T09:10:11+08:00",
+    "exception": "terminal vector-field audit is local-only and may not cross a scheduler boundary",
+    "failed_before_raw_row_write": true,
+    "dt_e175_completed_before_executor_exit": true,
+    "scientific_anchor_or_training_failure": false
+  },
+  "root_cause": {
+    "public_terminal_horizons": [1, 8, 32],
+    "internal_auxiliary_horizon": 2,
+    "reason_internal_h2_is_required": "The public h=1 row computes correction agreement with the next independent native UNSB update, which requires a two-update native branch from the same terminal parent.",
+    "defect": "The terminal guard admitted public horizons 1/8/32 but rejected the internal h=2 branch before the h=1 row could be persisted.",
+    "public_h2_row_added": false,
+    "queue_or_row_id_changed": false,
+    "training_core_changed": false
+  },
+  "minimal_audit_fix": {
+    "branch": "route1-audit-terminal-fix",
+    "base_audit_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+    "fixed_audit_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+    "fixed_audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+    "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+    "tests": "48 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "mixed_lineage_policy": {
+    "raw_rows_may_be_rewritten": false,
+    "old_rows_recomputed_or_relabelled": false,
+    "allowed_audit_identities": [
+      {
+        "audit_git_commit": "729826f55f2cdbd59fbc51cd64b437bb392ea21c",
+        "audit_source_fingerprint": "41434187402e9f3c2226931e1e3c4e0474dbc84f0c2f17e603b084ac54005e1a",
+        "role": "completed pre-failure cells and HJ reversal supplement"
+      },
+      {
+        "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+        "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+        "role": "terminal-fix recovery and remaining primary cells"
+      }
+    ],
+    "all_rows_require_same_training_core": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714"
+  },
+  "recovery": {
+    "old_contract_and_failed_state_archived": true,
+    "old_failure_counts_archived": true,
+    "completed_rows_skipped_by_row_id": true,
+    "primary_executor_pid": 1340265,
+    "audit_contract_sha256": "f309fcfb6be9e1f5ccdc79a251d895e8d170ea1c63f75f383d326e650066efdc",
+    "observed_dt_e200_rows_at_recovery_check": 7,
+    "hj_e5_started": true,
+    "supplement_contract_sha256": "4ff3f13a0bf896631ff3372b868af8daa4fe24654b8b2fe1b151d96e54834cb4",
+    "final_reanalysis_contract_sha256": "379159cd017ab45d070fd628eb3d3e3d6504dedebf48256c0f8d3bfe3b8d87d9"
+  },
+  "analysis_verifier": {
+    "main_commit": "64621661ed7617bb930ecac5a19159deb1f112cf",
+    "explicitly_records_observed_audit_identities": true,
+    "pytest": "112 passed"
+  },
+  "access_guards": {
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_formula_preselected": false
+  }
+}
