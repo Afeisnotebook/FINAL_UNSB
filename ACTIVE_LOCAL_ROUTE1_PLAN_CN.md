@@ -65,6 +65,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   observable-only、projected/full真实e200消融；若当前实现失败，只有在target-blind
   缺陷量确实下降但长期收益仍反转时，才允许一次因果修订。不得转成窗口、handoff、
   退火、paired控制或自动seed复赛。
+- 5090 MCRB与4090 AM-TNC之间的后继现已设计为独立持久链：只在5090形成完整e200
+  terminal receipt且数值门通过后，才在4090从共同e0启动MCRB；它不会读取中间paired
+  结果。两者终点齐备后才生成全4090 receipt总排名并启动赢家e200消融，避免会话中断和
+  旧revision排名抢先触发消融。
 - source-bound正向排名、全负缺陷审计以及最终赢家proposal-only/observable-only/full
   e200消融均已由相互独立的持久后继进程等待触发；全负审计已升级为在欧氏参数空间和
   冻结pre-step Adam度量中分解双replica差异相对平均梯度的平行/正交能量。最终交付链还会

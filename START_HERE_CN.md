@@ -55,5 +55,10 @@ target-blind审计据此授权唯一二代修订AM-TNC；它正在4090从共同e
 5. 任何宿主都不得读取confirmation20、运行全量数据、搜索handoff/退出窗口或把方法
    分数减去另一宿主的plain。
 
+上述第4步由4090上的持久跨宿主后继执行，不依赖Codex会话存活：它只读取5090完整
+e200 terminal receipt；完整正结果才启动4090 MCRB复赛，完整负结果则跳过。它同时等待
+AM-TNC e200，最终统一冻结4090同宿主总排名后才启动赢家消融。协议见
+`decisions/DEC-20260830-MCRB-CROSS-HOST-DURABLE-ROUTING.md`。
+
 完整边界见 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`。旧 `configs/FOUR_LANES.json`
 只保留为暂停方案的历史记录，不得执行。
