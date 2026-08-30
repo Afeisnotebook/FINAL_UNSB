@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-route1-probe-internal-observable-gate-v1",
   "created": "2026-08-30T08:23:00+08:00",
-  "implementation_commit": "996ab19",
+  "implementation_commit": "b1f68db",
   "problem": "The immutable causal rows retained DT/HJ/HNEK internals, but the offline target-blind screen previously consumed only shared gradient, bridge, game, domain, time and variance observables.",
   "screened_probe_internal_observables": {
     "dt": [
@@ -9,7 +9,8 @@
       "current-versus-previous audited covariance-mismatch descent rate"
     ],
     "hj": [
-      "minimum of two-sided structural agreement above chance and normalized risk above the frozen 0.05 mechanism boundary"
+      "minimum of per-probe two-sided structural agreement above chance and per-probe normalized risk above the frozen 0.05 mechanism boundary",
+      "raw A-to-B plus identity diagnostic sums are divided by the frozen two calls per optimizer step before screening"
     ],
     "hnek": [
       "proposal/native rollout-speed stability",
