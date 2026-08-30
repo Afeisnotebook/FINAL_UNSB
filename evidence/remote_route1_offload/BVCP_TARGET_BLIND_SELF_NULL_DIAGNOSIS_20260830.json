@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-route1-bvcp-target-blind-self-null-diagnosis-v1",
+  "status": "NO_EMPIRICAL_SELF_NULL_TENDENCY_CURRENT_OPERATOR",
+  "date": "2026-08-30",
+  "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED",
+  "training_git_commit": "610fc536ac7caf15833a5575537e5178c79fa642",
+  "algorithm_fingerprint": "447cdcfacabc0f13616da484a4511983df65b8b71e315eec3e5030db9c797d89",
+  "source_bound_sha256": {
+    "bvcp_source": "37c9b7d0226669077d3a0a7e264c1ccce3bd331a8fc0f3cbcf585b9029d35642",
+    "derivation_card": "52f4b8d37abc617d716b2b8d6d63e6e655f571efb0f1c0afde906ef297984c9a",
+    "implementation": "b413330d18bfb81f2ccfcf4bf61532183697d4bf70fb7298ab9437b6e17a0fcf",
+    "e200_full_state": "429f429bc5d0cd82712afbeb4b4ed6e30aa6809a8325bf091999f9890953232c"
+  },
+  "counter_semantics": {
+    "endpoint_count": "all batch1 no-gradient rollout endpoints inspected by BVCP",
+    "eligible_transition_count": "endpoints where the current residual norm exceeded the one-update-lagged residual norm",
+    "intervention_count": "eligible endpoints with a strictly positive chord coefficient",
+    "lambda_sum": "sum of the per-endpoint current-to-lagged chord coefficient; zero on identity endpoints"
+  },
+  "e200_cumulative": {
+    "endpoint_count": 270123,
+    "eligible_transition_count": 128223,
+    "intervention_count": 128223,
+    "intervention_rate_all_endpoints": 0.4746837551781966,
+    "intervention_given_eligible": 1.0,
+    "mean_lambda_given_intervention": 0.8980246324221459
+  },
+  "milestone_interval_diagnostics": [
+    {"interval": "e1-e1", "intervention_rate_all_endpoints": 0.42835595776772245, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.749223500567559},
+    {"interval": "e2-e5", "intervention_rate_all_endpoints": 0.4713786121847966, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.7608414305188336},
+    {"interval": "e6-e10", "intervention_rate_all_endpoints": 0.45772893772893775, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.8489566654080181},
+    {"interval": "e11-e20", "intervention_rate_all_endpoints": 0.4754457540042309, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.8493622247523983},
+    {"interval": "e21-e40", "intervention_rate_all_endpoints": 0.47522473141854854, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.8603385839915502},
+    {"interval": "e41-e60", "intervention_rate_all_endpoints": 0.4702520135100026, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.8726557318202037},
+    {"interval": "e61-e80", "intervention_rate_all_endpoints": 0.4738400419758639, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.8952309187801858},
+    {"interval": "e81-e100", "intervention_rate_all_endpoints": 0.47035763156921484, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.9032832680923927},
+    {"interval": "e101-e125", "intervention_rate_all_endpoints": 0.4727613360264629, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.9157883515064665},
+    {"interval": "e126-e150", "intervention_rate_all_endpoints": 0.47683161391851725, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.9215449103521498},
+    {"interval": "e151-e175", "intervention_rate_all_endpoints": 0.47633533148429813, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.9272077987777358},
+    {"interval": "e176-e200", "intervention_rate_all_endpoints": 0.4856764962274927, "intervention_given_eligible": 1.0, "mean_lambda_given_intervention": 0.9312920906903439}
+  ],
+  "mathematical_diagnosis": {
+    "observed_operator_shape": "For roughly half of stochastic rollout endpoints, the current residual is larger than the previous-update residual. Every such case is projected, while decreases are accepted unchanged; the conditional projection moves increasingly close to the lagged endpoint.",
+    "asymmetry": "The rule suppresses positive update-time changes in rollout residual norm but does not symmetrically correct negative changes, so it is a one-sided temporal derivative constraint rather than an unbiased variance reducer.",
+    "identity_assessment": "Pathwise identity remains valid on non-eligible endpoints, but its frequency does not increase with training and active conditional strength grows from about 0.75 to 0.93. Therefore the registered self-null hope is not empirically realized by e200.",
+    "revision_constraint": "Any allowed revision must change the operator that creates the one-sided temporal bias. A fixed window, scalar decay, later exit, or threshold fitted to paired metrics would only schedule the same bias and is not an admissible repair.",
+    "parent_mechanism_status": "The result diagnoses the frozen BVCP operator only. Whether rollout-distribution speed remains a useful parent mechanism awaits the registered fixed-state target-blind defect audit."
+  },
+  "paired_values_used_to_compute_diagnostics": false,
+  "paired_metrics_used_for_training_or_control": false,
+  "confirmation20_opened": false
+}
