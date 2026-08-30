@@ -75,6 +75,45 @@ def _receipt_path(output_root: Path, candidate_id: str) -> Path:
     return output_root / "operations" / "terminal_receipts" / f"{candidate_id}.json"
 
 
+def _executor_contract(
+    output_root: Path, candidate_id: str, receipt: dict[str, Any],
+) -> tuple[Path, dict[str, Any]]:
+    operations = output_root / "operations"
+    matches: list[tuple[Path, dict[str, Any]]] = []
+    for path in sorted(operations.glob("CANDIDATE_EXECUTOR_CONTRACT_*.json")):
+        value = _read_json(path)
+        if value.get("candidate_id") != candidate_id:
+            continue
+        expected = {
+            "schema": "final-unsb-route1-candidate-executor-contract-v1",
+            "candidate_git_commit": receipt["training_git_commit"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "manifest_sha256": receipt["manifest_sha256"],
+            "target_data_epochs": 200,
+            "paired_metric_early_stop": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        }
+        mismatches = {
+            key: {"expected": wanted, "actual": value.get(key)}
+            for key, wanted in expected.items()
+            if value.get(key) != wanted
+        }
+        if mismatches:
+            raise RuntimeError(
+                f"selected candidate executor contract identity mismatch: "
+                f"{path}: {mismatches}"
+            )
+        matches.append((path, value))
+    if len(matches) != 1:
+        raise RuntimeError(
+            "final delivery requires exactly one source-bound executor contract "
+            f"for {candidate_id}; found {len(matches)}"
+        )
+    return matches[0]
+
+
 def _load_cross_receipts(output_root: Path, cross: dict[str, Any]) -> dict[str, dict[str, Any]]:
     receipts: dict[str, dict[str, Any]] = {}
     for row in cross["ranking"]:
@@ -595,11 +634,25 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
         "G1-03-STATE-FEEDBACK-MISSING",
     }
+    executor_contract_path, executor_contract = _executor_contract(
+        output_root, winner, selected_receipt,
+    )
+    executor_contract_relative = executor_contract_path.relative_to(
+        output_root,
+    ).as_posix()
     reproduction_commands: dict[str, Any] = {
         "seed2026_e200": (
             "python operations/local_route1_candidate_executor.py --contract "
-            f"<RUN_ROOT>/operations/CANDIDATE_EXECUTOR_CONTRACT_{winner}.json"
+            f"<RUN_ROOT>/{executor_contract_relative}"
         ),
+        "seed2026_executor_contract": {
+            "path": executor_contract_relative,
+            "sha256": file_sha256(executor_contract_path),
+            "candidate_id": executor_contract["candidate_id"],
+            "training_git_commit": executor_contract["candidate_git_commit"],
+            "algorithm_fingerprint": executor_contract["algorithm_fingerprint"],
+            "candidate_fingerprint": executor_contract["candidate_fingerprint"],
+        },
         "source_identity": (
             f"checkout training_git_commit {selected_receipt['training_git_commit']} "
             "for the full candidate; do not load it under a sibling training core"

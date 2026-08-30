@@ -16,6 +16,7 @@ from operations.local_route1_winner_ablation_adjudicate import (
 )
 from research.local_route1.cross_version_final_delivery import (
     SCHEMA,
+    _executor_contract,
     materialize_cross_version_final_delivery,
 )
 from research.local_route1.ablation_challenger_selection import (
@@ -145,7 +146,65 @@ def _method(
         "candidate_id": candidate_id,
         "receipt_sha256": file_sha256(receipt_path),
     })
+    contract_index = len(list(
+        (root / "operations").glob("CANDIDATE_EXECUTOR_CONTRACT_*.json")
+    ))
+    _write(
+        root / "operations"
+        / f"CANDIDATE_EXECUTOR_CONTRACT_slot_{contract_index:02d}.json",
+        {
+            "schema": "final-unsb-route1-candidate-executor-contract-v1",
+            "candidate_id": candidate_id,
+            "candidate_git_commit": receipt["training_git_commit"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "manifest_sha256": receipt["manifest_sha256"],
+            "target_data_epochs": 200,
+            "paired_metric_early_stop": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+    )
     return receipt_path, receipt
+
+
+def test_reproduction_contract_is_discovered_by_bound_identity_not_filename(
+    tmp_path: Path,
+) -> None:
+    receipt = {
+        "training_git_commit": "a" * 40,
+        "algorithm_fingerprint": "algorithm-selected",
+        "candidate_fingerprint": "candidate-selected",
+        "manifest_sha256": "manifest",
+    }
+    with pytest.raises(RuntimeError, match="found 0"):
+        _executor_contract(tmp_path, "SELECTED", receipt)
+
+    path = (
+        tmp_path / "operations"
+        / "CANDIDATE_EXECUTOR_CONTRACT_nonsemantic_alias.json"
+    )
+    value = {
+        "schema": "final-unsb-route1-candidate-executor-contract-v1",
+        "candidate_id": "SELECTED",
+        "candidate_git_commit": receipt["training_git_commit"],
+        "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+        "candidate_fingerprint": receipt["candidate_fingerprint"],
+        "manifest_sha256": receipt["manifest_sha256"],
+        "target_data_epochs": 200,
+        "paired_metric_early_stop": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    _write(path, value)
+    selected_path, selected = _executor_contract(tmp_path, "SELECTED", receipt)
+    assert selected_path == path
+    assert selected == value
+
+    value["candidate_git_commit"] = "b" * 40
+    _write(path, value)
+    with pytest.raises(RuntimeError, match="identity mismatch"):
+        _executor_contract(tmp_path, "SELECTED", receipt)
 
 
 def test_cross_version_final_delivery_requires_and_includes_long_ablations(tmp_path):
@@ -506,6 +565,15 @@ def test_single_seed_emergency_policy_selects_complete_e200_ablation_challenger(
     )
     commands = result["reproduction_commands"]
     assert "seed_validation" not in commands
+    assert commands["seed2026_e200"].endswith(
+        "operations/CANDIDATE_EXECUTOR_CONTRACT_slot_02.json"
+    )
+    assert commands["seed2026_executor_contract"]["candidate_id"] == (
+        "ABL-PROPOSAL"
+    )
+    assert commands["seed2026_executor_contract"]["path"] == (
+        "operations/CANDIDATE_EXECUTOR_CONTRACT_slot_02.json"
+    )
     assert commands["deferred_seed_validation"] == {
         "status": "DEFERRED_BY_SINGLE_SEED_EMERGENCY_POLICY",
         "requires_new_user_authorization": True,
