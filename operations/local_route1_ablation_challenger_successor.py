@@ -2,10 +2,10 @@
 
 The ordinary winner-ablation successor deliberately refuses final delivery
 when the proposal-only e200 trajectory outranks the frozen full operator.  This
-successor closes the expensive execution gap without changing the selection:
-it freezes that already-complete proposal identity and runs the registered
-host-matched seed protocol.  A later posthoc adjudicator must compare the two
-frozen multi-seed records before any final candidate can change.
+successor closes the expensive execution gap without changing either frozen
+algorithm: it freezes that already-complete proposal identity, runs the
+registered host-matched seed protocol, compares both complete multi-seed
+records, and only then materializes the selected source-bound delivery.
 """
 
 from __future__ import annotations
@@ -31,6 +31,9 @@ from operations.local_route1_winner_ablation_adjudicate import (
 from research.local_route1.ablation_challenger_selection import (
     adjudicate_ablation_challenger_selection,
 )
+from research.local_route1.cross_version_final_delivery import (
+    materialize_cross_version_final_delivery,
+)
 
 
 SCHEMA = "final-unsb-route1-ablation-challenger-successor-contract-v1"
@@ -38,6 +41,8 @@ CHALLENGER_STATUS = "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION"
 COMPLETE_SEED_STATUSES = ("ROUTE1_SUSTAINED_LOCAL", "MULTI_SEED_NOT_SUSTAINED")
 SUCCESSOR_SOURCE_RELATIVES = (
     "operations/local_route1_ablation_challenger_successor.py",
+    "research/local_route1/ablation_challenger_selection.py",
+    "research/local_route1/cross_version_final_delivery.py",
 )
 ABLATION_REPO_SOURCE_RELATIVES = (
     "operations/local_route1_seed_executor.py",
@@ -413,8 +418,9 @@ class AblationChallengerSuccessor:
         selection = adjudicate_ablation_challenger_selection(
             self.run_root, workspace,
         )
+        delivery = materialize_cross_version_final_delivery(self.run_root)
         self.state(
-            "ABLATION_CHALLENGER_MULTI_SEED_AND_SELECTION_COMPLETE",
+            "ABLATION_CHALLENGER_MULTI_SEED_SELECTION_AND_DELIVERY_COMPLETE",
             challenger_candidate_id=challenger,
             multi_seed_status=aggregate["status"],
             classification=aggregate.get("classification"),
@@ -427,7 +433,12 @@ class AblationChallengerSuccessor:
             selection_status=selection["status"],
             selected_candidate_id=selection["selected_candidate_id"],
             final_selection_adjudication_required=False,
-            final_delivery_materialization_required=True,
+            final_delivery_materialization_required=False,
+            final_delivery_status=delivery["status"],
+            final_candidate_id=delivery["candidate_id"],
+            final_candidate_sha256=support.file_sha256(
+                self.run_root / "final" / "CANDIDATE.json"
+            ),
         )
         self.event(
             "ABLATION_CHALLENGER_SUCCESSOR_COMPLETE", candidate_id=challenger,

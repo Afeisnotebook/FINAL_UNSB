@@ -25,6 +25,11 @@ from research.local_route1.final_delivery import (
     _median_epoch_seconds,
     _seed_domain_trajectory,
 )
+from research.local_route1.ablation_challenger_selection import (
+    CHALLENGE_STATUS as ABLATION_CHALLENGE_STATUS,
+    SCHEMA as CHALLENGER_SELECTION_SCHEMA,
+    WORKSPACE_SCHEMA as CHALLENGER_WORKSPACE_SCHEMA,
+)
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
 from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
@@ -114,7 +119,9 @@ def _multi_seed(output_root: Path, winner: str, algorithm: str) -> dict[str, Any
     return value
 
 
-def _ablation(output_root: Path, cross_path: Path, winner: str, algorithm: str) -> dict[str, Any]:
+def _ablation(
+    output_root: Path, cross_path: Path, winner: str, algorithm: str,
+) -> dict[str, Any]:
     path = output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
     if not path.is_file():
         raise RuntimeError("final delivery requires winner proposal/observable/full e200 ablations")
@@ -122,14 +129,26 @@ def _ablation(output_root: Path, cross_path: Path, winner: str, algorithm: str) 
     _posthoc(value, label="winner ablation adjudication")
     if (
         value.get("schema") != ABLATION_SCHEMA
-        or value.get("status") != "COMPLETE_NO_SELECTION_CHANGE"
+        or value.get("status") not in {
+            "COMPLETE_NO_SELECTION_CHANGE", ABLATION_CHALLENGE_STATUS,
+        }
         or value.get("selected_candidate_id") != winner
         or value.get("selected_algorithm_fingerprint") != algorithm
         or value.get("source_cross_version_adjudication_sha256") != file_sha256(cross_path)
-        or value.get("proposal_only_out_ranks_full") is not False
         or value.get("selection_changed") is not False
     ):
-        raise RuntimeError("winner ablation adjudication is incomplete or challenges selection")
+        raise RuntimeError("winner ablation adjudication is incomplete or stale")
+    if value["status"] == "COMPLETE_NO_SELECTION_CHANGE":
+        if (
+            value.get("proposal_only_out_ranks_full") is not False
+            or value.get("selection_change_blocked_pending_seed_validation") is not False
+        ):
+            raise RuntimeError("no-change winner ablation has contradictory selection flags")
+    elif (
+        value.get("proposal_only_out_ranks_full") is not True
+        or value.get("selection_change_blocked_pending_seed_validation") is not True
+    ):
+        raise RuntimeError("winner ablation challenge was not held fail-closed")
     roles = value.get("roles")
     if not isinstance(roles, dict) or set(roles) != {
         "proposal_only", "observable_only", "projected_or_full",
@@ -140,7 +159,12 @@ def _ablation(output_root: Path, cross_path: Path, winner: str, algorithm: str) 
     ):
         raise RuntimeError("observable-only ablation is not exact plain identity")
     for role, row in roles.items():
-        receipt_path = Path(row["receipt_path"])
+        receipt_path = Path(row["receipt_path"]).resolve()
+        expected_receipt_path = _receipt_path(
+            output_root, str(row["candidate_id"]),
+        ).resolve()
+        if receipt_path != expected_receipt_path:
+            raise RuntimeError(f"winner ablation receipt escaped run root: {role}")
         receipt = _validate_receipt(receipt_path)
         if (
             receipt["candidate_id"] != row.get("candidate_id")
@@ -149,6 +173,95 @@ def _ablation(output_root: Path, cross_path: Path, winner: str, algorithm: str) 
         ):
             raise RuntimeError(f"winner ablation receipt changed: {role}")
     return value
+
+
+def _challenger_resolution(
+    output_root: Path, ablation: dict[str, Any], original_winner: str,
+) -> dict[str, Any] | None:
+    """Validate the frozen-seed resolution of a proposal-only challenge."""
+    if ablation["status"] == "COMPLETE_NO_SELECTION_CHANGE":
+        return None
+    selection_path = output_root / "operations" / "ABLATION_CHALLENGER_SELECTION.json"
+    if not selection_path.is_file():
+        raise RuntimeError(
+            "proposal-only challenge requires completed frozen-seed selection"
+        )
+    selection = _read_json(selection_path)
+    _posthoc(selection, label="ablation challenger frozen-seed selection")
+    roles = ablation["roles"]
+    full = roles["projected_or_full"]
+    challenger = roles["proposal_only"]
+    full_id = str(full["candidate_id"])
+    challenger_id = str(challenger["candidate_id"])
+    if (
+        selection.get("schema") != CHALLENGER_SELECTION_SCHEMA
+        or selection.get("status") not in {
+            "CHALLENGER_SELECTED_AFTER_FROZEN_SEEDS",
+            "FULL_WINNER_RETAINED_AFTER_CHALLENGER_SEEDS",
+        }
+        or selection.get("original_full_candidate_id") != original_winner
+        or full_id != original_winner
+        or selection.get("challenger_candidate_id") != challenger_id
+        or selection.get("source_winner_ablation_adjudication_sha256")
+        != file_sha256(
+            output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+        )
+        or selection.get("selection_changed_before_both_seed_adjudications") is not False
+    ):
+        raise RuntimeError("ablation challenger frozen-seed selection is stale")
+
+    workspace = (
+        output_root / "ablation_challenger_seed_validation" / challenger_id
+    )
+    workspace_path = workspace / "CHALLENGER_SEED_WORKSPACE.json"
+    if not workspace_path.is_file():
+        raise RuntimeError("ablation challenger seed workspace is missing")
+    workspace_record = _read_json(workspace_path)
+    _posthoc(workspace_record, label="ablation challenger seed workspace")
+    if (
+        workspace_record.get("schema") != CHALLENGER_WORKSPACE_SCHEMA
+        or Path(workspace_record.get("source_root", "")).resolve() != output_root
+        or Path(workspace_record.get("workspace_root", "")).resolve() != workspace.resolve()
+        or workspace_record.get("candidate_id") != challenger_id
+        or workspace_record.get("full_winner_seed_namespace_reused") is not False
+        or selection.get("source_challenger_workspace_sha256")
+        != file_sha256(workspace_path)
+    ):
+        raise RuntimeError("ablation challenger seed workspace identity changed")
+
+    full_multi_path = (
+        output_root / "candidates" / full_id / "MULTI_SEED_ADJUDICATION.json"
+    )
+    challenger_multi_path = (
+        workspace / "candidates" / challenger_id / "MULTI_SEED_ADJUDICATION.json"
+    )
+    if (
+        selection.get("source_full_multi_seed_sha256") != file_sha256(full_multi_path)
+        or selection.get("source_challenger_multi_seed_sha256")
+        != file_sha256(challenger_multi_path)
+    ):
+        raise RuntimeError("ablation challenger multi-seed authority changed")
+
+    selected_id = str(selection["selected_candidate_id"])
+    expected = {
+        full_id: (str(full["algorithm_fingerprint"]), output_root),
+        challenger_id: (str(challenger["algorithm_fingerprint"]), workspace),
+    }
+    if selected_id not in expected:
+        raise RuntimeError("ablation challenger selection chose an unknown identity")
+    selected_algorithm, seed_root = expected[selected_id]
+    if selection.get("selected_algorithm_fingerprint") != selected_algorithm:
+        raise RuntimeError("ablation challenger selected algorithm changed")
+    selected_multi = _multi_seed(seed_root, selected_id, selected_algorithm)
+    return {
+        "selection": selection,
+        "selection_path": selection_path,
+        "selected_candidate_id": selected_id,
+        "selected_algorithm_fingerprint": selected_algorithm,
+        "selected_seed_root": seed_root,
+        "selected_multi_seed": selected_multi,
+        "workspace": workspace,
+    }
 
 
 def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -> None:
@@ -165,7 +278,7 @@ def _report(path: Path, candidate: dict[str, Any], alternates: dict[str, Any]) -
         "",
         "proposal-only、observable-only、projected/full均已从共同e0完成e200。"
         "observable-only必须与plain保持e200完整动力学状态精确一致；若proposal-only胜过full，"
-        "本交付会拒绝生成并要求重新做冻结seed裁决。",
+        "只有两者都完成冻结seed裁决后才允许改变最终选择；本报告已经过该门禁。",
         "",
         "## 备选",
         "",
@@ -202,15 +315,54 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     if not isinstance(ranking, list) or len(ranking) < 2:
         raise RuntimeError("cross-version final delivery requires both complete candidates")
     receipts = _load_cross_receipts(output_root, cross)
-    winner = str(cross["selected_candidate_id"])
-    if winner not in receipts:
+    original_winner = str(cross["selected_candidate_id"])
+    if original_winner not in receipts:
         raise RuntimeError("selected cross-version winner has no accepted receipt")
-    selected_receipt = receipts[winner]
-    algorithm = str(selected_receipt["algorithm_fingerprint"])
-    if algorithm != cross.get("selected_algorithm_fingerprint"):
+    original_receipt = receipts[original_winner]
+    original_algorithm = str(original_receipt["algorithm_fingerprint"])
+    if original_algorithm != cross.get("selected_algorithm_fingerprint"):
         raise RuntimeError("selected cross-version algorithm fingerprint changed")
-    multi_seed = _multi_seed(output_root, winner, algorithm)
-    ablation = _ablation(output_root, cross_path, winner, algorithm)
+    original_multi_seed = _multi_seed(
+        output_root, original_winner, original_algorithm,
+    )
+    ablation = _ablation(
+        output_root, cross_path, original_winner, original_algorithm,
+    )
+    resolution = _challenger_resolution(
+        output_root, ablation, original_winner,
+    )
+    if resolution is None:
+        winner = original_winner
+        algorithm = original_algorithm
+        selected_receipt = original_receipt
+        selected_receipt_path = _receipt_path(output_root, winner)
+        multi_seed = original_multi_seed
+        selected_seed_root = output_root
+        final_selection = {
+            "status": "NO_ABLATION_CHALLENGE",
+            "selected_candidate_id": winner,
+            "selected_algorithm_fingerprint": algorithm,
+        }
+    else:
+        winner = str(resolution["selected_candidate_id"])
+        algorithm = str(resolution["selected_algorithm_fingerprint"])
+        selected_seed_root = Path(resolution["selected_seed_root"])
+        multi_seed = resolution["selected_multi_seed"]
+        final_selection = resolution["selection"]
+        if winner == original_winner:
+            selected_receipt = original_receipt
+            selected_receipt_path = _receipt_path(output_root, winner)
+        else:
+            proposal = ablation["roles"]["proposal_only"]
+            proposal_receipt_path = Path(str(proposal["receipt_path"])).resolve()
+            selected_receipt = _validate_receipt(proposal_receipt_path)
+            selected_receipt_path = proposal_receipt_path
+            if (
+                selected_receipt.get("candidate_id") != winner
+                or selected_receipt.get("algorithm_fingerprint") != algorithm
+                or file_sha256(proposal_receipt_path) != proposal.get("receipt_sha256")
+            ):
+                raise RuntimeError("selected ablation challenger receipt changed")
     card, implementation, card_path, implementation_path = _source_bound_method(
         output_root, selected_receipt,
     )
@@ -250,11 +402,11 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     for seed in multi_seed["included_seeds"]:
         if int(seed) == 2026:
             continue
-        seed_root = output_root / "seed_validation" / f"seed{int(seed)}"
+        seed_root = selected_seed_root / "seed_validation" / f"seed{int(seed)}"
         seed_results[str(int(seed))] = {
             "summary": _read_json(seed_root / "SEED_VALIDATION_SUMMARY.json"),
             "absolute_relative_domain_trajectory": _seed_domain_trajectory(
-                output_root, winner, int(seed),
+                selected_seed_root, winner, int(seed),
             ),
         }
 
@@ -263,8 +415,11 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "schema": RESULTS_SCHEMA,
         "status": "COMPLETE",
         "selected_candidate_id": winner,
+        "original_cross_version_winner_id": original_winner,
         "cross_version_adjudication_sha256": file_sha256(cross_path),
         "ranking": ranking,
+        "generation1_ranking": ranking,
+        "final_selection": final_selection,
         "candidate_results": candidate_results,
         "seed_results": seed_results,
         "winner_ablation_adjudication": ablation,
@@ -275,27 +430,61 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     }
     write_json(final_root / "RESULTS.json", results)
 
-    runner_up = next(row for row in ranking if row["candidate_id"] != winner)
+    generation1_runner = next(
+        row for row in ranking if row["candidate_id"] != original_winner
+    )
     proposal = ablation["roles"]["proposal_only"]
+    if resolution is None:
+        alternate_rows = [
+            {
+                "candidate_id": generation1_runner["candidate_id"],
+                "role": "tested_generation1_alternate",
+                "trajectory_status": generation1_runner["trajectory_status"],
+                "reason_not_selected": "lower frozen post-e200 cross-version rank",
+            },
+            {
+                "candidate_id": proposal["candidate_id"],
+                "role": "tested_long_horizon_proposal_only_alternate",
+                "trajectory_status": proposal["trajectory_status"],
+                "reason_not_selected": "did not outrank the full operator at e200",
+            },
+        ]
+    elif winner == original_winner:
+        first_alternate = {
+            "candidate_id": proposal["candidate_id"],
+            "role": "tested_long_horizon_proposal_only_alternate",
+            "trajectory_status": proposal["trajectory_status"],
+            "reason_not_selected": (
+                "lost the frozen multi-seed ablation-challenger adjudication"
+            ),
+        }
+    else:
+        original_role = ablation["roles"]["projected_or_full"]
+        first_alternate = {
+            "candidate_id": original_role["candidate_id"],
+            "role": "tested_original_full_operator_alternate",
+            "trajectory_status": original_role["trajectory_status"],
+            "reason_not_selected": (
+                "lost the frozen multi-seed ablation-challenger adjudication"
+            ),
+        }
+    if resolution is not None:
+        alternate_rows = [
+            first_alternate,
+            {
+                "candidate_id": generation1_runner["candidate_id"],
+                "role": "tested_generation1_alternate",
+                "trajectory_status": generation1_runner["trajectory_status"],
+                "reason_not_selected": "lower frozen post-e200 cross-version rank",
+            },
+        ]
     alternates = {
         "schema": ALTERNATES_SCHEMA,
         "status": "COMPLETE",
         "selected_candidate_id": winner,
         "alternates": [
-            {
-                "rank": 2,
-                "candidate_id": runner_up["candidate_id"],
-                "role": "tested_generation1_alternate",
-                "trajectory_status": runner_up["trajectory_status"],
-                "reason_not_selected": "lower frozen post-e200 cross-version rank",
-            },
-            {
-                "rank": 3,
-                "candidate_id": proposal["candidate_id"],
-                "role": "tested_long_horizon_proposal_only_alternate",
-                "trajectory_status": proposal["trajectory_status"],
-                "reason_not_selected": "did not outrank the frozen full operator at e200",
-            },
+            {"rank": rank, **row}
+            for rank, row in enumerate(alternate_rows, start=2)
         ],
         "old_probe_reserved_slot": False,
         "confirmation20_opened": False,
@@ -303,7 +492,9 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
     write_json(final_root / "ALTERNATES.json", alternates)
 
     classification = _classification(multi_seed)
-    compute_sensitive = winner == "G1-02B-PLAYER-CONDITIONAL-RSMG"
+    compute_sensitive = "PCRSMG" in winner or winner == (
+        "G1-02B-PLAYER-CONDITIONAL-RSMG"
+    )
     report_path = final_root / "FINAL_ROUTE1_REPORT.md"
     candidate = {
         "schema": SCHEMA,
@@ -318,7 +509,7 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
             "candidate_training_core_fingerprint"
         ],
         "source_bound_terminal_receipt_sha256": file_sha256(
-            _receipt_path(output_root, winner)
+            selected_receipt_path
         ),
         "selected_fixed_checkpoint": {
             "data_epoch": 200, "best_checkpoint_selection": False,
@@ -340,6 +531,13 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
         "winner_ablation_adjudication_sha256": file_sha256(
             output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
         ),
+        "ablation_challenger_selection": (
+            None if resolution is None else {
+                "path": "operations/ABLATION_CHALLENGER_SELECTION.json",
+                "sha256": file_sha256(resolution["selection_path"]),
+                "status": final_selection["status"],
+            }
+        ),
         "risks": [
             "small25 proxy evidence is not a full-dataset conclusion",
             "confirmation20 remains sealed",
@@ -358,7 +556,7 @@ def materialize_cross_version_final_delivery(output_root: Path) -> dict[str, Any
             ),
             "seed_validation": (
                 "python operations/local_route1_seed_executor.py --contract "
-                f"<RUN_ROOT>/operations/SEED_EXECUTOR_CONTRACT_{winner}_s<SEED>.json"
+                f"<SELECTED_SEED_ROOT>/operations/SEED_EXECUTOR_CONTRACT_{winner}_s<SEED>.json"
             ),
             "source_identity": (
                 f"checkout training_git_commit {selected_receipt['training_git_commit']} "

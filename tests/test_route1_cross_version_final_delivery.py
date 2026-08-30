@@ -15,6 +15,10 @@ from research.local_route1.cross_version_final_delivery import (
     SCHEMA,
     materialize_cross_version_final_delivery,
 )
+from research.local_route1.ablation_challenger_selection import (
+    WORKSPACE_SCHEMA,
+    adjudicate_ablation_challenger_selection,
+)
 from research.local_route1.generation1_adjudication import POSITIVE_STATUS
 from research.local_route1.protocol import ROOT, file_sha256
 from research.local_route1.seed_validation import MULTI_SEED_ADJUDICATION_SCHEMA
@@ -217,6 +221,7 @@ def test_cross_version_final_delivery_requires_and_includes_long_ablations(tmp_p
             "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
         },
         "proposal_only_out_ranks_full": False,
+        "selection_change_blocked_pending_seed_validation": False,
         "selection_changed": False,
         "paired_metrics_used_for_training_or_control": False,
         "confirmation20_opened": False,
@@ -233,4 +238,166 @@ def test_cross_version_final_delivery_requires_and_includes_long_ablations(tmp_p
     alternates = json.loads((tmp_path / "final" / "ALTERNATES.json").read_text())
     assert [row["candidate_id"] for row in alternates["alternates"]] == [
         runner_id, proposal["candidate_id"],
+    ]
+
+
+def _multi(candidate_id: str, algorithm: str, gain: float) -> dict:
+    return {
+        "schema": MULTI_SEED_ADJUDICATION_SCHEMA,
+        "status": "ROUTE1_SUSTAINED_LOCAL",
+        "candidate_id": candidate_id,
+        "algorithm_fingerprint": algorithm,
+        "included_seeds": [2026, 2027],
+        "combined_late_three_mean_macro_psnr_delta": gain,
+        "combined_late_average_positive_domains": 4.5,
+        "combined_late_average_worst_domain_delta": -0.2,
+        "algorithm_changes_after_seed2026_freeze": False,
+        "paired_metric_changed_algorithm": False,
+        "confirmation20_opened": False,
+    }
+
+
+@pytest.mark.parametrize(
+    "full_gain,proposal_gain,expected_status,expected_candidate",
+    [
+        (0.2, 0.4, "CHALLENGER_SELECTED_AFTER_FROZEN_SEEDS", "ABL-PROPOSAL"),
+        (0.5, 0.4, "FULL_WINNER_RETAINED_AFTER_CHALLENGER_SEEDS", "G1-FULL"),
+    ],
+)
+def test_cross_version_final_delivery_resolves_frozen_seed_ablation_challenger(
+    tmp_path, full_gain, proposal_gain, expected_status, expected_candidate,
+):
+    _write(tmp_path / "anchors" / "plain" / "metrics" / "e200.json", _metric(20.0))
+    full_path, full = _method(tmp_path, "G1-FULL", 0.3)
+    runner_path, runner = _method(tmp_path, "G1-RUNNER", 0.1)
+    proposal_path, proposal = _method(tmp_path, "ABL-PROPOSAL", 0.4)
+    observable_path, observable = _method(tmp_path, "ABL-OBSERVE", 0.0)
+    ranking = []
+    for rank, receipt in enumerate((full, runner), start=1):
+        ranking.append({
+            "rank": rank,
+            "candidate_id": receipt["candidate_id"],
+            "trajectory_status": receipt["trajectory_status"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "training_git_commit": receipt["training_git_commit"],
+            "candidate_training_core_fingerprint": receipt[
+                "candidate_training_core_fingerprint"
+            ],
+            "trajectory_sha256": receipt["trajectory_sha256"],
+            "ranking_fields": receipt["ranking_fields"],
+            "median_epoch_wall_seconds": receipt["median_epoch_wall_seconds"],
+            "terminal_integrity": receipt["terminal_integrity"],
+        })
+    cross_path = tmp_path / "operations" / "CROSS_VERSION_E200_ADJUDICATION.json"
+    _write(cross_path, {
+        "schema": CROSS_SCHEMA,
+        "status": "SEED2026_WINNER_REQUIRES_SOURCE_IDENTITY_SEED_FREEZE",
+        "ranking": ranking,
+        "selected_candidate_id": full["candidate_id"],
+        "selected_algorithm_fingerprint": full["algorithm_fingerprint"],
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    })
+    full_multi_path = (
+        tmp_path / "candidates" / full["candidate_id"]
+        / "MULTI_SEED_ADJUDICATION.json"
+    )
+    _write(full_multi_path, _multi(
+        full["candidate_id"], full["algorithm_fingerprint"], full_gain,
+    ))
+    full_seed_root = tmp_path / "seed_validation" / "seed2027"
+    _write(full_seed_root / "SEED_VALIDATION_SUMMARY.json", {
+        "status": "COMPLETE", "trajectory": [{"epoch": 200}],
+        "paired_metric_changed_algorithm": False, "confirmation20_opened": False,
+    })
+    _write(full_seed_root / "candidate" / "metrics" / "e200.json", _metric(
+        20.3, probe_id=full["candidate_id"], protocol="seed-crn",
+    ))
+    _write(full_seed_root / "plain" / "metrics" / "e200.json", _metric(
+        20.0, protocol="seed-crn",
+    ))
+    roles = {}
+    for role, path, receipt in (
+        ("proposal_only", proposal_path, proposal),
+        ("observable_only", observable_path, observable),
+        ("projected_or_full", full_path, full),
+    ):
+        roles[role] = {
+            "candidate_id": receipt["candidate_id"],
+            "algorithm_fingerprint": receipt["algorithm_fingerprint"],
+            "candidate_fingerprint": receipt["candidate_fingerprint"],
+            "training_git_commit": receipt["training_git_commit"],
+            "trajectory_status": receipt["trajectory_status"],
+            "trajectory_sha256": receipt["trajectory_sha256"],
+            "receipt_path": str(path.resolve()),
+            "receipt_sha256": file_sha256(path),
+            "ranking_fields": receipt["ranking_fields"],
+        }
+    ablation_path = tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+    _write(ablation_path, {
+        "schema": ABLATION_SCHEMA,
+        "status": "ABLATION_CHALLENGER_REQUIRES_FROZEN_SEED_VALIDATION",
+        "selected_candidate_id": full["candidate_id"],
+        "selected_algorithm_fingerprint": full["algorithm_fingerprint"],
+        "source_cross_version_adjudication_sha256": file_sha256(cross_path),
+        "roles": roles,
+        "observable_only_identity": {
+            "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
+        },
+        "proposal_only_out_ranks_full": True,
+        "selection_change_blocked_pending_seed_validation": True,
+        "selection_changed": False,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    with pytest.raises(RuntimeError, match="requires completed frozen-seed selection"):
+        materialize_cross_version_final_delivery(tmp_path)
+
+    workspace = (
+        tmp_path / "ablation_challenger_seed_validation" / proposal["candidate_id"]
+    )
+    workspace_record = workspace / "CHALLENGER_SEED_WORKSPACE.json"
+    _write(workspace_record, {
+        "schema": WORKSPACE_SCHEMA,
+        "source_root": str(tmp_path.resolve()),
+        "workspace_root": str(workspace.resolve()),
+        "candidate_id": proposal["candidate_id"],
+        "full_winner_seed_namespace_reused": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    challenger_multi_path = (
+        workspace / "candidates" / proposal["candidate_id"]
+        / "MULTI_SEED_ADJUDICATION.json"
+    )
+    _write(challenger_multi_path, _multi(
+        proposal["candidate_id"], proposal["algorithm_fingerprint"], proposal_gain,
+    ))
+    seed_root = workspace / "seed_validation" / "seed2027"
+    _write(seed_root / "SEED_VALIDATION_SUMMARY.json", {
+        "status": "COMPLETE", "trajectory": [{"epoch": 200}],
+        "paired_metric_changed_algorithm": False, "confirmation20_opened": False,
+    })
+    _write(seed_root / "candidate" / "metrics" / "e200.json", _metric(
+        20.4, probe_id=proposal["candidate_id"], protocol="seed-crn",
+    ))
+    _write(seed_root / "plain" / "metrics" / "e200.json", _metric(
+        20.0, protocol="seed-crn",
+    ))
+    selection = adjudicate_ablation_challenger_selection(tmp_path, workspace)
+    assert selection["status"] == expected_status
+
+    result = materialize_cross_version_final_delivery(tmp_path)
+    assert result["candidate_id"] == expected_candidate
+    assert result["ablation_challenger_selection"]["status"] == expected_status
+    alternates = json.loads((tmp_path / "final" / "ALTERNATES.json").read_text())
+    expected_first_alternate = (
+        full["candidate_id"]
+        if expected_candidate == proposal["candidate_id"]
+        else proposal["candidate_id"]
+    )
+    assert [row["candidate_id"] for row in alternates["alternates"]] == [
+        expected_first_alternate, runner["candidate_id"],
     ]
