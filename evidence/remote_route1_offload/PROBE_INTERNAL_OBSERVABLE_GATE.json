@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-route1-probe-internal-observable-gate-v1",
+  "created": "2026-08-30T08:23:00+08:00",
+  "implementation_commit": "996ab19",
+  "problem": "The immutable causal rows retained DT/HJ/HNEK internals, but the offline target-blind screen previously consumed only shared gradient, bridge, game, domain, time and variance observables.",
+  "screened_probe_internal_observables": {
+    "dt": [
+      "nonnegative covariance-mismatch applicability with identity at zero",
+      "current-versus-previous audited covariance-mismatch descent rate"
+    ],
+    "hj": [
+      "minimum of two-sided structural agreement above chance and normalized risk above the frozen 0.05 mechanism boundary"
+    ],
+    "hnek": [
+      "proposal/native rollout-speed stability",
+      "past-to-current rollout-velocity growth",
+      "time-conditioning spread",
+      "per-time correction/native consensus"
+    ]
+  },
+  "hnek_boundary": "HNEK gamma/coordinate/horizon-mode flags are configuration identity metadata, not data-dependent defect signals; the actual horizon-coordinate defect is represented by the bridge and time-conditioned observables.",
+  "scientific_boundary": {
+    "uses_current_or_past_unpaired_state_only": true,
+    "natural_zeroes_fixed_before_labels": true,
+    "paired_threshold_fitted": false,
+    "candidate_formula_preselected": false,
+    "immutable_audit_row_schema_changed": false,
+    "running_workers_restarted": false,
+    "analysis_only_posthoc_change": true,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "pytest": "101 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  }
+}
