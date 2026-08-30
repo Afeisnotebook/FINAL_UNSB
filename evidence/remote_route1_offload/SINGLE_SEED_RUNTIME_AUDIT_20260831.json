@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-route1-single-seed-runtime-audit-v1",
+  "recorded": "2026-08-31T00:00:32+08:00",
+  "host_role": "authoritative_4090_control_host",
+  "deployed_control_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+  "contracts": [
+    {
+      "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/MCRB_CROSS_HOST_SUCCESSOR_CONTRACT_77bb987.json",
+      "sha256": "da1878e58df8c4f60b9bf7e59281c8ea13fc71b9f59cf3e8c5c636e459c7ae65",
+      "selection_seeds": [2026],
+      "deferred_seed_validation": [2027, 2028]
+    },
+    {
+      "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/WINNER_ABLATION_SUCCESSOR_CONTRACT_77bb987e4f4d.json",
+      "sha256": "15217d9a976369e0e83ce8203bd62056378e1ac03960f907be85a45cbbf22524",
+      "selection_seeds": [2026],
+      "deferred_seed_validation": [2027, 2028]
+    }
+  ],
+  "live_control_state": {
+    "mcrb_successor_status": "WAITING_FOR_REMOTE_MCRB_E200",
+    "mcrb_successor_selection_seeds": [2026],
+    "mcrb_successor_deferred_seed_validation": [2027, 2028],
+    "amtnc_revision_status": "REVISION_E200_EXECUTOR_RUNNING",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "process_and_directory_audit": {
+    "active_seed2027_or_seed2028_processes": 0,
+    "seed2027_or_seed2028_run_directories_within_active_output": 0,
+    "active_scientific_processes": [
+      "AM-TNC seed2026 e200 candidate executor",
+      "MCRB e200-only cross-host successor"
+    ]
+  },
+  "adjudication": {
+    "status": "SINGLE_SEED_EMERGENCY_POLICY_ACTIVE_IN_RUNTIME",
+    "development_claim": "Complete matched seed2026 e200 evidence may select and freeze the current development candidate.",
+    "forbidden_claim": "This audit does not establish that seeds 2027 or 2028 would reproduce the result.",
+    "saved_compute_destination": [
+      "independent mathematical mechanism MCRB",
+      "winner proposal-only e200 ablation",
+      "winner observable-only e200 ablation",
+      "existing projected/full e200 receipt"
+    ]
+  }
+}

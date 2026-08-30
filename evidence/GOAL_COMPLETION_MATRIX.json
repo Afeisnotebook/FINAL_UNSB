@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-route1-goal-completion-matrix-v1",
-  "updated": "2026-08-30T23:57:23+08:00",
+  "updated": "2026-08-31T00:00:32+08:00",
   "goal_status": "IN_PROGRESS_GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200",
   "north_star": "Derive, implement, and adjudicate at least one evidence-traceable new UNSB algorithm through a matched small25 e200 run; anchors, short signals, and old probe names are not completion.",
   "scope_override": {
@@ -13,6 +13,7 @@
       "cross_seed_stability_claimed": false,
       "saved_compute_returns_to_algorithm_search": true,
       "evidence": "decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md"
+      ,"runtime_evidence": "evidence/remote_route1_offload/SINGLE_SEED_RUNTIME_AUDIT_20260831.json"
     }
   },
   "requirements": [

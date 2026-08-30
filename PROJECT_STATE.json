@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-30",
-  "state_snapshot_time": "2026-08-30T23:57:23+08:00",
+  "updated": "2026-08-31",
+  "state_snapshot_time": "2026-08-31T00:00:32+08:00",
   "phase": "GENERATION2_AMTNC_AND_INDEPENDENT_MCRB_MATCHED_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
   "development_head_at_state_write": "8692e2f12f7998cc432f1545327755d2bc359297",
@@ -136,6 +136,7 @@
     ,"a live MCRB e100 metric remained nonterminal: no 4090 replay, terminal receipt, ranking, development freeze or ablation was allowed before complete e200"
     ,"winner proposal-only and observable-only e200 ablations are source-bound to a measured-throughput sequential single-stream contract; projected/full reuses the selected terminal receipt"
     ,"final CANDIDATE reproduction resolves the unique real executor contract by receipt-bound identity and fails closed on missing, ambiguous or mismatched contracts"
+    ,"the live 4090 control contracts and process tree were audited after midnight: only seed2026 is selectable, seeds2027/2028 are deferred, and no deferred-seed process or run directory exists"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -443,6 +444,7 @@
     "mcrb_cross_host_successor_evidence": "evidence/remote_route1_offload/FINAL_REPRODUCTION_CONTRACT_SUCCESSOR_REDEPLOYED_20260830.json",
     "mcrb_formula_implementation_audit": "evidence/remote_route1_offload/MCRB_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
     "amtnc_formula_implementation_audit": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
+    "single_seed_runtime_audit": "evidence/remote_route1_offload/SINGLE_SEED_RUNTIME_AUDIT_20260831.json",
     "retired_multi_seed_successors": [
       "0aa0beb6c170d26e297fc6d304edb1eb9ac6e158",
       "c1541227219e5ea0e9d2dbc58b3c8b6439a12a20",
