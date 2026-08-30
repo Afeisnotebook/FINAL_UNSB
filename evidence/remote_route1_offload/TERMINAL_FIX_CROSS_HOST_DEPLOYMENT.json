@@ -1,0 +1,42 @@
+{
+  "schema": "final-unsb-route1-terminal-fix-cross-host-deployment-v1",
+  "created": "2026-08-30T09:19:00+08:00",
+  "audit_git_commit": "1e3a7ce67dc7bb4ae999c7b9b2025980c9b479ff",
+  "audit_source_fingerprint": "e776d74100c51c7f125014912d133358b4704b03ca0f18549f3f98a8a7be6be6",
+  "training_core_fingerprint": "0a67135dffcf87f31ea1534f10b34c3e218961186f85dfb7487f10916a200714",
+  "hosts": {
+    "4090_primary": {
+      "role": "authoritative causal atlas",
+      "executor_pid": 1340265,
+      "contract_sha256": "f309fcfb6be9e1f5ccdc79a251d895e8d170ea1c63f75f383d326e650066efdc",
+      "completed_rows_reused_by_row_id": true,
+      "dt_e200_fixed_rows_observed": true,
+      "hj_audit_started": true
+    },
+    "5090_redundant": {
+      "role": "independent matched trajectory and causal replication",
+      "formal_auditor_pid": 39006,
+      "formal_auditor_state": "WAITING_FOR_ANCHORS",
+      "contract_sha256": "356d2a895525d535fd75f7db981cb99b9dfda27feae0e4b2ff5bff3c16eb2037",
+      "active_hnek_e175_interrupted": false,
+      "hnek_e200_recovery_screen": "FINAL_UNSB_5090_HNEK_E200_RECOVERY",
+      "recovery_is_idempotent_by_row_id": true
+    },
+    "local_1660": {
+      "role": "original local matched replication",
+      "scheduled_task": "FINAL_UNSB_ROUTE1_AUDITOR",
+      "executor_pid": 15096,
+      "state": "WAITING_FOR_ANCHORS",
+      "contract_sha256": "3651b441387df01630652359899b41d37f9e9fa0cc4073fe38dfb90c0d04ccbd",
+      "anchor_training_task_modified": false
+    }
+  },
+  "scientific_boundary": {
+    "training_checkpoints_modified": false,
+    "completed_raw_rows_rewritten": false,
+    "public_horizon_design_changed": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "candidate_formula_preselected": false
+  }
+}
