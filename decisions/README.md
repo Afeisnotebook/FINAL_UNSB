@@ -42,5 +42,10 @@ authorize compute.
 12. `DEC-20260831-EVIDENCE-BACKED-ALTERNATE-CROSS-RUNTIME-REPLAY.md`：完整e200后仍有
     late或terminal正信号的修复alternate也可进入最多两条4090复跑；closed仍排除，且
     G3父项严格门不降低。
+13. `DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`：唯一
+    `CANDIDATE.json`只表示行动优先级；完整4090/5090宿主分离算法前沿、历史探针、
+    因果图谱、消融和逐域绝对/相对轨迹必须同时交付。
+14. `DEC-20260831-TERMINAL-GOAL-COMPLETION-AUDIT.md`：终交付返回本地后还须通过独立
+    fail-closed完成审计；机器通过不能代替最终人工科学复核、Git裁决和推送。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
