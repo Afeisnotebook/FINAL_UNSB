@@ -1,30 +1,31 @@
 {
   "schema": "final-unsb-route1-selective-gf-final-chain-redeployment-v1",
-  "status": "MATHEMATICALLY_REFINED_FINAL_CHAIN_ARMED",
-  "repository_commit": "b9f1f091f8699a62d9d11543f19f0d5e7bd22682",
+  "status": "MATHEMATICALLY_REFINED_AND_VARIANCE_AXIS_ALIGNED_FINAL_CHAIN_ARMED",
+  "repository_commit": "ba9c6b3797aad28c918870f2136891d285969dca",
   "remote4090_final_publisher": {
-    "repo": "/home/yc/FINAL_UNSB_RELATED_FINAL_b9f1f09",
-    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/RELATED_MULTI_ALGORITHM_FINAL_CONTRACT_b9f1f09.json",
-    "tmux_session": "FINAL_UNSB_RELATED_MULTI_FINAL_V7",
-    "pane_pid": 1677051,
-    "supervisor_pid": 1677053,
+    "repo": "/home/yc/FINAL_UNSB_RELATED_FINAL_ba9c6b3",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/RELATED_MULTI_ALGORITHM_FINAL_CONTRACT_ba9c6b3.json",
+    "tmux_session": "FINAL_UNSB_RELATED_MULTI_FINAL_V8",
+    "pane_pid": 1680968,
+    "supervisor_pid": 1680970,
     "state": "WAITING_FOR_ALL_RELATED_E200_RESULTS",
-    "old_publisher_session_stopped": "FINAL_UNSB_RELATED_MULTI_FINAL_V6",
+    "old_publisher_session_stopped": "FINAL_UNSB_RELATED_MULTI_FINAL_V7",
     "training_sessions_changed": false,
     "hpcgr_training_session_live": true,
     "hjcgr_training_session_live": true
   },
   "local_related_goal_auditor": {
-    "repo": "E:\\UNSB_Expl\\FINAL_UNSB_RELATED_FINAL_b9f1f09",
-    "contract": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\RELATED_GOAL_AUDIT_CONTRACT_b9f1f09.json",
-    "pid": 9464,
+    "repo": "E:\\UNSB_Expl\\FINAL_UNSB_RELATED_FINAL_ba9c6b3",
+    "contract": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\RELATED_GOAL_AUDIT_CONTRACT_ba9c6b3.json",
+    "pid": 7344,
     "state": "WAITING_FOR_BOTH_LOCAL_FINAL_DELIVERIES",
-    "old_auditor_pid_stopped": 14788
+    "old_auditor_pid_stopped": 9464
   },
   "required_new_terminal_proofs": [
     "fresh post-D/E one-view PCNR is not sufficient on the completed same-host e200 trajectory",
     "the selective two-view post-D/E G/F mean is the only tested native-field scope that strictly passes e200",
     "the covariance theorem is conditioned on the fixed official unpaired batch and does not cover across-batch variance",
+    "HJ is directly aligned with the audited within-batch variance axis while HPCGR is labeled as a compositional transfer hypothesis rather than a direct repair of HNEK's dominant axis",
     "action priority is not scientific exclusivity and the viable algorithm family is retained"
   ],
   "verification": {
