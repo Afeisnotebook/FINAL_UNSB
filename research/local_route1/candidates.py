@@ -266,18 +266,30 @@ def _validate_card(
     replacement_for = card.get("engineering_replacement_for")
     if replacement_for is not None:
         validate_candidate_id(str(replacement_for))
-        incident_path = (
-            ROOT / "evidence" / "remote_route1_offload"
-            / "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
+        incident_relative = card.get(
+            "engineering_incident_path",
+            "evidence/remote_route1_offload/"
+            "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json",
         )
+        incident_path = _inside_root(str(incident_relative))
+        try:
+            incident_path.relative_to((ROOT / "evidence").resolve())
+        except ValueError as error:
+            raise RuntimeError(
+                "engineering incident must be an immutable repository evidence file"
+            ) from error
         if (
             not incident_path.is_file()
             or card.get("engineering_incident_sha256") != file_sha256(incident_path)
         ):
             raise RuntimeError("engineering replacement is not bound to its incident")
-        if not card.get("finite_step_coupling_change"):
+        if not (
+            card.get("finite_step_coupling_change")
+            or card.get("implementation_semantic_correction")
+        ):
             raise RuntimeError(
-                "engineering replacement must disclose its finite-step coupling change"
+                "engineering replacement must disclose its finite-step change or "
+                "implementation semantic correction"
             )
     if card_path.suffix.lower() != ".json":
         raise RuntimeError("derivation card must be canonical JSON")
@@ -483,7 +495,8 @@ def load_candidate_registration(
         "target_blind_driver_signal", "target_blind_driver_probe",
         "parent_candidate_id", "revision_request_sha256", "causal_revision_reason",
         "engineering_replacement_for", "engineering_incident_sha256",
-        "finite_step_coupling_change",
+        "engineering_incident_path", "finite_step_coupling_change",
+        "implementation_semantic_correction",
         "ablation_role", "parent_terminal_receipt_sha256",
         "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
@@ -719,6 +732,13 @@ def freeze_candidate_derivation(
                 "incident_sha256"
             ),
         }
+        if (
+            engineering_replacement.get("incident_path") is not None
+            and "engineering_incident_path" in registration.card
+        ):
+            required_replacement_bindings["engineering_incident_path"] = (
+                engineering_replacement["incident_path"]
+            )
         for key, value in required_replacement_bindings.items():
             if not value or registration.card.get(key) != value:
                 raise RuntimeError(
@@ -758,6 +778,11 @@ def freeze_candidate_derivation(
 
 def register_engineering_replacement(
     output_root: Path, parent_candidate_id: str, replacement_candidate_id: str,
+    *,
+    incident_relative: str = (
+        "evidence/remote_route1_offload/"
+        "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
+    ),
 ) -> dict:
     """Replace an implementation-invalid hypothesis without a scientific revision.
 
@@ -771,10 +796,11 @@ def register_engineering_replacement(
     if parent_candidate_id == replacement_candidate_id:
         raise RuntimeError("engineering replacement requires a new candidate id")
 
-    incident_path = (
-        ROOT / "evidence" / "remote_route1_offload"
-        / "RSMG_PLAYER_STATE_SEMANTIC_INCIDENT_20260830.json"
-    )
+    incident_path = _inside_root(incident_relative)
+    try:
+        incident_path.relative_to((ROOT / "evidence").resolve())
+    except ValueError as error:
+        raise RuntimeError("engineering incident must remain under evidence/") from error
     if not incident_path.is_file():
         raise RuntimeError("engineering incident evidence is missing")
     incident = _read_json(incident_path)
@@ -806,7 +832,7 @@ def register_engineering_replacement(
         "algorithm_fingerprint"
     )
     if (
-        int(parent.get("generation", 0)) != 1
+        int(parent.get("generation", 0)) < 1
         or parent.get("algorithm_fingerprint") != invalid_algorithm
         or parent.get("status") not in ("FROZEN_FOR_GATES", "IMPLEMENTATION_INVALID")
     ):
@@ -851,7 +877,7 @@ def register_engineering_replacement(
     }
     record = {
         "candidate_id": replacement_candidate_id,
-        "generation": 1,
+        "generation": int(parent.get("generation", 1)),
         "parent_candidate_id": parent_candidate_id,
         "parent_evidence": parent.get("parent_evidence"),
         "construction_route": parent.get("construction_route"),
@@ -859,6 +885,7 @@ def register_engineering_replacement(
         "revision_count": 0,
         "engineering_replacement": {
             "parent_candidate_id": parent_candidate_id,
+            "incident_path": incident_path.relative_to(ROOT).as_posix(),
             "incident_sha256": incident_sha256,
             "consumes_generation1_scientific_slot": False,
             "consumes_causal_revision": False,

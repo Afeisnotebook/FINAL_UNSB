@@ -1,0 +1,55 @@
+{
+  "schema": "final-unsb-route1-semantic-incident-v1",
+  "incident_id": "INC-20260831-AMMCRB-ABSOLUTE-MARGIN",
+  "candidate_id": "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+  "classification": "implementation_failure",
+  "discovered_by": "target_blind_scale_and_kkt_invariant_audit",
+  "scientific_conclusion_allowed": false,
+  "parent_mechanism_falsified": false,
+  "paired_metric_used_for_discovery_or_repair": false,
+  "confirmation20_opened": false,
+  "invalid_identity": {
+    "algorithm_fingerprint": "d6317303f3aa124b677d7637c97d5d08f24eb11ff526a83a2fe7d2f3b30851ea",
+    "derivation_card_sha256": "e90ca72b0e954f04d2a7a6836f86262f9860a855aabe66e07f64b603bc9934da",
+    "projection_source": "src/models/route1/ammcrb.py",
+    "projection_source_sha256": "9dfaeee971577d2c2234115b003f35de0c2e89a2d6b872f1e5f27972c265d5e3"
+  },
+  "semantic_violation": {
+    "registered_operator": "lambda=<a,d0>/<a,H^-1 a>; d*=d0-lambda H^-1 a",
+    "implemented_extra_term": "8*float32_eps*max(1,abs(<a,d0>)) added to the numerator",
+    "violated_properties": [
+      "unique Adam-metric closest feasible displacement",
+      "common-scale invariance of the half-space normal",
+      "correction scale proportionality as native displacement and tangent shrink"
+    ],
+    "why_material": "For |<a,d0>| below one, the fixed approximately 9.54e-7 numerator margin is independent of both the native update and tangent scale. Dividing by a small <a,H^-1 a> can therefore make the represented correction arbitrarily larger than d0."
+  },
+  "deterministic_counterexample": {
+    "dtype": "float32",
+    "inverse_metric": 1.0,
+    "defect_tangent": 1e-08,
+    "rows": [
+      {"native_displacement": 0.01, "superseded_projected_displacement": -95.36742401123047, "superseded_correction_to_native_ratio": 9537.742401100695},
+      {"native_displacement": 0.0001, "superseded_projected_displacement": -95.36743927001953, "superseded_correction_to_native_ratio": 953675.39270017},
+      {"native_displacement": 1e-06, "superseded_projected_displacement": -95.367431640625, "superseded_correction_to_native_ratio": 95367432.640625},
+      {"native_displacement": 1e-08, "superseded_projected_displacement": -95.367431640625, "superseded_correction_to_native_ratio": 9536743165.0625}
+    ]
+  },
+  "running_trajectory_treatment": {
+    "continue_to_true_e200": true,
+    "reason": "preserve a complete diagnostic trajectory for the exact frozen implementation",
+    "rank_as_faithful_test_of_registered_formula": false,
+    "use_as_generation3_component": false,
+    "use_intermediate_paired_metrics_for_repair": false
+  },
+  "required_repair": {
+    "new_candidate_identity": true,
+    "restart_from_common_e0": true,
+    "remove_fixed_absolute_margin": true,
+    "require_represented_halfspace_feasibility": true,
+    "require_scale_invariant_counterexamples": true,
+    "retain_safe_displacement_byte_identity": true,
+    "retain_target_blindness": true,
+    "consume_scientific_revision": false
+  }
+}

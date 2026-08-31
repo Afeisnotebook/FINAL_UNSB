@@ -1,0 +1,86 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
+  "name": "Residual-Feasible Adam-Metric Moving Covariance Barrier",
+  "parent_candidate_id": "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+  "parent_evidence": {
+    "failure_type": "state_feedback_missing",
+    "incident_id": "INC-20260831-AMMCRB-ABSOLUTE-MARGIN",
+    "incident_classification": "implementation_failure",
+    "superseded_max_scalar_correction_to_native_ratio": 9536743165.0625,
+    "paired_metric_used_for_repair": false
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:state_feedback_missing:rank=4:cross_probe_support=2",
+    "LONG_CAUSAL_MATRIX:dt_covariance_mismatch_descent_margin:accuracy=1.0:spearman=0.6:lead=1.0:domains=5/6",
+    "F1-02 derivation:the exact Adam-metric half-space projection is the unique closest feasible native displacement",
+    "INC-20260831-AMMCRB-ABSOLUTE-MARGIN:the frozen implementation adds a fixed absolute numerator margin and is not a faithful realization of that projection",
+    "TARGET-BLIND-SCALE-AUDIT:the old correction/native ratio grows to 9.536743165e9 while the repaired operator remains at one on the same scalar family"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "F1-02 AM-MCRB fixed-absolute-margin represented projection",
+      "G1-03 MCRB Euclidean fixed-absolute-margin projection",
+      "G2-01 AM-TNC Adam-metric stochastic consensus",
+      "F1-02 proposal-only Adam-metric normal"
+    ],
+    "material_difference": "RF-AMMCRB removes the absolute 8*float32_eps*max(1,abs(dot)) numerator term that can dominate small native updates. It realizes the exact float64 KKT coefficient first, measures the actually represented parameter-dtype residual, and only if that residual is unsafe advances by residual/denominator plus a relative parameter-dtype ULP. This changes finite training updates by unbounded factors in the audited small-tangent regime while leaving the registered real-arithmetic operator unchanged.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the exact native Adam generator displacement constrained by a moving latent direction-covariance rate in Adam's diagonal trust geometry, with the committed parameter-dtype displacement required to satisfy the half-space",
+  "formula": "Let a_k=grad_theta D_k, d0 be the exact realized native Adam generator displacement, H_k=diag(sqrt(v_k)+eps), and P_k=H_k^{-1}. If c=<a_k,d0><=0 or r=<a_k,P_k a_k> is numerically zero, commit d0 byte-for-byte. Otherwise compute lambda_0=c/r in float64 and represent d(lambda_0)=d0-lambda_0 P_k a_k in each parameter dtype. Measure rho=<a_k,d(lambda)> in float64. While rho>0, replace lambda by the next parameter-dtype-representable value above lambda+rho/r and recompute; fail closed after eight numerical refinements. Commit the first represented displacement with rho<=0. In exact arithmetic this is d*=argmin_d 1/2(d-d0)^T H_k(d-d0) subject to <a_k,d><=0; the refinement only enforces that the actually stored displacement is feasible and introduces no absolute margin.",
+  "identity_or_unbiased_condition": "Every native displacement with <a_k,d0><=0 and every zero tangent returns the original tensor objects unchanged. At a native fixed point d0=0 the operator is fixed. For unsafe states the correction is the scale-free KKT normal in exact arithmetic; dtype refinement is relative to lambda and is invoked only after directly observed represented infeasibility.",
+  "objective_change": false,
+  "estimator_change": false,
+  "coordinate_change": true,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "RF-AMMCRB reads only current unpaired bridge tensors, native latent/time draws, current netG, its recoverable EMA netG, the realized native Adam displacement and exp_avg_sq. Its numerical residual audit reads only a_k, d0 and H_k. Paired images, PSNR, SSIM, LPIPS, plain outputs, domain-label controllers and confirmation20 are not addressable.",
+  "expected_applicable_state": {
+    "condition": "the moving covariance-rate half-space is useful and its tangent or native derivative becomes small enough that F1-02's fixed absolute float32 margin dominates the analytical KKT coefficient",
+    "self_null_state": "the native Adam displacement is already rate-safe or the moving tangent vanishes",
+    "causal_scope": "separates the intended Adam-metric state-feedback mechanism from a target-blind numerical semantic failure in its first implementation"
+  },
+  "falsifying_experiment": "Kill as mathematically invalid if safe identity, represented half-space feasibility, metric-scale invariance, correction scale proportionality, disabled plain identity, full-state resume, EMA recovery, RNG isolation or native Adam-moment preservation fails. Close the repaired current operator if its complete same-host matched seed2026 e200 trajectory fails the sustained gate; do not use F1-02's paired trajectory to tune the repair.",
+  "compute_cost": "the same M current and M EMA endpoint calls plus one defect backward as F1-02; normally one projection construction and residual dot product, with at most eight fail-closed numerical-only residual reconstructions",
+  "memory_cost": "one EMA generator, M current endpoint graphs, M no-gradient EMA endpoints, one defect-gradient copy and one normalized diagonal inverse-metric tensor per generator parameter",
+  "recovery_state_cost": "EMA generator, fixed half-life, update/intervention/correction counters, last coefficient and residual-refinement diagnostics, plus ordinary optimizer/sampler/RNG state",
+  "algorithm_hyperparameters": {
+    "endpoint_samples": 4,
+    "region_patch": 32,
+    "u_floor": 1e-30,
+    "teacher_half_life_updates": 150,
+    "metric": "normalized_post_step_adam_inverse_root_second_moment",
+    "projection_epsilon": 1e-24,
+    "projection_strength": "none_exact_metric_halfspace",
+    "absolute_numeric_margin": 0.0,
+    "maximum_residual_refinements": "fixed numerical fail-closed guard, not a scientific control",
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "ema_netG_state_dict",
+    "optimizer_update_index",
+    "eligible_count",
+    "intervention_count",
+    "correction_l2_sum",
+    "last_residual_feasible_adam_metric_barrier_geometry"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "Use the same residual-feasible Adam-metric negative normal with native metric norm, removing the native-safe closest-point coefficient.",
+    "observable_only": "Compute the moving tangent, exact coefficient and represented residual but commit native Adam unchanged.",
+    "projected_or_full": "Commit native Adam exactly when safe; otherwise commit the first residual-checked represented Adam-metric closest feasible displacement without an absolute margin."
+  },
+  "engineering_replacement_for": "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+  "engineering_incident_path": "evidence/remote_route1_offload/AMMCRB_ABSOLUTE_MARGIN_SEMANTIC_INCIDENT_20260831.json",
+  "engineering_incident_sha256": "5d03d26f7d3cf1ab94fe6d57ebdc891e6d503d3baa240af16ff4f3ec0fcdd149",
+  "implementation_semantic_correction": "Remove the scale-breaking fixed absolute numerator margin and enforce feasibility from the measured represented residual using only relative parameter-dtype ULP advancement. The registered real-arithmetic objective and half-space are unchanged, but the actual finite update is materially corrected.",
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "eligible_method_specific_signal",
+  "target_blind_driver_signal": "dt_covariance_mismatch_descent_margin",
+  "target_blind_driver_probe": "dt",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}
