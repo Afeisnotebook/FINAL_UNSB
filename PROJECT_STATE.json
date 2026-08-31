@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T13:16:50+08:00",
-  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_COMPLETE_4090_FRONTIER_TERMINAL_ARMED",
+  "state_snapshot_time": "2026-08-31T13:28:00+08:00",
+  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_COMPLETE_FRONTIER_AND_PORTABLE_EVIDENCE_TERMINALS_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "757eb2db37247cf7df19ed3addf1a420ab4e3504",
+  "development_head_at_state_write": "78b89ca8126630d65bd12c2c0df02ba3430ea662",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -160,6 +160,7 @@
     ,"the 5090 exporter, local atomic relay and 4090 replay executor were all redeployed at ab4855e before portable authority or destination training existed; G3 strict-parent eligibility is unchanged"
     ,"the upstream repaired-frontier successor was redeployed at 1673f6a before adjudication existed, so evidence-backed alternates are present in both the preserved frontier and the downstream 4090 replay queue"
     ,"a complete 4090 frontier successor now waits for repaired replay plus both Generation-3 terminal outcomes and reranks the pre-frontier primary with every new same-host complete-e200 receipt"
+    ,"the complete 5090 full/proposal/observable repaired frontier will be exported as hash-bound JSON evidence and atomically relayed to 4090 without checkpoints or cross-host delta merging"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -641,6 +642,23 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_1328": {
+      "rfammcrb_latest_observed_data_epoch": 123,
+      "rfmcrb_latest_observed_data_epoch": 133,
+      "target_data_epoch": 200,
+      "remote5090_gpu_utilization_percent": 98,
+      "remote5090_combined_gpu_memory_mib": 6712,
+      "intermediate_paired_metrics_read_or_used_for_routing": false,
+      "portable_extended_frontier_export_successor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_78b89ca",
+      "portable_extended_frontier_export_status": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
+      "local_extended_frontier_relay_process_id": 13252,
+      "local_extended_frontier_relay_status": "WAITING_FOR_PORTABLE_EXTENDED_5090_FRONTIER",
+      "portable_bundle_contains_checkpoints": false,
+      "cross_host_deltas_merged": false,
+      "evidence": "evidence/remote_route1_offload/PORTABLE_EXTENDED_FRONTIER_RELAY_ARMED_20260831.json",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -770,6 +788,15 @@
       "complete_4090_frontier_evidence": "evidence/remote_route1_offload/COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED_20260831.json",
       "complete_4090_frontier_preserves_pre_frontier_candidates": true,
       "generation3_inapplicable_is_not_negative_trajectory": true,
+      "portable_extended_frontier_commit": "78b89ca8126630d65bd12c2c0df02ba3430ea662",
+      "portable_extended_frontier_export_successor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_78b89ca",
+      "portable_extended_frontier_export_status": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
+      "portable_extended_frontier_export_contract_sha256": "11bee62a082f56faae7468940a650f6d792a2b1016494532c81f939ef8c53336",
+      "portable_extended_frontier_local_relay_pid": 13252,
+      "portable_extended_frontier_local_relay_status": "WAITING_FOR_PORTABLE_EXTENDED_5090_FRONTIER",
+      "portable_extended_frontier_local_relay_contract_sha256": "f0c780aabf2783c0c8b93f6b52e45a0d191f0de0e23f8282dea09273d325a4f0",
+      "portable_extended_frontier_checkpoint_transfer": false,
+      "portable_extended_frontier_evidence": "evidence/remote_route1_offload/PORTABLE_EXTENDED_FRONTIER_RELAY_ARMED_20260831.json",
       "frontier_advancement_classifier_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
       "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
       "frontier_advancement_successor_pid_at_deployment": 126899,

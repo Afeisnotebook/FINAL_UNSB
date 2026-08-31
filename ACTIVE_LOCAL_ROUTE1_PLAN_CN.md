@@ -12,6 +12,9 @@
   两条修复复赛、两种G3统一排名；所有完整行继续保留。
 - `757eb2d`已在4090以独立tmux等待三个终点文件，定向测试3项通过，stderr为0。
 - 13:16心跳：5090 RF-AMMCRB e117、RF-MCRB e127，GPU 97%；中间paired路由仍关闭。
+- 13:28已武装5090扩展前沿便携导出与本地原字节relay。证据包包含full/proposal/
+  observable的receipt、轨迹、推导卡与实现记录，不含checkpoint，不合并跨宿主delta。
+  当前RF-AMMCRB e123、RF-MCRB e133，GPU 98%。
 
 ## 2026-08-31 12:45 执行更新：alternate进入有限跨宿主复赛
 

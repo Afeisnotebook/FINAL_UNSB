@@ -11,6 +11,12 @@ G3。新的完整4090前沿裁决已在`757eb2d`实现并以
 G3不适用时只记`inapplicable`，不冒充负实e200。远端3项定向测试通过，stderr为0。
 证据见`evidence/remote_route1_offload/COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED_20260831.json`。
 
+13:28时又补齐5090完整消融前沿的便携证据链。新包嵌入所有排名full/proposal与
+observable-only角色的terminal receipt、逐域轨迹、推导卡和实现记录，并与5090原文件哈希
+绑定。它不含checkpoint，也不会让5090 delta参与4090排名。导出器与本地原字节relay已固定在
+`78b89ca`，当前分别等待扩展前沿和便携包。部署证据见
+`evidence/remote_route1_offload/PORTABLE_EXTENDED_FRONTIER_RELAY_ARMED_20260831.json`。
+
 ### 12:45 证据备选也进入跨宿主复赛，不再只输出严格赢家
 
 用户提醒“多余的5090应推进多数值得继续思考的算法”后，跨宿主复赛资格已从

@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-route1-portable-extended-frontier-relay-deployment-v1",
+  "recorded_at": "2026-08-31T13:28:00+08:00",
+  "status": "PORTABLE_EXTENDED_FRONTIER_EXPORT_AND_RELAY_ARMED",
+  "implementation_commit": "78b89ca8126630d65bd12c2c0df02ba3430ea662",
+  "remote5090_export": {
+    "worktree": "/root/autodl-tmp/FINAL_UNSB_PORTABLE_EXTENDED_78b89ca",
+    "supervisor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_78b89ca",
+    "state": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
+    "contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/PORTABLE_EXTENDED_FRONTIER_EXPORT_CONTRACT_78b89ca.json",
+    "contract_sha256": "11bee62a082f56faae7468940a650f6d792a2b1016494532c81f939ef8c53336",
+    "stderr_bytes_at_acceptance": 0,
+    "remote_export_tests_passed": 2,
+    "local_only_relay_test_deselected_on_remote": true
+  },
+  "local_atomic_relay": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXTENDED_RELAY_78b89ca",
+    "process_id_at_deployment": 13252,
+    "state": "WAITING_FOR_PORTABLE_EXTENDED_5090_FRONTIER",
+    "contract": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\EXTENDED_FRONTIER_RELAY_CONTRACT_78b89ca.json",
+    "contract_sha256": "f0c780aabf2783c0c8b93f6b52e45a0d191f0de0e23f8282dea09273d325a4f0",
+    "credentials_persisted": false,
+    "stderr_bytes_at_acceptance": 0
+  },
+  "destination": {
+    "host": "remote4090",
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json",
+    "overwrite_with_different_bytes_allowed": false,
+    "atomic_rename_required": true
+  },
+  "portable_contents": {
+    "complete_extended_adjudication": true,
+    "ranked_full_and_proposal_receipts": true,
+    "observable_only_receipts": true,
+    "candidate_trajectories": true,
+    "derivation_cards": true,
+    "implementation_records": true,
+    "checkpoint_transfer": false
+  },
+  "runtime_observation": {
+    "remote5090_rfammcrb_data_epoch": 123,
+    "remote5090_rfmcrb_data_epoch": 133,
+    "target_data_epoch": 200,
+    "remote5090_gpu_utilization_percent": 98,
+    "remote5090_combined_gpu_memory_mib": 6712
+  },
+  "predeployment_note": {
+    "first_remote_test_collection_commit": "ed5fe30075dd4379cd2de8f3781af5942e9ed2e9",
+    "first_remote_test_collection_issue": "The 5090 environment correctly lacked the local-only Paramiko relay dependency.",
+    "long_running_process_started_before_correction": false,
+    "training_or_evidence_loss": false
+  },
+  "scientific_boundaries": {
+    "complete_source_e200_only": true,
+    "checkpoint_transfer": false,
+    "cross_host_deltas_merged": false,
+    "intermediate_paired_metric_routing": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}
