@@ -50,4 +50,3 @@ PCNR为action priority、`evidence_preserved`且分类为`evidence_backed_altern
 - 不改变batch、seed、data epochs或里程碑；
 - 不使用退出窗口、handoff、paired controller或最佳checkpoint；
 - confirmation20继续封存，seed2027/2028继续延期。
-
