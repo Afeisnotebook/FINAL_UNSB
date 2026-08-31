@@ -22,6 +22,10 @@
 代码与事故冻结在`1d9f9cb`和`613a10a`，持久screen已武装，完整边界见
 `decisions/DEC-20260831-AMMCRB-NUMERICAL-SEMANTIC-REPAIR.md`。
 
+这里的“最终唯一候选”只表示下一步算力行动优先级，不会把搜索阶段提前收缩为一个算法。
+修复后5090会同时保留一个主优先级、两个备选和完整同宿主前沿；细则与自动裁决见
+`decisions/DEC-20260831-REPAIRED-FRONTIER-PRESERVATION.md`。
+
 这是一个重新打开的多宿主路线一算法发现项目。此前的“四张4090、四条冻结 lane”
 执行计划已经暂停；后来授权的一张4090和一张5090只执行host-matched路线一，不是
 恢复旧计划。
