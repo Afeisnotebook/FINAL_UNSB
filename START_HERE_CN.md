@@ -29,6 +29,12 @@ checkpoint和科学排名均未受影响。旧等待器在两个终点输入仍�
 心跳为e148/e161，GPU约96%，仍未读取中间paired指标。见
 `evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json`。
 
+终点返回也已持久化：`11be901`的本地接收器（PID 15128）等待4090原子pointer，完成后
+会把五个最终交付文件和两份完整宿主前沿逐字节验哈希后拉回本地；不会覆盖不同文件、
+不会传checkpoint，也不依赖Codex会话。当前state为
+`WAITING_FOR_REMOTE4090_COMPLETE_FINAL_POINTER`，见
+`evidence/remote_route1_offload/COMPLETE_FINAL_RESULT_RELAY_ARMED_20260831.json`。
+
 ### 13:16 新算法已能真正改写最终主项
 
 终局审计发现旧`final/`只认识PC-RSMG三角色时的前沿，不认识两条修复复赛和两种

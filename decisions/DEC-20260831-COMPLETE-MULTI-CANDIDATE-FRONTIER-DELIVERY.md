@@ -54,3 +54,9 @@ receipt、推导卡、实现和逐域candidate/plain绝对/相对轨迹。`874a0
 探针、失败机理和数学谱系。5090导出、本地原字节relay和4090终交付器均已在终点生成前
 替换为完整证据版本，证据见
 `evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json`。
+
+为避免远端完成后再次依赖人工或Codex会话在线，`11be901`又增加了本地持久结果接收器。
+它只在4090原子终点pointer出现后下载最终五个交付文件及两份宿主前沿，逐文件比较远端、
+pointer和本地SHA256；目标已有不同内容时拒绝覆盖，不传checkpoint、不持久化密码。这样
+终点结果会自动落回本地运行目录，随后再由主控审阅并提交compact裁决。部署见
+`evidence/remote_route1_offload/COMPLETE_FINAL_RESULT_RELAY_ARMED_20260831.json`。

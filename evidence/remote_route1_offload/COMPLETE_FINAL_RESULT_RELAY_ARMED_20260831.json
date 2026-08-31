@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-route1-complete-final-result-relay-evidence-v1",
+  "recorded_at": "2026-08-31T14:28:40.7672956+08:00",
+  "status": "DURABLE_REMOTE4090_FINAL_RESULT_RETRIEVAL_ARMED",
+  "git_commit": "11be901",
+  "local_validation": {
+    "pytest": "321 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_FINAL_RESULT_RELAY_11be901",
+  "pid": 15128,
+  "contract": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\COMPLETE_FINAL_RESULT_RELAY_CONTRACT_11be901.json",
+  "contract_sha256": "18c45afeb1a3ebee776c327114271d36d5895024205badca694a290aced58faf",
+  "state": "WAITING_FOR_REMOTE4090_COMPLETE_FINAL_POINTER",
+  "destination": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\complete_frontier_final_4090",
+  "retrieves": [
+    "COMPLETE_FRONTIER_FINAL_DELIVERY_POINTER.json",
+    "CANDIDATE.json",
+    "ALTERNATES.json",
+    "RESEARCH_FRONTIER.json",
+    "RESULTS.json",
+    "FINAL_ROUTE1_REPORT.md",
+    "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+    "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
+  ],
+  "remote_and_local_hashes_must_match": true,
+  "destination_overwrite_allowed": false,
+  "credentials_persisted": false,
+  "checkpoint_transfer": false,
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "stderr_bytes": 0
+}

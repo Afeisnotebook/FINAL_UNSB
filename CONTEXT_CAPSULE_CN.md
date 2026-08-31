@@ -74,6 +74,9 @@
   DT/HJ/HNEK锚点、474/140图谱、假设谱系和所有候选逐域绝对/相对轨迹带入主结果；
   本地319项测试与4090真实静态预检通过。见
   `decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`。
+- 远端终点无需人工搬运：`11be901`的本地持久接收器会在4090原子pointer出现后，将
+  `CANDIDATE/ALTERNATES/RESEARCH_FRONTIER/RESULTS/REPORT`和两端前沿验hash拉回
+  `runs/FINAL_UNSB_LOCAL_ROUTE1_E200/complete_frontier_final_4090`。
 - 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和
   residual-feasible Adam屏障，预实现提交为`12468d1`，没有父项receipt和target-blind
   兼容门就不能长训。用户要求保留多个证据充分的算法后，又增加了严格条件式G3-03：

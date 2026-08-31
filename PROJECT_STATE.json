@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T14:19:36+08:00",
-  "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_FULL_PROBE_CAUSAL_DOMAIN_EVIDENCE_CHAIN_ARMED",
+  "state_snapshot_time": "2026-08-31T14:28:40+08:00",
+  "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_FULL_EVIDENCE_AND_RESULT_RETURN_CHAIN_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "874a09bc2181ca928b3e1974a46ac98e43037c53",
+  "development_head_at_state_write": "11be901",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -164,6 +164,7 @@
     ,"terminal delivery now emits RESEARCH_FRONTIER.json with every mechanism-bearing complete branch; CANDIDATE.json is only the default action priority, and small single-seed rank gaps never constitute parent-mechanism falsification"
     ,"the terminal research-frontier strict disposition now imports the authoritative strict_sustained constant, distinguishes unique algorithms from host-scoped rows, and revalidates both terminal input hashes on every idempotent read"
     ,"the final research frontier now embeds every 4090 and 5090 candidate or ablation role's source-bound per-domain absolute/relative trajectory plus DT/HJ/HNEK e200 anchors, the 474/140 causal evidence, proxy calibration and hypothesis lineage"
+    ,"a durable local result relay waits for the remote4090 atomic terminal pointer and retrieves every final artifact plus both host frontiers with remote/pointer/local SHA256 equality and no checkpoint transfer"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -834,6 +835,13 @@
         "sampling_variance_rows": 140,
         "hypothesis_ledger_bound": true
       },
+      "complete_final_result_relay_commit": "11be901",
+      "complete_final_result_relay_pid": 15128,
+      "complete_final_result_relay_status": "WAITING_FOR_REMOTE4090_COMPLETE_FINAL_POINTER",
+      "complete_final_result_relay_contract_sha256": "18c45afeb1a3ebee776c327114271d36d5895024205badca694a290aced58faf",
+      "complete_final_result_relay_destination": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\complete_frontier_final_4090",
+      "complete_final_result_relay_evidence": "evidence/remote_route1_offload/COMPLETE_FINAL_RESULT_RELAY_ARMED_20260831.json",
+      "complete_final_result_relay_checkpoint_transfer": false,
       "frontier_advancement_classifier_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
       "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
       "frontier_advancement_successor_pid_at_deployment": 126899,
