@@ -49,6 +49,7 @@ def test_residual_synthesis_has_distinct_model_identity_and_dispatch(monkeypatch
         lambda self: sentinel,
     )
     instance = object.__new__(PCRFAMMCRBMixin)
+    instance.opt = SimpleNamespace(pcrfammcrb_enable=True)
     assert PCRFAMMCRBMixin._generator_optimizer_step(instance) is sentinel
 
 

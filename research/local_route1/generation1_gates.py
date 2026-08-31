@@ -54,6 +54,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["pcammcrb_enable"] = False
     elif spec.model == "route1_pcrfammcrb":
         method["pcrfammcrb_enable"] = False
+    elif spec.model == "route1_pcrfmcrb":
+        method["pcrfmcrb_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -213,6 +215,10 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_pcammcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
+    elif model_name == "route1_pcrfmcrb":
+        model._initialize_pcammcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -338,10 +344,18 @@ def _pcammcrb_component_specs(
 ) -> tuple[ProbeSpec, ProbeSpec]:
     """Return the two source-bound component operators used by the synthesis."""
     method = context.registration.spec.method
-    repaired = context.registration.spec.model == "route1_pcrfammcrb"
-    sampling_key = (
-        "pcrfammcrb_sampling_parent" if repaired else "pcammcrb_sampling_parent"
-    )
+    synthesis_model = context.registration.spec.model
+    if synthesis_model == "route1_pcrfammcrb":
+        variant = "residual_feasible_adam_metric"
+        sampling_key = "pcrfammcrb_sampling_parent"
+    elif synthesis_model == "route1_pcrfmcrb":
+        variant = "residual_feasible_euclidean"
+        sampling_key = "pcrfmcrb_sampling_parent"
+    elif synthesis_model == "route1_pcammcrb":
+        variant = "legacy_fixed_absolute_margin_adam_metric"
+        sampling_key = "pcammcrb_sampling_parent"
+    else:
+        raise RuntimeError(f"unsupported conditional barrier model: {synthesis_model}")
     sampling_parent = str(method.get(sampling_key, "pcnr"))
     if sampling_parent == "pcnr":
         sampling = ProbeSpec(
@@ -372,34 +386,46 @@ def _pcammcrb_component_specs(
             method.get("mcrb_teacher_half_life_updates", 150)
         ),
     }
+    barrier_identity = {
+        "residual_feasible_adam_metric": (
+            "gate_pcammcrb_barrier_rfammcrb",
+            "route1_rfammcrb",
+            {
+                "rfammcrb_enable": True,
+                "rfammcrb_projection_epsilon": float(
+                    method.get("rfammcrb_projection_epsilon", 1e-24)
+                ),
+            },
+        ),
+        "residual_feasible_euclidean": (
+            "gate_pcammcrb_barrier_rfmcrb",
+            "route1_rfmcrb",
+            {
+                "rfmcrb_enable": True,
+                "rfmcrb_projection_epsilon": float(
+                    method.get("rfmcrb_projection_epsilon", 1e-24)
+                ),
+            },
+        ),
+        "legacy_fixed_absolute_margin_adam_metric": (
+            "gate_pcammcrb_barrier_ammcrb",
+            "route1_ammcrb",
+            {
+                "ammcrb_enable": True,
+                "ammcrb_projection_epsilon": float(
+                    method.get("ammcrb_projection_epsilon", 1e-24)
+                ),
+            },
+        ),
+    }[variant]
     barrier = ProbeSpec(
-        id=(
-            "gate_pcammcrb_barrier_rfammcrb"
-            if repaired else "gate_pcammcrb_barrier_ammcrb"
-        ),
-        contract_id=(
-            "gate_pcammcrb_barrier_rfammcrb"
-            if repaired else "gate_pcammcrb_barrier_ammcrb"
-        ),
-        model="route1_rfammcrb" if repaired else "route1_ammcrb",
+        id=barrier_identity[0],
+        contract_id=barrier_identity[0],
+        model=barrier_identity[1],
         role="component_compatibility_barrier",
         method={
             **common,
-            **(
-                {
-                    "rfammcrb_enable": True,
-                    "rfammcrb_projection_epsilon": float(
-                        method.get("rfammcrb_projection_epsilon", 1e-24)
-                    ),
-                }
-                if repaired else
-                {
-                    "ammcrb_enable": True,
-                    "ammcrb_projection_epsilon": float(
-                        method.get("ammcrb_projection_epsilon", 1e-24)
-                    ),
-                }
-            ),
+            **barrier_identity[2],
         },
     )
     return sampling, barrier
@@ -984,15 +1010,24 @@ def _pcammcrb_invariants(context: CandidateGateContext) -> list[dict]:
         SAMPLING_PARENTS,
     )
 
-    repaired = context.registration.spec.model == "route1_pcrfammcrb"
-    parent = str(context.registration.spec.method.get(
-        "pcrfammcrb_sampling_parent" if repaired else "pcammcrb_sampling_parent",
-        "pcnr",
-    ))
+    synthesis_model = context.registration.spec.model
+    if synthesis_model == "route1_pcrfammcrb":
+        variant = "residual_feasible_adam_metric_without_absolute_margin"
+        sampling_key = "pcrfammcrb_sampling_parent"
+        barrier_rows = _rfammcrb_invariants()
+    elif synthesis_model == "route1_pcrfmcrb":
+        variant = "residual_feasible_euclidean_without_absolute_margin"
+        sampling_key = "pcrfmcrb_sampling_parent"
+        barrier_rows = _rfmcrb_invariants()
+    elif synthesis_model == "route1_pcammcrb":
+        variant = "fixed_absolute_margin_legacy_ammcrb"
+        sampling_key = "pcammcrb_sampling_parent"
+        barrier_rows = _ammcrb_invariants()
+    else:
+        raise RuntimeError(f"unsupported conditional barrier model: {synthesis_model}")
+    parent = str(context.registration.spec.method.get(sampling_key, "pcnr"))
     sampling_rows = _pcnr_invariants() if parent == "pcnr" else _pcrsmg_invariants()
-    rows = sampling_rows + (
-        _rfammcrb_invariants() if repaired else _ammcrb_invariants()
-    )
+    rows = sampling_rows + barrier_rows
     rows.extend([
         {
             "name": "sampling_parent_is_frozen_without_strength_or_window",
@@ -1015,10 +1050,7 @@ def _pcammcrb_invariants(context: CandidateGateContext) -> list[dict]:
         {
             "name": "composite_barrier_identity_is_source_frozen",
             "status": "PASS",
-            "observed": (
-                "residual_feasible_adam_metric_without_absolute_margin"
-                if repaired else "fixed_absolute_margin_legacy_ammcrb"
-            ),
+            "observed": variant,
         },
         {
             "name": "pcrsmg_proposal_barrier_order_is_frozen",
@@ -1320,11 +1352,19 @@ def _validate_pcammcrb_execution_evidence(
     from models.route1.pcammcrb import EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
     from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
 
-    repaired = context.registration.spec.model == "route1_pcrfammcrb"
-    parent = str(context.registration.spec.method.get(
-        "pcrfammcrb_sampling_parent" if repaired else "pcammcrb_sampling_parent",
-        "pcnr",
-    ))
+    synthesis_model = context.registration.spec.model
+    if synthesis_model == "route1_pcrfammcrb":
+        sampling_key = "pcrfammcrb_sampling_parent"
+        barrier_operator = "residual_feasible_adam_metric_without_absolute_margin"
+    elif synthesis_model == "route1_pcrfmcrb":
+        sampling_key = "pcrfmcrb_sampling_parent"
+        barrier_operator = "residual_feasible_euclidean_without_absolute_margin"
+    elif synthesis_model == "route1_pcammcrb":
+        sampling_key = "pcammcrb_sampling_parent"
+        barrier_operator = "fixed_absolute_margin_legacy_ammcrb"
+    else:
+        raise RuntimeError(f"unsupported conditional barrier model: {synthesis_model}")
+    parent = str(context.registration.spec.method.get(sampling_key, "pcnr"))
     expected = list(
         EXPECTED_PCNR_SCHEDULE
         if parent == "pcnr" else EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
@@ -1340,10 +1380,8 @@ def _validate_pcammcrb_execution_evidence(
             raise RuntimeError("PC-AMMCRB gate changed its sampling parent")
         if synthesis.get("last_schedule") != expected:
             raise RuntimeError("PC-AMMCRB gate did not observe the frozen schedule")
-        if repaired and synthesis.get("barrier_operator") != (
-            "residual_feasible_adam_metric_without_absolute_margin"
-        ):
-            raise RuntimeError("PC-RF-AMMCRB gate observed the superseded barrier")
+        if synthesis.get("barrier_operator") != barrier_operator:
+            raise RuntimeError("conditional residual synthesis barrier identity changed")
         updates = int(synthesis.get("update_index", -1))
         bundles = int(synthesis.get("gf_bundle_count", -2))
         barrier_updates = int(barrier.get("update_index", -3))
@@ -1362,10 +1400,7 @@ def _validate_pcammcrb_execution_evidence(
         "all_sampling_and_barrier_counts_equal_updates": True,
         "all_de_and_gf_counts_equal_updates": True,
         "all_bundle_serials_equal_twice_updates": parent == "pcnr",
-        "barrier_operator": (
-            "residual_feasible_adam_metric_without_absolute_margin"
-            if repaired else "fixed_absolute_margin_legacy_ammcrb"
-        ),
+        "barrier_operator": barrier_operator,
     }
 
 
@@ -1524,6 +1559,12 @@ def run_pcammcrb_gate(context: CandidateGateContext) -> dict:
 def run_pcrfammcrb_gate(context: CandidateGateContext) -> dict:
     if context.registration.spec.model != "route1_pcrfammcrb":
         raise RuntimeError("PC-RF-AMMCRB gate received the wrong model")
+    return run_pcammcrb_gate(context)
+
+
+def run_pcrfmcrb_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model != "route1_pcrfmcrb":
+        raise RuntimeError("PC-RF-MCRB gate received the wrong model")
     return run_pcammcrb_gate(context)
 
 

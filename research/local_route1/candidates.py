@@ -614,15 +614,25 @@ def load_candidate_registration(
             ):
                 raise RuntimeError("replicated gate has invalid player-bundle provenance")
         if implementation.get("model") in (
-            "route1_pcammcrb", "route1_pcrfammcrb",
+            "route1_pcammcrb", "route1_pcrfammcrb", "route1_pcrfmcrb",
         ):
-            repaired = implementation.get("model") == "route1_pcrfammcrb"
+            synthesis_model = implementation.get("model")
+            if synthesis_model == "route1_pcrfammcrb":
+                sampling_key = "pcrfammcrb_sampling_parent"
+                barrier_operator = (
+                    "residual_feasible_adam_metric_without_absolute_margin"
+                )
+            elif synthesis_model == "route1_pcrfmcrb":
+                sampling_key = "pcrfmcrb_sampling_parent"
+                barrier_operator = (
+                    "residual_feasible_euclidean_without_absolute_margin"
+                )
+            else:
+                sampling_key = "pcammcrb_sampling_parent"
+                barrier_operator = "fixed_absolute_margin_legacy_ammcrb"
             parent = str(
                 implementation.get("method", {}).get(
-                    (
-                        "pcrfammcrb_sampling_parent"
-                        if repaired else "pcammcrb_sampling_parent"
-                    ),
+                    sampling_key,
                     "pcnr",
                 )
             )
@@ -640,10 +650,7 @@ def load_candidate_registration(
                 player_evidence.get("sampling_parent") != parent
                 or player_evidence.get("expected_schedule") != expected_schedule
                 or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
-                or (
-                    repaired and player_evidence.get("barrier_operator") !=
-                    "residual_feasible_adam_metric_without_absolute_margin"
-                )
+                or player_evidence.get("barrier_operator") != barrier_operator
             ):
                 raise RuntimeError("PC-AMMCRB gate has invalid player/barrier provenance")
             compatibility = evidence.get("component_compatibility_evidence")

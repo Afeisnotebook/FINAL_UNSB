@@ -14,6 +14,7 @@ paired metric, or checkpoint-dependent branch is introduced.
 from __future__ import annotations
 
 from models.route1.pcammcrb import PCAMMCRBMixin, SAMPLING_PARENTS
+from models.route1.mcrb import MCRBMixin
 from models.route1.rfammcrb import RFAMMCRBMixin
 
 
@@ -30,6 +31,11 @@ class PCRFAMMCRBMixin(PCAMMCRBMixin):
         return parent
 
     def _generator_optimizer_step(self):
+        if not self._pcammcrb_enabled():
+            # RFAMMCRBMixin is invoked as an unbound implementation and is not
+            # itself in this composite model's MRO.  Bypass every barrier hook
+            # explicitly so zero intervention retains the native Adam step.
+            return super(MCRBMixin, self)._generator_optimizer_step()
         # Calling the repaired mixin explicitly is intentional: inheriting it
         # after PCAMMCRB would leave the old AMMCRB method earlier in the MRO.
         return RFAMMCRBMixin._generator_optimizer_step(self)
@@ -51,4 +57,3 @@ class PCRFAMMCRBMixin(PCAMMCRBMixin):
             "residual_feasible_adam_metric_without_absolute_margin"
         ):
             raise RuntimeError("PC-RF-AMMCRB checkpoint barrier identity changed")
-

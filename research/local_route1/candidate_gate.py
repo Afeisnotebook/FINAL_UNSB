@@ -147,17 +147,29 @@ def run_candidate_gate(
             or player_evidence.get("expected_schedule") != expected_schedule
         ):
             raise RuntimeError("replicated player-bundle gate evidence is invalid")
-    if registration.spec.model in ("route1_pcammcrb", "route1_pcrfammcrb"):
+    if registration.spec.model in (
+        "route1_pcammcrb", "route1_pcrfammcrb", "route1_pcrfmcrb",
+    ):
         from models.route1.pcammcrb import (
             EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE,
         )
         from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
 
-        repaired = registration.spec.model == "route1_pcrfammcrb"
-        parent = str(registration.spec.method.get(
-            "pcrfammcrb_sampling_parent" if repaired else "pcammcrb_sampling_parent",
-            "pcnr",
-        ))
+        synthesis_model = registration.spec.model
+        if synthesis_model == "route1_pcrfammcrb":
+            sampling_key = "pcrfammcrb_sampling_parent"
+            barrier_operator = (
+                "residual_feasible_adam_metric_without_absolute_margin"
+            )
+        elif synthesis_model == "route1_pcrfmcrb":
+            sampling_key = "pcrfmcrb_sampling_parent"
+            barrier_operator = (
+                "residual_feasible_euclidean_without_absolute_margin"
+            )
+        else:
+            sampling_key = "pcammcrb_sampling_parent"
+            barrier_operator = "fixed_absolute_margin_legacy_ammcrb"
+        parent = str(registration.spec.method.get(sampling_key, "pcnr"))
         expected = list(
             EXPECTED_PCNR_SCHEDULE
             if parent == "pcnr" else EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
@@ -167,10 +179,7 @@ def run_candidate_gate(
             player_evidence.get("sampling_parent") != parent
             or player_evidence.get("expected_schedule") != expected
             or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
-            or (
-                repaired and player_evidence.get("barrier_operator") !=
-                "residual_feasible_adam_metric_without_absolute_margin"
-            )
+            or player_evidence.get("barrier_operator") != barrier_operator
         ):
             raise RuntimeError("PC-AMMCRB player/barrier execution evidence is invalid")
         compatibility = report.get("component_compatibility_evidence")
