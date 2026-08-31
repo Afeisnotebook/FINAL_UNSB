@@ -147,13 +147,17 @@ def run_candidate_gate(
             or player_evidence.get("expected_schedule") != expected_schedule
         ):
             raise RuntimeError("replicated player-bundle gate evidence is invalid")
-    if registration.spec.model == "route1_pcammcrb":
+    if registration.spec.model in ("route1_pcammcrb", "route1_pcrfammcrb"):
         from models.route1.pcammcrb import (
             EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE,
         )
         from models.route1.pcnr import EXPECTED_PCNR_SCHEDULE
 
-        parent = str(registration.spec.method.get("pcammcrb_sampling_parent", "pcnr"))
+        repaired = registration.spec.model == "route1_pcrfammcrb"
+        parent = str(registration.spec.method.get(
+            "pcrfammcrb_sampling_parent" if repaired else "pcammcrb_sampling_parent",
+            "pcnr",
+        ))
         expected = list(
             EXPECTED_PCNR_SCHEDULE
             if parent == "pcnr" else EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE
@@ -163,6 +167,10 @@ def run_candidate_gate(
             player_evidence.get("sampling_parent") != parent
             or player_evidence.get("expected_schedule") != expected
             or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
+            or (
+                repaired and player_evidence.get("barrier_operator") !=
+                "residual_feasible_adam_metric_without_absolute_margin"
+            )
         ):
             raise RuntimeError("PC-AMMCRB player/barrier execution evidence is invalid")
         compatibility = report.get("component_compatibility_evidence")

@@ -1,6 +1,10 @@
 # G3-01：条件采样—Adam度量协方差屏障
 
-状态：`CONDITIONAL_PREIMPLEMENTATION_CARD`。只有
+状态：`SUPERSEDED_DO_NOT_RUN`。旧 AM-MCRB 的 fixed absolute margin 已确认违反本卡所写
+的 scale-free closest-point 语义。本卡只保留历史推导，任何结果都不能再授权执行；替代
+身份见 `G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER.md`。
+
+历史状态曾为 `CONDITIONAL_PREIMPLEMENTATION_CARD`。只有
 `DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md`的父项终点门和兼容门都通过后，
 才允许生成可执行JSON卡、冻结候选并开始e200；本卡和源码本身不构成长训授权。
 
@@ -66,4 +70,3 @@ F只提交一次，EMA teacher在最终G位移后只更新一次。
 - PCNR父项约增加一次训练forward及MCRB的`m=4`方向探测；PC-RSMG proposal父项约增加
   一个G/F训练view，并对两个view各做`m=4`方向探测。新增恢复状态为sampling provenance、
   moving teacher、屏障计数和最后一次KKT诊断。
-

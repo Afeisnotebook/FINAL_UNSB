@@ -613,10 +613,17 @@ def load_candidate_registration(
                 or player_evidence.get("expected_schedule") != expected_schedule
             ):
                 raise RuntimeError("replicated gate has invalid player-bundle provenance")
-        if implementation.get("model") == "route1_pcammcrb":
+        if implementation.get("model") in (
+            "route1_pcammcrb", "route1_pcrfammcrb",
+        ):
+            repaired = implementation.get("model") == "route1_pcrfammcrb"
             parent = str(
                 implementation.get("method", {}).get(
-                    "pcammcrb_sampling_parent", "pcnr"
+                    (
+                        "pcrfammcrb_sampling_parent"
+                        if repaired else "pcammcrb_sampling_parent"
+                    ),
+                    "pcnr",
                 )
             )
             expected_schedule = (
@@ -633,6 +640,10 @@ def load_candidate_registration(
                 player_evidence.get("sampling_parent") != parent
                 or player_evidence.get("expected_schedule") != expected_schedule
                 or player_evidence.get("all_sampling_and_barrier_counts_equal_updates") is not True
+                or (
+                    repaired and player_evidence.get("barrier_operator") !=
+                    "residual_feasible_adam_metric_without_absolute_margin"
+                )
             ):
                 raise RuntimeError("PC-AMMCRB gate has invalid player/barrier provenance")
             compatibility = evidence.get("component_compatibility_evidence")

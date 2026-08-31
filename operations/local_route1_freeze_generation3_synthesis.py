@@ -25,6 +25,9 @@ from research.local_route1.runtime import write_json
 
 
 CANDIDATE_ID = "G3-01-CONDITIONAL-SAMPLING-ADAM-BARRIER"
+REPLACEMENT_CANDIDATE_ID = (
+    "G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER"
+)
 PCNR_ID, AMMCRB_ID = FRONTIER_IDS
 PCRSMG_PROPOSAL_ID = "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
 DECISION = "decisions/DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md"
@@ -264,6 +267,24 @@ def materialize(output_root: Path, adjudication_path: Path) -> dict[str, Any]:
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }
+    # G3-01 was preregistered before the fixed-absolute-margin projection
+    # incident was discovered.  It must never be materialized from a later
+    # strict result: that would reintroduce an implementation already known
+    # not to represent its stated scale-free KKT operator.  The replacement
+    # has a distinct identity and independently validates two source-bound,
+    # same-host complete-e200 parent receipts.
+    result = {
+        **common,
+        "status": "SYNTHESIS_SUPERSEDED_NUMERICAL_SEMANTIC_INCIDENT",
+        "candidate_id": None,
+        "replacement_candidate_id": REPLACEMENT_CANDIDATE_ID,
+        "old_operator_long_run_authorized": False,
+    }
+    write_json(result_path, result)
+    return result
+
+    # Retained below as historical source for the original preregistration;
+    # unreachable by construction after the semantic incident.
     if route["eligible"] is not True:
         result = {**common, "status": "SYNTHESIS_INAPPLICABLE", "candidate_id": None}
         write_json(result_path, result)

@@ -13,6 +13,8 @@ from models.route1_pcammcrb_model import Route1PcammcrbModel
 from operations.local_route1_freeze_generation3_synthesis import (
     AMMCRB_ID,
     PCNR_ID,
+    REPLACEMENT_CANDIDATE_ID,
+    materialize,
     select_sampling_parent,
 )
 from research.local_route1.frontier_adjudication import SCHEMA as FRONTIER_SCHEMA
@@ -122,3 +124,17 @@ def test_synthesis_route_prefers_strict_pcnr_and_requires_strict_ammcrb():
     blocked = select_sampling_parent(_terminal([PCNR_ID]))
     assert blocked["eligible"] is False
     assert blocked["sampling_parent"] is None
+
+
+def test_old_synthesis_materializer_is_fail_closed_after_margin_incident(tmp_path):
+    adjudication = tmp_path / "frontier.json"
+    adjudication.write_text(
+        __import__("json").dumps(_terminal([PCNR_ID, AMMCRB_ID])),
+        encoding="utf-8",
+    )
+    result = materialize(tmp_path, adjudication)
+    assert result["status"] == "SYNTHESIS_SUPERSEDED_NUMERICAL_SEMANTIC_INCIDENT"
+    assert result["candidate_id"] is None
+    assert result["replacement_candidate_id"] == REPLACEMENT_CANDIDATE_ID
+    assert result["old_operator_long_run_authorized"] is False
+    assert not (tmp_path / "derive" / "cards").exists()

@@ -1,6 +1,14 @@
 # DEC-20260831：路线一条件式Generation-3双机制合成门
 
-## 目的
+状态：`SUPERSEDED_DO_NOT_RUN`。该设计使用的旧 AM-MCRB 固定绝对余量已被
+`DEC-20260831-RESIDUAL-FEASIBLE-CONDITIONAL-SYNTHESIS.md`确认不符合注册的尺度无关
+KKT 算子。源码仅保留历史谱系；任何后续终点结果都不得重新授权 G3-01。
+
+替代身份为 `G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER`，它需要两个
+同宿主、source-bound、完整 e200 且严格通过的父 receipt，并使用 residual-feasible
+parameter-dtype 投影。
+
+## 目的（历史）
 
 canonical主候选只是当前规范入口，不是算法发现的提前停止点。为合理利用PCNR与
 AM-MCRB完成后的5090算力，同时防止重新退化成任意点子或超参搜索，在读取两条终点
