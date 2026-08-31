@@ -1,0 +1,32 @@
+{
+  "schema": "final-unsb-route1-implementation-invalid-receipt-race-v1",
+  "recorded": "2026-08-31T09:14:00+08:00",
+  "classification": "post_training_evidence_orchestration_failure",
+  "affected_candidate_id": "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+  "training_impact": {
+    "candidate_reached_data_epoch": 200,
+    "candidate_reached_updates": 30000,
+    "candidate_trajectory_complete": true,
+    "checkpoint_lost_or_mutated": false,
+    "repair_candidates_interrupted": false
+  },
+  "cause": "The numerical-repair successor correctly changed the old AM-MCRB ledger record from FROZEN_FOR_GATES to IMPLEMENTATION_INVALID after its executor reached e200, while the old frontier successor had not yet materialized the ordinary rankable terminal receipt. The ordinary receipt verifier then correctly rejected the no-longer-rankable ledger status.",
+  "observed_failure": "candidate hypothesis is not frozen for gates",
+  "semantic_requirement": {
+    "old_operator_must_remain_scientifically_unrankable": true,
+    "complete_old_trajectory_must_remain_auditable": true,
+    "ledger_must_not_be_rolled_back_to_frozen": true,
+    "repair_trajectories_must_not_restart": true
+  },
+  "repair": {
+    "new_receipt_schema": "final-unsb-route1-implementation-invalid-diagnostic-receipt-v1",
+    "validates_complete_e200_artifacts": true,
+    "binds_semantic_incident_and_invalid_algorithm_fingerprint": true,
+    "scientific_ranking_eligible": false,
+    "parent_mechanism_falsified": false,
+    "old_frontier_fatal_is_not_a_repaired_frontier_prerequisite": true
+  },
+  "paired_metric_changed_training_or_formula": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

@@ -9,6 +9,10 @@ from operations.local_route1_candidate_terminal_receipt import (
     SCHEMA as RECEIPT_SCHEMA,
     SIDECAR_SCHEMA,
 )
+from operations.local_route1_implementation_invalid_diagnostic_receipt import (
+    DIAGNOSTIC_RECEIPT_SCHEMA,
+    DIAGNOSTIC_SIDECAR_SCHEMA,
+)
 from research.local_route1.generation1_adjudication import (
     NEGATIVE_STATUS,
     POSITIVE_STATUS,
@@ -89,6 +93,48 @@ def _receipt(
     return path
 
 
+def _diagnostic_receipt(
+    tmp_path: Path, candidate_id: str, late: float,
+) -> Path:
+    path = tmp_path / f"{candidate_id}.diagnostic.json"
+    path.write_text(json.dumps({
+        "schema": DIAGNOSTIC_RECEIPT_SCHEMA,
+        "status": "ACCEPTED_IMPLEMENTATION_INVALID_COMPLETE_E200_DIAGNOSTIC",
+        "candidate_id": candidate_id,
+        "trajectory_status": POSITIVE_STATUS,
+        "algorithm_fingerprint": INVALID_FINGERPRINTS[candidate_id],
+        "candidate_fingerprint": f"candidate-{candidate_id}",
+        "candidate_training_core_fingerprint": f"core-{candidate_id}",
+        "base_e0_scientific_state_sha256": "e0",
+        "base_protocol_fingerprint": "protocol",
+        "manifest_sha256": "manifest",
+        "plain_e200_verification_sha256": "plain",
+        "training_git_commit": "a" * 40,
+        "ranking_fields": {
+            "late_three_mean_macro_psnr_delta": late,
+            "e200_macro_psnr_delta": late,
+        },
+        "terminal_integrity": {"status": "ACCEPTED_COMPLETE_E200_ARTIFACT_SET"},
+        "receipt_source_sha256": file_sha256(
+            ROOT / "operations"
+            / "local_route1_implementation_invalid_diagnostic_receipt.py"
+        ),
+        "scientific_ranking_eligible": False,
+        "parent_mechanism_falsified": False,
+        "evaluation_crn_matched_to_same_host_plain": True,
+        "paired_metrics_used_only_after_complete_trajectory": True,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    Path(str(path) + ".sha256.json").write_text(json.dumps({
+        "schema": DIAGNOSTIC_SIDECAR_SCHEMA,
+        "candidate_id": candidate_id,
+        "receipt_sha256": file_sha256(path),
+    }), encoding="utf-8")
+    return path
+
+
 def _frontier(
     tmp_path: Path, *, all_negative: bool = False,
 ) -> tuple[list[Path], list[Path]]:
@@ -102,13 +148,7 @@ def _frontier(
         for candidate_id, late, status in zip(RANKABLE_IDS, lates, statuses)
     ]
     invalid = [
-        _receipt(
-            tmp_path,
-            candidate_id,
-            9.0,
-            status=POSITIVE_STATUS,
-            algorithm_fingerprint=INVALID_FINGERPRINTS[candidate_id],
-        )
+        _diagnostic_receipt(tmp_path, candidate_id, 9.0)
         for candidate_id in INVALID_DIAGNOSTIC_INCIDENTS
     ]
     return rankable, invalid

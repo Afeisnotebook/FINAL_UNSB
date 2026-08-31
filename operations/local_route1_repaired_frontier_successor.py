@@ -11,6 +11,9 @@ from pathlib import Path
 from typing import Any
 
 from operations import local_route1_candidate_executor as support
+from operations.local_route1_implementation_invalid_diagnostic_receipt import (
+    materialize_diagnostic_receipt,
+)
 from research.local_route1.protocol import file_sha256
 from research.local_route1.repaired_frontier_adjudication import (
     INVALID_DIAGNOSTIC_INCIDENTS,
@@ -37,6 +40,7 @@ SOURCE_RELATIVES = (
     "operations/local_route1_repaired_frontier_adjudicate.py",
     "operations/local_route1_cross_version_adjudicate.py",
     "operations/local_route1_candidate_terminal_receipt.py",
+    "operations/local_route1_implementation_invalid_diagnostic_receipt.py",
     "research/local_route1/repaired_frontier_adjudication.py",
     "research/local_route1/frontier_advancement.py",
 )
@@ -173,7 +177,7 @@ class RepairedFrontierSuccessor:
         return (
             [self.receipts / f"{candidate_id}.json" for candidate_id in RANKABLE_IDS],
             [
-                self.receipts / f"{candidate_id}.json"
+                self.operations / "diagnostic_receipts" / f"{candidate_id}.json"
                 for candidate_id in INVALID_DIAGNOSTIC_INCIDENTS
             ],
         )
@@ -182,7 +186,6 @@ class RepairedFrontierSuccessor:
         fatal_paths = (
             self.operations / "RFAMMCRB_SUCCESSOR_FATAL.json",
             self.operations / "RFMCRB_SUCCESSOR_FATAL.json",
-            self.operations / "FRONTIER_SUCCESSOR_FATAL.json",
         )
         while True:
             fatal = next((path for path in fatal_paths if path.is_file()), None)
@@ -192,6 +195,14 @@ class RepairedFrontierSuccessor:
                 filename: self._validate_result(filename)
                 for filename in RESULT_REQUIREMENTS
             }
+            for candidate_id in INVALID_DIAGNOSTIC_INCIDENTS:
+                path = (
+                    self.operations / "diagnostic_receipts" / f"{candidate_id}.json"
+                )
+                if not path.is_file():
+                    materialize_diagnostic_receipt(
+                        self.run_root, candidate_id, receipt_path=path,
+                    )
             rankable, invalid = self._receipt_paths()
             receipt_ready = {
                 path.stem: path.is_file() and Path(str(path) + ".sha256.json").is_file()

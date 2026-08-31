@@ -16,6 +16,11 @@ from operations.local_route1_cross_version_adjudicate import (
     _rank_key,
     _validate_receipt,
 )
+from operations.local_route1_implementation_invalid_diagnostic_receipt import (
+    DIAGNOSTIC_RECEIPT_SCHEMA,
+    DIAGNOSTIC_SIDECAR_SCHEMA,
+    INCIDENTS as INVALID_DIAGNOSTIC_INCIDENTS,
+)
 from research.local_route1.frontier_advancement import (
     NEAR,
     STRICT,
@@ -34,16 +39,6 @@ RANKABLE_IDS = (
     "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
     "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER",
 )
-INVALID_DIAGNOSTIC_INCIDENTS = {
-    "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": (
-        "evidence/remote_route1_offload/"
-        "AMMCRB_ABSOLUTE_MARGIN_SEMANTIC_INCIDENT_20260831.json"
-    ),
-    "G1-03-STATE-FEEDBACK-MISSING": (
-        "evidence/remote_route1_offload/"
-        "MCRB_ABSOLUTE_MARGIN_SEMANTIC_INCIDENT_20260831.json"
-    ),
-}
 COMMON_AUTHORITY_FIELDS = (
     "base_e0_scientific_state_sha256",
     "base_protocol_fingerprint",
@@ -67,6 +62,67 @@ def _validated_receipt_map(
     if len(paths) != len(expected):
         raise RuntimeError(f"{label} requires exactly {len(expected)} receipts")
     receipts = [_validate_receipt(path) for path in paths]
+    ids = [str(receipt["candidate_id"]) for receipt in receipts]
+    if set(ids) != set(expected) or len(set(ids)) != len(expected):
+        raise RuntimeError(f"{label} receipt identities differ from the frozen set")
+    return (
+        {str(receipt["candidate_id"]): receipt for receipt in receipts},
+        {str(receipt["candidate_id"]): path for receipt, path in zip(receipts, paths)},
+    )
+
+
+def _validate_diagnostic_receipt(path: Path) -> dict[str, Any]:
+    path = Path(path).resolve()
+    sidecar_path = Path(str(path) + ".sha256.json")
+    if not path.is_file() or not sidecar_path.is_file():
+        raise RuntimeError(f"implementation diagnostic receipt is missing: {path}")
+    receipt = _read_json(path)
+    sidecar = _read_json(sidecar_path)
+    if (
+        receipt.get("schema") != DIAGNOSTIC_RECEIPT_SCHEMA
+        or receipt.get("status")
+        != "ACCEPTED_IMPLEMENTATION_INVALID_COMPLETE_E200_DIAGNOSTIC"
+        or sidecar.get("schema") != DIAGNOSTIC_SIDECAR_SCHEMA
+        or sidecar.get("candidate_id") != receipt.get("candidate_id")
+        or sidecar.get("receipt_sha256") != file_sha256(path)
+    ):
+        raise RuntimeError(f"implementation diagnostic receipt integrity failed: {path}")
+    if receipt.get("scientific_ranking_eligible") is not False:
+        raise RuntimeError("implementation-invalid diagnostic became scientifically rankable")
+    if receipt.get("parent_mechanism_falsified") is not False:
+        raise RuntimeError("implementation diagnostic incorrectly falsified its parent")
+    if receipt.get("terminal_integrity", {}).get("status") != (
+        "ACCEPTED_COMPLETE_E200_ARTIFACT_SET"
+    ):
+        raise RuntimeError("implementation diagnostic lacks complete e200 artifacts")
+    expected_source = file_sha256(
+        ROOT / "operations" / "local_route1_implementation_invalid_diagnostic_receipt.py"
+    )
+    if receipt.get("receipt_source_sha256") != expected_source:
+        raise RuntimeError("implementation diagnostic is not source-bound")
+    for key in (
+        "evaluation_crn_matched_to_same_host_plain",
+        "paired_metrics_used_only_after_complete_trajectory",
+    ):
+        if receipt.get(key) is not True:
+            raise RuntimeError(f"implementation diagnostic requires {key}=true")
+    for key in (
+        "paired_metrics_used_for_training_or_control", "paired_controller_access",
+        "confirmation20_opened",
+    ):
+        if receipt.get(key) is not False:
+            raise RuntimeError(f"implementation diagnostic requires {key}=false")
+    return receipt
+
+
+def _validated_diagnostic_map(
+    receipt_paths: Iterable[Path], expected_ids: Iterable[str], *, label: str,
+) -> tuple[dict[str, dict[str, Any]], dict[str, Path]]:
+    paths = [Path(path).resolve() for path in receipt_paths]
+    expected = tuple(expected_ids)
+    if len(paths) != len(expected):
+        raise RuntimeError(f"{label} requires exactly {len(expected)} receipts")
+    receipts = [_validate_diagnostic_receipt(path) for path in paths]
     ids = [str(receipt["candidate_id"]) for receipt in receipts]
     if set(ids) != set(expected) or len(set(ids)) != len(expected):
         raise RuntimeError(f"{label} receipt identities differ from the frozen set")
@@ -143,7 +199,7 @@ def adjudicate_repaired_frontier(
     rankable, rankable_paths = _validated_receipt_map(
         rankable_receipt_paths, RANKABLE_IDS, label="rankable repaired frontier",
     )
-    invalid, invalid_paths = _validated_receipt_map(
+    invalid, invalid_paths = _validated_diagnostic_map(
         invalid_diagnostic_receipt_paths,
         INVALID_DIAGNOSTIC_INCIDENTS,
         label="implementation-invalid diagnostic set",
