@@ -1,9 +1,10 @@
 """Freeze multi-parent follow-ups for the complete repaired 5090 frontier.
 
 The unique canonical candidate remains only an action priority.  Every
-residual-feasible repair that is strict or near-boundary keeps an independent
-mechanism-ablation stream.  This module never reads an intermediate metric and
-never changes a formula from paired results.
+residual-feasible repair that remains strict, near-boundary, or an evidence-
+backed alternate keeps an independent mechanism-ablation stream.  This module
+never reads an intermediate metric and never changes a formula from paired
+results.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from research.local_route1.frontier_advancement import NEAR, STRICT
+from research.local_route1.frontier_advancement import ALTERNATE, NEAR, STRICT
 from research.local_route1.protocol import file_sha256
 from research.local_route1.repaired_frontier_adjudication import (
     ACTIONABLE_STATUS,
@@ -92,7 +93,7 @@ def materialize_repaired_frontier_followups(
     eligible_rows = [
         row for row in ranking
         if row["candidate_id"] in REPAIRED_IDS
-        and row.get("classification") in (STRICT, NEAR)
+        and row.get("classification") in (STRICT, NEAR, ALTERNATE)
     ]
     if len(eligible_rows) > 2:
         raise RuntimeError("repaired follow-up parent count exceeds the frozen cap")
@@ -124,8 +125,8 @@ def materialize_repaired_frontier_followups(
             ],
             "freeze_path": f"operations/{freeze_filename}",
             "freeze_sha256": file_sha256(output_root / "operations" / freeze_filename),
-            "near_boundary_requires_target_blind_defect_audit_before_revision": (
-                row["classification"] == NEAR
+            "non_strict_requires_target_blind_defect_audit_before_revision": (
+                row["classification"] != STRICT
             ),
         })
 
