@@ -20,6 +20,13 @@ target-blind组件兼容门；当前只是计算就绪，不构成长训授权�
 算法同机复赛完成；RF-AMMCRB缺席或不严格通过时会留下不适用记录而非启动。部署证据见
 `evidence/remote_route1_offload/RESIDUAL_SYNTHESIS_4090_SUCCESSOR_ARMED_20260831.json`。
 
+另一个独立的无偏方向也已先做target-blind固定状态筛查：固定time/patch并把全部Gaussian
+latent/bridge noise反号后平均G/F梯度。在plain e20/e100/e200各8 pairs中，反号梯度
+协方差均为正，pair-mean方差分别是compute-matched iid pair的1.340/1.029/1.558倍。因此
+当前Gaussian反号involution不占用e200槽位；这不影响已经严格通过的iid PC-RSMG
+proposal-only，也不证伪其他无偏控制变量。见
+`decisions/DEC-20260831-ANTITHETIC-GAUSSIAN-GRADIENT-AUDIT.md`。
+
 ### 10:30 双算法跨宿主复验链已武装
 
 “唯一候选”现在只表示下一步行动优先级，不表示只保留一个算法。5090继续同时运行

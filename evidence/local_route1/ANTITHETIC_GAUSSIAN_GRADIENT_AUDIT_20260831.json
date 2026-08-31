@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-route1-antithetic-gradient-compact-evidence-v1",
+  "status": "CLOSED_CURRENT_ANTITHETIC_INVOLUTION_BEFORE_LONG_RUN",
+  "source_full_audit": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\audit\\ANTITHETIC_GAUSSIAN_GRADIENT_AUDIT.json",
+  "plain_parent_epochs": [20, 100, 200],
+  "pairs_per_epoch": 8,
+  "involution": "same official batch/time/patch/non-Gaussian randomness; negate every Gaussian forward and G-loss draw; average gradients only",
+  "unbiased_identity": "conditional Gaussian symmetry preserves the native G/F gradient expectation",
+  "rows": [
+    {
+      "data_epoch": 20,
+      "antithetic_to_native_variance_ratio": 0.9589845853367449,
+      "independent_to_native_variance_ratio": 0.7156715926027677,
+      "antithetic_to_independent_variance_ratio": 1.3399785533600572,
+      "native_antithetic_trace_covariance": 47.35429150995343,
+      "parent_state_sha256": "aa5955796ece5da7058f3e7f7b13414d3aeba9641eafbe67c1ae7c2b94f6697b",
+      "post_de_state_sha256": "d0221ea44131a9eeee4387adb88feeed59dc07d6f81ad4df5a014f3c3fe511dc"
+    },
+    {
+      "data_epoch": 100,
+      "antithetic_to_native_variance_ratio": 0.9787933079122847,
+      "independent_to_native_variance_ratio": 0.9508711814807128,
+      "antithetic_to_independent_variance_ratio": 1.0293647835536366,
+      "native_antithetic_trace_covariance": 402.72746524219446,
+      "parent_state_sha256": "4550c251c84cd04e333da31cc17fcf345c7c4d41504afb1ce045067d30731f56",
+      "post_de_state_sha256": "bce61b80a6a37d7d336fffc89759f92835a57aeea65d171e79f1bd7dd2626235"
+    },
+    {
+      "data_epoch": 200,
+      "antithetic_to_native_variance_ratio": 0.9365170194100018,
+      "independent_to_native_variance_ratio": 0.6011046701126571,
+      "antithetic_to_independent_variance_ratio": 1.5579932513824635,
+      "native_antithetic_trace_covariance": 162.82303615197867,
+      "parent_state_sha256": "2bc7f61e03a8547bec1bf42502ca44b5273f487288909def45d57313be73f279",
+      "post_de_state_sha256": "fb21592218c9177c9f3126c525140dad14633cf8639551bc571b29209ad685f5"
+    }
+  ],
+  "clear_variance_advantage_epochs": [],
+  "candidate_generation_supported": false,
+  "e200_long_run_started": false,
+  "parent_checkpoint_hashes_preserved": true,
+  "post_de_training_state_hashes_preserved": true,
+  "antithetic_rng_consumption_matches_native": true,
+  "paired_target_used": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "Closes only this fixed-time/fixed-patch Gaussian sign involution; it does not falsify all unbiased variance estimators."
+}

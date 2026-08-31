@@ -33,5 +33,8 @@ authorize compute.
    只是行动接口；严格通过和因果可修复近边界机制继续组成受限可信前沿。
 9. `DEC-20260831-5090-MATCHED-PLAIN-LPIPS-RECOVERY.md`：晚期plain LPIPS缺失属于工程
    证据缺口，必须从冻结checkpoint双重确定性恢复并通过父状态隔离，不能机械记为算法失败。
+10. `DEC-20260831-ANTITHETIC-GAUSSIAN-GRADIENT-AUDIT.md`：梯度级Gaussian反号虽保持
+    期望无偏，但e20/e100/e200相对iid两视图均增加方差，因此当前involution不启动e200；
+    该结论不外推到所有无偏variance estimator。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
