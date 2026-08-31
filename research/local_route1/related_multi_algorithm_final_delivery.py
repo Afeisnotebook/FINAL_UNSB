@@ -252,6 +252,124 @@ def _composite_4090(
     return ranking
 
 
+def _mechanism_gain_source_decomposition(
+    output_root: Path, ranking: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Separate parent-field gain from the matched estimator composition gain.
+
+    These are differences between complete common-e0 trajectories, not an
+    additive causal attribution inside a single nonlinear training path.
+    Keeping that boundary explicit lets the final report say whether the shared
+    conditional estimator improves native, HNEK, and HJ fields without
+    pretending that their PSNR deltas form a linear model.
+    """
+    anchor_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
+    anchor = _read_json(anchor_path)
+    if anchor.get("schema") != "local-route1-anchor-summary-v1":
+        raise RuntimeError("gain-source decomposition requires canonical anchors")
+    summaries = {
+        str(row.get("probe_id")): row for row in anchor.get("summaries", [])
+        if isinstance(row, dict)
+    }
+    ranked = {str(row.get("candidate_id")): row for row in ranking}
+
+    def parent_metrics(probe: str | None) -> dict[str, Any]:
+        if probe is None:
+            return {
+                "parent_id": "plain",
+                "late_three_mean_macro_psnr_delta": 0.0,
+                "e200_macro_psnr_delta": 0.0,
+            }
+        summary = summaries.get(probe)
+        if not isinstance(summary, dict) or summary.get("complete_e200") is not True:
+            raise RuntimeError(f"gain-source parent is incomplete: {probe}")
+        e200 = next(
+            (
+                row for row in summary.get("trajectory", [])
+                if int(row.get("epoch", -1)) == 200
+            ),
+            None,
+        )
+        if not isinstance(e200, dict):
+            raise RuntimeError(f"gain-source parent lacks e200: {probe}")
+        return {
+            "parent_id": probe,
+            "late_three_mean_macro_psnr_delta": float(
+                summary["late_three_mean_macro_psnr_delta"]
+            ),
+            "e200_macro_psnr_delta": float(e200["macro_psnr_delta"]),
+        }
+
+    specifications = (
+        (PROPOSAL, None, "native_UNSB_field"),
+        (HPCGR, "hnek", "HNEK_physical_horizon_bridge_game"),
+        (HJCGR, "hj", "HJ_structure_projected_PatchNCE_objective"),
+    )
+    members = []
+    for candidate_id, parent_probe, base_object in specifications:
+        candidate = ranked.get(candidate_id)
+        if not isinstance(candidate, dict):
+            raise RuntimeError(f"gain-source candidate is missing: {candidate_id}")
+        fields = candidate["ranking_fields"]
+        parent = parent_metrics(parent_probe)
+        child_late = float(fields["late_three_mean_macro_psnr_delta"])
+        child_e200 = float(fields["e200_macro_psnr_delta"])
+        late_increment = child_late - float(
+            parent["late_three_mean_macro_psnr_delta"]
+        )
+        e200_increment = child_e200 - float(parent["e200_macro_psnr_delta"])
+        if late_increment > 0.0 and e200_increment > 0.0:
+            interpretation = "shared_estimator_improves_parent_field"
+        elif child_late > 0.0 and child_e200 > 0.0:
+            interpretation = "parent_gain_survives_but_estimator_does_not_improve_parent"
+        else:
+            interpretation = "composition_not_long_horizon_positive"
+        members.append({
+            "candidate_id": candidate_id,
+            "base_object": base_object,
+            "parent": parent,
+            "composed": {
+                "late_three_mean_macro_psnr_delta": child_late,
+                "e200_macro_psnr_delta": child_e200,
+            },
+            "matched_compositional_increment_over_parent": {
+                "late_three_macro_psnr_delta": late_increment,
+                "e200_macro_psnr_delta": e200_increment,
+            },
+            "interpretation": interpretation,
+        })
+    supported = [
+        row["candidate_id"] for row in members
+        if row["interpretation"] == "shared_estimator_improves_parent_field"
+    ]
+    return {
+        "schema": "final-unsb-route1-related-gain-source-decomposition-v1",
+        "status": (
+            "SHARED_ESTIMATOR_IMPROVES_MULTIPLE_PARENT_FIELDS"
+            if len(supported) >= 2 else
+            "SHARED_ESTIMATOR_IMPROVES_ONE_PARENT_FIELD"
+            if len(supported) == 1 else
+            "NO_POSITIVE_MATCHED_COMPOSITIONAL_INCREMENT"
+        ),
+        "members": members,
+        "shared_estimator_positive_increment_candidate_ids": supported,
+        "shared_estimator_positive_increment_count": len(supported),
+        "conditional_mean_theorem": (
+            "For finite-covariance conditionally iid views evaluated at one "
+            "fixed post-D/E parent state (and one fixed parent controller state), "
+            "the two-view mean preserves the parent conditional expected G/F "
+            "gradient and halves its conditional covariance."
+        ),
+        "hj_state_transition_boundary": (
+            "HJCGR starts both replicas from one HJ controller state, advances "
+            "integer physical counters once, and mean-reduces floating diagnostics."
+        ),
+        "matched_increment_is_not_additive_causal_attribution": True,
+        "cross_host_metrics_merged": False,
+        "anchor_summary_sha256": file_sha256(anchor_path),
+    }
+
+
 def _member(
     output_root: Path, row: dict[str, Any], *, disposition: str,
 ) -> dict[str, Any]:
@@ -332,13 +450,27 @@ def _report(algorithm_set: dict[str, Any], action: dict[str, Any]) -> str:
         "- 三个父对象分别是原生UNSB场、HNEK physical-horizon bridge game、HJ结构投影PatchNCE目标。",
         "- AM-TNC是独立的Adam度量切向估计机制，不因相关族成立而被删除。",
         "",
+        "## 收益来源分解",
+        "",
+    ]
+    for row in algorithm_set["mechanism_gain_source_decomposition"]["members"]:
+        increment = row["matched_compositional_increment_over_parent"]
+        lines.append(
+            f"- `{row['candidate_id']}` 相对 `{row['parent']['parent_id']}`："
+            f"late-three增量 `{increment['late_three_macro_psnr_delta']:+.6f}` dB，"
+            f"e200增量 `{increment['e200_macro_psnr_delta']:+.6f}` dB；"
+            f"裁决 `{row['interpretation']}`。"
+        )
+    lines.extend([
+        "- 上述增量来自共同e0的两条完整非线性轨迹之差，不解释为单轨迹内可加因果贡献。",
+        "",
         "## 结论边界",
         "",
         "- 当前是单seed开发裁决，不声称跨seed稳定。",
         "- confirmation20仍封存；paired指标从未用于公式、训练控制、退出或checkpoint选择。",
         "- `ALGORITHM_SET.json`保存每条可行/脆弱/关闭实现的公式、逐域轨迹和来源哈希。",
         "",
-    ]
+    ])
     return "\n".join(lines)
 
 
@@ -363,6 +495,7 @@ def materialize_related_multi_algorithm_final_delivery(
     base, base_path = _base_frontier(output_root)
     host4090, host5090, combined, related_paths = _related_inputs(output_root)
     ranking = _composite_4090(base, host4090)
+    gain_source = _mechanism_gain_source_decomposition(output_root, ranking)
     selected = ranking[0]
     selected_id = str(selected["candidate_id"])
 
@@ -418,6 +551,7 @@ def materialize_related_multi_algorithm_final_delivery(
         "independent_mechanism_members": [
             {"candidate_id": AMTNC, "mechanism": "Adam-metric tangential estimator"},
         ],
+        "mechanism_gain_source_decomposition": gain_source,
         "cross_runtime_related_evidence": combined,
         "selection_seeds": [2026],
         "deferred_seed_validation": [2027, 2028],
@@ -456,6 +590,7 @@ def materialize_related_multi_algorithm_final_delivery(
         "related_5090_host_adjudication": host5090,
         "related_multi_host_adjudication": combined,
         "composite_same_host_4090_ranking": ranking,
+        "mechanism_gain_source_decomposition": gain_source,
         "cross_host_deltas_merged": False,
         "cross_runtime_is_not_cross_seed": True,
         "selection_seeds": [2026],
@@ -514,4 +649,3 @@ def materialize_related_multi_algorithm_final_delivery(
     }
     write_json(pointer_path, pointer)
     return pointer
-

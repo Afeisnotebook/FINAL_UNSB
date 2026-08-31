@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from research.local_route1 import related_multi_algorithm_final_delivery as delivery
 from research.local_route1.protocol import file_sha256
 
@@ -85,7 +87,10 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
             "base_protocol_fingerprint": "protocol",
             "manifest_sha256": "manifest",
         },
-        "ranking": [_row("BASE", 0.4, 0.3)],
+        "ranking": [
+            _row("BASE", 0.4, 0.3),
+            _row(delivery.PROPOSAL, 0.45, 0.35),
+        ],
     }
     host4090 = {"ranking": [
         _related_row(delivery.HPCGR, 0.8, 0.5),
@@ -117,7 +122,27 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     )
 
     sources = {}
-    for candidate_id in ("BASE", delivery.HPCGR, delivery.HJCGR):
+    _write(tmp_path / "evidence" / "ANCHOR_TRAJECTORIES.json", {
+        "schema": "local-route1-anchor-summary-v1",
+        "summaries": [
+            {
+                "probe_id": "hnek",
+                "complete_e200": True,
+                "late_three_mean_macro_psnr_delta": 0.5,
+                "trajectory": [{"epoch": 200, "macro_psnr_delta": 0.25}],
+            },
+            {
+                "probe_id": "hj",
+                "complete_e200": True,
+                "late_three_mean_macro_psnr_delta": 0.2,
+                "trajectory": [{"epoch": 200, "macro_psnr_delta": 0.1}],
+            },
+        ],
+    })
+
+    for candidate_id in (
+        "BASE", delivery.PROPOSAL, delivery.HPCGR, delivery.HJCGR,
+    ):
         receipt_path = _write(
             tmp_path / "operations" / "terminal_receipts" / f"{candidate_id}.json",
             {"candidate_id": candidate_id},
@@ -162,15 +187,29 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     pointer = delivery.materialize_related_multi_algorithm_final_delivery(tmp_path)
     assert pointer["status"] == "RELATED_MULTI_ALGORITHM_FINAL_DELIVERY_COMPLETE"
     assert pointer["action_priority_candidate_id"] == delivery.HPCGR
-    assert pointer["strict_viable_candidate_count"] == 3
+    assert pointer["strict_viable_candidate_count"] == 4
     algorithm_set = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "ALGORITHM_SET.json").read_text()
     )
     assert algorithm_set["status"] == "MULTIPLE_VIABLE_ALGORITHMS"
     assert algorithm_set["algorithm_discovery_collapsed_to_single_candidate"] is False
     assert set(algorithm_set["strict_viable_candidate_ids"]) == {
-        "BASE", delivery.HPCGR, delivery.HJCGR,
+        "BASE", delivery.PROPOSAL, delivery.HPCGR, delivery.HJCGR,
     }
     assert algorithm_set["action_priority_is_not_scientific_exclusivity"] is True
+    decomposition = algorithm_set["mechanism_gain_source_decomposition"]
+    by_id = {row["candidate_id"]: row for row in decomposition["members"]}
+    assert by_id[delivery.PROPOSAL][
+        "matched_compositional_increment_over_parent"
+    ]["late_three_macro_psnr_delta"] == 0.45
+    assert by_id[delivery.HPCGR][
+        "matched_compositional_increment_over_parent"
+    ]["late_three_macro_psnr_delta"] == pytest.approx(0.3)
+    assert by_id[delivery.HJCGR][
+        "matched_compositional_increment_over_parent"
+    ]["e200_macro_psnr_delta"] == pytest.approx(0.3)
+    assert decomposition["shared_estimator_positive_increment_count"] == 3
+    assert decomposition[
+        "matched_increment_is_not_additive_causal_attribution"
+    ] is True
     assert delivery.materialize_related_multi_algorithm_final_delivery(tmp_path) == pointer
-
