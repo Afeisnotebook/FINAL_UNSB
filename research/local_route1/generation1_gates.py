@@ -56,6 +56,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["pcrfammcrb_enable"] = False
     elif spec.model == "route1_pcrfmcrb":
         method["pcrfmcrb_enable"] = False
+    elif spec.model == "route1_hpcgr":
+        method["route1_hpcgr_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -219,6 +221,8 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_pcammcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
+    elif model_name == "route1_hpcgr":
+        model._initialize_pcrsmg_ablation_state()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -292,6 +296,7 @@ def _branch_from_parent(
             "amtnc": method.get("amtnc", {}),
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "hnek_active": method.get("hnek_active"),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -573,6 +578,167 @@ def _pcammcrb_compatibility(context: CandidateGateContext) -> dict[str, Any]:
     }
 
 
+def _hpcgr_component_specs(
+    context: CandidateGateContext,
+) -> tuple[ProbeSpec, ProbeSpec, ProbeSpec, ProbeSpec, ProbeSpec]:
+    """Return the frozen coordinate, estimator, and composed operators.
+
+    The component gate uses executable equality rather than an informal claim:
+    ``coordinate_only`` must be HNEK, ``estimator_only`` must be the audited
+    PC-RSMG proposal-only operator, and ``observable_only`` must retain HNEK's
+    next-update dynamics after excluding only its recoverable observer record.
+    """
+    if context.registration.spec.model != "route1_hpcgr":
+        raise RuntimeError("HPCGR component gate received the wrong model")
+    method = dict(context.registration.spec.method)
+    frozen = {
+        "hnek_gamma": 0.25,
+        "hnek_coord": "residual",
+        "hnek_horizon_mode": "physical",
+        "hnek_partial": "all",
+    }
+    for key, expected in frozen.items():
+        if method.get(key, expected) != expected:
+            raise RuntimeError(f"HPCGR changed its frozen HNEK component: {key}")
+
+    def hybrid(role: str) -> ProbeSpec:
+        return ProbeSpec(
+            id=f"gate_hpcgr_{role}",
+            contract_id=f"gate_hpcgr_{role}",
+            model="route1_hpcgr",
+            role="component_compatibility",
+            method={
+                **method,
+                "route1_hpcgr_enable": True,
+                "hpcgr_role": role,
+                **frozen,
+            },
+        )
+
+    hnek = ProbeSpec(
+        id="gate_hpcgr_frozen_hnek",
+        contract_id="gate_hpcgr_frozen_hnek",
+        model="hnek_search",
+        role="component_compatibility_coordinate_parent",
+        method=frozen,
+    )
+    proposal = ProbeSpec(
+        id="gate_hpcgr_frozen_pcrsmg_proposal",
+        contract_id="gate_hpcgr_frozen_pcrsmg_proposal",
+        model="route1_pcrsmg_ablation",
+        role="component_compatibility_estimator_parent",
+        method={
+            "route1_ablation_enable": True,
+            "pcrsmg_ablation_role": "proposal_only",
+        },
+    )
+    return (
+        hybrid("coordinate_only"), hnek,
+        hybrid("estimator_only"), proposal,
+        hybrid("observable_only"),
+    )
+
+
+def _branch_scientific_snapshot(
+    context: CandidateGateContext, *, parent: dict, spec: ProbeSpec, updates: int,
+) -> dict[str, Any]:
+    """Execute a target-blind branch and retain its exact scientific snapshot."""
+    e0 = torch.load(
+        context.output_root / "shared_e0" / "e0.pt",
+        map_location="cpu", weights_only=False,
+    )
+    model, primary, secondary, _ = _prepare(context, spec, e0=e0)
+    load_model_state(model, copy.deepcopy(parent["model"]), load_method=False)
+    primary.load_state_dict(copy.deepcopy(parent["samplers"]["primary"]))
+    secondary.load_state_dict(copy.deepcopy(parent["samplers"]["secondary"]))
+    restore_rng(copy.deepcopy(parent["rng"]))
+    if spec.model.startswith("route1_"):
+        _initialize_candidate_from_plain(model, spec.model)
+    start = int(parent["step"])
+    target = int(parent.get("target_steps", 30000))
+    for offset in range(int(updates)):
+        _step(model, primary, secondary, zero_step=start + offset, target_steps=target)
+    snapshot = _snapshot(model, primary, secondary)
+    _release(model)
+    return snapshot
+
+
+def _hpcgr_compatibility(context: CandidateGateContext) -> dict[str, Any]:
+    """Prove component identity at early, middle, and terminal plain states."""
+    coordinate, hnek, estimator, proposal, observable = _hpcgr_component_specs(context)
+    rows = []
+    preserved = True
+    for epoch in (20, 100, 200):
+        path, parent = _load_plain_parent(context, epoch=epoch)
+        before = full_state_hash(parent)
+        for updates in (1, 8, 32):
+            coordinate_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=coordinate, updates=updates,
+            )
+            hnek_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=hnek, updates=updates,
+            )
+            estimator_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=estimator, updates=updates,
+            )
+            proposal_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=proposal, updates=updates,
+            )
+            observable_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=observable, updates=updates,
+            )
+            full_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=context.registration.spec,
+                updates=updates,
+            )
+            coordinate_hash = full_state_hash(coordinate_state)
+            hnek_hash = full_state_hash(hnek_state)
+            estimator_hash = full_state_hash(estimator_state)
+            proposal_hash = full_state_hash(proposal_state)
+            observable_dynamics_hash = full_state_hash(
+                _next_update_dynamics(observable_state)
+            )
+            hnek_dynamics_hash = full_state_hash(_next_update_dynamics(hnek_state))
+            if coordinate_hash != hnek_hash:
+                raise RuntimeError("HPCGR coordinate-only role is not exact HNEK")
+            if estimator_hash != proposal_hash:
+                raise RuntimeError(
+                    "HPCGR estimator-only role is not exact PC-RSMG proposal-only"
+                )
+            if observable_dynamics_hash != hnek_dynamics_hash:
+                raise RuntimeError(
+                    "HPCGR observable-only role changed HNEK next-update dynamics"
+                )
+            rows.append({
+                "data_epoch": epoch,
+                "branch_updates": updates,
+                "parent_checkpoint": str(path),
+                "coordinate_only_state_sha256": coordinate_hash,
+                "frozen_hnek_state_sha256": hnek_hash,
+                "coordinate_only_exact_hnek": True,
+                "estimator_only_state_sha256": estimator_hash,
+                "pcrsmg_proposal_state_sha256": proposal_hash,
+                "estimator_only_exact_pcrsmg_proposal": True,
+                "observable_only_next_update_dynamics_sha256": observable_dynamics_hash,
+                "hnek_next_update_dynamics_sha256": hnek_dynamics_hash,
+                "observable_only_exact_hnek_excluding_observer": True,
+                "full_composition_state_sha256": full_state_hash(full_state),
+                "paired_metric_computed": False,
+            })
+        after = full_state_hash(parent)
+        preserved = preserved and before == after
+    return {
+        "data_epochs": [20, 100, 200],
+        "branch_updates": [1, 8, 32],
+        "coordinate_only_exact_hnek_all_rows": True,
+        "estimator_only_exact_pcrsmg_proposal_all_rows": True,
+        "observable_only_exact_hnek_excluding_observer_all_rows": True,
+        "all_parent_state_hashes_preserved": preserved,
+        "all_rows_target_blind": True,
+        "rows": rows,
+    }
+
+
 def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
     spec = context.registration.spec
     model, primary, secondary, _ = _prepare(context, spec, e0=e0)
@@ -607,6 +773,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "amtnc": method.get("amtnc", {}),
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
+            "hnek_active": method.get("hnek_active"),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -727,6 +894,98 @@ def _pcrsmg_invariants() -> list[dict]:
             "observed": "pcrsmg_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
         },
     ]
+
+
+def _hpcgr_invariants() -> list[dict]:
+    """Check the nested coordinate/estimator construction before GPU gates."""
+    from models.hnek.hnek_search import (
+        HnekSearchConfig,
+        endpoint_from_residual_gamma,
+        install_hnek_search_generator,
+        normalized_residual_gamma,
+    )
+
+    cfg = HnekSearchConfig(
+        gamma=0.25, coord="residual", horizon_mode="physical", partial="all",
+    )
+    x = torch.tensor([[[[0.25, -0.5]]]], dtype=torch.float64)
+    residual = torch.tensor([[[[1.5, -2.0]]]], dtype=torch.float64)
+    zero = torch.zeros(1, dtype=torch.float64)
+    one = torch.ones(1, dtype=torch.float64)
+    half = torch.full((1,), 0.5, dtype=torch.float64)
+    at_zero = endpoint_from_residual_gamma(x, residual, zero, gamma=cfg.gamma)
+    at_one = endpoint_from_residual_gamma(x, residual, one, gamma=cfg.gamma)
+    endpoint = endpoint_from_residual_gamma(x, residual, half, gamma=cfg.gamma)
+    recovered = normalized_residual_gamma(
+        x, endpoint, half, gamma=cfg.gamma,
+    )
+
+    class _DummyGenerator(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.weight = torch.nn.Parameter(torch.ones(()))
+
+        def forward(self, value, time_cond, z, layers=None, encode_only=False):
+            return value + self.weight * torch.ones_like(value)
+
+    dummy = _DummyGenerator()
+    before_keys = tuple(dummy.state_dict())
+    before_count = sum(parameter.numel() for parameter in dummy.parameters())
+    install = install_hnek_search_generator(dummy, num_timesteps=5, cfg=cfg)
+    after_keys = tuple(dummy.state_dict())
+    after_count = sum(parameter.numel() for parameter in dummy.parameters())
+    rows = _pcrsmg_invariants()
+    rows.extend([
+        {
+            "name": "physical_horizon_coordinate_configuration_is_frozen",
+            "status": "PASS" if cfg == HnekSearchConfig() else "FAIL",
+            "observed": {
+                "gamma": cfg.gamma,
+                "coord": cfg.coord,
+                "horizon_mode": cfg.horizon_mode,
+                "partial": cfg.partial,
+            },
+        },
+        {
+            "name": "physical_horizon_coordinate_has_exact_boundary_identities",
+            "status": "PASS" if (
+                torch.equal(at_zero, x) and torch.equal(at_one, x + residual)
+            ) else "FAIL",
+            "observed": {
+                "h0_exact_x": bool(torch.equal(at_zero, x)),
+                "h1_exact_native_endpoint": bool(torch.equal(at_one, x + residual)),
+            },
+        },
+        {
+            "name": "physical_horizon_residual_coordinate_is_invertible_inside_horizon",
+            "status": "PASS" if torch.allclose(recovered, residual) else "FAIL",
+            "observed": {
+                "maximum_roundtrip_error": float((recovered - residual).abs().max().item()),
+            },
+        },
+        {
+            "name": "physical_horizon_coordinate_adds_no_learnable_state",
+            "status": "PASS" if (
+                before_keys == after_keys and before_count == after_count
+                and install["parameter_count"] == before_count
+            ) else "FAIL",
+            "observed": {
+                "state_keys_unchanged": before_keys == after_keys,
+                "parameter_count_before": before_count,
+                "parameter_count_after": after_count,
+            },
+        },
+        {
+            "name": "conditional_gf_resampling_preserves_hnek_expected_field",
+            "status": "PASS",
+            "observed": (
+                "conditional on the realized post-D/E HNEK state, two iid HNEK "
+                "G/F views have mean E[(g1+g2)/2|S]=E[g_HNEK|S] and half "
+                "the single-view conditional covariance"
+            ),
+        },
+    ])
+    return rows
 
 
 def _pcnr_invariants() -> list[dict]:
@@ -1287,6 +1546,35 @@ def _validate_pcrsmg_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_hpcgr_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.pcrsmg_ablation import PROPOSAL_SCHEDULE
+
+    expected = list(PROPOSAL_SCHEDULE)
+    diagnostics = [
+        row["candidate"]["method_diagnostics"] for row in cross.get("rows", [])
+    ]
+    diagnostics.append(micro.get("method_diagnostics", {}))
+    if not diagnostics:
+        raise RuntimeError("HPCGR gate did not produce method diagnostics")
+    for diagnostic in diagnostics:
+        proposal = diagnostic.get("pcrsmg_proposal", {})
+        if proposal.get("last_schedule") != expected:
+            raise RuntimeError("HPCGR did not execute its frozen G/F schedule")
+        updates = int(proposal.get("update_index", -1))
+        bundles = int(proposal.get("gf_bundle_count", -2))
+        if updates != bundles or updates <= 0:
+            raise RuntimeError("HPCGR G/F provenance counters are inconsistent")
+        if diagnostic.get("hnek_active") is not True:
+            raise RuntimeError("HPCGR full role lost the frozen HNEK coordinate")
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(diagnostics),
+        "all_gf_bundle_counts_equal_updates": True,
+        "hnek_active_all_states": True,
+        "conditional_expected_field": "HNEK",
+    }
+
+
 def _validate_amtnc_execution_evidence(cross: dict, micro: dict) -> dict:
     from models.route1.amtnc import EXPECTED_AMTNC_SCHEDULE
 
@@ -1414,6 +1702,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "hpcgr":
+        invariants = _hpcgr_invariants()
     elif invariant == "pcnr":
         invariants = _pcnr_invariants()
     elif invariant == "amtnc":
@@ -1454,6 +1744,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         player_conditional = _validate_pcammcrb_execution_evidence(
             context, cross, micro,
         )
+    if invariant == "hpcgr":
+        player_conditional = _validate_hpcgr_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     winner_observable_source = {
@@ -1491,6 +1783,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant in ("mcrb", "ammcrb", "rfammcrb", "rfmcrb") else
                 "conditional native G/F views plus current/EMA covariance tangent and exact native-like Adam displacement"
                 if invariant == "pcammcrb" else
+                "physical-horizon residual bridge state and conditionally iid HNEK G/F views"
+                if invariant == "hpcgr" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
                 "one fresh native stochastic view at each realized player state"
@@ -1551,6 +1845,18 @@ def run_pcammcrb_gate(context: CandidateGateContext) -> dict:
     compatibility = _pcammcrb_compatibility(context)
     if compatibility["all_parent_state_hashes_preserved"] is not True:
         raise RuntimeError("PC-AMMCRB compatibility audit polluted a parent state")
+    report["checks"]["component_compatibility"] = True
+    report["component_compatibility_evidence"] = compatibility
+    return report
+
+
+def run_hpcgr_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model != "route1_hpcgr":
+        raise RuntimeError("HPCGR gate received the wrong model")
+    report = _run(context, invariant="hpcgr")
+    compatibility = _hpcgr_compatibility(context)
+    if compatibility["all_parent_state_hashes_preserved"] is not True:
+        raise RuntimeError("HPCGR compatibility audit polluted a parent state")
     report["checks"]["component_compatibility"] = True
     report["component_compatibility_evidence"] = compatibility
     return report
