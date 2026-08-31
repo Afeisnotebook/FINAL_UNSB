@@ -1,8 +1,30 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / PCNR_AND_AM_MCRB_FRONTIER_E200_RUNNING`
+状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / NUMERICAL_SEMANTIC_REPAIR_FRONTIER_ARMED`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
+
+## 2026-08-31 08:53 最新覆盖：两条最近点算子的语义修复
+
+- PCNR已在5090完成共同e0、batch1、seed2026、真实e200：late-three
+  `+0.034821 dB`，e200 `-0.300890 dB`、2/6域正、晚期平均最差域`-1.100313 dB`。
+  当前实现没有通过长期门，但e20的`+2.486849 dB`证明其条件重采样显著改变了前中期
+  动力学；结论只关闭当前PCNR算子，不关闭玩家条件随机测度问题。
+- 与paired结果无关的源码尺度审计发现，MCRB和AM-MCRB的固定绝对数值余量会在小切向量
+  下产生相对原生更新无界的校正。旧MCRB虽已e200、旧AM-MCRB虽正运行到约e184，均只能
+  作为冻结实现诊断，不能再代表推导卡中的最近点公式。
+- `F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER`与
+  `F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER`已完成公式、源码、事故绑定、
+  数学不变量和CPU测试冻结。修复不增加算法强度：先用float64解析KKT系数，再检查参数
+  dtype中实际位移；仅当残差仍不安全时按`residual/denominator`和相对ULP推进。
+- 5090持久后继已按顺序等待旧AM-MCRB完整e200；之后先串行冻结共享ledger，再并行执行
+  两个GPU门与两条共同e0/e200长轨迹。最多两流、每流batch1，中间paired指标不参与运行。
+- 所有使用旧AM屏障的G3、自动4090复跑和终交付后继均已停止。修复轨迹完成后重新判断
+  合成和4090同宿主复跑，不继承旧算子的结果。
+
+本覆盖不改变路线一北极星，也不启用confirmation20、全量数据、seed2027/2028、窗口、
+handoff或跨宿主delta。详见
+`decisions/DEC-20260831-AMMCRB-NUMERICAL-SEMANTIC-REPAIR.md`。
 
 ## 2026-08-30 多宿主算力补充
 
