@@ -3,10 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from research.local_route1.hj_multi_algorithm_frontier import (
     HJCGR_ID,
     build_hjcgr_implementation,
+    export_hjcgr_parent_authority,
     select_hjcgr_parent_evidence,
+    validate_hjcgr_parent_authority,
 )
 from research.local_route1.multi_algorithm_frontier import PROPOSAL_ID
 from research.local_route1.protocol import ROOT, file_sha256
@@ -113,3 +117,49 @@ def test_hjcgr_implementation_binds_objective_estimator_and_gate_sources(tmp_pat
     assert "research/local_route1/generation1_gates.py" in paths
     assert all(file_sha256(ROOT / row["path"]) == row["sha256"] for row in implementation["source_files"])
 
+
+def test_portable_authority_decouples_replay_from_destination_proposal_result(tmp_path):
+    _fixture(tmp_path)
+    authority_path = tmp_path / "portable" / "authority.json"
+    authority = export_hjcgr_parent_authority(
+        tmp_path, output_path=authority_path,
+    )
+    proposal_trajectory = (
+        tmp_path / "candidates" / PROPOSAL_ID / "CANDIDATE_TRAJECTORY.json"
+    )
+    _write(proposal_trajectory, {
+        "candidate_id": PROPOSAL_ID,
+        "late_three_mean_macro_psnr_delta": -0.5,
+        "e200_macro_psnr_delta": -0.4,
+        "late_points_with_four_of_six_positive_domains": 0,
+    })
+
+    with pytest.raises(RuntimeError, match="composition parent gate"):
+        select_hjcgr_parent_evidence(tmp_path)
+    replay_evidence = select_hjcgr_parent_evidence(
+        tmp_path, proposal_parent_authority_path=authority_path,
+    )
+    assert replay_evidence == authority["parent_evidence"]
+    assert replay_evidence["pcrsmg_proposal_only"][
+        "e200_macro_psnr_delta"
+    ] == 0.451
+
+
+def test_portable_authority_and_source_bindings_fail_closed(tmp_path):
+    _fixture(tmp_path)
+    authority_path = tmp_path / "authority.json"
+    authority = export_hjcgr_parent_authority(
+        tmp_path, output_path=authority_path,
+    )
+    changed = json.loads(json.dumps(authority))
+    changed["parent_evidence"]["hj"]["e200_macro_psnr_delta"] = 9.0
+    with pytest.raises(RuntimeError, match="embedded parent evidence changed"):
+        validate_hjcgr_parent_authority(changed)
+
+    (tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl").write_text(
+        '{"changed":true}\n', encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="changed source reversal_atlas"):
+        select_hjcgr_parent_evidence(
+            tmp_path, proposal_parent_authority_path=authority_path,
+        )

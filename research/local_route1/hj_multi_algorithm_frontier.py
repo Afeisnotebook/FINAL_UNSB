@@ -22,24 +22,198 @@ from research.local_route1.multi_algorithm_frontier import (
     _read_json,
     _write_exact,
 )
-from research.local_route1.protocol import ROOT, file_sha256
+from research.local_route1.protocol import ROOT, file_sha256, object_sha256
 from research.local_route1.runtime import write_json
 
 
 HJCGR_ID = "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+PARENT_AUTHORITY_SCHEMA = "final-unsb-route1-hjcgr-parent-authority-v1"
+PARENT_AUTHORITY_STATUS = "PORTABLE_HJCGR_CONSTRUCTION_AUTHORITY"
+PARENT_AUTHORITY_HOST = "remote4090-authoritative-route1"
+
+
+def _sha256_string(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _validate_parent_evidence(value: dict[str, Any]) -> dict[str, Any]:
+    """Validate evidence embedded in portable construction authority."""
+    if set(value) != {
+        "hj", "hj_sampling_variance", "pcrsmg_proposal_only",
+        "anchor_summary_sha256", "causal_matrix_sha256",
+    }:
+        raise RuntimeError("HJCGR portable parent evidence shape changed")
+    hj = value.get("hj")
+    variance = value.get("hj_sampling_variance")
+    proposal = value.get("pcrsmg_proposal_only")
+    if not all(isinstance(row, dict) for row in (hj, variance, proposal)):
+        raise RuntimeError("HJCGR portable parent evidence is malformed")
+    if not (
+        hj.get("probe_id") == "hj"
+        and hj.get("complete_e200") is True
+        and float(hj.get("late_three_mean_macro_psnr_delta", -1e9)) > 0.0
+        and float(hj.get("e200_macro_psnr_delta", -1e9)) > 0.0
+        and int(hj.get("late_points_with_four_of_six_positive_domains", 0)) >= 2
+        and isinstance(hj.get("state_operator_case_counts"), dict)
+        and int(hj.get("next_batch_consensus_negative_rows", 0)) > 0
+    ):
+        raise RuntimeError("portable HJ evidence no longer satisfies its source gate")
+    if not (
+        int(variance.get("independent_batch_variance_dominated_rows", 0)) > 0
+        and int(variance.get("latent_time_bridge_variance_dominated_rows", 0)) > 0
+        and 0.0 <= float(variance.get("independent_batch_variance_fraction", -1.0)) <= 1.0
+        and 0.0 <= float(variance.get("latent_time_bridge_variance_fraction", -1.0)) <= 1.0
+    ):
+        raise RuntimeError("portable HJ variance evidence is inadmissible")
+    if not (
+        proposal.get("candidate_id") == PROPOSAL_ID
+        and isinstance(proposal.get("algorithm_fingerprint"), str)
+        and bool(proposal.get("algorithm_fingerprint"))
+        and float(proposal.get("late_three_mean_macro_psnr_delta", -1e9)) > 0.0
+        and float(proposal.get("e200_macro_psnr_delta", -1e9)) > 0.0
+        and int(proposal.get("late_points_with_four_of_six_positive_domains", 0)) >= 2
+    ):
+        raise RuntimeError("portable proposal-only evidence no longer satisfies its source gate")
+    for key in ("anchor_summary_sha256", "causal_matrix_sha256"):
+        if not _sha256_string(value.get(key)):
+            raise RuntimeError(f"portable HJCGR evidence lacks {key}")
+    for key in (
+        "terminal_receipt_sha256", "derivation_card_sha256", "trajectory_sha256",
+    ):
+        if not _sha256_string(proposal.get(key)):
+            raise RuntimeError(f"portable proposal-only evidence lacks {key}")
+    return value
+
+
+def validate_hjcgr_parent_authority(value: dict[str, Any]) -> dict[str, Any]:
+    if (
+        value.get("schema") != PARENT_AUTHORITY_SCHEMA
+        or value.get("status") != PARENT_AUTHORITY_STATUS
+    ):
+        raise RuntimeError("HJCGR parent authority schema/status mismatch")
+    fixed = {
+        "candidate_id": HJCGR_ID,
+        "source_host_label": PARENT_AUTHORITY_HOST,
+        "construction_authority_only": True,
+        "destination_result_may_not_requalify_algorithm": True,
+        "cross_host_metrics_merged": False,
+        "paired_metrics_used_for_formula_or_training_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    for key, expected in fixed.items():
+        if value.get(key) != expected:
+            raise RuntimeError(f"HJCGR parent authority changed: {key}")
+    evidence = value.get("parent_evidence")
+    if not isinstance(evidence, dict):
+        raise RuntimeError("HJCGR parent authority lacks embedded evidence")
+    _validate_parent_evidence(evidence)
+    if value.get("parent_evidence_sha256") != object_sha256(evidence):
+        raise RuntimeError("HJCGR embedded parent evidence changed")
+    artifacts = value.get("source_artifact_sha256")
+    if not isinstance(artifacts, dict) or set(artifacts) != {
+        "anchor_summary", "causal_matrix", "reversal_atlas",
+        "proposal_terminal_receipt", "proposal_derivation_card",
+        "proposal_trajectory",
+    }:
+        raise RuntimeError("HJCGR source artifact binding changed")
+    proposal = evidence["pcrsmg_proposal_only"]
+    expected_hashes = {
+        "anchor_summary": evidence["anchor_summary_sha256"],
+        "causal_matrix": evidence["causal_matrix_sha256"],
+        "proposal_terminal_receipt": proposal["terminal_receipt_sha256"],
+        "proposal_derivation_card": proposal["derivation_card_sha256"],
+        "proposal_trajectory": proposal["trajectory_sha256"],
+    }
+    for key, expected in expected_hashes.items():
+        if artifacts.get(key) != expected:
+            raise RuntimeError(f"HJCGR source artifact/evidence mismatch: {key}")
+    if not _sha256_string(artifacts.get("reversal_atlas")):
+        raise RuntimeError("HJCGR parent authority lacks the source reversal atlas")
+    return value
+
+
+def export_hjcgr_parent_authority(
+    output_root: Path,
+    *,
+    anchor_path: Path | None = None,
+    output_path: Path | None = None,
+) -> dict[str, Any]:
+    """Export authoritative-host construction evidence for exact replay."""
+    output_root = Path(output_root).resolve()
+    evidence = select_hjcgr_parent_evidence(output_root, anchor_path=anchor_path)
+    atlas_path = output_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
+    if not atlas_path.is_file():
+        raise RuntimeError("HJCGR parent authority requires the reversal atlas")
+    result = {
+        "schema": PARENT_AUTHORITY_SCHEMA,
+        "status": PARENT_AUTHORITY_STATUS,
+        "candidate_id": HJCGR_ID,
+        "source_host_label": PARENT_AUTHORITY_HOST,
+        "construction_authority_only": True,
+        "destination_result_may_not_requalify_algorithm": True,
+        "parent_evidence": evidence,
+        "parent_evidence_sha256": object_sha256(evidence),
+        "source_artifact_sha256": {
+            "anchor_summary": evidence["anchor_summary_sha256"],
+            "causal_matrix": evidence["causal_matrix_sha256"],
+            "reversal_atlas": file_sha256(atlas_path),
+            "proposal_terminal_receipt": evidence["pcrsmg_proposal_only"][
+                "terminal_receipt_sha256"
+            ],
+            "proposal_derivation_card": evidence["pcrsmg_proposal_only"][
+                "derivation_card_sha256"
+            ],
+            "proposal_trajectory": evidence["pcrsmg_proposal_only"][
+                "trajectory_sha256"
+            ],
+        },
+        "cross_host_metrics_merged": False,
+        "paired_metrics_used_for_formula_or_training_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    validate_hjcgr_parent_authority(result)
+    output_path = Path(output_path or (
+        output_root / "operations" / "HJCGR_PARENT_CONSTRUCTION_AUTHORITY.json"
+    )).resolve()
+    _write_exact(output_path, result)
+    return result
 
 
 def select_hjcgr_parent_evidence(
-    output_root: Path, *, anchor_path: Path | None = None,
+    output_root: Path,
+    *,
+    anchor_path: Path | None = None,
+    proposal_parent_authority_path: Path | None = None,
 ) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
     matrix_path = output_root / "audit" / "LONG_CAUSAL_MATRIX.json"
-    matrix = _read_json(matrix_path)
-    if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
-        raise RuntimeError("HJCGR requires a complete causal matrix")
     anchor_path = Path(anchor_path or (
         output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     )).resolve()
+    if proposal_parent_authority_path is not None:
+        authority_path = Path(proposal_parent_authority_path).resolve()
+        authority = validate_hjcgr_parent_authority(_read_json(authority_path))
+        atlas_path = output_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
+        local_artifacts = {
+            "anchor_summary": anchor_path,
+            "causal_matrix": matrix_path,
+            "reversal_atlas": atlas_path,
+        }
+        for key, path in local_artifacts.items():
+            if not path.is_file():
+                raise RuntimeError(f"portable HJCGR replay lacks local {key}")
+            if file_sha256(path) != authority["source_artifact_sha256"][key]:
+                raise RuntimeError(f"portable HJCGR replay changed source {key}")
+        return dict(authority["parent_evidence"])
+    matrix = _read_json(matrix_path)
+    if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
+        raise RuntimeError("HJCGR requires a complete causal matrix")
     anchor = _read_json(anchor_path)
     if anchor.get("schema") != "local-route1-anchor-summary-v1":
         raise RuntimeError("HJCGR requires the canonical anchor summary")
@@ -275,10 +449,17 @@ def build_hjcgr_implementation(card_path: Path) -> dict[str, Any]:
 
 
 def materialize_hjcgr_frontier(
-    output_root: Path, *, anchor_path: Path | None = None,
+    output_root: Path,
+    *,
+    anchor_path: Path | None = None,
+    proposal_parent_authority_path: Path | None = None,
 ) -> dict[str, Any]:
     output_root = Path(output_root).resolve()
-    evidence = select_hjcgr_parent_evidence(output_root, anchor_path=anchor_path)
+    evidence = select_hjcgr_parent_evidence(
+        output_root,
+        anchor_path=anchor_path,
+        proposal_parent_authority_path=proposal_parent_authority_path,
+    )
     card_path = output_root / "derive" / "cards" / f"{HJCGR_ID}.json"
     implementation_path = output_root / "derive" / "implementations" / f"{HJCGR_ID}.json"
     _write_exact(card_path, build_hjcgr_card(output_root, evidence))
@@ -371,9 +552,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--anchor-path", type=Path)
+    parser.add_argument("--proposal-parent-authority", type=Path)
     args = parser.parse_args()
     result = materialize_hjcgr_frontier(
-        args.output_root, anchor_path=args.anchor_path,
+        args.output_root,
+        anchor_path=args.anchor_path,
+        proposal_parent_authority_path=args.proposal_parent_authority,
     )
     print(json.dumps(result, ensure_ascii=False))
     return 0
@@ -381,4 +565,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
