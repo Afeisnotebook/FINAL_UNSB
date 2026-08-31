@@ -70,7 +70,7 @@
   `evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
 - 该原则也已落实到终交付格式：`CANDIDATE.json`只给默认行动优先级，新增
   `RESEARCH_FRONTIER.json`保存所有机制型完整分支及其不同处置；4090同宿主排名和5090
-  宿主分离消融证据不会被压成一个名字。持久终交付器冻结在`0f267ae`，本地316项、
+  宿主分离消融证据不会被压成一个名字。持久终交付器冻结在`b717058`，本地317项、
   远端3项测试通过。见
   `decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`。
 - 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和

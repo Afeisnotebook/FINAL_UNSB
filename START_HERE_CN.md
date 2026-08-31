@@ -17,6 +17,11 @@ full/proposal/observable证据，以及主项、共同领先、机制型递补�
 `decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`和
 `evidence/remote_route1_offload/COMPLETE_MULTI_CANDIDATE_FINAL_SUCCESSOR_ARMED_20260831.json`。
 
+随后部署前审计修正了一个只影响展示的严格类别字面量，并增加终点输入hash复验；训练、
+checkpoint和科学排名均未受影响。旧等待器在两个终点输入仍均不存在时被`b717058`替换，
+当前tmux为`FINAL_UNSB_COMPLETE_FINAL_b717058`，本地测试增至317项。见
+`evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json`。
+
 ### 13:16 新算法已能真正改写最终主项
 
 终局审计发现旧`final/`只认识PC-RSMG三角色时的前沿，不认识两条修复复赛和两种

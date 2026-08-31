@@ -29,7 +29,15 @@ target-blind可修复缺陷时，才标记为`closed_current_implementation_on_c
 - `RESEARCH_FRONTIER.json`：全部值得保留、修订或扩尺度验证的算法前沿；
 - `RESULTS.json`：4090与5090完整宿主分离证据，不合并跨宿主delta。
 
-最终交付守护器固定在`0f267ae2cf7cc99de9c7ae0decf888289e03da65`，只在4090完整
+最终交付守护器最初实现在`0f267ae2cf7cc99de9c7ae0decf888289e03da65`，只在4090完整
 同宿主裁决和5090完整可携带机理证据同时到达后原子发布。中间paired指标仍不得参与
 训练、路由、退出或checkpoint选择，confirmation20继续封存。
 
+## 部署前语义修正
+
+终点输入到达前的链路审计发现，研究前沿展示曾用错误字面量
+`strict_sustained_local`识别共同严格分支，而权威分类常量是`strict_sustained`。这不会
+改变训练、receipt或科学排名，但会把严格第二名错误显示成普通机制递补。`b717058`已改为
+直接导入权威常量，同时补上终点输入hash复验和“唯一算法数/宿主轨迹数”的区分；旧等待器
+在两个终点输入均未出现时替换。完整测试随`6fa361b`增至317项。修正证据见
+`evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json`。

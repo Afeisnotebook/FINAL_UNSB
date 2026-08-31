@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-route1-complete-final-strict-disposition-fix-evidence-v1",
+  "recorded_at": "2026-08-31T13:55:06.3465386+08:00",
+  "status": "FIXED_AND_REDEPLOYED_BEFORE_TERMINAL_INPUTS",
+  "incident": {
+    "scope": "final research-frontier presentation only",
+    "incorrect_literal": "strict_sustained_local",
+    "authoritative_literal": "strict_sustained",
+    "training_affected": false,
+    "checkpoint_affected": false,
+    "scientific_ranking_affected": false,
+    "terminal_delivery_already_published": false
+  },
+  "fix": {
+    "code_commit": "b7170584a3b64c0d0174170840ead75ae7c29358",
+    "test_only_followup_commit": "6fa361b1dca01da241ad1139ff8e9bdcb544a9b2",
+    "uses_authoritative_classification_constant": true,
+    "idempotent_final_input_hash_validation_added": true,
+    "unique_candidate_count_distinguished_from_host_scoped_row_count": true,
+    "selected_family_mechanism_evidence_tested": true,
+    "local_pytest": "317 passed"
+  },
+  "remote4090": {
+    "github_fetch_timed_out": true,
+    "transport_fallback": "complete Git bundle; no checkpoint or run artifact transfer",
+    "worktree": "/home/yc/FINAL_UNSB_COMPLETE_FINAL_b717058",
+    "targeted_pytest": "3 passed",
+    "tmux_session": "FINAL_UNSB_COMPLETE_FINAL_b717058",
+    "superseded_tmux_session": "FINAL_UNSB_COMPLETE_FINAL_0f267ae",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/COMPLETE_FRONTIER_FINAL_SUCCESSOR_CONTRACT_b717058.json",
+    "contract_sha256": "ab1b180040f5ab3e8a3cd6da28e7aa5953b18966b169f3d57fa4e0ac3284cf3a",
+    "state": "WAITING_FOR_BOTH_HOST_SEPARATED_COMPLETE_FRONTIERS",
+    "terminal_input_readiness_at_replacement": {
+      "COMPLETE_FRONTIER_4090_ADJUDICATION.json": false,
+      "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json": false
+    },
+    "stderr_bytes": 0
+  },
+  "selection_seeds": [2026],
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

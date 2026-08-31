@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T13:43:12+08:00",
+  "state_snapshot_time": "2026-08-31T13:55:06+08:00",
   "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_COMPLETE_ATOMIC_DELIVERY_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "0f267ae2cf7cc99de9c7ae0decf888289e03da65",
+  "development_head_at_state_write": "6fa361b1dca01da241ad1139ff8e9bdcb544a9b2",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -162,6 +162,7 @@
     ,"a complete 4090 frontier successor now waits for repaired replay plus both Generation-3 terminal outcomes and reranks the pre-frontier primary with every new same-host complete-e200 receipt"
     ,"the complete 5090 full/proposal/observable repaired frontier will be exported as hash-bound JSON evidence and atomically relayed to 4090 without checkpoints or cross-host delta merging"
     ,"terminal delivery now emits RESEARCH_FRONTIER.json with every mechanism-bearing complete branch; CANDIDATE.json is only the default action priority, and small single-seed rank gaps never constitute parent-mechanism falsification"
+    ,"the terminal research-frontier strict disposition now imports the authoritative strict_sustained constant, distinguishes unique algorithms from host-scoped rows, and revalidates both terminal input hashes on every idempotent read"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -798,11 +799,11 @@
       "portable_extended_frontier_local_relay_contract_sha256": "f0c780aabf2783c0c8b93f6b52e45a0d191f0de0e23f8282dea09273d325a4f0",
       "portable_extended_frontier_checkpoint_transfer": false,
       "portable_extended_frontier_evidence": "evidence/remote_route1_offload/PORTABLE_EXTENDED_FRONTIER_RELAY_ARMED_20260831.json",
-      "complete_multi_candidate_final_delivery_commit": "0f267ae2cf7cc99de9c7ae0decf888289e03da65",
-      "complete_multi_candidate_final_successor": "tmux:FINAL_UNSB_COMPLETE_FINAL_0f267ae",
+      "complete_multi_candidate_final_delivery_commit": "b7170584a3b64c0d0174170840ead75ae7c29358",
+      "complete_multi_candidate_final_successor": "tmux:FINAL_UNSB_COMPLETE_FINAL_b717058",
       "complete_multi_candidate_final_status": "WAITING_FOR_BOTH_HOST_SEPARATED_COMPLETE_FRONTIERS",
-      "complete_multi_candidate_final_contract_sha256": "69e64d483b675721176bc9662ce684c2dca46074a40e86555f843f3720d5fcb3",
-      "complete_multi_candidate_final_evidence": "evidence/remote_route1_offload/COMPLETE_MULTI_CANDIDATE_FINAL_SUCCESSOR_ARMED_20260831.json",
+      "complete_multi_candidate_final_contract_sha256": "ab1b180040f5ab3e8a3cd6da28e7aa5953b18966b169f3d57fa4e0ac3284cf3a",
+      "complete_multi_candidate_final_evidence": "evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json",
       "research_frontier_output_required": true,
       "algorithm_discovery_collapsed_to_single_candidate": false,
       "all_mechanism_bearing_candidates_preserved": true,
