@@ -135,6 +135,10 @@ def _terminal_row(run_root: Path, candidate_id: str, host_label: str) -> dict[st
         "terminal_receipt_sha256": file_sha256(receipt_path),
         "trajectory_path": str(trajectory_path),
         "trajectory_sha256": file_sha256(trajectory_path),
+        # Keep the host-local scientific record self-contained before it is
+        # relayed to another machine.  A remote absolute path is provenance,
+        # not a portable way to recover the per-epoch/per-domain trajectory.
+        "trajectory_snapshot": trajectory,
     }
 
 
@@ -236,6 +240,8 @@ def combine_related_hosts(
                 ],
                 "e200_macro_psnr_delta": row["e200_macro_psnr_delta"],
                 "terminal_receipt_sha256": row["terminal_receipt_sha256"],
+                "trajectory_sha256": row["trajectory_sha256"],
+                "trajectory_snapshot": row["trajectory_snapshot"],
             })
     algorithm_rows = []
     for algorithm in algorithms.values():
@@ -334,4 +340,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

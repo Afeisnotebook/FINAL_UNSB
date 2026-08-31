@@ -72,6 +72,7 @@ def test_host_adjudication_preserves_multiple_strict_algorithms(tmp_path):
     assert result["action_priority_candidate_id"] == "A"
     assert result["action_priority_is_not_scientific_exclusivity"] is True
     assert result["algorithm_discovery_collapsed_to_single_candidate"] is False
+    assert result["ranking"][0]["trajectory_snapshot"]["candidate_id"] == "A"
 
 
 def test_guardrail_failure_is_positive_but_fragile_not_erased(tmp_path):
@@ -113,5 +114,8 @@ def test_cross_host_combination_never_averages_deltas_or_collapses_algorithms(tm
     )
     assert shared["cross_runtime_positive"] is True
     assert len(shared["host_results"]) == 2
+    assert all(
+        row["trajectory_snapshot"]["candidate_id"] in {"A", "A2"}
+        for row in shared["host_results"]
+    )
     assert "mean_delta" not in shared
-
