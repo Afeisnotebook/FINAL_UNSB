@@ -68,6 +68,22 @@ WINNER_FAMILIES = {
             "observable_only": "ABL-F1-02-AMMCRB-OBSERVABLE-ONLY",
         },
     },
+    "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER": {
+        "family": "rfammcrb",
+        "model": "route1_rfammcrb_ablation",
+        "ids": {
+            "proposal_only": "ABL-F2-01-RFAMMCRB-PROPOSAL-ONLY",
+            "observable_only": "ABL-F2-01-RFAMMCRB-OBSERVABLE-ONLY",
+        },
+    },
+    "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER": {
+        "family": "rfmcrb",
+        "model": "route1_rfmcrb_ablation",
+        "ids": {
+            "proposal_only": "ABL-F2-02-RFMCRB-PROPOSAL-ONLY",
+            "observable_only": "ABL-F2-02-RFMCRB-OBSERVABLE-ONLY",
+        },
+    },
 }
 
 
@@ -171,9 +187,17 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
             "unbiased": "The diagnostic transition is discarded and all mutable stochastic/buffer state is restored before the pathwise native update.",
         }
-    if family == "mcrb" and role == "proposal_only":
+    if family in ("mcrb", "rfmcrb") and role == "proposal_only":
+        repaired = family == "rfmcrb"
+        role_key = "rfmcrb_ablation_role" if repaired else "mcrb_ablation_role"
+        epsilon_key = (
+            "rfmcrb_projection_epsilon" if repaired else "mcrb_projection_epsilon"
+        )
         return {
-            "name": "MCRB Proposal-Only Moving Covariance Tangent",
+            "name": (
+                "RF-MCRB Proposal-Only Moving Covariance Tangent"
+                if repaired else "MCRB Proposal-Only Moving Covariance Tangent"
+            ),
             "formula": "After realizing native Adam moments and displacement Delta, replace the generator displacement by -||Delta|| grad C/||grad C|| whenever the moving current/EMA covariance-gap tangent is nonzero. The native-safe half-space projection is removed.",
             "identity": "Disabled mode is exact native UNSB; active mode is exact identity only when the covariance tangent or native displacement norm is zero.",
             "objective_change": True, "estimator_change": False,
@@ -181,21 +205,37 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "memory": "one EMA generator and covariance-tangent graph",
             "recovery": "EMA generator, tangent diagnostics and proposal counters",
             "state": ["mcrb.teacher_netG", "mcrb.update_index", "mcrb.last"],
-            "method": {"route1_ablation_enable": True, "mcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "mcrb_projection_epsilon": 1e-24},
+            "method": {"route1_ablation_enable": True, role_key: role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, epsilon_key: 1e-24},
             "expected": "Separates the moving covariance proposal from MCRB's native-safe half-space constraint.",
-            "falsifier": "A complete e200 trajectory below full MCRB shows that the native-safe projection, rather than the raw covariance tangent, is essential.",
+            "falsifier": (
+                "A complete e200 trajectory below its source-bound full barrier shows that the native-safe projection, rather than the raw covariance tangent, is essential."
+                if repaired else
+                "A complete e200 trajectory below full MCRB shows that the native-safe projection, rather than the raw covariance tangent, is essential."
+            ),
         }
-    if family == "mcrb":
+    if family in ("mcrb", "rfmcrb"):
+        repaired = family == "rfmcrb"
+        role_key = "rfmcrb_ablation_role" if repaired else "mcrb_ablation_role"
+        epsilon_key = (
+            "rfmcrb_projection_epsilon" if repaired else "mcrb_projection_epsilon"
+        )
         return {
-            "name": "MCRB Observable-Only Moving Covariance Monitor",
-            "formula": "Compute the current/EMA covariance gap, its tangent and the derivative along the realized native Adam displacement, but commit that native displacement unchanged. The EMA and diagnostics live only under route1_observer.",
+            "name": (
+                "RF-MCRB Observable-Only Moving Covariance Monitor"
+                if repaired else "MCRB Observable-Only Moving Covariance Monitor"
+            ),
+            "formula": (
+                "Compute the current/EMA covariance gap, its tangent, the derivative along the realized native Adam displacement and the hypothetical residual-feasible closest point, but commit that native displacement unchanged. The EMA and diagnostics live only under route1_observer."
+                if repaired else
+                "Compute the current/EMA covariance gap, its tangent and the derivative along the realized native Adam displacement, but commit that native displacement unchanged. The EMA and diagnostics live only under route1_observer."
+            ),
             "identity": "After removing only route1_observer diagnostics, complete next-update dynamics and e200 evaluation must equal plain exactly.",
             "objective_change": False, "estimator_change": False,
             "compute": "one current/EMA covariance tangent in addition to the native generator update",
             "memory": "one observer-only EMA generator and one tangent graph",
             "recovery": "route1_observer EMA, counters and last derivative",
             "state": ["route1_observer.teacher_netG", "route1_observer.update_index"],
-            "method": {"route1_ablation_enable": True, "mcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "mcrb_projection_epsilon": 1e-24},
+            "method": {"route1_ablation_enable": True, role_key: role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, epsilon_key: 1e-24},
             "expected": "Negative control proving that the moving covariance observation and extra compute do not explain any gain.",
             "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
             "unbiased": "The committed parameter and optimizer transition is pathwise native; the observer EMA is excluded from and cannot enter subsequent native updates.",
@@ -230,9 +270,20 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
             "unbiased": "The diagnostic views are discarded and every RNG stream is restored before the pathwise native transition.",
         }
-    if family == "ammcrb" and role == "proposal_only":
+    if family in ("ammcrb", "rfammcrb") and role == "proposal_only":
+        repaired = family == "rfammcrb"
+        role_key = (
+            "rfammcrb_ablation_role" if repaired else "ammcrb_ablation_role"
+        )
+        epsilon_key = (
+            "rfammcrb_projection_epsilon"
+            if repaired else "ammcrb_projection_epsilon"
+        )
         return {
-            "name": "AM-MCRB Proposal-Only Adam-Metric Normal",
+            "name": (
+                "RF-AMMCRB Proposal-Only Adam-Metric Normal"
+                if repaired else "AM-MCRB Proposal-Only Adam-Metric Normal"
+            ),
             "formula": "Realize native Adam moments and displacement d0, compute the moving covariance tangent a and inverse trust metric P, then replace d0 by -sPa where s makes the proposal's H-metric norm equal to the native H-metric norm. The native-safe closest-point term is removed.",
             "identity": "Disabled mode is exact native UNSB; active identity holds only when the tangent or native displacement has zero Adam-metric norm.",
             "objective_change": True, "estimator_change": False,
@@ -240,21 +291,40 @@ def _role_semantics(family: str, role: str) -> dict[str, Any]:
             "memory": "one EMA generator, tangent graph and diagonal inverse metric",
             "recovery": "EMA generator, proposal counters and Adam-metric geometry",
             "state": ["mcrb.teacher_netG", "mcrb.update_index", "mcrb.last"],
-            "method": {"route1_ablation_enable": True, "ammcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "ammcrb_projection_epsilon": 1e-24},
+            "method": {"route1_ablation_enable": True, role_key: role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, epsilon_key: 1e-24},
             "expected": "Separates the Adam-metric moving-covariance proposal from the native-safe closest feasible displacement.",
-            "falsifier": "A complete e200 trajectory below full AM-MCRB shows that the safe closest-point term, not merely the metric normal, is necessary.",
+            "falsifier": (
+                "A complete e200 trajectory below its source-bound full barrier shows that the safe closest-point term, not merely the metric normal, is necessary."
+                if repaired else
+                "A complete e200 trajectory below full AM-MCRB shows that the safe closest-point term, not merely the metric normal, is necessary."
+            ),
         }
-    if family == "ammcrb":
+    if family in ("ammcrb", "rfammcrb"):
+        repaired = family == "rfammcrb"
+        role_key = (
+            "rfammcrb_ablation_role" if repaired else "ammcrb_ablation_role"
+        )
+        epsilon_key = (
+            "rfammcrb_projection_epsilon"
+            if repaired else "ammcrb_projection_epsilon"
+        )
         return {
-            "name": "AM-MCRB Observable-Only Adam Barrier Monitor",
-            "formula": "Compute the moving covariance tangent, realized native Adam displacement, diagonal metric and hypothetical KKT correction, but commit the native displacement unchanged. The EMA and geometry remain observer-only.",
+            "name": (
+                "RF-AMMCRB Observable-Only Adam Barrier Monitor"
+                if repaired else "AM-MCRB Observable-Only Adam Barrier Monitor"
+            ),
+            "formula": (
+                "Compute the moving covariance tangent, realized native Adam displacement, diagonal metric and hypothetical residual-feasible KKT correction, but commit the native displacement unchanged. The EMA and geometry remain observer-only."
+                if repaired else
+                "Compute the moving covariance tangent, realized native Adam displacement, diagonal metric and hypothetical KKT correction, but commit the native displacement unchanged. The EMA and geometry remain observer-only."
+            ),
             "identity": "After excluding route1_observer diagnostics, complete next-update dynamics and e200 evaluation must equal plain exactly.",
             "objective_change": False, "estimator_change": False,
             "compute": "the full AM-MCRB target-blind geometry in addition to the native update",
             "memory": "one observer-only EMA generator, tangent graph and inverse metric",
             "recovery": "route1_observer EMA, counters and last geometry",
             "state": ["route1_observer.teacher_netG", "route1_observer.update_index"],
-            "method": {"route1_ablation_enable": True, "ammcrb_ablation_role": role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, "ammcrb_projection_epsilon": 1e-24},
+            "method": {"route1_ablation_enable": True, role_key: role, "mcrb_m": 4, "mcrb_region_patch": 32, "mcrb_u_floor": 1e-30, "mcrb_teacher_half_life_updates": 150, epsilon_key: 1e-24},
             "expected": "Negative control proving that the moving covariance/Adam observation and extra compute do not explain any gain.",
             "falsifier": "Any next-update or e200 dynamics mismatch with plain is an implementation failure.",
             "unbiased": "The committed network and optimizer transition is pathwise native; observer state cannot enter subsequent native updates.",
@@ -352,22 +422,25 @@ def _implementation(candidate_id: str, family: str, role: str, card_path: Path) 
     }
 
 
-def materialize_winner_ablation_definitions(
-    output_root: Path, *, selection_path: Path | None = None,
-    freeze_filename: str = "WINNER_ABLATION_FREEZE.json",
+def materialize_parent_ablation_definitions(
+    output_root: Path, *, parent_id: str, authority_path: Path,
+    authority_algorithm_fingerprint: str,
+    freeze_filename: str,
+    authority_kind: str,
 ) -> dict[str, Any]:
+    """Freeze one complete parent's two mechanism ablations.
+
+    This primitive deliberately accepts a source-bound terminal parent rather
+    than requiring that the parent already be the unique final winner.  It is
+    what lets the repaired frontier retain more than one evidence-qualified
+    algorithm for mechanism follow-up without weakening any receipt checks.
+    """
     output_root = Path(output_root).resolve()
-    cross_path = (
-        resolve_e200_selection_path(output_root)
-        if selection_path is None else Path(selection_path).resolve()
-    )
-    cross = _read_json(cross_path)
-    validate_e200_selection(cross_path)
-    if cross.get("status") not in TERMINAL_SELECTION_STATUSES:
-        raise RuntimeError("winner ablations require a terminal source-bound e200 selection")
-    parent_id = str(cross["selected_candidate_id"])
+    authority_path = Path(authority_path).resolve()
+    if not authority_path.is_file() or not authority_path.is_relative_to(output_root):
+        raise RuntimeError("ablation authority escaped the run root")
     if parent_id not in WINNER_FAMILIES:
-        raise RuntimeError("cross-version winner has no registered ablation family")
+        raise RuntimeError("terminal parent has no registered ablation family")
     family_record = WINNER_FAMILIES[parent_id]
     family = str(family_record["family"])
     ids = dict(family_record["ids"])
@@ -380,12 +453,11 @@ def materialize_winner_ablation_definitions(
     parent_receipt = _read_json(parent_receipt_path)
     if (
         parent_receipt.get("candidate_id") != parent_id
-        or parent_receipt.get("algorithm_fingerprint") != cross.get(
-            "selected_algorithm_fingerprint"
-        )
+        or parent_receipt.get("algorithm_fingerprint")
+        != authority_algorithm_fingerprint
         or parent_receipt.get("derivation_card_sha256") != file_sha256(parent_card_path)
     ):
-        raise RuntimeError("winner receipt/card/cross-version identity mismatch")
+        raise RuntimeError("parent receipt/card/authority identity mismatch")
     parent = _read_json(parent_card_path)
 
     ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
@@ -448,9 +520,13 @@ def materialize_winner_ablation_definitions(
         "status": "FROZEN_FOR_EXECUTABLE_GATES",
         "parent_candidate_id": parent_id,
         "parent_terminal_receipt_sha256": file_sha256(parent_receipt_path),
-        "source_cross_version_adjudication_sha256": file_sha256(cross_path),
-        "source_e200_selection_path": cross_path.relative_to(output_root).as_posix(),
-        "source_e200_selection_sha256": file_sha256(cross_path),
+        "source_authority_kind": authority_kind,
+        "source_authority_path": authority_path.relative_to(output_root).as_posix(),
+        "source_authority_sha256": file_sha256(authority_path),
+        # Preserve the established aliases for old final-delivery consumers.
+        "source_cross_version_adjudication_sha256": file_sha256(authority_path),
+        "source_e200_selection_path": authority_path.relative_to(output_root).as_posix(),
+        "source_e200_selection_sha256": file_sha256(authority_path),
         "ablation_candidate_ids": ids,
         "registrations": frozen,
         "long_horizon_started": False,
@@ -459,3 +535,27 @@ def materialize_winner_ablation_definitions(
     }
     write_json(output_root / "operations" / freeze_filename, result)
     return result
+
+
+def materialize_winner_ablation_definitions(
+    output_root: Path, *, selection_path: Path | None = None,
+    freeze_filename: str = "WINNER_ABLATION_FREEZE.json",
+) -> dict[str, Any]:
+    output_root = Path(output_root).resolve()
+    cross_path = (
+        resolve_e200_selection_path(output_root)
+        if selection_path is None else Path(selection_path).resolve()
+    )
+    cross = _read_json(cross_path)
+    validate_e200_selection(cross_path)
+    if cross.get("status") not in TERMINAL_SELECTION_STATUSES:
+        raise RuntimeError("winner ablations require a terminal source-bound e200 selection")
+    parent_id = str(cross["selected_candidate_id"])
+    return materialize_parent_ablation_definitions(
+        output_root,
+        parent_id=parent_id,
+        authority_path=cross_path,
+        authority_algorithm_fingerprint=str(cross["selected_algorithm_fingerprint"]),
+        freeze_filename=freeze_filename,
+        authority_kind="terminal_e200_selection",
+    )

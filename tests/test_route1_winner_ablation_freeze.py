@@ -106,6 +106,16 @@ def test_winner_ablation_freeze_materializes_only_selected_family(monkeypatch, t
         "ROUTE1_FRONTIER_FINAL_SELECTION.json",
         True,
     ),
+    (
+        "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
+        "ROUTE1_FRONTIER_FINAL_SELECTION.json",
+        True,
+    ),
+    (
+        "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER",
+        "ROUTE1_FRONTIER_FINAL_SELECTION.json",
+        True,
+    ),
 ])
 def test_extended_winner_families_freeze_from_terminal_selection(
     monkeypatch, tmp_path, parent_id, selection_name, explicit,

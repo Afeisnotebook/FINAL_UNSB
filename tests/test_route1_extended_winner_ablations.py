@@ -36,6 +36,8 @@ def test_frontier_mechanisms_have_source_bound_ablation_families():
     expected = {
         "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING": "pcnr",
         "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER": "ammcrb",
+        "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER": "rfammcrb",
+        "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER": "rfmcrb",
     }
     for candidate_id, family in expected.items():
         row = WINNER_FAMILIES[candidate_id]
@@ -68,6 +70,8 @@ def test_extended_ablation_zero_intervention_specs_disable_the_operator():
         ("route1_mcrb_ablation", "mcrb_ablation_role"),
         ("route1_pcnr_ablation", "pcnr_ablation_role"),
         ("route1_ammcrb_ablation", "ammcrb_ablation_role"),
+        ("route1_rfammcrb_ablation", "rfammcrb_ablation_role"),
+        ("route1_rfmcrb_ablation", "rfmcrb_ablation_role"),
     ):
         spec = ProbeSpec(
             id=model, contract_id=model, model=model, role="candidate",

@@ -56,6 +56,7 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
         "route1_pcnr_ablation", "route1_ammcrb_ablation",
+        "route1_rfammcrb_ablation", "route1_rfmcrb_ablation",
     ):
         method["route1_ablation_enable"] = False
     else:
@@ -221,6 +222,12 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
     elif model_name == "route1_pcnr_ablation":
         model._initialize_pcnr_ablation_state()
     elif model_name == "route1_ammcrb_ablation":
+        model._initialize_mcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
+    elif model_name in (
+        "route1_rfammcrb_ablation", "route1_rfmcrb_ablation",
+    ):
         model._initialize_mcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
@@ -993,6 +1000,8 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
         "route1_mcrb_ablation": "mcrb_ablation_role",
         "route1_pcnr_ablation": "pcnr_ablation_role",
         "route1_ammcrb_ablation": "ammcrb_ablation_role",
+        "route1_rfammcrb_ablation": "rfammcrb_ablation_role",
+        "route1_rfmcrb_ablation": "rfmcrb_ablation_role",
     }
     families = {
         "route1_bvcp_ablation": "bvcp",
@@ -1001,6 +1010,8 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
         "route1_mcrb_ablation": "mcrb",
         "route1_pcnr_ablation": "pcnr",
         "route1_ammcrb_ablation": "ammcrb",
+        "route1_rfammcrb_ablation": "rfammcrb",
+        "route1_rfmcrb_ablation": "rfmcrb",
     }
     if model not in role_keys:
         raise RuntimeError("winner ablation gate received an unknown family")
@@ -1054,10 +1065,13 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
                 "pre-update Adam geometry is discarded before exact native commit"
             ),
         })
-    elif family == "mcrb":
-        rows.extend(_mcrb_invariants()[:1])
+    elif family in ("mcrb", "rfmcrb"):
+        rows.extend(
+            _rfmcrb_invariants() if family == "rfmcrb"
+            else _mcrb_invariants()[:1]
+        )
         rows.append({
-            "name": "mcrb_ablation_operator_scope_is_frozen",
+            "name": f"{family}_ablation_operator_scope_is_frozen",
             "status": "PASS",
             "observed": (
                 "norm-matched negative covariance tangent replaces native G displacement"
@@ -1077,7 +1091,14 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
             ),
         })
     else:
-        rows.extend(_ammcrb_invariants())
+        if family not in ("ammcrb", "rfammcrb"):
+            raise RuntimeError("unknown Adam-metric winner ablation family")
+        rows.extend(
+            _rfammcrb_invariants() if family == "rfammcrb"
+            else _ammcrb_invariants()
+        )
+        # Both families use the same pure proposal; only the full reference
+        # geometry differs and is covered by the family-specific invariants.
         from models.route1.ammcrb_ablation import (
             adam_metric_norm_matched_negative_normal,
         )
@@ -1091,7 +1112,7 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
         proposal_metric_sq = float(((proposal[0] ** 2) / inverse_metric[0]).sum().item())
         proposal_dot = float((proposal[0] * tangent[0]).sum().item())
         rows.append({
-            "name": "ammcrb_proposal_is_metric_norm_matched_descent",
+            "name": f"{family}_proposal_is_metric_norm_matched_descent",
             "status": "PASS" if (
                 bool(proposal_diag["applied"])
                 and math.isclose(native_metric_sq, proposal_metric_sq, rel_tol=1e-12)
@@ -1104,7 +1125,7 @@ def _winner_ablation_invariants(context: CandidateGateContext) -> list[dict]:
             },
         })
         rows.append({
-            "name": "ammcrb_ablation_operator_scope_is_frozen",
+            "name": f"{family}_ablation_operator_scope_is_frozen",
             "status": "PASS",
             "observed": (
                 "Adam-metric norm-matched negative covariance normal"
@@ -1133,6 +1154,8 @@ def _observable_active_identity(
         "route1_mcrb_ablation": "mcrb_ablation_role",
         "route1_pcnr_ablation": "pcnr_ablation_role",
         "route1_ammcrb_ablation": "ammcrb_ablation_role",
+        "route1_rfammcrb_ablation": "rfammcrb_ablation_role",
+        "route1_rfmcrb_ablation": "rfmcrb_ablation_role",
     }.get(context.registration.spec.model)
     if role_key is None:
         raise RuntimeError("observable identity gate received an unknown ablation model")
@@ -1353,6 +1376,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         "route1_mcrb_ablation": "current/EMA covariance tangent and native Adam derivative",
         "route1_pcnr_ablation": "counterfactual fresh native player view dispersion",
         "route1_ammcrb_ablation": "moving covariance tangent and Adam-metric KKT geometry",
+        "route1_rfammcrb_ablation": "moving covariance tangent and residual-feasible Adam-metric KKT geometry",
+        "route1_rfmcrb_ablation": "moving covariance tangent and residual-feasible Euclidean KKT geometry",
     }.get(context.registration.spec.model)
     return {
         "checks": {
@@ -1449,6 +1474,7 @@ def run_winner_ablation_gate(context: CandidateGateContext) -> dict:
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
         "route1_pcnr_ablation", "route1_ammcrb_ablation",
+        "route1_rfammcrb_ablation", "route1_rfmcrb_ablation",
     ):
         raise RuntimeError("winner ablation gate received a non-ablation model")
     return _run(context, invariant="winner_ablation")
