@@ -39,6 +39,14 @@
 
 ### 0.2 当前算法发现快照
 
+- 终点接口现有独立fail-closed完成审计：`280d685`要求本地relay后的产物同时包含行动
+  主项、两个递补、完整4090/5090宿主分离研究前沿、逐域e150/e175/e200轨迹、数学与
+  target-blind边界、DT/HJ/HNEK和474/140因果证据。机器通过仍不能代替最终人工科学
+  复核、Git compact adjudication和push。审计守护PID 5332当前等待精确终交付。
+- 15:00的无paired工程心跳为RF-AMMCRB e169、RF-MCRB e184；e200结果尚未出现，六个
+  训练/裁决后继stderr均为0。唯一`CANDIDATE.json`仍只是行动优先级，未把多候选前沿
+  收缩为单算法。
+
 - 4090长期图谱已冻结为474条reversal row和140条sampling-variance row；DT/HJ/HNEK
   继续只是因果探针。
 - Generation-1从图谱生成BVCP与PC-RSMG。最初RSMG因复用pre-D随机bundle而

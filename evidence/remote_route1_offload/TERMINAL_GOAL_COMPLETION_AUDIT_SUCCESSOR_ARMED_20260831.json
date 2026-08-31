@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-route1-terminal-goal-completion-audit-successor-evidence-v1",
+  "recorded_at": "2026-08-31T15:01:00+08:00",
+  "status": "DURABLE_GOAL_COMPLETION_AUDIT_ARMED_WAITING_FOR_EXACT_TERMINAL_DELIVERY_RELAY",
+  "git_commit": "280d685174678b8097064236e370280d2cace0c5",
+  "decision": "decisions/DEC-20260831-TERMINAL-GOAL-COMPLETION-AUDIT.md",
+  "local_validation": {
+    "targeted_pytest": "12 passed",
+    "full_pytest": "325 passed",
+    "compileall": "PASS",
+    "ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "durable_successor": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_GOAL_AUDIT_280d685",
+    "pid": 5332,
+    "contract": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\GOAL_COMPLETION_AUDIT_SUCCESSOR_CONTRACT_280d685.json",
+    "contract_sha256": "ad59f5cec1b5ed7ec6ee05148f89aafe30ee8052c358373b029a8ddd78aff250",
+    "state": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\GOAL_COMPLETION_AUDIT_SUCCESSOR_STATE.json",
+    "current_status": "WAITING_FOR_EXACT_TERMINAL_DELIVERY_RELAY",
+    "output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\GOAL_COMPLETION_AUDIT.json",
+    "stderr_bytes": 0
+  },
+  "terminal_requirements": {
+    "action_priority_candidate_and_full_research_frontier": true,
+    "exact_pointer_relay_and_local_file_hashes": true,
+    "common_e0_seed2026_batch1_small25_true_e200": true,
+    "best_checkpoint_selection_forbidden": true,
+    "mathematical_identity_and_target_inaccessibility_required": true,
+    "six_domain_e150_e175_e200_psnr_ssim_lpips_required": true,
+    "source_bound_mechanism_roles_required": true,
+    "two_compatible_alternates_required": true,
+    "complete_host_separated_4090_and_5090_frontiers_required": true,
+    "dt_hj_hnek_proxy_and_474_140_causal_evidence_required": true,
+    "scientific_engineering_proxy_and_untested_conclusions_separated": true,
+    "final_git_adjudication_still_required_after_machine_pass": true
+  },
+  "remote5090_engineering_heartbeat": {
+    "observed_at": "2026-08-31T15:00:54+08:00",
+    "rfammcrb_data_epoch": 169,
+    "rfmcrb_data_epoch": 184,
+    "target_data_epoch": 200,
+    "e200_results_ready": false,
+    "repaired_frontier_status": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+    "followup_status": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+    "extended_frontier_status": "WAITING_FOR_COMPLETE_REPAIRED_FOLLOWUP_EXECUTION",
+    "portable_export_status": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
+    "checked_successor_stderr_bytes": 0,
+    "intermediate_paired_metrics_read_for_routing": false
+  },
+  "scientific_boundary": {
+    "unique_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+    "algorithm_discovery_collapsed_to_single_candidate": false,
+    "all_evidence_qualified_mechanism_bearing_branches_preserved": true,
+    "cross_host_deltas_merged": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "cross_seed_stability_claimed": false,
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028]
+  },
+  "claim_boundary": "This proves durable fail-closed terminal auditing is armed. It does not claim that the still-running repaired candidates passed e200, that the final ranking exists, or that Goal completion is already allowed."
+}

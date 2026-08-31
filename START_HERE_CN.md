@@ -2,6 +2,20 @@
 
 ## 当前状态（2026-08-31）
 
+### 15:01 终点 Goal 完成门已持久武装
+
+`280d685`新增独立的终点完成审计：最终五个文件和两份宿主前沿经本地relay逐字节返回后，
+自动验证共同e0/seed2026/batch1/e200身份、六域e150/e175/e200完整指标、数学公式与
+identity/无偏边界、三角色或合成来源证据、DT/HJ/HNEK和474/140因果图谱、两个递补及
+完整多候选前沿。缺一项就禁止宣称Goal完成。机器通过后仍须人工科学复核、compact
+adjudication、提交和推送，不能由守护器自动收口。
+
+持久审计器运行于本地PID 5332，当前为`WAITING_FOR_EXACT_TERMINAL_DELIVERY_RELAY`，
+stderr为0且不保存凭据。15:00仅检查工程心跳：5090的RF-AMMCRB为e169、RF-MCRB为
+e184，两条e200结果尚未形成，所有相关后继stderr合计为0；中间paired指标没有被读取或
+用于路由。见`decisions/DEC-20260831-TERMINAL-GOAL-COMPLETION-AUDIT.md`和
+`evidence/remote_route1_offload/TERMINAL_GOAL_COMPLETION_AUDIT_SUCCESSOR_ARMED_20260831.json`。
+
 ### 13:43 完整研究前沿已成为终交付的一等产物
 
 最新资源提醒不会把路线一改成“多跑一些名字”，而是纠正最终接口：唯一
