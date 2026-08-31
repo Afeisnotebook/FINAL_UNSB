@@ -29,5 +29,7 @@ authorize compute.
    通过时，才允许一个最多两组件的Generation-3合成。
 8. `DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`：canonical主候选
    只是行动接口；严格通过和因果可修复近边界机制继续组成受限可信前沿。
+9. `DEC-20260831-5090-MATCHED-PLAIN-LPIPS-RECOVERY.md`：晚期plain LPIPS缺失属于工程
+   证据缺口，必须从冻结checkpoint双重确定性恢复并通过父状态隔离，不能机械记为算法失败。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。

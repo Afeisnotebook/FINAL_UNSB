@@ -84,6 +84,10 @@ remote plain；训练commit仍为`0da2a37`。compact证据见
   若存在近边界则把该名额留给后续target-blind缺陷审计与一次数学修订；否则最多运行一条
   预固定父算法消融。它先等待Generation-3完成共享ledger冻结，再允许两条e200训练并行，
   因而不会因并发覆盖算法谱系。唯一`CANDIDATE.json`只表示行动优先级，不承担科学剪枝。
+- 5090 plain的e100/e125/e150/e175旧指标曾因可选LPIPS环境不可用而缺少护栏权威值；若
+  不修复会让所有候选机械失败。`ff3d58b`从冻结checkpoint双重只读恢复LPIPS，四点均证明
+  非LPIPS字段逐位不变、父状态不变并通过独立milestone verifier；`c5c0cd6`随后把晚三点
+  plain LPIPS完整性设为所有新候选的启动硬门。该恢复未重启或修改当前两条训练。
 
 ## 历史执行快照（2026-08-30 18:42，以下进度已由上节取代）
 
