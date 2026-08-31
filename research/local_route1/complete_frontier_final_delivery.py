@@ -463,6 +463,7 @@ def _research_frontier(
 
 def _report(candidate: dict[str, Any], alternates: dict[str, Any], results: dict[str, Any]) -> str:
     fields = candidate["seed2026_e200_result"]
+    boundaries = results["conclusion_boundaries"]
     causal = results[
         "historical_probe_causal_and_derivation_evidence"
     ]["long_causal_matrix_summary"]
@@ -497,6 +498,13 @@ def _report(candidate: dict[str, Any], alternates: dict[str, Any], results: dict
             "与完整假设谱系均写入主结果，而非只留在旧归档。"
         ),
         "- seed2027/2028、一万张全量数据、confirmation20和论文级外推尚未验证。",
+        "",
+        "## 结论类型分离",
+        "",
+        f"- 科学结论：{boundaries['scientific_conclusion']}",
+        f"- 工程失败：{boundaries['engineering_failures']}",
+        f"- proxy失真：{boundaries['proxy_distortion']}",
+        "- 未验证假设：" + "；".join(boundaries["untested_hypotheses"]),
         "",
         "## 完整轨迹与复现",
         "",
