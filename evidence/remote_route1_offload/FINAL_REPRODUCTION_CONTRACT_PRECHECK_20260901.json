@@ -1,0 +1,42 @@
+{
+  "schema": "final-unsb-route1-final-reproduction-contract-precheck-v1",
+  "status": "ALL_CURRENT_FINAL_MEMBERS_HAVE_ONE_EXECUTABLE_CONTRACT",
+  "git_commit": "3059fa0ea811e46783a5f7befab77609212e45d5",
+  "incident": {
+    "classification": "post_training_delivery_glob_false_ambiguity",
+    "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "canonical_contract_count": 1,
+    "initialization_capture_count": 1,
+    "initialization_capture_suffix": ".init.json",
+    "scientific_contract_or_trajectory_changed": false
+  },
+  "fix": {
+    "initialization_captures_excluded_from_contract_discovery": true,
+    "two_real_contract_paths_still_fail_closed": true,
+    "historical_file_deleted_or_rewritten": false
+  },
+  "remote4090_precheck": {
+    "completed_base_frontier_member_count": 5,
+    "completed_base_frontier_all_unique": true,
+    "pending_related_member_count": 2,
+    "pending_related_all_unique": true,
+    "hpcgr_contract": "operations/CANDIDATE_EXECUTOR_CONTRACT_G3-01B-HPCGR_4090.json",
+    "hjcgr_contract": "operations/CANDIDATE_EXECUTOR_CONTRACT_G3-02-HJCGR_4090.json",
+    "algorithm_and_candidate_fingerprints_match": true,
+    "target_data_epochs": 200,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "remote4090_final_successor": {
+    "git_commit": "3059fa0ea811e46783a5f7befab77609212e45d5",
+    "state": "WAITING_FOR_ALL_RELATED_E200_RESULTS",
+    "pid_at_health_check": 1670477
+  },
+  "training_process_restarted": false,
+  "checkpoint_transfer": false,
+  "formula_changed": false,
+  "ranking_changed": false,
+  "paired_metrics_used_for_training_or_control": false,
+  "confirmation20_opened": false,
+  "test_status": "368_PASSED"
+}
