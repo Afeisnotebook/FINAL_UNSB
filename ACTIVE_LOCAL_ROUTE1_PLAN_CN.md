@@ -4,6 +4,20 @@
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
+## 2026-08-31 12:45 执行更新：alternate进入有限跨宿主复赛
+
+- 为避免把小e200差距误解为“只留第一名”，4090复赛资格固定为完整e200的
+  `strict_sustained`、`causally_repairable_near_boundary_pending_target_blind_audit`或
+  `evidence_backed_alternate`；最多两条。
+- `evidence_backed_alternate`要求late-three或e200为正，且不属于实现无效。late-three与e200
+  均非正的`closed_current_operator`仍排除，不用多余算力重跑已关闭的当前算子。
+- 这一扩展只改变跨运行时复验资源；最终strict gate、G3-02/G3-03双严格父项门和
+  target-blind兼容门均不改。唯一`CANDIDATE.json`仍只是行动优先级。
+- 5090导出、本地relay、4090双流复赛三段已统一冻结到`ab4855e`，替换前无便携
+  authority或目标训练，因此无证据/算力损失。本地完整测试为307项。
+- 12:45心跳：RF-AMMCRB e101、RF-MCRB e110，5090 GPU约98%；4090三个后继都在等
+  完e200 authority，不是搜寻停滞。
+
 ## 2026-08-31 12:00 执行更新：保留两种最近可行优化几何
 
 - 5090继续把RF-AMMCRB与RF-MCRB各自推进到共同e0、batch1、seed2026、真实e200；

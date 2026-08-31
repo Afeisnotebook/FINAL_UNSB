@@ -2,6 +2,18 @@
 
 ## 当前状态（2026-08-31）
 
+### 12:45 证据备选也进入跨宿主复赛，不再只输出严格赢家
+
+用户提醒“多余的5090应推进多数值得继续思考的算法”后，跨宿主复赛资格已从
+`strict/near` 扩展为 `strict/near/evidence_backed_alternate`。alternate必须已完成真实e200，
+且late-three或e200仍为正；若两者均不正，仍按`closed_current_operator`排除。这只扩展
+4090的同宿e0复赛分配，不放松最终严格长程门，也不改变G3-02/G3-03的双严格父项条件。
+
+三段持久链均已换成精确提交`ab4855e`：5090导出守护、本地原字节relay和4090最多
+两流复赛守护。替换发生在便携权威产生之前，没有候选训练或证据丢失。12:45时5090的
+RF-AMMCRB/RF-MCRB分别到e101/e110，GPU约98%，中间paired指标仍未用于调度。部署证据见
+`evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
+
 ### 12:00 两种残差可行合成都进入条件前沿
 
 用户再次确认：额外5090/4090算力应推进多数有独立证据的算法，唯一`CANDIDATE.json`
@@ -66,7 +78,8 @@ proposal-only，也不证伪其他无偏控制变量。见
 ### 10:30 双算法跨宿主复验链已武装
 
 “唯一候选”现在只表示下一步行动优先级，不表示只保留一个算法。5090继续同时运行
-RF-AMMCRB与RF-MCRB；完整e200后，所有strict/near修复算法（最多两条）会被导出为
+RF-AMMCRB与RF-MCRB；完整e200后，所有strict/near/evidence-backed alternate修复算法
+（最多两条）会被导出为
 源码、公式、训练commit、receipt与trajectory哈希绑定的便携组合。4090的两个原始训练
 commit工作树和双流持久执行器已预置，组合到达后从4090共同e0分别重训真实e200；不搬运
 checkpoint，不跨主机混算delta。5090上strict、near或有独立证据的alternate仍各自保留

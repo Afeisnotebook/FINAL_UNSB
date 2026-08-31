@@ -62,10 +62,12 @@
   两条由终点证据授权的合成、机制消融或一次数学修订，规则冻结在
   `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
 - 该原则现已落实到跨宿主执行：5090上的两条修复父算法及其合格消融不会因小幅分差
-  只留一条；最多两条完整e200 strict/near算法可通过公式、源码、training commit和
+  只留一条；最多两条完整e200 strict/near/evidence-backed alternate算法可通过公式、
+  源码、training commit和
   terminal哈希绑定的便携组合进入4090，从该机共同e0并行重训。跨主机checkpoint不迁移、
-  delta不合并。实现与部署见
-  `evidence/remote_route1_offload/REPAIRED_PORTFOLIO_CROSS_HOST_ARMED_20260831.json`。
+  delta不合并。alternate必须late-three或e200仍正；两者均非正的当前算子仍关闭。这一
+  分配扩展不放松最终严格门或G3父项条件。实现与三段持久链部署见
+  `evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
 - 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和
   residual-feasible Adam屏障，预实现提交为`12468d1`，没有父项receipt和target-blind
   兼容门就不能长训。用户要求保留多个证据充分的算法后，又增加了严格条件式G3-03：

@@ -1,0 +1,87 @@
+{
+  "schema": "final-unsb-route1-evidence-backed-alternate-relay-redeployment-v1",
+  "recorded_at": "2026-08-31T12:45:00+08:00",
+  "status": "ALTERNATE_CAPABLE_THREE_STAGE_PORTABLE_REPLAY_CHAIN_ARMED",
+  "reason": "Preserve the evidence-qualified long-horizon frontier when e200 score gaps are small; the canonical candidate remains an action priority and is not a scientific pruning rule.",
+  "policy": {
+    "eligible_classifications": [
+      "strict_sustained",
+      "causally_repairable_near_boundary_pending_target_blind_audit",
+      "evidence_backed_alternate"
+    ],
+    "evidence_backed_alternate_definition": "A complete valid e200 operator whose late-three macro PSNR delta or e200 macro PSNR delta is positive, but which does not satisfy the strict or near-boundary gate.",
+    "excluded_classification": "closed_current_operator",
+    "excluded_definition": "Both late-three and e200 macro PSNR deltas are nonpositive for the current valid operator.",
+    "maximum_remote4090_replays": 2,
+    "eligible_repair_candidate_ids": [
+      "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
+      "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER"
+    ],
+    "final_strict_gate_relaxed": false,
+    "generation3_parent_gate_relaxed": false,
+    "canonical_candidate_is_action_priority_only": true
+  },
+  "implementation": {
+    "git_commit": "ab4855e71d595e815a1715334f133198c3601a6d",
+    "tests_passed": 307,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "remote5090_export": {
+    "worktree": "/root/autodl-tmp/FINAL_UNSB_REPAIRED_REPLAY_EXPORT_ab4855e",
+    "supervisor": "screen:FINAL_UNSB_REPAIRED_REPLAY_EXPORT_ab4855e",
+    "state": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+    "contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/REPAIRED_REPLAY_EXPORT_SUCCESSOR_CONTRACT_ab4855e.json",
+    "contract_sha256": "5b3352202ae289f4061086c51cfdd29cfe801a18e327e57cb8d444c35f50c2a7",
+    "retired_supervisor": "screen:FINAL_UNSB_REPAIRED_REPLAY_EXPORT_7a66246",
+    "retired_state_sha256": "e4fededf3407b4a078b48d41e84f64fa985e9b9bf1ef96ca6b7091637500979d"
+  },
+  "local_atomic_relay": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_RELAY_ab4855e",
+    "process_id_at_deployment": 16248,
+    "state": "WAITING_FOR_COMPLETE_5090_PORTABLE_AUTHORITY",
+    "contract_sha256": "98d76e42fe5c064e7eff6a4f2b6da892a5bfd86eb6a4f63f5f32a7f18d2a6a1e",
+    "credentials_persisted": false,
+    "retired_process_id": 12956,
+    "retired_state_sha256": "162a116b5c1d629259651c826915d957160101c464dc92e929a4150afe0b1991"
+  },
+  "remote4090_replay": {
+    "worktree": "/home/yc/FINAL_UNSB_REPAIRED_PORTFOLIO_CONTROL_ab4855e",
+    "supervisor": "tmux:FINAL_UNSB_REPAIRED_PORTFOLIO_ab4855e",
+    "state": "WAITING_FOR_PORTABLE_REPAIRED_E200_AUTHORITY",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/REPAIRED_PORTFOLIO_4090_SUCCESSOR_CONTRACT_ab4855e.json",
+    "contract_sha256": "5df91492da4437b0c84b9ac886e73fa9148ccd126278ff75828befd69f7fdc9b",
+    "retired_supervisor": "tmux:FINAL_UNSB_REPAIRED_PORTFOLIO_2c21ea2",
+    "retired_state_sha256": "8fe34aa2dff805157f5457b2df9d717c1e9b8768e96a97747ed48dc8bd386d8a"
+  },
+  "generation3": {
+    "adam_geometry_supervisor": "tmux:FINAL_UNSB_RESIDUAL_SYNTHESIS_733645e",
+    "euclidean_geometry_supervisor": "tmux:FINAL_UNSB_RESIDUAL_EUCLIDEAN_733645e",
+    "status": "WAITING_FOR_REPAIRED_4090_PORTFOLIO_E200",
+    "strict_parent_receipts_required": true,
+    "target_blind_compatibility_required": true,
+    "alternate_replay_policy_changes_generation3_eligibility": false
+  },
+  "runtime_observation": {
+    "recorded_at": "2026-08-31T12:45:00+08:00",
+    "remote5090_rfammcrb_data_epoch": 101,
+    "remote5090_rfmcrb_data_epoch": 110,
+    "target_data_epoch": 200,
+    "remote5090_gpu_utilization_percent": 98,
+    "remote5090_combined_gpu_memory_mib": 6706,
+    "remote4090_gpu_utilization_percent_while_waiting": 0
+  },
+  "replacement_boundary": {
+    "portable_authority_existed_before_replacement": false,
+    "destination_candidate_training_started_before_replacement": false,
+    "scientific_trajectory_loss": false,
+    "gpu_compute_loss": false
+  },
+  "scientific_boundaries": {
+    "cross_host_checkpoint_transfer": false,
+    "cross_host_delta_merge": false,
+    "intermediate_paired_metric_routing": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}

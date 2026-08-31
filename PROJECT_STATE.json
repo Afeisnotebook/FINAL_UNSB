@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T12:00:00+08:00",
-  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_MULTI_PARENT_AND_TWO_SYNTHESIS_GEOMETRIES_ARMED",
+  "state_snapshot_time": "2026-08-31T12:45:00+08:00",
+  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_ALTERNATE_CAPABLE_REPLAY_AND_TWO_SYNTHESIS_GEOMETRIES_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "733645e",
+  "development_head_at_state_write": "ab4855e71d595e815a1715334f133198c3601a6d",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -148,7 +148,7 @@
     ,"RF-AMMCRB and RF-MCRB passed their source-bound 5090 GPU gates and started independent common-e0 batch1 seed2026 e200 trajectories"
     ,"a durable multi-parent follow-up successor preserves every strict, near-boundary or evidence-backed alternate repaired operator for its own proposal-only and observable-only e200 streams; the canonical id remains action priority rather than scientific exclusivity"
     ,"the extended repaired frontier ranks every completed full and proposal-only operator with strict qualification first while observable-only remains an exact-dynamics negative control"
-    ,"a portable repaired replay portfolio preserves up to two complete-e200 strict/near algorithms by derivation, implementation, training-commit, receipt and trajectory hashes; destination runs restart from the 4090 common e0 and never import source checkpoints"
+    ,"a portable repaired replay portfolio preserves up to two complete-e200 strict, near-boundary or evidence-backed alternate algorithms by derivation, implementation, training-commit, receipt and trajectory hashes; destination runs restart from the 4090 common e0 and never import source checkpoints"
     ,"the 4090 repaired portfolio successor runs up to two source-identical algorithms in parallel, while canonical candidate naming remains an action priority rather than an exclusivity rule"
     ,"the fixed-absolute-margin G3-01 synthesis is hard-superseded and cannot be materialized by a later result"
     ,"G3-02 conditionally composes one strict same-host sampling parent with strict RF-AMMCRB using represented-residual feasibility; it remains unauthorized until both e200 receipts and the target-blind compatibility gate pass"
@@ -156,6 +156,8 @@
     ,"G3-03 conditionally composes the strict same-host sampling parent with strict RF-MCRB in residual-feasible Euclidean geometry; it is a distinct closest-feasible constraint geometry rather than a strength grid point"
     ,"G3-02 and G3-03 have source-bound 4090 durable successors at 733645e; both require their own strict parent and target-blind compatibility gate, while G3-03 waits for G3-02 to freeze the shared ledger"
     ,"the pre-run G3-02 waiter at b164df8 was retired before derivation or training because its disabled unbound-mixin dispatch would fail zero-intervention; no scientific trajectory or GPU compute was lost"
+    ,"evidence-backed alternates with complete valid e200 and positive late-three or positive e200 may consume one of the two cross-runtime repair replay slots; operators nonpositive on both remain closed"
+    ,"the 5090 exporter, local atomic relay and 4090 replay executor were all redeployed at ab4855e before portable authority or destination training existed; G3 strict-parent eligibility is unchanged"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -592,6 +594,34 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_1245": {
+      "rfammcrb_latest_observed_data_epoch": 101,
+      "rfmcrb_latest_observed_data_epoch": 110,
+      "target_data_epoch": 200,
+      "remote5090_gpu_utilization_percent": 98,
+      "remote5090_combined_gpu_memory_mib": 6706,
+      "intermediate_paired_metrics_read_or_used_for_routing": false,
+      "portable_replay_eligible_classifications": [
+        "strict_sustained",
+        "causally_repairable_near_boundary_pending_target_blind_audit",
+        "evidence_backed_alternate"
+      ],
+      "closed_current_operator_eligible_for_replay": false,
+      "maximum_same_host_4090_replays": 2,
+      "alternate_capable_relay_commit": "ab4855e71d595e815a1715334f133198c3601a6d",
+      "remote5090_export_successor": "screen:FINAL_UNSB_REPAIRED_REPLAY_EXPORT_ab4855e",
+      "remote5090_export_status": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+      "local_atomic_relay_process_id": 16248,
+      "local_atomic_relay_status": "WAITING_FOR_COMPLETE_5090_PORTABLE_AUTHORITY",
+      "remote4090_replay_successor": "tmux:FINAL_UNSB_REPAIRED_PORTFOLIO_ab4855e",
+      "remote4090_replay_status": "WAITING_FOR_PORTABLE_REPAIRED_E200_AUTHORITY",
+      "generation3_strict_parent_gate_relaxed": false,
+      "canonical_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+      "algorithm_discovery_collapsed_to_single_candidate": false,
+      "evidence": "evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -724,6 +754,15 @@
       "second_wave_parent_ablation_successor_evidence": "evidence/remote_route1_offload/SECOND_WAVE_PARENT_ABLATION_SUCCESSOR_ARMED_20260831.json",
       "maximum_second_wave_e200_trajectories": 2,
       "unique_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+      "alternate_capable_portable_replay_commit": "ab4855e71d595e815a1715334f133198c3601a6d",
+      "alternate_capable_portable_replay_status": "THREE_STAGE_CHAIN_ARMED_WAITING_FOR_COMPLETE_REPAIRED_E200",
+      "portable_replay_eligible_classifications": [
+        "strict_sustained",
+        "causally_repairable_near_boundary_pending_target_blind_audit",
+        "evidence_backed_alternate"
+      ],
+      "portable_replay_excludes_closed_current_operator": true,
+      "alternate_capable_portable_replay_evidence": "evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json",
       "matched_plain_lpips_recovery_status": "COMPLETE_E100_E125_E150_E175_ACCEPTED",
       "matched_plain_lpips_recovery_commit": "ff3d58b985b031b1328ca526c7c2ed76cd11a082",
       "matched_plain_lpips_admission_guard_commit": "c5c0cd6",
@@ -734,5 +773,5 @@
     },
     "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING"
   },
-  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Preserve every strict, causally repairable near-boundary or independently evidenced repaired parent and its source-bound proposal/observable streams. Up to two complete repairs replay from the 4090 common e0. G3-02 may run only if the strict sampling and RF-AMMCRB parents plus the target-blind compatibility gate pass; G3-03 independently requires strict sampling and RF-MCRB plus the same gate, and waits for G3-02's shared-ledger freeze before materializing. Preserve both parent algorithms and both constraint geometries; canonical candidate naming remains action priority only. Old G3-01 must never run, and seeds 2027/2028 remain deferred."
+  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Preserve every strict, causally repairable near-boundary or evidence-backed alternate repaired parent and its source-bound proposal/observable streams. Up to two complete valid repairs in those classes replay from the 4090 common e0; a current operator with both late-three and e200 nonpositive remains excluded. G3-02 may run only if the strict sampling and RF-AMMCRB parents plus the target-blind compatibility gate pass; G3-03 independently requires strict sampling and RF-MCRB plus the same gate, and waits for G3-02's shared-ledger freeze before materializing. Preserve both parent algorithms and both constraint geometries; canonical candidate naming remains action priority only. Old G3-01 must never run, and seeds 2027/2028 remain deferred."
 }
