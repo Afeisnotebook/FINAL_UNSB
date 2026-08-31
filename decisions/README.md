@@ -25,8 +25,10 @@ authorize compute.
    两个备选、完整前沿和主候选自身三项e200消融都必须保留。
 6. `DEC-20260831-WINNER-ABLATION-SCIENTIFIC-GATE-FIRST.md`：严格通过者优先于数值更高
    但长期门失败的fallback；当前PC-RSMG proposal-only因此优先于full。
-7. `DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md`：只有两个独立机制均严格
-   通过时，才允许一个最多两组件的Generation-3合成。
+7. `DEC-20260831-ROUTE1-CONDITIONAL-GENERATION3-SYNTHESIS.md`已因旧AM-MCRB固定绝对
+   余量事故标为`SUPERSEDED_DO_NOT_RUN`；替代文件
+   `DEC-20260831-RESIDUAL-FEASIBLE-CONDITIONAL-SYNTHESIS.md`要求两个同宿主严格父项、
+   residual-feasible屏障与target-blind兼容门，才允许一个最多两组件的Generation-3合成。
 8. `DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`：canonical主候选
    只是行动接口；严格通过和因果可修复近边界机制继续组成受限可信前沿。
 9. `DEC-20260831-5090-MATCHED-PLAIN-LPIPS-RECOVERY.md`：晚期plain LPIPS缺失属于工程

@@ -51,9 +51,10 @@
   一致。按严格资格优先规则，proposal-only是当前seed2026开发主候选。
 - 用户随后启用紧急单seed开发协议：完整seed2026/e200用于冻结开发候选，seed2027/2028
   延期，释放算力优先做赢家消融、全负缺陷后的唯一数学修订和新的独立机制；这不构成
-  跨seed稳定性证明。5090现正从共同e0并行运行PCNR与AM-MCRB到真实e200；只有完整
-  terminal receipt可触发宿主内排名和最多一条4090复跑。若独立采样与Adam-metric
-  covariance barrier都严格通过，预注册门最多允许一个两组件合成。相应后继链仍为
+  跨seed稳定性证明。5090的PCNR与旧AM-MCRB已完成，后者因固定绝对余量事故只作
+  implementation-invalid诊断；当前从共同e0并行运行RF-AMMCRB与RF-MCRB到真实e200。
+  只有完整terminal receipt可触发宿主内排名和最多两条4090复跑。若独立条件采样与
+  RF-AMMCRB都在同宿主严格通过，兼容门最多允许一个两组件合成。相应后继链仍为
   独立持久进程，不依赖Codex会话。最新epoch、哈希和后继commit只从
   `PROJECT_STATE.json`读取。
 - 一个canonical主候选只是后续行动接口，不是研究剪枝原则。严格通过或具有单一
@@ -65,6 +66,9 @@
   terminal哈希绑定的便携组合进入4090，从该机共同e0并行重训。跨主机checkpoint不迁移、
   delta不合并。实现与部署见
   `evidence/remote_route1_offload/REPAIRED_PORTFOLIO_CROSS_HOST_ARMED_20260831.json`。
+- 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和
+  residual-feasible Adam屏障，预实现提交为`12468d1`，没有父项receipt和target-blind
+  兼容门就不能长训。
 
 ## 1. 原始问题
 

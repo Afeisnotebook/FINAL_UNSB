@@ -2,6 +2,21 @@
 
 ## 当前状态（2026-08-31）
 
+### 10:50 修复后双机制合成已预实现，但未获长训授权
+
+5090上的RF-AMMCRB与RF-MCRB已通过e40固定里程碑并进入e45；两个batch1流合计约
+6.7GB显存、GPU持续高负载，当前无fatal或非空顶层stderr。中途paired分数没有被读取或
+用于路由。
+
+旧`G3-01`仍调用已确认存在固定绝对余量语义事故的AM-MCRB，现已在main上硬性标为
+`SUPERSEDED_DO_NOT_RUN`。新身份
+`G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER`已预实现：只允许一个
+同宿主严格通过的条件采样父项与严格通过的RF-AMMCRB组合，并使用实际parameter-dtype
+residual与relative-ULP refinement。它还必须通过e20/e100/e200、1/8/32-step的
+target-blind组件兼容门；当前只是计算就绪，不构成长训授权，也不替代任何独立父算法。
+实现提交为`12468d1`，决策见
+`decisions/DEC-20260831-RESIDUAL-FEASIBLE-CONDITIONAL-SYNTHESIS.md`。
+
 ### 10:30 双算法跨宿主复验链已武装
 
 “唯一候选”现在只表示下一步行动优先级，不表示只保留一个算法。5090继续同时运行

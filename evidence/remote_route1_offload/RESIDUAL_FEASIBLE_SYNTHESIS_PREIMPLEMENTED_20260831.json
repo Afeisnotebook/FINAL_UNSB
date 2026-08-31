@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-route1-residual-feasible-synthesis-preimplementation-v1",
+  "recorded_at": "2026-08-31T10:50:00+08:00",
+  "preimplementation_commit": "12468d1",
+  "old_candidate_id": "G3-01-CONDITIONAL-SAMPLING-ADAM-BARRIER",
+  "old_candidate_status": "SUPERSEDED_DO_NOT_RUN_FIXED_ABSOLUTE_MARGIN_INCIDENT",
+  "replacement_candidate_id": "G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER",
+  "replacement_status": "PREIMPLEMENTED_NOT_AUTHORIZED_FOR_LONG_RUN",
+  "required_parent_roles": [
+    "strict_same_host_conditional_sampling_e200",
+    "strict_same_host_RF_AMMCRB_e200"
+  ],
+  "allowed_sampling_parent_candidate_ids": [
+    "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+    "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
+  ],
+  "required_barrier_parent_candidate_id": "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
+  "compatibility_gate": {
+    "data_epochs": [20, 100, 200],
+    "branch_updates": [1, 8, 32],
+    "minimum_component_correction_cosine": -0.2,
+    "represented_directional_derivative_must_be_nonpositive": true,
+    "parent_full_state_hash_must_be_preserved": true
+  },
+  "algorithm_properties": {
+    "fixed_window": false,
+    "paired_threshold": false,
+    "absolute_projection_margin": 0.0,
+    "represented_residual_refinement": true,
+    "relative_parameter_dtype_ulp_only": true,
+    "disabled_plain_identity": true
+  },
+  "long_run_started": false,
+  "current_5090_full_repairs_continue_unchanged": true,
+  "current_4090_replay_waiter_continue_unchanged": true,
+  "algorithm_discovery_collapsed_to_single_candidate": false,
+  "canonical_candidate_is_action_priority_only": true,
+  "paired_metric_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "verification": {
+    "pytest_passed": 292,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  }
+}
