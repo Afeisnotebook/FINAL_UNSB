@@ -141,6 +141,58 @@ def test_mechanism_evidence_is_bound_to_selected_algorithm_family(tmp_path: Path
         delivery._mechanism_evidence(tmp_path, "UNKNOWN", frontier, portable)
 
 
+def test_historical_evidence_binds_probes_causal_matrix_and_ledger(tmp_path: Path):
+    _write(tmp_path / "evidence" / "ANCHOR_TRAJECTORIES.json", {
+        "schema": "local-route1-anchor-summary-v1",
+        "time_unit": "data_epoch",
+        "summaries": [
+            {"probe_id": probe, "complete_e200": True, "trajectory": []}
+            for probe in ("dt", "hj", "hnek")
+        ],
+        "confirmation20_opened": False,
+    })
+    _write(tmp_path / "evidence" / "PROXY_CALIBRATION.json", {
+        "schema": "local-route1-proxy-calibration-v1",
+        "status": "CALIBRATED",
+        "passing_probes": ["hj"],
+        "confirmation20_opened": False,
+    })
+    _write(tmp_path / "audit" / "LONG_CAUSAL_MATRIX.json", {
+        "schema": "final-unsb-local-route1-causal-matrix-v1",
+        "status": "COMPLETE_CAUSAL_AUDIT",
+        "expected_rows": 2,
+        "expected_sampling_variance_rows": 1,
+        "missing_rows": [],
+        "missing_sampling_variance_rows": [],
+        "rows": [{}, {}],
+        "sampling_variance_rows": [{}],
+        "probe_summaries": {"hj": {}},
+        "ranked_failure_mechanisms": [],
+        "target_blind_signal_screen": {},
+        "paired_labels_joined_only_after_branches": True,
+        "paired_metrics_accessed_by_controller": False,
+        "confirmation20_opened": False,
+    })
+    _write(tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl", "{}\n{}\n")
+    _write(tmp_path / "derive" / "HYPOTHESIS_LEDGER.json", {
+        "schema": "final-unsb-route1-hypothesis-ledger-v1",
+        "records": [{"candidate_id": "NEW", "generation": 1, "status": "FROZEN"}],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    value = delivery._historical_evidence(tmp_path.resolve())
+    assert value["long_causal_matrix_summary"]["reversal_rows"] == 2
+    assert value["long_causal_matrix_summary"]["sampling_variance_rows"] == 1
+    assert {
+        row["probe_id"]
+        for row in value["dt_hj_hnek_anchor_trajectories"]["summaries"]
+    } == {"dt", "hj", "hnek"}
+    assert value["hypothesis_ledger_summary"][0]["candidate_id"] == "NEW"
+    assert value["artifact_refs"]["long_reversal_atlas"]["sha256"] == file_sha256(
+        tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl"
+    )
+
+
 def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     monkeypatch, tmp_path: Path,
 ):
@@ -203,6 +255,9 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     monkeypatch.setattr(delivery, "_mechanism_evidence", lambda *_args: {"kind": "test"})
     monkeypatch.setattr(delivery, "_executor_contract", lambda *_args: (executor_path, executor))
     monkeypatch.setattr(delivery, "_median_epoch_seconds", lambda *_args: 1.0)
+    monkeypatch.setattr(delivery, "_historical_evidence", lambda *_args: {
+        "status": "COMPLETE_LONG_HORIZON_PROBE_CAUSAL_AND_DERIVATION_EVIDENCE",
+    })
 
     pointer = delivery.materialize_complete_frontier_final_delivery(tmp_path)
     research = json.loads((final / "RESEARCH_FRONTIER.json").read_text(encoding="utf-8"))

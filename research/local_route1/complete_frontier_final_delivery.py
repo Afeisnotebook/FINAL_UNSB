@@ -45,6 +45,7 @@ RFMCRB = "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER"
 G3_ADAM = "G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER"
 G3_EUCLIDEAN = "G3-03-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-EUCLIDEAN-BARRIER"
 G3_BARRIER = {G3_ADAM: RFAMMCRB, G3_EUCLIDEAN: RFMCRB}
+HISTORICAL_PROBES = {"dt", "hj", "hnek"}
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -223,6 +224,106 @@ def _archive_pre_complete(final: Path, operations: Path) -> dict[str, str]:
     return hashes
 
 
+def _historical_evidence(output_root: Path) -> dict[str, Any]:
+    """Bind the probe, causal and hypothesis evidence behind the frontier."""
+
+    paths = {
+        "anchor_trajectories": output_root / "evidence" / "ANCHOR_TRAJECTORIES.json",
+        "proxy_calibration": output_root / "evidence" / "PROXY_CALIBRATION.json",
+        "long_causal_matrix": output_root / "audit" / "LONG_CAUSAL_MATRIX.json",
+        "long_reversal_atlas": output_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl",
+        "hypothesis_ledger": output_root / "derive" / "HYPOTHESIS_LEDGER.json",
+    }
+    if any(not path.is_file() or not path.resolve().is_relative_to(output_root)
+           for path in paths.values()):
+        raise RuntimeError("complete frontier historical evidence is incomplete")
+    anchors = _read_json(paths["anchor_trajectories"])
+    proxy = _read_json(paths["proxy_calibration"])
+    matrix = _read_json(paths["long_causal_matrix"])
+    ledger = _read_json(paths["hypothesis_ledger"])
+    summaries = anchors.get("summaries")
+    if (
+        anchors.get("schema") != "local-route1-anchor-summary-v1"
+        or anchors.get("time_unit") != "data_epoch"
+        or anchors.get("confirmation20_opened") is not False
+        or not isinstance(summaries, list)
+        or {str(row.get("probe_id", "")) for row in summaries} != HISTORICAL_PROBES
+        or any(row.get("complete_e200") is not True for row in summaries)
+    ):
+        raise RuntimeError("DT/HJ/HNEK complete-e200 anchor evidence changed")
+    if (
+        proxy.get("schema") != "local-route1-proxy-calibration-v1"
+        or proxy.get("status") != "CALIBRATED"
+        or not set(proxy.get("passing_probes", [])).intersection({"hj", "hnek"})
+        or proxy.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("complete frontier proxy is not calibrated")
+    expected = int(matrix.get("expected_rows", -1))
+    expected_variance = int(matrix.get("expected_sampling_variance_rows", -1))
+    atlas_lines = sum(
+        1 for line in paths["long_reversal_atlas"].read_text(
+            encoding="utf-8",
+        ).splitlines() if line.strip()
+    )
+    if (
+        matrix.get("schema") != "final-unsb-local-route1-causal-matrix-v1"
+        or matrix.get("status") != "COMPLETE_CAUSAL_AUDIT"
+        or matrix.get("missing_rows") != []
+        or matrix.get("missing_sampling_variance_rows") != []
+        or len(matrix.get("rows", [])) != expected
+        or len(matrix.get("sampling_variance_rows", [])) != expected_variance
+        or atlas_lines != expected
+        or matrix.get("paired_labels_joined_only_after_branches") is not True
+        or matrix.get("paired_metrics_accessed_by_controller") is not False
+        or matrix.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("complete frontier causal matrix/atlas is incomplete")
+    records = ledger.get("records")
+    if (
+        ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1"
+        or ledger.get("paired_controller_access") is not False
+        or ledger.get("confirmation20_opened") is not False
+        or not isinstance(records, list)
+        or not records
+    ):
+        raise RuntimeError("complete frontier hypothesis ledger is incomplete")
+    record_summary = [{
+        key: row.get(key) for key in (
+            "candidate_id", "generation", "parent_candidate_id",
+            "construction_route", "status", "revision_count",
+            "engineering_replacement",
+        ) if key in row
+    } for row in records]
+    artifact_refs = {
+        key: {
+            "path": path.relative_to(output_root).as_posix(),
+            "sha256": file_sha256(path),
+        }
+        for key, path in paths.items()
+    }
+    return {
+        "status": "COMPLETE_LONG_HORIZON_PROBE_CAUSAL_AND_DERIVATION_EVIDENCE",
+        "dt_hj_hnek_anchor_trajectories": anchors,
+        "proxy_calibration": proxy,
+        "long_causal_matrix_summary": {
+            "schema": matrix["schema"],
+            "status": matrix["status"],
+            "analysis_identity": matrix.get("analysis_identity"),
+            "reversal_rows": expected,
+            "sampling_variance_rows": expected_variance,
+            "probe_summaries": matrix.get("probe_summaries"),
+            "ranked_failure_mechanisms": matrix.get("ranked_failure_mechanisms"),
+            "target_blind_signal_screen": matrix.get("target_blind_signal_screen"),
+            "paired_labels_joined_only_after_branches": True,
+            "paired_metrics_accessed_by_controller": False,
+        },
+        "hypothesis_ledger_summary": record_summary,
+        "artifact_refs": artifact_refs,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+
+
 def _research_frontier(
     frontier: dict[str, Any], portable: dict[str, Any], selected_id: str,
 ) -> dict[str, Any]:
@@ -335,6 +436,7 @@ def _report(candidate: dict[str, Any], alternates: dict[str, Any], results: dict
         "- 4090完整前沿只在该宿主内matched排名。",
         "- 5090完整full/proposal/observable前沿作为宿主分离的机理证据，不合并delta。",
         "- paired指标只在完整e200后排名；未用于公式、训练控制、退出或checkpoint选择。",
+        "- DT/HJ/HNEK长期锚点、474/140因果图谱与完整假设谱系均写入主结果，而非只留在旧归档。",
         "- seed2027/2028、一万张全量数据、confirmation20和论文级外推尚未验证。",
         "",
         "## 完整轨迹与复现",
@@ -398,6 +500,7 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         output_root, selected_id, frontier, portable,
     )
     executor_path, executor = _executor_contract(output_root, receipt)
+    historical_evidence = _historical_evidence(output_root)
     archived = _archive_pre_complete(final, operations)
 
     alternate_rows = []
@@ -426,6 +529,9 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "confirmation20_opened": False,
     }
     research_frontier = _research_frontier(frontier, portable, selected_id)
+    research_frontier["historical_probe_causal_and_derivation_evidence"] = (
+        historical_evidence
+    )
     conclusion_boundaries = {
         "scientific_conclusion": (
             "The selected operator is the current action priority under the complete "
@@ -544,6 +650,7 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "selected_trajectory": trajectory,
         "selected_absolute_relative_domain_trajectory": domain_trajectory,
         "selected_mechanism_evidence": mechanism_evidence,
+        "historical_probe_causal_and_derivation_evidence": historical_evidence,
         "conclusion_boundaries": conclusion_boundaries,
         "pre_complete_frontier_delivery": {"archived_file_sha256": archived},
         "host_separated_complete_frontier": {
