@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-route1-related-actionable-final-chain-redeployment-v1",
+  "status": "ACTIONABLE_MULTI_ALGORITHM_FINAL_CHAIN_ARMED_BEFORE_TERMINAL_INPUTS",
+  "git_commit": "ee02d4fd5239590d07c762f2f97bdba96cfe88d2",
+  "remote4090_final_successor": {
+    "state": "WAITING_FOR_ALL_RELATED_E200_RESULTS",
+    "pid_at_health_check": 1661015,
+    "terminal_pointer_present_at_redeployment": false
+  },
+  "local_related_relay": {
+    "state": "WAITING_FOR_REMOTE4090_RELATED_FINAL_POINTER",
+    "pid_at_health_check": 16140
+  },
+  "local_goal_audit": {
+    "state": "WAITING_FOR_BOTH_LOCAL_FINAL_DELIVERIES",
+    "pid_at_health_check": 4480,
+    "frozen_git_commit": "ee02d4fd5239590d07c762f2f97bdba96cfe88d2"
+  },
+  "published_files": [
+    "ALGORITHM_SET.json",
+    "ACTION_PRIORITY.json",
+    "CANDIDATE.json",
+    "ALTERNATES.json",
+    "RELATED_RESULTS.json",
+    "RELATED_FINAL_REPORT.md"
+  ],
+  "action_candidate_matches_action_priority_required": true,
+  "exactly_two_ranked_alternates_required": true,
+  "all_algorithm_members_require_frozen_e200_executor_contract": true,
+  "risk_complexity_and_reproduction_required": true,
+  "training_process_restarted": false,
+  "checkpoint_transfer": false,
+  "formula_changed": false,
+  "ranking_changed": false,
+  "cross_host_deltas_merged": false,
+  "cross_seed_stability_claimed": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "test_status": "368_PASSED"
+}
