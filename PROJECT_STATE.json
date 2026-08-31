@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T12:55:00+08:00",
-  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_ALTERNATE_CAPABLE_REPLAY_AND_TWO_SYNTHESIS_GEOMETRIES_ARMED",
+  "state_snapshot_time": "2026-08-31T13:16:50+08:00",
+  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_COMPLETE_4090_FRONTIER_TERMINAL_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "1673f6a1eedec8f908c3395da0dfa6d773658980",
+  "development_head_at_state_write": "757eb2db37247cf7df19ed3addf1a420ab4e3504",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -159,6 +159,7 @@
     ,"evidence-backed alternates with complete valid e200 and positive late-three or positive e200 may consume one of the two cross-runtime repair replay slots; operators nonpositive on both remain closed"
     ,"the 5090 exporter, local atomic relay and 4090 replay executor were all redeployed at ab4855e before portable authority or destination training existed; G3 strict-parent eligibility is unchanged"
     ,"the upstream repaired-frontier successor was redeployed at 1673f6a before adjudication existed, so evidence-backed alternates are present in both the preserved frontier and the downstream 4090 replay queue"
+    ,"a complete 4090 frontier successor now waits for repaired replay plus both Generation-3 terminal outcomes and reranks the pre-frontier primary with every new same-host complete-e200 receipt"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -762,6 +763,13 @@
       "residual_feasible_euclidean_generation3_successor": "tmux:FINAL_UNSB_RESIDUAL_EUCLIDEAN_733645e",
       "residual_feasible_euclidean_generation3_requires_strict_rfmcrb_parent": true,
       "residual_feasible_euclidean_generation3_waits_for_g3_02_ledger_freeze": true,
+      "complete_4090_frontier_adjudication_commit": "757eb2db37247cf7df19ed3addf1a420ab4e3504",
+      "complete_4090_frontier_successor": "tmux:FINAL_UNSB_COMPLETE_FRONTIER_757eb2d",
+      "complete_4090_frontier_status": "WAITING_FOR_REPAIRED_AND_GENERATION3_TERMINAL_RESULTS",
+      "complete_4090_frontier_contract_sha256": "8bf0c24863465bf5fed210414de232ace8900eeea314607b23ca1406614863ac",
+      "complete_4090_frontier_evidence": "evidence/remote_route1_offload/COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED_20260831.json",
+      "complete_4090_frontier_preserves_pre_frontier_candidates": true,
+      "generation3_inapplicable_is_not_negative_trajectory": true,
       "frontier_advancement_classifier_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
       "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
       "frontier_advancement_successor_pid_at_deployment": 126899,
@@ -794,5 +802,5 @@
     },
     "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING"
   },
-  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Preserve every strict, causally repairable near-boundary or evidence-backed alternate repaired parent and its source-bound proposal/observable streams. Up to two complete valid repairs in those classes replay from the 4090 common e0; a current operator with both late-three and e200 nonpositive remains excluded. G3-02 may run only if the strict sampling and RF-AMMCRB parents plus the target-blind compatibility gate pass; G3-03 independently requires strict sampling and RF-MCRB plus the same gate, and waits for G3-02's shared-ledger freeze before materializing. Preserve both parent algorithms and both constraint geometries; canonical candidate naming remains action priority only. Old G3-01 must never run, and seeds 2027/2028 remain deferred."
+  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Preserve every strict, causally repairable near-boundary or evidence-backed alternate repaired parent and its source-bound proposal/observable streams. Up to two complete valid repairs in those classes replay from the 4090 common e0; a current operator with both late-three and e200 nonpositive remains excluded. G3-02 may run only if the strict sampling and RF-AMMCRB parents plus the target-blind compatibility gate pass; G3-03 independently requires strict sampling and RF-MCRB plus the same gate. After both G3 terminal outcomes, the complete 4090 frontier successor must rerank the old primary and every new same-host complete-e200 receipt before final delivery. Preserve both parent algorithms and both constraint geometries; canonical candidate naming remains action priority only. Old G3-01 must never run, and seeds 2027/2028 remain deferred."
 }

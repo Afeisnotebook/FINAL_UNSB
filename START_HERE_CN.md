@@ -2,6 +2,15 @@
 
 ## 当前状态（2026-08-31）
 
+### 13:16 新算法已能真正改写最终主项
+
+终局审计发现旧`final/`只认识PC-RSMG三角色时的前沿，不认识两条修复复赛和两种
+G3。新的完整4090前沿裁决已在`757eb2d`实现并以
+`tmux:FINAL_UNSB_COMPLETE_FRONTIER_757eb2d`持久部署。它等待修复portfolio和两个G3终点，
+然后把旧主项、旧完整候选、新父算法和新合成在同一4090 matched规则下重新排名。
+G3不适用时只记`inapplicable`，不冒充负实e200。远端3项定向测试通过，stderr为0。
+证据见`evidence/remote_route1_offload/COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED_20260831.json`。
+
 ### 12:45 证据备选也进入跨宿主复赛，不再只输出严格赢家
 
 用户提醒“多余的5090应推进多数值得继续思考的算法”后，跨宿主复赛资格已从

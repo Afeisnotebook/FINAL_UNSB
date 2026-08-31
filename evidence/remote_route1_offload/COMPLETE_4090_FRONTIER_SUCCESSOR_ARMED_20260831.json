@@ -1,0 +1,44 @@
+{
+  "schema": "final-unsb-route1-complete-4090-frontier-successor-deployment-v1",
+  "recorded_at": "2026-08-31T13:16:50+08:00",
+  "status": "COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED",
+  "git_commit": "757eb2db37247cf7df19ed3addf1a420ab4e3504",
+  "remote4090": {
+    "worktree": "/home/yc/FINAL_UNSB_COMPLETE_FRONTIER_757eb2d",
+    "supervisor": "tmux:FINAL_UNSB_COMPLETE_FRONTIER_757eb2d",
+    "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+    "state": "WAITING_FOR_REPAIRED_AND_GENERATION3_TERMINAL_RESULTS",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/COMPLETE_FRONTIER_4090_SUCCESSOR_CONTRACT_757eb2d.json",
+    "contract_sha256": "8bf0c24863465bf5fed210414de232ace8900eeea314607b23ca1406614863ac",
+    "stderr_bytes_at_acceptance": 0,
+    "targeted_tests_passed": 3
+  },
+  "required_terminal_inputs": [
+    "REPAIRED_PORTFOLIO_4090_RESULT.json",
+    "RESIDUAL_SYNTHESIS_4090_RESULT.json",
+    "RESIDUAL_EUCLIDEAN_SYNTHESIS_4090_RESULT.json"
+  ],
+  "ranking_scope": {
+    "pre_frontier_4090_candidates_retained": true,
+    "repaired_4090_replays_included": true,
+    "generation3_adam_geometry_included_if_run": true,
+    "generation3_euclidean_geometry_included_if_run": true,
+    "generation3_inapplicable_is_not_a_negative_trajectory": true,
+    "same_host_common_e0_required": true,
+    "canonical_candidate_is_action_priority_only": true
+  },
+  "runtime_observation": {
+    "remote5090_rfammcrb_data_epoch": 117,
+    "remote5090_rfmcrb_data_epoch": 127,
+    "target_data_epoch": 200,
+    "remote5090_gpu_utilization_percent": 97,
+    "remote5090_combined_gpu_memory_mib": 6712
+  },
+  "scientific_boundaries": {
+    "intermediate_paired_metric_routing": false,
+    "paired_controller_access": false,
+    "cross_host_deltas_merged": false,
+    "seed2027_2028_started": false,
+    "confirmation20_opened": false
+  }
+}
