@@ -23,7 +23,9 @@ def _write(path: Path, payload: dict | str) -> None:
 def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_path: Path):
     related = tmp_path / "related"
     family_ids = (audit.PROPOSAL, audit.HPCGR, audit.HJCGR)
-    member_ids = (*family_ids, audit.AMTNC, audit.HJPCNR)
+    member_ids = (
+        audit.HPCGR, audit.HJCGR, audit.PROPOSAL, audit.AMTNC, audit.HJPCNR,
+    )
     gain_source = {
         "schema": "final-unsb-route1-related-gain-source-decomposition-v1",
         "status": "SHARED_ESTIMATOR_IMPROVES_MULTIPLE_PARENT_FIELDS",
@@ -209,7 +211,9 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
         "strict_viable_candidate_ids": [audit.HPCGR, audit.HJCGR],
-        "positive_but_fragile_candidate_ids": [audit.PROPOSAL, audit.AMTNC],
+        "positive_but_fragile_candidate_ids": [
+            audit.PROPOSAL, audit.AMTNC, audit.HJPCNR,
+        ],
         "members": [
             {
                 "candidate_id": candidate_id,
@@ -260,6 +264,10 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         },
         "independent_mechanism_members": [
             {"candidate_id": audit.AMTNC, "mechanism": "independent"},
+        ],
+        "same_host_4090_ranking": [
+            {"rank": rank, "candidate_id": candidate_id}
+            for rank, candidate_id in enumerate(member_ids, start=1)
         ],
         "mechanism_gain_source_decomposition": gain_source,
         "cross_runtime_related_evidence": {
@@ -336,6 +344,9 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "schema": audit.RESULTS_SCHEMA,
         "status": "RELATED_MULTI_ALGORITHM_E200_COMPLETE",
         "mechanism_gain_source_decomposition": gain_source,
+        "composite_same_host_4090_ranking": algorithm_set[
+            "same_host_4090_ranking"
+        ],
         "cross_host_deltas_merged": False,
         "cross_seed_stability_claimed": False,
         "paired_controller_access": False,
@@ -390,6 +401,15 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     ] is True
     assert result["completion_claim_allowed"] is False
     assert set(result["source_delivery_sha256"]) == {POINTER, *PUBLISHED_FILES}
+
+    original_strict = list(algorithm_set["strict_viable_candidate_ids"])
+    algorithm_set["strict_viable_candidate_ids"] = [audit.HPCGR, audit.HJPCNR]
+    _write(related / "ALGORITHM_SET.json", algorithm_set)
+    with pytest.raises(
+        RuntimeError, match="strict viable list differs from member dispositions"
+    ):
+        audit.audit_related_goal_completion(tmp_path / "compatibility", related)
+    algorithm_set["strict_viable_candidate_ids"] = original_strict
 
     algorithm_set["mechanism_gain_source_decomposition"]["members"][0][
         "matched_compositional_increment_over_parent"

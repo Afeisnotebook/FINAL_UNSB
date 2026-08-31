@@ -562,6 +562,39 @@ def audit_related_goal_completion(
     _require(set(strict).issubset(ids), "strict viable algorithm is absent from members")
     _require(set(fragile).issubset(ids), "fragile algorithm is absent from members")
     _require(set(alternate_ids).issubset(ids), "alternate is absent from algorithm set")
+    strict_from_members = [
+        str(member["candidate_id"]) for member in members
+        if member.get("disposition") == "strict_viable_algorithm"
+    ]
+    fragile_from_members = [
+        str(member["candidate_id"]) for member in members
+        if member.get("disposition") == "positive_but_fragile_algorithm"
+    ]
+    _require(
+        strict == strict_from_members,
+        "strict viable list differs from member dispositions",
+    )
+    _require(
+        fragile == fragile_from_members,
+        "fragile list differs from member dispositions",
+    )
+    ranking = algorithm_set.get("same_host_4090_ranking")
+    _require(isinstance(ranking, list) and bool(ranking), "same-host ranking is absent")
+    ranking_ids = [str(row.get("candidate_id", "")) for row in ranking]
+    _require(
+        ranking_ids == ids
+        and [int(row.get("rank", -1)) for row in ranking]
+        == list(range(1, len(ranking) + 1)),
+        "same-host ranking and algorithm members differ",
+    )
+    _require(
+        ranking_ids[0] == str(action.get("candidate_id", "")),
+        "action priority is not same-host rank one",
+    )
+    _require(
+        results.get("composite_same_host_4090_ranking") == ranking,
+        "related results and algorithm-set rankings differ",
+    )
     for member in members:
         if member.get("disposition") in (
             "strict_viable_algorithm", "positive_but_fragile_algorithm",
