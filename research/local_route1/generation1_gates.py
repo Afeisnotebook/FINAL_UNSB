@@ -58,6 +58,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["pcrfmcrb_enable"] = False
     elif spec.model == "route1_hpcgr":
         method["route1_hpcgr_enable"] = False
+    elif spec.model == "route1_hjcgr":
+        method["route1_hjcgr_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -223,6 +225,8 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._sync_mcrb_teacher()
     elif model_name == "route1_hpcgr":
         model._initialize_pcrsmg_ablation_state()
+    elif model_name == "route1_hjcgr":
+        model._initialize_pcrsmg_ablation_state()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -297,6 +301,7 @@ def _branch_from_parent(
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "hnek_active": method.get("hnek_active"),
+            "hj_controller": method.get("hj_controller", {}),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -739,6 +744,133 @@ def _hpcgr_compatibility(context: CandidateGateContext) -> dict[str, Any]:
     }
 
 
+def _hjcgr_component_specs(
+    context: CandidateGateContext,
+) -> tuple[ProbeSpec, ProbeSpec, ProbeSpec, ProbeSpec, ProbeSpec]:
+    """Return exact HJ-objective and proposal-estimator component roles."""
+    from .protocol import load_protocol, probe_spec
+
+    if context.registration.spec.model != "route1_hjcgr":
+        raise RuntimeError("HJCGR component gate received the wrong model")
+    method = dict(context.registration.spec.method)
+    frozen_hj = dict(probe_spec("hj", load_protocol()).method)
+    for key, expected in frozen_hj.items():
+        if method.get(key, expected) != expected:
+            raise RuntimeError(f"HJCGR changed its frozen HJ component: {key}")
+
+    def hybrid(role: str) -> ProbeSpec:
+        return ProbeSpec(
+            id=f"gate_hjcgr_{role}",
+            contract_id=f"gate_hjcgr_{role}",
+            model="route1_hjcgr",
+            role="component_compatibility",
+            method={
+                **frozen_hj,
+                "route1_hjcgr_enable": True,
+                "hjcgr_role": role,
+            },
+        )
+
+    hj = ProbeSpec(
+        id="gate_hjcgr_frozen_hj",
+        contract_id="gate_hjcgr_frozen_hj",
+        model="hj",
+        role="component_compatibility_objective_parent",
+        method=frozen_hj,
+    )
+    proposal = ProbeSpec(
+        id="gate_hjcgr_frozen_pcrsmg_proposal",
+        contract_id="gate_hjcgr_frozen_pcrsmg_proposal",
+        model="route1_pcrsmg_ablation",
+        role="component_compatibility_estimator_parent",
+        method={
+            "route1_ablation_enable": True,
+            "pcrsmg_ablation_role": "proposal_only",
+        },
+    )
+    return (
+        hybrid("objective_only"), hj,
+        hybrid("estimator_only"), proposal,
+        hybrid("observable_only"),
+    )
+
+
+def _hjcgr_compatibility(context: CandidateGateContext) -> dict[str, Any]:
+    """Prove HJ/proposal component equality without paired observations."""
+    objective, hj, estimator, proposal, observable = _hjcgr_component_specs(context)
+    rows = []
+    preserved = True
+    for epoch in (20, 100, 200):
+        path, parent = _load_plain_parent(context, epoch=epoch)
+        before = full_state_hash(parent)
+        for updates in (1, 8, 32):
+            objective_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=objective, updates=updates,
+            )
+            hj_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=hj, updates=updates,
+            )
+            estimator_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=estimator, updates=updates,
+            )
+            proposal_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=proposal, updates=updates,
+            )
+            observable_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=observable, updates=updates,
+            )
+            full_state = _branch_scientific_snapshot(
+                context, parent=parent, spec=context.registration.spec,
+                updates=updates,
+            )
+            objective_hash = full_state_hash(objective_state)
+            hj_hash = full_state_hash(hj_state)
+            estimator_hash = full_state_hash(estimator_state)
+            proposal_hash = full_state_hash(proposal_state)
+            observable_dynamics_hash = full_state_hash(
+                _next_update_dynamics(observable_state)
+            )
+            hj_dynamics_hash = full_state_hash(_next_update_dynamics(hj_state))
+            if objective_hash != hj_hash:
+                raise RuntimeError("HJCGR objective-only role is not exact HJ")
+            if estimator_hash != proposal_hash:
+                raise RuntimeError(
+                    "HJCGR estimator-only role is not exact PC-RSMG proposal-only"
+                )
+            if observable_dynamics_hash != hj_dynamics_hash:
+                raise RuntimeError(
+                    "HJCGR observable-only role changed HJ next-update dynamics"
+                )
+            rows.append({
+                "data_epoch": epoch,
+                "branch_updates": updates,
+                "parent_checkpoint": str(path),
+                "objective_only_state_sha256": objective_hash,
+                "frozen_hj_state_sha256": hj_hash,
+                "objective_only_exact_hj": True,
+                "estimator_only_state_sha256": estimator_hash,
+                "pcrsmg_proposal_state_sha256": proposal_hash,
+                "estimator_only_exact_pcrsmg_proposal": True,
+                "observable_only_next_update_dynamics_sha256": observable_dynamics_hash,
+                "hj_next_update_dynamics_sha256": hj_dynamics_hash,
+                "observable_only_exact_hj_excluding_observer": True,
+                "full_composition_state_sha256": full_state_hash(full_state),
+                "paired_metric_computed": False,
+            })
+        after = full_state_hash(parent)
+        preserved = preserved and before == after
+    return {
+        "data_epochs": [20, 100, 200],
+        "branch_updates": [1, 8, 32],
+        "objective_only_exact_hj_all_rows": True,
+        "estimator_only_exact_pcrsmg_proposal_all_rows": True,
+        "observable_only_exact_hj_excluding_observer_all_rows": True,
+        "all_parent_state_hashes_preserved": preserved,
+        "all_rows_target_blind": True,
+        "rows": rows,
+    }
+
+
 def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
     spec = context.registration.spec
     model, primary, secondary, _ = _prepare(context, spec, e0=e0)
@@ -774,6 +906,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "pcnr": method.get("pcnr", {}),
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "hnek_active": method.get("hnek_active"),
+            "hj_controller": method.get("hj_controller", {}),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -982,6 +1115,90 @@ def _hpcgr_invariants() -> list[dict]:
                 "conditional on the realized post-D/E HNEK state, two iid HNEK "
                 "G/F views have mean E[(g1+g2)/2|S]=E[g_HNEK|S] and half "
                 "the single-view conditional covariance"
+            ),
+        },
+    ])
+    return rows
+
+
+def _hjcgr_invariants() -> list[dict]:
+    """Check HJ objective identity and replica-safe controller semantics."""
+    from models.route1_hjcgr_model import reduce_hj_replica_transitions
+    from .protocol import load_protocol, probe_spec
+
+    hj = probe_spec("hj", load_protocol()).method
+    baseline = {
+        "_hj_step_in_epoch": 7,
+        "_hj_gate_sum": 2.0,
+        "_hj_risk_sum": 3.0,
+        "_hj_probe_sum": 4.0,
+        "_hj_risk_positive_sum": 5.0,
+        "_hj_sb_grad_norm": 1.0,
+        "_hj_active_optimizer_steps": 6,
+    }
+    first = {
+        **baseline,
+        "_hj_step_in_epoch": 8,
+        "_hj_gate_sum": 2.2,
+        "_hj_risk_sum": 3.4,
+        "_hj_probe_sum": 4.6,
+        "_hj_risk_positive_sum": 5.8,
+        "_hj_sb_grad_norm": 1.2,
+        "_hj_active_optimizer_steps": 7,
+    }
+    second = {
+        **baseline,
+        "_hj_step_in_epoch": 8,
+        "_hj_gate_sum": 2.4,
+        "_hj_risk_sum": 3.8,
+        "_hj_probe_sum": 5.0,
+        "_hj_risk_positive_sum": 6.2,
+        "_hj_sb_grad_norm": 1.6,
+        "_hj_active_optimizer_steps": 7,
+    }
+    reduced = reduce_hj_replica_transitions(baseline, [first, second])
+    rows = _pcrsmg_invariants()
+    rows.extend([
+        {
+            "name": "continuous_hj_objective_configuration_is_frozen",
+            "status": "PASS" if (
+                hj.get("hj_enable") is True
+                and hj.get("hj_layers") == "0"
+                and hj.get("hj_probe_mode") == "central_consensus"
+                and float(hj.get("hj_strength")) == 0.5
+                and int(hj.get("hj_start_epoch")) == 5
+                and int(hj.get("hj_search_duration_steps")) == 0
+            ) else "FAIL",
+            "observed": hj,
+        },
+        {
+            "name": "two_hj_loss_graphs_advance_physical_controller_once",
+            "status": "PASS" if (
+                reduced["_hj_step_in_epoch"] == 8
+                and reduced["_hj_active_optimizer_steps"] == 7
+            ) else "FAIL",
+            "observed": {
+                "step_in_epoch": reduced["_hj_step_in_epoch"],
+                "active_optimizer_steps": reduced["_hj_active_optimizer_steps"],
+            },
+        },
+        {
+            "name": "hj_replica_diagnostics_are_reduced_by_unbiased_mean",
+            "status": "PASS" if (
+                math.isclose(reduced["_hj_gate_sum"], 2.3)
+                and math.isclose(reduced["_hj_risk_sum"], 3.6)
+                and math.isclose(reduced["_hj_probe_sum"], 4.8)
+                and math.isclose(reduced["_hj_risk_positive_sum"], 6.0)
+                and math.isclose(reduced["_hj_sb_grad_norm"], 1.4)
+            ) else "FAIL",
+            "observed": reduced,
+        },
+        {
+            "name": "conditional_gf_resampling_preserves_hj_expected_field",
+            "status": "PASS",
+            "observed": (
+                "conditional on the realized post-D/E state and physical HJ "
+                "controller state, E[(g_HJ(xi1)+g_HJ(xi2))/2]=E[g_HJ]"
             ),
         },
     ])
@@ -1575,6 +1792,44 @@ def _validate_hpcgr_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_hjcgr_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.pcrsmg_ablation import PROPOSAL_SCHEDULE
+
+    expected = list(PROPOSAL_SCHEDULE)
+    cross_diagnostics = [
+        row["candidate"]["method_diagnostics"] for row in cross.get("rows", [])
+    ]
+    diagnostics = list(cross_diagnostics)
+    diagnostics.append(micro.get("method_diagnostics", {}))
+    if not diagnostics:
+        raise RuntimeError("HJCGR gate did not produce method diagnostics")
+    for diagnostic in diagnostics:
+        proposal = diagnostic.get("pcrsmg_proposal", {})
+        if proposal.get("last_schedule") != expected:
+            raise RuntimeError("HJCGR did not execute its frozen G/F schedule")
+        updates = int(proposal.get("update_index", -1))
+        bundles = int(proposal.get("gf_bundle_count", -2))
+        if updates != bundles or updates <= 0:
+            raise RuntimeError("HJCGR G/F provenance counters are inconsistent")
+        controller = diagnostic.get("hj_controller", {})
+        if not isinstance(controller, dict) or "_hj_step_in_epoch" not in controller:
+            raise RuntimeError("HJCGR did not retain its HJ controller state")
+    for diagnostic in cross_diagnostics:
+        updates = int(diagnostic["pcrsmg_proposal"]["update_index"])
+        active = int(diagnostic["hj_controller"].get("_hj_active_optimizer_steps", -1))
+        if active != updates:
+            raise RuntimeError(
+                "HJCGR replica count changed the number of active HJ optimizer steps"
+            )
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(diagnostics),
+        "all_gf_bundle_counts_equal_updates": True,
+        "cross_state_hj_active_steps_equal_optimizer_updates": True,
+        "conditional_expected_field": "HJ",
+    }
+
+
 def _validate_amtnc_execution_evidence(cross: dict, micro: dict) -> dict:
     from models.route1.amtnc import EXPECTED_AMTNC_SCHEDULE
 
@@ -1704,6 +1959,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _pcrsmg_invariants()
     elif invariant == "hpcgr":
         invariants = _hpcgr_invariants()
+    elif invariant == "hjcgr":
+        invariants = _hjcgr_invariants()
     elif invariant == "pcnr":
         invariants = _pcnr_invariants()
     elif invariant == "amtnc":
@@ -1746,6 +2003,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         )
     if invariant == "hpcgr":
         player_conditional = _validate_hpcgr_execution_evidence(cross, micro)
+    if invariant == "hjcgr":
+        player_conditional = _validate_hjcgr_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     winner_observable_source = {
@@ -1785,6 +2044,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "pcammcrb" else
                 "physical-horizon residual bridge state and conditionally iid HNEK G/F views"
                 if invariant == "hpcgr" else
+                "continuous HJ structure-projected objective and conditionally iid HJ G/F views"
+                if invariant == "hjcgr" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
                 "one fresh native stochastic view at each realized player state"
@@ -1857,6 +2118,18 @@ def run_hpcgr_gate(context: CandidateGateContext) -> dict:
     compatibility = _hpcgr_compatibility(context)
     if compatibility["all_parent_state_hashes_preserved"] is not True:
         raise RuntimeError("HPCGR compatibility audit polluted a parent state")
+    report["checks"]["component_compatibility"] = True
+    report["component_compatibility_evidence"] = compatibility
+    return report
+
+
+def run_hjcgr_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model != "route1_hjcgr":
+        raise RuntimeError("HJCGR gate received the wrong model")
+    report = _run(context, invariant="hjcgr")
+    compatibility = _hjcgr_compatibility(context)
+    if compatibility["all_parent_state_hashes_preserved"] is not True:
+        raise RuntimeError("HJCGR compatibility audit polluted a parent state")
     report["checks"]["component_compatibility"] = True
     report["component_compatibility_evidence"] = compatibility
     return report

@@ -693,6 +693,36 @@ def load_candidate_registration(
                 ) is not True
             ):
                 raise RuntimeError("HPCGR component compatibility evidence is invalid")
+        if implementation.get("model") == "route1_hjcgr":
+            evidence = gate.get("evidence", {})
+            player_evidence = evidence.get("player_conditional_execution_evidence")
+            if not isinstance(player_evidence, dict) or (
+                player_evidence.get("expected_schedule") != [
+                    "NATIVE_VIEW", "D_COMMIT", "E_COMMIT", "GF_BUNDLE",
+                    "GF_COMMIT",
+                ]
+                or player_evidence.get("all_gf_bundle_counts_equal_updates") is not True
+                or player_evidence.get(
+                    "cross_state_hj_active_steps_equal_optimizer_updates"
+                ) is not True
+                or player_evidence.get("conditional_expected_field") != "HJ"
+            ):
+                raise RuntimeError("HJCGR gate has invalid conditional-field provenance")
+            compatibility = evidence.get("component_compatibility_evidence")
+            if not isinstance(compatibility, dict) or (
+                checks.get("component_compatibility") is not True
+                or compatibility.get("data_epochs") != [20, 100, 200]
+                or compatibility.get("branch_updates") != [1, 8, 32]
+                or compatibility.get("all_parent_state_hashes_preserved") is not True
+                or compatibility.get("objective_only_exact_hj_all_rows") is not True
+                or compatibility.get(
+                    "estimator_only_exact_pcrsmg_proposal_all_rows"
+                ) is not True
+                or compatibility.get(
+                    "observable_only_exact_hj_excluding_observer_all_rows"
+                ) is not True
+            ):
+                raise RuntimeError("HJCGR component compatibility evidence is invalid")
 
     spec = ProbeSpec(
         id=candidate_id,
