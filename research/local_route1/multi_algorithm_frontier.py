@@ -9,6 +9,7 @@ frontier.
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -442,3 +443,22 @@ def materialize_multi_algorithm_frontier(
     )
     return frontier
 
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--anchor-path", type=Path)
+    args = parser.parse_args()
+    result = materialize_multi_algorithm_frontier(
+        args.output_root, anchor_path=args.anchor_path,
+    )
+    print(json.dumps({
+        "status": result["status"],
+        "action_priority_candidate_id": result["action_priority_candidate_id"],
+        "algorithm_fingerprint": result["registration"]["algorithm_fingerprint"],
+    }, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
