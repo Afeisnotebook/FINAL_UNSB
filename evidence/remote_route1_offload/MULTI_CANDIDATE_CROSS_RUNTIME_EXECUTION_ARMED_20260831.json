@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-route1-multi-candidate-cross-runtime-execution-armed-v1",
+  "status": "DURABLE_MULTI_HOST_E200_EXECUTION_AND_TERMINAL_CHAIN_ARMED",
+  "remote4090_pcnr_replay": {
+    "orchestration_git_commit": "b42d2a8541d6942a09c0f5817a4449febf1e2dc3",
+    "algorithm_source_git_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+    "algorithm_fingerprint": "3423a51ff77f5605c7daac7d0b0317d7596e0e7cde256671fcb19f2c5b4ac186",
+    "portable_source_authority_sha256": "88206e0bedbcb4dd20242b17aefbb5e434f201a26e915f13892a9c90a8405138",
+    "successor_contract_sha256": "adebfdb2d3327e35e68eb9255624d52d830b7bc157994a695b0df9a6966d68a4",
+    "durable_session": "FINAL_UNSB_PCNR_b42d2a8",
+    "observed_status": "PCNR_ALTERNATE_4090_E200_RUNNING",
+    "observed_data_epoch": 41
+  },
+  "remote5090_cross_runtime_portfolio": {
+    "orchestration_git_commit": "a86cc4abcc7bdaac4e26c2d394517ed136f56f2f",
+    "portable_source_authority_sha256": "e12f44385443b793b4cddfe6ef2f37d7fe006b33f83b571e8cb1adf7cf1d4ca5",
+    "successor_contract_sha256": "dabf24306ade756ee37cc00943f986febbed505971e00c3ccc778f19693ddc8b",
+    "supervisor_pid_at_arming": 182343,
+    "maximum_parallel_replays": 2,
+    "candidates": [
+      {
+        "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+        "source_git_commit": "77bb987e4f4d1099d16c7b1b135b7d120bb8b43b",
+        "source_classification": "strict_sustained"
+      },
+      {
+        "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+        "source_git_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+        "source_classification": "causally_repairable_near_boundary_pending_target_blind_audit"
+      }
+    ],
+    "observed_status": "CROSS_RUNTIME_5090_PORTFOLIO_E200_RUNNING"
+  },
+  "remote5090_complete_frontier_successor": {
+    "git_commit": "c2ec80d57b04015aa30b6f07356c72e0d0531374",
+    "contract_sha256": "45079cfb9b9482a9067b54a947c86762724ae426ca57051eacb92cde77f67c16",
+    "supervisor_pid_at_arming": 184019,
+    "observed_status": "WAITING_FOR_CROSS_RUNTIME_5090_PORTFOLIO_E200"
+  },
+  "complete_5090_to_4090_relay": {
+    "git_commit": "3570994c331c497e64edbf0c81c59d1c9e22f3ae",
+    "contract_sha256": "f520554c84df23b6d63971b847e080a789b2f799fb8170ff4b904e5dba0ea608",
+    "local_pid_at_arming": 3788,
+    "credentials_persisted": false,
+    "observed_status": "WAITING_FOR_PORTABLE_COMPLETE_5090_FRONTIER"
+  },
+  "remote4090_terminal_delivery_successor": {
+    "git_commit": "3570994c331c497e64edbf0c81c59d1c9e22f3ae",
+    "contract_sha256": "1958b94a5d2877f41a21bb9fb8daa4d342200ee4d5d43258bd837cc384758dfd",
+    "durable_session": "FINAL_UNSB_FINAL_MULTI_3570994",
+    "requires_integrated_pcnr_4090_frontier": true,
+    "requires_portable_complete_5090_frontier": true
+  },
+  "terminal_result_relay_and_goal_audit": {
+    "relay_contract_sha256": "47abc84da8e6ab5772f8e701a84c94537a01faff9f4eb379f867d63722f158ac",
+    "relay_pid_at_arming": 13528,
+    "goal_audit_contract_sha256": "1a40a2b1d4ddbedd66d19bea3e62dbf6f9af31896a513285d7a2b5fcb05db78e",
+    "goal_audit_pid_at_arming": 11920,
+    "observed_status": "WAITING_FOR_EXACT_TERMINAL_DELIVERY_RELAY"
+  },
+  "protocol": {
+    "seed": 2026,
+    "batch_size_per_lane": 1,
+    "target_data_epochs": 200,
+    "target_updates_per_lane": 30000,
+    "parallel_processes_do_not_merge_batches": true,
+    "restart_from_each_destination_common_e0": true,
+    "checkpoint_transfer": false
+  },
+  "paired_metrics_used_only_for_resource_allocation": true,
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "cross_host_deltas_merged": false,
+  "confirmation20_opened": false
+}
