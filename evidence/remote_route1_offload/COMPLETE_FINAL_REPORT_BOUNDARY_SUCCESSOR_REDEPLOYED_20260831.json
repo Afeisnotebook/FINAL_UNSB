@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-route1-complete-final-report-boundary-successor-redeployment-v1",
+  "recorded_at": "2026-08-31T15:10:23+08:00",
+  "status": "REDEPLOYED_BEFORE_EITHER_TERMINAL_FRONTIER_INPUT_EXISTED",
+  "reason": "The terminal Goal audit correctly requires the Markdown report to explicitly separate scientific conclusions, engineering failures, proxy distortion and untested hypotheses. The waiting 874a09b finalizer predated that report-only fix.",
+  "science_impact": {
+    "training_changed": false,
+    "checkpoint_changed": false,
+    "ranking_changed": false,
+    "candidate_formula_changed": false,
+    "terminal_inputs_existed_at_replacement": false,
+    "report_boundary_completeness_only": true
+  },
+  "retired_successor": {
+    "session": "tmux:FINAL_UNSB_COMPLETE_FINAL_874a09b",
+    "git_commit": "874a09bc2181ca928b3e1974a46ac98e43037c53",
+    "stderr_bytes": 0
+  },
+  "active_successor": {
+    "session": "tmux:FINAL_UNSB_COMPLETE_FINAL_280d685",
+    "worktree": "/home/yc/FINAL_UNSB_COMPLETE_FINAL_280d685",
+    "git_commit": "280d685174678b8097064236e370280d2cace0c5",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/COMPLETE_FRONTIER_FINAL_SUCCESSOR_CONTRACT_280d685.json",
+    "contract_sha256": "12e3c6605ee2d66bf73d7686b6000c600c87ac7ab379efe702725c62761b1e39",
+    "state": "WAITING_FOR_BOTH_HOST_SEPARATED_COMPLETE_FRONTIERS",
+    "supervisor_pid": 1518231,
+    "stderr_bytes": 0
+  },
+  "remote_validation": {
+    "pytest": "7 passed",
+    "worktree_clean": true,
+    "worktree_exact_commit": true,
+    "complete_4090_frontier_ready_at_replacement": false,
+    "portable_5090_frontier_ready_at_replacement": false,
+    "final_pointer_ready_at_replacement": false
+  },
+  "report_sections_now_required": [
+    "scientific_conclusion",
+    "engineering_failures",
+    "proxy_distortion",
+    "untested_hypotheses"
+  ],
+  "canonical_candidate_is_action_priority_only": true,
+  "algorithm_discovery_collapsed_to_single_candidate": false,
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "claim_boundary": "This is a report-boundary and terminal-audit compatibility redeployment before any terminal input existed; it adds no scientific result."
+}

@@ -78,9 +78,10 @@
   `evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
 - 该原则也已落实到终交付格式：`CANDIDATE.json`只给默认行动优先级，新增
   `RESEARCH_FRONTIER.json`保存所有机制型完整分支及其不同处置；4090同宿主排名和5090
-  宿主分离消融证据不会被压成一个名字。持久终交付器现冻结在`874a09b`，并把
+  宿主分离消融证据不会被压成一个名字。持久终交付器现冻结在`280d685`，并把
   DT/HJ/HNEK锚点、474/140图谱、假设谱系和所有候选逐域绝对/相对轨迹带入主结果；
-  本地319项测试与4090真实静态预检通过。见
+  同时显式区分科学结论、工程失败、proxy失真和未测试假设。旧`874a09b`等待器在两个
+  终点输入均不存在时退役；新等待器远端7项测试和静态边界通过。见
   `decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`。
 - 远端终点无需人工搬运：`11be901`的本地持久接收器会在4090原子pointer出现后，将
   `CANDIDATE/ALTERNATES/RESEARCH_FRONTIER/RESULTS/REPORT`和两端前沿验hash拉回

@@ -60,3 +60,12 @@ receipt、推导卡、实现和逐域candidate/plain绝对/相对轨迹。`874a0
 pointer和本地SHA256；目标已有不同内容时拒绝覆盖，不传checkpoint、不持久化密码。这样
 终点结果会自动落回本地运行目录，随后再由主控审阅并提交compact裁决。部署见
 `evidence/remote_route1_offload/COMPLETE_FINAL_RESULT_RELAY_ARMED_20260831.json`。
+
+## 终点报告边界补全
+
+后续Goal完成审计发现：`874a09b`已经把结论边界写入JSON，但Markdown报告尚未显式分开
+科学结论、工程失败、proxy失真和未测试假设。`280d685`只补齐这四类报告文字和对应
+fail-closed终点审计，不改变训练、checkpoint、候选公式或排名。由于两份终点前沿输入和
+最终pointer在替换时都尚未产生，4090等待器已安全替换为
+`tmux:FINAL_UNSB_COMPLETE_FINAL_280d685`；远端7项测试通过，stderr为0。证据见
+`evidence/remote_route1_offload/COMPLETE_FINAL_REPORT_BOUNDARY_SUCCESSOR_REDEPLOYED_20260831.json`。

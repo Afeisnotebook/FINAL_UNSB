@@ -16,6 +16,13 @@ e184，两条e200结果尚未形成，所有相关后继stderr合计为0；中�
 用于路由。见`decisions/DEC-20260831-TERMINAL-GOAL-COMPLETION-AUDIT.md`和
 `evidence/remote_route1_offload/TERMINAL_GOAL_COMPLETION_AUDIT_SUCCESSOR_ARMED_20260831.json`。
 
+独立代码复审随后确认，4090上的旧终交付等待器仍冻结在报告边界补全之前。两份终点
+输入和pointer均尚不存在，因此未执行的`874a09b`等待器已安全替换为
+`tmux:FINAL_UNSB_COMPLETE_FINAL_280d685`；只补充最终Markdown的四类结论，不改训练、
+checkpoint、公式或排名。远端7项测试通过，新合同SHA256为`12e3c660...1b1e39`，
+stderr为0。见
+`evidence/remote_route1_offload/COMPLETE_FINAL_REPORT_BOUNDARY_SUCCESSOR_REDEPLOYED_20260831.json`。
+
 ### 13:43 完整研究前沿已成为终交付的一等产物
 
 最新资源提醒不会把路线一改成“多跑一些名字”，而是纠正最终接口：唯一
