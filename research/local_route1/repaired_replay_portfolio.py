@@ -132,6 +132,19 @@ def _json_file_equivalent_sha256(value: dict[str, Any]) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def _write_portable_json(path: Path, value: dict[str, Any]) -> None:
+    """Persist canonical LF JSON so a Linux source hash survives any relay OS."""
+    payload = (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_file():
+        if path.read_bytes() != payload:
+            raise RuntimeError(f"non-identical portable JSON exists: {path}")
+        return
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_bytes(payload)
+    os.replace(temporary, path)
+
+
 def export_portable_authority(
     output_root: Path,
     *,
@@ -279,19 +292,11 @@ def register_portable_replay(
         ):
             raise RuntimeError(f"repaired replay source file changed: {relative}")
     card_destination = output_root / "derive" / "cards" / f"{candidate_id}.json"
-    if card_destination.is_file():
-        if _read_json(card_destination) != card:
-            raise RuntimeError("non-identical repaired replay card exists")
-    else:
-        write_json(card_destination, card)
+    _write_portable_json(card_destination, card)
     implementation_path = (
         output_root / "derive" / "implementations" / f"{candidate_id}.json"
     )
-    if implementation_path.is_file():
-        if _read_json(implementation_path) != implementation:
-            raise RuntimeError("non-identical repaired replay implementation exists")
-    else:
-        write_json(implementation_path, implementation)
+    _write_portable_json(implementation_path, implementation)
     if (
         file_sha256(card_destination) != row["derivation_card_sha256"]
         or file_sha256(implementation_path) != row["implementation_sha256"]
