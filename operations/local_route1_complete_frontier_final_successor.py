@@ -15,11 +15,13 @@ from research.local_route1.complete_frontier_final_delivery import (
     POINTER,
     materialize_complete_frontier_final_delivery,
 )
+from research.local_route1.pcnr_alternate_replay import CANDIDATE_ID as PCNR_ID
 
 
 SCHEMA = "final-unsb-route1-complete-frontier-final-successor-contract-v1"
 REQUIRED_RESULTS = (
     "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+    "PCNR_ALTERNATE_4090_RESULT.json",
     "PORTABLE_COMPLETE_5090_FRONTIER.json",
 )
 SOURCE_RELATIVES = (
@@ -28,6 +30,7 @@ SOURCE_RELATIVES = (
     "research/local_route1/complete_frontier_final_delivery.py",
     "research/local_route1/complete_frontier.py",
     "research/local_route1/complete_5090_frontier.py",
+    "research/local_route1/pcnr_alternate_replay.py",
     "research/local_route1/portable_extended_frontier.py",
     "research/local_route1/frontier_final_delivery.py",
     "research/local_route1/final_delivery.py",
@@ -136,9 +139,28 @@ class CompleteFrontierFinalSuccessor:
     def run(self) -> int:
         while True:
             ready = {name: (self.operations / name).is_file() for name in REQUIRED_RESULTS}
-            fatal = self.operations / "COMPLETE_FRONTIER_4090_SUCCESSOR_FATAL.json"
-            if fatal.is_file():
-                raise RuntimeError(f"complete 4090 frontier failed: {fatal}")
+            complete_path = self.operations / REQUIRED_RESULTS[0]
+            if ready[REQUIRED_RESULTS[0]] and ready[REQUIRED_RESULTS[1]]:
+                complete = _read_json(complete_path)
+                ready["complete_4090_frontier_includes_pcnr_replay"] = (
+                    (complete.get("pcnr_alternate_replay") or {}).get("candidate_id")
+                    == PCNR_ID
+                    and PCNR_ID in {
+                        str(row.get("candidate_id", ""))
+                        for row in complete.get("ranking", [])
+                        if isinstance(row, dict)
+                    }
+                )
+            else:
+                ready["complete_4090_frontier_includes_pcnr_replay"] = False
+            fatals = [
+                path for path in (
+                    self.operations / "COMPLETE_FRONTIER_4090_SUCCESSOR_FATAL.json",
+                    self.operations / "PCNR_ALTERNATE_4090_SUCCESSOR_FATAL.json",
+                ) if path.is_file()
+            ]
+            if fatals:
+                raise RuntimeError(f"complete 4090 frontier failed: {fatals}")
             if all(ready.values()):
                 break
             if time.time() - self.started > int(self.contract["timeout_seconds"]):
