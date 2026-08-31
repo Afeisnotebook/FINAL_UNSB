@@ -55,6 +55,15 @@ def test_hjpcnr_disabled_spec_is_exact_plain_mode():
     assert disabled.method["route1_hjpcnr_enable"] is False
 
 
+def test_hjpcnr_disabled_checkpoint_omits_dormant_hj_state(monkeypatch):
+    model = _bare(False)
+    monkeypatch.setattr(
+        "models.hj.model.SBModelHJPatchNCE.get_extra_training_state",
+        lambda self: {"hj_controller": {"hj_epoch": 20}},
+    )
+    assert model.get_extra_training_state() == {}
+
+
 def test_hjpcnr_invariants_keep_single_view_variance_boundary():
     rows = _hjpcnr_invariants()
     assert rows

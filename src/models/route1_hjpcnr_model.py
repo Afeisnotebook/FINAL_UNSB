@@ -35,6 +35,21 @@ class Route1HjpcnrModel(PCNRMixin, SBModelHJPatchNCE):
     def _hj_active(self):
         return self._hjpcnr_enabled() and super()._hj_active()
 
+    def get_extra_training_state(self):
+        """Do not serialize dormant HJ bookkeeping in exact-plain mode.
+
+        The shared HJ base advances read-only epoch/step diagnostics even when
+        its objective is inactive.  Those values do not affect the native
+        update, but including them in a disabled HJ-PCNR checkpoint would make
+        the full-state identity gate differ from a plain checkpoint.  HJCGR
+        already applies the same rule: a disabled composite operator must have
+        no method-owned state at all.
+        """
+        state = super().get_extra_training_state()
+        if not self._hjpcnr_enabled():
+            state.pop("hj_controller", None)
+        return state
+
 
 def _str2bool(value):
     if isinstance(value, bool):
