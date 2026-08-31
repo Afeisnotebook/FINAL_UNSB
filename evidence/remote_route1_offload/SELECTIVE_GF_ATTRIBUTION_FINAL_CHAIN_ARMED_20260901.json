@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-route1-selective-gf-attribution-final-chain-v1",
+  "status": "SELECTIVE_GF_GAIN_SOURCE_AND_BOUNDARIES_ARMED_FOR_TERMINAL_DELIVERY",
+  "git_commit": "48b8f746f673bfb567a6d894847f950bba82b6bb",
+  "remote4090_final_successor": {
+    "state": "WAITING_FOR_ALL_RELATED_E200_RESULTS",
+    "pid_at_health_check": 1668274,
+    "terminal_pointer_present_at_redeployment": false
+  },
+  "local_goal_audit": {
+    "state": "WAITING_FOR_BOTH_LOCAL_FINAL_DELIVERIES",
+    "pid_at_health_check": 14788,
+    "frozen_git_commit": "48b8f746f673bfb567a6d894847f950bba82b6bb"
+  },
+  "gain_source_controls": {
+    "observer_compute_only": {
+      "late_three_macro_psnr_delta": 0.0,
+      "e200_macro_psnr_delta": 0.0,
+      "e200_dynamics_state_exact_plain": true
+    },
+    "gf_only_replication": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "late_three_macro_psnr_delta": 0.5415065556765851,
+      "e200_macro_psnr_delta": 0.4510917790142841,
+      "strict_gate_pass": true
+    },
+    "all_player_replication": {
+      "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+      "late_three_macro_psnr_delta": 0.6209590565901758,
+      "e200_macro_psnr_delta": -0.001378936820813692,
+      "strict_gate_pass": false
+    }
+  },
+  "scientific_interpretation": "Retain native D/E stochasticity and reduce only the conditional post-D/E joint G/F variance; variance reduction is not monotonically beneficial across all UNSB players.",
+  "unbiased_object": "pre-Adam stochastic G/F gradient estimator at one fixed realized parent state",
+  "expected_finite_adam_displacement_equality_claimed": false,
+  "exact_parent_sample_path_equality_claimed": false,
+  "native_compute_budget_equivalence_claimed": false,
+  "training_process_restarted": false,
+  "formula_changed_after_long_training_started": false,
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "test_status": "368_PASSED"
+}
