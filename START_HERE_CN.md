@@ -16,6 +16,9 @@ residual与relative-ULP refinement。它还必须通过e20/e100/e200、1/8/32-st
 target-blind组件兼容门；当前只是计算就绪，不构成长训授权，也不替代任何独立父算法。
 实现提交为`12468d1`，决策见
 `decisions/DEC-20260831-RESIDUAL-FEASIBLE-CONDITIONAL-SYNTHESIS.md`。
+持久后继已在4090以`tmux:FINAL_UNSB_RESIDUAL_SYNTHESIS_b164df8`部署，当前只等待修复
+算法同机复赛完成；RF-AMMCRB缺席或不严格通过时会留下不适用记录而非启动。部署证据见
+`evidence/remote_route1_offload/RESIDUAL_SYNTHESIS_4090_SUCCESSOR_ARMED_20260831.json`。
 
 ### 10:30 双算法跨宿主复验链已武装
 
