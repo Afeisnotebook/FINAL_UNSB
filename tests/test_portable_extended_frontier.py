@@ -7,7 +7,6 @@ from pathlib import Path
 import pytest
 
 from operations import local_route1_portable_extended_frontier_export_successor as successor
-from operations import local_route1_extended_frontier_relay as relay
 from operations.local_route1_candidate_terminal_receipt import (
     SCHEMA as RECEIPT_SCHEMA,
     SIDECAR_SCHEMA,
@@ -145,6 +144,8 @@ def test_portable_extended_export_successor_contract_is_evidence_only(
 
 
 def test_extended_frontier_relay_contract_never_persists_credentials(tmp_path: Path):
+    from operations import local_route1_extended_frontier_relay as relay
+
     contract = relay.default_contract(Namespace(
         source_host="source",
         source_port=12770,
