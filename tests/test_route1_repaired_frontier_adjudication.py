@@ -208,6 +208,7 @@ def test_repaired_frontier_replays_complete_evidence_backed_repair_alternate(
         rankable, invalid, tmp_path / "adjudication.json",
     )
     assert result["recommended_4090_replay_queue"] == [RANKABLE_IDS[1]]
+    assert RANKABLE_IDS[1] in result["evidence_preserved_candidate_ids"]
 
 
 def test_repaired_frontier_rejects_invalid_diagnostic_not_bound_to_incident(

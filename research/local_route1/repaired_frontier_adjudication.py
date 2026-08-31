@@ -221,7 +221,7 @@ def adjudicate_repaired_frontier(
     strict = [row for row in ranked if row[2]["classification"] == STRICT]
     preserved = [
         row for row in ranked
-        if row[2]["classification"] in (STRICT, NEAR)
+        if row[2]["classification"] in (STRICT, NEAR, ALTERNATE)
         or row[0].get("trajectory_status") == POSITIVE_STATUS
     ]
     action = strict[0] if strict else ranked[0]
