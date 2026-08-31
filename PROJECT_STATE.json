@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T09:27:00+08:00",
-  "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING",
+  "state_snapshot_time": "2026-08-31T09:53:00+08:00",
+  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_AND_MULTI_PARENT_FOLLOWUPS_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "c98f967",
+  "development_head_at_state_write": "52c0ad3",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -146,6 +146,7 @@
     ,"RF-AMMCRB and RF-MCRB use exact float64 KKT coefficients plus represented-residual relative-ULP feasibility, preserve safe byte identity, and occupy exactly two ordered 5090 repair slots"
     ,"implementation-invalid parents use a dedicated complete-e200 diagnostic receipt that validates every artifact but is permanently ineligible for scientific ranking; ledger state is never rolled back to satisfy an old receipt path"
     ,"RF-AMMCRB and RF-MCRB passed their source-bound 5090 GPU gates and started independent common-e0 batch1 seed2026 e200 trajectories"
+    ,"a durable multi-parent follow-up successor preserves every strict, near-boundary or evidence-backed alternate repaired operator for its own proposal-only and observable-only e200 streams; the canonical id remains action priority rather than scientific exclusivity"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -496,6 +497,30 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_0953": {
+      "rfammcrb_latest_observed_data_epoch": 15,
+      "rfmcrb_latest_observed_data_epoch": 16,
+      "target_data_epoch": 200,
+      "training_stderr_bytes_each": 0,
+      "followup_commit": "52c0ad3f0971e40d0547f870accf927e27fc25ae",
+      "durable_followup_successor": "screen:FINAL_UNSB_REPAIRED_FOLLOWUP_52c0ad3",
+      "followup_contract_sha256": "e89934bebc81b0c10a3824c6768e12e5f850274b42619a35d2baaa450c5a0b54",
+      "eligible_repaired_parent_classifications": [
+        "strict_sustained",
+        "causally_repairable_near_boundary_pending_target_blind_audit",
+        "evidence_backed_alternate"
+      ],
+      "maximum_parallel_parent_streams": 2,
+      "maximum_active_candidates_per_parent_stream": 1,
+      "within_parent_order": ["proposal_only", "observable_only"],
+      "pcnr_duplicate_full_as_proposal_automatically_retrained": false,
+      "canonical_candidate_is_action_priority_only": true,
+      "algorithm_discovery_collapsed_to_single_candidate": false,
+      "paired_metric_scheduling": false,
+      "paired_controller_access": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json"
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -625,5 +650,5 @@
     },
     "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING"
   },
-  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their already-started common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Then build the semantic-incident-aware three-candidate 5090 ranking (PCNR plus both repairs), preserving one action-priority primary, two alternates, all complete trajectories and two invalid-parent diagnostics. Use target-blind defect and standalone evidence to fill at most two subsequent 5090 slots with source-bound own-method ablations, one allowed causal revision or a mathematically compatible two-component synthesis. Only a completed strict candidate can enter a source-bound 4090 replay; seeds 2027/2028 remain deferred."
+  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their already-started common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. The armed semantic-incident-aware successor then ranks PCNR plus both repairs while preserving one action-priority primary, two alternates, all complete trajectories and both invalid-parent diagnostics. Every repaired strict, near-boundary or evidence-backed alternate keeps its own source-bound proposal-only and observable-only e200 parent stream (at most two in parallel); non-strict mathematical revision still requires target-blind defect evidence. Only a completed strict candidate can enter a source-bound 4090 replay; seeds 2027/2028 remain deferred."
 }

@@ -2,6 +2,15 @@
 
 ## 当前状态（2026-08-31）
 
+### 09:53 多算法前沿不再只给冠军做后续
+
+5090上的RF-AMMCRB与RF-MCRB约到e15/e16，运行正常。新的持久后继已经武装：完整
+e200后，两条修复中凡属于strict、near或仍有独立正证据的alternate，最多两条都分别
+运行自己的proposal-only和observable-only真实e200；不会因为几百分之一dB的排名差异
+只留下第一名。每个父算法内部串行、父算法之间最多两流并行，仍固定batch1、seed2026、
+共同e0。唯一canonical候选只代表下一步行动优先级。实现提交为`52c0ad3`，证据见
+`evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
+
 ### 09:27 两条修复算法已启动长期训练
 
 旧AM-MCRB已完成e200，但它的固定绝对余量实现只保留为诊断：late-three

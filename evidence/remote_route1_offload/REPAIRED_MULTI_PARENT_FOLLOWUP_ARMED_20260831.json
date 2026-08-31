@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-route1-repaired-multi-parent-followup-armed-v1",
+  "recorded_at": "2026-08-31T09:53:00+08:00",
+  "status": "DURABLE_MULTI_PARENT_FOLLOWUP_SUCCESSOR_ARMED",
+  "host_role": "RTX_5090_HOST_MATCHED_ROUTE1_FRONTIER",
+  "git_commit": "52c0ad3f0971e40d0547f870accf927e27fc25ae",
+  "worktree": "/root/autodl-tmp/FINAL_UNSB_REPAIRED_FOLLOWUP_52c0ad3",
+  "screen": "FINAL_UNSB_REPAIRED_FOLLOWUP_52c0ad3",
+  "contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/REPAIRED_FOLLOWUP_SUCCESSOR_CONTRACT.json",
+  "contract_sha256": "e89934bebc81b0c10a3824c6768e12e5f850274b42619a35d2baaa450c5a0b54",
+  "upstream_repairs_observed_at_arm": {
+    "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER": 15,
+    "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER": 16,
+    "target_data_epochs": 200,
+    "stderr_bytes_each": 0
+  },
+  "followup_policy": {
+    "eligible_parent_classifications": [
+      "strict_sustained",
+      "causally_repairable_near_boundary_pending_target_blind_audit",
+      "evidence_backed_alternate"
+    ],
+    "closed_current_operator_automatically_retrained": false,
+    "maximum_parallel_parent_streams": 2,
+    "maximum_active_candidates_per_parent_stream": 1,
+    "within_parent_order": ["proposal_only", "observable_only"],
+    "each_trajectory": "common_e0_small25_batch1_seed2026_true_e200",
+    "pcnr_duplicate_proposal_e200_automatically_retrained": false,
+    "action_priority_is_not_an_exclusivity_rule": true,
+    "algorithm_discovery_collapsed_to_single_candidate": false
+  },
+  "scientific_boundaries": {
+    "paired_metrics_used_only_after_complete_e200_for_resource_allocation": true,
+    "paired_metrics_used_for_formula_or_training_control": false,
+    "cross_host_deltas_merged": false,
+    "seed2027_2028_deferred": true,
+    "confirmation20_opened": false,
+    "full_dataset_opened": false,
+    "route2_handoff_or_exit_window_used": false
+  }
+}

@@ -4,6 +4,19 @@
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
 
+## 2026-08-31 09:53 执行更新：多算法后续已持久武装
+
+- RF-AMMCRB与RF-MCRB在5090继续共同e0/e200，09:52约为e15/e16；两条训练和裁决
+  stderr均为空。
+- 新后继不会只消费最终第一名。两条修复中凡完整e200后属于strict、near或仍有独立
+  正证据的alternate，最多两条都保留自己的机制消融流；closed当前算子不自动重跑。
+- 每个合格父算法顺序运行proposal-only与observable-only，父算法之间最多两流并行；
+  每项仍是small25、batch1、seed2026、共同e0、真实e200。PCNR的proposal-only与full
+  是同一冻结转移，不为制造算法数量重复跑一份e200。
+- `CANDIDATE.json`中的唯一项只负责4090/后续算力行动优先级，不是前沿排他规则。
+  代码提交为`52c0ad3`，持久screen与合同见
+  `evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
+
 ## 2026-08-31 09:27 执行更新：修复线已进入真实e200
 
 - 旧AM-MCRB已完整到e200；其冻结实现late-three为`-0.666038 dB`、e200为

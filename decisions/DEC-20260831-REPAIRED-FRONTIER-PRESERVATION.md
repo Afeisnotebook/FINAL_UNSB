@@ -44,6 +44,12 @@
 - `research/local_route1/repaired_frontier_adjudication.py`负责语义事故感知的同宿主排名；
 - `operations/local_route1_repaired_frontier_successor.py`只在五条轨迹均有source-bound
   terminal receipt后自动裁决；
+- `research/local_route1/repaired_frontier_followups.py`不只消费第一名：两条数值修复中
+  凡属于strict、near或仍有独立正证据的alternate，最多两条都冻结自身proposal-only与
+  observable-only；closed当前算子不会因空闲算力被机械重跑；
+- `operations/local_route1_repaired_followup_successor.py`在5090上为每个合格父算法保留
+  一个独立流，父算法之间最多两流并行，父算法内部按proposal-only→observable-only串行，
+  每项仍从共同e0完成batch1/seed2026/e200；
 - `algorithm_discovery_collapsed_to_single_candidate`被固定为`false`；
 - `canonical_candidate_is_action_priority_only`被固定为`true`；
 - paired指标只在完整e200后参与排序，不进入训练、公式或运行调度。
@@ -56,3 +62,6 @@
 - 不合并4090与5090的delta；
 - 不用单个中间checkpoint提前淘汰；
 - 不把当前实现失败升级为父机制被证伪。
+
+上述多父后继已在提交`52c0ad3`以独立screen武装；compact记录见
+`evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
