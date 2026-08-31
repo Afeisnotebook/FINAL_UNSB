@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-complete-multi-candidate-final-successor-evidence-v1",
+  "recorded_at": "2026-08-31T13:43:12.1848836+08:00",
+  "status": "DURABLE_COMPLETE_MULTI_CANDIDATE_FINAL_SUCCESSOR_ARMED",
+  "git_commit": "0f267ae2cf7cc99de9c7ae0decf888289e03da65",
+  "local_validation": {
+    "pytest": "316 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "remote4090": {
+    "worktree": "/home/yc/FINAL_UNSB_COMPLETE_FINAL_0f267ae",
+    "python": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10",
+    "targeted_pytest": "3 passed",
+    "tmux_session": "FINAL_UNSB_COMPLETE_FINAL_0f267ae",
+    "contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/COMPLETE_FRONTIER_FINAL_SUCCESSOR_CONTRACT_0f267ae.json",
+    "contract_sha256": "69e64d483b675721176bc9662ce684c2dca46074a40e86555f843f3720d5fcb3",
+    "state": "WAITING_FOR_BOTH_HOST_SEPARATED_COMPLETE_FRONTIERS",
+    "stderr_bytes": 0
+  },
+  "required_terminal_inputs": [
+    "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+    "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
+  ],
+  "final_outputs": [
+    "final/CANDIDATE.json",
+    "final/ALTERNATES.json",
+    "final/RESEARCH_FRONTIER.json",
+    "final/RESULTS.json",
+    "final/FINAL_ROUTE1_REPORT.md"
+  ],
+  "frontier_policy": {
+    "canonical_candidate_is_action_priority_only": true,
+    "algorithm_discovery_collapsed_to_single_candidate": false,
+    "all_mechanism_bearing_candidates_preserved": true,
+    "small_single_seed_rank_gap_falsifies_parent_mechanism": false
+  },
+  "latest_unpaired_runtime_heartbeat": {
+    "remote5090_rf_ammcrb_data_epoch": 130,
+    "remote5090_rf_mcrb_data_epoch": 141,
+    "target_data_epoch": 200,
+    "intermediate_paired_metrics_read": false
+  },
+  "selection_seeds": [2026],
+  "deferred_seed_validation": [2027, 2028],
+  "cross_seed_stability_claimed": false,
+  "cross_host_deltas_merged": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}

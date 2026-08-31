@@ -2,6 +2,21 @@
 
 ## 当前状态（2026-08-31）
 
+### 13:43 完整研究前沿已成为终交付的一等产物
+
+最新资源提醒不会把路线一改成“多跑一些名字”，而是纠正最终接口：唯一
+`CANDIDATE.json`只回答下一步默认先投入谁，不是科学排他裁决。`0f267ae`新增
+`RESEARCH_FRONTIER.json`，完整保存4090同宿主所有e200候选、5090宿主分离的
+full/proposal/observable证据，以及主项、共同领先、机制型递补、负对照和仅关闭当前实现
+的不同处置。单seed下很小的收益差只影响算力顺序，不得自动判死父机制。
+
+最终原子交付守护已在4090以`tmux:FINAL_UNSB_COMPLETE_FINAL_0f267ae`持久运行，等待
+4090完整同宿主前沿和5090完整便携机理前沿同时到达；本地316项测试、远端3项定向测试
+通过，stderr为0。13:43未读取中间paired指标的心跳为RF-AMMCRB e130、RF-MCRB e141。
+完整决策与部署证据见
+`decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`和
+`evidence/remote_route1_offload/COMPLETE_MULTI_CANDIDATE_FINAL_SUCCESSOR_ARMED_20260831.json`。
+
 ### 13:16 新算法已能真正改写最终主项
 
 终局审计发现旧`final/`只认识PC-RSMG三角色时的前沿，不认识两条修复复赛和两种

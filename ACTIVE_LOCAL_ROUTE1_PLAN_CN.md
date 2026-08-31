@@ -1,8 +1,21 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / TWO_NUMERICAL_REPAIR_E200_STREAMS_RUNNING`
+状态：`MULTI_CANDIDATE_E200_FRONTIER_RUNNING / COMPLETE_ATOMIC_DELIVERY_ARMED`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
+
+## 2026-08-31 13:43 执行更新：主候选不再吞掉研究前沿
+
+- 最终仍生成一个`CANDIDATE.json`以给出明确行动顺序，但新增的
+  `RESEARCH_FRONTIER.json`保存全部机制型完整候选；这是Goal中“唯一候选+两个备选”
+  的超集，不改变长期算法发现北极星。
+- 4090同宿主严格通过、近边界或证据型递补均保留；5090的full/proposal-only和
+  observable-only完整证据按宿主分离保留。跨宿主delta不合并。
+- 当前5090两条数值修复在未读取中间paired指标的情况下分别到e130/e141，随后仍执行
+  每个合格父项自己的proposal/observable消融；4090最多复跑两个父项并保留两种独立
+  约束几何的条件G3。
+- `0f267ae`的最终守护器已在4090独立tmux等待两端完整前沿；本地316项和远端3项测试
+  通过。任何小的单seed名次差只能决定下一份算力，不能自动升级为机制证伪。
 
 ## 2026-08-31 13:16 执行更新：完整4090前沿终点已武装
 
