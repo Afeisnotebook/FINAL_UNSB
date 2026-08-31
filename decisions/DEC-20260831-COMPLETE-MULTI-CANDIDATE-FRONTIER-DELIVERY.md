@@ -41,3 +41,16 @@ target-blind可修复缺陷时，才标记为`closed_current_implementation_on_c
 直接导入权威常量，同时补上终点输入hash复验和“唯一算法数/宿主轨迹数”的区分；旧等待器
 在两个终点输入均未出现时替换。完整测试随`6fa361b`增至317项。修正证据见
 `evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json`。
+
+## 完整证据范围
+
+后续预检确认，仅保存候选排名仍不够：终交付还必须把DT/HJ/HNEK的完整e200锚点、
+474条反转与140条采样方差图谱、proxy校准和假设谱系带入主结果；不能让这些只存在于
+旧归档。同时，4090每条候选以及5090每个full/proposal/observable角色都必须携带来源
+receipt、推导卡、实现和逐域candidate/plain绝对/相对轨迹。`874a09b`已实现这组要求，
+并在4090真实运行目录通过4条现有候选、3个历史探针和474/140图谱的静态预检。
+
+因此最终的“多候选”是两层前沿：一层是可执行算法轨迹，另一层是产生这些算法的历史
+探针、失败机理和数学谱系。5090导出、本地原字节relay和4090终交付器均已在终点生成前
+替换为完整证据版本，证据见
+`evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json`。

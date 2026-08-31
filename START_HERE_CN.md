@@ -22,6 +22,13 @@ checkpoint和科学排名均未受影响。旧等待器在两个终点输入仍�
 当前tmux为`FINAL_UNSB_COMPLETE_FINAL_b717058`，本地测试增至317项。见
 `evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json`。
 
+14:19的完整性预检进一步把“多候选”扩展为“算法前沿+因果证据前沿”：最终主结果将
+直接包含DT/HJ/HNEK完整e200锚点、474/140长期因果图谱、proxy校准、假设谱系，以及
+4090和5090所有候选/消融角色的逐域candidate/plain绝对与相对轨迹。`874a09b`已在4090
+真实目录通过预检；5090导出器、本地relay和4090终交付器均已无损替换。当前两条修复
+心跳为e148/e161，GPU约96%，仍未读取中间paired指标。见
+`evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json`。
+
 ### 13:16 新算法已能真正改写最终主项
 
 终局审计发现旧`final/`只认识PC-RSMG三角色时的前沿，不认识两条修复复赛和两种

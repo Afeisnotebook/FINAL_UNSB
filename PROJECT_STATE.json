@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T13:55:06+08:00",
-  "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_COMPLETE_ATOMIC_DELIVERY_ARMED",
+  "state_snapshot_time": "2026-08-31T14:19:36+08:00",
+  "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_FULL_PROBE_CAUSAL_DOMAIN_EVIDENCE_CHAIN_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "6fa361b1dca01da241ad1139ff8e9bdcb544a9b2",
+  "development_head_at_state_write": "874a09bc2181ca928b3e1974a46ac98e43037c53",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -163,6 +163,7 @@
     ,"the complete 5090 full/proposal/observable repaired frontier will be exported as hash-bound JSON evidence and atomically relayed to 4090 without checkpoints or cross-host delta merging"
     ,"terminal delivery now emits RESEARCH_FRONTIER.json with every mechanism-bearing complete branch; CANDIDATE.json is only the default action priority, and small single-seed rank gaps never constitute parent-mechanism falsification"
     ,"the terminal research-frontier strict disposition now imports the authoritative strict_sustained constant, distinguishes unique algorithms from host-scoped rows, and revalidates both terminal input hashes on every idempotent read"
+    ,"the final research frontier now embeds every 4090 and 5090 candidate or ablation role's source-bound per-domain absolute/relative trajectory plus DT/HJ/HNEK e200 anchors, the 474/140 causal evidence, proxy calibration and hypothesis lineage"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -661,6 +662,23 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_1419": {
+      "rfammcrb_latest_observed_data_epoch": 148,
+      "rfmcrb_latest_observed_data_epoch": 161,
+      "target_data_epoch": 200,
+      "remote5090_gpu_utilization_percent": 96,
+      "intermediate_paired_metrics_read_or_used_for_routing": false,
+      "portable_extended_frontier_export_successor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_874a09b",
+      "portable_extended_frontier_export_status": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
+      "local_extended_frontier_relay_process_id": 13484,
+      "local_extended_frontier_relay_status": "WAITING_FOR_PORTABLE_EXTENDED_5090_FRONTIER",
+      "portable_bundle_embeds_all_role_domain_trajectories": true,
+      "portable_bundle_contains_checkpoints": false,
+      "cross_host_deltas_merged": false,
+      "evidence": "evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -790,23 +808,32 @@
       "complete_4090_frontier_evidence": "evidence/remote_route1_offload/COMPLETE_4090_FRONTIER_SUCCESSOR_ARMED_20260831.json",
       "complete_4090_frontier_preserves_pre_frontier_candidates": true,
       "generation3_inapplicable_is_not_negative_trajectory": true,
-      "portable_extended_frontier_commit": "78b89ca8126630d65bd12c2c0df02ba3430ea662",
-      "portable_extended_frontier_export_successor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_78b89ca",
+      "portable_extended_frontier_commit": "874a09bc2181ca928b3e1974a46ac98e43037c53",
+      "portable_extended_frontier_export_successor": "screen:FINAL_UNSB_PORTABLE_EXTENDED_874a09b",
       "portable_extended_frontier_export_status": "WAITING_FOR_COMPLETE_EXTENDED_REPAIRED_FRONTIER_E200",
-      "portable_extended_frontier_export_contract_sha256": "11bee62a082f56faae7468940a650f6d792a2b1016494532c81f939ef8c53336",
-      "portable_extended_frontier_local_relay_pid": 13252,
+      "portable_extended_frontier_export_contract_sha256": "58e727d97c4837c88729dada0895adb14c49d70223d5e7327235ccaecc8f8f51",
+      "portable_extended_frontier_local_relay_pid": 13484,
       "portable_extended_frontier_local_relay_status": "WAITING_FOR_PORTABLE_EXTENDED_5090_FRONTIER",
-      "portable_extended_frontier_local_relay_contract_sha256": "f0c780aabf2783c0c8b93f6b52e45a0d191f0de0e23f8282dea09273d325a4f0",
+      "portable_extended_frontier_local_relay_contract_sha256": "90728e42744a8e9b59e40cdddd24117bfa9b81a78cc40913fd3349aac422fa60",
       "portable_extended_frontier_checkpoint_transfer": false,
-      "portable_extended_frontier_evidence": "evidence/remote_route1_offload/PORTABLE_EXTENDED_FRONTIER_RELAY_ARMED_20260831.json",
-      "complete_multi_candidate_final_delivery_commit": "b7170584a3b64c0d0174170840ead75ae7c29358",
-      "complete_multi_candidate_final_successor": "tmux:FINAL_UNSB_COMPLETE_FINAL_b717058",
+      "portable_extended_frontier_evidence": "evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json",
+      "portable_extended_frontier_embeds_absolute_relative_domain_trajectories": true,
+      "complete_multi_candidate_final_delivery_commit": "874a09bc2181ca928b3e1974a46ac98e43037c53",
+      "complete_multi_candidate_final_successor": "tmux:FINAL_UNSB_COMPLETE_FINAL_874a09b",
       "complete_multi_candidate_final_status": "WAITING_FOR_BOTH_HOST_SEPARATED_COMPLETE_FRONTIERS",
-      "complete_multi_candidate_final_contract_sha256": "ab1b180040f5ab3e8a3cd6da28e7aa5953b18966b169f3d57fa4e0ac3284cf3a",
-      "complete_multi_candidate_final_evidence": "evidence/remote_route1_offload/COMPLETE_FINAL_STRICT_DISPOSITION_FIX_20260831.json",
+      "complete_multi_candidate_final_contract_sha256": "4f1efc9d33b2f23c0714974eb6d655a16258aaa3e62b23e5f682fa3df8c17f35",
+      "complete_multi_candidate_final_evidence": "evidence/remote_route1_offload/COMPLETE_FRONTIER_FULL_EVIDENCE_CHAIN_20260831.json",
       "research_frontier_output_required": true,
       "algorithm_discovery_collapsed_to_single_candidate": false,
       "all_mechanism_bearing_candidates_preserved": true,
+      "complete_final_real_static_preflight": {
+        "status": "PASS",
+        "pre_frontier_candidates_with_domain_trajectories": 4,
+        "historical_probe_count": 3,
+        "reversal_rows": 474,
+        "sampling_variance_rows": 140,
+        "hypothesis_ledger_bound": true
+      },
       "frontier_advancement_classifier_commit": "9e687949bb8cc7902932aaf9f21ab06f3923c219",
       "frontier_advancement_successor_status": "ARMED_WAITING_FOR_COMPLETE_FRONTIER_E200",
       "frontier_advancement_successor_pid_at_deployment": 126899,
