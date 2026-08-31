@@ -235,6 +235,14 @@ def _executor_contract(output_root: Path, receipt: dict[str, Any]) -> tuple[Path
     candidate_id = str(receipt["candidate_id"])
     matches = []
     for path in (output_root / "operations").glob("CANDIDATE_EXECUTOR_CONTRACT_*.json"):
+        # ``*.init.json`` files are captured CLI initialization output.  They
+        # include the contract payload plus a presentation-only
+        # ``status=CONTRACT_INITIALIZED`` field, but were never passed to an
+        # executor.  Counting one as a second contract makes a valid,
+        # source-bound run look ambiguous.  Other duplicate contract paths
+        # remain fail-closed below.
+        if path.name.endswith(".init.json"):
+            continue
         try:
             value = _read_json(path)
         except Exception:

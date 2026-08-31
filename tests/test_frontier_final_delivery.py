@@ -202,7 +202,25 @@ def test_final_source_and_executor_contract_are_receipt_bound(tmp_path: Path) ->
     _source_and_contract(tmp_path, candidate_id)
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     _source_files(tmp_path, candidate_id, receipt)
-    _executor_contract(tmp_path, receipt)
+    selected_path, selected_contract = _executor_contract(tmp_path, receipt)
+
+    init_capture = dict(selected_contract)
+    init_capture["status"] = "CONTRACT_INITIALIZED"
+    _write(
+        tmp_path / "operations"
+        / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}.init.json",
+        init_capture,
+    )
+    assert _executor_contract(tmp_path, receipt)[0] == selected_path
+
+    duplicate_path = (
+        tmp_path / "operations"
+        / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}_duplicate.json"
+    )
+    _write(duplicate_path, selected_contract)
+    with pytest.raises(RuntimeError, match="requires one exact executor contract"):
+        _executor_contract(tmp_path, receipt)
+    duplicate_path.unlink()
 
     card_path = tmp_path / "derive" / "cards" / f"{candidate_id}.json"
     card = json.loads(card_path.read_text(encoding="utf-8"))
