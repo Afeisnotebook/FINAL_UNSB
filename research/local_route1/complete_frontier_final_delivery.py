@@ -232,6 +232,9 @@ def _historical_evidence(output_root: Path) -> dict[str, Any]:
         "proxy_calibration": output_root / "evidence" / "PROXY_CALIBRATION.json",
         "long_causal_matrix": output_root / "audit" / "LONG_CAUSAL_MATRIX.json",
         "long_reversal_atlas": output_root / "audit" / "LONG_REVERSAL_ATLAS.jsonl",
+        "sampling_variance_atlas": (
+            output_root / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl"
+        ),
         "hypothesis_ledger": output_root / "derive" / "HYPOTHESIS_LEDGER.json",
     }
     if any(not path.is_file() or not path.resolve().is_relative_to(output_root)
@@ -265,14 +268,20 @@ def _historical_evidence(output_root: Path) -> dict[str, Any]:
             encoding="utf-8",
         ).splitlines() if line.strip()
     )
+    variance_atlas_lines = sum(
+        1 for line in paths["sampling_variance_atlas"].read_text(
+            encoding="utf-8",
+        ).splitlines() if line.strip()
+    )
     if (
         matrix.get("schema") != "final-unsb-local-route1-causal-matrix-v1"
         or matrix.get("status") != "COMPLETE_CAUSAL_AUDIT"
         or matrix.get("missing_rows") != []
         or matrix.get("missing_sampling_variance_rows") != []
-        or len(matrix.get("rows", [])) != expected
-        or len(matrix.get("sampling_variance_rows", [])) != expected_variance
+        or matrix.get("rows") != expected
+        or matrix.get("sampling_variance_rows") != expected_variance
         or atlas_lines != expected
+        or variance_atlas_lines != expected_variance
         or matrix.get("paired_labels_joined_only_after_branches") is not True
         or matrix.get("paired_metrics_accessed_by_controller") is not False
         or matrix.get("confirmation20_opened") is not False

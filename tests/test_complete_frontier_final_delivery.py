@@ -164,8 +164,8 @@ def test_historical_evidence_binds_probes_causal_matrix_and_ledger(tmp_path: Pat
         "expected_sampling_variance_rows": 1,
         "missing_rows": [],
         "missing_sampling_variance_rows": [],
-        "rows": [{}, {}],
-        "sampling_variance_rows": [{}],
+        "rows": 2,
+        "sampling_variance_rows": 1,
         "probe_summaries": {"hj": {}},
         "ranked_failure_mechanisms": [],
         "target_blind_signal_screen": {},
@@ -174,6 +174,7 @@ def test_historical_evidence_binds_probes_causal_matrix_and_ledger(tmp_path: Pat
         "confirmation20_opened": False,
     })
     _write(tmp_path / "audit" / "LONG_REVERSAL_ATLAS.jsonl", "{}\n{}\n")
+    _write(tmp_path / "audit" / "SAMPLING_VARIANCE_ATLAS.jsonl", "{}\n")
     _write(tmp_path / "derive" / "HYPOTHESIS_LEDGER.json", {
         "schema": "final-unsb-route1-hypothesis-ledger-v1",
         "records": [{"candidate_id": "NEW", "generation": 1, "status": "FROZEN"}],
