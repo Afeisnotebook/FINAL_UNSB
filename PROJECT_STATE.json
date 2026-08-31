@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T10:03:00+08:00",
-  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_AND_MULTI_PARENT_FOLLOWUPS_ARMED",
+  "state_snapshot_time": "2026-08-31T10:30:00+08:00",
+  "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_MULTI_PARENT_AND_TWO_HOST_PORTFOLIO_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "0b69fff",
+  "development_head_at_state_write": "2c21ea2",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -148,6 +148,8 @@
     ,"RF-AMMCRB and RF-MCRB passed their source-bound 5090 GPU gates and started independent common-e0 batch1 seed2026 e200 trajectories"
     ,"a durable multi-parent follow-up successor preserves every strict, near-boundary or evidence-backed alternate repaired operator for its own proposal-only and observable-only e200 streams; the canonical id remains action priority rather than scientific exclusivity"
     ,"the extended repaired frontier ranks every completed full and proposal-only operator with strict qualification first while observable-only remains an exact-dynamics negative control"
+    ,"a portable repaired replay portfolio preserves up to two complete-e200 strict/near algorithms by derivation, implementation, training-commit, receipt and trajectory hashes; destination runs restart from the 4090 common e0 and never import source checkpoints"
+    ,"the 4090 repaired portfolio successor runs up to two source-identical algorithms in parallel, while canonical candidate naming remains an action priority rather than an exclusivity rule"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",

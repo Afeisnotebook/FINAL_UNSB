@@ -2,6 +2,19 @@
 
 ## 当前状态（2026-08-31）
 
+### 10:30 双算法跨宿主复验链已武装
+
+“唯一候选”现在只表示下一步行动优先级，不表示只保留一个算法。5090继续同时运行
+RF-AMMCRB与RF-MCRB；完整e200后，所有strict/near修复算法（最多两条）会被导出为
+源码、公式、训练commit、receipt与trajectory哈希绑定的便携组合。4090的两个原始训练
+commit工作树和双流持久执行器已预置，组合到达后从4090共同e0分别重训真实e200；不搬运
+checkpoint，不跨主机混算delta。5090上strict、near或有独立证据的alternate仍各自保留
+proposal-only/observable-only长程流，因此4090复验队列不会替代5090多前沿搜索。
+
+跨宿主组合、导出守护和4090双流执行器分别冻结在`c1021d8`、`7a66246`和`2c21ea2`，
+部署证据见
+`evidence/remote_route1_offload/REPAIRED_PORTFOLIO_CROSS_HOST_ARMED_20260831.json`。
+
 ### 09:53 多算法前沿不再只给冠军做后续
 
 5090上的RF-AMMCRB与RF-MCRB约到e15/e16，运行正常。新的持久后继已经武装：完整

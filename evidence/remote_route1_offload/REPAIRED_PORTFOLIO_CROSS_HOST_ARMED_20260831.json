@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-route1-repaired-portfolio-cross-host-armed-v1",
+  "recorded_at": "2026-08-31T10:30:00+08:00",
+  "status": "TWO_ALGORITHM_SOURCE_BOUND_4090_REPLAY_CHAIN_ARMED",
+  "purpose": "Preserve up to two complete-e200 strict/near repaired algorithms across hosts; a canonical id is an action priority, not a scientific exclusivity rule.",
+  "source_5090": {
+    "run_root": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+    "rfammcrb_training_commit": "1d9f9cb2a5cf066336add1fd5a22f7843c894f84",
+    "rfmcrb_training_commit": "613a10a1ad61bc83fc493d4eb3c2197b060ffbc7",
+    "latest_observed_data_epochs_at_record": {
+      "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER": 33,
+      "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER": 36
+    },
+    "portable_export_worktree": "/root/autodl-tmp/FINAL_UNSB_REPAIRED_REPLAY_EXPORT_7a66246",
+    "portable_export_commit": "7a66246",
+    "portable_export_screen": "FINAL_UNSB_REPAIRED_REPLAY_EXPORT_7a66246",
+    "portable_export_status": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200"
+  },
+  "destination_4090": {
+    "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+    "control_worktree": "/home/yc/FINAL_UNSB_REPAIRED_PORTFOLIO_CONTROL_2c21ea2",
+    "control_commit": "2c21ea2",
+    "rfammcrb_source_worktree": "/home/yc/FINAL_UNSB_RFAMMCRB_1d9f9cb",
+    "rfmcrb_source_worktree": "/home/yc/FINAL_UNSB_RFMCRB_613a10a",
+    "durable_tmux": "FINAL_UNSB_REPAIRED_PORTFOLIO_2c21ea2",
+    "status": "WAITING_FOR_PORTABLE_REPAIRED_E200_AUTHORITY",
+    "maximum_parallel_replays": 2,
+    "restart_from_destination_common_e0": true
+  },
+  "transport_contract": {
+    "portable_authority_commit": "c1021d8",
+    "export_successor_commit": "7a66246",
+    "destination_successor_commit": "2c21ea2",
+    "carries": [
+      "derivation card and implementation content hashes",
+      "algorithm fingerprint",
+      "source training git commit",
+      "complete e200 receipt and trajectory hashes",
+      "strict/near source classification"
+    ],
+    "imports_checkpoint_or_optimizer_state": false,
+    "cross_host_deltas_merged": false,
+    "paired_metrics_used_for_formula_or_training_control": false,
+    "paired_metrics_used_only_after_complete_e200_for_resource_allocation": true,
+    "confirmation20_opened": false
+  },
+  "resource_policy": {
+    "5090_parallel_full_parent_streams": 2,
+    "5090_parallel_followup_parent_streams": 2,
+    "4090_parallel_source_bound_replays": 2,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "selection_seed": 2026,
+    "action_priority_is_not_an_exclusivity_rule": true,
+    "small_score_differences_do_not_trigger_early_pruning": true
+  },
+  "verification": {
+    "local_full_pytest_passed": 285,
+    "remote5090_targeted_pytest_passed": 6,
+    "remote4090_targeted_pytest_passed": 6,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  }
+}

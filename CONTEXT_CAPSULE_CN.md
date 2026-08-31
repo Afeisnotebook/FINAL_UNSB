@@ -60,6 +60,11 @@
   target-blind可修复缺陷的e200近边界机制保留为可信前沿；当前5090双流完成后最多并行
   两条由终点证据授权的合成、机制消融或一次数学修订，规则冻结在
   `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
+- 该原则现已落实到跨宿主执行：5090上的两条修复父算法及其合格消融不会因小幅分差
+  只留一条；最多两条完整e200 strict/near算法可通过公式、源码、training commit和
+  terminal哈希绑定的便携组合进入4090，从该机共同e0并行重训。跨主机checkpoint不迁移、
+  delta不合并。实现与部署见
+  `evidence/remote_route1_offload/REPAIRED_PORTFOLIO_CROSS_HOST_ARMED_20260831.json`。
 
 ## 1. 原始问题
 
