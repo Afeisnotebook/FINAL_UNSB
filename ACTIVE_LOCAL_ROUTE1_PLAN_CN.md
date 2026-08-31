@@ -16,6 +16,9 @@
 - `CANDIDATE.json`中的唯一项只负责4090/后续算力行动优先级，不是前沿排他规则。
   代码提交为`52c0ad3`，持久screen与合同见
   `evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
+- 完成后不会只把full算法重新排名：`0b69fff`终点后继会把所有full与完成的
+  proposal-only放进严格资格优先的扩展前沿；observable-only只作为精确plain负对照。
+  因而“父算法第一名”与“真正长期最好的可执行operator”不会被混为一谈。
 
 ## 2026-08-31 09:27 执行更新：修复线已进入真实e200
 

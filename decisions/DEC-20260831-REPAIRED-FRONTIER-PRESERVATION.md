@@ -50,6 +50,9 @@
 - `operations/local_route1_repaired_followup_successor.py`在5090上为每个合格父算法保留
   一个独立流，父算法之间最多两流并行，父算法内部按proposal-only→observable-only串行，
   每项仍从共同e0完成batch1/seed2026/e200；
+- `research/local_route1/extended_repaired_frontier.py`把所有full与完成的proposal-only放回
+  同一个严格资格优先排名；observable-only只作精确plain动力学负对照。proposal-only若
+  长期优于full，可以取得行动优先级，不受父算法名称保护；
 - `algorithm_discovery_collapsed_to_single_candidate`被固定为`false`；
 - `canonical_candidate_is_action_priority_only`被固定为`true`；
 - paired指标只在完整e200后参与排序，不进入训练、公式或运行调度。
@@ -65,3 +68,5 @@
 
 上述多父后继已在提交`52c0ad3`以独立screen武装；compact记录见
 `evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
+扩展前沿终点后继冻结于`0b69fff`，记录见
+`evidence/remote_route1_offload/EXTENDED_REPAIRED_FRONTIER_SUCCESSOR_ARMED_20260831.json`。

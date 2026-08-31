@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T09:53:00+08:00",
+  "state_snapshot_time": "2026-08-31T10:03:00+08:00",
   "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_AND_MULTI_PARENT_FOLLOWUPS_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "52c0ad3",
+  "development_head_at_state_write": "0b69fff",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -147,6 +147,7 @@
     ,"implementation-invalid parents use a dedicated complete-e200 diagnostic receipt that validates every artifact but is permanently ineligible for scientific ranking; ledger state is never rolled back to satisfy an old receipt path"
     ,"RF-AMMCRB and RF-MCRB passed their source-bound 5090 GPU gates and started independent common-e0 batch1 seed2026 e200 trajectories"
     ,"a durable multi-parent follow-up successor preserves every strict, near-boundary or evidence-backed alternate repaired operator for its own proposal-only and observable-only e200 streams; the canonical id remains action priority rather than scientific exclusivity"
+    ,"the extended repaired frontier ranks every completed full and proposal-only operator with strict qualification first while observable-only remains an exact-dynamics negative control"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -519,7 +520,13 @@
       "paired_metric_scheduling": false,
       "paired_controller_access": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json"
+      "evidence": "evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json",
+      "extended_frontier_commit": "0b69fffdc02d84be704c5b12cb21224d104f618e",
+      "durable_extended_frontier_successor": "screen:FINAL_UNSB_EXTENDED_REPAIRED_0b69fff",
+      "extended_frontier_contract_sha256": "60d94c11563e94b39664a7ef1cc7713c2585a3083babf7ce0be3c0f65bb8830d",
+      "extended_frontier_includes_full_and_proposal_only": true,
+      "extended_frontier_excludes_observable_only_from_candidate_rank": true,
+      "extended_frontier_evidence": "evidence/remote_route1_offload/EXTENDED_REPAIRED_FRONTIER_SUCCESSOR_ARMED_20260831.json"
     },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"

@@ -10,6 +10,8 @@ e200后，两条修复中凡属于strict、near或仍有独立正证据的altern
 只留下第一名。每个父算法内部串行、父算法之间最多两流并行，仍固定batch1、seed2026、
 共同e0。唯一canonical候选只代表下一步行动优先级。实现提交为`52c0ad3`，证据见
 `evidence/remote_route1_offload/REPAIRED_MULTI_PARENT_FOLLOWUP_ARMED_20260831.json`。
+其后的`0b69fff`持久终点后继会统一比较所有full与完成的proposal-only；若某个消融本身
+更好，它可以进入行动主项，observable-only则固定排除在候选排名之外。
 
 ### 09:27 两条修复算法已启动长期训练
 

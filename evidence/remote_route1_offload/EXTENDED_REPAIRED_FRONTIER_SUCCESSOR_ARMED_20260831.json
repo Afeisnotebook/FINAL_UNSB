@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-route1-extended-repaired-frontier-successor-armed-v1",
+  "recorded_at": "2026-08-31T10:03:00+08:00",
+  "status": "DURABLE_EXTENDED_REPAIRED_FRONTIER_SUCCESSOR_ARMED",
+  "git_commit": "0b69fffdc02d84be704c5b12cb21224d104f618e",
+  "worktree": "/root/autodl-tmp/FINAL_UNSB_EXTENDED_REPAIRED_0b69fff",
+  "screen": "FINAL_UNSB_EXTENDED_REPAIRED_0b69fff",
+  "contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/EXTENDED_REPAIRED_FRONTIER_SUCCESSOR_CONTRACT.json",
+  "contract_sha256": "60d94c11563e94b39664a7ef1cc7713c2585a3083babf7ce0be3c0f65bb8830d",
+  "waits_for": "REPAIRED_FOLLOWUP_EXECUTION_RESULT.json",
+  "ranking_scope": {
+    "includes": [
+      "PCNR full",
+      "RF-AMMCRB full",
+      "RF-MCRB full",
+      "every executed repaired-parent proposal-only"
+    ],
+    "excludes_from_candidate_ranking": "observable-only exact-dynamics controls",
+    "strict_qualification_precedes_numeric_rank": true,
+    "cross_host_deltas_merged": false,
+    "canonical_candidate_is_action_priority_only": true,
+    "algorithm_discovery_collapsed_to_single_candidate": false
+  },
+  "paired_metrics_used_only_after_complete_e200_trajectories": true,
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
