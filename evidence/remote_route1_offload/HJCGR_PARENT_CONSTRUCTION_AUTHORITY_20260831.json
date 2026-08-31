@@ -1,0 +1,56 @@
+{
+  "schema": "final-unsb-route1-hjcgr-parent-authority-v1",
+  "status": "PORTABLE_HJCGR_CONSTRUCTION_AUTHORITY",
+  "candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+  "source_host_label": "remote4090-authoritative-route1",
+  "construction_authority_only": true,
+  "destination_result_may_not_requalify_algorithm": true,
+  "parent_evidence": {
+    "hj": {
+      "probe_id": "hj",
+      "complete_e200": true,
+      "late_three_mean_macro_psnr_delta": 0.6493313327204753,
+      "e200_macro_psnr_delta": 0.1593419444336348,
+      "e200_positive_domains": 4,
+      "late_points_with_four_of_six_positive_domains": 3,
+      "state_operator_case_counts": {
+        "harmful_on_both_states": 2,
+        "self_state_only_help": 3,
+        "sustainable_on_both_states": 2,
+        "plain_state_help_self_state_harm": 3
+      },
+      "next_batch_consensus_negative_rows": 22
+    },
+    "hj_sampling_variance": {
+      "independent_batch_variance_fraction": 0.872739367754447,
+      "independent_batch_variance_dominated_rows": 22,
+      "latent_time_bridge_variance_fraction": 0.8728196261383675,
+      "latent_time_bridge_variance_dominated_rows": 22
+    },
+    "pcrsmg_proposal_only": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "algorithm_fingerprint": "0f0bda5033ab6f25ccb625dd3618232c8b90742866d81710bd2a61760f174ed6",
+      "terminal_receipt_sha256": "ade3137af01649a12f98a349c03d85ef24c80370223e8a748debb074d68e61f5",
+      "derivation_card_sha256": "7096761de6ba9ecc0f8beddef0e9964d30946f9a65eae48c091b0cc28f15960f",
+      "trajectory_sha256": "80a687b48862f59dbacd0fc73c44a4d7fe7b9c3e9f37a7dc6ddc51c4903eb61d",
+      "late_three_mean_macro_psnr_delta": 0.5415065556765851,
+      "e200_macro_psnr_delta": 0.4510917790142841,
+      "late_points_with_four_of_six_positive_domains": 2
+    },
+    "anchor_summary_sha256": "1e722a6401336cd8004537751371c132a350455b90a0e988eda4c866c5ad8efe",
+    "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3"
+  },
+  "parent_evidence_sha256": "4ab2985f6a560ac237ede7a166c24d52664b38d3666fa5038e76b204e5580e77",
+  "source_artifact_sha256": {
+    "anchor_summary": "1e722a6401336cd8004537751371c132a350455b90a0e988eda4c866c5ad8efe",
+    "causal_matrix": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+    "reversal_atlas": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1",
+    "proposal_terminal_receipt": "ade3137af01649a12f98a349c03d85ef24c80370223e8a748debb074d68e61f5",
+    "proposal_derivation_card": "7096761de6ba9ecc0f8beddef0e9964d30946f9a65eae48c091b0cc28f15960f",
+    "proposal_trajectory": "80a687b48862f59dbacd0fc73c44a4d7fe7b9c3e9f37a7dc6ddc51c4903eb61d"
+  },
+  "cross_host_metrics_merged": false,
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
