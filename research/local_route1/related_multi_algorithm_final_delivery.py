@@ -842,8 +842,20 @@ def _report(
         "# FINAL UNSB 路线一：多算法科学交付",
         "",
         f"- 下一步行动优先级：`{action['candidate_id']}`。这不是科学排他性冠军。",
-        f"- 严格可行算法：`{len(algorithm_set['strict_viable_candidate_ids'])}` 条。",
-        f"- 正向但脆弱算法：`{len(algorithm_set['positive_but_fragile_candidate_ids'])}` 条。",
+        "- 严格可行算法（全部保留）：" + (
+            "、".join(
+                f"`{candidate_id}`"
+                for candidate_id in algorithm_set["strict_viable_candidate_ids"]
+            ) or "无"
+        ) + "。",
+        "- 正向但脆弱算法（全部保留）：" + (
+            "、".join(
+                f"`{candidate_id}`"
+                for candidate_id in algorithm_set[
+                    "positive_but_fragile_candidate_ids"
+                ]
+            ) or "无"
+        ) + "。",
         "- 兼容性交付仍提供唯一行动候选；该身份不删除算法集合中的其他可行机制。",
         "- 所有排序仅使用4090同宿主、共同e0、small25、seed2026、真实e200结果。",
         "- 5090结果只作为独立运行时证据；没有把跨宿主差值平均成多seed结论。",

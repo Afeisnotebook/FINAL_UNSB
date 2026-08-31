@@ -338,6 +338,11 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert algorithm_set["related_conditional_estimator_family"][
         "gain_source_controls"
     ][0]["candidate_id"] == delivery.HJPCNR
+    report = (tmp_path / delivery.FINAL_SUBDIR / "RELATED_FINAL_REPORT.md").read_text(
+        encoding="utf-8"
+    )
+    assert delivery.HJPCNR in report
+    assert "严格可行算法（全部保留）" in report
     decomposition = algorithm_set["mechanism_gain_source_decomposition"]
     by_id = {row["candidate_id"]: row for row in decomposition["members"]}
     assert by_id[delivery.PROPOSAL][
