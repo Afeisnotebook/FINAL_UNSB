@@ -50,5 +50,8 @@ authorize compute.
 15. `DEC-20260831-PCNR-ALTERNATE-4090-REPLAY-ROUTING.md`：旧修复portfolio将PCNR
     alternate误过滤为空是编排事故而非科学淘汰；PCNR须按完整5090权威绑定，从4090
     共同e0完成真实e200复赛后再重算完整多候选前沿。
+16. `DEC-20260831-5090-CROSS-RUNTIME-MULTI-CANDIDATE-PORTFOLIO.md`：空闲5090并行
+    复赛4090严格第一的PC-RSMG proposal-only与机制独立的AM-TNC；两者保持batch1、共同
+    e0和宿主分离delta，closed当前算子不因算力空闲而机械重跑。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
