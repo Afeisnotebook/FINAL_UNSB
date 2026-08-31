@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-route1-semantic-incident-v1",
+  "recorded_at": "2026-08-31T22:24:00+08:00",
+  "incident_id": "INC-20260831-HPCGR-GATE-SOURCE-REGISTRATION",
+  "candidate_id": "G3-01-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING",
+  "method_name": "Physical-Horizon Conditional G/F Resampling",
+  "classification": "implementation_failure",
+  "scientific_conclusion_allowed": false,
+  "parent_mechanism_falsified": false,
+  "frozen_derivation_requirement": "HNEK physical-horizon residual bridge semantics plus a fresh conditionally iid two-view G/F mean at the realized post-D/E HNEK state.",
+  "implemented_semantics": "The algorithm sources and mathematical card were frozen, but the implementation manifest omitted research/local_route1/generation1_gates.py from source_files even though the gate hook points to that module.",
+  "proof_failure": "The fail-closed candidate loader correctly refused to execute an unregistered gate hook. No mathematical invariant, optimizer update, paired evaluation, or long-horizon training was executed for this identity.",
+  "why_existing_gate_missed_it": "The gate could not start because hook source registration is checked before the executable mathematical gate.",
+  "containment": {
+    "old_trajectory_resumable": false,
+    "old_trajectory_rankable": false,
+    "checkpoints_preserved": true,
+    "successor_stopped": true,
+    "optimizer_updates_executed": 0,
+    "paired_metric_used_for_detection_or_redesign": false,
+    "confirmation20_opened": false
+  },
+  "invalid_identity": {
+    "training_git_commit": "ee7dea7fc38a96b7ebbc6266eed38d60798de348",
+    "algorithm_fingerprint": "cde008e63f69276a407fe5e97ca7defd0751946e123e37df26be9817010fd65e",
+    "candidate_fingerprint": "6c288c8896d9fa0ddb331822481cb9097bb166eb57b12c9efdd4bf1079577ccc",
+    "candidate_training_core_fingerprint": "5cb6ff5a9455b4e3948641f74bcce30b9dbfb0694f01af010f47ec9918263252"
+  },
+  "required_repair": {
+    "new_candidate_identity": true,
+    "restart_from_common_e0": true,
+    "register_gate_hook_source": true,
+    "formula_change_allowed": false,
+    "executable_component_identity_gate": true,
+    "old_artifacts_must_remain_append_only": true
+  }
+}

@@ -7,6 +7,7 @@ from types import SimpleNamespace
 from research.local_route1.multi_algorithm_frontier import (
     FRONTIER_SCHEMA,
     HPCGR_ID,
+    HPCGR_INVALID_ID,
     PROPOSAL_ID,
     build_hpcgr_implementation,
     materialize_multi_algorithm_frontier,
@@ -78,7 +79,16 @@ def _fixture(tmp_path: Path) -> None:
     })
     _write(tmp_path / "derive" / "HYPOTHESIS_LEDGER.json", {
         "schema": "final-unsb-route1-hypothesis-ledger-v1",
-        "records": [],
+        "records": [{
+            "candidate_id": HPCGR_INVALID_ID,
+            "generation": 3,
+            "parent_evidence": {"parents": "hnek+proposal"},
+            "construction_route": "evidence_qualified_nested_coordinate_estimator",
+            "status": "FROZEN_FOR_GATES",
+            "algorithm_fingerprint": (
+                "cde008e63f69276a407fe5e97ca7defd0751946e123e37df26be9817010fd65e"
+            ),
+        }],
     })
 
 
@@ -128,9 +138,9 @@ def test_materialization_preserves_a_multi_algorithm_frontier(monkeypatch, tmp_p
     assert result["schema"] == FRONTIER_SCHEMA
     assert result["action_priority_candidate_id"] == HPCGR_ID
     assert result["action_priority_is_not_scientific_exclusivity"] is True
-    assert len(result["frontier"]) == 5
+    assert len(result["frontier"]) == 6
     statuses = {row["id"]: row["status"] for row in result["frontier"]}
     assert statuses[PROPOSAL_ID] == "POSITIVE_E200_SOURCE_BOUND_PARENT"
     assert statuses[HPCGR_ID] == "FROZEN_FOR_TARGET_BLIND_GATE"
+    assert statuses[HPCGR_INVALID_ID].startswith("IMPLEMENTATION_INVALID")
     assert statuses["HJ-CONDITIONAL-GF-RESAMPLING"].endswith("AUDIT_REQUIRED")
-

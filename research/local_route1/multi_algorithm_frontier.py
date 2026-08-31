@@ -18,12 +18,14 @@ from research.local_route1.candidates import (
     CARD_SCHEMA,
     IMPLEMENTATION_SCHEMA,
     freeze_candidate_derivation,
+    register_engineering_replacement,
 )
 from research.local_route1.protocol import ROOT, file_sha256
 from research.local_route1.runtime import write_json
 
 
-HPCGR_ID = "G3-01-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING"
+HPCGR_INVALID_ID = "G3-01-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING"
+HPCGR_ID = "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING"
 PROPOSAL_ID = "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
 AMTNC_ID = "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
 FRONTIER_SCHEMA = "final-unsb-route1-multi-algorithm-math-frontier-v1"
@@ -207,6 +209,10 @@ def build_hpcgr_card(
             "CROSS_RUNTIME_LONG_HORIZON_DIVERGENCE:HNEK:terminal_instability_not_mechanism_death:"
             + file_sha256(cross_runtime)
         )
+    incident_relative = (
+        "evidence/remote_route1_offload/"
+        "HPCGR_GATE_SOURCE_REGISTRATION_INCIDENT_20260831.json"
+    )
     return {
         "schema": CARD_SCHEMA,
         "candidate_id": HPCGR_ID,
@@ -302,6 +308,13 @@ def build_hpcgr_card(
         "causal_matrix_sha256": evidence["causal_matrix_sha256"],
         "reversal_atlas_sha256": file_sha256(atlas_path),
         "contract_id": HPCGR_ID,
+        "engineering_replacement_for": HPCGR_INVALID_ID,
+        "engineering_incident_path": incident_relative,
+        "engineering_incident_sha256": file_sha256(ROOT / incident_relative),
+        "implementation_semantic_correction": (
+            "Register the executable gate-hook module in immutable source_files; "
+            "the algorithm formula, model operator and frozen hyperparameters are unchanged."
+        ),
     }
 
 
@@ -312,6 +325,7 @@ def build_hpcgr_implementation(card_path: Path) -> dict[str, Any]:
         "src/models/hnek/hnek_kernel.py",
         "src/models/route1/pcrsmg_ablation.py",
         "src/models/route1/pcrsmg.py",
+        "research/local_route1/generation1_gates.py",
     ]
     return {
         "schema": IMPLEMENTATION_SCHEMA,
@@ -362,29 +376,37 @@ def materialize_multi_algorithm_frontier(
 
     ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
     ledger = _read_json(ledger_path)
-    expected = {
-        "candidate_id": HPCGR_ID,
-        "generation": 3,
-        "parent_candidate_id": PROPOSAL_ID,
-        "parent_evidence": evidence,
-        "construction_route": "evidence_qualified_nested_coordinate_estimator",
-        "status": "DERIVATION_REQUIRED",
-        "revision_count": 0,
-        "experiments": [],
-        "paired_controller_access": False,
-        "confirmation20_opened": False,
-    }
     matches = [
         row for row in ledger.get("records", [])
         if isinstance(row, dict) and row.get("candidate_id") == HPCGR_ID
     ]
     if not matches:
-        ledger["records"].append(expected)
-        write_json(ledger_path, ledger)
+        parent_matches = [
+            row for row in ledger.get("records", [])
+            if isinstance(row, dict) and row.get("candidate_id") == HPCGR_INVALID_ID
+        ]
+        if len(parent_matches) != 1:
+            raise RuntimeError("HPCGR invalid gate identity is not uniquely frozen")
+        register_engineering_replacement(
+            output_root,
+            HPCGR_INVALID_ID,
+            HPCGR_ID,
+            incident_relative=(
+                "evidence/remote_route1_offload/"
+                "HPCGR_GATE_SOURCE_REGISTRATION_INCIDENT_20260831.json"
+            ),
+        )
+        ledger = _read_json(ledger_path)
+        matches = [
+            row for row in ledger.get("records", [])
+            if isinstance(row, dict) and row.get("candidate_id") == HPCGR_ID
+        ]
     elif len(matches) != 1:
         raise RuntimeError("HPCGR hypothesis identity is not unique")
-    elif matches[0].get("status") != "FROZEN_FOR_GATES" and matches[0] != expected:
-        raise RuntimeError("HPCGR hypothesis ledger slot changed")
+    if len(matches) != 1 or matches[0].get("status") not in (
+        "DERIVATION_REQUIRED", "FROZEN_FOR_GATES",
+    ):
+        raise RuntimeError("HPCGR engineering replacement ledger slot changed")
 
     registration = freeze_candidate_derivation(output_root, HPCGR_ID)
     frontier = {
@@ -406,6 +428,11 @@ def materialize_multi_algorithm_frontier(
                 "kind": "conditional_unbiased_estimator_parent",
                 "status": "POSITIVE_E200_SOURCE_BOUND_PARENT",
                 "evidence": evidence["pcrsmg_proposal_only"],
+            },
+            {
+                "id": HPCGR_INVALID_ID,
+                "kind": "nested_coordinate_estimator_composition",
+                "status": "IMPLEMENTATION_INVALID_GATE_SOURCE_UNREGISTERED",
             },
             {
                 "id": HPCGR_ID,
