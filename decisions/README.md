@@ -53,5 +53,8 @@ authorize compute.
 16. `DEC-20260831-5090-CROSS-RUNTIME-MULTI-CANDIDATE-PORTFOLIO.md`：空闲5090并行
     复赛4090严格第一的PC-RSMG proposal-only与机制独立的AM-TNC；两者保持batch1、共同
     e0和宿主分离delta，closed当前算子不因算力空闲而机械重跑。
+17. `DEC-20260831-RELATED-MULTI-ALGORITHM-FAMILY-DELIVERY.md`：终局允许多个严格可行
+    算法；原生/HNEK/HJ父对象分别组合相同的条件无偏双视图估计器，AM-TNC作为独立机制
+    保留。4090有限并发HPCGR与HJCGR，最终`ALGORITHM_SET`而非单一冠军拥有科学解释权。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
