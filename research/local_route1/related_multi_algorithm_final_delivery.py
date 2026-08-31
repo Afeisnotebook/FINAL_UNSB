@@ -268,6 +268,62 @@ def _mechanism_gain_source_decomposition(
     conditional estimator improves native, HNEK, and HJ fields without
     pretending that their PSNR deltas form a linear model.
     """
+    control_path = output_root / "operations" / "WINNER_ABLATION_ADJUDICATION.json"
+    control = _read_json(control_path)
+    roles = control.get("roles")
+    observable = roles.get("observable_only") if isinstance(roles, dict) else None
+    identity = control.get("observable_only_identity")
+    if (
+        control.get("schema")
+        != "final-unsb-route1-winner-ablation-adjudication-v1"
+        or control.get("status")
+        != "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION"
+        or set(roles or {}) != {"proposal_only", "observable_only", "projected_or_full"}
+        or roles.get("proposal_only", {}).get("candidate_id") != PROPOSAL
+        or not isinstance(observable, dict)
+        or not isinstance(identity, dict)
+        or identity.get("status") != "EXACT_PLAIN_E200_DYNAMICS_IDENTITY"
+        or identity.get("matched_plain_delta_exact_zero") is not True
+        or observable.get("ranking_fields", {}).get(
+            "late_three_mean_macro_psnr_delta"
+        ) != 0.0
+        or observable.get("ranking_fields", {}).get("e200_macro_psnr_delta") != 0.0
+        or control.get("paired_metrics_used_for_training_or_control") is not False
+        or control.get("paired_controller_access") is not False
+        or control.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("gain-source compute-only control is not exact plain")
+    compute_only_control = {
+        "schema": "final-unsb-route1-related-compute-only-control-v1",
+        "status": "EXTRA_VIEW_OBSERVATION_IS_EXACT_PLAIN_E200_DYNAMICS",
+        "candidate_id": observable["candidate_id"],
+        "source_path": control_path.relative_to(output_root).as_posix(),
+        "source_sha256": file_sha256(control_path),
+        "candidate_dynamics_state_sha256": identity[
+            "candidate_dynamics_state_sha256"
+        ],
+        "plain_dynamics_state_sha256": identity["plain_dynamics_state_sha256"],
+        "dynamics_state_exact_plain": (
+            identity["candidate_dynamics_state_sha256"]
+            == identity["plain_dynamics_state_sha256"]
+        ),
+        "late_three_mean_macro_psnr_delta": 0.0,
+        "e200_macro_psnr_delta": 0.0,
+        "interpretation": (
+            "Extra stochastic-view evaluation without committing the replicated "
+            "estimator cannot explain the gain. The retained family changes the "
+            "committed estimator covariance/finite-step coupling and remains "
+            "compute-sensitive; native-budget equivalence is not claimed."
+        ),
+        "rules_out_wall_clock_or_observer_side_effect_only": True,
+        "does_not_claim_native_compute_budget_equivalence": True,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    if compute_only_control["dynamics_state_exact_plain"] is not True:
+        raise RuntimeError("gain-source compute-only dynamics hashes differ")
+
     anchor_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     anchor = _read_json(anchor_path)
     if anchor.get("schema") != "local-route1-anchor-summary-v1":
@@ -370,6 +426,7 @@ def _mechanism_gain_source_decomposition(
             "integer physical counters once, and mean-reduces floating diagnostics."
         ),
         "matched_increment_is_not_additive_causal_attribution": True,
+        "compute_only_control": compute_only_control,
         "cross_host_metrics_merged": False,
         "anchor_summary_sha256": file_sha256(anchor_path),
     }
@@ -503,6 +560,7 @@ def _report(
         )
     lines.extend([
         "- 上述增量来自共同e0的两条完整非线性轨迹之差，不解释为单轨迹内可加因果贡献。",
+        "- compute-only控制：额外视图仅观察、不提交复制估计器时，e200 dynamics与plain精确一致且delta为0；这排除观察计算/墙钟副作用，但不声称原生算力预算等价。",
         "",
         "## 结论边界",
         "",

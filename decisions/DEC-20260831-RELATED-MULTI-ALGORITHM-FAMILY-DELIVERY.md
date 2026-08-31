@@ -51,6 +51,14 @@ G/F视图并取均值：
 `G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS`（AM-TNC）保留为独立机制成员。它不是上述
 相关族的重复，也不因其LPIPS护栏脆弱而被事后删除。
 
+## 计算量归因边界
+
+已完成的`observable_only`消融执行额外随机视图计算，但仍只提交原生梯度。其e200
+dynamics-state hash与plain精确一致，late-three和e200 matched delta均为0。相比之下，
+proposal-only提交G/F双视图均值并取得长期正结果。因此观察计算或墙钟副作用不能解释收益；
+收益必须经过提交估计器的协方差/有限步耦合变化产生。但该算法仍需要额外采样计算，不能据此
+声称与原生UNSB算力预算等价，论文阶段仍需报告计算成本。
+
 ## 为什么当前不机械增加DT变体
 
 DT证据已经驱动过moving covariance-rate barrier、Adam/Euclidean约束几何、

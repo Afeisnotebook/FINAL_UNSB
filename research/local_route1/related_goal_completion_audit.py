@@ -89,6 +89,33 @@ def _audit_gain_source(
         decomposition.get("cross_host_metrics_merged") is False,
         "gain-source decomposition merged cross-host deltas",
     )
+    compute_control = decomposition.get("compute_only_control")
+    _require(
+        isinstance(compute_control, dict)
+        and compute_control.get("schema")
+        == "final-unsb-route1-related-compute-only-control-v1"
+        and compute_control.get("status")
+        == "EXTRA_VIEW_OBSERVATION_IS_EXACT_PLAIN_E200_DYNAMICS"
+        and compute_control.get("source_path")
+        == "operations/WINNER_ABLATION_ADJUDICATION.json"
+        and len(str(compute_control.get("source_sha256", ""))) == 64
+        and compute_control.get("dynamics_state_exact_plain") is True
+        and compute_control.get("candidate_dynamics_state_sha256")
+        == compute_control.get("plain_dynamics_state_sha256")
+        and float(compute_control.get("late_three_mean_macro_psnr_delta", 1.0))
+        == 0.0
+        and float(compute_control.get("e200_macro_psnr_delta", 1.0)) == 0.0
+        and compute_control.get(
+            "rules_out_wall_clock_or_observer_side_effect_only"
+        ) is True
+        and compute_control.get("does_not_claim_native_compute_budget_equivalence")
+        is True
+        and compute_control.get("paired_metrics_used_for_training_or_control")
+        is False
+        and compute_control.get("paired_controller_access") is False
+        and compute_control.get("confirmation20_opened") is False,
+        "gain-source compute-only control is absent or overclaimed",
+    )
     rows = decomposition.get("members")
     _require(isinstance(rows, list), "gain-source member rows are malformed")
     by_id = {
@@ -152,6 +179,8 @@ def _audit_gain_source(
         "positive_increment_candidate_ids": positive,
         "recomputed_matched_increments": recomputed,
         "conditional_theorem_present": True,
+        "compute_only_control_proven": True,
+        "native_compute_budget_equivalence_not_claimed": True,
         "additive_causality_not_claimed": True,
     }
 

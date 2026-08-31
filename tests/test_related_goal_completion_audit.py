@@ -54,6 +54,22 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "shared_estimator_positive_increment_candidate_ids": list(family_ids),
         "shared_estimator_positive_increment_count": 3,
         "matched_increment_is_not_additive_causal_attribution": True,
+        "compute_only_control": {
+            "schema": "final-unsb-route1-related-compute-only-control-v1",
+            "status": "EXTRA_VIEW_OBSERVATION_IS_EXACT_PLAIN_E200_DYNAMICS",
+            "source_path": "operations/WINNER_ABLATION_ADJUDICATION.json",
+            "source_sha256": "a" * 64,
+            "candidate_dynamics_state_sha256": "same-dynamics",
+            "plain_dynamics_state_sha256": "same-dynamics",
+            "dynamics_state_exact_plain": True,
+            "late_three_mean_macro_psnr_delta": 0.0,
+            "e200_macro_psnr_delta": 0.0,
+            "rules_out_wall_clock_or_observer_side_effect_only": True,
+            "does_not_claim_native_compute_budget_equivalence": True,
+            "paired_metrics_used_for_training_or_control": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
         "cross_host_metrics_merged": False,
     }
     algorithm_set = {
@@ -203,6 +219,10 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "positive_increment_candidate_ids"
     ] == list(family_ids)
     assert result["gain_source_proof"]["additive_causality_not_claimed"] is True
+    assert result["gain_source_proof"]["compute_only_control_proven"] is True
+    assert result["gain_source_proof"][
+        "native_compute_budget_equivalence_not_claimed"
+    ] is True
     assert result["completion_claim_allowed"] is False
     assert set(result["source_delivery_sha256"]) == {POINTER, *PUBLISHED_FILES}
 

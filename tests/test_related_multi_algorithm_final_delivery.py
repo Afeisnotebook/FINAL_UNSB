@@ -140,6 +140,30 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
             },
         ],
     })
+    _write(tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json", {
+        "schema": "final-unsb-route1-winner-ablation-adjudication-v1",
+        "status": "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION",
+        "roles": {
+            "proposal_only": {"candidate_id": delivery.PROPOSAL},
+            "observable_only": {
+                "candidate_id": "OBSERVABLE",
+                "ranking_fields": {
+                    "late_three_mean_macro_psnr_delta": 0.0,
+                    "e200_macro_psnr_delta": 0.0,
+                },
+            },
+            "projected_or_full": {"candidate_id": "FULL"},
+        },
+        "observable_only_identity": {
+            "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
+            "candidate_dynamics_state_sha256": "same-dynamics",
+            "plain_dynamics_state_sha256": "same-dynamics",
+            "matched_plain_delta_exact_zero": True,
+        },
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
 
     for candidate_id in (
         "BASE", delivery.PROPOSAL, delivery.HPCGR, delivery.HJCGR,
@@ -228,6 +252,10 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert decomposition["shared_estimator_positive_increment_count"] == 3
     assert decomposition[
         "matched_increment_is_not_additive_causal_attribution"
+    ] is True
+    assert decomposition["compute_only_control"]["dynamics_state_exact_plain"] is True
+    assert decomposition["compute_only_control"][
+        "does_not_claim_native_compute_budget_equivalence"
     ] is True
     candidate = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "CANDIDATE.json").read_text()
