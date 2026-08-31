@@ -35,6 +35,22 @@
     "finite_adam_displacement_equivalence_claimed": false,
     "sample_path_equivalence_claimed": false
   },
+  "parent_variance_axis_alignment": {
+    "source": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/audit/LONG_CAUSAL_MATRIX.json",
+    "hj": {
+      "latent_time_bridge_rng_rows": 22,
+      "latent_time_bridge_rng_variance_dominated_rows": 22,
+      "alignment": "directly_aligned_with_HJCGR"
+    },
+    "hnek": {
+      "latent_time_bridge_rng_rows": 18,
+      "latent_time_bridge_rng_variance_dominated_rows": 0,
+      "independent_unpaired_batch_rows": 18,
+      "independent_unpaired_batch_variance_dominated_rows": 9,
+      "alignment": "HPCGR_is_a_compositional_transfer_hypothesis_not_direct_repair_of_the_dominant_parent_axis"
+    },
+    "shared_estimator_theorem_does_not_imply_shared_parent_failure_mode": true
+  },
   "causal_boundaries": {
     "matched_trajectory_difference_is_not_additive_single_path_causality": true,
     "only_tested_operator_scope": true,

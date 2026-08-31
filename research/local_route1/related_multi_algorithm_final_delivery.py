@@ -436,6 +436,73 @@ def _mechanism_gain_source_decomposition(
         "confirmation20_opened": False,
     }
 
+    matrix_path = output_root / "audit" / "LONG_CAUSAL_MATRIX.json"
+    matrix = _read_json(matrix_path)
+    if matrix.get("status") != "COMPLETE_CAUSAL_AUDIT":
+        raise RuntimeError("gain-source variance-axis alignment requires causal audit")
+    variance_summaries = {
+        str(row.get("probe")): row
+        for row in matrix.get("sampling_variance_summaries", [])
+        if isinstance(row, dict)
+    }
+
+    def audited_axis(probe: str, axis: str) -> dict[str, Any]:
+        summary = variance_summaries.get(probe)
+        axes = summary.get("axes") if isinstance(summary, dict) else None
+        value = axes.get(axis) if isinstance(axes, dict) else None
+        if not isinstance(value, dict):
+            raise RuntimeError(f"missing variance axis: {probe}/{axis}")
+        return {
+            "rows": int(value["rows"]),
+            "variance_dominated_rows": int(value["variance_dominated_rows"]),
+            "mean_variance_fraction": float(value["mean_variance_fraction"]),
+        }
+
+    hj_within = audited_axis("hj", "latent_time_bridge_rng")
+    hnek_within = audited_axis("hnek", "latent_time_bridge_rng")
+    hnek_batch = audited_axis("hnek", "independent_unpaired_batch")
+    if not (
+        hj_within["rows"] > 0
+        and hj_within["variance_dominated_rows"] == hj_within["rows"]
+        and hnek_within["rows"] > 0
+        and hnek_within["variance_dominated_rows"] == 0
+    ):
+        raise RuntimeError("gain-source variance-axis alignment changed")
+    variance_axis_alignment = {
+        "schema": "final-unsb-route1-related-variance-axis-alignment-v1",
+        "operator_axis": "within_batch_latent_time_bridge_and_feature_sampling",
+        "causal_matrix_path": matrix_path.relative_to(output_root).as_posix(),
+        "causal_matrix_sha256": file_sha256(matrix_path),
+        "members": {
+            PROPOSAL: {
+                "alignment": "empirically_aligned_by_completed_factorial_controls",
+                "evidence": (
+                    "PCNR one-view resampling fails, two-view G/F mean passes, and "
+                    "all-player replication loses its terminal margin"
+                ),
+            },
+            HJCGR: {
+                "alignment": "directly_aligned_with_parent_audited_variance_axis",
+                "latent_time_bridge_rng": hj_within,
+            },
+            HPCGR: {
+                "alignment": "compositional_transfer_hypothesis_not_direct_axis_repair",
+                "latent_time_bridge_rng": hnek_within,
+                "independent_unpaired_batch": hnek_batch,
+                "unaddressed_parent_axis": "independent_unpaired_batch",
+                "interpretation": (
+                    "HPCGR tests whether the empirically successful selective G/F "
+                    "estimator transfers to the independently useful HNEK field; it "
+                    "does not claim to reduce HNEK's audited across-batch variance."
+                ),
+            },
+        },
+        "shared_theorem_does_not_imply_shared_failure_mode": True,
+        "hpcgr_viability_must_be_decided_by_complete_e200_trajectory": True,
+        "paired_metrics_used_for_formula_or_training_control": False,
+        "confirmation20_opened": False,
+    }
+
     anchor_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     anchor = _read_json(anchor_path)
     if anchor.get("schema") != "local-route1-anchor-summary-v1":
@@ -555,6 +622,7 @@ def _mechanism_gain_source_decomposition(
         "compute_only_control": compute_only_control,
         "player_scope_control": player_scope_control,
         "conditional_resampling_control": conditional_resampling_control,
+        "variance_axis_alignment": variance_axis_alignment,
         "optimizer_nonlinearity_boundary": (
             "Unbiasedness is for the pre-Adam stochastic gradient estimator at a "
             "fixed realized parent state. Adam is applied once after averaging; no "
@@ -698,6 +766,7 @@ def _report(
         "- player-scope控制：仅G/F复制在e200保持正收益，而D/E/G/F全复制虽有更高late-three均值却在e200回到非正；长期收益不是全局降方差的单调结果。",
         "- resampling控制：仅在D/E后重新抽一个G/F view的PCNR在late-three与e200均非正；加入同batch双视图均值后才严格通过。当前证据支持的是选择性G/F条件方差缩减，而不是重新采样本身。",
         "- 方差边界：双视图共享同一官方unpaired batch；减小的是给定batch后的latent/time/bridge/PatchNCE条件方差，不减小跨batch或跨域采样方差。",
+        "- 证据轴对齐：HJ的latent/time/bridge轴直接由方差主导；HPCGR则是把已验证的G/F估计器迁移到独立有效的HNEK父场，并不预称修复HNEK主要的跨batch方差。其成败由完整e200轨迹决定。",
         "- 无偏性只针对固定父状态下的pre-Adam梯度估计器；不声明有限步Adam位移或随机样本路径与父算法相同。",
         "",
         "## 结论边界",
@@ -813,6 +882,7 @@ def materialize_related_multi_algorithm_final_delivery(
                 {"candidate_id": HJCGR, "base_object": "HJ structure-projected PatchNCE objective"},
             ],
             "membership_is_not_assumed_viability": True,
+            "shared_theorem_does_not_imply_shared_parent_failure_mode": True,
         },
         "independent_mechanism_members": [
             {"candidate_id": AMTNC, "mechanism": "Adam-metric tangential estimator"},

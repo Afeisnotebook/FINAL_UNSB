@@ -128,6 +128,43 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "not_reduced_components": "across-batch data sampling",
             "iid_requirement": "two conditionally iid views before one commit",
         },
+        "variance_axis_alignment": {
+            "schema": "final-unsb-route1-related-variance-axis-alignment-v1",
+            "operator_axis": "within_batch_latent_time_bridge_and_feature_sampling",
+            "causal_matrix_path": "audit/LONG_CAUSAL_MATRIX.json",
+            "causal_matrix_sha256": "c" * 64,
+            "members": {
+                audit.PROPOSAL: {
+                    "alignment": "empirically_aligned_by_completed_factorial_controls",
+                },
+                audit.HJCGR: {
+                    "alignment": "directly_aligned_with_parent_audited_variance_axis",
+                    "latent_time_bridge_rng": {
+                        "rows": 22,
+                        "variance_dominated_rows": 22,
+                        "mean_variance_fraction": 0.87,
+                    },
+                },
+                audit.HPCGR: {
+                    "alignment": "compositional_transfer_hypothesis_not_direct_axis_repair",
+                    "latent_time_bridge_rng": {
+                        "rows": 18,
+                        "variance_dominated_rows": 0,
+                        "mean_variance_fraction": 0.52,
+                    },
+                    "independent_unpaired_batch": {
+                        "rows": 18,
+                        "variance_dominated_rows": 9,
+                        "mean_variance_fraction": 0.70,
+                    },
+                    "unaddressed_parent_axis": "independent_unpaired_batch",
+                },
+            },
+            "shared_theorem_does_not_imply_shared_failure_mode": True,
+            "hpcgr_viability_must_be_decided_by_complete_e200_trajectory": True,
+            "paired_metrics_used_for_formula_or_training_control": False,
+            "confirmation20_opened": False,
+        },
         "optimizer_nonlinearity_boundary": "pre-Adam only",
         "cross_host_metrics_merged": False,
     }
@@ -297,6 +334,9 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "conditional_resampling_control_proven"
     ] is True
     assert result["gain_source_proof"]["within_batch_variance_scope_proven"] is True
+    assert result["gain_source_proof"][
+        "parent_variance_axis_alignment_proven"
+    ] is True
     assert result["gain_source_proof"][
         "pre_adam_unbiasedness_boundary_proven"
     ] is True

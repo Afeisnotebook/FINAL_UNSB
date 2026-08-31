@@ -100,6 +100,36 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         tmp_path / "operations" / "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
         base,
     )
+    _write(tmp_path / "audit" / "LONG_CAUSAL_MATRIX.json", {
+        "status": "COMPLETE_CAUSAL_AUDIT",
+        "sampling_variance_summaries": [
+            {
+                "probe": "hj",
+                "axes": {
+                    "latent_time_bridge_rng": {
+                        "rows": 22,
+                        "variance_dominated_rows": 22,
+                        "mean_variance_fraction": 0.87,
+                    },
+                },
+            },
+            {
+                "probe": "hnek",
+                "axes": {
+                    "latent_time_bridge_rng": {
+                        "rows": 18,
+                        "variance_dominated_rows": 0,
+                        "mean_variance_fraction": 0.52,
+                    },
+                    "independent_unpaired_batch": {
+                        "rows": 18,
+                        "variance_dominated_rows": 9,
+                        "mean_variance_fraction": 0.70,
+                    },
+                },
+            },
+        ],
+    })
     host4090 = {"ranking": [
         _related_row(delivery.HPCGR, 0.8, 0.5),
         _related_row(delivery.HJCGR, 0.6, 0.4),
@@ -300,6 +330,16 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert algorithm_set["related_conditional_estimator_family"][
         "stochastic_variance_scope"
     ]["not_reduced_components"]
+    alignment = decomposition["variance_axis_alignment"]
+    assert alignment["members"][delivery.HJCGR]["latent_time_bridge_rng"][
+        "variance_dominated_rows"
+    ] == 22
+    assert alignment["members"][delivery.HPCGR]["latent_time_bridge_rng"][
+        "variance_dominated_rows"
+    ] == 0
+    assert alignment["members"][delivery.HPCGR][
+        "unaddressed_parent_axis"
+    ] == "independent_unpaired_batch"
     assert decomposition["optimizer_nonlinearity_boundary"]
     candidate = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "CANDIDATE.json").read_text()

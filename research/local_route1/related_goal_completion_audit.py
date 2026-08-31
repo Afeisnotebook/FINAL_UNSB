@@ -241,6 +241,41 @@ def _audit_gain_source(
         ),
         "gain-source conditional-resampling arithmetic changed",
     )
+    alignment = decomposition.get("variance_axis_alignment")
+    alignment_members = alignment.get("members") if isinstance(alignment, dict) else None
+    hj_alignment = alignment_members.get(HJCGR) if isinstance(alignment_members, dict) else None
+    hnek_alignment = alignment_members.get(HPCGR) if isinstance(alignment_members, dict) else None
+    _require(
+        isinstance(alignment, dict)
+        and alignment.get("schema")
+        == "final-unsb-route1-related-variance-axis-alignment-v1"
+        and alignment.get("operator_axis")
+        == "within_batch_latent_time_bridge_and_feature_sampling"
+        and alignment.get("causal_matrix_path") == "audit/LONG_CAUSAL_MATRIX.json"
+        and len(str(alignment.get("causal_matrix_sha256", ""))) == 64
+        and isinstance(hj_alignment, dict)
+        and hj_alignment.get("alignment")
+        == "directly_aligned_with_parent_audited_variance_axis"
+        and int(hj_alignment.get("latent_time_bridge_rng", {}).get("rows", 0)) > 0
+        and int(hj_alignment.get("latent_time_bridge_rng", {}).get(
+            "variance_dominated_rows", -1
+        )) == int(hj_alignment.get("latent_time_bridge_rng", {}).get("rows", 0))
+        and isinstance(hnek_alignment, dict)
+        and hnek_alignment.get("alignment")
+        == "compositional_transfer_hypothesis_not_direct_axis_repair"
+        and int(hnek_alignment.get("latent_time_bridge_rng", {}).get("rows", 0)) > 0
+        and int(hnek_alignment.get("latent_time_bridge_rng", {}).get(
+            "variance_dominated_rows", -1
+        )) == 0
+        and hnek_alignment.get("unaddressed_parent_axis")
+        == "independent_unpaired_batch"
+        and alignment.get("shared_theorem_does_not_imply_shared_failure_mode") is True
+        and alignment.get("hpcgr_viability_must_be_decided_by_complete_e200_trajectory")
+        is True
+        and alignment.get("paired_metrics_used_for_formula_or_training_control") is False
+        and alignment.get("confirmation20_opened") is False,
+        "gain-source variance-axis alignment is absent or overclaimed",
+    )
     rows = decomposition.get("members")
     _require(isinstance(rows, list), "gain-source member rows are malformed")
     by_id = {
@@ -308,6 +343,7 @@ def _audit_gain_source(
         "player_scope_control_proven": True,
         "conditional_resampling_control_proven": True,
         "within_batch_variance_scope_proven": True,
+        "parent_variance_axis_alignment_proven": True,
         "pre_adam_unbiasedness_boundary_proven": True,
         "native_compute_budget_equivalence_not_claimed": True,
         "additive_causality_not_claimed": True,

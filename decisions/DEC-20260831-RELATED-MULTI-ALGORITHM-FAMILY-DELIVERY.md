@@ -82,6 +82,13 @@ sigma-field包含已实现post-D/E模型/优化器状态、该A/B batch及父控
 协方差，不是A/B identity、domain或其他跨batch数据采样方差。这个边界不改变正在运行的
 算法，只限制论文能够声明的数学对象。
 
+三个相关族成员共享同一定理，不代表它们由相同的父缺陷产生。4090因果矩阵中，HJ的
+`latent_time_bridge_rng`轴22/22行由方差主导，和HJCGR直接对齐；HNEK同一轴18行中0行
+由方差主导，而`independent_unpaired_batch`轴18行中9行由方差主导。由于HPCGR共享batch，
+它不降低后一个轴。因此HPCGR的正确身份是：把已在原生UNSB场严格通过的选择性G/F估计器
+迁移到独立有效的HNEK父场，而不是预先声称直接修复HNEK主导方差。HPCGR相对HNEK的完整
+e200增量将裁决这种跨父场迁移是否成立。
+
 ## 为什么当前不机械增加DT变体
 
 DT证据已经驱动过moving covariance-rate barrier、Adam/Euclidean约束几何、
