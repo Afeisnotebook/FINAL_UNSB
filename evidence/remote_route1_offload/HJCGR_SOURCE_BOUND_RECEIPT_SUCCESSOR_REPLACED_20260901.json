@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-route1-hjcgr-source-bound-receipt-successor-replacement-v1",
+  "status": "HJCGR_RECEIPT_WAITER_BOUND_TO_TRAINING_WORKTREE_BEFORE_E0",
+  "candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+  "incident": {
+    "classification": "pre_training_receipt_verifier_version_mismatch",
+    "old_verification_git_commit": "ad0f01aa3ff4973f00c81e1abd502e3f7c58f165",
+    "planned_training_git_commit": "285f852471222becfa27af8f61375c4fd009ced8",
+    "trajectory_present_at_detection": false,
+    "receipt_present_at_detection": false,
+    "training_started_at_detection": false
+  },
+  "replacement": {
+    "successor_source_git_commit": "0324151f68d2156e848b8dd602a16d7646b8f12a",
+    "candidate_receipt_source_git_commit": "285f852471222becfa27af8f61375c4fd009ced8",
+    "state": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",
+    "pid_at_health_check": 215100,
+    "requires_training_git_commit_equals_verification_git_commit": true,
+    "requires_source_bound_complete_e200_receipt": true,
+    "paired_metrics_used_for_scheduling": false
+  },
+  "old_waiter_stopped_before_receipt_generation": true,
+  "training_process_restarted": false,
+  "checkpoint_transfer": false,
+  "formula_changed": false,
+  "ranking_changed": false,
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
