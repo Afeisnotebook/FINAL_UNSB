@@ -19,6 +19,7 @@ from research.local_route1.final_delivery import (
     _candidate_domain_trajectory,
     _median_epoch_seconds,
 )
+from research.local_route1.frontier_advancement import STRICT
 from research.local_route1.frontier_final_delivery import _executor_contract
 from research.local_route1.portable_extended_frontier import (
     validate_portable_extended_frontier,
@@ -233,7 +234,7 @@ def _research_frontier(
         candidate_id = str(row["candidate_id"])
         if candidate_id == selected_id:
             disposition = "action_priority"
-        elif row.get("classification") == "strict_sustained_local":
+        elif row.get("classification") == STRICT:
             disposition = "co_leading_strict_frontier"
         elif candidate_id in preserved_4090:
             disposition = "mechanism_bearing_frontier_reserve"
@@ -354,9 +355,33 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         pointer = _read_json(pointer_path)
         if pointer.get("schema") != POINTER_SCHEMA:
             raise RuntimeError("complete frontier final pointer schema changed")
+        fixed = {
+            "canonical_candidate_is_action_priority_only": True,
+            "algorithm_discovery_collapsed_to_single_candidate": False,
+            "cross_host_deltas_merged": False,
+            "selection_seeds": [2026],
+            "deferred_seed_validation": [2027, 2028],
+            "cross_seed_stability_claimed": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        }
+        for key, expected in fixed.items():
+            if pointer.get(key) != expected:
+                raise RuntimeError(f"complete frontier final pointer changed: {key}")
         for name, expected in pointer.get("final_file_sha256", {}).items():
             if file_sha256(final / name) != expected:
                 raise RuntimeError(f"complete frontier final file changed: {name}")
+        input_paths = {
+            "complete_4090_frontier_sha256": (
+                operations / "COMPLETE_FRONTIER_4090_ADJUDICATION.json"
+            ),
+            "portable_5090_frontier_sha256": (
+                operations / "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
+            ),
+        }
+        for key, path in input_paths.items():
+            if file_sha256(path) != pointer.get(key):
+                raise RuntimeError(f"complete frontier final input changed: {path.name}")
         return pointer
 
     frontier, frontier_path = _complete_frontier(output_root)
@@ -560,7 +585,15 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "pre_complete_frontier_files_archived": True,
         "canonical_candidate_is_action_priority_only": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
-        "research_frontier_candidate_count": (
+        "research_frontier_unique_candidate_count": len({
+            row["candidate_id"]
+            for key in (
+                "remote4090_same_host_frontier",
+                "remote5090_source_host_frontier",
+            )
+            for row in research_frontier[key]
+        }),
+        "research_frontier_host_scoped_row_count": (
             len(research_frontier["remote4090_same_host_frontier"])
             + len(research_frontier["remote5090_source_host_frontier"])
         ),

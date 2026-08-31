@@ -146,8 +146,11 @@ class CompleteFrontierFinalSuccessor:
         self.state(
             result["status"],
             selected_candidate_id=result["selected_candidate_id"],
-            research_frontier_candidate_count=result[
-                "research_frontier_candidate_count"
+            research_frontier_unique_candidate_count=result[
+                "research_frontier_unique_candidate_count"
+            ],
+            research_frontier_host_scoped_row_count=result[
+                "research_frontier_host_scoped_row_count"
             ],
             pointer_sha256=support.file_sha256(pointer_path),
         )

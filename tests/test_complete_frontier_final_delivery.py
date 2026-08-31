@@ -4,8 +4,11 @@ import json
 from argparse import Namespace
 from pathlib import Path
 
+import pytest
+
 from operations import local_route1_complete_frontier_final_successor as successor
 from research.local_route1 import complete_frontier_final_delivery as delivery
+from research.local_route1.frontier_advancement import STRICT
 from research.local_route1.protocol import ROOT, file_sha256
 
 
@@ -27,7 +30,7 @@ def _frontiers() -> tuple[dict, dict]:
             {
                 "rank": 1,
                 "candidate_id": delivery.PCRSMG_PROPOSAL,
-                "classification": "strict_sustained_local",
+                "classification": STRICT,
                 "trajectory_status": "positive",
                 "source_role": "pre_frontier_4090",
                 "ranking_fields": {"late_three_mean_macro_psnr_delta": 0.5},
@@ -35,7 +38,7 @@ def _frontiers() -> tuple[dict, dict]:
             {
                 "rank": 2,
                 "candidate_id": delivery.RFAMMCRB,
-                "classification": "strict_sustained_local",
+                "classification": STRICT,
                 "trajectory_status": "positive",
                 "source_role": "repaired_4090_replay",
                 "ranking_fields": {"late_three_mean_macro_psnr_delta": 0.4},
@@ -110,8 +113,14 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
         implementation,
     )
     executor_path = _write(operations / "executor.json", {"candidate_id": delivery.PCRSMG_PROPOSAL})
-    frontier_path = _write(operations / "frontier.json", {"source": "4090"})
-    portable_path = _write(operations / "portable.json", {"source": "5090"})
+    frontier_path = _write(
+        operations / "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+        {"source": "4090"},
+    )
+    portable_path = _write(
+        operations / "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json",
+        {"source": "5090"},
+    )
     frontier, portable = _frontiers()
     frontier.update({
         "action_priority_candidate_id": delivery.PCRSMG_PROPOSAL,
@@ -149,7 +158,8 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     pointer = delivery.materialize_complete_frontier_final_delivery(tmp_path)
     research = json.loads((final / "RESEARCH_FRONTIER.json").read_text(encoding="utf-8"))
     assert pointer["algorithm_discovery_collapsed_to_single_candidate"] is False
-    assert pointer["research_frontier_candidate_count"] == 4
+    assert pointer["research_frontier_unique_candidate_count"] == 4
+    assert pointer["research_frontier_host_scoped_row_count"] == 4
     assert research["remote4090_advanceable_candidate_ids"] == [
         delivery.PCRSMG_PROPOSAL, delivery.RFAMMCRB,
     ]
@@ -158,6 +168,9 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
         "final_file_sha256"
     ]["RESEARCH_FRONTIER.json"]
     assert delivery.materialize_complete_frontier_final_delivery(tmp_path) == pointer
+    _write(frontier_path, {"source": "changed"})
+    with pytest.raises(RuntimeError, match="final input changed"):
+        delivery.materialize_complete_frontier_final_delivery(tmp_path)
 
 
 def test_complete_final_successor_contract_preserves_full_frontier(
