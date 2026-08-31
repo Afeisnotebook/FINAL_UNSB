@@ -92,6 +92,55 @@ def test_research_frontier_keeps_action_priority_and_independent_directions():
     ] == "co_leading_strict_frontier"
 
 
+def test_mechanism_evidence_is_bound_to_selected_algorithm_family(tmp_path: Path):
+    roles = {
+        "proposal_only": {"candidate_id": delivery.PCRSMG_PROPOSAL},
+        "observable_only": {"candidate_id": "OBS"},
+        "projected_or_full": {"candidate_id": "FULL"},
+    }
+    ablation = _write(tmp_path / "operations" / "WINNER_ABLATION_ADJUDICATION.json", {
+        "roles": roles,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    pc = delivery._mechanism_evidence(
+        tmp_path, delivery.PCRSMG_PROPOSAL, {"ranking": []},
+        {"extended_adjudication": {"parent_ablation_results": []}},
+    )
+    assert pc["same_host_as_selection"] is True
+    assert pc["sha256"] == file_sha256(ablation)
+
+    parent = {
+        "parent_candidate_id": delivery.RFAMMCRB,
+        "roles": {"proposal_only": {}, "observable_only": {}, "projected_or_full": {}},
+    }
+    portable = {"extended_adjudication": {"parent_ablation_results": [parent]}}
+    rf = delivery._mechanism_evidence(
+        tmp_path, delivery.RFAMMCRB, {"ranking": []}, portable,
+    )
+    assert rf["same_host_as_selection"] is False
+    assert rf["used_for_4090_candidate_ranking"] is False
+
+    frontier = {
+        "ranking": [
+            {"candidate_id": delivery.PCRSMG_PROPOSAL},
+            {"candidate_id": delivery.RFAMMCRB},
+            {"candidate_id": delivery.G3_ADAM},
+        ],
+    }
+    g3 = delivery._mechanism_evidence(
+        tmp_path, delivery.G3_ADAM, frontier, portable,
+    )
+    assert set(g3["components"]) == {
+        "plain", "conditional_sampling_only",
+        "residual_feasible_barrier_only", "combined_full",
+    }
+    assert g3["used_for_cross_host_delta_ranking"] is False
+
+    with pytest.raises(RuntimeError, match="lacks a frozen mechanism-evidence route"):
+        delivery._mechanism_evidence(tmp_path, "UNKNOWN", frontier, portable)
+
+
 def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     monkeypatch, tmp_path: Path,
 ):
