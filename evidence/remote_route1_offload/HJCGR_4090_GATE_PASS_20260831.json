@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-route1-hjcgr-4090-gate-evidence-v1",
+  "status": "PASS_LONG_RUN_E200_EXECUTOR_STARTED",
+  "host_label": "remote4090",
+  "candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+  "algorithm_fingerprint": "d53f0a0fff5622500025f46a89107aa1e1121463d2b9c130a28775efef24faf6",
+  "candidate_fingerprint": "85e216b81941c3b5502988bd1874daa95311a9b31cf22d3e9a06bc029de7fe78",
+  "gate_git_commit": "36090652782c225f41ae1065fd67cd69fae00eeb",
+  "gate_artifact": {
+    "remote_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/derive/gates/G3-02-HJ-CONDITIONAL-GF-RESAMPLING.json",
+    "sha256": "07435837593274cf04d4557979819fa7688fb3fcc722327082acc4369ec9f5fc"
+  },
+  "executor_contract": {
+    "remote_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/CANDIDATE_EXECUTOR_CONTRACT_G3-02-HJCGR_4090.json",
+    "sha256": "05cfa1ef3d778a9aaf6164c6dad15f7a5090c53b815a1ebd3e1eadb67da318a0",
+    "target_data_epochs": 200,
+    "target_updates": 30000,
+    "chunk_data_epochs_max": 5
+  },
+  "gate_checks": {
+    "mathematical_invariants": true,
+    "zero_intervention_identity": true,
+    "resume_exact": true,
+    "cross_state_counterfactual": true,
+    "target_blind_observable": true,
+    "micro_engineering": true,
+    "base_unsb_semantics_preserved": true,
+    "shared_e0_load_exact": true,
+    "component_compatibility": true
+  },
+  "mathematical_invariants": {
+    "conditional_expected_field_preserved": true,
+    "fresh_pair_to_single_conditional_variance_ratio": 0.5,
+    "two_hj_loss_graphs_advance_physical_controller_once": true,
+    "hj_replica_floating_diagnostics_mean_reduced": true,
+    "registered_schedule": [
+      "NATIVE_VIEW",
+      "D_COMMIT",
+      "E_COMMIT",
+      "GF_BUNDLE",
+      "GF_COMMIT"
+    ]
+  },
+  "component_equivalence": {
+    "data_epochs": [20, 100, 200],
+    "branch_updates": [1, 8, 32],
+    "rows": 9,
+    "objective_only_exact_continuous_hj_all_rows": true,
+    "estimator_only_exact_pcrsmg_proposal_all_rows": true,
+    "observable_only_exact_hj_excluding_observer_all_rows": true,
+    "all_parent_state_hashes_preserved": true,
+    "all_rows_target_blind": true
+  },
+  "engineering_evidence": {
+    "zero_intervention_updates": 1,
+    "zero_intervention_state_exact": true,
+    "resume_split_after_updates": 1,
+    "resume_final_updates": 2,
+    "resume_state_exact": true,
+    "micro_updates": 400,
+    "micro_data_epochs": 2.6666666666666665,
+    "micro_finite": true,
+    "micro_max_cuda_memory_allocated_mb": 1871.8798828125,
+    "shared_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1"
+  },
+  "scientific_boundary": {
+    "gate_is_not_e200_result": true,
+    "paired_metric_used_for_promotion": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "intermediate_paired_metric_early_stop": false,
+    "cross_seed_stability_claimed": false
+  }
+}
