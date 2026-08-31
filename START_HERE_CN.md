@@ -2,6 +2,27 @@
 
 ## 当前状态（2026-08-31）
 
+### 12:00 两种残差可行合成都进入条件前沿
+
+用户再次确认：额外5090/4090算力应推进多数有独立证据的算法，唯一`CANDIDATE.json`
+不是科学剪枝原则。当前两条5090父修复流约为RF-AMMCRB e71、RF-MCRB e77，双流GPU
+约98%，仍未读取中间paired分数。除两条父算法及各自来源绑定消融外，现在预实现并持久
+武装了第二个Generation-3合成：
+`G3-03-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-EUCLIDEAN-BARRIER`。
+
+G3-02与G3-03不是强度网格。它们固定相同的严格条件采样父项，分别在Adam二阶矩度量和
+Euclidean参数几何中求represented-residual最近可行位移；只有对应4090父项自身完整
+e200严格通过，且e20/e100/e200、1/8/32-step的target-blind组件兼容门通过时才会长训。
+两项可并行，但G3-03等待G3-02先完成共享ledger冻结。实现与4090持久后继提交为
+`733645e`，决策见
+`decisions/DEC-20260831-RESIDUAL-FEASIBLE-EUCLIDEAN-CONDITIONAL-SYNTHESIS.md`。
+
+实现时同时发现旧G3-02复合类在disabled路径用未进入MRO的修复mixin执行`super()`，会让
+zero-intervention门在真正GPU gate处失败。它尚未冻结算法、未启动训练、没有算力或科学
+轨迹损失；旧等待器已留档并由`733645e`的修复等待器替换。4090当前两个新后继都只等待
+完整repair portfolio，stderr为0。部署证据见
+`evidence/remote_route1_offload/RESIDUAL_EUCLIDEAN_SYNTHESIS_4090_SUCCESSOR_ARMED_20260831.json`。
+
 ### 11:25 多候选原则与跨宿主持久接力
 
 用户的最新提醒被确认为科学边界而非临时资源偏好：最终唯一`CANDIDATE.json`只决定下一份

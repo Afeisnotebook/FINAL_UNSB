@@ -1,0 +1,96 @@
+{
+  "schema": "final-unsb-route1-residual-dual-geometry-synthesis-deployment-evidence-v1",
+  "recorded": "2026-08-31T12:00:00+08:00",
+  "status": "TWO_SOURCE_BOUND_4090_SYNTHESIS_SUCCESSORS_ARMED_CONDITIONALLY",
+  "objective_binding": {
+    "north_star": "discover and adjudicate algorithms that retain matched benefit for 200 data epochs",
+    "canonical_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+    "reason_for_second_synthesis": "RF-AMMCRB and RF-MCRB are distinct closest-feasible optimization geometries; a small e200 frontier gap cannot justify deleting either before its complete parent and composite evidence exists",
+    "hyperparameter_grid": false,
+    "fixed_exit_or_handoff": false,
+    "paired_controller": false
+  },
+  "implementation": {
+    "git_commit": "733645e0edc07b3783b8e826dff2db03ed77800f",
+    "git_remote": "https://github.com/Afeisnotebook/FINAL_UNSB.git",
+    "tests": {
+      "pytest": "305 passed",
+      "compileall": "PASS",
+      "git_diff_check": "PASS"
+    },
+    "adam_candidate_id": "G3-02-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-ADAM-BARRIER",
+    "euclidean_candidate_id": "G3-03-CONDITIONAL-SAMPLING-RESIDUAL-FEASIBLE-EUCLIDEAN-BARRIER",
+    "adam_projection_geometry": "P=normalized post-native-step Adam inverse root second moment",
+    "euclidean_projection_geometry": "P=I",
+    "shared_numeric_rule": "float64 KKT coefficient plus represented-residual and relative parameter-dtype ULP refinement; no fixed absolute margin"
+  },
+  "engineering_incident_and_recovery": {
+    "classification": "engineering_invalid_pre_run_dispatch",
+    "affected_scope": "the disabled zero-intervention path of the pre-run G3-02 composite worktree only",
+    "cause": "the repaired barrier implementation was called as an unbound mixin that was not itself in the composite MRO; its disabled super() branch could not dispatch native Adam safely",
+    "repair": "both composite models explicitly bypass all barrier hooks to native SBModel Adam when disabled",
+    "old_waiter": "tmux:FINAL_UNSB_RESIDUAL_SYNTHESIS_b164df8",
+    "old_waiter_state_archive": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/RESIDUAL_SYNTHESIS_4090_SUCCESSOR_STATE_RETIRED_b164df8.json",
+    "old_waiter_state_archive_sha256": "40f18b4a987d458c43278fb9dfb8d71e96539755a160925724bd915da5f45eae",
+    "candidate_derivation_frozen_before_repair": false,
+    "candidate_training_started_before_repair": false,
+    "gpu_compute_lost": false,
+    "scientific_result_changed": false
+  },
+  "remote4090": {
+    "host": "192.168.0.30",
+    "repo": "/home/yc/FINAL_UNSB_RESIDUAL_SYNTHESIS_PORTFOLIO_733645e",
+    "repo_commit": "733645e0edc07b3783b8e826dff2db03ed77800f",
+    "repo_clean": true,
+    "run_root": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200",
+    "adam_successor": "tmux:FINAL_UNSB_RESIDUAL_SYNTHESIS_733645e",
+    "euclidean_successor": "tmux:FINAL_UNSB_RESIDUAL_EUCLIDEAN_733645e",
+    "adam_state_at_record": "WAITING_FOR_REPAIRED_4090_PORTFOLIO_E200",
+    "euclidean_state_at_record": "WAITING_FOR_REPAIRED_4090_PORTFOLIO_E200",
+    "adam_contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/RESIDUAL_SYNTHESIS_4090_SUCCESSOR_CONTRACT_733645e.json",
+    "adam_contract_sha256": "d1dabc58e200f7cf70545dd5abd3034c6aea3f200deac3025a1d6748288ad07c",
+    "euclidean_contract": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/RESIDUAL_EUCLIDEAN_SYNTHESIS_4090_SUCCESSOR_CONTRACT_733645e.json",
+    "euclidean_contract_sha256": "690a54bb94e1ad03e7ed0c2f74bd553fa794f74b2ed4aa6907324da77874f6a3",
+    "stderr_bytes_each_at_record": 0,
+    "gpu_utilization_percent_at_record": 0,
+    "candidate_training_running_at_record": false
+  },
+  "remote5090_parent_progress_at_record": {
+    "rfammcrb_data_epoch": 71,
+    "rfammcrb_updates": 10650,
+    "rfmcrb_data_epoch": 77,
+    "rfmcrb_updates": 11550,
+    "target_data_epochs": 200,
+    "gpu_utilization_percent": 98,
+    "combined_memory_mib": 6710,
+    "top_level_training_stderr_bytes_each": 0,
+    "intermediate_paired_metrics_read_or_used_for_routing": false
+  },
+  "long_run_authorization_gates": {
+    "common_sampling_parent": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "adam_required_barrier_parent": "F2-01-RESIDUAL-FEASIBLE-ADAM-METRIC-BARRIER",
+    "euclidean_required_barrier_parent": "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER",
+    "all_parents_must_be_strict_same_host_e200": true,
+    "same_e0_protocol_manifest_and_plain_authority": true,
+    "compatibility_epochs": [20, 100, 200],
+    "compatibility_branch_updates": [1, 8, 32],
+    "minimum_component_correction_cosine": -0.2,
+    "identity_resume_parent_isolation_and_provenance_required": true,
+    "euclidean_waits_for_adam_shared_ledger_freeze": true,
+    "on_failed_gate": "SYNTHESIS_INAPPLICABLE_WITHOUT_LONG_RUN"
+  },
+  "resource_policy": {
+    "maximum_parallel_5090_parent_or_ablation_streams": 2,
+    "maximum_parallel_4090_repaired_parent_replays": 2,
+    "maximum_parallel_4090_synthesis_streams_after_gates": 2,
+    "batch_size": 1,
+    "selection_seeds": [2026],
+    "deferred_seeds": [2027, 2028],
+    "cross_host_checkpoint_transfer": false,
+    "cross_host_deltas_merged": false
+  },
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "full_data_started": false,
+  "route2_started": false
+}

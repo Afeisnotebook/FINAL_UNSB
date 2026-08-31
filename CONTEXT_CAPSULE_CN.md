@@ -68,7 +68,10 @@
   `evidence/remote_route1_offload/REPAIRED_PORTFOLIO_CROSS_HOST_ARMED_20260831.json`。
 - 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和
   residual-feasible Adam屏障，预实现提交为`12468d1`，没有父项receipt和target-blind
-  兼容门就不能长训。
+  兼容门就不能长训。用户要求保留多个证据充分的算法后，又增加了严格条件式G3-03：
+  它只在RF-MCRB同宿主严格通过时，把同一条件采样父项与Euclidean residual-feasible
+  最近点组合。G3-02/G3-03分别检验Adam与Euclidean优化几何，不是强度网格；两者均由
+  `733645e`的4090持久后继守门，未满足父项和兼容门就不启动。
 
 ## 1. 原始问题
 

@@ -36,5 +36,8 @@ authorize compute.
 10. `DEC-20260831-ANTITHETIC-GAUSSIAN-GRADIENT-AUDIT.md`：梯度级Gaussian反号虽保持
     期望无偏，但e20/e100/e200相对iid两视图均增加方差，因此当前involution不启动e200；
     该结论不外推到所有无偏variance estimator。
+11. `DEC-20260831-RESIDUAL-FEASIBLE-EUCLIDEAN-CONDITIONAL-SYNTHESIS.md`：在对应父项
+    同宿主严格通过的前提下，保留条件采样与Euclidean residual-feasible屏障的G3-03；
+    它与G3-02的Adam度量是两个独立约束几何，不是强度网格，也不预先删除任一父算法。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
