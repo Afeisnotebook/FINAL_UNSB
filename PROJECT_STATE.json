@@ -551,6 +551,28 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_1125": {
+      "rfammcrb_latest_observed_data_epoch": 61,
+      "rfmcrb_latest_observed_data_epoch": 66,
+      "target_data_epoch": 200,
+      "remote5090_gpu_utilization_percent": 98,
+      "remote5090_combined_gpu_memory_mib": 6710,
+      "top_level_training_stderr_bytes_each": 0,
+      "intermediate_paired_metrics_read_or_used_for_routing": false,
+      "canonical_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+      "small_e200_score_gap_triggers_single_candidate_pruning": false,
+      "complete_evidence_qualified_frontier_preserved": true,
+      "maximum_repaired_parent_followup_streams": 2,
+      "maximum_same_host_4090_replays": 2,
+      "durable_cross_host_relay_commit": "e8356ff",
+      "durable_cross_host_relay_status": "ARMED_WAITING_FOR_COMPLETE_5090_PORTABLE_AUTHORITY",
+      "durable_cross_host_relay_contract_sha256": "98d76e42fe5c064e7eff6a4f2b6da892a5bfd86eb6a4f63f5f32a7f18d2a6a1e",
+      "durable_cross_host_relay_evidence": "evidence/remote_route1_offload/REPAIRED_PORTFOLIO_DURABLE_RELAY_ARMED_20260831.json",
+      "cross_host_checkpoint_transfer": false,
+      "cross_host_delta_merge": false,
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },

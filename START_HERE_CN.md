@@ -2,6 +2,21 @@
 
 ## 当前状态（2026-08-31）
 
+### 11:25 多候选原则与跨宿主持久接力
+
+用户的最新提醒被确认为科学边界而非临时资源偏好：最终唯一`CANDIDATE.json`只决定下一份
+算力和论文主线先给谁，不得把尚未完成的可信前沿提前剪成一个算法。5090仍先把
+RF-AMMCRB、RF-MCRB跑完共同e0、batch1、seed2026、真实e200；两者完整后，所有属于
+strict、near或有独立因果证据的alternate分别保留full和来源绑定消融。已有小幅长期差距
+说明排序尚未拉开，不能作为只留第一名的依据；但空闲算力也不能被随机点子或超参网格填满，
+新长程流仍须先有target-blind证据、推导卡和工程门。
+
+11:25时两条5090修复流分别到e61/e66，GPU约98%占用且顶层stderr为空。5090完整e200
+权威组合到达后，本地持久relay会验证完整性并原字节原子传到4090；4090可从自己的共同
+e0并行复跑最多两条算法，不搬checkpoint、不跨宿主合并delta。relay实现提交为`e8356ff`，
+compact证据见
+`evidence/remote_route1_offload/REPAIRED_PORTFOLIO_DURABLE_RELAY_ARMED_20260831.json`。
+
 ### 10:50 修复后双机制合成已预实现，但未获长训授权
 
 5090上的RF-AMMCRB与RF-MCRB已通过e40固定里程碑并进入e45；两个batch1流合计约

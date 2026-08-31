@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-repaired-portfolio-durable-relay-evidence-v1",
+  "recorded_at": "2026-08-31T11:25:30+08:00",
+  "status": "ARMED_WAITING_FOR_COMPLETE_5090_PORTABLE_AUTHORITY",
+  "implementation_commit": "e8356ff",
+  "implementation": "operations/local_route1_repaired_portfolio_relay.py",
+  "local_contract_path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\operations\\REPAIRED_PORTFOLIO_RELAY_CONTRACT.json",
+  "local_contract_sha256": "98d76e42fe5c064e7eff6a4f2b6da892a5bfd86eb6a4f63f5f32a7f18d2a6a1e",
+  "local_supervisor_pid_at_recording": 12956,
+  "source": {
+    "host_role": "remote5090",
+    "path": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/REPAIRED_4090_REPLAY_PORTFOLIO.json",
+    "complete_e200_authority_required": true,
+    "latest_rfammcrb_data_epoch": 61,
+    "latest_rfmcrb_data_epoch": 66,
+    "target_data_epoch": 200,
+    "paired_metric_scheduling": false
+  },
+  "destination": {
+    "host_role": "remote4090",
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/REPAIRED_4090_REPLAY_PORTFOLIO.imported.json",
+    "successor": "tmux:FINAL_UNSB_REPAIRED_PORTFOLIO_2c21ea2",
+    "maximum_same_host_replays": 2,
+    "restart_from_destination_common_e0": true
+  },
+  "integrity": {
+    "source_authority_validated_before_upload": true,
+    "source_local_destination_sha256_must_match": true,
+    "destination_overwrite_allowed": false,
+    "credentials_persisted": false,
+    "cross_host_checkpoint_transfer": false,
+    "cross_host_deltas_merged": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "frontier_policy": {
+    "canonical_candidate_semantics": "ACTION_PRIORITY_ONLY_NOT_SCIENTIFIC_PRUNING",
+    "algorithm_discovery_collapsed_to_single_candidate": false,
+    "complete_evidence_qualified_frontier_preserved": true,
+    "unused_compute_may_advance_multiple_independent_evidence_qualified_algorithms": true,
+    "random_idea_or_hyperparameter_grid_expansion_allowed": false
+  },
+  "verification": {
+    "targeted_tests": "2 passed",
+    "full_tests": "298 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "relay_stderr_bytes_at_recording": 0
+  }
+}
