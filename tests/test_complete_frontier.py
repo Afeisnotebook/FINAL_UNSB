@@ -16,6 +16,9 @@ from research.local_route1.complete_frontier import (
     STATUS,
     materialize_complete_4090_frontier,
 )
+from research.local_route1.pcnr_alternate_replay import (
+    RESULT_SCHEMA as PCNR_ALTERNATE_RESULT_SCHEMA,
+)
 from research.local_route1.generation1_adjudication import (
     NEGATIVE_STATUS,
     POSITIVE_STATUS,
@@ -99,7 +102,7 @@ def _pre_frontier(root: Path, selected: str, old: str) -> None:
 
 def _terminal_results(
     root: Path, repair: Path, *, adam: Path | None = None,
-    euclidean: Path | None = None,
+    euclidean: Path | None = None, pcnr: Path | None = None,
 ) -> None:
     operations = root / "operations"
     _write(operations / "REPAIRED_PORTFOLIO_4090_RESULT.json", {
@@ -137,11 +140,30 @@ def _terminal_results(
                 "receipt_sha256": file_sha256(receipt),
             })
         _write(operations / name, value)
+    pcnr_id = None if pcnr is None else json.loads(pcnr.read_text())["candidate_id"]
+    pcnr_value = {
+        "schema": PCNR_ALTERNATE_RESULT_SCHEMA,
+        "status": (
+            "PCNR_ALTERNATE_REPLAY_INAPPLICABLE"
+            if pcnr is None else
+            "PCNR_EVIDENCE_BACKED_ALTERNATE_4090_REPLAY_COMPLETE_E200"
+        ),
+        "candidate_id": pcnr_id,
+        "cross_host_deltas_merged": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    if pcnr is not None:
+        pcnr_value.update({
+            "receipt_path": str(pcnr.resolve()),
+            "receipt_sha256": file_sha256(pcnr),
+        })
+    _write(operations / "PCNR_ALTERNATE_4090_RESULT.json", pcnr_value)
 
 
 def test_complete_frontier_ranks_all_same_host_candidates_and_keeps_base(tmp_path: Path):
-    base = _receipt(tmp_path, "BASE", 0.2)
-    old = _receipt(tmp_path, "OLD", -0.4, positive=False)
+    _receipt(tmp_path, "BASE", 0.2)
+    _receipt(tmp_path, "OLD", -0.4, positive=False)
     repair = _receipt(tmp_path, "REPAIR", 0.3, suffix="_4090")
     g3 = _receipt(tmp_path, "G3", 0.5, suffix="_4090")
     _pre_frontier(tmp_path, "BASE", "OLD")
@@ -167,3 +189,21 @@ def test_complete_frontier_rejects_cross_plain_authority(tmp_path: Path):
     _terminal_results(tmp_path, repair)
     with pytest.raises(RuntimeError, match="same-host/common-e0"):
         materialize_complete_4090_frontier(tmp_path)
+
+
+def test_complete_frontier_keeps_evidence_backed_pcnr_replay(tmp_path: Path):
+    _receipt(tmp_path, "BASE", 0.2)
+    _receipt(tmp_path, "OLD", -0.4, positive=False)
+    repair = _receipt(tmp_path, "REPAIR", -0.2, positive=False, suffix="_4090")
+    pcnr = _receipt(tmp_path, "PCNR", 0.35, suffix="_4090")
+    _pre_frontier(tmp_path, "BASE", "OLD")
+    _terminal_results(tmp_path, repair, pcnr=pcnr)
+
+    result = materialize_complete_4090_frontier(tmp_path)
+    assert result["action_priority_candidate_id"] == "PCNR"
+    assert result["rankable_complete_e200_candidate_count"] == 4
+    pcnr_row = next(row for row in result["ranking"] if row["candidate_id"] == "PCNR")
+    assert pcnr_row["source_role"] == (
+        "pcnr_evidence_backed_alternate_4090_replay"
+    )
+    assert result["pcnr_alternate_replay"]["candidate_id"] == "PCNR"

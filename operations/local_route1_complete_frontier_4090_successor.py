@@ -1,4 +1,4 @@
-"""Wait for repaired/G3 terminal results and freeze the complete 4090 frontier."""
+"""Wait for repaired/G3/PCNR results and freeze the complete 4090 frontier."""
 
 from __future__ import annotations
 
@@ -52,6 +52,7 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "timeout_seconds": int(args.timeout_seconds),
         "requires_complete_repaired_portfolio": True,
         "requires_both_generation3_terminal_results_even_if_inapplicable": True,
+        "requires_pcnr_alternate_terminal_result": True,
         "canonical_candidate_is_action_priority_only": True,
         "cross_host_deltas_merged": False,
         "selection_seeds": [2026],
@@ -77,6 +78,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
     fixed = {
         "requires_complete_repaired_portfolio": True,
         "requires_both_generation3_terminal_results_even_if_inapplicable": True,
+        "requires_pcnr_alternate_terminal_result": True,
         "canonical_candidate_is_action_priority_only": True,
         "cross_host_deltas_merged": False,
         "selection_seeds": [2026],
@@ -121,15 +123,23 @@ class CompleteFrontier4090Successor:
             ready = {name: (self.operations / name).is_file() for name in RESULT_FILES}
             fatal = sorted(
                 path.name for path in self.operations.glob("*SUCCESSOR_FATAL.json")
-                if path.name.startswith(("REPAIRED_PORTFOLIO", "RESIDUAL_SYNTHESIS", "RESIDUAL_EUCLIDEAN"))
+                if path.name.startswith((
+                    "REPAIRED_PORTFOLIO", "RESIDUAL_SYNTHESIS",
+                    "RESIDUAL_EUCLIDEAN", "PCNR_ALTERNATE",
+                ))
             )
             if fatal:
                 raise RuntimeError(f"upstream complete-frontier successor failed: {fatal}")
             if all(ready.values()):
                 break
             if time.time() - self.started > int(self.contract["timeout_seconds"]):
-                raise TimeoutError("timed out waiting for repaired/G3 terminal results")
-            self.state("WAITING_FOR_REPAIRED_AND_GENERATION3_TERMINAL_RESULTS", readiness=ready)
+                raise TimeoutError(
+                    "timed out waiting for repaired/G3/PCNR terminal results"
+                )
+            self.state(
+                "WAITING_FOR_REPAIRED_GENERATION3_AND_PCNR_TERMINAL_RESULTS",
+                readiness=ready,
+            )
             time.sleep(int(self.contract["poll_seconds"]))
         result = materialize_complete_4090_frontier(self.run_root)
         output = self.operations / "COMPLETE_FRONTIER_4090_ADJUDICATION.json"

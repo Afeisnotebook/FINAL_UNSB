@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-route1-pcnr-alternate-replay-routing-incident-v1",
+  "status": "IMPLEMENTATION_READY_PENDING_4090_DEPLOYMENT",
+  "candidate_id": "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+  "source_host_role": "5090_complete_e200_repaired_frontier",
+  "destination_host_role": "4090_common_e0_replay",
+  "source_classification": "evidence_backed_alternate",
+  "source_metrics": {
+    "late_three_mean_macro_psnr_delta": 0.034820576357494915,
+    "e200_macro_psnr_delta": -0.3008903651356185,
+    "late_points_with_four_of_six_positive_domains": 1,
+    "late_average_worst_domain_delta": -1.1003127754381143,
+    "late_mean_macro_ssim_delta": 0.01664010568980188,
+    "late_mean_macro_lpips_delta": -0.009396556587446295
+  },
+  "source_training_git_commit": "c874e37079987386df33cc7e70cbf4a081b71943",
+  "source_algorithm_fingerprint": "3423a51ff77f5605c7daac7d0b0317d7596e0e7cde256671fcb19f2c5b4ac186",
+  "source_receipt_sha256": "c9620b5dc68f65cd39842d21f882ed244e41a8d7cef88b9883c3a544ecc50d12",
+  "source_trajectory_sha256": "7d145bbb283990e249f0fc1aac6226f70b712b07e0cfc08e1291b336a8498920",
+  "source_repaired_frontier_adjudication_sha256": "79362d27d6214430c102fc4203160c904dff1962067dcb1126f6215d4fe13fff",
+  "portable_extended_frontier_sha256": "88206e0bedbcb4dd20242b17aefbb5e434f201a26e915f13892a9c90a8405138",
+  "empty_filtered_replay_portfolio_sha256": "1860d10420a3614a848c52c991a05be91260d9ca0015f57e16cd2a1135f7e24c",
+  "routing_incident": {
+    "source_recommended_4090_replay_queue": [
+      "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING"
+    ],
+    "filtered_portfolio_candidate_count": 0,
+    "cause": "repaired replay exporter admitted only RF-AMMCRB/RF-MCRB identities",
+    "scientific_elimination": false
+  },
+  "destination_preexisting_registration": {
+    "executed": false,
+    "derivation_card_matches_source": true,
+    "previous_implementation_sha256": "20f7b2bd0b8d81882b2046e46a392a5b394e31f6cffa305006a695a0397fcd43",
+    "difference": "generation1_gates.py source hash only",
+    "source_implementation_sha256": "e70b2389a136e5504b5638ca079fde1ec85ef73b97a7ba5508719b9b5557d486"
+  },
+  "destination_protocol": {
+    "seed": 2026,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "restart_from_destination_common_e0": true,
+    "checkpoint_transfer": false
+  },
+  "paired_metrics_used_only_for_resource_allocation": true,
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "cross_host_deltas_merged": false,
+  "confirmation20_opened": false
+}

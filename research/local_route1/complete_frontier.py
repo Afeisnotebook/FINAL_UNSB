@@ -23,6 +23,9 @@ from research.local_route1.frontier_advancement import (
     classify_complete_trajectory,
 )
 from research.local_route1.generation1_adjudication import POSITIVE_STATUS
+from research.local_route1.pcnr_alternate_replay import (
+    RESULT_SCHEMA as PCNR_ALTERNATE_RESULT_SCHEMA,
+)
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
 
@@ -44,6 +47,7 @@ RESULT_FILES = (
     "REPAIRED_PORTFOLIO_4090_RESULT.json",
     "RESIDUAL_SYNTHESIS_4090_RESULT.json",
     "RESIDUAL_EUCLIDEAN_SYNTHESIS_4090_RESULT.json",
+    "PCNR_ALTERNATE_4090_RESULT.json",
 )
 
 
@@ -121,6 +125,8 @@ def _result_receipts(
         raise RuntimeError("Adam synthesis result schema changed")
     if values[RESULT_FILES[2]].get("schema") != EUCLIDEAN_SYNTHESIS_SCHEMA:
         raise RuntimeError("Euclidean synthesis result schema changed")
+    if values[RESULT_FILES[3]].get("schema") != PCNR_ALTERNATE_RESULT_SCHEMA:
+        raise RuntimeError("PCNR alternate replay result schema changed")
 
     rows: list[tuple[Path, str]] = []
     repaired = values[RESULT_FILES[0]]
@@ -138,6 +144,7 @@ def _result_receipts(
     for name, role in (
         (RESULT_FILES[1], "generation3_adam_geometry"),
         (RESULT_FILES[2], "generation3_euclidean_geometry"),
+        (RESULT_FILES[3], "pcnr_evidence_backed_alternate_4090_replay"),
     ):
         value = values[name]
         candidate_id = value.get("candidate_id")
@@ -252,6 +259,7 @@ def materialize_complete_4090_frontier(
             "adam_geometry": terminal_results[RESULT_FILES[1]],
             "euclidean_geometry": terminal_results[RESULT_FILES[2]],
         },
+        "pcnr_alternate_replay": terminal_results[RESULT_FILES[3]],
         "rankable_complete_e200_candidate_count": len(ranking),
         "canonical_candidate_is_action_priority_only": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,

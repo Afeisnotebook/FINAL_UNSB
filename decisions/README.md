@@ -47,5 +47,8 @@ authorize compute.
     因果图谱、消融和逐域绝对/相对轨迹必须同时交付。
 14. `DEC-20260831-TERMINAL-GOAL-COMPLETION-AUDIT.md`：终交付返回本地后还须通过独立
     fail-closed完成审计；机器通过不能代替最终人工科学复核、Git裁决和推送。
+15. `DEC-20260831-PCNR-ALTERNATE-4090-REPLAY-ROUTING.md`：旧修复portfolio将PCNR
+    alternate误过滤为空是编排事故而非科学淘汰；PCNR须按完整5090权威绑定，从4090
+    共同e0完成真实e200复赛后再重算完整多候选前沿。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
