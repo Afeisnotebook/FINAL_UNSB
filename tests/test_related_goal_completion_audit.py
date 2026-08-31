@@ -70,6 +70,32 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "paired_controller_access": False,
             "confirmation20_opened": False,
         },
+        "player_scope_control": {
+            "schema": "final-unsb-route1-related-player-scope-control-v1",
+            "status": "GF_ONLY_REPLICATION_SUSTAINS_E200_WHILE_FULL_PLAYER_REPLICATION_DOES_NOT",
+            "gf_only": {
+                "candidate_id": audit.PROPOSAL,
+                "late_three_mean_macro_psnr_delta": 0.54,
+                "e200_macro_psnr_delta": 0.45,
+                "strict_gate_pass": True,
+            },
+            "all_players": {
+                "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+                "late_three_mean_macro_psnr_delta": 0.62,
+                "e200_macro_psnr_delta": -0.001,
+                "strict_gate_pass": False,
+            },
+            "gf_only_minus_all_players": {
+                "late_three_macro_psnr_delta": -0.08,
+                "e200_macro_psnr_delta": 0.451,
+            },
+            "does_not_claim_additive_single_path_causality": True,
+            "paired_metrics_used_only_after_complete_e200_trajectories": True,
+            "paired_metrics_used_for_training_or_control": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+        "optimizer_nonlinearity_boundary": "pre-Adam only",
         "cross_host_metrics_merged": False,
     }
     algorithm_set = {
@@ -105,6 +131,11 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             ],
             "conditional_expectation_property": "expectation preserved",
             "conditional_covariance_property": "covariance halved",
+            "unbiased_mathematical_object": "pre-Adam joint G/F stochastic gradient estimator",
+            "conditioning_scope": "fixed post-D/E parent state",
+            "adam_boundary": "no expected displacement equality claim",
+            "finite_step_coupling_change_is_intended": True,
+            "native_de_stochasticity_retained": True,
             "membership_is_not_assumed_viability": True,
         },
         "independent_mechanism_members": [
@@ -222,6 +253,10 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     assert result["gain_source_proof"]["compute_only_control_proven"] is True
     assert result["gain_source_proof"][
         "native_compute_budget_equivalence_not_claimed"
+    ] is True
+    assert result["gain_source_proof"]["player_scope_control_proven"] is True
+    assert result["gain_source_proof"][
+        "pre_adam_unbiasedness_boundary_proven"
     ] is True
     assert result["completion_claim_allowed"] is False
     assert set(result["source_delivery_sha256"]) == {POINTER, *PUBLISHED_FILES}

@@ -60,6 +60,7 @@ PROPOSAL = "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
 HPCGR = "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING"
 HJCGR = "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
 AMTNC = "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+PCRSMG_FULL = "G1-02B-PLAYER-CONDITIONAL-RSMG"
 
 
 def _boundary(value: dict[str, Any], label: str) -> None:
@@ -272,6 +273,8 @@ def _mechanism_gain_source_decomposition(
     control = _read_json(control_path)
     roles = control.get("roles")
     observable = roles.get("observable_only") if isinstance(roles, dict) else None
+    proposal_control = roles.get("proposal_only") if isinstance(roles, dict) else None
+    full_control = roles.get("projected_or_full") if isinstance(roles, dict) else None
     identity = control.get("observable_only_identity")
     if (
         control.get("schema")
@@ -280,6 +283,9 @@ def _mechanism_gain_source_decomposition(
         != "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION"
         or set(roles or {}) != {"proposal_only", "observable_only", "projected_or_full"}
         or roles.get("proposal_only", {}).get("candidate_id") != PROPOSAL
+        or not isinstance(proposal_control, dict)
+        or not isinstance(full_control, dict)
+        or full_control.get("candidate_id") != PCRSMG_FULL
         or not isinstance(observable, dict)
         or not isinstance(identity, dict)
         or identity.get("status") != "EXACT_PLAIN_E200_DYNAMICS_IDENTITY"
@@ -291,6 +297,9 @@ def _mechanism_gain_source_decomposition(
         or control.get("paired_metrics_used_for_training_or_control") is not False
         or control.get("paired_controller_access") is not False
         or control.get("confirmation20_opened") is not False
+        or control.get("proposal_only_strict_gate_pass") is not True
+        or control.get("projected_or_full_strict_gate_pass") is not False
+        or control.get("proposal_only_out_ranks_full") is not True
     ):
         raise RuntimeError("gain-source compute-only control is not exact plain")
     compute_only_control = {
@@ -323,6 +332,50 @@ def _mechanism_gain_source_decomposition(
     }
     if compute_only_control["dynamics_state_exact_plain"] is not True:
         raise RuntimeError("gain-source compute-only dynamics hashes differ")
+    proposal_fields = proposal_control.get("ranking_fields")
+    full_fields = full_control.get("ranking_fields")
+    if not isinstance(proposal_fields, dict) or not isinstance(full_fields, dict):
+        raise RuntimeError("gain-source player-scope control lacks e200 fields")
+    proposal_late = float(proposal_fields["late_three_mean_macro_psnr_delta"])
+    proposal_e200 = float(proposal_fields["e200_macro_psnr_delta"])
+    full_late = float(full_fields["late_three_mean_macro_psnr_delta"])
+    full_e200 = float(full_fields["e200_macro_psnr_delta"])
+    if not (proposal_late > 0.0 and proposal_e200 > 0.0 and full_e200 <= 0.0):
+        raise RuntimeError("gain-source player-scope control changed conclusion")
+    player_scope_control = {
+        "schema": "final-unsb-route1-related-player-scope-control-v1",
+        "status": "GF_ONLY_REPLICATION_SUSTAINS_E200_WHILE_FULL_PLAYER_REPLICATION_DOES_NOT",
+        "source_path": control_path.relative_to(output_root).as_posix(),
+        "source_sha256": file_sha256(control_path),
+        "gf_only": {
+            "candidate_id": PROPOSAL,
+            "late_three_mean_macro_psnr_delta": proposal_late,
+            "e200_macro_psnr_delta": proposal_e200,
+            "strict_gate_pass": True,
+        },
+        "all_players": {
+            "candidate_id": PCRSMG_FULL,
+            "late_three_mean_macro_psnr_delta": full_late,
+            "e200_macro_psnr_delta": full_e200,
+            "strict_gate_pass": False,
+        },
+        "gf_only_minus_all_players": {
+            "late_three_macro_psnr_delta": proposal_late - full_late,
+            "e200_macro_psnr_delta": proposal_e200 - full_e200,
+        },
+        "interpretation": (
+            "Variance reduction is not monotonically beneficial across the sequential "
+            "UNSB game. Retaining native D/E stochasticity and reducing only the "
+            "post-D/E joint G/F conditional variance preserves the terminal margin; "
+            "replicating D/E as well raises the late mean but loses e200 benefit."
+        ),
+        "linked_related_family_candidate_ids": [PROPOSAL, HPCGR, HJCGR],
+        "does_not_claim_additive_single_path_causality": True,
+        "paired_metrics_used_only_after_complete_e200_trajectories": True,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
 
     anchor_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     anchor = _read_json(anchor_path)
@@ -427,6 +480,13 @@ def _mechanism_gain_source_decomposition(
         ),
         "matched_increment_is_not_additive_causal_attribution": True,
         "compute_only_control": compute_only_control,
+        "player_scope_control": player_scope_control,
+        "optimizer_nonlinearity_boundary": (
+            "Unbiasedness is for the pre-Adam stochastic gradient estimator at a "
+            "fixed realized parent state. Adam is applied once after averaging; no "
+            "claim is made that expected finite Adam displacement or sample path "
+            "equals the one-view parent."
+        ),
         "cross_host_metrics_merged": False,
         "anchor_summary_sha256": file_sha256(anchor_path),
     }
@@ -561,6 +621,8 @@ def _report(
     lines.extend([
         "- 上述增量来自共同e0的两条完整非线性轨迹之差，不解释为单轨迹内可加因果贡献。",
         "- compute-only控制：额外视图仅观察、不提交复制估计器时，e200 dynamics与plain精确一致且delta为0；这排除观察计算/墙钟副作用，但不声称原生算力预算等价。",
+        "- player-scope控制：仅G/F复制在e200保持正收益，而D/E/G/F全复制虽有更高late-three均值却在e200回到非正；长期收益不是全局降方差的单调结果。",
+        "- 无偏性只针对固定父状态下的pre-Adam梯度估计器；不声明有限步Adam位移或随机样本路径与父算法相同。",
         "",
         "## 结论边界",
         "",
@@ -642,12 +704,23 @@ def materialize_related_multi_algorithm_final_delivery(
         "members": members,
         "related_conditional_estimator_family": {
             "shared_operator": "post-D/E conditionally iid two-view G/F mean",
+            "unbiased_mathematical_object": "pre-Adam joint G/F stochastic gradient estimator",
+            "conditioning_scope": (
+                "fixed realized post-D/E model, optimizer, official unpaired batch "
+                "and any parent-controller state"
+            ),
             "conditional_expectation_property": (
                 "E[(g_1+g_2)/2 | post-D/E state]=E[g_native_parent | state]"
             ),
             "conditional_covariance_property": (
                 "Cov[(g_1+g_2)/2 | state]=Cov[g_native_parent | state]/2"
             ),
+            "adam_boundary": (
+                "Adam is applied once after the mean; expected finite Adam displacement "
+                "and exact parent sample-path equality are not claimed"
+            ),
+            "finite_step_coupling_change_is_intended": True,
+            "native_de_stochasticity_retained": True,
             "members": [
                 {"candidate_id": PROPOSAL, "base_object": "native UNSB field"},
                 {"candidate_id": HPCGR, "base_object": "HNEK physical-horizon bridge game"},

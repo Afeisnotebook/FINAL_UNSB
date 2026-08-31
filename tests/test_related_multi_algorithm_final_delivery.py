@@ -144,7 +144,13 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         "schema": "final-unsb-route1-winner-ablation-adjudication-v1",
         "status": "ABLATION_CHALLENGER_READY_FOR_SINGLE_SEED_DEVELOPMENT_SELECTION",
         "roles": {
-            "proposal_only": {"candidate_id": delivery.PROPOSAL},
+            "proposal_only": {
+                "candidate_id": delivery.PROPOSAL,
+                "ranking_fields": {
+                    "late_three_mean_macro_psnr_delta": 0.54,
+                    "e200_macro_psnr_delta": 0.45,
+                },
+            },
             "observable_only": {
                 "candidate_id": "OBSERVABLE",
                 "ranking_fields": {
@@ -152,7 +158,13 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
                     "e200_macro_psnr_delta": 0.0,
                 },
             },
-            "projected_or_full": {"candidate_id": "FULL"},
+            "projected_or_full": {
+                "candidate_id": delivery.PCRSMG_FULL,
+                "ranking_fields": {
+                    "late_three_mean_macro_psnr_delta": 0.62,
+                    "e200_macro_psnr_delta": -0.001,
+                },
+            },
         },
         "observable_only_identity": {
             "status": "EXACT_PLAIN_E200_DYNAMICS_IDENTITY",
@@ -163,6 +175,9 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         "paired_metrics_used_for_training_or_control": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
+        "proposal_only_strict_gate_pass": True,
+        "projected_or_full_strict_gate_pass": False,
+        "proposal_only_out_ranks_full": True,
     })
 
     for candidate_id in (
@@ -257,6 +272,13 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert decomposition["compute_only_control"][
         "does_not_claim_native_compute_budget_equivalence"
     ] is True
+    assert decomposition["player_scope_control"]["gf_only"][
+        "e200_macro_psnr_delta"
+    ] == 0.45
+    assert decomposition["player_scope_control"]["all_players"][
+        "e200_macro_psnr_delta"
+    ] == -0.001
+    assert decomposition["optimizer_nonlinearity_boundary"]
     candidate = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "CANDIDATE.json").read_text()
     )

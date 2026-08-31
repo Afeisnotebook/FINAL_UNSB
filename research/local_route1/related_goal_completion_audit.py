@@ -59,6 +59,15 @@ def _audit_gain_source(
         and bool(family.get("conditional_covariance_property")),
         "related family lost its conditional theorem",
     )
+    _require(
+        family.get("unbiased_mathematical_object")
+        == "pre-Adam joint G/F stochastic gradient estimator"
+        and bool(family.get("conditioning_scope"))
+        and bool(family.get("adam_boundary"))
+        and family.get("finite_step_coupling_change_is_intended") is True
+        and family.get("native_de_stochasticity_retained") is True,
+        "related family overclaimed optimizer/path equivalence or lost player scope",
+    )
     independent = algorithm_set.get("independent_mechanism_members")
     independent_ids = {
         str(row.get("candidate_id", ""))
@@ -115,6 +124,53 @@ def _audit_gain_source(
         and compute_control.get("paired_controller_access") is False
         and compute_control.get("confirmation20_opened") is False,
         "gain-source compute-only control is absent or overclaimed",
+    )
+    player_scope = decomposition.get("player_scope_control")
+    _require(
+        isinstance(player_scope, dict)
+        and player_scope.get("schema")
+        == "final-unsb-route1-related-player-scope-control-v1"
+        and player_scope.get("status")
+        == "GF_ONLY_REPLICATION_SUSTAINS_E200_WHILE_FULL_PLAYER_REPLICATION_DOES_NOT"
+        and player_scope.get("gf_only", {}).get("candidate_id") == PROPOSAL
+        and player_scope.get("all_players", {}).get("candidate_id")
+        == "G1-02B-PLAYER-CONDITIONAL-RSMG"
+        and float(player_scope.get("gf_only", {}).get("e200_macro_psnr_delta", 0.0))
+        > 0.0
+        and float(player_scope.get("all_players", {}).get("e200_macro_psnr_delta", 1.0))
+        <= 0.0
+        and player_scope.get("gf_only", {}).get("strict_gate_pass") is True
+        and player_scope.get("all_players", {}).get("strict_gate_pass") is False
+        and player_scope.get("does_not_claim_additive_single_path_causality") is True
+        and player_scope.get("paired_metrics_used_only_after_complete_e200_trajectories")
+        is True
+        and player_scope.get("paired_metrics_used_for_training_or_control") is False
+        and player_scope.get("paired_controller_access") is False
+        and player_scope.get("confirmation20_opened") is False,
+        "gain-source player-scope control is absent or overclaimed",
+    )
+    gf_only = player_scope["gf_only"]
+    all_players = player_scope["all_players"]
+    scope_delta = player_scope.get("gf_only_minus_all_players")
+    _require(
+        isinstance(scope_delta, dict)
+        and math.isclose(
+            float(gf_only["late_three_mean_macro_psnr_delta"])
+            - float(all_players["late_three_mean_macro_psnr_delta"]),
+            float(scope_delta["late_three_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        )
+        and math.isclose(
+            float(gf_only["e200_macro_psnr_delta"])
+            - float(all_players["e200_macro_psnr_delta"]),
+            float(scope_delta["e200_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        ),
+        "gain-source player-scope arithmetic changed",
+    )
+    _require(
+        bool(decomposition.get("optimizer_nonlinearity_boundary")),
+        "gain-source decomposition lost the pre-Adam boundary",
     )
     rows = decomposition.get("members")
     _require(isinstance(rows, list), "gain-source member rows are malformed")
@@ -180,6 +236,8 @@ def _audit_gain_source(
         "recomputed_matched_increments": recomputed,
         "conditional_theorem_present": True,
         "compute_only_control_proven": True,
+        "player_scope_control_proven": True,
+        "pre_adam_unbiasedness_boundary_proven": True,
         "native_compute_budget_equivalence_not_claimed": True,
         "additive_causality_not_claimed": True,
     }
