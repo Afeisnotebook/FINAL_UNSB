@@ -4,8 +4,8 @@
 计划，进入以本地1660、权威同运行时4090和独立复核5090共同执行的路线一长期算法发现阶段。
 
 当前目标不是验证固定四条lane，而是从DT/HJ/HNEK及后续机制的长期证据中主动
-构造一个能在真实200 data epochs保持收益的新算法。HJ是第一项时间量尺正对照，
-不是唯一研究方向。
+构造至少一个能在真实200 data epochs保持收益的新算法，并保留所有证据合格、数学上
+相互关联或独立成立的可行算法。HJ是第一项时间量尺正对照，不是唯一研究方向。
 
 仓库不搬运三个月的全部历史。它保留 deterministic UNSB canonical、最小历史
 证据、完整状态恢复、统一评估协议，以及当前路线一的持久化研究契约。服务器授权只用于
@@ -27,10 +27,11 @@ host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和�
 
 ## 当前阶段
 
-当前是`STRICT_PASS_PRIMARY_AND_TWO_CANDIDATE_FRONTIER_E200_RUNNING`。本地和两台服务器均已验证
+当前是`RELATED_MULTI_ALGORITHM_E200_FRONTIER_RUNNING`。本地和两台服务器均已验证
 数据身份、共同e0、真实优化器更新、full-state exact resume、评估重放和confirmation锁。
 4090的plain/HJ/HNEK/DT与最终474条反转、140条采样方差因果证据已经冻结；它们用于
-生成新算法，而不是旧算法排名。
+生成新算法，而不是旧算法排名。当前科学终点不再被压缩成一个冠军：兼容
+`CANDIDATE.json`只给出下一步行动优先级，`ALGORITHM_SET.json`拥有多算法科学解释权。
 
 旧SEARCH-005 small25 2400 updates只有16 data epochs，旧full100 12000 updates只有
 20 data epochs，不能充当目标所需的e200长期裁决。长期因果图谱已经生成并完成多项新
@@ -42,12 +43,17 @@ SSIM/LPIPS等完整门，因此按“严格资格优先、资格层内再排序�
 条件原生双视图G/F估计，而不是观察开销。固定四lane、HJ有限handoff、退出阈值和
 paired控制仍不属于当前任务。
 
-搜索没有因出现当前主候选而停止。5090正在从共同e0并行推进PCNR与AM-MCRB到真实e200；
-两者只有在完整终点后才进入宿主内裁决。若AM-MCRB与独立采样机制均严格通过，预注册门
-允许最多生成一个两组件Generation-3合成；否则形成不适用证据，不放宽为网格搜索。
-最终的一个主候选只是执行优先级；严格通过或具有单一target-blind可修复缺陷的长期近
-边界方法仍保留在可信前沿，并可按一次修订额度继续。具体第二波资源规则见
-`decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
+搜索没有因出现当前主候选而停止。当前相关算法族共享post-D/E条件独立双视图G/F均值，
+但分别作用于三个不同父对象：原生UNSB场（Proposal-only）、HNEK physical-horizon
+bridge game（HPCGR）和HJ structure-projected PatchNCE目标（HJCGR）。AM-TNC作为独立
+Adam度量切向机制保留。4090并行运行HPCGR/HJCGR，5090并行完成Proposal-only/AM-TNC，
+随后在释放的资源槽执行HJCGR跨运行时复核；所有分支都从共同e0跑到真实e200。
+
+最终交付会分别计算Proposal-only相对plain、HPCGR相对HNEK、HJCGR相对HJ的完整轨迹
+增量，从而区分父目标收益和共享估计器的匹配组合增量；这些差值不会被表述为单轨迹内的
+线性因果贡献。具体边界见
+`decisions/DEC-20260831-RELATED-MULTI-ALGORITHM-FAMILY-DELIVERY.md`和
+`decisions/DEC-20260831-HJCGR-PORTABLE-CONSTRUCTION-AUTHORITY.md`。
 
 紧急成本协议以完整seed2026/e200作为开发候选冻结依据，seed2027/2028延期；节省的
 算力用于赢家机制消融、全负后的唯一证据驱动数学修订和额外独立方向。该协议不声称

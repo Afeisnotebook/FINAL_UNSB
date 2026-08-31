@@ -1,8 +1,23 @@
 # ACTIVE：本地路线一长期算法发现计划
 
 状态：`MULTI_CANDIDATE_E200_FRONTIER_RUNNING / COMPLETE_ATOMIC_DELIVERY_ARMED`
-日期：2026-08-31
+日期：2026-09-01
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
+
+## 2026-09-01 00:05 执行更新：多算法集合与收益来源成为终局验收项
+
+- 当前不是“从几个名字里选一个冠军”，而是完成相关算法族和独立机制的真实e200裁决。
+  Proposal-only、HPCGR、HJCGR共享条件双视图G/F均值，但父数学对象分别为原生UNSB、
+  HNEK physical horizon和HJ structure-projected PatchNCE；AM-TNC保持独立。
+- 4090双流HPCGR/HJCGR约到e63/e18；5090双流Proposal-only/AM-TNC约到e151/e116。
+  Proposal-only e150的420张、六域、LPIPS正式里程碑已落盘；confirmation20仍封存。
+- 5090 HJCGR使用4090 source-bound portable construction authority。它等待Proposal-only
+  receipt只是资源槽安排；目的宿主结果没有重新裁决公式的权力。
+- `ALGORITHM_SET.json`将保存所有strict/fragile/closed-current实现，不为旧算法保留名额；
+  `ACTION_PRIORITY.json`只给下一步默认顺序。最终报告还必须给出三条子算法相对父算法的
+  late-three/e200 matched增量，并明确这些非线性轨迹差不是可加因果模型。
+- 最新终点审计为`c3fec4d`，会机器验证算法族身份、AM-TNC独立性、条件均值/协方差边界、
+  增量算术、逐域轨迹和既有完整Goal条件。训练、汇总、relay和审核全部由持久进程负责。
 
 ## 2026-08-31 15:01 执行更新：终点完成审计不等于单候选剪枝
 

@@ -1,11 +1,54 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T14:28:40+08:00",
-  "phase": "MULTI_CANDIDATE_E200_FRONTIER_RUNNING_FULL_EVIDENCE_AND_RESULT_RETURN_CHAIN_ARMED",
+  "updated": "2026-09-01",
+  "state_snapshot_time": "2026-09-01T00:05:00+08:00",
+  "phase": "RELATED_MULTI_ALGORITHM_E200_FRONTIER_RUNNING_GAIN_SOURCE_AND_RESULT_RETURN_CHAIN_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "11be901",
+  "development_head_at_state_write": "c3fec4dfda57d3b509b2efd057c0c7fd38b83019",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "related_multi_algorithm_frontier": {
+    "status": "FOUR_E200_TRAJECTORIES_IN_FLIGHT_TERMINAL_SET_PENDING",
+    "scientific_delivery": "ALGORITHM_SET_AND_ACTION_PRIORITY_SEPARATED",
+    "action_priority_is_not_scientific_exclusivity": true,
+    "related_family": {
+      "shared_operator": "post-D/E conditionally iid two-view G/F mean",
+      "members": [
+        "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+        "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING",
+        "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+      ],
+      "base_objects": [
+        "native UNSB field",
+        "HNEK physical-horizon bridge game",
+        "HJ structure-projected PatchNCE objective"
+      ],
+      "conditional_mean_preserved": true,
+      "conditional_covariance_ratio": 0.5
+    },
+    "independent_mechanism_members": [
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ],
+    "remote4090_snapshot": {
+      "hpcgr_data_epoch": 63,
+      "hjcgr_data_epoch": 18,
+      "maximum_concurrent_long_candidates": 2
+    },
+    "remote5090_snapshot": {
+      "proposal_only_data_epoch": 151,
+      "am_tnc_data_epoch": 116,
+      "hjcgr_status": "FROZEN_WAITING_FOR_PROPOSAL_RESOURCE_SLOT",
+      "maximum_concurrent_long_candidates": 2
+    },
+    "hjcgr_algorithm_fingerprint": "d53f0a0fff5622500025f46a89107aa1e1121463d2b9c130a28775efef24faf6",
+    "hjcgr_portable_authority_sha256": "f03246b59be63f83731c719e1c575694c4c7646e918e8ddbd7609fc0db19fcb2",
+    "multi_algorithm_delivery_commit": "36090652782c225f41ae1065fd67cd69fae00eeb",
+    "gain_source_delivery_commit": "853817cff62233e134736027083f2e696babcc82",
+    "terminal_goal_audit_commit": "c3fec4dfda57d3b509b2efd057c0c7fd38b83019",
+    "paired_metrics_used_for_formula_or_training_control": false,
+    "cross_host_deltas_merged": false,
+    "cross_seed_stability_claimed": false,
+    "confirmation20_opened": false
+  },
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
     "git_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
