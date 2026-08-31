@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-route1-canonical-5090-receipt-promotion-deployment-v1",
+  "status": "DURABLE_SUCCESSOR_ARMED_BEFORE_SOURCE_E200",
+  "git_commit": "39cc46c28699e095e9a1807a88331a9ff6466510",
+  "remote_host_role": "remote5090-runtime-replay",
+  "source_result": "operations/CROSS_RUNTIME_PORTFOLIO_5090_RESULT.json",
+  "source_result_present_at_deployment": false,
+  "source_receipt_suffix": "_5090",
+  "canonical_candidate_ids": [
+    "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+  ],
+  "downstream_consumers": [
+    "G3-02-HJ-CONDITIONAL-GF-RESAMPLING resource-slot successor",
+    "remote5090 related host adjudication"
+  ],
+  "remote_state": "WAITING_FOR_COMPLETE_5090_CROSS_RUNTIME_PORTFOLIO",
+  "durable_process_parented_outside_codex": true,
+  "source_receipt_validation_required": true,
+  "source_and_canonical_sha256_equality_required": true,
+  "destination_overwrite_allowed": false,
+  "checkpoint_transfer": false,
+  "formula_changed": false,
+  "ranking_changed": false,
+  "cross_host_deltas_merged": false,
+  "paired_metrics_used_for_formula_or_training_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "test_status": "365_PASSED"
+}
