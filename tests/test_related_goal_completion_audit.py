@@ -67,7 +67,17 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "members": [
             {
                 "candidate_id": candidate_id,
+                "disposition": (
+                    "strict_viable_algorithm"
+                    if candidate_id in (audit.HPCGR, audit.HJCGR)
+                    else "positive_but_fragile_algorithm"
+                ),
                 "mathematics": {"formula": f"formula-{candidate_id}"},
+                "risk": {"single_seed_only": True},
+                "reproduction": {
+                    "seed2026_e200": f"run-{candidate_id}",
+                    "deferred_seed_validation": [2027, 2028],
+                },
                 "source_bound": {"receipt": candidate_id},
                 "absolute_relative_domain_trajectory": [candidate_id],
             }
@@ -114,6 +124,47 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "paired_controller_access": False,
         "confirmation20_opened": False,
     })
+    selected_member = next(
+        row for row in algorithm_set["members"]
+        if row["candidate_id"] == audit.HPCGR
+    )
+    _write(related / "CANDIDATE.json", {
+        "schema": audit.CANDIDATE_SCHEMA,
+        "status": "CURRENT_ACTION_PRIORITY_FROM_MULTI_ALGORITHM_SET",
+        "candidate_id": audit.HPCGR,
+        "canonical_candidate_is_action_priority_only": True,
+        "action_priority_is_not_scientific_exclusivity": True,
+        "algorithm_discovery_collapsed_to_single_candidate": False,
+        "algorithm": selected_member,
+        "cross_seed_stability_claimed": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
+    _write(related / "ALTERNATES.json", {
+        "schema": audit.ALTERNATES_SCHEMA,
+        "status": "TWO_EVIDENCE_RANKED_ALTERNATES",
+        "action_priority_candidate_id": audit.HPCGR,
+        "alternates": [
+            {
+                "candidate_id": audit.HJCGR,
+                "algorithm": next(
+                    row for row in algorithm_set["members"]
+                    if row["candidate_id"] == audit.HJCGR
+                ),
+            },
+            {
+                "candidate_id": audit.PROPOSAL,
+                "algorithm": next(
+                    row for row in algorithm_set["members"]
+                    if row["candidate_id"] == audit.PROPOSAL
+                ),
+            },
+        ],
+        "action_priority_is_not_scientific_exclusivity": True,
+        "cross_seed_stability_claimed": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    })
     _write(related / "RELATED_RESULTS.json", {
         "schema": audit.RESULTS_SCHEMA,
         "status": "RELATED_MULTI_ALGORITHM_E200_COMPLETE",
@@ -147,6 +198,7 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     assert result["action_priority_candidate_id"] == audit.HPCGR
     assert result["strict_viable_candidate_ids"] == [audit.HPCGR, audit.HJCGR]
     assert result["action_priority_is_not_scientific_exclusivity"] is True
+    assert result["alternate_candidate_ids"] == [audit.HJCGR, audit.PROPOSAL]
     assert result["gain_source_proof"][
         "positive_increment_candidate_ids"
     ] == list(family_ids)

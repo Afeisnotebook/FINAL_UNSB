@@ -19,7 +19,9 @@ from research.local_route1.goal_completion_audit import (
 from research.local_route1.related_multi_algorithm_final_delivery import (
     ACTION_SCHEMA,
     ALGORITHM_SET_SCHEMA,
+    ALTERNATES_SCHEMA,
     AMTNC,
+    CANDIDATE_SCHEMA,
     HJCGR,
     HPCGR,
     POINTER,
@@ -162,6 +164,8 @@ def audit_related_goal_completion(
     pointer = validate_related_delivery(related_delivery)
     algorithm_set = _read_json(related_delivery / "ALGORITHM_SET.json")
     action = _read_json(related_delivery / "ACTION_PRIORITY.json")
+    candidate = _read_json(related_delivery / "CANDIDATE.json")
+    alternates = _read_json(related_delivery / "ALTERNATES.json")
     results = _read_json(related_delivery / "RELATED_RESULTS.json")
 
     _require(
@@ -195,6 +199,47 @@ def audit_related_goal_completion(
         "related action priority is exclusive",
     )
     _posthoc_boundary(action, label="related action")
+    _require(
+        candidate.get("schema") == CANDIDATE_SCHEMA
+        and candidate.get("status")
+        == "CURRENT_ACTION_PRIORITY_FROM_MULTI_ALGORITHM_SET",
+        "related action candidate is not terminal",
+    )
+    _require(
+        candidate.get("candidate_id") == action.get("candidate_id")
+        and candidate.get("canonical_candidate_is_action_priority_only") is True
+        and candidate.get("action_priority_is_not_scientific_exclusivity") is True,
+        "related action candidate changed multi-algorithm semantics",
+    )
+    selected_algorithm = candidate.get("algorithm")
+    _require(
+        isinstance(selected_algorithm, dict)
+        and selected_algorithm.get("candidate_id") == action.get("candidate_id")
+        and isinstance(selected_algorithm.get("risk"), dict)
+        and isinstance(selected_algorithm.get("reproduction"), dict)
+        and bool(selected_algorithm["reproduction"].get("seed2026_e200"))
+        and selected_algorithm["reproduction"].get("deferred_seed_validation")
+        == [2027, 2028],
+        "related action candidate is not actionable/reproducible",
+    )
+    _posthoc_boundary(candidate, label="related action candidate")
+    _require(
+        alternates.get("schema") == ALTERNATES_SCHEMA
+        and alternates.get("status") == "TWO_EVIDENCE_RANKED_ALTERNATES",
+        "related alternates are not terminal",
+    )
+    alternate_rows = alternates.get("alternates")
+    alternate_ids = [
+        str(row.get("candidate_id", ""))
+        for row in alternate_rows or [] if isinstance(row, dict)
+    ]
+    _require(
+        len(alternate_ids) == 2
+        and len(set(alternate_ids)) == 2
+        and action.get("candidate_id") not in alternate_ids,
+        "related delivery does not contain two distinct alternates",
+    )
+    _posthoc_boundary(alternates, label="related alternates")
     _require(results.get("schema") == RESULTS_SCHEMA, "related results schema changed")
     _require(
         results.get("status") == "RELATED_MULTI_ALGORITHM_E200_COMPLETE",
@@ -206,6 +251,17 @@ def audit_related_goal_completion(
     _require(isinstance(members, list) and bool(members), "algorithm set is empty")
     ids = [str(row.get("candidate_id", "")) for row in members]
     _require(len(ids) == len(set(ids)), "algorithm set contains duplicate candidates")
+    members_by_id = {str(row["candidate_id"]): row for row in members}
+    _require(
+        selected_algorithm == members_by_id.get(str(action.get("candidate_id", ""))),
+        "related action candidate differs from algorithm-set member",
+    )
+    for alternate in alternate_rows:
+        alternate_id = str(alternate["candidate_id"])
+        _require(
+            alternate.get("algorithm") == members_by_id.get(alternate_id),
+            f"related alternate differs from algorithm-set member: {alternate_id}",
+        )
     strict = algorithm_set.get("strict_viable_candidate_ids")
     fragile = algorithm_set.get("positive_but_fragile_candidate_ids")
     _require(isinstance(strict, list), "strict viable algorithm list is malformed")
@@ -216,6 +272,16 @@ def audit_related_goal_completion(
     )
     _require(set(strict).issubset(ids), "strict viable algorithm is absent from members")
     _require(set(fragile).issubset(ids), "fragile algorithm is absent from members")
+    _require(set(alternate_ids).issubset(ids), "alternate is absent from algorithm set")
+    for member in members:
+        if member.get("disposition") in (
+            "strict_viable_algorithm", "positive_but_fragile_algorithm",
+        ):
+            _require(
+                isinstance(member.get("risk"), dict)
+                and bool(member.get("reproduction", {}).get("seed2026_e200")),
+                f"retained algorithm lacks risk/reproduction: {member.get('candidate_id')}",
+            )
     gain_source_proof = _audit_gain_source(
         algorithm_set, results, set(ids),
     )
@@ -261,6 +327,7 @@ def audit_related_goal_completion(
         "algorithm_set_status": pointer["algorithm_set_status"],
         "strict_viable_candidate_ids": strict,
         "positive_but_fragile_candidate_ids": fragile,
+        "alternate_candidate_ids": alternate_ids,
         "algorithm_member_count": len(members),
         "trajectory_proofs": trajectory_proofs,
         "gain_source_proof": gain_source_proof,

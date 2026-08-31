@@ -31,6 +31,10 @@ def test_validate_local_related_delivery(tmp_path: Path):
         "confirmation20_opened": False,
     })
     _write(tmp_path / "ACTION_PRIORITY.json", {"candidate_id": "A"})
+    _write(tmp_path / "CANDIDATE.json", {"candidate_id": "A"})
+    _write(tmp_path / "ALTERNATES.json", {
+        "alternates": [{"candidate_id": "B"}, {"candidate_id": "C"}],
+    })
     _write(tmp_path / "RELATED_RESULTS.json", {"status": "complete"})
     _write(tmp_path / "RELATED_FINAL_REPORT.md", "report")
     for name in EXTRA_FILES:
@@ -65,4 +69,3 @@ def test_validate_local_related_delivery(tmp_path: Path):
     }
     _write(tmp_path / POINTER, pointer)
     assert validate_local_delivery(tmp_path)["action_priority_candidate_id"] == "A"
-

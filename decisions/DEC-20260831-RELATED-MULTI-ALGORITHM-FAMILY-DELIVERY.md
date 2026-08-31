@@ -66,7 +66,10 @@ target-blind因果证据，可另开推导，不用本轮已有结果拟合窗�
 - 同卡有限并发上限由吞吐和状态隔离决定，不用剩余显存机械堆满任务；
 - 所有候选必须跑到e200，中间paired结果不得早停；
 - 最终发布`ALGORITHM_SET.json`，分别列出strict、positive-but-fragile和
-  closed-current实现；`ACTION_PRIORITY.json`仅提供下一步默认入口。
+  closed-current实现；`ACTION_PRIORITY.json`仅提供下一步默认入口；
+- 同时发布与行动优先级严格一致的`CANDIDATE.json`和两个证据排序递补的
+  `ALTERNATES.json`。它们是可执行接口，不会把`ALGORITHM_SET.json`收缩为科学唯一冠军；
+- 每个算法成员必须绑定复杂度、风险、冻结executor合同和seed2026 e200复现命令。
 
 ## 非声明
 
@@ -75,4 +78,3 @@ target-blind因果证据，可另开推导，不用本轮已有结果拟合窗�
 - 相关族成员共享定理不代表它们必然同时取得PSNR收益；
 - 若最终只有一条严格通过，仍保留其余完整轨迹和数学失败边界；
 - 若有多条严格通过，不人为选一个“科学唯一冠军”。
-

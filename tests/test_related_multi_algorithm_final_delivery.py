@@ -122,6 +122,7 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     )
 
     sources = {}
+    executors = {}
     _write(tmp_path / "evidence" / "ANCHOR_TRAJECTORIES.json", {
         "schema": "local-route1-anchor-summary-v1",
         "summaries": [
@@ -177,11 +178,27 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
             card_path,
             {"candidate_id": candidate_id, "model": candidate_id, "method": {}},
         )
+        executor_path = _write(
+            tmp_path / "operations" / f"CANDIDATE_EXECUTOR_CONTRACT_{candidate_id}.json",
+            {"candidate_id": candidate_id},
+        )
+        executors[candidate_id] = (
+            executor_path,
+            {
+                "candidate_git_commit": "c" * 40,
+                "algorithm_fingerprint": f"algorithm-{candidate_id}",
+                "candidate_fingerprint": f"candidate-{candidate_id}",
+            },
+        )
         assert file_sha256(implementation_path)
 
     monkeypatch.setattr(
         delivery, "_selected_source",
         lambda _root, row: sources[row["candidate_id"]],
+    )
+    monkeypatch.setattr(
+        delivery, "_executor_contract",
+        lambda _root, receipt: executors[receipt["candidate_id"]],
     )
 
     pointer = delivery.materialize_related_multi_algorithm_final_delivery(tmp_path)
@@ -212,4 +229,17 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert decomposition[
         "matched_increment_is_not_additive_causal_attribution"
     ] is True
+    candidate = json.loads(
+        (tmp_path / delivery.FINAL_SUBDIR / "CANDIDATE.json").read_text()
+    )
+    alternates = json.loads(
+        (tmp_path / delivery.FINAL_SUBDIR / "ALTERNATES.json").read_text()
+    )
+    assert candidate["candidate_id"] == delivery.HPCGR
+    assert candidate["algorithm"]["reproduction"]["seed2026_e200"]
+    assert candidate["action_priority_is_not_scientific_exclusivity"] is True
+    assert len(alternates["alternates"]) == 2
+    assert delivery.HPCGR not in {
+        row["candidate_id"] for row in alternates["alternates"]
+    }
     assert delivery.materialize_related_multi_algorithm_final_delivery(tmp_path) == pointer

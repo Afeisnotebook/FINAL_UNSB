@@ -26,6 +26,7 @@ from research.local_route1.complete_frontier_final_delivery import (
     _read_json,
     _selected_source,
 )
+from research.local_route1.frontier_final_delivery import _executor_contract
 from research.local_route1.related_algorithm_adjudication import (
     COMBINED_SCHEMA,
     HOST_SCHEMA,
@@ -37,12 +38,16 @@ from research.local_route1.runtime import write_json
 ALGORITHM_SET_SCHEMA = "final-unsb-route1-related-algorithm-set-v1"
 RESULTS_SCHEMA = "final-unsb-route1-related-multi-algorithm-results-v1"
 ACTION_SCHEMA = "final-unsb-route1-related-action-priority-v1"
+CANDIDATE_SCHEMA = "final-unsb-route1-related-action-candidate-v1"
+ALTERNATES_SCHEMA = "final-unsb-route1-related-action-alternates-v1"
 POINTER_SCHEMA = "final-unsb-route1-related-multi-algorithm-final-pointer-v1"
 POINTER = "RELATED_MULTI_ALGORITHM_FINAL_POINTER.json"
 FINAL_SUBDIR = Path("final") / "related_multi_algorithm"
 PUBLISHED_FILES = (
     "ALGORITHM_SET.json",
     "ACTION_PRIORITY.json",
+    "CANDIDATE.json",
+    "ALTERNATES.json",
     "RELATED_RESULTS.json",
     "RELATED_FINAL_REPORT.md",
 )
@@ -381,6 +386,22 @@ def _member(
     implementation_path = (
         output_root / "derive" / "implementations" / f"{candidate_id}.json"
     )
+    executor_path, executor = _executor_contract(output_root, receipt)
+    reproduction: dict[str, Any] = {
+        "seed2026_e200": (
+            "PYTHONPATH=<REPO> python -m "
+            "operations.local_route1_candidate_executor "
+            f"--contract <RUN_ROOT>/{executor_path.relative_to(output_root).as_posix()}"
+        ),
+        "executor_contract": {
+            "path": executor_path.relative_to(output_root).as_posix(),
+            "sha256": file_sha256(executor_path),
+            "candidate_git_commit": executor["candidate_git_commit"],
+            "algorithm_fingerprint": executor["algorithm_fingerprint"],
+            "candidate_fingerprint": executor["candidate_fingerprint"],
+        },
+        "deferred_seed_validation": [2027, 2028],
+    }
     return {
         "candidate_id": candidate_id,
         "disposition": disposition,
@@ -406,11 +427,26 @@ def _member(
                 "target_inaccessibility_proof"
             ),
         },
+        "algorithm_hyperparameters": card.get("algorithm_hyperparameters"),
+        "executable_configuration": {
+            "model": implementation.get("model"),
+            "method": implementation.get("method"),
+        },
+        "source_files": implementation.get("source_files", []),
         "complexity": {
             "compute_cost": card.get("compute_cost"),
             "memory_cost": card.get("memory_cost"),
             "recovery_state_cost": card.get("recovery_state_cost"),
         },
+        "risk": {
+            "expected_applicable_state": card.get("expected_applicable_state"),
+            "falsifying_experiment": card.get("falsifying_experiment"),
+            "single_seed_only": True,
+            "cross_seed_stability_claimed": False,
+            "full_10000_image_200_epoch_behavior_untested": True,
+            "confirmation20_generalization_untested": True,
+        },
+        "reproduction": reproduction,
         "source_bound": {
             "terminal_receipt": {
                 "path": receipt_path.relative_to(output_root).as_posix(),
@@ -434,13 +470,17 @@ def _member(
     }
 
 
-def _report(algorithm_set: dict[str, Any], action: dict[str, Any]) -> str:
+def _report(
+    algorithm_set: dict[str, Any], action: dict[str, Any],
+    alternates: dict[str, Any],
+) -> str:
     lines = [
         "# FINAL UNSB 路线一：多算法科学交付",
         "",
         f"- 下一步行动优先级：`{action['candidate_id']}`。这不是科学排他性冠军。",
         f"- 严格可行算法：`{len(algorithm_set['strict_viable_candidate_ids'])}` 条。",
         f"- 正向但脆弱算法：`{len(algorithm_set['positive_but_fragile_candidate_ids'])}` 条。",
+        "- 兼容性交付仍提供唯一行动候选；该身份不删除算法集合中的其他可行机制。",
         "- 所有排序仅使用4090同宿主、共同e0、small25、seed2026、真实e200结果。",
         "- 5090结果只作为独立运行时证据；没有把跨宿主差值平均成多seed结论。",
         "",
@@ -469,8 +509,13 @@ def _report(algorithm_set: dict[str, Any], action: dict[str, Any]) -> str:
         "- 当前是单seed开发裁决，不声称跨seed稳定。",
         "- confirmation20仍封存；paired指标从未用于公式、训练控制、退出或checkpoint选择。",
         "- `ALGORITHM_SET.json`保存每条可行/脆弱/关闭实现的公式、逐域轨迹和来源哈希。",
+        "- `CANDIDATE.json`是当前行动入口；`ALTERNATES.json`保存两个证据排序递补。",
         "",
     ])
+    lines.insert(8, "- 两个递补：" + "、".join(
+        f"`{row['candidate_id']}`（{row['disposition']}）"
+        for row in alternates["alternates"]
+    ) + "。")
     return "\n".join(lines)
 
 
@@ -507,7 +552,11 @@ def materialize_related_multi_algorithm_final_delivery(
             disposition = "positive_but_fragile_algorithm"
         else:
             disposition = "closed_current_operator_on_current_protocol"
-        members.append(_member(output_root, row, disposition=disposition))
+        members.append(_member(
+            output_root,
+            row,
+            disposition=disposition,
+        ))
 
     strict_ids = [
         row["candidate_id"] for row in members
@@ -573,8 +622,52 @@ def materialize_related_multi_algorithm_final_delivery(
         "algorithm_set_status": algorithm_set["status"],
         "ranking_fields": selected_member["ranking_fields"],
         "mathematics": selected_member["mathematics"],
+        "complexity": selected_member["complexity"],
+        "risk": selected_member["risk"],
+        "reproduction": selected_member["reproduction"],
         "source_bound": selected_member["source_bound"],
         "selection_seeds": [2026],
+        "cross_seed_stability_claimed": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    alternate_members = [
+        row for row in members if row["candidate_id"] != selected_id
+    ][:2]
+    if len(alternate_members) != 2:
+        raise RuntimeError("related final delivery requires exactly two ranked alternates")
+    candidate = {
+        "schema": CANDIDATE_SCHEMA,
+        "status": "CURRENT_ACTION_PRIORITY_FROM_MULTI_ALGORITHM_SET",
+        "candidate_id": selected_id,
+        "classification": selected_member["classification"],
+        "disposition": selected_member["disposition"],
+        "canonical_candidate_is_action_priority_only": True,
+        "action_priority_is_not_scientific_exclusivity": True,
+        "algorithm_discovery_collapsed_to_single_candidate": False,
+        "algorithm": selected_member,
+        "selection_seeds": [2026],
+        "deferred_seed_validation": [2027, 2028],
+        "cross_seed_stability_claimed": False,
+        "paired_metrics_used_for_formula_or_training_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    alternates = {
+        "schema": ALTERNATES_SCHEMA,
+        "status": "TWO_EVIDENCE_RANKED_ALTERNATES",
+        "action_priority_candidate_id": selected_id,
+        "alternates": [
+            {
+                "rank": rank,
+                "candidate_id": row["candidate_id"],
+                "classification": row["classification"],
+                "disposition": row["disposition"],
+                "algorithm": row,
+            }
+            for rank, row in enumerate(alternate_members, start=2)
+        ],
+        "action_priority_is_not_scientific_exclusivity": True,
         "cross_seed_stability_claimed": False,
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -591,6 +684,8 @@ def materialize_related_multi_algorithm_final_delivery(
         "related_multi_host_adjudication": combined,
         "composite_same_host_4090_ranking": ranking,
         "mechanism_gain_source_decomposition": gain_source,
+        "action_candidate": candidate,
+        "ranked_alternates": alternates,
         "cross_host_deltas_merged": False,
         "cross_runtime_is_not_cross_seed": True,
         "selection_seeds": [2026],
@@ -605,9 +700,11 @@ def materialize_related_multi_algorithm_final_delivery(
     staging.mkdir(parents=True, exist_ok=True)
     write_json(staging / "ALGORITHM_SET.json", algorithm_set)
     write_json(staging / "ACTION_PRIORITY.json", action)
+    write_json(staging / "CANDIDATE.json", candidate)
+    write_json(staging / "ALTERNATES.json", alternates)
     write_json(staging / "RELATED_RESULTS.json", results)
     (staging / "RELATED_FINAL_REPORT.md").write_text(
-        _report(algorithm_set, action), encoding="utf-8",
+        _report(algorithm_set, action, alternates), encoding="utf-8",
     )
     hashes = {name: file_sha256(staging / name) for name in PUBLISHED_FILES}
     destination.mkdir(parents=True, exist_ok=True)
