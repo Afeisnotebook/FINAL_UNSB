@@ -39,5 +39,8 @@ authorize compute.
 11. `DEC-20260831-RESIDUAL-FEASIBLE-EUCLIDEAN-CONDITIONAL-SYNTHESIS.md`：在对应父项
     同宿主严格通过的前提下，保留条件采样与Euclidean residual-feasible屏障的G3-03；
     它与G3-02的Adam度量是两个独立约束几何，不是强度网格，也不预先删除任一父算法。
+12. `DEC-20260831-EVIDENCE-BACKED-ALTERNATE-CROSS-RUNTIME-REPLAY.md`：完整e200后仍有
+    late或terminal正信号的修复alternate也可进入最多两条4090复跑；closed仍排除，且
+    G3父项严格门不降低。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。

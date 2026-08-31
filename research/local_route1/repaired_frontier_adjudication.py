@@ -22,6 +22,7 @@ from operations.local_route1_implementation_invalid_diagnostic_receipt import (
     INCIDENTS as INVALID_DIAGNOSTIC_INCIDENTS,
 )
 from research.local_route1.frontier_advancement import (
+    ALTERNATE,
     NEAR,
     STRICT,
     classify_complete_trajectory,
@@ -224,7 +225,15 @@ def adjudicate_repaired_frontier(
         or row[0].get("trajectory_status") == POSITIVE_STATUS
     ]
     action = strict[0] if strict else ranked[0]
-    replay_queue = [row for row in ranked if row[2]["classification"] in (STRICT, NEAR)]
+    # The destination has two repaired-algorithm slots and the user explicitly
+    # chose evidence preservation over tiny-score winner pruning.  A complete
+    # e200 alternate has at least one positive late/terminal signal and is
+    # therefore worth a host-matched runtime-sensitivity replay.  A CLOSED
+    # operator (late and terminal both nonpositive) remains excluded.
+    replay_queue = [
+        row for row in ranked
+        if row[2]["classification"] in (STRICT, NEAR, ALTERNATE)
+    ]
     ranking = []
     for index, (receipt, _trajectory, classification) in enumerate(ranked, start=1):
         path = rankable_paths[str(receipt["candidate_id"])]

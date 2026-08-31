@@ -190,6 +190,26 @@ def test_repaired_frontier_all_negative_retains_actionable_fallbacks(
     assert result["recommended_4090_replay_queue"] == []
 
 
+def test_repaired_frontier_replays_complete_evidence_backed_repair_alternate(
+    tmp_path: Path,
+) -> None:
+    rankable, invalid = _frontier(tmp_path, all_negative=True)
+    repaired = rankable[1]
+    payload = json.loads(repaired.read_text(encoding="utf-8"))
+    payload["ranking_fields"]["late_three_mean_macro_psnr_delta"] = 0.05
+    payload["ranking_fields"]["e200_macro_psnr_delta"] = -0.2
+    repaired.write_text(json.dumps(payload), encoding="utf-8")
+    sidecar = Path(str(repaired) + ".sha256.json")
+    sidecar_payload = json.loads(sidecar.read_text(encoding="utf-8"))
+    sidecar_payload["receipt_sha256"] = file_sha256(repaired)
+    sidecar.write_text(json.dumps(sidecar_payload), encoding="utf-8")
+
+    result = adjudicate_repaired_frontier(
+        rankable, invalid, tmp_path / "adjudication.json",
+    )
+    assert result["recommended_4090_replay_queue"] == [RANKABLE_IDS[1]]
+
+
 def test_repaired_frontier_rejects_invalid_diagnostic_not_bound_to_incident(
     tmp_path: Path,
 ) -> None:

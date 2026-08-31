@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from research.local_route1 import repaired_replay_portfolio as portfolio
-from research.local_route1.frontier_advancement import NEAR, STRICT
+from research.local_route1.frontier_advancement import ALTERNATE, CLOSED, NEAR, STRICT
 from research.local_route1.repaired_replay_portfolio import (
     MAXIMUM_REPLAYS,
     REPAIRED_IDS,
@@ -79,6 +79,11 @@ def test_portable_replay_preserves_two_independent_repaired_algorithms() -> None
     )
 
 
+def test_portable_replay_accepts_complete_evidence_backed_alternate() -> None:
+    value = _authority([_row(REPAIRED_IDS[0], ALTERNATE)])
+    assert validate_portable_authority(value) is value
+
+
 def test_portable_replay_rejects_single_winner_policy_expansion() -> None:
     rows = [_row(REPAIRED_IDS[index % 2]) for index in range(3)]
     with pytest.raises(RuntimeError, match="two-candidate cap"):
@@ -90,8 +95,8 @@ def test_portable_replay_rejects_paired_control_and_unqualified_rows() -> None:
     value["paired_controller_access"] = True
     with pytest.raises(RuntimeError, match="paired_controller_access"):
         validate_portable_authority(value)
-    value = _authority([_row(REPAIRED_IDS[0], "evidence_backed_alternate")])
-    with pytest.raises(RuntimeError, match="strict or near"):
+    value = _authority([_row(REPAIRED_IDS[0], CLOSED)])
+    with pytest.raises(RuntimeError, match="strict, near, or evidence-backed"):
         validate_portable_authority(value)
 
 

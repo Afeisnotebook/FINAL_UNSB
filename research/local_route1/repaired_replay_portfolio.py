@@ -1,7 +1,8 @@
 """Portable, source-bound replay authority for repaired route-1 algorithms.
 
 The 5090 host may discover more than one evidence-worthy repaired operator.
-This module exports at most two complete-e200, strict/near repaired identities
+This module exports at most two complete-e200 strict, near, or evidence-backed
+alternate repaired identities
 and registers those *algorithms* on another host without pretending that the
 destination host executed the implementation-invalid parent trajectory.
 
@@ -30,7 +31,7 @@ from operations.local_route1_freeze_rfmcrb_replacement import (
     PARENT_ID as RFMCRB_PARENT,
     SPEC as RFMCRB_SPEC,
 )
-from research.local_route1.frontier_advancement import NEAR, STRICT
+from research.local_route1.frontier_advancement import ALTERNATE, NEAR, STRICT
 from research.local_route1.protocol import file_sha256
 from research.local_route1.repaired_frontier_adjudication import (
     ACTIONABLE_STATUS,
@@ -93,8 +94,11 @@ def validate_portable_authority(value: dict[str, Any]) -> dict[str, Any]:
         candidate_id = str(row.get("candidate_id", ""))
         if candidate_id not in REPAIRED_IDS:
             raise RuntimeError("repaired replay authority contains a non-repaired algorithm")
-        if row.get("classification") not in (STRICT, NEAR):
-            raise RuntimeError("4090 replay requires a strict or near complete-e200 source")
+        if row.get("classification") not in (STRICT, NEAR, ALTERNATE):
+            raise RuntimeError(
+                "4090 replay requires a strict, near, or evidence-backed "
+                "alternate complete-e200 source"
+            )
         for key in (
             "algorithm_fingerprint", "remote_candidate_fingerprint",
             "remote_training_git_commit", "remote_receipt_sha256",
@@ -180,7 +184,9 @@ def export_portable_authority(
     replay_rows = []
     for candidate_id in requested:
         row = ranking.get(candidate_id)
-        if row is None or row.get("classification") not in (STRICT, NEAR):
+        if row is None or row.get("classification") not in (
+            STRICT, NEAR, ALTERNATE,
+        ):
             raise RuntimeError("repaired replay queue is inconsistent with complete ranking")
         receipt_path = Path(str(row.get("receipt_path", ""))).resolve()
         if (
