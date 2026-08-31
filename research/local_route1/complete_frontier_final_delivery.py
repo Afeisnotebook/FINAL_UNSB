@@ -140,6 +140,49 @@ def _portable_parent_ablation(portable: dict[str, Any], parent_id: str) -> dict[
     return matches[0]
 
 
+def _same_host_candidate_evidence(
+    output_root: Path, frontier: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Embed every 4090 candidate's source and per-domain complete trajectory."""
+
+    evidence = []
+    for row in frontier["ranking"]:
+        (
+            receipt, receipt_path, trajectory, trajectory_path, card, card_path,
+            implementation,
+        ) = _selected_source(output_root, row)
+        candidate_id = str(row["candidate_id"])
+        implementation_path = (
+            output_root / "derive" / "implementations" / f"{candidate_id}.json"
+        )
+        evidence.append({
+            "candidate_id": candidate_id,
+            "source_role": row["source_role"],
+            "classification": row["classification"],
+            "receipt": receipt,
+            "receipt_path": receipt_path.relative_to(output_root).as_posix(),
+            "receipt_sha256": file_sha256(receipt_path),
+            "trajectory": trajectory,
+            "trajectory_path": trajectory_path.relative_to(output_root).as_posix(),
+            "trajectory_sha256": file_sha256(trajectory_path),
+            "absolute_relative_domain_trajectory": _candidate_domain_trajectory(
+                output_root, candidate_id,
+            ),
+            "derivation_card": card,
+            "derivation_card_path": card_path.relative_to(output_root).as_posix(),
+            "derivation_card_sha256": file_sha256(card_path),
+            "implementation": implementation,
+            "implementation_path": implementation_path.relative_to(
+                output_root,
+            ).as_posix(),
+            "implementation_sha256": file_sha256(implementation_path),
+        })
+    ids = [row["candidate_id"] for row in evidence]
+    if len(ids) != len(set(ids)) or len(ids) != len(frontier["ranking"]):
+        raise RuntimeError("same-host complete candidate evidence is duplicated")
+    return evidence
+
+
 def _row_by_id(frontier: dict[str, Any], candidate_id: str) -> dict[str, Any]:
     matches = [row for row in frontier["ranking"] if row.get("candidate_id") == candidate_id]
     if len(matches) != 1:
@@ -420,6 +463,9 @@ def _research_frontier(
 
 def _report(candidate: dict[str, Any], alternates: dict[str, Any], results: dict[str, Any]) -> str:
     fields = candidate["seed2026_e200_result"]
+    causal = results[
+        "historical_probe_causal_and_derivation_evidence"
+    ]["long_causal_matrix_summary"]
     lines = [
         "# FINAL UNSB 路线一完整候选前沿",
         "",
@@ -445,7 +491,11 @@ def _report(candidate: dict[str, Any], alternates: dict[str, Any], results: dict
         "- 4090完整前沿只在该宿主内matched排名。",
         "- 5090完整full/proposal/observable前沿作为宿主分离的机理证据，不合并delta。",
         "- paired指标只在完整e200后排名；未用于公式、训练控制、退出或checkpoint选择。",
-        "- DT/HJ/HNEK长期锚点、474/140因果图谱与完整假设谱系均写入主结果，而非只留在旧归档。",
+        (
+            "- DT/HJ/HNEK长期锚点、"
+            f"{causal['reversal_rows']}/{causal['sampling_variance_rows']}因果图谱"
+            "与完整假设谱系均写入主结果，而非只留在旧归档。"
+        ),
         "- seed2027/2028、一万张全量数据、confirmation20和论文级外推尚未验证。",
         "",
         "## 完整轨迹与复现",
@@ -497,6 +547,9 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
 
     frontier, frontier_path = _complete_frontier(output_root)
     portable, portable_path = _portable_frontier(output_root)
+    same_host_candidate_evidence = _same_host_candidate_evidence(
+        output_root, frontier,
+    )
     selected_row = frontier["ranking"][0]
     selected_id = str(selected_row["candidate_id"])
     (
@@ -510,6 +563,16 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
     )
     executor_path, executor = _executor_contract(output_root, receipt)
     historical_evidence = _historical_evidence(output_root)
+    ledger_ids = {
+        str(row.get("candidate_id", ""))
+        for row in historical_evidence["hypothesis_ledger_summary"]
+    }
+    frontier_ids = {str(row["candidate_id"]) for row in frontier["ranking"]}
+    if not frontier_ids.issubset(ledger_ids):
+        raise RuntimeError(
+            "complete 4090 frontier is missing from the hypothesis ledger: "
+            f"{sorted(frontier_ids - ledger_ids)}"
+        )
     archived = _archive_pre_complete(final, operations)
 
     alternate_rows = []
@@ -538,6 +601,12 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "confirmation20_opened": False,
     }
     research_frontier = _research_frontier(frontier, portable, selected_id)
+    research_frontier["remote4090_complete_candidate_evidence"] = (
+        same_host_candidate_evidence
+    )
+    research_frontier["remote5090_complete_candidate_evidence"] = portable[
+        "candidate_evidence"
+    ]
     research_frontier["historical_probe_causal_and_derivation_evidence"] = (
         historical_evidence
     )
@@ -656,6 +725,7 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "complete_4090_frontier": frontier,
         "complete_5090_extended_frontier": portable["extended_adjudication"],
         "portable_5090_candidate_evidence": portable["candidate_evidence"],
+        "complete_4090_candidate_evidence": same_host_candidate_evidence,
         "selected_trajectory": trajectory,
         "selected_absolute_relative_domain_trajectory": domain_trajectory,
         "selected_mechanism_evidence": mechanism_evidence,

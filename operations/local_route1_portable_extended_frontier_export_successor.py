@@ -21,6 +21,7 @@ SOURCE_RELATIVES = (
     "operations/local_route1_portable_extended_frontier_export_successor.py",
     "research/local_route1/portable_extended_frontier.py",
     "research/local_route1/extended_repaired_frontier.py",
+    "research/local_route1/final_delivery.py",
     "operations/local_route1_cross_version_adjudicate.py",
 )
 

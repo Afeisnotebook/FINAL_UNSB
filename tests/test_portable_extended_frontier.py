@@ -82,7 +82,13 @@ def _candidate(root: Path, candidate_id: str) -> Path:
     return receipt
 
 
-def test_portable_extended_frontier_embeds_ranked_and_observable_evidence(tmp_path: Path):
+def test_portable_extended_frontier_embeds_ranked_and_observable_evidence(
+    monkeypatch, tmp_path: Path,
+):
+    monkeypatch.setattr(
+        "research.local_route1.portable_extended_frontier._candidate_domain_trajectory",
+        lambda _root, candidate_id: [{"candidate_id": candidate_id, "epoch": 200}],
+    )
     full = _candidate(tmp_path, "FULL")
     proposal = _candidate(tmp_path, "PROPOSAL")
     observable = _candidate(tmp_path, "OBSERVABLE")
@@ -116,11 +122,21 @@ def test_portable_extended_frontier_embeds_ranked_and_observable_evidence(tmp_pa
     assert {row["candidate_id"] for row in result["candidate_evidence"]} == {
         "FULL", "PROPOSAL", "OBSERVABLE",
     }
+    assert all(
+        row["absolute_relative_domain_trajectory"]
+        for row in result["candidate_evidence"]
+    )
     validate_portable_extended_frontier(result)
     changed = json.loads(json.dumps(result))
     changed["candidate_evidence"][0]["trajectory"]["status"] = "changed"
     with pytest.raises(RuntimeError, match="embedded artifact changed"):
         validate_portable_extended_frontier(changed)
+    changed_domain = json.loads(json.dumps(result))
+    changed_domain["candidate_evidence"][0][
+        "absolute_relative_domain_trajectory"
+    ][0]["epoch"] = 199
+    with pytest.raises(RuntimeError, match="domain trajectory changed"):
+        validate_portable_extended_frontier(changed_domain)
 
 
 def test_portable_extended_export_successor_contract_is_evidence_only(

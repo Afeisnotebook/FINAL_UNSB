@@ -15,6 +15,7 @@ from typing import Any
 
 from operations.local_route1_cross_version_adjudicate import _validate_receipt
 from research.local_route1.extended_repaired_frontier import SCHEMA as EXTENDED_SCHEMA
+from research.local_route1.final_delivery import _candidate_domain_trajectory
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
 
@@ -30,7 +31,7 @@ def _read_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _canonical_json_sha256(value: dict[str, Any]) -> str:
+def _canonical_json_sha256(value: Any) -> str:
     payload = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -74,6 +75,7 @@ def _source_artifacts(output_root: Path, receipt_path: Path) -> dict[str, Any]:
         or implementation.get("candidate_id") != candidate_id
     ):
         raise RuntimeError("portable extended candidate artifact identities differ")
+    domain_trajectory = _candidate_domain_trajectory(output_root, candidate_id)
     return {
         "candidate_id": candidate_id,
         "receipt": receipt,
@@ -84,6 +86,10 @@ def _source_artifacts(output_root: Path, receipt_path: Path) -> dict[str, Any]:
         "derivation_card_sha256": file_sha256(card_path),
         "implementation": implementation,
         "implementation_sha256": file_sha256(implementation_path),
+        "absolute_relative_domain_trajectory": domain_trajectory,
+        "absolute_relative_domain_trajectory_sha256": _canonical_json_sha256(
+            domain_trajectory,
+        ),
     }
 
 
@@ -129,6 +135,16 @@ def validate_portable_extended_frontier(value: dict[str, Any]) -> dict[str, Any]
                 raise RuntimeError(f"portable extended embedded artifact changed: {candidate_id}:{payload_key}")
             if payload.get("candidate_id") != candidate_id:
                 raise RuntimeError("portable extended embedded candidate identity changed")
+        domain_trajectory = row.get("absolute_relative_domain_trajectory")
+        if (
+            not isinstance(domain_trajectory, list)
+            or _canonical_json_sha256(domain_trajectory) != row.get(
+                "absolute_relative_domain_trajectory_sha256"
+            )
+        ):
+            raise RuntimeError(
+                f"portable extended domain trajectory changed: {candidate_id}"
+            )
         by_id[candidate_id] = row
     ranking_ids = {
         str(row.get("candidate_id", ""))

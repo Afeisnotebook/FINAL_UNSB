@@ -194,6 +194,46 @@ def test_historical_evidence_binds_probes_causal_matrix_and_ledger(tmp_path: Pat
     )
 
 
+def test_same_host_candidate_evidence_embeds_every_ranked_trajectory(
+    monkeypatch, tmp_path: Path,
+):
+    candidate_ids = ["A", "B"]
+    artifacts = {}
+    for candidate_id in candidate_ids:
+        receipt = _write(tmp_path / f"{candidate_id}-receipt.json", {"candidate_id": candidate_id})
+        trajectory = _write(tmp_path / f"{candidate_id}-trajectory.json", {"candidate_id": candidate_id})
+        card = _write(tmp_path / f"{candidate_id}-card.json", {"candidate_id": candidate_id})
+        implementation = _write(
+            tmp_path / "derive" / "implementations" / f"{candidate_id}.json",
+            {"candidate_id": candidate_id},
+        )
+        artifacts[candidate_id] = (receipt, trajectory, card, implementation)
+
+    def selected_source(_root, row):
+        candidate_id = row["candidate_id"]
+        receipt, trajectory, card, implementation = artifacts[candidate_id]
+        return (
+            {"candidate_id": candidate_id}, receipt,
+            {"candidate_id": candidate_id}, trajectory,
+            {"candidate_id": candidate_id}, card,
+            {"candidate_id": candidate_id},
+        )
+
+    monkeypatch.setattr(delivery, "_selected_source", selected_source)
+    monkeypatch.setattr(
+        delivery, "_candidate_domain_trajectory",
+        lambda _root, candidate_id: [{"candidate_id": candidate_id, "epoch": 200}],
+    )
+    frontier = {"ranking": [
+        {"candidate_id": candidate_id, "source_role": "test", "classification": STRICT}
+        for candidate_id in candidate_ids
+    ]}
+    value = delivery._same_host_candidate_evidence(tmp_path.resolve(), frontier)
+    assert [row["candidate_id"] for row in value] == candidate_ids
+    assert all(row["absolute_relative_domain_trajectory"] for row in value)
+    assert all(row["implementation_sha256"] for row in value)
+
+
 def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     monkeypatch, tmp_path: Path,
 ):
@@ -247,6 +287,9 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     }
     monkeypatch.setattr(delivery, "_complete_frontier", lambda _root: (frontier, frontier_path))
     monkeypatch.setattr(delivery, "_portable_frontier", lambda _root: (portable, portable_path))
+    monkeypatch.setattr(delivery, "_same_host_candidate_evidence", lambda *_args: [
+        {"candidate_id": row["candidate_id"]} for row in frontier["ranking"]
+    ])
     monkeypatch.setattr(delivery, "_selected_source", lambda _root, _row: (
         receipt, receipt_path, {"candidate_id": delivery.PCRSMG_PROPOSAL},
         trajectory_path, {"candidate_id": delivery.PCRSMG_PROPOSAL, "name": "proposal"},
@@ -258,6 +301,13 @@ def test_complete_delivery_publishes_multi_candidate_frontier_atomically(
     monkeypatch.setattr(delivery, "_median_epoch_seconds", lambda *_args: 1.0)
     monkeypatch.setattr(delivery, "_historical_evidence", lambda *_args: {
         "status": "COMPLETE_LONG_HORIZON_PROBE_CAUSAL_AND_DERIVATION_EVIDENCE",
+        "long_causal_matrix_summary": {
+            "reversal_rows": 2,
+            "sampling_variance_rows": 1,
+        },
+        "hypothesis_ledger_summary": [
+            {"candidate_id": row["candidate_id"]} for row in frontier["ranking"]
+        ],
     })
 
     pointer = delivery.materialize_complete_frontier_final_delivery(tmp_path)
