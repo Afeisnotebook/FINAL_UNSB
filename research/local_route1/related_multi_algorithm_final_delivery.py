@@ -30,6 +30,7 @@ from research.local_route1.frontier_final_delivery import _executor_contract
 from research.local_route1.related_algorithm_adjudication import (
     COMBINED_SCHEMA,
     HOST_SCHEMA,
+    _terminal_row,
 )
 from research.local_route1.protocol import file_sha256
 from research.local_route1.runtime import write_json
@@ -232,7 +233,7 @@ def _rank_key(row: dict[str, Any]) -> tuple[Any, ...]:
 
 
 def _composite_4090(
-    base: dict[str, Any], related: dict[str, Any],
+    output_root: Path, base: dict[str, Any], related: dict[str, Any],
 ) -> list[dict[str, Any]]:
     authority = base["same_host_authority"]
     related_authorities = {
@@ -255,6 +256,26 @@ def _composite_4090(
     rows = {str(row["candidate_id"]): dict(row) for row in base["ranking"]}
     for row in related["ranking"]:
         rows[str(row["candidate_id"])] = _related_row(row)
+    # HJ-PCNR was launched after the original related-host adjudication as the
+    # completed HJCGR gain-source control.  Once it has its own source-bound
+    # common-e0 e200 receipt, classify it with the exact same host-local rules
+    # and keep it in the scientific algorithm set.  Treating a passing,
+    # cheaper one-view operator as a footnote would recreate the single-winner
+    # objective drift this delivery is designed to prevent.
+    hjpcnr_host = _terminal_row(output_root, HJPCNR, "remote4090")
+    hjpcnr_authority = {
+        (
+            hjpcnr_host["base_e0_scientific_state_sha256"],
+            hjpcnr_host["base_protocol_fingerprint"],
+            hjpcnr_host["manifest_sha256"],
+        )
+    }
+    if hjpcnr_authority != expected:
+        raise RuntimeError("HJ-PCNR does not share base frontier authority")
+    hjpcnr_row = _related_row(hjpcnr_host)
+    hjpcnr_row["source_role"] = "posthoc_hjcgr_gain_source_control_4090"
+    hjpcnr_row["posthoc_development_control"] = True
+    rows[HJPCNR] = hjpcnr_row
     ranking = sorted(rows.values(), key=_rank_key, reverse=True)
     for rank, row in enumerate(ranking, start=1):
         row["rank"] = rank
@@ -787,6 +808,7 @@ def _member(
             "cross_seed_stability_claimed": False,
             "full_10000_image_200_epoch_behavior_untested": True,
             "confirmation20_generalization_untested": True,
+            "posthoc_gain_source_development_control": candidate_id == HJPCNR,
         },
         "reproduction": reproduction,
         "source_bound": {
@@ -831,6 +853,7 @@ def _report(
         "- 相关族共享 post-D/E 条件独立双视图 G/F 均值；它保持各自父场的条件期望并降低协方差。",
         "- 三个父对象分别是原生UNSB场、HNEK physical-horizon bridge game、HJ结构投影PatchNCE目标。",
         "- AM-TNC是独立的Adam度量切向估计机制，不因相关族成立而被删除。",
+        "- HJ-PCNR虽由已完成HJCGR结果触发，但若通过相同e200护栏，会作为低计算量开发算法进入总榜，而不只作为因果脚注；它不是confirmation结果。",
         "",
         "## 收益来源分解",
         "",
@@ -893,7 +916,7 @@ def materialize_related_multi_algorithm_final_delivery(
     complete_pointer, complete_pointer_path = _complete_delivery(output_root)
     base, base_path = _base_frontier(output_root)
     host4090, host5090, combined, related_paths = _related_inputs(output_root)
-    ranking = _composite_4090(base, host4090)
+    ranking = _composite_4090(output_root, base, host4090)
     gain_source = _mechanism_gain_source_decomposition(output_root, ranking)
     selected = ranking[0]
     selected_id = str(selected["candidate_id"])
@@ -969,6 +992,15 @@ def materialize_related_multi_algorithm_final_delivery(
                 {"candidate_id": PROPOSAL, "base_object": "native UNSB field"},
                 {"candidate_id": HPCGR, "base_object": "HNEK physical-horizon bridge game"},
                 {"candidate_id": HJCGR, "base_object": "HJ structure-projected PatchNCE objective"},
+            ],
+            "gain_source_controls": [
+                {
+                    "candidate_id": HJPCNR,
+                    "operator": "one fresh post-D/E HJ G/F view",
+                    "ranked_if_same_e200_guardrails_pass": True,
+                    "posthoc_development_control": True,
+                    "confirmation_result": False,
+                },
             ],
             "membership_is_not_assumed_viability": True,
             "shared_theorem_does_not_imply_shared_parent_failure_mode": True,

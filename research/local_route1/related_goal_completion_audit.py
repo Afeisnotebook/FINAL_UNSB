@@ -56,6 +56,16 @@ def _audit_gain_source(
         family.get("membership_is_not_assumed_viability") is True,
         "related family membership was treated as assumed viability",
     )
+    gain_controls = family.get("gain_source_controls")
+    _require(
+        isinstance(gain_controls, list)
+        and len(gain_controls) == 1
+        and gain_controls[0].get("candidate_id") == HJPCNR
+        and gain_controls[0].get("ranked_if_same_e200_guardrails_pass") is True
+        and gain_controls[0].get("posthoc_development_control") is True
+        and gain_controls[0].get("confirmation_result") is False,
+        "HJ-PCNR gain-source control was omitted or overclaimed",
+    )
     _require(
         bool(family.get("conditional_expectation_property"))
         and bool(family.get("conditional_covariance_property")),
@@ -85,8 +95,22 @@ def _audit_gain_source(
         "AM-TNC independent mechanism identity is absent",
     )
     _require(
-        expected_family.union({AMTNC}).issubset(member_ids),
+        expected_family.union({AMTNC, HJPCNR}).issubset(member_ids),
         "terminal algorithm set omitted a required related/independent member",
+    )
+    hjpcnr_member = next(
+        (
+            row for row in algorithm_set.get("members", [])
+            if isinstance(row, dict) and row.get("candidate_id") == HJPCNR
+        ),
+        None,
+    )
+    _require(
+        isinstance(hjpcnr_member, dict)
+        and hjpcnr_member.get("risk", {}).get(
+            "posthoc_gain_source_development_control"
+        ) is True,
+        "HJ-PCNR member lost its posthoc development label",
     )
 
     decomposition = algorithm_set.get("mechanism_gain_source_decomposition")

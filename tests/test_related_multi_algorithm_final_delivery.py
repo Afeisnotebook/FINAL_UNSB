@@ -158,6 +158,13 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         delivery, "_candidate_domain_trajectory",
         lambda _root, candidate_id: {"candidate_id": candidate_id},
     )
+    monkeypatch.setattr(
+        delivery, "_terminal_row",
+        lambda _root, candidate_id, host_label: {
+            **_related_row(candidate_id, 0.25, 0.15),
+            "host_label": host_label,
+        },
+    )
 
     sources = {}
     executors = {}
@@ -241,6 +248,7 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
 
     for candidate_id in (
         "BASE", delivery.PROPOSAL, delivery.PCNR, delivery.HPCGR, delivery.HJCGR,
+        delivery.HJPCNR,
     ):
         receipt_path = _write(
             tmp_path / "operations" / "terminal_receipts" / f"{candidate_id}.json",
@@ -248,7 +256,16 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         )
         trajectory_path = _write(
             tmp_path / "candidates" / candidate_id / "CANDIDATE_TRAJECTORY.json",
-            {"candidate_id": candidate_id},
+            {
+                "candidate_id": candidate_id,
+                **(
+                    {
+                        "paired_metrics_used_for_training_or_gate": False,
+                        "confirmation20_opened": False,
+                    }
+                    if candidate_id == delivery.HJPCNR else {}
+                ),
+            },
         )
         card_path = _write(
             tmp_path / "derive" / "cards" / f"{candidate_id}.json",
@@ -302,7 +319,7 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     pointer = delivery.materialize_related_multi_algorithm_final_delivery(tmp_path)
     assert pointer["status"] == "RELATED_MULTI_ALGORITHM_FINAL_DELIVERY_COMPLETE"
     assert pointer["action_priority_candidate_id"] == delivery.HPCGR
-    assert pointer["strict_viable_candidate_count"] == 4
+    assert pointer["strict_viable_candidate_count"] == 5
     algorithm_set = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "ALGORITHM_SET.json").read_text()
     )
@@ -310,8 +327,17 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert algorithm_set["algorithm_discovery_collapsed_to_single_candidate"] is False
     assert set(algorithm_set["strict_viable_candidate_ids"]) == {
         "BASE", delivery.PROPOSAL, delivery.HPCGR, delivery.HJCGR,
+        delivery.HJPCNR,
     }
     assert algorithm_set["action_priority_is_not_scientific_exclusivity"] is True
+    hjpcnr_member = next(
+        row for row in algorithm_set["members"]
+        if row["candidate_id"] == delivery.HJPCNR
+    )
+    assert hjpcnr_member["risk"]["posthoc_gain_source_development_control"] is True
+    assert algorithm_set["related_conditional_estimator_family"][
+        "gain_source_controls"
+    ][0]["candidate_id"] == delivery.HJPCNR
     decomposition = algorithm_set["mechanism_gain_source_decomposition"]
     by_id = {row["candidate_id"]: row for row in decomposition["members"]}
     assert by_id[delivery.PROPOSAL][

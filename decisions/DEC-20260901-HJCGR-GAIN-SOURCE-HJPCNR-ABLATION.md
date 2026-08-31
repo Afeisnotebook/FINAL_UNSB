@@ -1,6 +1,13 @@
 # DEC-20260901：HJCGR收益来源的一视图HJ条件重采样对照
 
-状态：`FROZEN_FOR_SOURCE_BOUND_GATE_AND_E200`
+状态：`GATE_PASSED_E200_RUNNING`
+
+2026-09-01补充：首轮门禁正确发现disabled复合算子仍序列化dormant HJ诊断状态，
+所以full-state hash不等于plain。活动公式和训练路径未改变；修复只在关闭算子时删除
+该方法私有状态。旧implementation与失败日志已归档，修复commit
+`83504c58678875e1d91203c1f3c3892a95b44eaa`通过373项测试，重跑门禁的zero identity、
+resume、跨状态反事实、target-blind observable、400-update micro run及HJ/PCNR事件计数
+全部通过。正式e200仍从共同e0重训，未复用门禁状态。
 
 ## 已完成父证据
 
@@ -59,8 +66,10 @@ g_{\mathrm{HJ}}(\xi_2))/2,
 - HJCGR完整e200 paired结果只授权该事后机制消融，不参与HJ-PCNR公式或训练控制；
 - HJ-PCNR仍必须通过zero identity、resume、e20/e100/e200跨状态、400-update工程门，
   并从4090共同e0完成固定e200；中间paired结果不能早停；
-- 该对照不进入最终算法冠军排名，也不删除HJCGR、Proposal-only或AM-TNC；它进入
-  `mechanism_gain_source_decomposition`，用于说明收益来源；
+- 该对照首先进入`mechanism_gain_source_decomposition`说明收益来源；若它自身通过与
+  其他算法完全相同的e200数值和护栏，则也进入同宿主算法总榜和可行算法集合，因为
+  一个更低计算量的通过方法不能被单冠军交付逻辑删掉。它仍标记为基于已完成HJCGR
+  结果提出的posthoc development control，不是confirmation或多seed证据；
 - 4090当前无其他训练进程，本任务不挤占5090上的HJCGR跨运行时复核；
 - batch1、seed2026、small25、同宿主plain、confirmation20封存和单seed声明边界不变。
 

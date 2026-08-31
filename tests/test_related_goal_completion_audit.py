@@ -23,7 +23,7 @@ def _write(path: Path, payload: dict | str) -> None:
 def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_path: Path):
     related = tmp_path / "related"
     family_ids = (audit.PROPOSAL, audit.HPCGR, audit.HJCGR)
-    member_ids = (*family_ids, audit.AMTNC)
+    member_ids = (*family_ids, audit.AMTNC, audit.HJPCNR)
     gain_source = {
         "schema": "final-unsb-route1-related-gain-source-decomposition-v1",
         "status": "SHARED_ESTIMATOR_IMPROVES_MULTIPLE_PARENT_FIELDS",
@@ -219,7 +219,12 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
                     else "positive_but_fragile_algorithm"
                 ),
                 "mathematics": {"formula": f"formula-{candidate_id}"},
-                "risk": {"single_seed_only": True},
+                "risk": {
+                    "single_seed_only": True,
+                    "posthoc_gain_source_development_control": (
+                        candidate_id == audit.HJPCNR
+                    ),
+                },
                 "reproduction": {
                     "seed2026_e200": f"run-{candidate_id}",
                     "deferred_seed_validation": [2027, 2028],
@@ -246,6 +251,12 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "finite_step_coupling_change_is_intended": True,
             "native_de_stochasticity_retained": True,
             "membership_is_not_assumed_viability": True,
+            "gain_source_controls": [{
+                "candidate_id": audit.HJPCNR,
+                "ranked_if_same_e200_guardrails_pass": True,
+                "posthoc_development_control": True,
+                "confirmation_result": False,
+            }],
         },
         "independent_mechanism_members": [
             {"candidate_id": audit.AMTNC, "mechanism": "independent"},
