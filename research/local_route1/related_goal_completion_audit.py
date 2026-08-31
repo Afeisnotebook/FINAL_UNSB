@@ -23,6 +23,7 @@ from research.local_route1.related_multi_algorithm_final_delivery import (
     AMTNC,
     CANDIDATE_SCHEMA,
     HJCGR,
+    HJPCNR,
     HPCGR,
     PCNR,
     POINTER,
@@ -241,6 +242,75 @@ def _audit_gain_source(
         ),
         "gain-source conditional-resampling arithmetic changed",
     )
+    hj_factorial = decomposition.get("hj_specific_factorial_control")
+    hj_parent = hj_factorial.get("continuous_hj_parent") if isinstance(
+        hj_factorial, dict
+    ) else None
+    one_view = hj_factorial.get("one_fresh_view") if isinstance(
+        hj_factorial, dict
+    ) else None
+    two_view_hj = hj_factorial.get("two_fresh_view_mean") if isinstance(
+        hj_factorial, dict
+    ) else None
+    one_increment = hj_factorial.get("one_view_increment_over_hj") if isinstance(
+        hj_factorial, dict
+    ) else None
+    two_increment = hj_factorial.get(
+        "two_view_mean_increment_over_one_view"
+    ) if isinstance(hj_factorial, dict) else None
+    _require(
+        isinstance(hj_factorial, dict)
+        and hj_factorial.get("schema")
+        == "final-unsb-route1-hj-specific-resampling-variance-control-v1"
+        and hj_factorial.get("status")
+        == "COMPLETE_E200_HJ_ONE_VS_TWO_VIEW_FACTORIAL_CONTROL"
+        and hj_factorial.get("source_path")
+        == "operations/HJPCNR_GAIN_SOURCE_E200_RECEIPT.json"
+        and len(str(hj_factorial.get("source_sha256", ""))) == 64
+        and len(str(hj_factorial.get("trajectory_sha256", ""))) == 64
+        and isinstance(hj_parent, dict)
+        and hj_parent.get("parent_id") == "hj"
+        and isinstance(one_view, dict)
+        and one_view.get("candidate_id") == HJPCNR
+        and isinstance(two_view_hj, dict)
+        and two_view_hj.get("candidate_id") == HJCGR
+        and isinstance(one_increment, dict)
+        and isinstance(two_increment, dict)
+        and hj_factorial.get(
+            "paired_parent_result_used_only_to_authorize_completed_parent_ablation"
+        ) is True
+        and hj_factorial.get("paired_metrics_used_for_training_or_control") is False
+        and hj_factorial.get("paired_controller_access") is False
+        and hj_factorial.get("confirmation20_opened") is False,
+        "HJ-specific one-view/two-view gain-source control is absent or unbound",
+    )
+    _require(
+        math.isclose(
+            float(one_view["late_three_mean_macro_psnr_delta"])
+            - float(hj_parent["late_three_mean_macro_psnr_delta"]),
+            float(one_increment["late_three_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        )
+        and math.isclose(
+            float(one_view["e200_macro_psnr_delta"])
+            - float(hj_parent["e200_macro_psnr_delta"]),
+            float(one_increment["e200_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        )
+        and math.isclose(
+            float(two_view_hj["late_three_mean_macro_psnr_delta"])
+            - float(one_view["late_three_mean_macro_psnr_delta"]),
+            float(two_increment["late_three_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        )
+        and math.isclose(
+            float(two_view_hj["e200_macro_psnr_delta"])
+            - float(one_view["e200_macro_psnr_delta"]),
+            float(two_increment["e200_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        ),
+        "HJ-specific one-view/two-view gain-source arithmetic changed",
+    )
     alignment = decomposition.get("variance_axis_alignment")
     alignment_members = alignment.get("members") if isinstance(alignment, dict) else None
     hj_alignment = alignment_members.get(HJCGR) if isinstance(alignment_members, dict) else None
@@ -342,6 +412,7 @@ def _audit_gain_source(
         "compute_only_control_proven": True,
         "player_scope_control_proven": True,
         "conditional_resampling_control_proven": True,
+        "hj_specific_factorial_control_proven": True,
         "within_batch_variance_scope_proven": True,
         "parent_variance_axis_alignment_proven": True,
         "pre_adam_unbiasedness_boundary_proven": True,

@@ -122,6 +122,40 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "paired_controller_access": False,
             "confirmation20_opened": False,
         },
+        "hj_specific_factorial_control": {
+            "schema": "final-unsb-route1-hj-specific-resampling-variance-control-v1",
+            "status": "COMPLETE_E200_HJ_ONE_VS_TWO_VIEW_FACTORIAL_CONTROL",
+            "source_path": "operations/HJPCNR_GAIN_SOURCE_E200_RECEIPT.json",
+            "source_sha256": "d" * 64,
+            "trajectory_sha256": "e" * 64,
+            "continuous_hj_parent": {
+                "parent_id": "hj",
+                "late_three_mean_macro_psnr_delta": 0.1,
+                "e200_macro_psnr_delta": 0.05,
+            },
+            "one_fresh_view": {
+                "candidate_id": audit.HJPCNR,
+                "late_three_mean_macro_psnr_delta": 0.2,
+                "e200_macro_psnr_delta": 0.1,
+            },
+            "two_fresh_view_mean": {
+                "candidate_id": audit.HJCGR,
+                "late_three_mean_macro_psnr_delta": 0.3,
+                "e200_macro_psnr_delta": 0.2,
+            },
+            "one_view_increment_over_hj": {
+                "late_three_macro_psnr_delta": 0.1,
+                "e200_macro_psnr_delta": 0.05,
+            },
+            "two_view_mean_increment_over_one_view": {
+                "late_three_macro_psnr_delta": 0.1,
+                "e200_macro_psnr_delta": 0.1,
+            },
+            "paired_parent_result_used_only_to_authorize_completed_parent_ablation": True,
+            "paired_metrics_used_for_training_or_control": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
         "stochastic_variance_scope": {
             "conditioning_includes_official_unpaired_batch": True,
             "reduced_components": "within-batch native G/F view randomness",
@@ -332,6 +366,9 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     assert result["gain_source_proof"]["player_scope_control_proven"] is True
     assert result["gain_source_proof"][
         "conditional_resampling_control_proven"
+    ] is True
+    assert result["gain_source_proof"][
+        "hj_specific_factorial_control_proven"
     ] is True
     assert result["gain_source_proof"]["within_batch_variance_scope_proven"] is True
     assert result["gain_source_proof"][

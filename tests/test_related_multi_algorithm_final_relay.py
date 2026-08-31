@@ -57,6 +57,9 @@ def test_validate_local_related_delivery(tmp_path: Path):
         "related_multi_host_adjudication_sha256": file_sha256(
             tmp_path / EXTRA_FILES[2]
         ),
+        "hjpcnr_gain_source_receipt_sha256": file_sha256(
+            tmp_path / EXTRA_FILES[3]
+        ),
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
         "cross_host_deltas_merged": False,

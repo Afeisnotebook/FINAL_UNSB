@@ -62,6 +62,8 @@ HJCGR = "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
 AMTNC = "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
 PCRSMG_FULL = "G1-02B-PLAYER-CONDITIONAL-RSMG"
 PCNR = "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING"
+HJPCNR = "ABL-G3-02-HJCGR-SINGLE-VIEW"
+HJPCNR_RECEIPT = "HJPCNR_GAIN_SOURCE_E200_RECEIPT.json"
 
 
 def _boundary(value: dict[str, Any], label: str) -> None:
@@ -538,6 +540,85 @@ def _mechanism_gain_source_decomposition(
             "e200_macro_psnr_delta": float(e200["macro_psnr_delta"]),
         }
 
+    hjpcnr_receipt_path = output_root / "operations" / HJPCNR_RECEIPT
+    hjpcnr_receipt = _read_json(hjpcnr_receipt_path)
+    hjpcnr_trajectory_path = (
+        output_root / "candidates" / HJPCNR / "CANDIDATE_TRAJECTORY.json"
+    )
+    hjpcnr_trajectory = _read_json(hjpcnr_trajectory_path)
+    hjpcnr_fields = hjpcnr_receipt.get("ranking_fields")
+    if not (
+        hjpcnr_receipt.get("status")
+        == "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT"
+        and hjpcnr_receipt.get("candidate_id") == HJPCNR
+        and hjpcnr_receipt.get("training_git_commit")
+        == hjpcnr_receipt.get("verification_git_commit")
+        and isinstance(hjpcnr_fields, dict)
+        and hjpcnr_receipt.get("trajectory_sha256")
+        == file_sha256(hjpcnr_trajectory_path)
+        and hjpcnr_trajectory.get("candidate_id") == HJPCNR
+        and hjpcnr_trajectory.get("paired_metrics_used_for_training_or_gate") is False
+        and hjpcnr_trajectory.get("confirmation20_opened") is False
+        and hjpcnr_receipt.get("paired_metrics_used_for_training_or_control") is False
+        and hjpcnr_receipt.get("confirmation20_opened") is False
+    ):
+        raise RuntimeError("HJ-PCNR gain-source receipt is incomplete or unbound")
+    hj_parent = parent_metrics("hj")
+    hjcgr_row = ranked.get(HJCGR)
+    if not isinstance(hjcgr_row, dict):
+        raise RuntimeError("HJ-PCNR attribution requires the HJCGR host result")
+    hjcgr_fields = hjcgr_row.get("ranking_fields")
+    if not isinstance(hjcgr_fields, dict):
+        raise RuntimeError("HJ-PCNR attribution lacks HJCGR ranking fields")
+    single_late = float(hjpcnr_fields["late_three_mean_macro_psnr_delta"])
+    single_e200 = float(hjpcnr_fields["e200_macro_psnr_delta"])
+    two_late = float(hjcgr_fields["late_three_mean_macro_psnr_delta"])
+    two_e200 = float(hjcgr_fields["e200_macro_psnr_delta"])
+    hj_specific_factorial_control = {
+        "schema": "final-unsb-route1-hj-specific-resampling-variance-control-v1",
+        "status": "COMPLETE_E200_HJ_ONE_VS_TWO_VIEW_FACTORIAL_CONTROL",
+        "source_path": hjpcnr_receipt_path.relative_to(output_root).as_posix(),
+        "source_sha256": file_sha256(hjpcnr_receipt_path),
+        "trajectory_path": hjpcnr_trajectory_path.relative_to(output_root).as_posix(),
+        "trajectory_sha256": file_sha256(hjpcnr_trajectory_path),
+        "continuous_hj_parent": hj_parent,
+        "one_fresh_view": {
+            "candidate_id": HJPCNR,
+            "operator": "native D/E then one fresh post-D/E HJ G/F view",
+            "late_three_mean_macro_psnr_delta": single_late,
+            "e200_macro_psnr_delta": single_e200,
+        },
+        "two_fresh_view_mean": {
+            "candidate_id": HJCGR,
+            "operator": "native D/E then two fresh HJ G/F views averaged pre-Adam",
+            "late_three_mean_macro_psnr_delta": two_late,
+            "e200_macro_psnr_delta": two_e200,
+        },
+        "one_view_increment_over_hj": {
+            "late_three_macro_psnr_delta": single_late - float(
+                hj_parent["late_three_mean_macro_psnr_delta"]
+            ),
+            "e200_macro_psnr_delta": single_e200 - float(
+                hj_parent["e200_macro_psnr_delta"]
+            ),
+        },
+        "two_view_mean_increment_over_one_view": {
+            "late_three_macro_psnr_delta": two_late - single_late,
+            "e200_macro_psnr_delta": two_e200 - single_e200,
+        },
+        "interpretation_rule": (
+            "HJ-PCNR minus HJ isolates post-D/E resampling under the HJ objective; "
+            "HJCGR minus HJ-PCNR isolates adding the two-view pre-Adam mean under "
+            "the same resampling order. These are differences between complete "
+            "nonlinear common-e0 trajectories, not additive single-path effects."
+        ),
+        "trajectory_snapshot": hjpcnr_trajectory,
+        "paired_parent_result_used_only_to_authorize_completed_parent_ablation": True,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+
     specifications = (
         (PROPOSAL, None, "native_UNSB_field"),
         (HPCGR, "hnek", "HNEK_physical_horizon_bridge_game"),
@@ -622,6 +703,7 @@ def _mechanism_gain_source_decomposition(
         "compute_only_control": compute_only_control,
         "player_scope_control": player_scope_control,
         "conditional_resampling_control": conditional_resampling_control,
+        "hj_specific_factorial_control": hj_specific_factorial_control,
         "variance_axis_alignment": variance_axis_alignment,
         "optimizer_nonlinearity_boundary": (
             "Unbiasedness is for the pre-Adam stochastic gradient estimator at a "
@@ -631,6 +713,7 @@ def _mechanism_gain_source_decomposition(
         ),
         "cross_host_metrics_merged": False,
         "anchor_summary_sha256": file_sha256(anchor_path),
+        "hjpcnr_gain_source_receipt_sha256": file_sha256(hjpcnr_receipt_path),
     }
 
 
@@ -760,8 +843,14 @@ def _report(
             f"e200增量 `{increment['e200_macro_psnr_delta']:+.6f}` dB；"
             f"裁决 `{row['interpretation']}`。"
         )
+    hj_factorial = algorithm_set["mechanism_gain_source_decomposition"][
+        "hj_specific_factorial_control"
+    ]
+    hj_one = hj_factorial["one_view_increment_over_hj"]
+    hj_two = hj_factorial["two_view_mean_increment_over_one_view"]
     lines.extend([
         "- 上述增量来自共同e0的两条完整非线性轨迹之差，不解释为单轨迹内可加因果贡献。",
+        f"- HJ专属一视图对照：单个fresh G/F view相对HJ为late-three `{hj_one['late_three_macro_psnr_delta']:+.6f}` dB、e200 `{hj_one['e200_macro_psnr_delta']:+.6f}` dB；二视图均值再相对一视图增加 `{hj_two['late_three_macro_psnr_delta']:+.6f}` / `{hj_two['e200_macro_psnr_delta']:+.6f}` dB。这把跨玩家重采样与条件方差缩减分开。",
         "- compute-only控制：额外视图仅观察、不提交复制估计器时，e200 dynamics与plain精确一致且delta为0；这排除观察计算/墙钟副作用，但不声称原生算力预算等价。",
         "- player-scope控制：仅G/F复制在e200保持正收益，而D/E/G/F全复制虽有更高late-three均值却在e200回到非正；长期收益不是全局降方差的单调结果。",
         "- resampling控制：仅在D/E后重新抽一个G/F view的PCNR在late-three与e200均非正；加入同batch双视图均值后才严格通过。当前证据支持的是选择性G/F条件方差缩减，而不是重新采样本身。",
@@ -1020,6 +1109,9 @@ def materialize_related_multi_algorithm_final_delivery(
         ),
         "related_multi_host_adjudication_sha256": file_sha256(
             related_paths["combined"]
+        ),
+        "hjpcnr_gain_source_receipt_sha256": file_sha256(
+            operations / HJPCNR_RECEIPT
         ),
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,

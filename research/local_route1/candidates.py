@@ -595,11 +595,13 @@ def load_candidate_registration(
         if gate.get("confirmation20_opened") is not False:
             raise RuntimeError("confirmation20 must remain locked")
         if implementation.get("model") in (
-            "route1_pcrsmg", "route1_amtnc", "route1_pcnr",
+            "route1_pcrsmg", "route1_amtnc", "route1_pcnr", "route1_hjpcnr",
         ):
             expected_schedule = (
                 ["DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_VIEW", "GF_COMMIT"]
-                if implementation.get("model") == "route1_pcnr" else
+                if implementation.get("model") in (
+                    "route1_pcnr", "route1_hjpcnr",
+                ) else
                 ["DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT"]
             )
             player_evidence = gate.get("evidence", {}).get(
@@ -613,6 +615,14 @@ def load_candidate_registration(
                 or player_evidence.get("expected_schedule") != expected_schedule
             ):
                 raise RuntimeError("replicated gate has invalid player-bundle provenance")
+            if implementation.get("model") == "route1_hjpcnr" and not (
+                player_evidence.get(
+                    "cross_state_hj_active_steps_equal_optimizer_updates"
+                ) is True
+                and player_evidence.get("conditional_expected_field") == "HJ"
+                and player_evidence.get("replica_averaging_used") is False
+            ):
+                raise RuntimeError("HJ-PCNR gate lost its one-view HJ provenance")
         if implementation.get("model") in (
             "route1_pcammcrb", "route1_pcrfammcrb", "route1_pcrfmcrb",
         ):

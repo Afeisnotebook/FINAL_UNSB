@@ -26,6 +26,7 @@ def test_successor_requires_every_related_result(monkeypatch, tmp_path: Path):
         "timeout_seconds": 43200,
         "requires_all_related_e200_branches": True,
         "requires_host_separated_complete_frontiers": True,
+        "requires_hj_specific_single_view_e200_control": True,
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
         "cross_host_deltas_merged": False,
@@ -58,4 +59,3 @@ def test_successor_requires_every_related_result(monkeypatch, tmp_path: Path):
     )
     assert state["algorithm_discovery_collapsed_to_single_candidate"] is False
     assert state["strict_viable_candidate_count"] == 3
-

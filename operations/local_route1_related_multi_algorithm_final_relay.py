@@ -16,6 +16,7 @@ import paramiko
 from operations import local_route1_candidate_executor as support
 from research.local_route1.related_multi_algorithm_final_delivery import (
     FINAL_SUBDIR,
+    HJPCNR_RECEIPT,
     POINTER,
     POINTER_SCHEMA,
     PUBLISHED_FILES,
@@ -27,7 +28,7 @@ from research.local_route1.related_multi_algorithm_final_delivery import (
 
 SCHEMA = "final-unsb-route1-related-multi-algorithm-final-relay-contract-v1"
 PASSWORD_ENV = "UNSB_4090_PASSWORD"
-EXTRA_FILES = (RELATED_4090, RELATED_5090, RELATED_COMBINED)
+EXTRA_FILES = (RELATED_4090, RELATED_5090, RELATED_COMBINED, HJPCNR_RECEIPT)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -73,6 +74,7 @@ def validate_local_delivery(destination: Path) -> dict[str, Any]:
         RELATED_4090: pointer["related_4090_host_adjudication_sha256"],
         RELATED_5090: pointer["related_5090_host_adjudication_sha256"],
         RELATED_COMBINED: pointer["related_multi_host_adjudication_sha256"],
+        HJPCNR_RECEIPT: pointer["hjpcnr_gain_source_receipt_sha256"],
     }
     for name, expected in extras.items():
         if support.file_sha256(destination / name) != expected:
@@ -233,6 +235,7 @@ class RelatedMultiAlgorithmFinalRelay:
                     RELATED_4090: pointer["related_4090_host_adjudication_sha256"],
                     RELATED_5090: pointer["related_5090_host_adjudication_sha256"],
                     RELATED_COMBINED: pointer["related_multi_host_adjudication_sha256"],
+                    HJPCNR_RECEIPT: pointer["hjpcnr_gain_source_receipt_sha256"],
                 }
                 for name, expected in extras.items():
                     local = staging / name
@@ -360,4 +363,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

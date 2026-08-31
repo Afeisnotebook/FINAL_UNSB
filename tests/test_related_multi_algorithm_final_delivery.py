@@ -217,6 +217,27 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         "projected_or_full_strict_gate_pass": False,
         "proposal_only_out_ranks_full": True,
     })
+    hjpcnr_trajectory_path = _write(
+        tmp_path / "candidates" / delivery.HJPCNR / "CANDIDATE_TRAJECTORY.json",
+        {
+            "candidate_id": delivery.HJPCNR,
+            "paired_metrics_used_for_training_or_gate": False,
+            "confirmation20_opened": False,
+        },
+    )
+    _write(tmp_path / "operations" / delivery.HJPCNR_RECEIPT, {
+        "status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
+        "candidate_id": delivery.HJPCNR,
+        "training_git_commit": "d" * 40,
+        "verification_git_commit": "d" * 40,
+        "trajectory_sha256": file_sha256(hjpcnr_trajectory_path),
+        "ranking_fields": {
+            "late_three_mean_macro_psnr_delta": 0.25,
+            "e200_macro_psnr_delta": 0.15,
+        },
+        "paired_metrics_used_for_training_or_control": False,
+        "confirmation20_opened": False,
+    })
 
     for candidate_id in (
         "BASE", delivery.PROPOSAL, delivery.PCNR, delivery.HPCGR, delivery.HJCGR,
@@ -324,6 +345,15 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert resampling["two_view_mean_increment_over_resampling_only"][
         "e200_macro_psnr_delta"
     ] == pytest.approx(0.48)
+    hj_factorial = decomposition["hj_specific_factorial_control"]
+    assert hj_factorial["one_fresh_view"]["candidate_id"] == delivery.HJPCNR
+    assert hj_factorial["two_fresh_view_mean"]["candidate_id"] == delivery.HJCGR
+    assert hj_factorial["one_view_increment_over_hj"][
+        "e200_macro_psnr_delta"
+    ] == pytest.approx(0.05)
+    assert hj_factorial["two_view_mean_increment_over_one_view"][
+        "e200_macro_psnr_delta"
+    ] == pytest.approx(0.25)
     assert decomposition["stochastic_variance_scope"][
         "conditioning_includes_official_unpaired_batch"
     ] is True

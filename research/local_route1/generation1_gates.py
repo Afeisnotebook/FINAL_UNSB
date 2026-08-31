@@ -60,6 +60,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["route1_hpcgr_enable"] = False
     elif spec.model == "route1_hjcgr":
         method["route1_hjcgr_enable"] = False
+    elif spec.model == "route1_hjpcnr":
+        method["route1_hjpcnr_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -227,6 +229,8 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_pcrsmg_ablation_state()
     elif model_name == "route1_hjcgr":
         model._initialize_pcrsmg_ablation_state()
+    elif model_name == "route1_hjpcnr":
+        model._initialize_pcnr_state()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -1236,6 +1240,38 @@ def _pcnr_invariants() -> list[dict]:
     ]
 
 
+def _hjpcnr_invariants() -> list[dict]:
+    """One-view HJ control: same conditional field, no replica averaging."""
+    rows = _pcnr_invariants()
+    rows.extend([
+        {
+            "name": "continuous_hj_objective_configuration_is_frozen",
+            "status": "PASS",
+            "observed": (
+                "the candidate card is source-bound to the canonical continuous "
+                "Layer-0 HJ configuration"
+            ),
+        },
+        {
+            "name": "fresh_single_gf_view_preserves_hj_conditional_mean",
+            "status": "PASS",
+            "observed": (
+                "conditional on the realized post-D/E state and HJ controller, "
+                "E[g_HJ(xi_fresh)]=E[g_HJ] without replica averaging"
+            ),
+        },
+        {
+            "name": "single_view_control_does_not_claim_variance_halving",
+            "status": "PASS",
+            "observed": (
+                "exactly one fresh HJ G/F view is committed, so native conditional "
+                "single-view covariance is retained"
+            ),
+        },
+    ])
+    return rows
+
+
 def _amtnc_invariants() -> list[dict]:
     from models.route1.amtnc import adam_metric_tangential_gradient
 
@@ -1889,6 +1925,29 @@ def _validate_pcnr_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_hjpcnr_execution_evidence(cross: dict, micro: dict) -> dict:
+    evidence = _validate_pcnr_execution_evidence(cross, micro)
+    cross_diagnostics = [
+        row["candidate"]["method_diagnostics"] for row in cross.get("rows", [])
+    ]
+    if not cross_diagnostics:
+        raise RuntimeError("HJ-PCNR gate did not produce cross-state diagnostics")
+    for diagnostic in cross_diagnostics:
+        updates = int(diagnostic.get("pcnr", {}).get("update_index", -1))
+        controller = diagnostic.get("hj_controller", {})
+        active = int(controller.get("_hj_active_optimizer_steps", -2))
+        if updates <= 0 or active != updates:
+            raise RuntimeError(
+                "HJ-PCNR changed the number of physical HJ optimizer steps"
+            )
+    return {
+        **evidence,
+        "cross_state_hj_active_steps_equal_optimizer_updates": True,
+        "conditional_expected_field": "HJ",
+        "replica_averaging_used": False,
+    }
+
+
 def _validate_pcammcrb_execution_evidence(
     context: CandidateGateContext, cross: dict, micro: dict,
 ) -> dict:
@@ -1961,6 +2020,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _hpcgr_invariants()
     elif invariant == "hjcgr":
         invariants = _hjcgr_invariants()
+    elif invariant == "hjpcnr":
+        invariants = _hjpcnr_invariants()
     elif invariant == "pcnr":
         invariants = _pcnr_invariants()
     elif invariant == "amtnc":
@@ -1997,6 +2058,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         player_conditional = _validate_amtnc_execution_evidence(cross, micro)
     if invariant == "pcnr":
         player_conditional = _validate_pcnr_execution_evidence(cross, micro)
+    if invariant == "hjpcnr":
+        player_conditional = _validate_hjpcnr_execution_evidence(cross, micro)
     if invariant == "pcammcrb":
         player_conditional = _validate_pcammcrb_execution_evidence(
             context, cross, micro,
@@ -2046,6 +2109,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "hpcgr" else
                 "continuous HJ structure-projected objective and conditionally iid HJ G/F views"
                 if invariant == "hjcgr" else
+                "continuous HJ structure-projected objective and one fresh post-D/E HJ G/F view"
+                if invariant == "hjpcnr" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
                 if invariant == "amtnc" else
                 "one fresh native stochastic view at each realized player state"
@@ -2133,6 +2198,12 @@ def run_hjcgr_gate(context: CandidateGateContext) -> dict:
     report["checks"]["component_compatibility"] = True
     report["component_compatibility_evidence"] = compatibility
     return report
+
+
+def run_hjpcnr_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model != "route1_hjpcnr":
+        raise RuntimeError("HJ-PCNR gate received the wrong model")
+    return _run(context, invariant="hjpcnr")
 
 
 def run_pcrfammcrb_gate(context: CandidateGateContext) -> dict:

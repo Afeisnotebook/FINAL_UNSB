@@ -15,6 +15,7 @@ from research.local_route1.complete_frontier_final_delivery import (
     materialize_complete_frontier_final_delivery,
 )
 from research.local_route1.related_multi_algorithm_final_delivery import (
+    HJPCNR_RECEIPT,
     POINTER,
     materialize_related_multi_algorithm_final_delivery,
 )
@@ -27,6 +28,7 @@ REQUIRED_RESULTS = (
     "RELATED_4090_HOST_ADJUDICATION.json",
     "RELATED_5090_HOST_ADJUDICATION.json",
     "RELATED_MULTI_HOST_ADJUDICATION.json",
+    HJPCNR_RECEIPT,
 )
 SOURCE_RELATIVES = (
     "operations/local_route1_related_multi_algorithm_final_successor.py",
@@ -61,6 +63,7 @@ def default_contract(args: argparse.Namespace) -> dict[str, Any]:
         "timeout_seconds": int(args.timeout_seconds),
         "requires_all_related_e200_branches": True,
         "requires_host_separated_complete_frontiers": True,
+        "requires_hj_specific_single_view_e200_control": True,
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
         "cross_host_deltas_merged": False,
@@ -88,6 +91,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
     fixed = {
         "requires_all_related_e200_branches": True,
         "requires_host_separated_complete_frontiers": True,
+        "requires_hj_specific_single_view_e200_control": True,
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
         "cross_host_deltas_merged": False,
@@ -206,4 +210,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

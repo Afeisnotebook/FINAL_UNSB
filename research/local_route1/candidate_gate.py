@@ -131,11 +131,11 @@ def run_candidate_gate(
     )
     report = _validate_gate_report(function(context))
     if registration.spec.model in (
-        "route1_pcrsmg", "route1_amtnc", "route1_pcnr",
+        "route1_pcrsmg", "route1_amtnc", "route1_pcnr", "route1_hjpcnr",
     ):
         expected_schedule = (
             ["DE_VIEW", "D_COMMIT", "E_COMMIT", "GF_VIEW", "GF_COMMIT"]
-            if registration.spec.model == "route1_pcnr" else
+            if registration.spec.model in ("route1_pcnr", "route1_hjpcnr") else
             ["DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT"]
         )
         player_evidence = report.get("player_conditional_execution_evidence")
@@ -147,6 +147,14 @@ def run_candidate_gate(
             or player_evidence.get("expected_schedule") != expected_schedule
         ):
             raise RuntimeError("replicated player-bundle gate evidence is invalid")
+        if registration.spec.model == "route1_hjpcnr" and not (
+            player_evidence.get(
+                "cross_state_hj_active_steps_equal_optimizer_updates"
+            ) is True
+            and player_evidence.get("conditional_expected_field") == "HJ"
+            and player_evidence.get("replica_averaging_used") is False
+        ):
+            raise RuntimeError("HJ-PCNR gate lost its one-view HJ provenance")
     if registration.spec.model in (
         "route1_pcammcrb", "route1_pcrfammcrb", "route1_pcrfmcrb",
     ):
