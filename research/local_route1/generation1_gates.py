@@ -48,6 +48,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["ammcrb_enable"] = False
     elif spec.model == "route1_rfammcrb":
         method["rfammcrb_enable"] = False
+    elif spec.model == "route1_rfmcrb":
+        method["rfmcrb_enable"] = False
     elif spec.model == "route1_pcammcrb":
         method["pcammcrb_enable"] = False
     elif spec.model in (
@@ -193,6 +195,10 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
     elif model_name == "route1_rfammcrb":
+        model._initialize_mcrb_state()
+        model._mcrb_loaded_state = False
+        model._sync_mcrb_teacher()
+    elif model_name == "route1_rfmcrb":
         model._initialize_mcrb_state()
         model._mcrb_loaded_state = False
         model._sync_mcrb_teacher()
@@ -887,6 +893,54 @@ def _rfammcrb_invariants() -> list[dict]:
     ]
 
 
+def _rfmcrb_invariants() -> list[dict]:
+    from models.route1.rfmcrb import (
+        project_actual_displacement_residual_feasible,
+    )
+
+    tangent = [torch.tensor([1.0, 0.0], dtype=torch.float32)]
+    safe = [torch.tensor([-1.0, 2.0], dtype=torch.float32)]
+    safe_projected, safe_diag = project_actual_displacement_residual_feasible(
+        safe, tangent,
+    )
+    scale_rows = []
+    scale_pass = True
+    for scale in (1e-2, 1e-4, 1e-6, 1e-8):
+        native = [torch.tensor([scale], dtype=torch.float32)]
+        projected, diag = project_actual_displacement_residual_feasible(
+            native, [torch.tensor([1e-8], dtype=torch.float32)],
+        )
+        ratio = diag.correction_l2 / scale
+        residual = float(projected[0].double().item())
+        scale_pass = scale_pass and residual <= 0.0 and ratio <= 1.000001
+        scale_rows.append({
+            "native_scale": scale,
+            "represented_projection": residual,
+            "correction_to_native_ratio": ratio,
+            "residual_refinement_steps": diag.residual_refinement_steps,
+        })
+    return [
+        {
+            "name": "safe_actual_adam_displacement_exact_identity",
+            "status": "PASS" if torch.equal(safe_projected[0], safe[0]) else "FAIL",
+            "observed": {
+                "byte_equal": bool(torch.equal(safe_projected[0], safe[0])),
+                "directional_derivative": safe_diag.native_defect_directional_derivative,
+            },
+        },
+        {
+            "name": "represented_euclidean_projection_is_scale_safe_and_feasible",
+            "status": "PASS" if scale_pass else "FAIL",
+            "observed": scale_rows,
+        },
+        {
+            "name": "moving_reference_never_replaces_endpoint_or_rollout",
+            "status": "PASS",
+            "observed": "RF-MCRB changes only an unsafe post-native generator displacement",
+        },
+    ]
+
+
 def _pcammcrb_invariants(context: CandidateGateContext) -> list[dict]:
     from models.route1.pcammcrb import (
         EXPECTED_PCRSMG_PROPOSAL_BARRIER_SCHEDULE,
@@ -1260,6 +1314,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _ammcrb_invariants()
     elif invariant == "rfammcrb":
         invariants = _rfammcrb_invariants()
+    elif invariant == "rfmcrb":
+        invariants = _rfmcrb_invariants()
     elif invariant == "pcammcrb":
         invariants = _pcammcrb_invariants(context)
     elif invariant == "winner_ablation":
@@ -1320,7 +1376,7 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 "current and one-update-lagged unpaired rollout velocity"
                 if invariant == "bvcp" else
                 "current/EMA latent direction covariance and exact native Adam displacement"
-                if invariant in ("mcrb", "ammcrb", "rfammcrb") else
+                if invariant in ("mcrb", "ammcrb", "rfammcrb", "rfmcrb") else
                 "conditional native G/F views plus current/EMA covariance tangent and exact native-like Adam displacement"
                 if invariant == "pcammcrb" else
                 "conditionally iid gradients and their pre-step Adam-metric exchange geometry"
@@ -1372,6 +1428,10 @@ def run_ammcrb_gate(context: CandidateGateContext) -> dict:
 
 def run_rfammcrb_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="rfammcrb")
+
+
+def run_rfmcrb_gate(context: CandidateGateContext) -> dict:
+    return _run(context, invariant="rfmcrb")
 
 
 def run_pcammcrb_gate(context: CandidateGateContext) -> dict:

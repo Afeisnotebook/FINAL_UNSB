@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-route1-semantic-incident-v1",
+  "incident_id": "INC-20260831-MCRB-ABSOLUTE-MARGIN",
+  "candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "classification": "implementation_failure",
+  "discovered_by": "target_blind_scale_and_kkt_invariant_audit",
+  "scientific_conclusion_allowed": false,
+  "parent_mechanism_falsified": false,
+  "paired_metric_used_for_discovery_or_repair": false,
+  "confirmation20_opened": false,
+  "invalid_identity": {
+    "algorithm_fingerprint": "99aea7dd8caf48524dcd8a7216c403afee24c9365204d7df3bb3c3657de24df7",
+    "derivation_card_sha256": "0b2cf33d68a859908bedd34e083f04ea14307cd9283a54213e4897bd507ccc56",
+    "projection_source": "src/models/route1/mcrb.py",
+    "projection_source_sha256": "352377e4c7049cbd7f6f8b1beea5c69f953b98b29ce279a6a5a5df507ccc0a23"
+  },
+  "semantic_violation": {
+    "registered_operator": "lambda=<a,d0>/<a,a>; d*=d0-lambda a",
+    "implemented_extra_term": "8*float32_eps*max(1,abs(<a,d0>)) added to the numerator",
+    "violated_properties": [
+      "unique Euclidean closest feasible displacement",
+      "common-scale invariance of the half-space normal",
+      "correction scale proportionality as native displacement and tangent shrink"
+    ],
+    "why_material": "The fixed approximately 9.54e-7 numerator margin is independent of a small native update and tangent. Dividing by ||a||^2 can make the committed Euclidean correction arbitrarily larger than d0."
+  },
+  "deterministic_counterexample": {
+    "dtype": "float32",
+    "defect_tangent": 1e-08,
+    "rows": [
+      {"native_displacement": 0.01, "superseded_projected_displacement": -95.36742401123047, "superseded_correction_to_native_ratio": 9537.742401100695},
+      {"native_displacement": 0.0001, "superseded_projected_displacement": -95.36743927001953, "superseded_correction_to_native_ratio": 953675.39270017},
+      {"native_displacement": 1e-06, "superseded_projected_displacement": -95.367431640625, "superseded_correction_to_native_ratio": 95367432.640625},
+      {"native_displacement": 1e-08, "superseded_projected_displacement": -95.367431640625, "superseded_correction_to_native_ratio": 9536743165.0625}
+    ]
+  },
+  "completed_trajectory_treatment": {
+    "retain_as_frozen_implementation_diagnostic": true,
+    "rank_as_faithful_test_of_registered_formula": false,
+    "parent_mechanism_falsified": false,
+    "use_paired_result_to_design_repair": false
+  },
+  "required_repair": {
+    "new_candidate_identity": true,
+    "restart_from_common_e0": true,
+    "remove_fixed_absolute_margin": true,
+    "require_represented_halfspace_feasibility": true,
+    "require_scale_invariant_counterexamples": true,
+    "retain_safe_displacement_byte_identity": true,
+    "retain_target_blindness": true,
+    "consume_scientific_revision": false
+  }
+}

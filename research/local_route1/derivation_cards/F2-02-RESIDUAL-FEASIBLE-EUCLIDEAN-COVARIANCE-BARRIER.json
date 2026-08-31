@@ -1,0 +1,89 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "F2-02-RESIDUAL-FEASIBLE-EUCLIDEAN-COVARIANCE-BARRIER",
+  "name": "Residual-Feasible Euclidean Moving Covariance Barrier",
+  "parent_candidate_id": "G1-03-STATE-FEEDBACK-MISSING",
+  "parent_evidence": {
+    "failure_type": "state_feedback_missing",
+    "incident_id": "INC-20260831-MCRB-ABSOLUTE-MARGIN",
+    "incident_classification": "implementation_failure",
+    "parent_e150_macro_psnr_delta_db": 0.8942276164296405,
+    "parent_e150_positive_domains": 6,
+    "parent_e200_macro_psnr_delta_db": -0.7299582922786065,
+    "paired_metric_used_for_repair": false
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:state_feedback_missing:rank=4:cross_probe_support=2",
+    "LONG_CAUSAL_MATRIX:dt_covariance_mismatch_descent_margin:accuracy=1.0:spearman=0.6:lead=1.0:domains=5/6",
+    "G1-03 frozen implementation:e150 +0.894228 dB and 6/6 positive before e200 reversal",
+    "G1-03 derivation:the intended operator is the unique Euclidean closest feasible native displacement",
+    "INC-20260831-MCRB-ABSOLUTE-MARGIN:the frozen implementation violates that operator with a fixed absolute numerator margin",
+    "TARGET-BLIND-SCALE-AUDIT:the superseded correction/native ratio grows to 9.536743165e9 on a deterministic small-tangent family"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "G1-03 MCRB fixed-absolute-margin Euclidean projection",
+      "F2-01 residual-feasible Adam-metric projection",
+      "F1-02 fixed-absolute-margin Adam-metric projection",
+      "DT fixed covariance loss"
+    ],
+    "material_difference": "RF-MCRB removes the fixed absolute float32 numerator margin from the original Euclidean closest-point operator. It computes the exact KKT coefficient, measures the displacement as represented in parameter dtype, and adds only a residual-derived relative-ULP refinement if the stored point remains unsafe. Unlike F2-01 it retains Euclidean geometry, providing a direct long-horizon comparison of numerical semantic repair versus Adam-coordinate repair.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the exact native Adam generator displacement constrained by a moving latent direction-covariance rate in Euclidean parameter geometry, with the actually committed parameter-dtype displacement required to satisfy the half-space",
+  "formula": "Let a_k=grad_theta D_k and d0 be the realized native Adam generator displacement. If c=<a_k,d0><=0 or r=<a_k,a_k> is numerically zero, commit d0 byte-for-byte. Otherwise compute lambda_0=c/r in float64 and represent d(lambda_0)=d0-lambda_0 a_k in each parameter dtype. Measure rho=<a_k,d(lambda)> in float64. While rho>0, replace lambda by the next parameter-dtype-representable value above lambda+rho/r and recompute; fail closed after eight numerical refinements. Commit the first represented displacement with rho<=0. In exact arithmetic this is the unique argmin_d 1/2||d-d0||_2^2 subject to <a_k,d><=0; no fixed absolute margin is present.",
+  "identity_or_unbiased_condition": "Every native displacement with nonpositive covariance-gap directional derivative and every zero tangent returns the original tensors unchanged. At d0=0 the operator is fixed. Unsafe corrections are scale-free in exact arithmetic, and numerical refinement depends only on directly measured represented infeasibility and a relative dtype ULP.",
+  "objective_change": false,
+  "estimator_change": false,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "RF-MCRB reads only current unpaired bridge tensors, native latent/time draws, current netG, its recoverable EMA netG and the realized native Adam displacement. Numerical residual checks use only a_k and d0. Paired images, PSNR, SSIM, LPIPS, plain outputs, domain labels and confirmation20 are inaccessible.",
+  "expected_applicable_state": {
+    "condition": "the moving covariance-rate signal is useful, but its tangent or native derivative becomes small enough for G1-03's fixed absolute margin to dominate the closest-point coefficient",
+    "self_null_state": "native Adam is rate-safe or the moving covariance tangent vanishes",
+    "causal_scope": "tests the intended Euclidean moving-rate barrier after removing its implementation-scale pathology, separately from Adam-metric coordinate choice"
+  },
+  "falsifying_experiment": "Kill as mathematically invalid if safe identity, represented feasibility, normal-scale invariance, correction proportionality, disabled plain identity, full-state resume, EMA recovery, RNG isolation or native Adam-moment preservation fails. Close this repaired Euclidean operator if its complete same-host matched seed2026 e200 trajectory fails the sustained gate; do not use the parent's paired trajectory to tune the repair.",
+  "compute_cost": "the same M current and M EMA endpoint calls plus one defect backward as G1-03; normally one Euclidean projection and residual dot product, with at most eight fail-closed numerical-only reconstructions",
+  "memory_cost": "one EMA generator, M current endpoint graphs, M no-gradient EMA endpoints and one defect-gradient copy",
+  "recovery_state_cost": "EMA generator, fixed half-life, update/intervention/correction counters, last coefficient and residual-refinement diagnostics, plus ordinary optimizer/sampler/RNG state",
+  "algorithm_hyperparameters": {
+    "endpoint_samples": 4,
+    "region_patch": 32,
+    "u_floor": 1e-30,
+    "teacher_half_life_updates": 150,
+    "metric": "euclidean",
+    "projection_epsilon": 1e-24,
+    "projection_strength": "none_exact_euclidean_halfspace",
+    "absolute_numeric_margin": 0.0,
+    "maximum_residual_refinements": "fixed numerical fail-closed guard, not a scientific control",
+    "fixed_window": false,
+    "paired_threshold": false
+  },
+  "algorithm_state_variables": [
+    "ema_netG_state_dict",
+    "optimizer_update_index",
+    "eligible_count",
+    "intervention_count",
+    "correction_l2_sum",
+    "last_residual_feasible_euclidean_barrier_geometry"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "Use the same moving covariance tangent as a norm-matched Euclidean negative proposal, removing the native-safe closest-point coefficient.",
+    "observable_only": "Compute the moving tangent, exact coefficient and represented residual but commit native Adam unchanged.",
+    "projected_or_full": "Commit native Adam exactly when safe; otherwise commit the residual-checked Euclidean closest feasible displacement without an absolute margin."
+  },
+  "engineering_replacement_for": "G1-03-STATE-FEEDBACK-MISSING",
+  "engineering_incident_path": "evidence/remote_route1_offload/MCRB_ABSOLUTE_MARGIN_SEMANTIC_INCIDENT_20260831.json",
+  "engineering_incident_sha256": "873a0133a269e5af0a567ca6711272bc114ef8e8db74610c31214938125f47d8",
+  "implementation_semantic_correction": "Remove the scale-breaking fixed absolute numerator margin and enforce Euclidean half-space feasibility from the measured represented residual using only relative parameter-dtype ULP advancement. The real-arithmetic objective is unchanged, but the finite update is materially corrected.",
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "eligible_method_specific_signal",
+  "target_blind_driver_signal": "dt_covariance_mismatch_descent_margin",
+  "target_blind_driver_probe": "dt",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}
