@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-route1-dual-process-gpu-utilization-audit-v1",
+  "status": "DUAL_BATCH1_PROCESSES_SATURATE_COMPUTE_NO_THIRD_TRAINING_PROCESS",
+  "observed_at": "2026-09-01T01:47:56+08:00",
+  "remote4090": {
+    "gpu_utilization_percent_samples": [92, 97, 98, 98, 91],
+    "memory_utilization_percent_samples": [7, 7, 6, 7, 8],
+    "memory_used_mib": 4124,
+    "power_draw_watt_samples": [157.42, 159.66, 157.44, 161.10, 160.85],
+    "concurrent_batch1_candidates": [
+      "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING",
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+    ],
+    "recent_median_epoch_wall_seconds": {
+      "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING": 120.20574486255646,
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING": 133.83848214149475
+    }
+  },
+  "remote5090": {
+    "gpu_utilization_percent_samples": [98, 94, 95, 97, 96],
+    "memory_utilization_percent_samples": [5, 5, 6, 4, 6],
+    "memory_used_mib": 4645,
+    "power_draw_watt_samples": [208.78, 221.15, 206.74, 206.35, 208.80],
+    "concurrent_batch1_candidates": [
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ],
+    "recent_median_epoch_wall_seconds": {
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY": 169.19377315044403,
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": 221.81978118419647
+    }
+  },
+  "decision": {
+    "maximum_concurrent_training_processes_per_gpu": 2,
+    "increase_batch_size": false,
+    "launch_third_training_process": false,
+    "reason": "Both GPUs are compute-saturated despite low memory use. A third process would contend for compute and delay the related-family e200 critical path without improving scientific identity.",
+    "after_one_process_finishes": "Prefer accelerating the remaining final-delivery critical path. Fill the released slot only if a new evidence-qualified task does not delay that path."
+  },
+  "batch1_scientific_identity_preserved": true,
+  "paired_metrics_used_for_scheduling": false,
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false
+}
