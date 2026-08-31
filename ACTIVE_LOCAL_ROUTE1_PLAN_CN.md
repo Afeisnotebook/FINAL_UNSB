@@ -1,8 +1,23 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / NUMERICAL_SEMANTIC_REPAIR_FRONTIER_ARMED`
+状态：`STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY / TWO_NUMERICAL_REPAIR_E200_STREAMS_RUNNING`
 日期：2026-08-31
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
+
+## 2026-08-31 09:27 执行更新：修复线已进入真实e200
+
+- 旧AM-MCRB已完整到e200；其冻结实现late-three为`-0.666038 dB`、e200为
+  `-1.467358 dB`，但固定绝对余量事故使该结果只具有实现诊断意义，不能排名或判死父机制。
+- ledger先标记旧实现无效、旧前沿后生成普通receipt触发了一次收据竞态；训练、checkpoint、
+  轨迹和新修复线均未丢失。现在旧MCRB/AM-MCRB使用专用诊断receipt：完整验e200，但
+  `scientific_ranking_eligible=false`，不回滚ledger。
+- RF-AMMCRB与RF-MCRB均已通过5090 source-bound GPU门，从同一e0分别运行到约e2/e3，
+  目标固定e200。两个batch1流同时运行，中间paired指标不参与调度。
+- 多算法前沿裁决后继已重启：PCNR与两条修复线是三条可排名轨迹；两个旧实现仅作诊断。
+  输出保留一个行动优先级、两个备选和完整前沿，不提前收缩为单算法。
+
+竞态边界见`evidence/remote_route1_offload/IMPLEMENTATION_INVALID_RECEIPT_RACE_20260831.json`；
+代码修复提交为`c98f967`。
 
 ## 2026-08-31 08:53 最新覆盖：两条最近点算子的语义修复
 

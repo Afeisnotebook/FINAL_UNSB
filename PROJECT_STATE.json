@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T08:53:00+08:00",
-  "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_ARMED",
+  "state_snapshot_time": "2026-08-31T09:27:00+08:00",
+  "phase": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "613a10a",
+  "development_head_at_state_write": "c98f967",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -144,6 +144,8 @@
     ,"frontier final delivery preserves selected and ablation per-domain candidate/plain absolute trajectories, host-separated full rankings and explicit scientific/engineering/proxy/untested boundaries"
     ,"a target-blind scale/KKT audit invalidated the fixed absolute projection margin in MCRB and AM-MCRB without using paired metrics; both intended closest-point operators now require new common-e0 identities"
     ,"RF-AMMCRB and RF-MCRB use exact float64 KKT coefficients plus represented-residual relative-ULP feasibility, preserve safe byte identity, and occupy exactly two ordered 5090 repair slots"
+    ,"implementation-invalid parents use a dedicated complete-e200 diagnostic receipt that validates every artifact but is permanently ineligible for scientific ranking; ledger state is never rolled back to satisfy an old receipt path"
+    ,"RF-AMMCRB and RF-MCRB passed their source-bound 5090 GPU gates and started independent common-e0 batch1 seed2026 e200 trajectories"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -389,7 +391,7 @@
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md"
   },
   "remote_5090_offload": {
-    "status": "PCNR_E200_NEGATIVE_AMMCRB_DIAGNOSTIC_RUNNING_TWO_REPAIR_SUCCESSORS_ARMED",
+    "status": "PCNR_AND_INVALID_PARENT_DIAGNOSTICS_COMPLETE_TWO_REPAIRED_E200_STREAMS_RUNNING",
     "host_alias": "final-unsb-5090",
     "gpu_observed": "NVIDIA GeForce RTX 5090",
     "role": "independent host-matched replica and post-derivation candidate execution node",
@@ -461,6 +463,34 @@
         "screen:FINAL_UNSB_RFAMMCRB_1d9f9cb",
         "screen:FINAL_UNSB_RFMCRB_613a10a"
       ],
+      "maximum_parallel_e200_executors": 2,
+      "paired_metric_scheduling": false,
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
+    "frontier_update_20260831_0927": {
+      "old_ammcrb_status": "IMPLEMENTATION_INVALID_COMPLETE_E200_DIAGNOSTIC_ONLY",
+      "old_ammcrb_data_epoch": 200,
+      "old_ammcrb_updates": 30000,
+      "old_ammcrb_late_three_macro_psnr_delta_db": -0.6660375757935745,
+      "old_ammcrb_e200_macro_psnr_delta_db": -1.467358474267634,
+      "old_ammcrb_e200_positive_domains": 1,
+      "old_ammcrb_late_average_worst_domain_delta_db": -2.396298990385139,
+      "old_ammcrb_scientific_ranking_eligible": false,
+      "old_parent_diagnostic_receipts_complete": [
+        "F1-02-ADAM-METRIC-MOVING-COVARIANCE-BARRIER",
+        "G1-03-STATE-FEEDBACK-MISSING"
+      ],
+      "receipt_race_incident": "evidence/remote_route1_offload/IMPLEMENTATION_INVALID_RECEIPT_RACE_20260831.json",
+      "receipt_race_training_loss": false,
+      "rfammcrb_gpu_gate": "PASS_LONG_RUN",
+      "rfmcrb_gpu_gate": "PASS_LONG_RUN",
+      "rfammcrb_latest_observed_data_epoch": 2,
+      "rfmcrb_latest_observed_data_epoch": 3,
+      "target_data_epoch": 200,
+      "durable_repaired_frontier_successor": "screen:FINAL_UNSB_REPAIRED_FRONTIER_c98f967",
+      "canonical_candidate_is_action_priority_only": true,
+      "algorithm_discovery_collapsed_to_single_candidate": false,
       "maximum_parallel_e200_executors": 2,
       "paired_metric_scheduling": false,
       "paired_controller_access": false,
@@ -593,7 +623,7 @@
       "current_primary_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
       "current_primary_strict_sustained_gate": true
     },
-    "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_ARMED"
+    "status": "STRICT_PASS_PCRSMG_PROPOSAL_PRIMARY_AND_TWO_NUMERICAL_REPAIR_CANDIDATES_E200_RUNNING"
   },
-  "next_gate": "Let the frozen old AM-MCRB implementation finish e200 as diagnostic only, then execute RF-AMMCRB and RF-MCRB from the common 5090 e0 through source-bound GPU gates and complete seed2026/batch1/e200 trajectories. Rebuild the host-local frontier excluding implementation-invalid projection identities; only then consider a compatible synthesis or one 4090 replay. Preserve one action-priority primary plus two alternates and the full host-separated frontier. Seeds 2027/2028 remain deferred."
+  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their already-started common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Then build the semantic-incident-aware three-candidate 5090 ranking (PCNR plus both repairs), preserving one action-priority primary, two alternates, all complete trajectories and two invalid-parent diagnostics. Use target-blind defect and standalone evidence to fill at most two subsequent 5090 slots with source-bound own-method ablations, one allowed causal revision or a mathematically compatible two-component synthesis. Only a completed strict candidate can enter a source-bound 4090 replay; seeds 2027/2028 remain deferred."
 }
