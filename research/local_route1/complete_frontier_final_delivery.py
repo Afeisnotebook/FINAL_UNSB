@@ -15,6 +15,9 @@ from typing import Any
 
 from operations.local_route1_cross_version_adjudicate import _validate_receipt
 from research.local_route1.complete_frontier import SCHEMA as FRONTIER_SCHEMA, STATUS as FRONTIER_STATUS
+from research.local_route1.complete_5090_frontier import (
+    validate_portable_complete_5090,
+)
 from research.local_route1.final_delivery import (
     _candidate_domain_trajectory,
     _median_epoch_seconds,
@@ -88,9 +91,17 @@ def _complete_frontier(output_root: Path) -> tuple[dict[str, Any], Path]:
 
 
 def _portable_frontier(output_root: Path) -> tuple[dict[str, Any], Path]:
-    path = output_root / "operations" / "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
-    value = validate_portable_extended_frontier(_read_json(path))
-    _posthoc_boundary(value, label="portable 5090 extended frontier")
+    complete = output_root / "operations" / "PORTABLE_COMPLETE_5090_FRONTIER.json"
+    legacy = output_root / "operations" / "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
+    if complete.is_file():
+        path = complete
+        value = validate_portable_complete_5090(_read_json(path))
+        label = "portable complete 5090 frontier"
+    else:
+        path = legacy
+        value = validate_portable_extended_frontier(_read_json(path))
+        label = "portable legacy 5090 extended frontier"
+    _posthoc_boundary(value, label=label)
     return value, path
 
 
@@ -540,12 +551,16 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         for name, expected in pointer.get("final_file_sha256", {}).items():
             if file_sha256(final / name) != expected:
                 raise RuntimeError(f"complete frontier final file changed: {name}")
+        portable_relative = pointer.get(
+            "portable_5090_frontier_path",
+            "operations/PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json",
+        )
         input_paths = {
             "complete_4090_frontier_sha256": (
                 operations / "COMPLETE_FRONTIER_4090_ADJUDICATION.json"
             ),
             "portable_5090_frontier_sha256": (
-                operations / "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json"
+                output_root / str(portable_relative)
             ),
         }
         for key, path in input_paths.items():
@@ -776,6 +791,9 @@ def materialize_complete_frontier_final_delivery(output_root: Path) -> dict[str,
         "final_file_sha256": staged_hashes,
         "complete_4090_frontier_sha256": file_sha256(frontier_path),
         "portable_5090_frontier_sha256": file_sha256(portable_path),
+        "portable_5090_frontier_path": portable_path.relative_to(
+            output_root
+        ).as_posix(),
         "pre_complete_frontier_files_archived": True,
         "canonical_candidate_is_action_priority_only": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,

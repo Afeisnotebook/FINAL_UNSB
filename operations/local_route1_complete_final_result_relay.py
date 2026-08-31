@@ -25,7 +25,7 @@ SCHEMA = "final-unsb-route1-complete-final-result-relay-contract-v1"
 PASSWORD_ENV = "UNSB_4090_PASSWORD"
 EXTRA_FILES = (
     "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
-    "PORTABLE_EXTENDED_REPAIRED_FRONTIER_5090.json",
+    "PORTABLE_COMPLETE_5090_FRONTIER.json",
 )
 
 
