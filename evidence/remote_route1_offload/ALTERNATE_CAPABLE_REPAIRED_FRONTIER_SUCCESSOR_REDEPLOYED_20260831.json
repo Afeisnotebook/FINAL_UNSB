@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-route1-alternate-capable-repaired-frontier-successor-redeployment-v1",
+  "recorded_at": "2026-08-31T12:55:00+08:00",
+  "status": "ALTERNATE_CAPABLE_REPAIRED_FRONTIER_SUCCESSOR_ARMED",
+  "cause": "The downstream exporter and replay executor accepted evidence-backed alternates, but the upstream repaired-frontier successor was frozen before the alternate replay queue was implemented.",
+  "correction": {
+    "git_commit": "1673f6a1eedec8f908c3395da0dfa6d773658980",
+    "evidence_preserved_classifications": [
+      "strict_sustained",
+      "causally_repairable_near_boundary_pending_target_blind_audit",
+      "evidence_backed_alternate"
+    ],
+    "recommended_4090_replay_classifications": [
+      "strict_sustained",
+      "causally_repairable_near_boundary_pending_target_blind_audit",
+      "evidence_backed_alternate"
+    ],
+    "closed_current_operator_included": false,
+    "remote_targeted_tests_passed": 11
+  },
+  "remote5090": {
+    "worktree": "/root/autodl-tmp/FINAL_UNSB_REPAIRED_FRONTIER_1673f6a",
+    "supervisor": "screen:FINAL_UNSB_REPAIRED_FRONTIER_1673f6a",
+    "state": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+    "contract": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090/operations/REPAIRED_FRONTIER_SUCCESSOR_CONTRACT_1673f6a.json",
+    "contract_sha256": "d2a57a224981a49861c91cde6b0ef501859d6c38970fe98cd87d5d4cb91caa9b",
+    "stderr_bytes_at_acceptance": 0,
+    "retired_supervisor": "screen:FINAL_UNSB_REPAIRED_FRONTIER_c98f967",
+    "retired_state_sha256": "76452bab1823234957b2738c868fa132a8e6ef9411ab2bc4e179614aee099410"
+  },
+  "replacement_boundary": {
+    "adjudication_existed_before_replacement": false,
+    "repair_training_processes_restarted": false,
+    "repair_checkpoints_modified": false,
+    "scientific_trajectory_loss": false,
+    "gpu_compute_loss": false
+  },
+  "scientific_boundaries": {
+    "maximum_4090_replays": 2,
+    "final_strict_gate_relaxed": false,
+    "generation3_strict_parent_gate_relaxed": false,
+    "intermediate_paired_metric_routing": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  }
+}

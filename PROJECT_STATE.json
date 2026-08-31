@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated": "2026-08-31",
-  "state_snapshot_time": "2026-08-31T12:45:00+08:00",
+  "state_snapshot_time": "2026-08-31T12:55:00+08:00",
   "phase": "TWO_NUMERICAL_REPAIRS_E200_RUNNING_ALTERNATE_CAPABLE_REPLAY_AND_TWO_SYNTHESIS_GEOMETRIES_ARMED",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "ab4855e71d595e815a1715334f133198c3601a6d",
+  "development_head_at_state_write": "1673f6a1eedec8f908c3395da0dfa6d773658980",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
   "frozen_executor": {
     "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_EXECUTOR_0da2a37",
@@ -158,6 +158,7 @@
     ,"the pre-run G3-02 waiter at b164df8 was retired before derivation or training because its disabled unbound-mixin dispatch would fail zero-intervention; no scientific trajectory or GPU compute was lost"
     ,"evidence-backed alternates with complete valid e200 and positive late-three or positive e200 may consume one of the two cross-runtime repair replay slots; operators nonpositive on both remain closed"
     ,"the 5090 exporter, local atomic relay and 4090 replay executor were all redeployed at ab4855e before portable authority or destination training existed; G3 strict-parent eligibility is unchanged"
+    ,"the upstream repaired-frontier successor was redeployed at 1673f6a before adjudication existed, so evidence-backed alternates are present in both the preserved frontier and the downstream 4090 replay queue"
   ],
   "phase_c": {
     "status": "REMOTE4090_FINAL_474_REVERSAL_140_VARIANCE_MATRIX_FROZEN",
@@ -622,6 +623,23 @@
       "paired_controller_access": false,
       "confirmation20_opened": false
     },
+    "frontier_update_20260831_1255": {
+      "upstream_alternate_semantics_gap_found": true,
+      "adjudication_existed_before_replacement": false,
+      "repair_training_processes_restarted": false,
+      "repair_checkpoints_modified": false,
+      "alternate_capable_repaired_frontier_commit": "1673f6a1eedec8f908c3395da0dfa6d773658980",
+      "alternate_capable_repaired_frontier_successor": "screen:FINAL_UNSB_REPAIRED_FRONTIER_1673f6a",
+      "alternate_capable_repaired_frontier_status": "WAITING_FOR_COMPLETE_REPAIRED_FRONTIER_E200",
+      "alternate_capable_repaired_frontier_contract_sha256": "d2a57a224981a49861c91cde6b0ef501859d6c38970fe98cd87d5d4cb91caa9b",
+      "remote_targeted_tests_passed": 11,
+      "remote_stderr_bytes_at_acceptance": 0,
+      "retired_repaired_frontier_successor": "screen:FINAL_UNSB_REPAIRED_FRONTIER_c98f967",
+      "retired_repaired_frontier_state_sha256": "76452bab1823234957b2738c868fa132a8e6ef9411ab2bc4e179614aee099410",
+      "evidence": "evidence/remote_route1_offload/ALTERNATE_CAPABLE_REPAIRED_FRONTIER_SUCCESSOR_REDEPLOYED_20260831.json",
+      "paired_controller_access": false,
+      "confirmation20_opened": false
+    },
     "confirmation20_opened": false,
     "decision": "decisions/DEC-20260830-ROUTE1-REMOTE5090.md"
   },
@@ -763,6 +781,9 @@
       ],
       "portable_replay_excludes_closed_current_operator": true,
       "alternate_capable_portable_replay_evidence": "evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json",
+      "alternate_capable_repaired_frontier_commit": "1673f6a1eedec8f908c3395da0dfa6d773658980",
+      "alternate_capable_repaired_frontier_status": "ARMED_WAITING_FOR_COMPLETE_REPAIRED_E200",
+      "alternate_capable_repaired_frontier_evidence": "evidence/remote_route1_offload/ALTERNATE_CAPABLE_REPAIRED_FRONTIER_SUCCESSOR_REDEPLOYED_20260831.json",
       "matched_plain_lpips_recovery_status": "COMPLETE_E100_E125_E150_E175_ACCEPTED",
       "matched_plain_lpips_recovery_commit": "ff3d58b985b031b1328ca526c7c2ed76cd11a082",
       "matched_plain_lpips_admission_guard_commit": "c5c0cd6",

@@ -14,6 +14,12 @@
 RF-AMMCRB/RF-MCRB分别到e101/e110，GPU约98%，中间paired指标仍未用于调度。部署证据见
 `evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
 
+12:55的端到端复查又发现：跨宿主导出器已支持alternate，但上游修复总榜守护器仍
+冻结在旧提交，可能根本不把alternate写入推荐队列。该守护器已在任何总榜裁决产生前
+换成`1673f6a`；训练进程和checkpoint未触碰，远端11项相关测试通过，stderr为0。新守护
+同时把alternate写入`evidence_preserved_candidate_ids`和4090 replay queue。证据见
+`evidence/remote_route1_offload/ALTERNATE_CAPABLE_REPAIRED_FRONTIER_SUCCESSOR_REDEPLOYED_20260831.json`。
+
 ### 12:00 两种残差可行合成都进入条件前沿
 
 用户再次确认：额外5090/4090算力应推进多数有独立证据的算法，唯一`CANDIDATE.json`
