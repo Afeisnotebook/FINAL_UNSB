@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from research.local_route1 import related_goal_completion_audit as audit
 from research.local_route1.related_multi_algorithm_final_delivery import (
     POINTER,
@@ -20,14 +22,48 @@ def _write(path: Path, payload: dict | str) -> None:
 
 def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_path: Path):
     related = tmp_path / "related"
+    family_ids = (audit.PROPOSAL, audit.HPCGR, audit.HJCGR)
+    member_ids = (*family_ids, audit.AMTNC)
+    gain_source = {
+        "schema": "final-unsb-route1-related-gain-source-decomposition-v1",
+        "status": "SHARED_ESTIMATOR_IMPROVES_MULTIPLE_PARENT_FIELDS",
+        "members": [
+            {
+                "candidate_id": candidate_id,
+                "parent": {
+                    "parent_id": parent_id,
+                    "late_three_mean_macro_psnr_delta": parent_late,
+                    "e200_macro_psnr_delta": parent_e200,
+                },
+                "composed": {
+                    "late_three_mean_macro_psnr_delta": child_late,
+                    "e200_macro_psnr_delta": child_e200,
+                },
+                "matched_compositional_increment_over_parent": {
+                    "late_three_macro_psnr_delta": child_late - parent_late,
+                    "e200_macro_psnr_delta": child_e200 - parent_e200,
+                },
+            }
+            for candidate_id, parent_id, parent_late, parent_e200,
+            child_late, child_e200 in (
+                (audit.PROPOSAL, "plain", 0.0, 0.0, 0.4, 0.3),
+                (audit.HPCGR, "hnek", 0.2, 0.1, 0.5, 0.3),
+                (audit.HJCGR, "hj", 0.1, 0.05, 0.3, 0.2),
+            )
+        ],
+        "shared_estimator_positive_increment_candidate_ids": list(family_ids),
+        "shared_estimator_positive_increment_count": 3,
+        "matched_increment_is_not_additive_causal_attribution": True,
+        "cross_host_metrics_merged": False,
+    }
     algorithm_set = {
         "schema": audit.ALGORITHM_SET_SCHEMA,
         "status": "MULTIPLE_VIABLE_ALGORITHMS",
-        "action_priority_candidate_id": "A",
+        "action_priority_candidate_id": audit.HPCGR,
         "action_priority_is_not_scientific_exclusivity": True,
         "algorithm_discovery_collapsed_to_single_candidate": False,
-        "strict_viable_candidate_ids": ["A", "B"],
-        "positive_but_fragile_candidate_ids": [],
+        "strict_viable_candidate_ids": [audit.HPCGR, audit.HJCGR],
+        "positive_but_fragile_candidate_ids": [audit.PROPOSAL, audit.AMTNC],
         "members": [
             {
                 "candidate_id": candidate_id,
@@ -35,13 +71,25 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
                 "source_bound": {"receipt": candidate_id},
                 "absolute_relative_domain_trajectory": [candidate_id],
             }
-            for candidate_id in ("A", "B")
+            for candidate_id in member_ids
         ],
+        "related_conditional_estimator_family": {
+            "members": [
+                {"candidate_id": candidate_id} for candidate_id in family_ids
+            ],
+            "conditional_expectation_property": "expectation preserved",
+            "conditional_covariance_property": "covariance halved",
+            "membership_is_not_assumed_viability": True,
+        },
+        "independent_mechanism_members": [
+            {"candidate_id": audit.AMTNC, "mechanism": "independent"},
+        ],
+        "mechanism_gain_source_decomposition": gain_source,
         "cross_runtime_related_evidence": {
             "algorithms": [{
                 "host_results": [{
                     "trajectory_snapshot": {
-                        "candidate_id": "A",
+                        "candidate_id": audit.HPCGR,
                         "confirmation20_opened": False,
                     },
                 }],
@@ -61,7 +109,7 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     _write(related / "ACTION_PRIORITY.json", {
         "schema": audit.ACTION_SCHEMA,
         "status": "CURRENT_NEXT_ACTION_PRIORITY",
-        "candidate_id": "A",
+        "candidate_id": audit.HPCGR,
         "action_priority_is_not_scientific_exclusivity": True,
         "paired_controller_access": False,
         "confirmation20_opened": False,
@@ -69,6 +117,7 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     _write(related / "RELATED_RESULTS.json", {
         "schema": audit.RESULTS_SCHEMA,
         "status": "RELATED_MULTI_ALGORITHM_E200_COMPLETE",
+        "mechanism_gain_source_decomposition": gain_source,
         "cross_host_deltas_merged": False,
         "cross_seed_stability_claimed": False,
         "paired_controller_access": False,
@@ -85,7 +134,7 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         audit, "validate_related_delivery",
         lambda _path: {
             "algorithm_set_status": "MULTIPLE_VIABLE_ALGORITHMS",
-            "action_priority_candidate_id": "A",
+            "action_priority_candidate_id": audit.HPCGR,
             "strict_viable_candidate_count": 2,
         },
     )
@@ -95,9 +144,19 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
     )
 
     result = audit.audit_related_goal_completion(tmp_path / "compatibility", related)
-    assert result["action_priority_candidate_id"] == "A"
-    assert result["strict_viable_candidate_ids"] == ["A", "B"]
+    assert result["action_priority_candidate_id"] == audit.HPCGR
+    assert result["strict_viable_candidate_ids"] == [audit.HPCGR, audit.HJCGR]
     assert result["action_priority_is_not_scientific_exclusivity"] is True
+    assert result["gain_source_proof"][
+        "positive_increment_candidate_ids"
+    ] == list(family_ids)
+    assert result["gain_source_proof"]["additive_causality_not_claimed"] is True
     assert result["completion_claim_allowed"] is False
     assert set(result["source_delivery_sha256"]) == {POINTER, *PUBLISHED_FILES}
 
+    algorithm_set["mechanism_gain_source_decomposition"]["members"][0][
+        "matched_compositional_increment_over_parent"
+    ]["e200_macro_psnr_delta"] += 1.0
+    _write(related / "ALGORITHM_SET.json", algorithm_set)
+    with pytest.raises(RuntimeError, match="gain-source arithmetic changed"):
+        audit.audit_related_goal_completion(tmp_path / "compatibility", related)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +19,11 @@ from research.local_route1.goal_completion_audit import (
 from research.local_route1.related_multi_algorithm_final_delivery import (
     ACTION_SCHEMA,
     ALGORITHM_SET_SCHEMA,
+    AMTNC,
+    HJCGR,
+    HPCGR,
     POINTER,
+    PROPOSAL,
     PUBLISHED_FILES,
     RESULTS_SCHEMA,
 )
@@ -27,6 +32,126 @@ from research.local_route1.runtime import write_json
 
 
 SCHEMA = "final-unsb-route1-related-goal-completion-audit-v1"
+
+
+def _audit_gain_source(
+    algorithm_set: dict[str, Any], results: dict[str, Any], member_ids: set[str],
+) -> dict[str, Any]:
+    family = algorithm_set.get("related_conditional_estimator_family")
+    _require(isinstance(family, dict), "related estimator family is absent")
+    family_ids = {
+        str(row.get("candidate_id", ""))
+        for row in family.get("members", []) if isinstance(row, dict)
+    }
+    expected_family = {PROPOSAL, HPCGR, HJCGR}
+    _require(
+        family_ids == expected_family,
+        "related conditional-estimator family identity changed",
+    )
+    _require(
+        family.get("membership_is_not_assumed_viability") is True,
+        "related family membership was treated as assumed viability",
+    )
+    _require(
+        bool(family.get("conditional_expectation_property"))
+        and bool(family.get("conditional_covariance_property")),
+        "related family lost its conditional theorem",
+    )
+    independent = algorithm_set.get("independent_mechanism_members")
+    independent_ids = {
+        str(row.get("candidate_id", ""))
+        for row in independent or [] if isinstance(row, dict)
+    }
+    _require(
+        AMTNC in independent_ids,
+        "AM-TNC independent mechanism identity is absent",
+    )
+    _require(
+        expected_family.union({AMTNC}).issubset(member_ids),
+        "terminal algorithm set omitted a required related/independent member",
+    )
+
+    decomposition = algorithm_set.get("mechanism_gain_source_decomposition")
+    _require(isinstance(decomposition, dict), "gain-source decomposition is absent")
+    _require(
+        decomposition.get("schema")
+        == "final-unsb-route1-related-gain-source-decomposition-v1",
+        "gain-source decomposition schema changed",
+    )
+    _require(
+        decomposition.get("matched_increment_is_not_additive_causal_attribution")
+        is True,
+        "gain-source decomposition overclaims additive causality",
+    )
+    _require(
+        decomposition.get("cross_host_metrics_merged") is False,
+        "gain-source decomposition merged cross-host deltas",
+    )
+    rows = decomposition.get("members")
+    _require(isinstance(rows, list), "gain-source member rows are malformed")
+    by_id = {
+        str(row.get("candidate_id", "")): row
+        for row in rows if isinstance(row, dict)
+    }
+    _require(set(by_id) == expected_family, "gain-source member identity changed")
+    expected_parents = {PROPOSAL: "plain", HPCGR: "hnek", HJCGR: "hj"}
+    positive = []
+    recomputed = {}
+    for candidate_id, parent_id in expected_parents.items():
+        row = by_id[candidate_id]
+        parent = row.get("parent")
+        child = row.get("composed")
+        increment = row.get("matched_compositional_increment_over_parent")
+        _require(
+            all(isinstance(value, dict) for value in (parent, child, increment)),
+            f"gain-source row is malformed: {candidate_id}",
+        )
+        _require(
+            parent.get("parent_id") == parent_id,
+            f"gain-source parent changed: {candidate_id}",
+        )
+        late = float(child["late_three_mean_macro_psnr_delta"]) - float(
+            parent["late_three_mean_macro_psnr_delta"]
+        )
+        e200 = float(child["e200_macro_psnr_delta"]) - float(
+            parent["e200_macro_psnr_delta"]
+        )
+        _require(
+            math.isclose(
+                late, float(increment["late_three_macro_psnr_delta"]),
+                rel_tol=0.0, abs_tol=1e-12,
+            )
+            and math.isclose(
+                e200, float(increment["e200_macro_psnr_delta"]),
+                rel_tol=0.0, abs_tol=1e-12,
+            ),
+            f"gain-source arithmetic changed: {candidate_id}",
+        )
+        if late > 0.0 and e200 > 0.0:
+            positive.append(candidate_id)
+        recomputed[candidate_id] = {"late_three": late, "e200": e200}
+    _require(
+        decomposition.get("shared_estimator_positive_increment_candidate_ids")
+        == positive,
+        "gain-source positive member list differs from recomputation",
+    )
+    _require(
+        int(decomposition.get("shared_estimator_positive_increment_count", -1))
+        == len(positive),
+        "gain-source positive count differs from recomputation",
+    )
+    _require(
+        results.get("mechanism_gain_source_decomposition") == decomposition,
+        "related results and algorithm set contain different gain-source evidence",
+    )
+    return {
+        "family_candidate_ids": sorted(expected_family),
+        "independent_candidate_ids": sorted(independent_ids),
+        "positive_increment_candidate_ids": positive,
+        "recomputed_matched_increments": recomputed,
+        "conditional_theorem_present": True,
+        "additive_causality_not_claimed": True,
+    }
 
 
 def audit_related_goal_completion(
@@ -91,6 +216,9 @@ def audit_related_goal_completion(
     )
     _require(set(strict).issubset(ids), "strict viable algorithm is absent from members")
     _require(set(fragile).issubset(ids), "fragile algorithm is absent from members")
+    gain_source_proof = _audit_gain_source(
+        algorithm_set, results, set(ids),
+    )
 
     trajectory_proofs = {}
     for member in members:
@@ -135,6 +263,7 @@ def audit_related_goal_completion(
         "positive_but_fragile_candidate_ids": fragile,
         "algorithm_member_count": len(members),
         "trajectory_proofs": trajectory_proofs,
+        "gain_source_proof": gain_source_proof,
         "compatibility_goal_audit": compatibility,
         "terminal_artifact_requirements_proven": True,
         "final_repository_commit_and_push_required": True,
@@ -160,4 +289,3 @@ def materialize_related_goal_completion_audit(
     )
     write_json(Path(output).resolve(), result)
     return result
-
