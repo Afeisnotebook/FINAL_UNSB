@@ -1,0 +1,66 @@
+{
+  "schema": "final-unsb-route1-selective-gf-variance-attribution-v1",
+  "status": "MATHEMATICAL_SCOPE_REFINED_AND_RESAMPLING_CONTROL_BOUND",
+  "scientific_question": "Does the native-field gain come from fresh post-D/E resampling alone, or from the selective two-view G/F conditional mean?",
+  "same_host_common_e0_seed2026_e200_evidence": {
+    "resampling_only_pcnr": {
+      "candidate_id": "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING",
+      "late_three_mean_macro_psnr_delta": -0.5326851578370219,
+      "e200_macro_psnr_delta": -0.030690205337194243,
+      "strict_gate_pass": false
+    },
+    "resampling_plus_two_view_gf_mean": {
+      "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "late_three_mean_macro_psnr_delta": 0.5415065556765851,
+      "e200_macro_psnr_delta": 0.4510917790142841,
+      "strict_gate_pass": true
+    },
+    "two_view_mean_increment_over_resampling_only": {
+      "late_three_macro_psnr_delta": 1.074191713513607,
+      "e200_macro_psnr_delta": 0.48178198435147835
+    },
+    "all_player_two_view_control": {
+      "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG",
+      "late_three_mean_macro_psnr_delta": 0.6209590565901758,
+      "e200_macro_psnr_delta": -0.001378936820813692,
+      "strict_gate_pass": false
+    }
+  },
+  "mechanistic_reading": "Within the tested native-field operators, fresh post-D/E resampling alone is insufficient and reducing every player's variance is not terminally sufficient. The strict e200 result uniquely appears when native D/E stochasticity is retained and the fresh post-D/E joint G/F estimator alone uses a two-view pre-Adam mean.",
+  "variance_theorem_scope": {
+    "conditioning": "fixed realized post-D/E model and optimizer state, one fixed official unpaired A/B batch, and any fixed parent-controller state",
+    "reduced_components": "within-batch latent, bridge-time, bridge-noise and PatchNCE feature-sampling covariance",
+    "not_reduced_components": "official A/B sample identity, domain draw and other across-batch data-sampling variance",
+    "pre_adam_only": true,
+    "finite_adam_displacement_equivalence_claimed": false,
+    "sample_path_equivalence_claimed": false
+  },
+  "causal_boundaries": {
+    "matched_trajectory_difference_is_not_additive_single_path_causality": true,
+    "only_tested_operator_scope": true,
+    "global_necessity_claimed": false,
+    "native_compute_budget_equivalence_claimed": false
+  },
+  "remote_execution_integrity_snapshot": {
+    "observed_at": "2026-09-01T01:17:36+08:00",
+    "remote4090": {
+      "hpcgr_data_epoch": 99,
+      "hjcgr_data_epoch": 50,
+      "hpcgr_training_and_receipt_git_commit": "3a9a6f5465a5a044b01085e78d045ffc7764532f",
+      "hjcgr_training_and_receipt_git_commit": "36090652782c225f41ae1065fd67cd69fae00eeb",
+      "both_training_processes_live": true
+    },
+    "remote5090": {
+      "proposal_data_epoch": 176,
+      "amtnc_data_epoch": 135,
+      "hjcgr_waits_for_proposal_receipt": true,
+      "both_current_training_processes_live": true
+    }
+  },
+  "paired_metrics_used_only_after_complete_e200_trajectories": true,
+  "paired_metrics_used_for_training_or_control": false,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "cross_host_deltas_merged": false,
+  "cross_seed_stability_claimed": false
+}

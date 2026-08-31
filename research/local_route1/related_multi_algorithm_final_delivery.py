@@ -61,6 +61,7 @@ HPCGR = "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING"
 HJCGR = "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
 AMTNC = "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
 PCRSMG_FULL = "G1-02B-PLAYER-CONDITIONAL-RSMG"
+PCNR = "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING"
 
 
 def _boundary(value: dict[str, Any], label: str) -> None:
@@ -377,6 +378,64 @@ def _mechanism_gain_source_decomposition(
         "confirmation20_opened": False,
     }
 
+    ranked = {str(row.get("candidate_id")): row for row in ranking}
+    pcnr = ranked.get(PCNR)
+    if not isinstance(pcnr, dict):
+        raise RuntimeError("gain-source decomposition lacks the PCNR resampling control")
+    pcnr_fields = pcnr.get("ranking_fields")
+    if not isinstance(pcnr_fields, dict):
+        raise RuntimeError("gain-source PCNR resampling control lacks e200 fields")
+    pcnr_late = float(pcnr_fields["late_three_mean_macro_psnr_delta"])
+    pcnr_e200 = float(pcnr_fields["e200_macro_psnr_delta"])
+    if not (pcnr_late <= 0.0 and pcnr_e200 <= 0.0):
+        raise RuntimeError("gain-source PCNR resampling-only conclusion changed")
+    base_frontier_path = (
+        output_root / "operations" / "COMPLETE_FRONTIER_4090_ADJUDICATION.json"
+    )
+    conditional_resampling_control = {
+        "schema": "final-unsb-route1-related-conditional-resampling-control-v1",
+        "status": (
+            "FRESH_POST_DE_RESAMPLING_ALONE_FAILS_WHILE_TWO_VIEW_GF_MEAN_PASSES"
+        ),
+        "source_path": base_frontier_path.relative_to(output_root).as_posix(),
+        "source_sha256": file_sha256(base_frontier_path),
+        "resampling_only": {
+            "candidate_id": PCNR,
+            "operator": "native one-view D/E plus one fresh post-D/E G/F view",
+            "late_three_mean_macro_psnr_delta": pcnr_late,
+            "e200_macro_psnr_delta": pcnr_e200,
+            "strict_gate_pass": False,
+        },
+        "resampling_plus_two_view_mean": {
+            "candidate_id": PROPOSAL,
+            "operator": (
+                "native one-view D/E plus two fresh post-D/E G/F views "
+                "averaged pre-Adam"
+            ),
+            "late_three_mean_macro_psnr_delta": proposal_late,
+            "e200_macro_psnr_delta": proposal_e200,
+            "strict_gate_pass": True,
+        },
+        "two_view_mean_increment_over_resampling_only": {
+            "late_three_macro_psnr_delta": proposal_late - pcnr_late,
+            "e200_macro_psnr_delta": proposal_e200 - pcnr_e200,
+        },
+        "interpretation": (
+            "Within the tested native-field operators, merely breaking reuse across "
+            "the D/E-to-G/F player boundary is insufficient. The strict e200 pass "
+            "appears only when the fresh post-D/E G/F field is estimated by the "
+            "two-view mean. This supports selective within-batch G/F conditional-"
+            "variance reduction rather than resampling alone."
+        ),
+        "only_tested_operator_scope": True,
+        "does_not_claim_global_necessity": True,
+        "does_not_claim_additive_single_path_causality": True,
+        "paired_metrics_used_only_after_complete_e200_trajectories": True,
+        "paired_metrics_used_for_training_or_control": False,
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+
     anchor_path = output_root / "evidence" / "ANCHOR_TRAJECTORIES.json"
     anchor = _read_json(anchor_path)
     if anchor.get("schema") != "local-route1-anchor-summary-v1":
@@ -385,8 +444,6 @@ def _mechanism_gain_source_decomposition(
         str(row.get("probe_id")): row for row in anchor.get("summaries", [])
         if isinstance(row, dict)
     }
-    ranked = {str(row.get("candidate_id")): row for row in ranking}
-
     def parent_metrics(probe: str | None) -> dict[str, Any]:
         if probe is None:
             return {
@@ -470,10 +527,26 @@ def _mechanism_gain_source_decomposition(
         "shared_estimator_positive_increment_count": len(supported),
         "conditional_mean_theorem": (
             "For finite-covariance conditionally iid views evaluated at one "
-            "fixed post-D/E parent state (and one fixed parent controller state), "
+            "fixed post-D/E parent state, one fixed official unpaired batch "
+            "(and one fixed parent controller state), "
             "the two-view mean preserves the parent conditional expected G/F "
             "gradient and halves its conditional covariance."
         ),
+        "stochastic_variance_scope": {
+            "conditioning_includes_official_unpaired_batch": True,
+            "reduced_components": (
+                "within-batch native G/F view randomness, including latent, bridge "
+                "time, bridge noise and PatchNCE feature sampling"
+            ),
+            "not_reduced_components": (
+                "official A/B sample identity, domain draw and other across-batch "
+                "data-sampling variance"
+            ),
+            "iid_requirement": (
+                "the two G/F views are conditionally iid with finite covariance and "
+                "are evaluated before the single G/F optimizer commit"
+            ),
+        },
         "hj_state_transition_boundary": (
             "HJCGR starts both replicas from one HJ controller state, advances "
             "integer physical counters once, and mean-reduces floating diagnostics."
@@ -481,6 +554,7 @@ def _mechanism_gain_source_decomposition(
         "matched_increment_is_not_additive_causal_attribution": True,
         "compute_only_control": compute_only_control,
         "player_scope_control": player_scope_control,
+        "conditional_resampling_control": conditional_resampling_control,
         "optimizer_nonlinearity_boundary": (
             "Unbiasedness is for the pre-Adam stochastic gradient estimator at a "
             "fixed realized parent state. Adam is applied once after averaging; no "
@@ -622,6 +696,8 @@ def _report(
         "- 上述增量来自共同e0的两条完整非线性轨迹之差，不解释为单轨迹内可加因果贡献。",
         "- compute-only控制：额外视图仅观察、不提交复制估计器时，e200 dynamics与plain精确一致且delta为0；这排除观察计算/墙钟副作用，但不声称原生算力预算等价。",
         "- player-scope控制：仅G/F复制在e200保持正收益，而D/E/G/F全复制虽有更高late-three均值却在e200回到非正；长期收益不是全局降方差的单调结果。",
+        "- resampling控制：仅在D/E后重新抽一个G/F view的PCNR在late-three与e200均非正；加入同batch双视图均值后才严格通过。当前证据支持的是选择性G/F条件方差缩减，而不是重新采样本身。",
+        "- 方差边界：双视图共享同一官方unpaired batch；减小的是给定batch后的latent/time/bridge/PatchNCE条件方差，不减小跨batch或跨域采样方差。",
         "- 无偏性只针对固定父状态下的pre-Adam梯度估计器；不声明有限步Adam位移或随机样本路径与父算法相同。",
         "",
         "## 结论边界",
@@ -709,6 +785,16 @@ def materialize_related_multi_algorithm_final_delivery(
                 "fixed realized post-D/E model, optimizer, official unpaired batch "
                 "and any parent-controller state"
             ),
+            "stochastic_variance_scope": {
+                "conditioning_includes_official_unpaired_batch": True,
+                "reduced_components": (
+                    "within-batch latent, bridge-time, bridge-noise and PatchNCE "
+                    "feature-sampling variance in the joint G/F estimator"
+                ),
+                "not_reduced_components": (
+                    "official A/B identity, domain and other across-batch sampling variance"
+                ),
+            },
             "conditional_expectation_property": (
                 "E[(g_1+g_2)/2 | post-D/E state]=E[g_native_parent | state]"
             ),

@@ -90,8 +90,16 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
         "ranking": [
             _row("BASE", 0.4, 0.3),
             _row(delivery.PROPOSAL, 0.45, 0.35),
+            {
+                **_row(delivery.PCNR, -0.5, -0.03),
+                "classification": "closed_current_operator",
+            },
         ],
     }
+    _write(
+        tmp_path / "operations" / "COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+        base,
+    )
     host4090 = {"ranking": [
         _related_row(delivery.HPCGR, 0.8, 0.5),
         _related_row(delivery.HJCGR, 0.6, 0.4),
@@ -181,7 +189,7 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     })
 
     for candidate_id in (
-        "BASE", delivery.PROPOSAL, delivery.HPCGR, delivery.HJCGR,
+        "BASE", delivery.PROPOSAL, delivery.PCNR, delivery.HPCGR, delivery.HJCGR,
     ):
         receipt_path = _write(
             tmp_path / "operations" / "terminal_receipts" / f"{candidate_id}.json",
@@ -278,6 +286,20 @@ def test_final_delivery_keeps_multiple_viable_algorithms(monkeypatch, tmp_path: 
     assert decomposition["player_scope_control"]["all_players"][
         "e200_macro_psnr_delta"
     ] == -0.001
+    resampling = decomposition["conditional_resampling_control"]
+    assert resampling["resampling_only"]["candidate_id"] == delivery.PCNR
+    assert resampling["resampling_plus_two_view_mean"][
+        "candidate_id"
+    ] == delivery.PROPOSAL
+    assert resampling["two_view_mean_increment_over_resampling_only"][
+        "e200_macro_psnr_delta"
+    ] == pytest.approx(0.48)
+    assert decomposition["stochastic_variance_scope"][
+        "conditioning_includes_official_unpaired_batch"
+    ] is True
+    assert algorithm_set["related_conditional_estimator_family"][
+        "stochastic_variance_scope"
+    ]["not_reduced_components"]
     assert decomposition["optimizer_nonlinearity_boundary"]
     candidate = json.loads(
         (tmp_path / delivery.FINAL_SUBDIR / "CANDIDATE.json").read_text()

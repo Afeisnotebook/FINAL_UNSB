@@ -95,6 +95,39 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "paired_controller_access": False,
             "confirmation20_opened": False,
         },
+        "conditional_resampling_control": {
+            "schema": "final-unsb-route1-related-conditional-resampling-control-v1",
+            "status": "FRESH_POST_DE_RESAMPLING_ALONE_FAILS_WHILE_TWO_VIEW_GF_MEAN_PASSES",
+            "source_path": "operations/COMPLETE_FRONTIER_4090_ADJUDICATION.json",
+            "source_sha256": "b" * 64,
+            "resampling_only": {
+                "candidate_id": audit.PCNR,
+                "late_three_mean_macro_psnr_delta": -0.53,
+                "e200_macro_psnr_delta": -0.03,
+            },
+            "resampling_plus_two_view_mean": {
+                "candidate_id": audit.PROPOSAL,
+                "late_three_mean_macro_psnr_delta": 0.54,
+                "e200_macro_psnr_delta": 0.45,
+            },
+            "two_view_mean_increment_over_resampling_only": {
+                "late_three_macro_psnr_delta": 1.07,
+                "e200_macro_psnr_delta": 0.48,
+            },
+            "only_tested_operator_scope": True,
+            "does_not_claim_global_necessity": True,
+            "does_not_claim_additive_single_path_causality": True,
+            "paired_metrics_used_only_after_complete_e200_trajectories": True,
+            "paired_metrics_used_for_training_or_control": False,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+        "stochastic_variance_scope": {
+            "conditioning_includes_official_unpaired_batch": True,
+            "reduced_components": "within-batch native G/F view randomness",
+            "not_reduced_components": "across-batch data sampling",
+            "iid_requirement": "two conditionally iid views before one commit",
+        },
         "optimizer_nonlinearity_boundary": "pre-Adam only",
         "cross_host_metrics_merged": False,
     }
@@ -133,6 +166,11 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
             "conditional_covariance_property": "covariance halved",
             "unbiased_mathematical_object": "pre-Adam joint G/F stochastic gradient estimator",
             "conditioning_scope": "fixed post-D/E parent state",
+            "stochastic_variance_scope": {
+                "conditioning_includes_official_unpaired_batch": True,
+                "reduced_components": "within-batch native G/F view randomness",
+                "not_reduced_components": "across-batch data sampling",
+            },
             "adam_boundary": "no expected displacement equality claim",
             "finite_step_coupling_change_is_intended": True,
             "native_de_stochasticity_retained": True,
@@ -255,6 +293,10 @@ def test_related_goal_audit_requires_multi_algorithm_semantics(monkeypatch, tmp_
         "native_compute_budget_equivalence_not_claimed"
     ] is True
     assert result["gain_source_proof"]["player_scope_control_proven"] is True
+    assert result["gain_source_proof"][
+        "conditional_resampling_control_proven"
+    ] is True
+    assert result["gain_source_proof"]["within_batch_variance_scope_proven"] is True
     assert result["gain_source_proof"][
         "pre_adam_unbiasedness_boundary_proven"
     ] is True

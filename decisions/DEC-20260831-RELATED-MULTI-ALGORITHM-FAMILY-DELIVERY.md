@@ -68,6 +68,20 @@ G/F-only算子。
 上述无偏结论的数学对象是固定已实现父状态下、进入Adam之前的随机梯度估计器。Adam只在
 均值之后执行一次；不声称期望有限步Adam位移或随机样本路径与单视图父算法相同。
 
+进一步的同宿主因子分解把“重新采样”和“方差缩减”区分开来。只保留一次fresh post-D/E
+G/F view的PCNR，late-three为`-0.532685 dB`、e200为`-0.030690 dB`；相同player顺序下
+改为两个fresh G/F view的pre-Adam均值后，proposal-only分别为`+0.541507 dB`和
+`+0.451092 dB`。两条共同e0完整轨迹之差为late-three `+1.074192 dB`、e200
+`+0.481782 dB`。因此，在已测试的原生场算子中，解除D/E到G/F的随机复用本身不足以严格
+通过；关键证据指向选择性G/F双视图均值。该轨迹差不是单路径内的可加因果量，也不证明
+所有可能算法都必须使用两视图。
+
+方差定理还必须按正确的条件域阅读。两次G/F view共享同一官方unpaired batch；条件
+sigma-field包含已实现post-D/E模型/优化器状态、该A/B batch及父控制器状态。被减半的是
+给定batch后的latent、bridge time、bridge noise和PatchNCE feature sampling等条件
+协方差，不是A/B identity、domain或其他跨batch数据采样方差。这个边界不改变正在运行的
+算法，只限制论文能够声明的数学对象。
+
 ## 为什么当前不机械增加DT变体
 
 DT证据已经驱动过moving covariance-rate barrier、Adam/Euclidean约束几何、

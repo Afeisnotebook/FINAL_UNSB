@@ -24,6 +24,7 @@ from research.local_route1.related_multi_algorithm_final_delivery import (
     CANDIDATE_SCHEMA,
     HJCGR,
     HPCGR,
+    PCNR,
     POINTER,
     PROPOSAL,
     PUBLISHED_FILES,
@@ -63,6 +64,11 @@ def _audit_gain_source(
         family.get("unbiased_mathematical_object")
         == "pre-Adam joint G/F stochastic gradient estimator"
         and bool(family.get("conditioning_scope"))
+        and family.get("stochastic_variance_scope", {}).get(
+            "conditioning_includes_official_unpaired_batch"
+        ) is True
+        and bool(family.get("stochastic_variance_scope", {}).get("reduced_components"))
+        and bool(family.get("stochastic_variance_scope", {}).get("not_reduced_components"))
         and bool(family.get("adam_boundary"))
         and family.get("finite_step_coupling_change_is_intended") is True
         and family.get("native_de_stochasticity_retained") is True,
@@ -172,6 +178,69 @@ def _audit_gain_source(
         bool(decomposition.get("optimizer_nonlinearity_boundary")),
         "gain-source decomposition lost the pre-Adam boundary",
     )
+    variance_scope = decomposition.get("stochastic_variance_scope")
+    _require(
+        isinstance(variance_scope, dict)
+        and variance_scope.get("conditioning_includes_official_unpaired_batch") is True
+        and bool(variance_scope.get("reduced_components"))
+        and bool(variance_scope.get("not_reduced_components"))
+        and bool(variance_scope.get("iid_requirement")),
+        "gain-source decomposition overclaimed cross-batch variance reduction",
+    )
+    resampling = decomposition.get("conditional_resampling_control")
+    _require(
+        isinstance(resampling, dict)
+        and resampling.get("schema")
+        == "final-unsb-route1-related-conditional-resampling-control-v1"
+        and resampling.get("status")
+        == "FRESH_POST_DE_RESAMPLING_ALONE_FAILS_WHILE_TWO_VIEW_GF_MEAN_PASSES"
+        and resampling.get("source_path")
+        == "operations/COMPLETE_FRONTIER_4090_ADJUDICATION.json"
+        and len(str(resampling.get("source_sha256", ""))) == 64
+        and resampling.get("resampling_only", {}).get("candidate_id") == PCNR
+        and resampling.get("resampling_plus_two_view_mean", {}).get("candidate_id")
+        == PROPOSAL
+        and float(resampling.get("resampling_only", {}).get(
+            "late_three_mean_macro_psnr_delta", 1.0
+        )) <= 0.0
+        and float(resampling.get("resampling_only", {}).get(
+            "e200_macro_psnr_delta", 1.0
+        )) <= 0.0
+        and float(resampling.get("resampling_plus_two_view_mean", {}).get(
+            "late_three_mean_macro_psnr_delta", 0.0
+        )) > 0.0
+        and float(resampling.get("resampling_plus_two_view_mean", {}).get(
+            "e200_macro_psnr_delta", 0.0
+        )) > 0.0
+        and resampling.get("only_tested_operator_scope") is True
+        and resampling.get("does_not_claim_global_necessity") is True
+        and resampling.get("does_not_claim_additive_single_path_causality") is True
+        and resampling.get("paired_metrics_used_only_after_complete_e200_trajectories")
+        is True
+        and resampling.get("paired_metrics_used_for_training_or_control") is False
+        and resampling.get("paired_controller_access") is False
+        and resampling.get("confirmation20_opened") is False,
+        "gain-source conditional-resampling control is absent or overclaimed",
+    )
+    resampling_only = resampling["resampling_only"]
+    two_view = resampling["resampling_plus_two_view_mean"]
+    resampling_increment = resampling.get("two_view_mean_increment_over_resampling_only")
+    _require(
+        isinstance(resampling_increment, dict)
+        and math.isclose(
+            float(two_view["late_three_mean_macro_psnr_delta"])
+            - float(resampling_only["late_three_mean_macro_psnr_delta"]),
+            float(resampling_increment["late_three_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        )
+        and math.isclose(
+            float(two_view["e200_macro_psnr_delta"])
+            - float(resampling_only["e200_macro_psnr_delta"]),
+            float(resampling_increment["e200_macro_psnr_delta"]),
+            rel_tol=0.0, abs_tol=1e-12,
+        ),
+        "gain-source conditional-resampling arithmetic changed",
+    )
     rows = decomposition.get("members")
     _require(isinstance(rows, list), "gain-source member rows are malformed")
     by_id = {
@@ -237,6 +306,8 @@ def _audit_gain_source(
         "conditional_theorem_present": True,
         "compute_only_control_proven": True,
         "player_scope_control_proven": True,
+        "conditional_resampling_control_proven": True,
+        "within_batch_variance_scope_proven": True,
         "pre_adam_unbiasedness_boundary_proven": True,
         "native_compute_budget_equivalence_not_claimed": True,
         "additive_causality_not_claimed": True,
