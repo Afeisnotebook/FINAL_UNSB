@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import json
 
 import pytest
 
@@ -9,6 +10,7 @@ from operations.local_route1_lpips_recovery import (
     validate_incomplete_lpips,
     without_lpips,
 )
+from research.local_route1.candidate_runner import validate_matched_plain_late_metrics
 
 
 def _metric(*, available: bool) -> dict:
@@ -57,3 +59,24 @@ def test_incomplete_and_complete_lpips_shapes_are_fail_closed() -> None:
     broken["domains"]["d0"]["lpips"] = None
     with pytest.raises(RuntimeError, match="domain payload"):
         validate_complete_lpips(broken)
+
+
+def test_candidate_admission_rejects_missing_plain_late_lpips(tmp_path) -> None:
+    root = tmp_path
+    metrics = root / "anchors" / "plain" / "metrics"
+    metrics.mkdir(parents=True)
+    for epoch in (150, 175, 200):
+        payload = _metric(available=True)
+        payload.update({"epoch": epoch, "updates": epoch * 150, "data_epoch": epoch})
+        (metrics / f"e{epoch:03d}.json").write_text(
+            json.dumps(payload), encoding="utf-8",
+        )
+    hashes = validate_matched_plain_late_metrics(root)
+    assert set(hashes) == {150, 175, 200}
+    broken = _metric(available=False)
+    broken.update({"epoch": 175, "updates": 26250, "data_epoch": 175})
+    (metrics / "e175.json").write_text(
+        json.dumps(broken), encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="LPIPS authority is unavailable at e175"):
+        validate_matched_plain_late_metrics(root)

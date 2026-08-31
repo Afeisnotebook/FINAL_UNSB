@@ -44,6 +44,41 @@ def _candidate_root(output_root: Path, candidate_id: str) -> Path:
     return Path(output_root) / "candidates" / candidate_id
 
 
+def validate_matched_plain_late_metrics(output_root: Path) -> dict[int, str]:
+    """Require a real LPIPS authority before any new long candidate starts.
+
+    Missing baseline LPIPS is an engineering-invalid comparison, not evidence
+    that an algorithm violated a perceptual guardrail.  Hashing the accepted
+    payloads also binds later candidate contracts to the repaired authority.
+    """
+    protocol = load_protocol()
+    result = {}
+    for epoch in (int(value) for value in protocol["local_view"]["late_epochs"]):
+        path = Path(output_root) / "anchors" / "plain" / "metrics" / f"e{epoch:03d}.json"
+        if not path.is_file():
+            raise RuntimeError(f"matched plain late metric missing at e{epoch}")
+        metric = _read_json(path)
+        if (
+            metric.get("lpips_requested") is not True
+            or metric.get("lpips_available") is not True
+            or metric.get("macro_lpips") is None
+        ):
+            raise RuntimeError(
+                f"matched plain LPIPS authority is unavailable at e{epoch}"
+            )
+        images = metric.get("images", [])
+        domains = metric.get("domains", {})
+        if (
+            len(images) != 420
+            or len(domains) != 6
+            or any(row.get("lpips") is None for row in images)
+            or any(row.get("lpips") is None for row in domains.values())
+        ):
+            raise RuntimeError(f"matched plain LPIPS payload is incomplete at e{epoch}")
+        result[epoch] = file_sha256(path)
+    return result
+
+
 def _assert_scientific_prerequisites(output_root: Path) -> None:
     protocol = load_protocol()
     target = int(protocol["local_view"]["target_updates_per_lane"])
@@ -61,6 +96,7 @@ def _assert_scientific_prerequisites(output_root: Path) -> None:
     plain = torch.load(plain_path, map_location="cpu", weights_only=False)
     if int(plain.get("step", -1)) != target:
         raise RuntimeError("candidate long run requires plain at exactly e200")
+    validate_matched_plain_late_metrics(output_root)
 
 
 def _candidate_metadata(
