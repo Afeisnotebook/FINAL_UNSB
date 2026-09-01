@@ -1,0 +1,55 @@
+{
+  "schema": "final-unsb-route1-hjpcnr-gain-source-e200-compact-evidence-v1",
+  "captured_at": "2026-09-01T09:08:00+08:00",
+  "host": "remote4090",
+  "candidate_id": "ABL-G3-02-HJCGR-SINGLE-VIEW",
+  "scientific_identity": {
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epochs": 200,
+    "updates": 30000,
+    "common_e0": true,
+    "training_git_commit": "83504c58678875e1d91203c1f3c3892a95b44eaa",
+    "verification_git_commit": "83504c58678875e1d91203c1f3c3892a95b44eaa",
+    "algorithm_fingerprint": "b19bafa514cbbf72dbc9d76805887528f8445870edc5a2d8294473fd46a7db37",
+    "candidate_fingerprint": "fba99697d1498f7d0ec1f912f96fd91c1466469d01f1784575e89eac9f7944a1"
+  },
+  "source_bound_receipt": {
+    "status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
+    "canonical_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/terminal_receipts/ABL-G3-02-HJCGR-SINGLE-VIEW.json",
+    "gain_source_path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/operations/HJPCNR_GAIN_SOURCE_E200_RECEIPT.json",
+    "sha256": "7be53f86a9a954a30d2ccfbfaaed38f7f4d1e87a186ab5a226140c1e68435454",
+    "two_receipts_byte_identical": true
+  },
+  "trajectory": {
+    "path": "/home/yc/runs/FINAL_UNSB_ROUTE1_REMOTE4090_E200/candidates/ABL-G3-02-HJCGR-SINGLE-VIEW/CANDIDATE_TRAJECTORY.json",
+    "sha256": "24bbaec715d8a9c7e3c4d0102614698d134da0a78179854b1cb3efaeb72ecff6",
+    "status": "LONG_HORIZON_NEGATIVE_CURRENT_IMPLEMENTATION",
+    "late_three_mean_macro_psnr_delta": -1.2820808451170382,
+    "e200_macro_psnr_delta": -0.5021737306281011,
+    "late_points_with_four_of_six_positive_domains": 0,
+    "late_average_worst_domain_delta": -2.876955033873033,
+    "late_mean_macro_ssim_delta": -0.0330069874014173,
+    "late_mean_macro_lpips_delta": 0.04336820052020133,
+    "late_points": [
+      {"epoch": 150, "updates": 22500, "macro_psnr_delta": -2.3635287690152165, "positive_domains": 2, "worst_domain_delta": -5.107872855332005},
+      {"epoch": 175, "updates": 26250, "macro_psnr_delta": -0.9805400357077971, "positive_domains": 2, "worst_domain_delta": -2.0434459865535572},
+      {"epoch": 200, "updates": 30000, "macro_psnr_delta": -0.5021737306281011, "positive_domains": 1, "worst_domain_delta": -1.479546259733537}
+    ]
+  },
+  "same_host_factorial_differences_db": {
+    "hjpcnr_minus_hj": {"late_three": -1.9314121778375135, "e200": -0.6615156750617359},
+    "hjcgr_minus_hjpcnr": {"late_three": 2.1028323272617304, "e200": 1.3755812842710782},
+    "hjcgr_minus_hj": {"late_three": 0.17142014942421702, "e200": 0.7140656092093423}
+  },
+  "adjudication": {
+    "current_implementation_closed": true,
+    "parent_hj_mechanism_falsified": false,
+    "post_de_resampling_alone_supported": false,
+    "two_view_conditional_variance_reduction_supported": true,
+    "nonlinear_trajectory_differences_are_not_additive_single_path_causality": true,
+    "paired_metrics_used_for_training_or_gate": false,
+    "confirmation20_opened": false,
+    "cross_seed_stability_claimed": false
+  }
+}

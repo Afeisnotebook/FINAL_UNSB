@@ -1,6 +1,6 @@
 # Selective post-D/E conditional G/F estimator family
 
-状态：`FROZEN_MATHEMATICAL_SCOPE_PENDING_RELATED_E200_ADJUDICATION`
+状态：`4090_RELATED_E200_ADJUDICATION_COMPLETE / 5090_HJCGR_RUNTIME_CHECK_RUNNING`
 
 ## 1. 被修改的UNSB对象
 
@@ -86,6 +86,20 @@ Proposal相对PCNR的完整非线性轨迹差为late-three `+1.074192 dB`、e200
 
 共享无偏定理只说明三个实现属于同一估计器家族，不预先保证三个父目标都得到PSNR收益，
 也不把家族成员资格当作通过裁决。
+
+4090共同e0的完整e200裁决已经给出父对象依赖性：
+
+| 父对象/子算子 | 父late-three / e200 | 子late-three / e200 | 裁决 |
+|---|---:|---:|---|
+| plain / Proposal-only | 0 / 0 | +0.541507 / +0.451092 | strict pass |
+| HJ / HJCGR | +0.649331 / +0.159342 | +0.820751 / +0.873408 | strict pass，子算子改善父场 |
+| HNEK / HPCGR | +0.806229 / +0.424899 | +0.054139 / -0.252889 | 当前迁移算子关闭，父场仍为正 |
+
+HJ场内的额外一视图对照`HJ-PCNR`为late-three `-1.282081 dB`、e200
+`-0.502174 dB`。相对HJ，它分别下降`-1.931412/-0.661516 dB`；HJCGR再相对
+HJ-PCNR提高`+2.102832/+1.375581 dB`。因此已测试HJ场的收益来源不是post-D/E
+重采样本身，而是两个条件独立fresh G/F梯度在Adam前求均值。这个结论仍是共同e0完整
+非线性轨迹对照，不是单路径可加分解。
 
 ## 5. 没有被减小的随机量
 

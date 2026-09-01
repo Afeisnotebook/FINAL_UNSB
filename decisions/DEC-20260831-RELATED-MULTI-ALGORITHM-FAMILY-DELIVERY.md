@@ -1,6 +1,19 @@
 # DEC-20260831：相关多算法族与非排他性交付
 
-状态：`ACCEPTED_AND_RUNNING`
+状态：`4090_E200_COMPLETE / 5090_HJCGR_RUNTIME_CHECK_RUNNING / NONEXCLUSIVE_DELIVERY_ARMED`
+
+## 4090完整裁决更新（2026-09-01）
+
+相关族没有收缩成一个名字。4090共同e0完整结果中，Proposal-only与HJCGR分别在原生
+UNSB场和HJ结构投影场严格通过；HPCGR在HNEK父场没有通过，但只关闭当前跨父场迁移
+算子，HNEK父轨迹本身仍为正。AM-TNC保持正向但感知护栏脆弱。终局因此至少保留两条
+严格可行的相关算法、一条独立脆弱正机制及所有父/负对照证据；`ACTION_PRIORITY`只负责
+安排下一步算力。
+
+HJCGR的一视图来源对照也已完成：单个fresh post-D/E HJ G/F view的late-three/e200为
+`-1.282081/-0.502174 dB`，二视图HJCGR为`+0.820751/+0.873408 dB`。这把“重新采样”
+和“条件方差缩减”分开，并将当前收益解释收紧为选择性G/F双视图均值。5090仍从该机
+共同e0运行HJCGR到e200，只作为独立runtime复核，不与4090 delta合并，也不冒充第二seed。
 
 ## 覆盖的旧字段
 

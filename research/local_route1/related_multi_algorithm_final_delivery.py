@@ -888,7 +888,7 @@ def _report(
         f"- HJ专属一视图对照：单个fresh G/F view相对HJ为late-three `{hj_one['late_three_macro_psnr_delta']:+.6f}` dB、e200 `{hj_one['e200_macro_psnr_delta']:+.6f}` dB；二视图均值再相对一视图增加 `{hj_two['late_three_macro_psnr_delta']:+.6f}` / `{hj_two['e200_macro_psnr_delta']:+.6f}` dB。这把跨玩家重采样与条件方差缩减分开。",
         "- compute-only控制：额外视图仅观察、不提交复制估计器时，e200 dynamics与plain精确一致且delta为0；这排除观察计算/墙钟副作用，但不声称原生算力预算等价。",
         "- player-scope控制：仅G/F复制在e200保持正收益，而D/E/G/F全复制虽有更高late-three均值却在e200回到非正；长期收益不是全局降方差的单调结果。",
-        "- resampling控制：仅在D/E后重新抽一个G/F view的PCNR在late-three与e200均非正；加入同batch双视图均值后才严格通过。当前证据支持的是选择性G/F条件方差缩减，而不是重新采样本身。",
+        "- HJ场内resampling控制：仅在D/E后重新抽一个G/F view的HJ-PCNR在late-three与e200均非正；加入同batch双视图均值后HJCGR才严格通过。当前证据支持的是选择性G/F条件方差缩减，而不是重新采样本身。",
         "- 方差边界：双视图共享同一官方unpaired batch；减小的是给定batch后的latent/time/bridge/PatchNCE条件方差，不减小跨batch或跨域采样方差。",
         "- 证据轴对齐：HJ的latent/time/bridge轴直接由方差主导；HPCGR则是把已验证的G/F估计器迁移到独立有效的HNEK父场，并不预称修复HNEK主要的跨batch方差。其成败由完整e200轨迹决定。",
         "- 无偏性只针对固定父状态下的pre-Adam梯度估计器；不声明有限步Adam位移或随机样本路径与父算法相同。",

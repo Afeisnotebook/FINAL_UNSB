@@ -1,6 +1,33 @@
 # DEC-20260901：HJCGR收益来源的一视图HJ条件重采样对照
 
-状态：`GATE_PASSED_E200_RUNNING`
+状态：`COMPLETE_E200 / CURRENT_IMPLEMENTATION_CLOSED / GAIN_SOURCE_RESOLVED`
+
+## 完整e200裁决
+
+4090上的`ABL-G3-02-HJCGR-SINGLE-VIEW`已从共同e0完成seed2026、small25、
+batch1、30000 updates/真实200 data epochs。source-bound终端收据状态为
+`ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT`，训练与验证commit均为
+`83504c58678875e1d91203c1f3c3892a95b44eaa`；算法fingerprint为
+`b19bafa514cbbf72dbc9d76805887528f8445870edc5a2d8294473fd46a7db37`。
+confirmation20保持封存，paired指标只在完整轨迹冻结后用于标签，未进入公式、训练、
+路由或早停。
+
+结果不通过长期门：晚三点宏PSNR delta为`-1.282081 dB`，e200为
+`-0.502174 dB`，三个晚期点分别只有2/6、2/6、1/6域正，晚期平均最差域为
+`-2.876955 dB`；晚期SSIM为`-0.033007`，LPIPS为`+0.043368`，两项护栏也均失败。
+这只关闭HJ-PCNR当前一视图算子，不关闭HJ场、条件重采样问题或无偏方差缩减机制。
+
+同宿主完整轨迹的因子差为：
+
+- `HJ-PCNR - HJ`：晚三点`-1.931412 dB`，e200 `-0.661516 dB`；
+- `HJCGR - HJ-PCNR`：晚三点`+2.102832 dB`，e200 `+1.375581 dB`；
+- `HJCGR - HJ`：晚三点`+0.171420 dB`，e200 `+0.714066 dB`。
+
+因此，在已测试的continuous HJ场中，仅把G/F随机视图移到D/E提交之后重新抽取并不能
+解释收益，反而形成长期负轨迹；把两个条件独立的fresh HJ G/F梯度在一次Adam提交之前
+求均值，才把该算子变成严格长期正结果。当前最有力的收益来源解释是条件方差缩减，而
+不是事件重排或重采样本身。上述数值是三条非线性完整轨迹之差，不声称可分解为单条
+样本路径上的可加因果贡献，也不证明继续增加replica数量一定继续获益。
 
 2026-09-01补充：首轮门禁正确发现disabled复合算子仍序列化dormant HJ诊断状态，
 所以full-state hash不等于plain。活动公式和训练路径未改变；修复只在关闭算子时删除
