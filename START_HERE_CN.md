@@ -2,6 +2,33 @@
 
 ## 当前状态（2026-09-01）
 
+### 2026-09-01 10:25 路线一终局：两条严格算法与一条独立脆弱正方向
+
+small25、seed2026、batch1、共同e0、真实200 data epochs的终点证据与fail-closed Goal
+审计已经全部返回本地。4090同宿主严格通过两条算法：HJCGR的late-three/e200为
+`+0.820751/+0.873408 dB`，Proposal-only为`+0.541507/+0.451092 dB`；AM-TNC为
+`+0.105302/+0.383135 dB`，但LPIPS护栏脆弱。`ALGORITHM_SET`因此是
+`MULTIPLE_VIABLE_ALGORITHMS`。HJCGR的`ACTION_PRIORITY`只安排下一份算力，不删除
+Proposal-only或AM-TNC。
+
+5090同seed独立运行时结果不能冒充第二seed：Proposal-only再次严格通过
+`+0.845316/+0.573796 dB`，是唯一两宿主都严格通过的方法；AM-TNC在5090严格通过，
+而HJCGR虽然late-three仍为`+0.612437 dB`，e200轻微转为`-0.094231 dB`。因此当前最
+准确的解释是：HJCGR拥有4090上最高收益，Proposal-only拥有最强跨运行时可移植性与更低
+成本，AM-TNC保留为独立几何方向；不存在科学唯一冠军。
+
+HJ场内的一视图HJ-PCNR完整对照为late-three/e200 `-1.282081/-0.502174 dB`，而
+双视图HJCGR严格通过。收益来源由此收紧为post-D/E选择性G/F条件方差缩减，不是重新采样
+或事件重排本身。相同估计器迁移到HNEK的HPCGR失败，给出了父对象适用边界。
+
+机器审计已证明8条算法的e200轨迹、六域逐图/逐域结果、474条反转证据、140条采样方差
+证据、13项hypothesis ledger与来源哈希完整；confirmation20继续封存，跨宿主delta没有
+合并，cross-seed稳定性没有声明。权威文件位于
+`E:\UNSB_Expl\runs\FINAL_UNSB_LOCAL_ROUTE1_E200\related_multi_algorithm_final_4090`，
+紧凑Git证据见
+`evidence/remote_route1_offload/RELATED_MULTI_ALGORITHM_TERMINAL_20260901.json`，最终裁决见
+`decisions/DEC-20260901-ROUTE1-RELATED-MULTI-ALGORITHM-TERMINAL.md`。
+
 ### 2026-09-01 00:05 相关多算法族成为当前终点权威
 
 用户最新资源原则已落实为科学接口，而不是只改口头表述：终局允许同时交付两到三条

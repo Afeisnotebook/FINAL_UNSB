@@ -1,6 +1,6 @@
 # Selective post-D/E conditional G/F estimator family
 
-状态：`4090_RELATED_E200_ADJUDICATION_COMPLETE / 5090_HJCGR_RUNTIME_CHECK_RUNNING`
+状态：`TERMINAL_E200_ADJUDICATED / MULTIPLE_VIABLE_ALGORITHMS`
 
 ## 1. 被修改的UNSB对象
 
@@ -100,6 +100,11 @@ HJ场内的额外一视图对照`HJ-PCNR`为late-three `-1.282081 dB`、e200
 HJ-PCNR提高`+2.102832/+1.375581 dB`。因此已测试HJ场的收益来源不是post-D/E
 重采样本身，而是两个条件独立fresh G/F梯度在Adam前求均值。这个结论仍是共同e0完整
 非线性轨迹对照，不是单路径可加分解。
+
+5090同seed、宿主分离的完整运行时证据给出稳定性边界：Proposal-only再次严格通过
+`+0.845316/+0.573796 dB`，是唯一两宿主都strict的方法；AM-TNC在5090 strict、4090
+fragile；HJCGR在5090 late-three仍为`+0.612437 dB`，但e200为`-0.094231 dB`，所以只
+在4090 strict。5090不是第二seed，以上结果不能平均成cross-seed稳定性结论。
 
 ## 5. 没有被减小的随机量
 

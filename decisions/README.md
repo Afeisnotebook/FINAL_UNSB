@@ -56,5 +56,13 @@ authorize compute.
 17. `DEC-20260831-RELATED-MULTI-ALGORITHM-FAMILY-DELIVERY.md`：终局允许多个严格可行
     算法；原生/HNEK/HJ父对象分别组合相同的条件无偏双视图估计器，AM-TNC作为独立机制
     保留。4090有限并发HPCGR与HJCGR，最终`ALGORITHM_SET`而非单一冠军拥有科学解释权。
+18. `DEC-20260901-HJCGR-GAIN-SOURCE-HJPCNR-ABLATION.md`：HJ场内的一视图完整e200
+    对照失败，而二视图HJCGR严格通过；当前收益来源因此收紧为post-D/E选择性G/F条件
+    方差缩减，不再归因于重新采样或事件重排本身。该结论只关闭HJ-PCNR当前实现，并明确
+    禁止把后续优化退化为replica-count或paired阈值网格。
+19. `DEC-20260901-ROUTE1-RELATED-MULTI-ALGORITHM-TERMINAL.md`：终局保留HJCGR与
+    Proposal-only两条4090严格算法、AM-TNC独立脆弱正机制及全部负边界；HJCGR只是行动
+    优先级，Proposal-only是唯一4090/5090均严格通过的跨运行时方法。结论仍限于small25、
+    seed2026、e200，不声明多seed或全量数据稳定。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。

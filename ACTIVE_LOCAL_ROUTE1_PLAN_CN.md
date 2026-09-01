@@ -1,8 +1,25 @@
 # ACTIVE：本地路线一长期算法发现计划
 
-状态：`MULTI_CANDIDATE_E200_FRONTIER_RUNNING / COMPLETE_ATOMIC_DELIVERY_ARMED`
+状态：`ROUTE1_SMALL25_E200_COMPLETE / MULTIPLE_VIABLE_ALGORITHMS / FINAL_GIT_CHANGE_READY`
 日期：2026-09-01
 当前硬件：GTX 1660 6GB、RTX 4090 24GB、RTX 5090 32GB
+
+## 2026-09-01 10:25 终点更新：算法集合完成，不再运行中的旧快照为准
+
+- 4090同宿主终榜有两条strict算法：HJCGR `+0.820751/+0.873408 dB`，
+  Proposal-only `+0.541507/+0.451092 dB`；AM-TNC `+0.105302/+0.383135 dB`
+  为positive-but-fragile。HJCGR是action priority，不是科学排他冠军。
+- 5090同seed宿主分离结果：Proposal-only和AM-TNC严格通过；HJCGR late-three
+  `+0.612437 dB`但e200 `-0.094231 dB`，当前宿主不通过。只有Proposal-only在两宿主
+  都严格通过；这属于cross-runtime证据，不是cross-seed。
+- HJ-PCNR一视图对照失败，HJCGR二视图通过，收益来源已收紧为选择性G/F条件方差缩减；
+  HPCGR失败说明该估计器不能无条件迁移到HNEK父场。
+- 远程训练、宿主裁决、两段原子relay和本地Goal审计均完成；8条算法、474/140因果证据
+  和13项ledger已机器验真。本次终局变更包含仓库文档、compact adjudication和最终裁决；
+  373项测试、compileall与`git diff --check`已经通过。
+- 本计划不会自动启动全量10000张、seed2027/2028或confirmation20。下一阶段若获用户
+  授权，应同时保留HJCGR与Proposal-only，AM-TNC作为第三线，而不是把本轮行动排名当作
+  单算法科学剪枝。
 
 ## 2026-09-01 00:05 执行更新：多算法集合与收益来源成为终局验收项
 

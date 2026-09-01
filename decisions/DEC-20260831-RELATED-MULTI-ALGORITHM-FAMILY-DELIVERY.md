@@ -1,6 +1,6 @@
 # DEC-20260831：相关多算法族与非排他性交付
 
-状态：`4090_E200_COMPLETE / 5090_HJCGR_RUNTIME_CHECK_RUNNING / NONEXCLUSIVE_DELIVERY_ARMED`
+状态：`TERMINAL_E200_COMPLETE / MULTIPLE_VIABLE_ALGORITHMS / NONEXCLUSIVE_DELIVERY_PROVEN`
 
 ## 4090完整裁决更新（2026-09-01）
 
@@ -12,8 +12,28 @@ UNSB场和HJ结构投影场严格通过；HPCGR在HNEK父场没有通过，但�
 
 HJCGR的一视图来源对照也已完成：单个fresh post-D/E HJ G/F view的late-three/e200为
 `-1.282081/-0.502174 dB`，二视图HJCGR为`+0.820751/+0.873408 dB`。这把“重新采样”
-和“条件方差缩减”分开，并将当前收益解释收紧为选择性G/F双视图均值。5090仍从该机
-共同e0运行HJCGR到e200，只作为独立runtime复核，不与4090 delta合并，也不冒充第二seed。
+和“条件方差缩减”分开，并将当前收益解释收紧为选择性G/F双视图均值。5090同seed独立
+runtime复核中，HJCGR late-three为`+0.612437 dB`但e200为`-0.094231 dB`；它不与4090
+delta合并，也不冒充第二seed。Proposal-only在两宿主均strict，是当前最可移植的成员。
+
+## 进一步优化为何不等于继续堆视图
+
+对固定父状态的`m`个条件iid视图，样本均值满足
+
+\[
+\mathbb E[\widehat g_m\mid\mathcal F]=\mu,\qquad
+\operatorname{Cov}(\widehat g_m\mid\mathcal F)=\Sigma/m,
+\]
+
+但G/F计算量也近似随`m`线性增加，而且Adam之后的完整轨迹收益不由`1/m`单调保证。
+HPCGR失败和全player复制的终点回落已经给出反例。因此当前不把空闲4090用于`m=3/4`
+replica-count网格；那只能回答算力缩放，不能产生新的算法对象。
+
+真正值得继续的优化是提高“单位额外G/F计算带来的条件方差下降”，例如具有可证明零均值
+的廉价control variate、保持官方测度的分层估计或经过固定状态审计的负相关耦合。现有
+Gaussian反号审计在e20/e100/e200均比compute-matched iid pair方差更高，已排除当前
+antithetic构造。任何新优化必须先给出无偏/自消隐推导和target-blind固定状态证据，再获得
+新的e200名额；不能用当前paired收益反向选择副本数或控制器阈值。
 
 ## 覆盖的旧字段
 

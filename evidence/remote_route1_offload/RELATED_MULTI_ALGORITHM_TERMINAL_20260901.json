@@ -1,0 +1,100 @@
+{
+  "schema": "final-unsb-route1-related-multi-algorithm-terminal-compact-evidence-v1",
+  "captured_at": "2026-09-01T10:25:00+08:00",
+  "status": "TERMINAL_ARTIFACTS_PROVEN_FINAL_REPOSITORY_COMMIT_INCLUDED_BY_THIS_CHANGE",
+  "scientific_protocol": {
+    "view": "small25_six_domains_150_unpaired_images_per_side",
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epochs": 200,
+    "updates": 30000,
+    "common_e0_within_host": true,
+    "cross_host_deltas_merged": false,
+    "cross_runtime_is_not_cross_seed": true,
+    "cross_seed_stability_claimed": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "goal_audit": {
+    "path": "E:/UNSB_Expl/runs/FINAL_UNSB_LOCAL_ROUTE1_E200/final_adjudication/RELATED_GOAL_COMPLETION_AUDIT.json",
+    "sha256": "f74697314bdcec8d0a21c82b015c7d3f1fc44c57cdd5351ea945fae43d5962de",
+    "status": "RELATED_ROUTE1_TERMINAL_ARTIFACTS_PROVEN_FINAL_GIT_COMMIT_REQUIRED",
+    "terminal_artifact_requirements_proven": true,
+    "algorithm_member_count": 8,
+    "historical_reversal_rows": 474,
+    "historical_sampling_variance_rows": 140,
+    "ledger_candidate_count": 13
+  },
+  "related_delivery": {
+    "path": "E:/UNSB_Expl/runs/FINAL_UNSB_LOCAL_ROUTE1_E200/related_multi_algorithm_final_4090",
+    "algorithm_set_sha256": "468ee39c38edea49676849023d2bce18afb74c7e784250d58a93a604c29982a5",
+    "action_priority_sha256": "f7b4f27d3cdd1450d2ddee5490d86622113a0dd38e9a72a91daae9d7f94341c6",
+    "candidate_sha256": "79db169ffb1d0d440a8f2c44f6d37a41edd840bbcca8a526ed2b5b31ce90b21a",
+    "alternates_sha256": "4b275bdd297f659eabf26bfb85bf3bdc5a9f34c5a3d29797f6872f02e6ad1c3d",
+    "results_sha256": "c57ea7f61dddcece096ff65b1e1377312c43d0c7e01fbb5e55d5d921bed63396",
+    "report_sha256": "b2784db6fd2c79a129a4dd6172a2acf3d1e60224c4e6286a53b9ddbb6a4ad7c2",
+    "pointer_sha256": "7696d5eef85adeb1c2ff7b4107d2e4cceb9c3ce6cdabc9b614950f56dee1c203"
+  },
+  "scientific_delivery": {
+    "status": "MULTIPLE_VIABLE_ALGORITHMS",
+    "action_priority_candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+    "action_priority_is_not_scientific_exclusivity": true,
+    "strict_viable_candidate_ids": [
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
+    ],
+    "positive_but_fragile_candidate_ids": [
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ],
+    "alternate_candidate_ids": [
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ]
+  },
+  "remote4090_same_host_ranking": [
+    {"rank": 1, "candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING", "classification": "strict_sustained", "late_three": 0.8207514821446923, "e200": 0.8734075536429771, "late_points_4_of_6": 3, "late_worst_domain": -0.36140297469534016, "late_ssim": 0.02363243403415838, "late_lpips": -0.014191978040432133, "median_epoch_seconds": 131.9618080854416},
+    {"rank": 2, "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY", "classification": "strict_sustained", "late_three": 0.5415065556765851, "e200": 0.4510917790142841, "late_points_4_of_6": 2, "late_worst_domain": -0.008841867048108298, "late_ssim": 0.012874742171594086, "late_lpips": -0.013357615210707219, "median_epoch_seconds": 50.06456685066223},
+    {"rank": 3, "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS", "classification": "positive_but_fragile", "late_three": 0.10530200136643113, "e200": 0.38313495396755926, "late_points_4_of_6": 2, "late_worst_domain": -0.5392748419806525, "late_ssim": 0.015071644397482062, "late_lpips": 0.0062781232571791174, "median_epoch_seconds": 62.74440920352936},
+    {"rank": 4, "candidate_id": "G1-02B-PLAYER-CONDITIONAL-RSMG", "classification": "near_boundary_terminal_nonpositive", "late_three": 0.6209590565901758, "e200": -0.001378936820813692},
+    {"rank": 5, "candidate_id": "G3-01B-PHYSICAL-HORIZON-CONDITIONAL-GF-RESAMPLING", "classification": "closed_current_operator", "late_three": 0.05413874582326746, "e200": -0.25288909310685526},
+    {"rank": 6, "candidate_id": "G1-01-ROLLOUT-DISTRIBUTION-SPEED", "classification": "closed_current_operator", "late_three": -0.268851514577479, "e200": -1.664355764596328},
+    {"rank": 7, "candidate_id": "F1-01-PLAYER-CONDITIONAL-NATIVE-RESAMPLING", "classification": "closed_current_operator", "late_three": -0.5326851578370219, "e200": -0.030690205337194243},
+    {"rank": 8, "candidate_id": "ABL-G3-02-HJCGR-SINGLE-VIEW", "classification": "closed_current_operator", "late_three": -1.2820808451170382, "e200": -0.5021737306281011}
+  ],
+  "remote5090_host_separated_runtime_results": [
+    {"rank": 1, "candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY", "classification": "strict_sustained_local_signal", "late_three": 0.8453161838078085, "e200": 0.5737955644433868, "receipt_sha256": "ef8d3828a71d72b82e752502f7ad1e4a2335e8c3c58d72693a4f38c4d0eeabd4", "trajectory_sha256": "d4195403f84a7190dc2558905ad708792469247157e802ae53aac1cef425e50a"},
+    {"rank": 2, "candidate_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS", "classification": "strict_sustained_local_signal", "late_three": 0.6780004773984102, "e200": 0.23319666902460412, "receipt_sha256": "390dfcf34d09cb01377ccb585e775c2fb02e67b2c2a2d38f340c689f170bb061", "trajectory_sha256": "2dff2cdd08eba1d836785f459d23acd52fecefdba87cf82f156dbe1bf690a8eb"},
+    {"rank": 3, "candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING", "classification": "closed_current_operator_on_this_host", "late_three": 0.6124368601729172, "e200": -0.09423051067365051, "receipt_sha256": "33cb80f7b3b9311309ba24c9c1b1dc02d1a8faf1789780180340e41884df8295", "trajectory_sha256": "207389bd31d6743bf2d2cf440e52ed84a49e0af7d6ab68c6ee9854f2e708736e"}
+  ],
+  "cross_runtime_adjudication": {
+    "proposal_only_strict_on_both_hosts": true,
+    "am_tnc_strict_on_5090_fragile_on_4090": true,
+    "hjcgr_strict_on_4090_terminal_negative_on_5090": true,
+    "only_proposal_only_cross_runtime_strict": true,
+    "host_differences_are_not_seed_replicates": true
+  },
+  "gain_source_adjudication": {
+    "shared_estimator": "post-D/E conditionally iid two-view G/F pre-Adam mean",
+    "conditional_mean_preserved": true,
+    "conditional_covariance_ratio": 0.5,
+    "positive_parent_field_increments": {
+      "proposal_only_over_plain_late_three": 0.5415065556765851,
+      "proposal_only_over_plain_e200": 0.4510917790142841,
+      "hjcgr_over_hj_late_three": 0.17142014942421702,
+      "hjcgr_over_hj_e200": 0.7140656092093423
+    },
+    "negative_parent_field_increment": {
+      "hpcgr_over_hnek_late_three": -0.7520897796394431,
+      "hpcgr_over_hnek_e200": -0.6777883345841822
+    },
+    "hj_one_view_vs_two_view": {
+      "hjpcnr_minus_hj_late_three": -1.9314121778375135,
+      "hjpcnr_minus_hj_e200": -0.6615156750617359,
+      "hjcgr_minus_hjpcnr_late_three": 2.1028323272617304,
+      "hjcgr_minus_hjpcnr_e200": 1.3755812842710782
+    },
+    "conclusion": "selective within-batch G/F conditional variance reduction, not post-D/E resampling alone, is the supported gain source",
+    "native_compute_budget_equivalence_claimed": false,
+    "additive_single_path_causality_claimed": false
+  }
+}

@@ -1,13 +1,53 @@
 {
   "schema_version": 1,
   "updated": "2026-09-01",
-  "state_snapshot_time": "2026-09-01T00:05:00+08:00",
-  "phase": "RELATED_MULTI_ALGORITHM_E200_FRONTIER_RUNNING_GAIN_SOURCE_AND_RESULT_RETURN_CHAIN_ARMED",
+  "state_snapshot_time": "2026-09-01T10:25:00+08:00",
+  "phase": "ROUTE1_SMALL25_E200_TERMINAL_MULTIPLE_VIABLE_ALGORITHMS_COMPLETE",
   "active_code_commit": "0da2a37086cca5bc4ad4488bb07c53096a7152ed",
-  "development_head_at_state_write": "c3fec4dfda57d3b509b2efd057c0c7fd38b83019",
+  "development_head_at_state_write": "477b105cb5acffd446953a81b33c011be0e08c5e",
   "active_protocol_fingerprint": "b0786b222790b84379802996448b8a68b86d69a6892ea0cdc04670cfcb1fb9b2",
+  "terminal_related_multi_algorithm_outcome": {
+    "status": "MULTIPLE_VIABLE_ALGORITHMS",
+    "goal_audit_status": "RELATED_ROUTE1_TERMINAL_ARTIFACTS_PROVEN_FINAL_GIT_COMMIT_REQUIRED",
+    "repository_finalization_status": "FINAL_COMPACT_ADJUDICATION_INCLUDED_BY_THIS_CHANGE",
+    "goal_audit_sha256": "f74697314bdcec8d0a21c82b015c7d3f1fc44c57cdd5351ea945fae43d5962de",
+    "algorithm_member_count": 8,
+    "action_priority_candidate_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+    "action_priority_is_not_scientific_exclusivity": true,
+    "strict_viable_candidate_ids": [
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY"
+    ],
+    "positive_but_fragile_candidate_ids": [
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ],
+    "remote4090": {
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING": {"late_three": 0.8207514821446923, "e200": 0.8734075536429771, "classification": "strict_sustained"},
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY": {"late_three": 0.5415065556765851, "e200": 0.4510917790142841, "classification": "strict_sustained"},
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {"late_three": 0.10530200136643113, "e200": 0.38313495396755926, "classification": "positive_but_fragile"}
+    },
+    "remote5090_host_separated": {
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY": {"late_three": 0.8453161838078085, "e200": 0.5737955644433868, "classification": "strict_sustained_local_signal"},
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS": {"late_three": 0.6780004773984102, "e200": 0.23319666902460412, "classification": "strict_sustained_local_signal"},
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING": {"late_three": 0.6124368601729172, "e200": -0.09423051067365051, "classification": "closed_current_operator_on_this_host"}
+    },
+    "only_cross_runtime_strict_candidate_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "gain_source": "post-D/E selective within-batch G/F conditional variance reduction, not resampling alone",
+    "related_delivery_path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_LOCAL_ROUTE1_E200\\related_multi_algorithm_final_4090",
+    "compact_evidence": "evidence/remote_route1_offload/RELATED_MULTI_ALGORITHM_TERMINAL_20260901.json",
+    "terminal_decision": "decisions/DEC-20260901-ROUTE1-RELATED-MULTI-ALGORITHM-TERMINAL.md",
+    "selection_seeds": [2026],
+    "deferred_seed_validation": [2027, 2028],
+    "full_10000_image_200_epoch_behavior_untested": true,
+    "cross_seed_stability_claimed": false,
+    "cross_host_deltas_merged": false,
+    "paired_metrics_used_for_formula_or_training_control": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
   "related_multi_algorithm_frontier": {
-    "status": "FOUR_E200_TRAJECTORIES_IN_FLIGHT_TERMINAL_SET_PENDING",
+    "status": "SUPERSEDED_BY_TERMINAL_RELATED_MULTI_ALGORITHM_OUTCOME_ABOVE",
+    "snapshot_is_historical": true,
     "scientific_delivery": "ALGORITHM_SET_AND_ACTION_PRIORITY_SEPARATED",
     "action_priority_is_not_scientific_exclusivity": true,
     "related_family": {

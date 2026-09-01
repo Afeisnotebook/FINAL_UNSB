@@ -19,6 +19,34 @@
 下文第5--7节保留的是2026-08-28形成旧四lane计划时的推理，已降级为历史背景；
 当前执行以 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md` 和最新decision为准。
 
+### 0.0 2026-09-01路线一终点（接手者优先读）
+
+small25、seed2026、batch1、共同e0、真实e200的路线一已完成，不再处于“等待算法搜索”
+状态。4090同宿主有两条严格算法：HJCGR为`+0.820751/+0.873408 dB`，
+Proposal-only为`+0.541507/+0.451092 dB`；AM-TNC为正但LPIPS脆弱。科学交付是多个
+算法集合，HJCGR只拥有下一步action priority。
+
+5090同seed运行时证据显示：Proposal-only再次严格通过`+0.845316/+0.573796 dB`，
+AM-TNC也严格通过；HJCGR晚三点仍为`+0.612437 dB`，但e200为`-0.094231 dB`。
+所以Proposal-only是唯一跨两宿主均严格通过的方法；HJCGR是4090收益最高但运行时终点
+敏感的方法；AM-TNC是独立几何方向。这些不能平均成多seed结论。
+
+数学上，Proposal-only和HJCGR共享post-D/E条件iid双视图G/F梯度均值，固定父状态下
+保持条件期望并把within-batch条件协方差减半。HJ-PCNR一视图完整e200失败，证明收益不
+来自重新采样本身；HPCGR相对正HNEK父场下降，证明共享定理不意味着任意父对象都获益。
+最终8条算法、474条反转证据、140条采样方差证据和13项ledger已通过fail-closed审计。
+
+权威入口：
+
+- `decisions/DEC-20260901-ROUTE1-RELATED-MULTI-ALGORITHM-TERMINAL.md`；
+- `evidence/remote_route1_offload/RELATED_MULTI_ALGORITHM_TERMINAL_20260901.json`；
+- 本地完整结果目录
+  `E:\UNSB_Expl\runs\FINAL_UNSB_LOCAL_ROUTE1_E200\related_multi_algorithm_final_4090`。
+
+边界仍然是：单seed、small25开发证据；全量10000张/200 epochs、多seed与confirmation20
+均未验证。下一阶段不得因`CANDIDATE.json`只有一个action入口而删掉Proposal-only或
+AM-TNC，也不得把5090解释成第二seed。
+
 ### 0.1 2026-08-30 受控远端算力覆盖
 
 用户后来明确提供一台 RTX 4090 和一台全新 RTX 5090，并授权将长程任务外包。这个
