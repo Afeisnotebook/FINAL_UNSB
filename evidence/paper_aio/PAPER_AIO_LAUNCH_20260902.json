@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-aio-launch-evidence-v1",
+  "date": "2026-09-02",
+  "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "manifest": {
+    "sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "train_per_side": 8553,
+    "discovery": 480,
+    "confirmation": 120,
+    "content_files_verified": 18306
+  },
+  "host_4090_a": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "runtime": {
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "cuda": "12.1",
+      "cudnn": 90100,
+      "tf32": false,
+      "free_disk_gib_at_preflight": 383.76235580444336
+    },
+    "preflight": "PASS",
+    "resume_gate": {
+      "status": "PASS",
+      "continuous_1000_sha256": "bf09b911bbcfd212854de09ee318a652f30434c87d826448fad01ac10732f079",
+      "split_500_plus_resume_sha256": "bf09b911bbcfd212854de09ee318a652f30434c87d826448fad01ac10732f079"
+    },
+    "runtime_twin": {
+      "status": "LOCAL_TWIN_COMPLETE",
+      "updates": 2000,
+      "e0_core_sha256": "7791de710f5014e50f3ccad9d95f4378273cab91632139fd7084c897c87d9827",
+      "step_core_sha256": "c6ed239e4211d944df203dd99781ebc6bfe9ee79e7cad23034669903b80a1495",
+      "wall_seconds": 297.5271632671356,
+      "updates_per_second": 6.722075315873913
+    },
+    "evaluation_repeat": {
+      "status": "PASS",
+      "first_sha256": "a46a8048fcfe853a46187de1cdd6910f5ffeb21c0c9e4127cfcab5a965242072",
+      "second_sha256": "a46a8048fcfe853a46187de1cdd6910f5ffeb21c0c9e4127cfcab5a965242072",
+      "input_sha256": "a210e1cc40711419dc06a1217946caaa456cda714667a80731f20900be2f66b6"
+    },
+    "lane_authorization": {
+      "lane": "plain",
+      "status": "PASS",
+      "failures": []
+    },
+    "long_run": {
+      "status": "CHILD_RUNNING",
+      "target_updates": 1710600,
+      "target_data_epochs": 200,
+      "supervisor_consecutive_failures": 0,
+      "remote_output": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "estimated_pure_training_hours_from_probe": 70.69377777777778
+    }
+  },
+  "host_5090": {
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "runtime_tests": "PASS",
+    "local_disk_free_gib_rounded": 190,
+    "required_disk_gib": 200,
+    "large_public_mount": "READ_ONLY",
+    "long_training_status": "BLOCKED_STORAGE_CONTRACT",
+    "deleted_old_results": false,
+    "fallback_activity": "target-blind terminal audit of frozen plain/proposal/HJCGR route1 checkpoints",
+    "fallback_activity_is_new_algorithm_experiment": false
+  },
+  "ddsb": {
+    "status": "BLOCKED_SOURCE_OR_FORMULA_LOCK_MISSING",
+    "fallback_after_storage_gate": "cyclegan",
+    "scientific_failure": false
+  },
+  "paired_metric_control": false,
+  "cross_5090_delta_merged": false,
+  "confirmation20_opened": false
+}
