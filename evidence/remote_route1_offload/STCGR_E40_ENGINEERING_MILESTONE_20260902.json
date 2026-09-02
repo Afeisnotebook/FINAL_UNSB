@@ -1,0 +1,34 @@
+{
+  "schema": "final-unsb-stcgr-e40-engineering-milestone-v1",
+  "date": "2026-09-02",
+  "status": "ACCEPTED_ENGINEERING_MILESTONE_CONTINUE_FIXED_E200",
+  "host_role": "5090A_route1_small25",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+  "candidate_fingerprint": "df0c9629e83ae05cd66f2dd1e6013fb1ba80170104fc25d0abc5617e5d91ec7a",
+  "data_epoch": 40,
+  "updates": 6000,
+  "target_data_epoch": 200,
+  "target_updates": 30000,
+  "checkpoint": {
+    "schema": "final-unsb-local-route1-full-state-v1",
+    "size_bytes": 201432363,
+    "checkpoint_sha256": "57eb485370ff05a3cc4fdb057d8d6e0c58c7a749116e4741d43c463513fc8975",
+    "scientific_state_sha256": "fc4b73917f5bd5395142f5404f2e985ac9a750fabc075d8e8d689b587886d169",
+    "sidecar_sha256": "ce9a46bb616cf812fc03df37da936ef882e5a7cc501685e452114a6a4d7a4b2e"
+  },
+  "evaluation_artifact": {
+    "schema": "local-route1-discovery70-crn-single-rollout-v1",
+    "metric_sha256": "e1192a52ab868f5f269a85f1dab3f08804fe77b7f3c5f55ef8cb662a9d0dbcec",
+    "split": "discovery",
+    "count_per_domain": 70,
+    "replicates": 1,
+    "lpips_requested": false,
+    "performance_values_inspected_for_routing": false
+  },
+  "executor_alive_after_milestone": true,
+  "paired_controller_access": false,
+  "confirmation20_opened": false,
+  "scientific_adjudication_performed": false,
+  "next_action": "continue unchanged to the complete source-bound e200 terminal receipt"
+}

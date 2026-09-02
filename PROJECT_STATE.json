@@ -14,7 +14,13 @@
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 7, "successor": "proposal"},
       "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 6, "successor": "cyclegan"},
-      "5090A_stcgr_small25": {"status": "CANDIDATE_CHUNK_RUNNING", "latest_observed_data_epoch": 37, "target_data_epoch": 200}
+      "5090A_stcgr_small25": {
+        "status": "CANDIDATE_CHUNK_RUNNING",
+        "latest_observed_data_epoch": 40,
+        "target_data_epoch": 200,
+        "latest_engineering_milestone": "e40_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
+        "evidence": "evidence/remote_route1_offload/STCGR_E40_ENGINEERING_MILESTONE_20260902.json"
+      }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
