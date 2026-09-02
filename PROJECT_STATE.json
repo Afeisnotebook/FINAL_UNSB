@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T02:37:02+08:00",
+  "state_snapshot_time": "2026-09-03T02:45:12+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -313,6 +313,11 @@
         "5090B_matched_plain": 19496,
         "5090C_proposal": 19236
       },
+      "terminal_audit_successor_status": "DURABLE_WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "terminal_audit_successor_pid": 1780,
+      "terminal_audit_successor_commit": "3913b7c34d21993c3947fc495a68118e0788cc05",
+      "terminal_audit_fixed_epochs": [100, 150, 200],
+      "terminal_audit_fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
       "training_non_interference_probe": "4090A_plain_e47_1266.3245_seconds_vs_prior_e46_1265.0016_seconds",
       "training_authorized": false,
       "checkpoint_evaluation_started": false,
@@ -321,7 +326,8 @@
       "confirmation20_opened": false,
       "evidence": [
         "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json",
-        "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json"
+        "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json",
+        "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json"
       ],
       "decision": "decisions/DEC-20260903-LOCAL-EVALUATION-NODE.md"
     },
@@ -474,7 +480,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
     "next_manual_decision_window": "5090B CUT e200 exact-runtime-gate result around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",

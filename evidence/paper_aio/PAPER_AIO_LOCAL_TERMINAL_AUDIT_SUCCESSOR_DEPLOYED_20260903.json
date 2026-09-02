@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-paper-local-terminal-audit-successor-deployment-v1",
+  "captured_at": "2026-09-03T02:45:12+08:00",
+  "control_head_before_deployment_record": "3913b7c34d21993c3947fc495a68118e0788cc05",
+  "status": "DURABLE_WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+  "pid": 1780,
+  "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_AUDIT_3913b7c",
+  "frozen_git_commit": "3913b7c34d21993c3947fc495a68118e0788cc05",
+  "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits",
+  "contract_sha256": "01a9dd43aefc65f19375931af763dc4340218fb881df221eebfbf70fbc47cc17",
+  "paper_protocol_fingerprint": "283c2b42cb7a04163e8e7dec257c5d0c2213c864be1126c97f76a7700ea85e27",
+  "candidate_authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+  "fixed_epochs": [100, 150, 200],
+  "fixed_probes": [
+    {"probe_id": "4090A_plain", "source_host_label": "4090A", "lane": "plain"},
+    {"probe_id": "5090C_proposal", "source_host_label": "5090C", "lane": "proposal"},
+    {"probe_id": "4090A_amtnc", "source_host_label": "4090A", "lane": "amtnc"},
+    {"probe_id": "5090A_stcgr", "source_host_label": "5090A", "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"}
+  ],
+  "current_dependencies": {
+    "local_data_mirror": "TRANSFERRING_IDLE_IO_PRIORITY_11.860_GIB_OBSERVED",
+    "local_audit_only_preflight": "WAITING_FOR_MIRROR",
+    "source_bound_checkpoint_relays": "SIX_WAITING_FOR_COMPLETE_E200_EXPORT_SETS"
+  },
+  "execution": {
+    "individual_probes_start_when_their_verified_import_set_arrives": true,
+    "wait_for_all_algorithms_before_first_audit": false,
+    "shared_local_gpu_lock": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock",
+    "source_checkpoint_read_only": true,
+    "parent_model_and_rng_hash_must_match_after_audit": true
+  },
+  "scientific_boundary": {
+    "performance_values_available_to_scheduler": false,
+    "paired_labels_attached": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "terminal_pathology_predeclared_false_per_individual_audit": true,
+    "confirmation20_opened": false
+  }
+}
