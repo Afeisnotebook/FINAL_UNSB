@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T18:00:00+08:00",
+  "state_snapshot_time": "2026-09-02T18:15:00+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -62,7 +62,7 @@
       ]
     },
     "unified_evaluation_interface": {
-      "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_E200_CHECKPOINTS",
+      "status": "IMPLEMENTED_CPU_VERIFIED_AND_CROSS_HOST_IMPORT_RELAYS_ARMED_AWAITING_E200_CHECKPOINTS",
       "source_export_epochs": [100, 125, 150, 175, 200],
       "required_first_wave_lanes": ["input", "plain", "proposal", "cut", "cyclegan"],
       "input_reference": "evaluation_only_discovery80_psnr_ssim_lpips",
@@ -75,6 +75,22 @@
         "evidence/paper_aio/PAPER_INPUT_REFERENCE_INTERFACE_20260902.json",
         "evidence/paper_aio/PAPER_RESULT_DISPOSITION_BOUNDARY_20260902.json"
       ]
+    },
+    "unified_export_relays": {
+      "status": "THREE_DURABLE_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+      "destination_host": "4090A",
+      "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+      "control_commit": "acc4031127aad399854fc6dd7ae86c481a7a89d4",
+      "relay_pids": {
+        "5090A_plain": 2163133,
+        "5090A_stcgr": 2163134,
+        "5090B_external": 2163231
+      },
+      "password_persisted": false,
+      "performance_values_read": false,
+      "paired_metric_control": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_VERIFIED_IMPORT_RELAYS_20260902.json"
     },
     "paper_complexity_interface": {
       "status": "IMPLEMENTED_AND_GPU_SMOKE_VERIFIED_AWAITING_FINAL_EXPORTED_CHECKPOINTS",
@@ -147,7 +163,7 @@
     "next_manual_decision_window": "after_full_e200_exports_and_unified_discovery_evaluation_before_confirmation20"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "fc0d5c3e67277ddb4bd43eb565260fe48994d905",
+  "development_head_at_state_write": "acc4031127aad399854fc6dd7ae86c481a7a89d4",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

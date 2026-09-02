@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-aio-verified-import-relays-evidence-v1",
+  "captured_at": "2026-09-02T18:15:00+08:00",
+  "status": "THREE_DURABLE_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+  "purpose": "Close the source-export-to-unified-4090 staging gap without evaluating a model or exposing performance values to scheduling.",
+  "destination_host": "4090A",
+  "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+  "control": {
+    "git_commit": "acc4031127aad399854fc6dd7ae86c481a7a89d4",
+    "checkout": "/home/yc/FINAL_UNSB_CONTROL_RELAY_806a39d",
+    "checkout_clean": true,
+    "script": "/home/yc/FINAL_UNSB_CONTROL_RELAY_806a39d/operations/paper_aio_export_relay.py",
+    "script_sha256": "0211bce94a57d0c6146171f4b946ecd95c44f4ed74ff0e2871a8e417b3ef5f7e",
+    "test_status": "431_PASSED_AFTER_FINAL_RELAY_DEPLOYMENT_SOURCE"
+  },
+  "ssh_identity": {
+    "algorithm": "server-key SHA256",
+    "5090_gateway_fingerprint": "SHA256:liZ36vNCsNcNdXeWs4f+g5ZIhPM/ZihP834vxs8Ulqc",
+    "host_key_pinned_before_password_authentication": true,
+    "password_supplied_by_environment_only": true,
+    "password_persisted": false
+  },
+  "relays": [
+    {
+      "relay_id": "5090A_plain",
+      "pid": 2163133,
+      "source_host_label": "5090A",
+      "source_port": 12770,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed/exports",
+      "lanes": ["plain"],
+      "contract_sha256": "d642067d2be23b59868a6ab1166f47bd3ae4398c51334583cad93dde84b05ec5",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+    },
+    {
+      "relay_id": "5090A_stcgr",
+      "pid": 2163134,
+      "source_host_label": "5090A",
+      "source_port": 12770,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports",
+      "lanes": ["G4-01-STRATIFIED-TIME-CONDITIONAL-GF"],
+      "contract_sha256": "a6815bb461df2185a62bf871d28be1feba20e12b7689a49b1d64764c1a49c100",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+    },
+    {
+      "relay_id": "5090B_external",
+      "pid": 2163231,
+      "source_host_label": "5090B",
+      "source_port": 44804,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/exports",
+      "lanes": ["cut", "cyclegan"],
+      "contract_sha256": "85f60c0e3ab522d4c236d94b9febfbde53dd0d66a932a2bdb3f3e5aa9a059a9e",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+    }
+  ],
+  "verified_behavior": {
+    "all_processes_survived_ssh_logout_with_ppid_1": true,
+    "all_sources_authenticated_and_sftp_export_set_probe_reached": true,
+    "current_FileNotFoundError_is_expected_before_e200_export_set": true,
+    "export_receipt_sha256_checked": true,
+    "checkpoint_sha256_checked": true,
+    "sidecar_sha256_checked": true,
+    "existing_destination_hash_mismatch_fails_closed": true,
+    "partial_download_published": false,
+    "source_checkpoint_mutation": false,
+    "source_checkpoint_deletion": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "cross_host_matched_delta_merged": false,
+    "confirmation20_opened": false
+  },
+  "remaining_local_source": {
+    "lanes": ["4090A plain", "4090A Proposal-only"],
+    "transfer_required": false,
+    "reason": "Their source exports and the unified evaluation staging root are on the same physical 4090A host; they will be locally copied or bound with the same SHA256 gate after export."
+  }
+}
