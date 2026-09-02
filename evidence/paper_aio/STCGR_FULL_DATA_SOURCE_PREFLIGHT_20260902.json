@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-stcgr-source-preflight-v1",
+  "captured_at": "2026-09-02T14:44:55+08:00",
+  "status": "PASS_WAITING_FOR_SMALL25_E200",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+  "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+  "candidate_output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+  "full_data_preflight": {
+    "status": "PASS",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "content_hashes_verified": true,
+    "free_disk_gib": 186.94420623779297,
+    "effective_minimum_free_gib": 48.0
+  },
+  "implementation_manifest": {
+    "status": "FROZEN_FOR_GATES",
+    "source_file_count": 8,
+    "all_source_sha256_exact": true,
+    "failed_source_files": []
+  },
+  "successor": {
+    "pid": 298747,
+    "status": "WAITING_FOR_COMPLETE_ARTIFACTS",
+    "automatic_stop_after_e1": true
+  },
+  "full_data_candidate_authorized": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T14:12:02+08:00",
+  "state_snapshot_time": "2026-09-02T14:44:55+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -13,12 +13,12 @@
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 12, "latest_observed_updates": 102636, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 11, "latest_observed_updates": 94083, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 1, "latest_observed_updates": 8553, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 13, "latest_observed_updates": 111189, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E2_CONFIRMED", "latest_observed_data_epoch": 2, "latest_observed_updates": 17106, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "CANDIDATE_CHUNK_RUNNING",
-        "latest_observed_data_epoch": 109,
-        "latest_observed_updates": 16350,
+        "latest_observed_data_epoch": 131,
+        "latest_observed_updates": 19650,
         "target_data_epoch": 200,
         "latest_engineering_milestone": "e40_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
         "evidence": "evidence/remote_route1_offload/STCGR_E40_ENGINEERING_MILESTONE_20260902.json"
@@ -102,6 +102,8 @@
       "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
       "parent_readiness_mode": "authorized_running",
       "automatic_stop_after_candidate_e1": true,
+      "full_data_preflight_status": "PASS",
+      "frozen_source_hashes_status": "PASS_8_OF_8",
       "evidence": "evidence/paper_aio/STCGR_FULL_DATA_ACTIVATION_SUCCESSOR_ARMED_20260902.json"
     },
     "paired_metric_control": false,
@@ -111,7 +113,7 @@
     "next_manual_decision_window": "2026-09-02T17:00:00+08:00/2026-09-02T18:30:00+08:00"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "1d17065a66cebc30cef638fb4458e67054e97b28",
+  "development_head_at_state_write": "0321204b48eb9bb5d9b89236b8830f74897f2e18",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

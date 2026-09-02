@@ -1,0 +1,25 @@
+{
+  "schema": "final-unsb-paper-colocation-e2-confirmation-v1",
+  "captured_at": "2026-09-02T14:44:55+08:00",
+  "host_label": "5090B",
+  "status": "COLOCATION_CONFIRMED_CONTINUE",
+  "cut": {
+    "latest_complete_data_epoch": 13,
+    "recent_colocated_epoch_seconds": [1579.479956150055, 1622.7696630954742, 1669.4429278373718],
+    "isolated_reference_epoch_seconds": 1053.756267786026
+  },
+  "cyclegan": {
+    "latest_complete_data_epoch": 2,
+    "colocated_epoch_seconds": [2380.4493947029114, 2340.173530101776]
+  },
+  "estimated_remaining_makespan_hours_range": [129.0, 132.0],
+  "estimated_saving_over_sequential_hours_range": [9.0, 12.0],
+  "gpu_memory_mib": 3477,
+  "gpu_utilization_percent": 99,
+  "oom": false,
+  "nan": false,
+  "io_or_checkpoint_failure": false,
+  "scientific_configuration_changed": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
