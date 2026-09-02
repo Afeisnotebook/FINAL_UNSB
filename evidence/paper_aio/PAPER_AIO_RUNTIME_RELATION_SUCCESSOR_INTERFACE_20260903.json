@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-runtime-relation-successor-interface-v1",
   "captured_at": "2026-09-03T01:42:48+08:00",
-  "status": "IMPLEMENTED_TESTED_AWAITING_DEPLOYMENT",
+  "status": "IMPLEMENTED_TESTED_AND_DEPLOYED",
   "purpose": "remove the manual handoff gap after the future 5090B matched-plain runtime twin",
   "source": "operations/paper_aio_runtime_relation_successor.py",
   "inputs": [
@@ -23,5 +23,6 @@
     "compileall": "PASS",
     "git_diff_check": "PASS"
   },
+  "deployment_evidence": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_SUCCESSOR_DEPLOYED_20260903.json",
   "live_training_changed": false
 }

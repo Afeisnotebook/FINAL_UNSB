@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-runtime-relation-successor-deployment-v1",
+  "captured_at": "2026-09-03T01:46:01+08:00",
+  "status": "DEPLOYED_HEALTHY_WAITING_FOR_EXACT_5090B_RECEIPT",
+  "destination_host": "4090A",
+  "control_checkout": "/home/yc/FINAL_UNSB_CONTROL_RELATION_59faf8e",
+  "control_commit": "59faf8ea0bd06ebe9993a88c2d8c081e534ec5d8",
+  "control_checkout_clean": true,
+  "control_script": "operations/paper_aio_runtime_relation_successor.py",
+  "control_script_sha256": "9cd8994c7d0a37f9f7bfb44221bfaeed1ad132565303e7aa8d7fc49b8b990210",
+  "output": "/home/yc/runs/FINAL_UNSB_PAPER_RUNTIME_RELATION_59faf8e",
+  "successor": {
+    "pid": 2243220,
+    "ppid": 1,
+    "status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+    "contract_sha256": "2e4b4057468cd13870415be8ea73f61ec5319abaa5693c10b44aaf0ff7615540",
+    "remote_receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/gates/RUNTIME_TWIN_5090B_MATCHED_PLAIN.json",
+    "remote_receipt_exists_at_deployment": false,
+    "remote_condition": "SourceExportNotReady"
+  },
+  "health_watch": {
+    "pid": 2243442,
+    "ppid": 1,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "contract_sha256": "a210d80af9bcd3c055e298691058a26c83c26ba5877b4cbd7fde87df91047165"
+  },
+  "prepositioned_primary_receipts": {
+    "method_runtime": {
+      "source_host_label": "5090C",
+      "sha256": "fb6efa78d053092a24bd65deb284b71fb12a99c5bbe67e8692eb18a9e6230b72",
+      "destination": "/home/yc/runs/FINAL_UNSB_PAPER_RUNTIME_RELATION_59faf8e/primary_receipts/5090C/RUNTIME_TWIN.json"
+    },
+    "method_authorization": {
+      "lane_id": "proposal",
+      "sha256": "cc0f71bbb2bd7f427c49efadb810e6c35e015be4d49a91f1b72c59c106f2e88f",
+      "destination": "/home/yc/runs/FINAL_UNSB_PAPER_RUNTIME_RELATION_59faf8e/primary_receipts/5090C/LANE_AUTHORIZATION_proposal.json"
+    },
+    "byte_hashes_match_sources": true
+  },
+  "future_output": "review-only Proposal/5090C -> plain/5090B_MATCHED_PLAIN runtime-relation candidate",
+  "future_relation_candidate_exists": false,
+  "registry_edited": false,
+  "comparison_authorized": false,
+  "training_authorized_or_scheduled": false,
+  "live_training_interrupted_or_mutated": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
