@@ -83,6 +83,14 @@ class PCRSMGAblationMixin:
         self.netD.train()
         self.netF.train()
 
+    def _prepare_second_gf_view(self, first_view: dict[str, Any]) -> None:
+        """Candidate hook immediately before the second conditional G/F view."""
+        del first_view
+
+    def _finalize_gf_view_bundle(self, views: list[dict[str, Any]]) -> None:
+        """Candidate hook after both conditional G/F views are materialized."""
+        del views
+
     def _commit_native_current_view(self) -> None:
         self._set_all_train()
         self.set_requires_grad(self.netD, True)
@@ -131,9 +139,12 @@ class PCRSMGAblationMixin:
         self.set_requires_grad(self.netD, False)
         self.set_requires_grad(self.netE, False)
         gf_views = []
-        for _ in range(2):
+        for replica in range(2):
+            if replica == 1:
+                self._prepare_second_gf_view(gf_views[0])
             self.forward()
             gf_views.append(self._capture_view(self))
+        self._finalize_gf_view_bundle(gf_views)
         self._set_all_train()
         self._pcrsmg_ablation_gf_bundle_count += 1
         self._pcrsmg_ablation_last_schedule.append("GF_BUNDLE")
@@ -254,4 +265,3 @@ class PCRSMGAblationMixin:
         self._pcrsmg_ablation_last_schedule = []
         self._pcrsmg_observer_update_index = 0
         self._pcrsmg_observer_last = {}
-

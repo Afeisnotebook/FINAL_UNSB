@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-route1-derivation-card-v1",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "name": "Stratified-Time Conditional G/F Resampling",
+  "parent_evidence": {
+    "failure_type": "time_stratum_sampling_variance",
+    "parent_algorithms": [
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+    ],
+    "terminal_audit_sha256": "376fa8c4dcf7ee56d383056e05506c4ab99b79b3b3ddf601ab35dee7c5ef38f3",
+    "audited_checkpoints": 12,
+    "time_strata": 5,
+    "checkpoints_with_max_min_variance_ratio_above_two": 12,
+    "time_zero_is_max_variance_count": 9,
+    "terminal_singular_drift_confirmed": false
+  },
+  "lineage_evidence": [
+    "LONG_CAUSAL_MATRIX:sampling_variance:candidate_generation_eligible=true",
+    "RELATED_MULTI_ALGORITHM_TERMINAL:selective post-D/E two-view G/F mean is the supported gain source",
+    "TERMINAL_AUDIT_ROUTE1_5090:time-stratum gradients are heterogeneous but terminal singular drift lacks cross-lane/domain support",
+    "ANTITHETIC_GAUSSIAN_GRADIENT_AUDIT:fixed sign involution is inferior to iid pairing and is not reused"
+  ],
+  "prior_equivalence_audit": {
+    "compared_implementations": [
+      "Proposal-only iid conditional G/F pair",
+      "HJ conditional iid G/F pair",
+      "PTQ physical-time resampling",
+      "Gaussian antithetic endpoint and gradient constructions"
+    ],
+    "material_difference": "ST-CGR preserves the native uniform discrete bridge-time marginal in each replica and changes only the coupling between the two post-D/E G/F time indices from iid-with-replacement to an ordered uniform pair without replacement. PTQ changed the marginal measure; antithetic constructions coupled latent signs; Proposal/HJCGR permit duplicate time strata.",
+    "equivalent_rerun": false
+  },
+  "unsb_object": "the bridge-time component of the post-D/E conditional stochastic G/F gradient estimator under the native uniform five-index UNSB measure",
+  "formula": "Condition on the current post-D/E state and official unpaired batch. Draw I1 uniformly from {0,...,T-1}; draw I2 uniformly from the remaining T-1 indices; draw all non-time randomness independently within each view; commit ghat=(G(I1,xi1)+G(I2,xi2))/2 once through the unchanged G/F Adam optimizers.",
+  "identity_or_unbiased_condition": "Both I1 and I2 have the exact uniform native marginal, hence E[ghat|state,batch]=T^{-1} sum_t E[G_t]. Let Sigma_bar be the mean within-time covariance and V_mu the covariance of the time-conditional means using denominator T. Then Cov(ghat)=Sigma_bar/2+(T-2)V_mu/(2(T-1)), whereas the iid Proposal pair has Sigma_bar/2+V_mu/2. Their difference is V_mu/(2(T-1)), positive semidefinite. If all time-conditional means coincide the covariance is identical; disabling ST-CGR dispatches plain UNSB exactly.",
+  "objective_change": false,
+  "estimator_change": true,
+  "coordinate_change": false,
+  "endpoint_law_change": false,
+  "target_inaccessibility_proof": "The coupling reads only the first native bridge-time index and T. It never reads a paired target, domain label, image-quality metric, discovery result or confirmation sample. The no-diagonal rule and arithmetic mean are fixed before experiments.",
+  "expected_applicable_state": {
+    "condition": "two-view conditional G/F variance reduction is already beneficial and bridge-time conditional gradient means differ materially",
+    "self_null_state": "when time-conditional gradient means coincide, ST-CGR has exactly the same covariance as the iid pair; route1_stcgr_enable=false is exact plain identity",
+    "known_limit": "without-replacement coupling does not reduce the expected within-time covariance term and must be killed if fixed-state vector audits show a negligible between-time component"
+  },
+  "falsifying_experiment": "Before any long run, reject the mechanism if exhaustive marginal tests fail, zero-intervention differs from plain, full-state resume is not exact, or fixed-state gradient-vector Monte Carlo on Proposal/HJCGR states fails to show a material trace-variance reduction without mean shift. Paired PSNR is unavailable to this gate.",
+  "compute_cost": "the same two post-D/E G/F views as Proposal-only; no extra network evaluation relative to that parent and approximately twice native G/F compute",
+  "memory_cost": "unchanged from Proposal-only because the two graphs are materialized and accumulated in the same serial order",
+  "recovery_state_cost": "ordered-pair and marginal diagnostic counts plus the ordinary full RNG state; no network, teacher or optimizer is added",
+  "algorithm_hyperparameters": {
+    "gf_views": 2,
+    "time_pair": "ordered_uniform_without_replacement",
+    "native_time_marginal": "uniform",
+    "importance_weights": false,
+    "paired_threshold": false,
+    "fixed_window": false
+  },
+  "algorithm_state_variables": [
+    "bundle_count",
+    "last_time_pair",
+    "first_time_counts",
+    "second_time_counts",
+    "ordered_pair_counts"
+  ],
+  "ablation_definitions": {
+    "proposal_only": "ST-CGR on the native Proposal-only post-D/E G/F estimator while D/E remain one-view native.",
+    "observable_only": "At frozen checkpoints, compare iid and without-replacement two-view gradient vectors without committing either branch.",
+    "projected_or_full": "The complete ST-CGR estimator after the fixed-state target-blind gate; no projection or auxiliary loss is added."
+  },
+  "historical_evidence_index_sha256": "38a19ba8b467f678fee6a78629eb302709a33d7bf7cf0b237cb1a552987ebafe",
+  "mechanism_object_map_sha256": "c3ef39130697fb897cfc61e266e70e6fd5b3011f56c06b6215b1d5d10d7deb4a",
+  "reuse_boundary_sha256": "3cf4bfe2086dbaed130538c68196ddb1bd3774b72dec5f27953b9785efba5a77",
+  "construction_authority": "independent_unbiased_reparameterization",
+  "unbiased_proof": "The ordered support contains every (i,j), i!=j, with probability 1/[T(T-1)]. Each index occurs T-1 times in either coordinate, so each replica marginal is 1/T. Conditional linearity gives the native mean. Finite-population covariance gives a positive-semidefinite reduction V_mu/[2(T-1)] relative to iid pairing.",
+  "paired_target_available_to_training": false,
+  "causal_matrix_sha256": "dc54569ac474706cbe001c061f94836f90b7a1baf0ba9be944e5ebbf4f87e0d3",
+  "reversal_atlas_sha256": "965faf9a4eaf7279aed4caddc4379b5da3892d3024652210238e90d3fad3d2e1"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-route1-time-stratum-evidence-v1",
+  "recorded_at": "2026-09-02T10:33:00+08:00",
+  "source_terminal_audit_sha256": "376fa8c4dcf7ee56d383056e05506c4ab99b79b3b3ddf601ab35dee7c5ef38f3",
+  "source_lanes": ["plain", "proposal", "hjcgr"],
+  "source_epochs": [60, 100, 150, 200],
+  "checkpoint_count": 12,
+  "gradient_replicates_per_time": 4,
+  "time_indices": [0, 1, 2, 3, 4],
+  "variance_heterogeneity": {
+    "all_checkpoints_max_min_ratio_above_two": true,
+    "minimum_max_min_ratio": 2.22,
+    "time_zero_is_max_variance_count": 9,
+    "mean_variance_cv_by_lane": {
+      "plain": 0.9180322117633706,
+      "proposal": 0.40192447910178725,
+      "hjcgr": 0.6425487249059924
+    },
+    "mean_max_min_ratio_by_lane": {
+      "plain": 11.491893230573224,
+      "proposal": 3.0182681352145724,
+      "hjcgr": 6.274392596579506
+    }
+  },
+  "fixed_importance_sampling_bound": {
+    "pooled_q_proportional_to_sqrt_second_moment": [
+      0.23604480199991126,
+      0.15119194001865086,
+      0.1584119422170629,
+      0.25490931180902116,
+      0.1994420039553538
+    ],
+    "pooled_optimal_to_uniform_second_moment_ratio": 0.9595715018714513,
+    "decision": "Do not launch a fixed importance-weighted time sampler from this modest pooled bound."
+  },
+  "eligible_minimal_construction": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "operator": "ordered uniform bridge-time pair without replacement inside the already-supported two-view post-D/E G/F estimator",
+    "same_compute_as_proposal": true,
+    "native_time_marginal_preserved": true,
+    "pre_adam_mean_unbiased": true,
+    "covariance_psd_noninferior_to_iid_pair": true,
+    "requires_fixed_state_vector_audit_before_training": true
+  },
+  "closed_routes": {
+    "terminal_low_variance_singular_repair": "not supported by the required two-lane/three-domain evidence",
+    "bridge_martingale_consistency": "remains gated; this audit does not establish a terminal conditional-mean drift",
+    "fixed_importance_time_sampler": "pooled theoretical gain is too small for a long-run authorization"
+  },
+  "paired_metrics_used_after_audit_only": true,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
