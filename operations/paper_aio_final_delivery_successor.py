@@ -1,0 +1,568 @@
+"""Produce the fixed full-data complexity table and multi-algorithm portfolio.
+
+This is the final unattended paper-discovery handoff. It waits for every
+predeclared e200 evaluation/disposition, profiles the fixed e200 checkpoints in
+one 4090 environment, and combines results without ever changing a running
+experiment. AM-TNC retains its 4090A plain comparison; Proposal and ST-CGR
+retain their separately proven 5090A-plain relations.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import time
+from pathlib import Path
+from typing import Any
+
+from operations.paper_aio_algorithm_evaluation_successor import (
+    COMPLETE_STATUS as ALGORITHM_COMPLETE_STATUS,
+    validate_local_export_lane,
+)
+from operations.paper_aio_unified_evaluation_successor import (
+    COMPLETE_STATUS as FIRST_WAVE_COMPLETE_STATUS,
+    StateHeartbeat,
+    _acquire_lock,
+    _read_json,
+    _write_json,
+    import_lane_path,
+    imports_ready,
+    validate_import_lane,
+)
+from research.paper_aio.protocol import (
+    FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+    file_sha256,
+    protocol_fingerprint,
+)
+
+
+CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v1"
+STATE_SCHEMA = "final-unsb-paper-final-delivery-successor-state-v1"
+PORTFOLIO_SCHEMA = "final-unsb-paper-full-data-algorithm-portfolio-v1"
+COMPLEXITY_SCHEMA = "final-unsb-paper-complexity-profile-v1"
+DISPOSITION_SCHEMA = "final-unsb-paper-algorithm-disposition-v1"
+COMPLETE_STATUS = "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY"
+STCGR_ID = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+FIXED_FIRST_WAVE_SOURCES = {
+    "plain": "5090A",
+    "proposal": "5090C",
+    "cut": "5090B",
+    "cyclegan": "5090B",
+}
+COMPLEXITY_LANES = ("plain", "proposal", "cut", "cyclegan", "amtnc", STCGR_ID)
+
+
+def _git(repo: Path, *args: str) -> str:
+    return subprocess.check_output(
+        ["git", *args], cwd=repo, text=True, stderr=subprocess.DEVNULL,
+    ).strip()
+
+
+def completion_decision(path: Path, required_status: str) -> str:
+    if not Path(path).is_file():
+        return "WAIT"
+    status = str(_read_json(path).get("status", ""))
+    if status == required_status:
+        return "READY"
+    if status.startswith(("BLOCKED", "FAIL", "FATAL")):
+        return "BLOCKED"
+    return "WAIT"
+
+
+def validate_disposition(path: Path, method_lane: str) -> dict[str, Any]:
+    value = _read_json(path)
+    entry = value.get("entry") or {}
+    if (
+        value.get("schema") != DISPOSITION_SCHEMA
+        or value.get("status") != "COMPLETE_POSTHOC_ALGORITHM_DISPOSITION"
+        or value.get("method_lane") != method_lane
+        or value.get("primary_epoch") != 200
+        or value.get("fixed_epochs") != [100, 125, 150, 175, 200]
+        or entry.get("lane_id") != method_lane
+        or entry.get("status") != "COMPLETE_E200"
+        or (entry.get("scientific_gate") or {}).get("status") not in ("PASS", "FAIL")
+        or value.get("metric_values_used_for_training_or_scheduling") is not False
+        or value.get("best_checkpoint_selection") is not False
+        or value.get("cross_non_equivalent_runtime_delta") is not False
+        or value.get("paired_metric_control") is not False
+        or value.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError(f"invalid terminal algorithm disposition: {method_lane}")
+    receipts = value.get("evaluation_receipts")
+    if not isinstance(receipts, list) or len(receipts) != 5:
+        raise RuntimeError(f"incomplete algorithm evaluation receipts: {method_lane}")
+    for row in receipts:
+        receipt = Path(str(row.get("path", "")))
+        if not receipt.is_file() or file_sha256(receipt) != row.get("sha256"):
+            raise RuntimeError(f"algorithm evaluation receipt changed: {receipt}")
+    return value
+
+
+def validate_complexity_receipt(
+    path: Path, *, lane_id: str, checkpoint_sha256: str,
+    expected_protocol_fingerprint: str,
+    candidate_authority: Path | None = None,
+) -> dict[str, Any]:
+    value = _read_json(path)
+    expected_authority = (
+        file_sha256(candidate_authority) if candidate_authority is not None else None
+    )
+    if (
+        value.get("schema") != COMPLEXITY_SCHEMA
+        or value.get("status") != "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE"
+        or value.get("lane_id") != lane_id
+        or value.get("checkpoint_sha256") != checkpoint_sha256
+        or value.get("checkpoint_unchanged") is not True
+        or value.get("protocol_fingerprint") != expected_protocol_fingerprint
+        or value.get("evaluation_bundle_fingerprint")
+        != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
+        or value.get("portable_candidate_authority_sha256") != expected_authority
+        or value.get("source_input", {}).get("target_path_read") is not False
+        or value.get("performance_metric_values_read") is not False
+        or value.get("paired_metric_control") is not False
+        or value.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError(f"invalid complexity receipt: {lane_id}")
+    if value.get("flops", {}).get("reported") is not False:
+        raise RuntimeError("unaudited FLOPs must not be claimed")
+    return value
+
+
+def _source_rows(contract: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    import_root = Path(contract["import_root"])
+    rows = {
+        lane: validate_import_lane(
+            import_lane_path(import_root, lane, host), import_root=import_root,
+            lane_id=lane, host_label=host,
+        )
+        for lane, host in FIXED_FIRST_WAVE_SOURCES.items()
+    }
+    rows[STCGR_ID] = validate_import_lane(
+        import_lane_path(import_root, STCGR_ID, "5090A"),
+        import_root=import_root, lane_id=STCGR_ID, host_label="5090A",
+    )
+    rows["amtnc"] = validate_local_export_lane(
+        Path(contract["amtnc_export_root"]), lane_id="amtnc",
+        source_host_label="4090A",
+    )
+    return rows
+
+
+def _e200(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    matches = [row for row in rows if int(row["epoch"]) == 200]
+    if len(matches) != 1:
+        raise RuntimeError("fixed source lacks exactly one e200 checkpoint")
+    return matches[0]
+
+
+def _complexity_command(
+    *, contract: dict[str, Any], lane_id: str, checkpoint: Path,
+    destination: Path,
+) -> list[str]:
+    candidate = lane_id == STCGR_ID
+    command = [
+        contract["python"], "-m", "research.paper_aio.run",
+        "--stage", "complexity",
+        "--lane", "candidate" if candidate else lane_id,
+        "--output", str(Path(contract["output_root"]) / "complexity_work" / lane_id),
+        "--manifest", contract["manifest"],
+        "--data-root", contract["data_root"],
+        "--train-view", contract["train_view"],
+        "--gpu", str(contract["gpu"]),
+        "--checkpoint", str(checkpoint),
+        "--receipt-output", str(destination),
+    ]
+    if candidate:
+        command.extend([
+            "--candidate-id", STCGR_ID,
+            "--candidate-authority", contract["candidate_authority"],
+        ])
+    return command
+
+
+def _complexity_summary(value: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "lane_id": value["lane_id"],
+        "checkpoint_sha256": value["checkpoint_sha256"],
+        "environment": value["environment"],
+        "parameters": value["parameters"],
+        "inference": value["inference"],
+        "training_step": value["training_step"],
+        "flops": value["flops"],
+        "checkpoint_unchanged": True,
+        "target_path_read": False,
+    }
+
+
+def build_portfolio(
+    *, first_wave_results: dict[str, Any], amtnc_disposition: dict[str, Any],
+    stcgr_disposition: dict[str, Any], complexity: dict[str, dict[str, Any]],
+    source_hashes: dict[str, str], method_portfolio: dict[str, Any],
+) -> dict[str, Any]:
+    if (
+        first_wave_results.get("schema") != "final-unsb-paper-results-v1"
+        or first_wave_results.get("status") != "FIRST_WAVE_COMPLETE"
+        or first_wave_results.get("best_checkpoint_selection") is not False
+        or first_wave_results.get("paired_metric_control") is not False
+        or first_wave_results.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("first-wave paper result is incomplete or unsafe")
+    by_lane = {
+        row["lane_id"]: row for row in first_wave_results.get("lanes", [])
+        if isinstance(row, dict) and row.get("lane_id")
+    }
+    required = {"input", "plain", "proposal", "cut", "cyclegan", STCGR_ID}
+    if not required.issubset(by_lane):
+        raise RuntimeError("first-wave result lacks fixed lanes or ST-CGR")
+    methods = {
+        "proposal": {
+            "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+            "matched_plain": "5090A/plain",
+            "comparison_scope": by_lane["proposal"].get("comparison_scope"),
+            "result": by_lane["proposal"],
+        },
+        "amtnc": {
+            "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+            "matched_plain": "4090A/plain",
+            "comparison_scope": "same_source_runtime",
+            "result": amtnc_disposition["entry"],
+        },
+        "stcgr": {
+            "algorithm_id": STCGR_ID,
+            "matched_plain": "5090A/plain",
+            "comparison_scope": "same_host_cross_code_candidate_gate",
+            "result": stcgr_disposition["entry"],
+        },
+    }
+    accepted = [
+        key for key, value in methods.items()
+        if value["result"].get("scientific_gate", {}).get("status") == "PASS"
+    ]
+    failed = [
+        key for key, value in methods.items()
+        if value["result"].get("scientific_gate", {}).get("status") == "FAIL"
+    ]
+    external = {
+        lane: by_lane[lane] for lane in ("input", "cut", "cyclegan")
+    }
+    deferred = {
+        "hjcgr": method_portfolio["methods"]["hjcgr"],
+        "ddsb": method_portfolio["controls_and_external"]["ddsb"],
+    }
+    return {
+        "schema": PORTFOLIO_SCHEMA,
+        "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_AWAITING_CONFIRMATION_DECISION",
+        "primary_epoch": 200,
+        "sustained_epochs": [150, 175, 200],
+        "methods": methods,
+        "accepted_algorithms": accepted,
+        "failed_current_implementation_and_protocol": failed,
+        "external_baselines": external,
+        "plain_control": by_lane["plain"],
+        "complexity": {
+            lane: _complexity_summary(complexity[lane])
+            for lane in COMPLEXITY_LANES
+        },
+        "deferred_or_reproduction_incomplete": deferred,
+        "source_artifact_sha256": source_hashes,
+        "multiple_algorithms_allowed": True,
+        "paper_claims_frozen": False,
+        "confirmation_authorized": False,
+        "metric_values_used_for_training_or_scheduling": False,
+        "best_checkpoint_selection": False,
+        "cross_non_equivalent_runtime_delta": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+
+
+def _contract(args: argparse.Namespace) -> dict[str, Any]:
+    repo = args.repo.resolve()
+    head = _git(repo, "rev-parse", "HEAD")
+    if _git(repo, "status", "--porcelain"):
+        raise RuntimeError("final delivery checkout must be clean")
+    if head != args.required_control_git_commit:
+        raise RuntimeError("final delivery checkout moved")
+    return {
+        "schema": CONTRACT_SCHEMA,
+        "status": "FROZEN_WAITING",
+        "control_repo": str(repo),
+        "control_git_commit": head,
+        "control_script": str(Path(__file__).resolve()),
+        "control_script_sha256": file_sha256(Path(__file__).resolve()),
+        "paper_protocol_fingerprint": protocol_fingerprint(args.manifest),
+        "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+        "python": str(args.python.resolve()),
+        "output_root": str(args.output.resolve()),
+        "first_wave_output": str(args.first_wave_output.resolve()),
+        "amtnc_output": str(args.amtnc_output.resolve()),
+        "import_root": str(args.import_root.resolve()),
+        "amtnc_export_root": str(args.amtnc_export_root.resolve()),
+        "candidate_authority": str(args.candidate_authority.resolve()),
+        "first_wave_state": str(args.first_wave_state.resolve()),
+        "amtnc_state": str(args.amtnc_state.resolve()),
+        "stcgr_state": str(args.stcgr_state.resolve()),
+        "manifest": str(args.manifest.resolve()),
+        "data_root": str(args.data_root.resolve()),
+        "train_view": str(args.train_view.resolve()),
+        "gpu_lock": str(args.gpu_lock.resolve()),
+        "gpu": int(args.gpu),
+        "complexity_lanes": list(COMPLEXITY_LANES),
+        "primary_epoch": 200,
+        "poll_seconds": int(args.poll_seconds),
+        "timeout_hours": float(args.timeout_hours),
+        "metric_values_available_to_scheduler": False,
+        "best_checkpoint_selection": False,
+        "cross_non_equivalent_runtime_delta": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+
+
+def _freeze(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
+    if int(args.poll_seconds) < 30 or int(args.poll_seconds) > 600:
+        raise ValueError("poll interval must be in [30,600] seconds")
+    if float(args.timeout_hours) < 24:
+        raise ValueError("timeout must be at least 24 hours")
+    proposed = _contract(args)
+    path = Path(proposed["output_root"]) / "operations" / "FINAL_DELIVERY_CONTRACT.json"
+    if path.is_file():
+        if _read_json(path) != proposed:
+            raise RuntimeError("final delivery contract changed")
+    else:
+        _write_json(path, proposed)
+    return path, proposed
+
+
+def _verify_control(contract: dict[str, Any]) -> None:
+    repo = Path(contract["control_repo"])
+    if (
+        _git(repo, "rev-parse", "HEAD") != contract["control_git_commit"]
+        or _git(repo, "status", "--porcelain")
+        or file_sha256(Path(contract["control_script"]))
+        != contract["control_script_sha256"]
+        or protocol_fingerprint(Path(contract["manifest"]))
+        != contract["paper_protocol_fingerprint"]
+    ):
+        raise RuntimeError("final delivery control identity changed")
+
+
+def _dependencies(contract: dict[str, Any]) -> tuple[bool, dict[str, str]]:
+    states = {
+        "first_wave": completion_decision(
+            Path(contract["first_wave_state"]), FIRST_WAVE_COMPLETE_STATUS,
+        ),
+        "amtnc": completion_decision(
+            Path(contract["amtnc_state"]), ALGORITHM_COMPLETE_STATUS,
+        ),
+        "stcgr": completion_decision(
+            Path(contract["stcgr_state"]), ALGORITHM_COMPLETE_STATUS,
+        ),
+    }
+    if "BLOCKED" in states.values():
+        raise RuntimeError(f"final delivery dependency blocked: {states}")
+    imported = imports_ready(
+        Path(contract["import_root"]),
+        {**FIXED_FIRST_WAVE_SOURCES, STCGR_ID: "5090A"},
+    )
+    amtnc = (
+        Path(contract["amtnc_export_root"]) / "amtnc" / "EXPORT_SET.json"
+    ).is_file()
+    states["all_imports"] = "READY" if imported else "WAIT"
+    states["amtnc_export"] = "READY" if amtnc else "WAIT"
+    return all(value == "READY" for value in states.values()), states
+
+
+def run(args: argparse.Namespace) -> dict[str, Any]:
+    contract_path, contract = _freeze(args)
+    output = Path(contract["output_root"])
+    state_path = output / "operations" / "FINAL_DELIVERY_STATE.json"
+    lock_path = output / "operations" / "FINAL_DELIVERY.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    base = {
+        "schema": STATE_SCHEMA,
+        "pid": os.getpid(),
+        "contract": str(contract_path),
+        "contract_sha256": file_sha256(contract_path),
+        "control_git_commit": contract["control_git_commit"],
+        "metric_values_available_to_scheduler": False,
+        "paired_metric_control": False,
+        "best_checkpoint_selection": False,
+        "confirmation20_opened": False,
+    }
+    heartbeat = StateHeartbeat(state_path, base, contract["poll_seconds"])
+    started = time.time()
+    with lock_path.open("a+", encoding="utf-8") as process_handle:
+        if not _acquire_lock(process_handle, blocking=False):
+            raise RuntimeError("final delivery successor is already running")
+        heartbeat.start()
+        try:
+            while True:
+                _verify_control(contract)
+                ready, dependencies = _dependencies(contract)
+                if ready:
+                    break
+                if time.time() - started > contract["timeout_hours"] * 3600:
+                    raise TimeoutError("final delivery successor timed out")
+                heartbeat.update(
+                    status="WAITING_FOR_ALL_FIXED_E200_RESULTS",
+                    dependencies=dependencies, complexity_completed=0,
+                    performance_values_read=False,
+                    metric_values_used_for_training_or_scheduling=False,
+                )
+                time.sleep(contract["poll_seconds"])
+
+            rows = _source_rows(contract)
+            complexity_root = output / "complexity"
+            complexity_root.mkdir(parents=True, exist_ok=True)
+            values: dict[str, dict[str, Any]] = {}
+            gpu_lock = Path(contract["gpu_lock"])
+            gpu_lock.parent.mkdir(parents=True, exist_ok=True)
+            with gpu_lock.open("a+", encoding="utf-8") as gpu_handle:
+                while not _acquire_lock(gpu_handle, blocking=False):
+                    heartbeat.update(
+                        status="WAITING_FOR_SHARED_EVALUATION_GPU",
+                        complexity_completed=len(values),
+                        performance_values_read=False,
+                        metric_values_used_for_training_or_scheduling=False,
+                    )
+                    time.sleep(contract["poll_seconds"])
+                for lane_id in COMPLEXITY_LANES:
+                    source = _e200(rows[lane_id])
+                    receipt = complexity_root / f"{lane_id}.json"
+                    authority = (
+                        Path(contract["candidate_authority"])
+                        if lane_id == STCGR_ID else None
+                    )
+                    if receipt.is_file():
+                        values[lane_id] = validate_complexity_receipt(
+                            receipt, lane_id=lane_id,
+                            checkpoint_sha256=source["checkpoint_sha256"],
+                            expected_protocol_fingerprint=contract[
+                                "paper_protocol_fingerprint"
+                            ],
+                            candidate_authority=authority,
+                        )
+                        continue
+                    heartbeat.update(
+                        status="PROFILING_FIXED_E200_COMPLEXITY",
+                        current_lane=lane_id,
+                        complexity_completed=len(values),
+                        performance_values_read=False,
+                        metric_values_used_for_training_or_scheduling=False,
+                    )
+                    log = output / "logs" / f"COMPLEXITY_{lane_id}.log"
+                    log.parent.mkdir(parents=True, exist_ok=True)
+                    with log.open("a", encoding="utf-8") as handle:
+                        completed = subprocess.run(
+                            _complexity_command(
+                                contract=contract, lane_id=lane_id,
+                                checkpoint=Path(source["checkpoint"]),
+                                destination=receipt,
+                            ),
+                            cwd=contract["control_repo"], stdout=handle,
+                            stderr=subprocess.STDOUT, check=False,
+                        )
+                    if completed.returncode != 0:
+                        raise RuntimeError(f"complexity profiling failed: {lane_id}")
+                    values[lane_id] = validate_complexity_receipt(
+                        receipt, lane_id=lane_id,
+                        checkpoint_sha256=source["checkpoint_sha256"],
+                        expected_protocol_fingerprint=contract[
+                            "paper_protocol_fingerprint"
+                        ],
+                        candidate_authority=authority,
+                    )
+
+            heartbeat.update(
+                status="BUILDING_FIXED_MULTI_ALGORITHM_PORTFOLIO",
+                current_lane=None, complexity_completed=len(values),
+                performance_values_read=True,
+                metric_values_used_for_training_or_scheduling=False,
+            )
+            first_root = Path(contract["first_wave_output"])
+            amtnc_root = Path(contract["amtnc_output"])
+            first_results_path = first_root / "PAPER_RESULTS.json"
+            first_algorithm_set_path = first_root / "ALGORITHM_SET.json"
+            cohort_path = first_root / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+            amtnc_path = amtnc_root / "algorithm_dispositions" / "amtnc.json"
+            stcgr_path = first_root / "algorithm_dispositions" / f"{STCGR_ID}.json"
+            amtnc = validate_disposition(amtnc_path, "amtnc")
+            stcgr = validate_disposition(stcgr_path, STCGR_ID)
+            source_hashes = {
+                "first_wave_results": file_sha256(first_results_path),
+                "first_wave_algorithm_set": file_sha256(first_algorithm_set_path),
+                "first_wave_cohort": file_sha256(cohort_path),
+                "amtnc_disposition": file_sha256(amtnc_path),
+                "stcgr_disposition": file_sha256(stcgr_path),
+            }
+            method_portfolio = _read_json(
+                Path(contract["control_repo"]) / "configs" / "FULL_DATA_METHOD_PORTFOLIO.json"
+            )
+            result = build_portfolio(
+                first_wave_results=_read_json(first_results_path),
+                amtnc_disposition=amtnc, stcgr_disposition=stcgr,
+                complexity=values, source_hashes=source_hashes,
+                method_portfolio=method_portfolio,
+            )
+            result_path = output / "PAPER_ALGORITHM_PORTFOLIO.json"
+            _write_json(result_path, result)
+            final = {
+                **base,
+                "status": COMPLETE_STATUS,
+                "complexity_completed": len(values),
+                "portfolio": str(result_path.resolve()),
+                "portfolio_sha256": file_sha256(result_path),
+                "performance_values_read": True,
+                "performance_values_in_control_state": False,
+                "metric_values_used_for_training_or_scheduling": False,
+                "paper_claims_frozen": False,
+                "confirmation_authorized": False,
+            }
+            heartbeat.update(**final)
+            return final
+        except Exception as error:
+            heartbeat.update(
+                status="FAIL_CLOSED_REQUIRES_CODEX_AUDIT",
+                error_type=type(error).__name__, error_message=str(error),
+                metric_values_used_for_training_or_scheduling=False,
+                paired_metric_control=False, confirmation20_opened=False,
+            )
+            raise
+        finally:
+            heartbeat.close()
+
+
+def parser() -> argparse.ArgumentParser:
+    value = argparse.ArgumentParser(description=__doc__)
+    value.add_argument("--repo", type=Path, required=True)
+    value.add_argument("--required-control-git-commit", required=True)
+    value.add_argument("--python", type=Path, required=True)
+    value.add_argument("--output", type=Path, required=True)
+    value.add_argument("--first-wave-output", type=Path, required=True)
+    value.add_argument("--amtnc-output", type=Path, required=True)
+    value.add_argument("--import-root", type=Path, required=True)
+    value.add_argument("--amtnc-export-root", type=Path, required=True)
+    value.add_argument("--candidate-authority", type=Path, required=True)
+    value.add_argument("--first-wave-state", type=Path, required=True)
+    value.add_argument("--amtnc-state", type=Path, required=True)
+    value.add_argument("--stcgr-state", type=Path, required=True)
+    value.add_argument("--manifest", type=Path, required=True)
+    value.add_argument("--data-root", type=Path, required=True)
+    value.add_argument("--train-view", type=Path, required=True)
+    value.add_argument("--gpu-lock", type=Path, required=True)
+    value.add_argument("--gpu", type=int, default=0)
+    value.add_argument("--poll-seconds", type=int, default=60)
+    value.add_argument("--timeout-hours", type=float, default=720)
+    return value
+
+
+def main() -> int:
+    print(json.dumps(run(parser().parse_args()), ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
