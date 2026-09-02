@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-route1-stcgr-e175-engineering-milestone-v1",
+  "captured_at": "2026-09-02T15:52:06+08:00",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "status": "E175_CHECKPOINT_AND_FIXED_EVALUATION_COMPLETE_TRAINING_CONTINUED",
+  "scientific_commit": "0637880f8e93742a0551a30c555d02a6323f583e",
+  "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+  "candidate_fingerprint": "df0c9629e83ae05cd66f2dd1e6013fb1ba80170104fc25d0abc5617e5d91ec7a",
+  "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+  "completed_data_epoch": 175,
+  "completed_updates": 26250,
+  "checkpoint": {
+    "relative_path": "candidates/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/milestones/e175.pt",
+    "sidecar_relative_path": "candidates/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/milestones/e175.pt.json",
+    "full_state_sha256": "f64317ab44c37e81bd2b001d4207efdf368406040f501a642207cf4c0bd63bd7",
+    "scientific_state_sha256": "0cfcdee12e171132c7374698f9c7a61abe581303cb77fd2ef367f22d53ba0b11"
+  },
+  "fixed_evaluation": {
+    "relative_path": "candidates/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/metrics/e175.json",
+    "artifact_exists": true,
+    "performance_payload_read_for_scheduling_or_formula_control": false
+  },
+  "executor": {
+    "executor_pid": 287002,
+    "next_chunk": "e175_to_e180",
+    "child_pid_at_capture": 303225,
+    "status": "CANDIDATE_CHUNK_RUNNING",
+    "failed_retries_observed": 0
+  },
+  "scientific_boundaries": {
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "intermediate_paired_metric_control": false,
+    "full_data_candidate_authorized": false
+  },
+  "next_action": "continue unchanged through the complete source-bound e200 trajectory and canonical terminal receipt"
+}

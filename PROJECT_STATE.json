@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T14:44:55+08:00",
+  "state_snapshot_time": "2026-09-02T15:52:06+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -12,16 +12,16 @@
     "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 12, "latest_observed_updates": 102636, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 13, "latest_observed_updates": 111189, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E2_CONFIRMED", "latest_observed_data_epoch": 2, "latest_observed_updates": 17106, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 15, "latest_observed_updates": 128295, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 14, "latest_observed_updates": 119742, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E3_CONFIRMED", "latest_observed_data_epoch": 3, "latest_observed_updates": 25659, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "CANDIDATE_CHUNK_RUNNING",
-        "latest_observed_data_epoch": 131,
-        "latest_observed_updates": 19650,
+        "latest_observed_data_epoch": 175,
+        "latest_observed_updates": 26250,
         "target_data_epoch": 200,
-        "latest_engineering_milestone": "e40_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
-        "evidence": "evidence/remote_route1_offload/STCGR_E40_ENGINEERING_MILESTONE_20260902.json"
+        "latest_engineering_milestone": "e175_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
+        "evidence": "evidence/remote_route1_offload/STCGR_E175_ENGINEERING_MILESTONE_20260902.json"
       },
       "5090A_plain": {
         "status": "AUTHORIZED_WAITING_FOR_METRIC_BLIND_STCGR_E200_TRIGGER",
