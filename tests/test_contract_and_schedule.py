@@ -40,3 +40,19 @@ def test_active_local_route1_probe_clock_and_scope():
     assert "former four-server/four-frozen-lane validation" in contract["not_current_tasks"]
     assert "unauthorized cross-host delta merging" in contract["not_current_tasks"]
     assert "full-data execution" in contract["not_current_tasks"]
+
+
+def test_project_level_paper_override_is_explicit_and_bounded():
+    project = common.load_json("PROJECT_CONTRACT.json")
+    state = common.load_json("PROJECT_STATE.json")
+    paper = common.load_json("configs/PAPER_AIO_UNPAIRED_V1.json")
+    assert project["status"] == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION"
+    assert project["paper_full_frozen"]["updates_per_lane"] == 8553 * 200
+    assert paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
+    assert state["phase"] == "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING"
+    authorization = project["authorization_required"]
+    assert authorization["status"] == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
+    assert "confirmation20 access" in authorization["excludes"]
+    assert "cross-host method-minus-plain comparisons" in authorization["excludes"]
+    assert "paired metric training or scheduling control" in authorization["excludes"]
+    assert state["paper_aio_20260902"]["confirmation20_opened"] is False

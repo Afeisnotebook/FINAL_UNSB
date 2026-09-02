@@ -1,5 +1,25 @@
 # 先从这里开始
 
+## 当前最高优先级覆盖（2026-09-02）
+
+用户已明确启动“全量论文实验 + 下一阶段算法重构”。这项授权覆盖本文旧段落中的
+“full-data未激活/服务器仅限small25”，但不改写small25路线一的历史证据。
+
+当前科学阶段必须同时完成：
+
+- full 8553张/侧、batch1、seed2026、200 data epochs的论文对照；
+- 继续从small25长期因果证据构造新算法，不能收缩为只验证Proposal；
+- 保留HJCGR、Proposal-only、AM-TNC及后续新算法的多算法前沿；
+- 维持confirmation20封存、禁止paired在线控制、禁止跨宿主delta。
+
+当前在线分配为：4090A运行plain并自动后继Proposal；新5090B运行CUT并自动后继
+CycleGAN；旧5090A运行证据门已通过的ST-CGR small25/e200；本地负责合同、代码和只读
+审计。DDSB因没有权威公开实现保持`reproduction_incomplete`，不得跑猜测版。
+
+接手者应在本文件后优先阅读`PAPER_AIO_RESEARCH_CONTRACT_CN.md`、
+`ACTIVE_PAPER_AIO_PLAN_CN.md`与`configs/PAPER_AIO_UNPAIRED_V1.json`。下述2026-09-01
+内容是small25权威历史，不是当前算力限制。
+
 ## 当前状态（2026-09-01）
 
 ### 2026-09-01 10:25 路线一终局：两条严格算法与一条独立脆弱正方向

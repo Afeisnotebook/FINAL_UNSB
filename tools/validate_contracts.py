@@ -46,6 +46,7 @@ def main() -> int:
     project = load("PROJECT_CONTRACT.json")
     state = load("PROJECT_STATE.json")
     probes = load("configs/LOCAL_ROUTE1_PROBES.json")
+    paper = load("configs/PAPER_AIO_UNPAIRED_V1.json")
     lanes = load("configs/FOUR_LANES.json")
     data = load("DATA_CONTRACT.json")
     budget = load("COMPUTE_BUDGET.json")
@@ -54,8 +55,8 @@ def main() -> int:
     probe_ids = [probe["id"] for probe in probes["anchor_probes"]]
     check(
         project["status"]
-        == "STRICT_PASS_PRIMARY_AND_EVIDENCE_QUALIFIED_FRONTIER_RUNNING",
-        "local route-1 contract and evidence-qualified frontier are active",
+        == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION",
+        "full-data paper research and evidence-driven reconstruction are active",
     )
     check(probes["status"] == "ACTIVE_LOCAL_RESEARCH",
           "local long-horizon probes are active")
@@ -77,20 +78,43 @@ def main() -> int:
         "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md",
     }
     required_hosts = {
-        "local GTX 1660", "192.168.0.30 RTX 4090",
-        "final-unsb-5090 RTX 5090",
+        "local GTX 1660", "192.168.0.30 RTX 4090A",
+        "final-unsb-5090 RTX 5090A", "final-unsb-5090b RTX 5090B",
     }
     required_exclusions = {
-        "full-data execution", "confirmation20 access",
+        "confirmation20 access",
         "route2 handoff or exit search",
         "cross-host method-minus-plain comparisons",
+        "paired metric training or scheduling control",
+        "best checkpoint selection",
+        "unprovided extra RTX 4090 hosts",
     }
     check(
-        offload.get("status") == "GRANTED_MULTI_HOST_ROUTE1_ONLY"
+        offload.get("status") == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
         and required_decisions.issubset(set(offload.get("decisions", [])))
+        and "decisions/DEC-20260902-PAPER-AIO-ACTIVATION.md"
+        in set(offload.get("decisions", []))
         and required_hosts == set(offload.get("hosts", []))
         and required_exclusions.issubset(set(offload.get("excludes", []))),
-        "multi-host route-1 offload has explicit bounded authorization",
+        "paper and route-1 multi-host work has explicit bounded authorization",
+    )
+    full = project["paper_full_frozen"]
+    check(
+        paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
+        and full["manifest_sha256"] == data["canonical_manifest_sha256"]
+        and full["train_per_side"] == 8553
+        and full["updates_per_lane"] == 1_710_600
+        and full["batch_size"] == 1
+        and full["confirmation_locked"] is True,
+        "paper contract, protocol and full-data clock agree",
+    )
+    current = state.get("paper_aio_20260902") or {}
+    check(
+        state.get("phase") == "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING"
+        and current.get("paired_metric_control") is False
+        and current.get("cross_host_deltas_merged") is False
+        and current.get("confirmation20_opened") is False,
+        "active state preserves paper drift firewalls",
     )
     check(lanes["status"] == "SUSPENDED_NOT_CURRENT",
           "former four-lane server plan is suspended")

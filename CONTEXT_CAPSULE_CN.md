@@ -3,6 +3,23 @@
 这份文件专门给完全没有旧对话上下文的新 Codex。它只保留会改变最后一轮决策的
 事实，不要求接手者重新阅读旧仓库。
 
+## 0.00 2026-09-02全量论文阶段覆盖（当前最高优先级）
+
+用户已明确授权全量8553张/侧、batch1、seed2026、真实e200论文实验，并要求长基线运行
+期间继续算法重构。这覆盖0.1节“full-data未激活”的旧权限边界，但不覆盖以下安全边界：
+confirmation20继续封存；paired指标不能控制训练；不同宿主delta不得合并；checkpoint
+不得跨宿主续接；一个action-priority候选不等于唯一科学算法。
+
+当前4090A运行full plain，完成后同宿主自动验门并运行Proposal；新5090B运行CUT，
+完成后自动验门并运行CycleGAN；旧5090A运行新构造ST-CGR的small25/e200。终端低方差
+奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；ST-CGR来自已确认的
+time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB没有找到作者公开源码，
+当前只可标记`reproduction_incomplete`。
+
+全量科学commit为`31f2fb8...`、协议指纹为`68f53a8e...`。较新commit只可增加门禁、
+持久编排、候选代码与compact evidence，不能修改在飞科学轨迹。当前合同见
+`PAPER_AIO_RESEARCH_CONTRACT_CN.md`，执行状态见`ACTIVE_PAPER_AIO_PLAN_CN.md`。
+
 ## 0. 2026-08-29 历史优先级覆盖
 
 本胶囊原来的结尾曾把项目收口为“四张4090、四条冻结lane”。用户随后明确暂停

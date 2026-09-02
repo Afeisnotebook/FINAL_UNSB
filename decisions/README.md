@@ -66,3 +66,14 @@ authorize compute.
     seed2026、e200，不声明多seed或全量数据稳定。
 
 同日文件若涉及不同对象并非互相覆盖；只有明确写出被替代字段的后决策才覆盖前决策。
+
+## 2026-09-02 全量论文阶段覆盖
+
+20. `DEC-20260902-PAPER-AIO-ACTIVATION.md`：用户明确授权全量paper runner和继续算法
+    重构；只覆盖旧small25-only算力限制，不覆盖confirmation、paired控制、跨宿主delta等
+    安全边界。
+21. `DEC-20260902-PAPER-AIO-DDSB-SOURCE-GATE.md`：DDSB无权威公开实现，状态为
+    `reproduction_incomplete`，不能用猜测版冒充论文对手。
+22. `DEC-20260902-PAPER-AIO-NEW5090-CUT-ASSIGNMENT.md`：新5090通过门后运行CUT。
+23. `DEC-20260902-PAPER-AIO-DURABLE-SUCCESSION.md`：plain→Proposal与CUT→CycleGAN只在
+    前序固定e200完成、后继全部工程门通过后自动衔接。

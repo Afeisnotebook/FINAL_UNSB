@@ -1,20 +1,23 @@
 {
   "schema_version": 1,
-  "project_id": "FINAL_UNSB_LOCAL_ROUTE1_DISCOVERY",
-  "status": "STRICT_PASS_PRIMARY_AND_EVIDENCE_QUALIFIED_FRONTIER_RUNNING",
-  "objective": "On the deterministic clean UNSB baseline, use long-horizon evidence from multiple probe families to discover and reconstruct a new algorithm capable of retaining matched benefit over 200 data epochs.",
+  "project_id": "FINAL_UNSB_PAPER_AIO_AND_ROUTE1_RECONSTRUCTION",
+  "status": "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION",
+  "objective": "Run a paper-grade full-data All-in-One unpaired comparison while continuing evidence-driven reconstruction of one or more UNSB algorithms capable of retaining benefit over 200 data epochs.",
   "guarantees": [
     "a time-scale-correct long-horizon evidence atlas",
     "at least one evidence-derived route-1 candidate and one current-best fallback",
     "traceable code, data, configuration, checkpoint and evaluation identities",
-    "one explicit action-priority candidate without deleting the complete evidence-qualified frontier"
+    "one explicit action-priority candidate without deleting the complete evidence-qualified frontier",
+    "fixed-e200 full-data trajectories for every authorized paper lane",
+    "honest separation of scientific failure, engineering failure and reproduction incomplete"
   ],
   "non_guarantees": [
     "positive PSNR or successful reproduction of historical methods",
     "cross-seed stability",
     "paper confirmation",
     "completion of the original 400-epoch UNSB schedule",
-    "eligibility for any server work beyond the explicitly authorized host-matched small25 route-1 scope"
+    "availability of the two additional recommended RTX 4090 hosts before the user supplies them",
+    "DDSB reproduction without authoritative source or uniquely specified implementation"
   ],
   "frozen": {
     "seed": 2026,
@@ -30,6 +33,23 @@
     "primary_checkpoint_epoch": 200,
     "trajectory_epochs": [1, 5, 10, 20, 40, 60, 80, 100, 125, 150, 175, 200],
     "confirmation_locked": true
+  },
+  "paper_full_frozen": {
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "train_per_side": 8553,
+    "discovery_total": 480,
+    "confirmation_total": 120,
+    "epochs": 200,
+    "updates_per_lane": 1710600,
+    "batch_size": 1,
+    "resolution": 128,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "primary_checkpoint_epoch": 200,
+    "sustained_epochs": [150, 175, 200],
+    "confirmation_locked": true,
+    "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
   },
   "development_selection_policy": {
     "mode": "EMERGENCY_SINGLE_SEED",
@@ -50,21 +70,26 @@
   "suspended_server_lane_contract": "configs/FOUR_LANES.json",
   "data_contract": "DATA_CONTRACT.json",
   "authorization_required": {
-    "status": "GRANTED_MULTI_HOST_ROUTE1_ONLY",
+    "status": "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION",
     "decisions": [
       "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
       "decisions/DEC-20260830-ROUTE1-REMOTE5090.md",
-      "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md"
+      "decisions/DEC-20260830-ROUTE1-INDEPENDENT-PROBE-CONCURRENCY.md",
+      "decisions/DEC-20260902-PAPER-AIO-ACTIVATION.md"
     ],
-    "hosts": ["local GTX 1660", "192.168.0.30 RTX 4090", "final-unsb-5090 RTX 5090"],
-    "scope": "host-matched small25 route1 anchors, causal audits, and evidence-frozen candidates after per-host preflight",
+    "hosts": ["local GTX 1660", "192.168.0.30 RTX 4090A", "final-unsb-5090 RTX 5090A", "final-unsb-5090b RTX 5090B"],
+    "scope": "frozen full-data paper lanes plus host-separated small25 evidence-derived candidate research, each after source-bound per-host gates",
     "excludes": [
       "former four-server/four-lane plan",
-      "full-data execution",
       "confirmation20 access",
       "route2 handoff or exit search",
-      "cross-host method-minus-plain comparisons"
+      "cross-host method-minus-plain comparisons",
+      "paired metric training or scheduling control",
+      "best checkpoint selection",
+      "unprovided extra RTX 4090 hosts"
     ]
   },
-  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen protocol before its paired target metrics are read. A canonical primary does not prune complete strict-pass or causally repairable near-boundary mechanisms. The two explicitly authorized servers may execute only the host-matched route1 scope in the listed decisions; any broader server use requires a new user decision."
+  "paper_contract": "PAPER_AIO_RESEARCH_CONTRACT_CN.md",
+  "active_paper_plan": "ACTIVE_PAPER_AIO_PLAN_CN.md",
+  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen target-blind gate before paired target metrics are read. A canonical primary does not prune the complete evidence-qualified frontier. Live full-data lanes remain pinned to their scientific commit and protocol fingerprint; newer orchestration cannot mutate them. Confirmation20, cross-host deltas, route2 and unprovided compute remain forbidden without a new explicit decision."
 }
