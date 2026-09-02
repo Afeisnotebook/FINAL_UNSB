@@ -1,0 +1,101 @@
+{
+  "schema": "final-unsb-paper-durable-export-successors-evidence-v1",
+  "captured_at": "2026-09-02T12:28:40.6360806+08:00",
+  "control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468",
+  "control_protocol_fingerprint": "3f339224de364e7caf7a426782da1f361cf7b1e2afec0a62942dc52cfbbe4ef5",
+  "scientific_training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "scientific_training_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "source_export_epochs": [100, 125, 150, 175, 200],
+  "deployment_incident": {
+    "initial_process_ids": {
+      "4090A_plain": 2101257,
+      "4090A_proposal": 2101258,
+      "5090B_cut": 9435,
+      "5090B_cyclegan": 9436
+    },
+    "failure": "control worktree root was absent from PYTHONPATH, so each process exited at import before a contract, state, checkpoint or export was accessed",
+    "scientific_effect": "none",
+    "repair": "restart from the same immutable control worktree with PYTHONPATH bound to the repository root and src directory"
+  },
+  "successors": [
+    {
+      "host": "4090A",
+      "lane_id": "plain",
+      "pid": 2101680,
+      "status": "WAITING_FOR_COMPLETE_E200",
+      "contract": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/operations/EXPORT_SUCCESSOR_plain_CONTRACT.json",
+      "contract_sha256": "d099820509487b695e928bbb3f7263e2b58d67f1fcbc268cc2452e888fe71b07",
+      "destination": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/exports"
+    },
+    {
+      "host": "4090A",
+      "lane_id": "proposal",
+      "pid": 2101681,
+      "status": "WAITING_FOR_COMPLETE_E200",
+      "contract": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/operations/EXPORT_SUCCESSOR_proposal_CONTRACT.json",
+      "contract_sha256": "e3fc5eebaf2cd48f330c6db65c3228802903f08932d63fbe44bec68cb6994769",
+      "destination": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/exports"
+    },
+    {
+      "host": "5090B",
+      "lane_id": "cut",
+      "pid": 9515,
+      "status": "WAITING_FOR_COMPLETE_E200",
+      "contract": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/operations/EXPORT_SUCCESSOR_cut_CONTRACT.json",
+      "contract_sha256": "55d7f65b71e8c88e102d55f5e29d6f905dcad1559e32ae169ba9bcd2dcc7e490",
+      "destination": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/exports"
+    },
+    {
+      "host": "5090B",
+      "lane_id": "cyclegan",
+      "pid": 9516,
+      "status": "WAITING_FOR_COMPLETE_E200",
+      "contract": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/operations/EXPORT_SUCCESSOR_cyclegan_CONTRACT.json",
+      "contract_sha256": "2943e47928994da784aac9a194ed3d9c458b43aba55272e897d50792b3aab0a2",
+      "destination": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/exports"
+    }
+  ],
+  "control_worktrees": {
+    "4090A": {
+      "path": "/home/yc/FINAL_UNSB_PAPER_CONTROL_WT_1c65ce4",
+      "head": "1c65ce463eaa305ab0f889486f73004439317468",
+      "clean": true
+    },
+    "5090B": {
+      "path": "/root/autodl-tmp/FINAL_UNSB_PAPER_CONTROL_WT_1c65ce4",
+      "head": "1c65ce463eaa305ab0f889486f73004439317468",
+      "clean": true
+    }
+  },
+  "scientific_checkouts_unchanged": {
+    "4090A": {
+      "path": "/home/yc/FINAL_UNSB_PAPER_AIO_6a68e2c",
+      "head": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "clean": true,
+      "active_lane": "plain",
+      "latest_observed_data_epoch": 8,
+      "latest_observed_updates": 68424
+    },
+    "5090B": {
+      "path": "/root/autodl-tmp/FINAL_UNSB_PAPER_AIO_31f2fb8",
+      "head": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "clean": true,
+      "active_lane": "cut",
+      "latest_observed_data_epoch": 7,
+      "latest_observed_updates": 59871
+    },
+    "5090A": {
+      "active_lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "latest_observed_data_epoch": 51,
+      "latest_observed_updates": 7650,
+      "target_data_epoch": 200
+    }
+  },
+  "performance_values_read": false,
+  "performance_values_available_to_scheduling": false,
+  "checkpoint_copy_performed": false,
+  "scientific_training_code_mutated": false,
+  "paired_metric_control": false,
+  "cross_host_delta_merged": false,
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T12:06:00+08:00",
+  "state_snapshot_time": "2026-09-02T12:28:40.6360806+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -12,11 +12,12 @@
     "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 7, "successor": "proposal"},
-      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 6, "successor": "cyclegan"},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 8, "latest_observed_updates": 68424, "successor": "proposal"},
+      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 7, "latest_observed_updates": 59871, "successor": "cyclegan"},
       "5090A_stcgr_small25": {
         "status": "CANDIDATE_CHUNK_RUNNING",
-        "latest_observed_data_epoch": 40,
+        "latest_observed_data_epoch": 51,
+        "latest_observed_updates": 7650,
         "target_data_epoch": 200,
         "latest_engineering_milestone": "e40_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
         "evidence": "evidence/remote_route1_offload/STCGR_E40_ENGINEERING_MILESTONE_20260902.json"
@@ -48,6 +49,16 @@
       "training_checkpoint_read_only": true,
       "cross_host_training_delta_merged": false,
       "evidence": "evidence/paper_aio/PAPER_UNIFIED_EVALUATION_COHORT_INTERFACE_20260902.json"
+    },
+    "durable_source_export_successors": {
+      "status": "FOUR_SUCCESSORS_WAITING_FOR_COMPLETE_E200",
+      "control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468",
+      "control_protocol_fingerprint": "3f339224de364e7caf7a426782da1f361cf7b1e2afec0a62942dc52cfbbe4ef5",
+      "lanes": ["plain", "proposal", "cut", "cyclegan"],
+      "epochs": [100, 125, 150, 175, 200],
+      "performance_values_read": false,
+      "checkpoint_copy_performed": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_EXPORT_SUCCESSORS_20260902.json"
     },
     "active_new_candidate_receipt_successor": {
       "status": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",
