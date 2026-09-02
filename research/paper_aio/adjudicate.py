@@ -87,6 +87,7 @@ def _candidate_definitions(output_root: Path) -> list[dict]:
                 "same_host_cross_code_runtime_gate"
             ),
             "candidate_lock": str(path.resolve()),
+            "first_wave": False,
         })
     return definitions
 
@@ -100,6 +101,7 @@ def adjudicate(output_root: Path) -> dict:
         "metrics_root": output_root, "plain_root": output_root,
         "comparison_scope": "one_container_unified_evaluation",
         "candidate_lock": None,
+        "first_wave": True,
     }]
     definitions.extend([
         {
@@ -111,6 +113,7 @@ def adjudicate(output_root: Path) -> dict:
                 else "standalone_fixed_protocol"
             ),
             "candidate_lock": None,
+            "first_wave": bool(row.get("first_wave", True)),
         }
         for row in protocol["lanes"]
     ])
@@ -121,13 +124,35 @@ def adjudicate(output_root: Path) -> dict:
         metrics_root = Path(definition["metrics_root"])
         plain_root = Path(definition["plain_root"])
         terminal = _metric(metrics_root, lane, 200)
+        supervisor_path = metrics_root / "gates" / f"SUPERVISOR_{lane}.json"
+        supervisor = _read(supervisor_path) if supervisor_path.is_file() else {}
+        authorization_path = (
+            metrics_root / "gates" / f"CANDIDATE_AUTHORIZATION_{lane}.json"
+        )
+        if terminal is not None:
+            status = "COMPLETE_E200"
+        elif lane == "ddsb" and definition["backend"] == "external_locked":
+            status = "REPRODUCTION_INCOMPLETE"
+        elif str(supervisor.get("status", "")).startswith("BLOCKED"):
+            status = "ENGINEERING_BLOCKED"
+        elif definition["candidate_lock"] is not None:
+            status = (
+                "INCOMPLETE_AUTHORIZED" if authorization_path.is_file() else
+                "EVIDENCE_LOCKED_NOT_AUTHORIZED"
+            )
+        elif definition["first_wave"] is False:
+            status = "DEFERRED_NOT_FIRST_WAVE"
+        else:
+            status = "INCOMPLETE"
         entry = {
             "lane_id": lane,
             "role": definition["role"],
             "backend": definition["backend"],
             "comparison_scope": definition["comparison_scope"],
             "candidate_lock": definition["candidate_lock"],
-            "status": "COMPLETE_E200" if terminal is not None else "INCOMPLETE",
+            "status": status,
+            "first_wave": bool(definition["first_wave"]),
+            "supervisor_status": supervisor.get("status"),
             "terminal": None if terminal is None else {
                 key: terminal[key] for key in ("macro_psnr", "macro_ssim", "macro_lpips")
             },
@@ -238,11 +263,32 @@ def adjudicate(output_root: Path) -> dict:
     write_json(output_root / "PAPER_RESULTS.json", result)
     algorithm_set = {
         "schema": "final-unsb-paper-algorithm-set-v1",
-        "status": "FROZEN" if result["status"] == "FIRST_WAVE_COMPLETE" else "INCOMPLETE",
+        "status": (
+            "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING"
+            if result["status"] == "FIRST_WAVE_COMPLETE" else "INCOMPLETE"
+        ),
         "accepted_algorithms": [
             row["lane_id"] for row in lanes
             if row.get("scientific_gate", {}).get("status") == "PASS"
         ],
+        "scientific_failures": [
+            row["lane_id"] for row in lanes
+            if row.get("scientific_gate", {}).get("status") == "FAIL"
+        ],
+        "reproduction_incomplete": [
+            row["lane_id"] for row in lanes
+            if row["status"] == "REPRODUCTION_INCOMPLETE"
+        ],
+        "engineering_blocked": [
+            row["lane_id"] for row in lanes
+            if row["status"] == "ENGINEERING_BLOCKED"
+        ],
+        "deferred_not_first_wave": [
+            row["lane_id"] for row in lanes
+            if row["status"] == "DEFERRED_NOT_FIRST_WAVE"
+        ],
+        "paper_claims_frozen": False,
+        "confirmation_authorized": False,
         "multiple_algorithms_allowed": True,
         "confirmation20_opened": False,
     }

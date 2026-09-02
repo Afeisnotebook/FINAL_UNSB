@@ -156,6 +156,11 @@ def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
     result = adjudicate(tmp_path)
     assert result["results"]["status"] == "FIRST_WAVE_INCOMPLETE"
     assert result["results"]["unified_evaluation_cohort_pass"] is False
+    initial = {row["lane_id"]: row for row in result["results"]["lanes"]}
+    assert initial["ddsb"]["status"] == "REPRODUCTION_INCOMPLETE"
+    assert initial["hjcgr"]["status"] == "DEFERRED_NOT_FIRST_WAVE"
+    assert result["algorithm_set"]["reproduction_incomplete"] == ["ddsb"]
+    assert result["algorithm_set"]["paper_claims_frozen"] is False
     for epoch in (150, 175, 200):
         plain = tmp_path / "lanes" / "plain" / "metrics" / f"e{epoch:03d}.json"
         proposal = tmp_path / "lanes" / "proposal" / "metrics" / f"e{epoch:03d}.json"
@@ -196,6 +201,10 @@ def test_first_wave_completion_requires_unified_cohort_and_four_lanes(tmp_path: 
     result = adjudicate(tmp_path)
     assert result["results"]["status"] == "FIRST_WAVE_COMPLETE"
     assert result["results"]["unified_evaluation_cohort_pass"] is True
+    assert result["algorithm_set"]["status"] == (
+        "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING"
+    )
+    assert result["algorithm_set"]["confirmation_authorized"] is False
 
 
 def test_adjudication_includes_evidence_locked_dynamic_candidate(tmp_path: Path) -> None:

@@ -26,7 +26,7 @@ from .protocol import (
     object_sha256,
     protocol_fingerprint,
 )
-from .runtime import _annotated_rows, load_full_state, prepare_lane
+from .runtime import _annotated_rows, load_full_state, manifest_report, prepare_lane
 
 
 EXPORT_SCHEMA = "final-unsb-paper-checkpoint-export-v1"
@@ -242,6 +242,7 @@ def evaluate_input_reference(
     output_root = Path(output_root).resolve()
     data_root = Path(data_root).resolve()
     manifest_path = Path(manifest_path).resolve()
+    manifest_report(manifest_path, data_root=data_root)
     device = torch.device(
         f"cuda:{int(gpu)}" if torch.cuda.is_available() else "cpu"
     )

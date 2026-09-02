@@ -117,3 +117,10 @@ copied checkpoint hash, metric hash, CRN policy and read-only flag. Only this
 cohort can change `PAPER_RESULTS.json` from `FIRST_WAVE_INCOMPLETE` to
 `FIRST_WAVE_COMPLETE`; host-separated training remains explicit and no
 CUT/CycleGAN-minus-plain matched claim is created.
+
+First-wave completion is deliberately not the algorithm/claim freeze.
+`ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
+deferred and engineering-blocked lanes, and remains
+`FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING` until every evidence-authorized
+new algorithm has received its own disposition. Confirmation is still locked
+at that point.
