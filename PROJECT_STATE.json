@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T20:18:09+08:00",
+  "state_snapshot_time": "2026-09-02T20:55:05+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -12,9 +12,9 @@
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 29, "latest_observed_updates": 248037, "successor": "amtnc", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 24, "latest_observed_updates": 205272, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E10_CONFIRMED", "latest_observed_data_epoch": 10, "latest_observed_updates": 85530, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 31, "latest_observed_updates": 265143, "successor": "amtnc", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 26, "latest_observed_updates": 222378, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E11_CONFIRMED", "latest_observed_data_epoch": 11, "latest_observed_updates": 94083, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -25,8 +25,9 @@
       },
       "5090A_plain": {
         "status": "CHILD_RUNNING_AFTER_METRIC_BLIND_STCGR_E200_TRIGGER",
-        "latest_observed_data_epoch": 3,
-        "latest_observed_updates": 25659,
+        "latest_observed_data_epoch": 4,
+        "latest_observed_updates": 34212,
+        "first_isolated_epoch_seconds": 2495.9294855594635,
         "trigger_supervisor_pid": 296778,
         "supervisor_pid": 305489,
         "trainer_pid": 305490,
@@ -44,7 +45,8 @@
         "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
         "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
         "matched_plain": "5090A_plain",
-        "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT"
+        "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
+        "first_full_epoch_status": "PENDING"
       }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
@@ -186,8 +188,8 @@
       "stcgr": "e1_complete_queued_after_5090A_plain",
       "hjcgr": "deferred_not_falsified",
       "portfolio": "configs/FULL_DATA_METHOD_PORTFOLIO.json",
-      "decision": "decisions/DEC-20260902-5090C-GLOBAL-PORTFOLIO-RESCHEDULE.md",
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json"
+      "decision": "decisions/DEC-20260902-PAPER-ISOLATED-THROUGHPUT-RECALIBRATION.md",
+      "evidence": "evidence/paper_aio/PAPER_AIO_ISOLATED_THROUGHPUT_RECALIBRATION_20260902.json"
     },
     "matched_runtime_relation_gate": {
       "status": "IMPLEMENTED_FAIL_CLOSED_AWAITING_E200_CHECKPOINTS",
@@ -208,8 +210,8 @@
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
-    "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json",
+    "critical_path_audit": "evidence/paper_aio/PAPER_AIO_ISOLATED_THROUGHPUT_RECALIBRATION_20260902.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_ISOLATED_THROUGHPUT_RECALIBRATION_20260902.json",
     "next_manual_decision_window": "2026-09-11_before_5090C_rental_cutoff_extend_one_day_minimum_two_days_safe"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",

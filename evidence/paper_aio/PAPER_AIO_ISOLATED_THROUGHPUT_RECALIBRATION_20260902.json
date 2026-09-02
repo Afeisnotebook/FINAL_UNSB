@@ -1,0 +1,156 @@
+{
+  "schema": "final-unsb-paper-isolated-throughput-recalibration-v1",
+  "captured_at": "2026-09-02T20:55:05+08:00",
+  "status": "CURRENT_SCHEDULE_RETAINED_AFTER_GLOBAL_REAUDIT",
+  "supersedes_completion_estimates_only": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json",
+  "decision": "retain 5090C Proposal, 4090A plain-to-AM-TNC, 5090A plain-to-ST-CGR, and colocated CUT/CycleGAN",
+  "north_star": "obtain multiple paper-value full-data long-horizon algorithm trajectories as early as possible",
+  "live_snapshot": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 31,
+      "updates": 265143,
+      "recent_epoch_seconds": [1266.464995622635, 1264.7856130599976, 1261.2177889347076, 1262.6164920330048, 1266.2285816669464],
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "gpu_memory_mib": 1663,
+      "gpu_utilization_percent": 53,
+      "successor": "AM-TNC",
+      "successor_pid": 2182585,
+      "export_successor_pid": 2182586
+    },
+    "5090A_plain": {
+      "status": "CHILD_RUNNING_ISOLATED_AFTER_STCGR_E1",
+      "data_epoch": 4,
+      "updates": 34212,
+      "first_isolated_epoch_seconds": 2495.9294855594635,
+      "preceding_coresident_epoch_seconds": 4159.100169420242,
+      "supervisor_pid": 305489,
+      "trainer_pid": 305490,
+      "gpu_memory_mib": 1762,
+      "gpu_utilization_percent": 35,
+      "disk_free_gib": 185,
+      "capacity_gate": "USER_CAPACITY_OVERRIDE_ACTIVE_NO_REAL_WRITE_RISK"
+    },
+    "5090A_stcgr": {
+      "status": "E1_COMPLETE_WAIT_PARENT_E200",
+      "data_epoch": 1,
+      "updates": 8553,
+      "coresident_epoch_seconds": 9609.62650346756,
+      "continuation_pid": 308472,
+      "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 26,
+      "updates": 222378,
+      "epoch_seconds": 1669.4747381210327,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 11,
+      "updates": 94083,
+      "epoch_seconds": 2328.2510397434235,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING_PRE_FIRST_FULL_EPOCH",
+      "elapsed_seconds": 2603,
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "import_relay_pid": 2182279,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+      "scientific_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "gpu_memory_mib": 2146,
+      "gpu_utilization_percent": 39,
+      "disk_free_gib": 231,
+      "first_epoch_calibration_pending": true
+    },
+    "local_gtx1660": {
+      "status": "READY_FOR_INCOMING_READ_ONLY_EVALUATION",
+      "gpu_memory_mib": 738,
+      "gpu_utilization_percent": 4,
+      "unblocked_local_work": "complete",
+      "reason_not_filled": "terminal diagnostics, Input and complexity interfaces are complete; DDSB is authority-blocked and remaining evaluation requires incoming fixed checkpoints"
+    }
+  },
+  "dependency_dag": {
+    "independent_running_roots": [
+      "4090A plain e200",
+      "5090A plain e200",
+      "5090B CUT e200",
+      "5090B CycleGAN e200",
+      "5090C Proposal e200"
+    ],
+    "metric_blind_successors": [
+      "4090A plain COMPLETE_E200 -> AM-TNC e200 -> source-bound export",
+      "5090A plain COMPLETE_E200 -> ST-CGR resume e2-e200 -> source-bound export",
+      "each lane COMPLETE_E200 -> source-bound export -> verified relay -> unified 4090 evaluation"
+    ],
+    "scientifically_blocked": [
+      "DDSB e200 waits for authoritative formula-source-implementation lock",
+      "confirmation20 waits for algorithm and table freeze"
+    ]
+  },
+  "runtime_relations": {
+    "5090C_proposal_matched_plain": "5090A/plain",
+    "5090C_5090A_relation": "PASS_EXACT_RUNTIME_COHORT",
+    "relation_updates": 2000,
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "4090A_amtnc_matched_plain": "4090A/plain",
+    "5090A_stcgr_matched_plain": "5090A/plain",
+    "cross_non_equivalent_delta_allowed": false
+  },
+  "recalibrated_completion_windows": {
+    "4090A_plain": "2026-09-05T08:15:00+08:00",
+    "5090B_cut": "2026-09-06",
+    "5090B_cyclegan": "2026-09-08",
+    "5090A_plain_from_first_isolated_epoch": "2026-09-08T13:00:00+08:00",
+    "4090A_amtnc": "2026-09-11/2026-09-12",
+    "5090C_proposal_provisional_from_1000_update_gate": "2026-09-13T15:00:00+08:00",
+    "5090A_stcgr_from_isolation_bracket": "2026-09-20/2026-09-22",
+    "first_external_baseline_set": "2026-09-08",
+    "first_matched_in_house_method": "2026-09-11/2026-09-12",
+    "two_matched_in_house_methods": "2026-09-13/2026-09-14",
+    "three_matched_in_house_methods": "2026-09-20/2026-09-22",
+    "proposal_first_full_epoch_required_to_replace_provisional_date": true
+  },
+  "schedule_adjudication": {
+    "old_pre_5090c_queue_optimal": false,
+    "current_queue_optimal_under_available_evidence": true,
+    "why": [
+      "Proposal leaves the long 4090A serial chain and uses the only exact cross-host runtime relation",
+      "AM-TNC adds an independent Adam-metric geometry result on its strict same-host plain",
+      "ST-CGR retains the evidence-derived bridge-time estimator and its same-host cross-code gate",
+      "CUT and CycleGAN already share 5090B with a measured makespan benefit",
+      "moving or adding a lane now would either lose a strict matched plain, delay an earlier endpoint, or create an experiment without evidence authority"
+    ],
+    "rejected_now": {
+      "swap_5090c_to_amtnc": "reintroduces Proposal behind 4090A plain and delays the most portable historical signal",
+      "start_hjcgr": "full-data duration exceeds the rental window and current implementation has cross-runtime terminal-sign risk",
+      "start_ddsb": "authoritative reproduction lock is absent",
+      "add_unprepared_external_lane": "does not beat the current multi-algorithm critical path and lacks completed engineering gates",
+      "colocate_amtnc_or_stcgr_now": "measured co-residence increased total completion time"
+    }
+  },
+  "next_triggers": {
+    "automatic": "5090C Proposal e1 heartbeat, then replace provisional Proposal throughput without reading paired metrics",
+    "manual": "2026-09-11 before 5090C rental cutoff; provision at least one extra day and preferably two if the first-epoch estimate remains near 10.76 days"
+  },
+  "verification": {
+    "local_tests": "440 passed",
+    "json_files_validated": 224,
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "paired_performance_read": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false
+  }
+}

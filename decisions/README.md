@@ -96,3 +96,7 @@ authorize compute.
 29. `DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md`：统一评估环境只消除评估器差异，
     不能单独证明跨宿主训练matched。Proposal/5090C与plain/5090A的delta必须同时通过
     CRN逐图身份和预训练2000步runtime relation；缺少任一项即fail closed。
+30. `DEC-20260902-PAPER-ISOLATED-THROUGHPUT-RECALIBRATION.md`：首个脱离共驻的5090A
+    plain完整epoch把matched control与ST-CGR关键路径显著提前；5090C Proposal仍保留
+    独立卡位并等待首个完整epoch校准。该决策只覆盖旧完成日期，不覆盖算法、训练协议或
+    科学裁决。

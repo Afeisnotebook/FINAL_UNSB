@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-02T20:18:09+08:00",
+  "captured_at": "2026-09-02T20:55:05+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -8,6 +8,7 @@
       "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
       "status": "running",
       "host": "5090C",
+      "first_full_epoch_status": "pending",
       "matched_plain": "5090A/plain",
       "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
       "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
@@ -18,6 +19,7 @@
       "status": "queued",
       "host": "5090A",
       "completed_full_data_epoch": 1,
+      "projected_isolated_completion_window": "2026-09-20/2026-09-22",
       "resume_after": "5090A/plain COMPLETE_E200",
       "scientific_role": "new evidence-derived stratified bridge-time estimator"
     },
@@ -25,6 +27,7 @@
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
       "status": "queued",
       "host": "4090A",
+      "projected_completion_window": "2026-09-11/2026-09-12",
       "resume_after": "4090A/plain COMPLETE_E200",
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified"
