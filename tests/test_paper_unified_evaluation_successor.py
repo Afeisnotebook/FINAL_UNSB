@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from operations.paper_aio_unified_evaluation_successor import (
+    COMPLETE_STATUS,
     IMPORT_LANE_SCHEMA,
     UNIFIED_EPOCHS,
     import_lane_path,
@@ -14,6 +15,7 @@ from operations.paper_aio_unified_evaluation_successor import (
     release_decision,
     validate_import_lane,
 )
+from operations.paper_aio_health_watch import _terminal
 
 
 def _write(path: Path, value: dict | str | bytes) -> Path:
@@ -39,6 +41,7 @@ def test_lane_source_and_release_state_are_metric_blind(tmp_path: Path) -> None:
     assert release_decision(state, "COMPLETE_E200") == "READY"
     _write(state, {"status": "BLOCKED_AFTER_REPEATED_ENGINEERING_FAILURE"})
     assert release_decision(state, "COMPLETE_E200") == "BLOCKED"
+    assert _terminal({"status": COMPLETE_STATUS})
 
 
 def test_import_readiness_uses_only_fixed_completion_artifacts(tmp_path: Path) -> None:

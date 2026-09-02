@@ -35,6 +35,9 @@ IMPORT_SET_SCHEMA = "final-unsb-paper-import-set-v1"
 INPUT_RECEIPT_SCHEMA = "final-unsb-paper-unified-input-evaluation-v1"
 UNIFIED_RECEIPT_SCHEMA = "final-unsb-paper-unified-evaluation-receipt-v1"
 UNIFIED_EPOCHS = (100, 125, 150, 175, 200)
+COMPLETE_STATUS = (
+    "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION"
+)
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 try:
@@ -520,7 +523,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 result = adjudicate(output)
                 final = {
                     "schema": STATE_SCHEMA,
-                    "status": "COMPLETE_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION",
+                    "status": COMPLETE_STATUS,
                     "pid": os.getpid(),
                     "contract": str(contract_path),
                     "contract_sha256": file_sha256(contract_path),
