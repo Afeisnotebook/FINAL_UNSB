@@ -21,6 +21,8 @@ EXPECTED_MANIFEST_SHA256 = (
 FROZEN_EVALUATION_BUNDLE_FINGERPRINT = (
     "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
 )
+REQUIRED_FIRST_WAVE_TRAINED = ("plain", "proposal", "cut", "cyclegan")
+REQUIRED_PAPER_TABLE = ("input", *REQUIRED_FIRST_WAVE_TRAINED)
 
 
 def canonical_json(value: Any) -> str:

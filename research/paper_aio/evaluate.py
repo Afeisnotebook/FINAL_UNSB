@@ -152,6 +152,68 @@ def replicate_stochasticity(cells: list[dict]) -> dict:
     }
 
 
+@torch.no_grad()
+def evaluate_input_baseline(
+    *, rows: list[dict], data_root: Path, protocol_hash: str,
+    count_per_domain: int, device: torch.device, include_lpips: bool,
+) -> dict:
+    """Evaluate the degraded input itself under the frozen discovery split.
+
+    Input is an evaluation-only deterministic reference, not a trainable lane.
+    It therefore has NFE zero and one deterministic replicate, but it shares
+    the exact image ordering, resize, target metrics and evaluator environment
+    used by every model in the final one-container table.
+    """
+    selected = select_discovery(rows, count_per_domain)
+    saved_rng = capture_rng()
+    perceptual = None
+    image_rows = []
+    try:
+        perceptual = _lpips(device) if include_lpips else None
+        for row in selected:
+            source = read_image(Path(data_root) / row["input_relpath"]).to(device)
+            target = read_image(Path(data_root) / row["target_relpath"]).to(device)
+            source_unit = to_unit(source)
+            target_unit = to_unit(target)
+            lpips_value = None
+            if perceptual is not None:
+                lpips_value = float(perceptual(source, target).item())
+            image_rows.append({
+                "domain": row["domain"], "stem": row["stem"],
+                "order": int(row["order"]), "replicate": 0, "nfe": 0,
+                "psnr": psnr_unit(source_unit, target_unit),
+                "ssim": ssim_unit(source_unit, target_unit),
+                "lpips": lpips_value,
+                "crn_bundle_sha256": None,
+            })
+    finally:
+        restore_rng(saved_rng)
+    aggregate = aggregate_metric_rows(image_rows)
+    replicate_cell = {"replicate": 0, **aggregate}
+    return {
+        "schema": EVALUATION_SCHEMA,
+        "lane_id": "input",
+        "split": "discovery",
+        "count_per_domain": int(count_per_domain),
+        "replicates": 1,
+        "nfe_values": [0],
+        "primary_nfe": 0,
+        "protocol_fingerprint": protocol_hash,
+        "evaluation_input_sha256": evaluation_input_hash(selected, protocol_hash),
+        **{key: aggregate[key] for key in ("macro_psnr", "macro_ssim", "macro_lpips")},
+        "domains": aggregate["domains"],
+        "replicate_cells": [replicate_cell],
+        "stochasticity": replicate_stochasticity([replicate_cell]),
+        "nfe_cells": {"0": {**aggregate, "replicate_cells": [replicate_cell],
+                              "stochasticity": replicate_stochasticity([replicate_cell])}},
+        "images": image_rows,
+        "lpips_requested": bool(include_lpips),
+        "lpips_available": perceptual is not None if include_lpips else None,
+        "evaluation_only_reference": True,
+        "confirmation20_opened": False,
+    }
+
+
 def evaluate_model(
     model, *, spec: LaneSpec, rows: list[dict], data_root: Path,
     protocol_hash: str, count_per_domain: int, replicates: int,

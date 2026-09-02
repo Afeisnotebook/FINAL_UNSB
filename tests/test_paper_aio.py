@@ -172,6 +172,9 @@ def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
 
 
 def test_first_wave_completion_requires_unified_cohort_and_four_lanes(tmp_path: Path) -> None:
+    input_path = tmp_path / "lanes" / "input" / "metrics" / "e200.json"
+    input_path.parent.mkdir(parents=True, exist_ok=True)
+    input_path.write_text(json.dumps(_metric(8.0)), encoding="utf-8")
     for lane in ("plain", "proposal"):
         for epoch in (150, 175, 200):
             path = tmp_path / "lanes" / lane / "metrics" / f"e{epoch:03d}.json"
@@ -186,6 +189,7 @@ def test_first_wave_completion_requires_unified_cohort_and_four_lanes(tmp_path: 
     cohort.write_text(json.dumps({
         "schema": "final-unsb-paper-unified-evaluation-cohort-v1",
         "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+        "required_lanes": ["input", "plain", "proposal", "cut", "cyclegan"],
         "cross_host_training_delta_merged": False,
         "confirmation20_opened": False,
     }), encoding="utf-8")

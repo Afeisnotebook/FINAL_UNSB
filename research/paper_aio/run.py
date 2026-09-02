@@ -40,6 +40,7 @@ from .runtime import (
 )
 from .terminal_audit import append_audit, audit_model
 from .unified import (
+    evaluate_input_reference,
     evaluate_imported_checkpoint,
     export_checkpoint_receipt,
     lock_unified_evaluation_cohort,
@@ -62,7 +63,7 @@ def parser() -> argparse.ArgumentParser:
             "evaluation-repeat-gate", "terminal-audit", "adjudicate",
             "candidate-lock",
             "candidate-runtime-gate",
-            "checkpoint-export", "unified-evaluate", "unified-lock",
+            "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
         ],
     )
     value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
@@ -329,6 +330,11 @@ def main(argv: list[str] | None = None) -> int:
             epoch=args.epoch,
             host_label=args.source_host_label,
             destination=args.receipt_output,
+        )
+    elif args.stage == "input-evaluate":
+        result = evaluate_input_reference(
+            output_root=args.output, data_root=args.data_root,
+            manifest_path=args.manifest, gpu=args.gpu,
         )
     elif args.stage == "unified-evaluate":
         required = {

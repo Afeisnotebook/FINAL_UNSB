@@ -10,12 +10,14 @@ from research.local_route1.runtime import full_state_hash
 from research.paper_aio.protocol import (
     FULL_STATE_SCHEMA,
     FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+    REQUIRED_PAPER_TABLE,
     file_sha256,
     lane_spec,
     protocol_fingerprint,
 )
 from research.paper_aio.gates import environment_record
 from research.paper_aio.unified import (
+    INPUT_RECEIPT_SCHEMA,
     REQUIRED_FIRST_WAVE,
     UNIFIED_EPOCHS,
     UNIFIED_RECEIPT_SCHEMA,
@@ -80,6 +82,36 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
 ) -> None:
     environment = environment_record()
     evaluator = protocol_fingerprint()
+    input_metric = _write(
+        tmp_path / "lanes" / "input" / "metrics" / "e200.json",
+        {
+            "count_per_domain": 80,
+            "replicates": 1,
+            "nfe_values": [0],
+            "protocol_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+            "evaluation_only_reference": True,
+            "confirmation20_opened": False,
+        },
+    )
+    _write(
+        tmp_path / "gates" / "UNIFIED_EVALUATION_input_e200.json",
+        {
+            "schema": INPUT_RECEIPT_SCHEMA,
+            "status": "PASS_UNIFIED_INPUT_EVALUATION",
+            "lane_id": "input",
+            "epoch": 200,
+            "metric": str(input_metric.resolve()),
+            "metric_sha256": file_sha256(input_metric),
+            "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+            "unified_evaluator_protocol_fingerprint": evaluator,
+            "unified_environment": environment,
+            "evaluation_only_reference": True,
+            "training_checkpoint_read_only": True,
+            "paired_metric_control": False,
+            "cross_host_training_delta_merged": False,
+            "confirmation20_opened": False,
+        },
+    )
     for lane_id in REQUIRED_FIRST_WAVE:
         family = lane_spec(lane_id).family
         for epoch in UNIFIED_EPOCHS:
@@ -115,7 +147,7 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
             )
     result = lock_unified_evaluation_cohort(tmp_path)
     assert result["status"] == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
-    assert result["required_lanes"] == list(REQUIRED_FIRST_WAVE)
+    assert result["required_lanes"] == list(REQUIRED_PAPER_TABLE)
     assert result["training_hosts_remain_separate"] is True
     bad = tmp_path / "gates" / "UNIFIED_EVALUATION_cut_e200.json"
     value = json.loads(bad.read_text(encoding="utf-8"))

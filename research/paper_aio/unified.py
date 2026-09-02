@@ -11,27 +11,31 @@ import torch
 from research.local_route1.runtime import full_state_hash, write_json
 
 from .candidate_runtime import load_candidate_spec
-from .evaluate import evaluate_model
+from .evaluate import evaluate_input_baseline, evaluate_model
 from .gates import environment_record
 from .protocol import (
     EVALUATION_SCHEMA,
     FULL_STATE_SCHEMA,
     FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
     LaneSpec,
+    REQUIRED_FIRST_WAVE_TRAINED,
+    REQUIRED_PAPER_TABLE,
     file_sha256,
     lane_spec,
     load_protocol,
     object_sha256,
     protocol_fingerprint,
 )
-from .runtime import load_full_state, prepare_lane
+from .runtime import _annotated_rows, load_full_state, prepare_lane
 
 
 EXPORT_SCHEMA = "final-unsb-paper-checkpoint-export-v1"
 UNIFIED_RECEIPT_SCHEMA = "final-unsb-paper-unified-evaluation-receipt-v1"
+INPUT_RECEIPT_SCHEMA = "final-unsb-paper-unified-input-evaluation-v1"
 UNIFIED_COHORT_SCHEMA = "final-unsb-paper-unified-evaluation-cohort-v1"
 UNIFIED_EPOCHS = (100, 125, 150, 175, 200)
-REQUIRED_FIRST_WAVE = ("plain", "proposal", "cut", "cyclegan")
+# Backward-compatible public name for the four trained first-wave lanes.
+REQUIRED_FIRST_WAVE = REQUIRED_FIRST_WAVE_TRAINED
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -231,6 +235,63 @@ def evaluate_imported_checkpoint(
     return receipt
 
 
+def evaluate_input_reference(
+    *, output_root: Path, data_root: Path, manifest_path: Path, gpu: int,
+) -> dict[str, Any]:
+    """Create the deterministic Input row inside the unified evaluator."""
+    output_root = Path(output_root).resolve()
+    data_root = Path(data_root).resolve()
+    manifest_path = Path(manifest_path).resolve()
+    device = torch.device(
+        f"cuda:{int(gpu)}" if torch.cuda.is_available() else "cpu"
+    )
+    result = evaluate_input_baseline(
+        rows=_annotated_rows(manifest_path), data_root=data_root,
+        protocol_hash=FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+        count_per_domain=80, device=device, include_lpips=True,
+    )
+    result.update({
+        "epoch": 200,
+        "updates": 0,
+        "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
+        "unified_environment": environment_record(),
+        "training_checkpoint_read_only": True,
+        "cross_host_training_delta_merged": False,
+    })
+    metric_path = output_root / "lanes" / "input" / "metrics" / "e200.json"
+    if metric_path.is_file():
+        existing = _read_json(metric_path)
+        if object_sha256(existing) != object_sha256(result):
+            raise RuntimeError("unified Input metric already exists and differs")
+    else:
+        write_json(metric_path, result)
+    receipt = {
+        "schema": INPUT_RECEIPT_SCHEMA,
+        "status": "PASS_UNIFIED_INPUT_EVALUATION",
+        "lane_id": "input",
+        "epoch": 200,
+        "metric": str(metric_path.resolve()),
+        "metric_sha256": file_sha256(metric_path),
+        "evaluation_schema": EVALUATION_SCHEMA,
+        "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+        "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
+        "unified_environment": environment_record(),
+        "evaluation_only_reference": True,
+        "training_checkpoint_read_only": True,
+        "paired_metric_control": False,
+        "cross_host_training_delta_merged": False,
+        "confirmation20_opened": False,
+    }
+    receipt_path = output_root / "gates" / "UNIFIED_EVALUATION_input_e200.json"
+    if receipt_path.is_file():
+        existing = _read_json(receipt_path)
+        if object_sha256(existing) != object_sha256(receipt):
+            raise RuntimeError("unified Input evaluation receipt already exists and differs")
+    else:
+        write_json(receipt_path, receipt)
+    return receipt
+
+
 def _expected_evaluation(epoch: int, family: str) -> dict[str, Any]:
     return {
         "count_per_domain": 80 if epoch == 200 else 70,
@@ -247,8 +308,48 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
     """Require every first-wave model in one evaluator before adjudication."""
     output_root = Path(output_root).resolve()
     receipts = []
-    environment = None
-    evaluator_fingerprint = None
+    input_receipt_path = output_root / "gates" / "UNIFIED_EVALUATION_input_e200.json"
+    if not input_receipt_path.is_file():
+        raise RuntimeError(f"unified Input receipt is missing: {input_receipt_path}")
+    input_receipt = _read_json(input_receipt_path)
+    input_metric_path = Path(input_receipt.get("metric", ""))
+    if (
+        input_receipt.get("schema") != INPUT_RECEIPT_SCHEMA
+        or input_receipt.get("status") != "PASS_UNIFIED_INPUT_EVALUATION"
+        or input_receipt.get("lane_id") != "input"
+        or int(input_receipt.get("epoch", -1)) != 200
+        or not input_metric_path.is_file()
+        or file_sha256(input_metric_path) != input_receipt.get("metric_sha256")
+        or input_receipt.get("evaluation_bundle_fingerprint")
+        != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
+        or input_receipt.get("evaluation_only_reference") is not True
+        or input_receipt.get("training_checkpoint_read_only") is not True
+        or input_receipt.get("paired_metric_control") is not False
+        or input_receipt.get("cross_host_training_delta_merged") is not False
+        or input_receipt.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("invalid unified Input evaluation receipt")
+    input_metric = _read_json(input_metric_path)
+    if (
+        input_metric.get("count_per_domain") != 80
+        or input_metric.get("replicates") != 1
+        or input_metric.get("nfe_values") != [0]
+        or input_metric.get("protocol_fingerprint")
+        != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
+        or input_metric.get("evaluation_only_reference") is not True
+        or input_metric.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("unified Input metric protocol mismatch")
+    environment = input_receipt.get("unified_environment")
+    evaluator_fingerprint = input_receipt.get(
+        "unified_evaluator_protocol_fingerprint"
+    )
+    receipts.append({
+        "lane_id": "input", "epoch": 200,
+        "receipt": str(input_receipt_path),
+        "receipt_sha256": file_sha256(input_receipt_path),
+        "source_host_label": "evaluation_only",
+    })
     for lane_id in REQUIRED_FIRST_WAVE:
         family = lane_spec(lane_id).family
         for epoch in UNIFIED_EPOCHS:
@@ -286,9 +387,6 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
                 raise RuntimeError("unified metric violates read-only or sealed-evaluation policy")
             current_environment = receipt.get("unified_environment")
             current_evaluator = receipt.get("unified_evaluator_protocol_fingerprint")
-            if environment is None:
-                environment = current_environment
-                evaluator_fingerprint = current_evaluator
             if current_environment != environment or current_evaluator != evaluator_fingerprint:
                 raise RuntimeError("unified evaluations did not use one runtime and evaluator")
             receipts.append({
@@ -303,7 +401,7 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
     result = {
         "schema": UNIFIED_COHORT_SCHEMA,
         "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
-        "required_lanes": list(REQUIRED_FIRST_WAVE),
+        "required_lanes": list(REQUIRED_PAPER_TABLE),
         "epochs": list(UNIFIED_EPOCHS),
         "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "unified_evaluator_protocol_fingerprint": evaluator_fingerprint,

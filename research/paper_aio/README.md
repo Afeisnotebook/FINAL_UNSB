@@ -101,14 +101,18 @@ Copy the checkpoint and export JSON to the chosen 4090 evaluation container,
 then evaluate them read-only:
 
 ```text
+python -m research.paper_aio.run --stage input-evaluate ...
 python -m research.paper_aio.run --stage unified-evaluate --lane LANE \
   --source-receipt EXPORT.json --copied-checkpoint COPIED.pt ...
 python -m research.paper_aio.run --stage unified-lock ...
 python -m research.paper_aio.run --stage adjudicate ...
 ```
 
-`unified-lock` requires all five frozen epochs for plain, Proposal-only, CUT
-and CycleGAN in one environment and evaluator fingerprint. It checks every
+`input-evaluate` adds the deterministic degraded-input row using discovery80,
+the same resize/metric implementation and the same evaluator environment; it
+does not create a trainable lane. `unified-lock` requires that Input receipt
+plus all five frozen epochs for plain, Proposal-only, CUT and CycleGAN in one
+environment and evaluator fingerprint. It checks every
 copied checkpoint hash, metric hash, CRN policy and read-only flag. Only this
 cohort can change `PAPER_RESULTS.json` from `FIRST_WAVE_INCOMPLETE` to
 `FIRST_WAVE_COMPLETE`; host-separated training remains explicit and no

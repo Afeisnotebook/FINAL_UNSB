@@ -9,7 +9,7 @@ import numpy as np
 
 from research.local_route1.runtime import write_json
 
-from .protocol import lane_spec, load_protocol
+from .protocol import REQUIRED_PAPER_TABLE, lane_spec, load_protocol
 
 
 def _read(path: Path) -> dict:
@@ -94,7 +94,14 @@ def _candidate_definitions(output_root: Path) -> list[dict]:
 def adjudicate(output_root: Path) -> dict:
     protocol = load_protocol()
     output_root = Path(output_root)
-    definitions = [
+    definitions = [{
+        "lane_id": "input", "role": "evaluation-only degraded input reference",
+        "backend": "evaluation_only", "family": "input",
+        "metrics_root": output_root, "plain_root": output_root,
+        "comparison_scope": "one_container_unified_evaluation",
+        "candidate_lock": None,
+    }]
+    definitions.extend([
         {
             "lane_id": row["id"], "role": row["role"],
             "backend": row["backend"], "family": lane_spec(row["id"], protocol).family,
@@ -106,7 +113,7 @@ def adjudicate(output_root: Path) -> dict:
             "candidate_lock": None,
         }
         for row in protocol["lanes"]
-    ]
+    ])
     definitions.extend(_candidate_definitions(output_root))
     lanes = []
     for definition in definitions:
@@ -208,10 +215,11 @@ def adjudicate(output_root: Path) -> dict:
         and cohort.get("status") == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
         and cohort.get("cross_host_training_delta_merged") is False
         and cohort.get("confirmation20_opened") is False
+        and cohort.get("required_lanes") == list(REQUIRED_PAPER_TABLE)
     )
     complete_required = unified_cohort_pass and all(
         next(row for row in lanes if row["lane_id"] == lane)["status"] == "COMPLETE_E200"
-        for lane in ("plain", "proposal", "cut", "cyclegan")
+        for lane in REQUIRED_PAPER_TABLE
     )
     result = {
         "schema": "final-unsb-paper-results-v1",
