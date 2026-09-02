@@ -501,7 +501,7 @@ def load_candidate_registration(
         "objective_change", "estimator_change",
         "coordinate_change", "endpoint_law_change", "algorithm_hyperparameters",
         "algorithm_state_variables", "expected_applicable_state",
-        "falsifying_experiment", "compute_cost", "memory_cost",
+        "falsifying_experiment", "fixed_state_gate", "compute_cost", "memory_cost",
         "recovery_state_cost", "ablation_definitions",
         "historical_evidence_index_sha256", "mechanism_object_map_sha256",
         "reuse_boundary_sha256",
@@ -733,6 +733,22 @@ def load_candidate_registration(
                 ) is not True
             ):
                 raise RuntimeError("HJCGR component compatibility evidence is invalid")
+        if implementation.get("model") == "route1_stcgr":
+            evidence = gate.get("evidence", {})
+            player_evidence = evidence.get("player_conditional_execution_evidence")
+            if not isinstance(player_evidence, dict) or (
+                player_evidence.get("expected_schedule") != [
+                    "NATIVE_VIEW", "D_COMMIT", "E_COMMIT", "GF_BUNDLE",
+                    "GF_COMMIT",
+                ]
+                or player_evidence.get("all_gf_bundle_counts_equal_updates") is not True
+                or player_evidence.get("all_stcgr_pair_counts_equal_updates") is not True
+                or player_evidence.get("all_observed_pairs_off_diagonal") is not True
+                or player_evidence.get("both_marginal_count_sums_equal_updates") is not True
+                or player_evidence.get("native_time_marginal") != "uniform"
+                or player_evidence.get("pair_coupling") != "ordered_without_replacement"
+            ):
+                raise RuntimeError("ST-CGR gate has invalid time-pair provenance")
 
     spec = ProbeSpec(
         id=candidate_id,
@@ -860,6 +876,138 @@ def freeze_candidate_derivation(
     })
     write_json(ledger_path, ledger)
     return load_candidate_registration(output_root, candidate_id)
+
+
+def register_target_blind_successor(
+    output_root: Path, candidate_id: str, *, parent_candidate_ids: tuple[str, ...],
+    evidence_relative: str = (
+        "evidence/local_route1/STCGR_FIXED_STATE_GATE_PASS_20260902.json"
+    ),
+) -> dict:
+    """Append a later-generation slot authorized by a target-blind audit."""
+    output_root = Path(output_root).resolve()
+    candidate_id = validate_candidate_id(candidate_id)
+    parents_requested = tuple(validate_candidate_id(value) for value in parent_candidate_ids)
+    if len(parents_requested) < 1 or len(set(parents_requested)) != len(parents_requested):
+        raise RuntimeError("target-blind successor requires unique parent candidates")
+    if candidate_id in parents_requested:
+        raise RuntimeError("target-blind successor requires a new candidate identity")
+
+    evidence_path = _inside_root(evidence_relative)
+    try:
+        evidence_path.relative_to((ROOT / "evidence").resolve())
+    except ValueError as error:
+        raise RuntimeError("successor evidence must remain under evidence/") from error
+    if not evidence_path.is_file():
+        raise RuntimeError("target-blind successor evidence is missing")
+    evidence = _read_json(evidence_path)
+    required_evidence = {
+        "schema": "final-unsb-route1-stcgr-fixed-state-gate-receipt-v1",
+        "candidate_id": candidate_id,
+        "full_preregistered_gate_executed": True,
+        "small25_e200_authorized": True,
+        "full_data_training_authorized": False,
+        "all_eight_source_checkpoints_unchanged": True,
+        "all_eight_fixed_post_de_states_unchanged": True,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    for key, expected in required_evidence.items():
+        if evidence.get(key) != expected:
+            raise RuntimeError(f"target-blind successor evidence mismatch: {key}")
+    if set((evidence.get("source_lanes") or {}).values()) != set(parents_requested):
+        raise RuntimeError("target-blind successor evidence parent set mismatch")
+    results = evidence.get("results") or {}
+    if set(results) != {"proposal", "hjcgr"} or not all(
+        isinstance(value, dict) and value.get("gate_pass") is True
+        for value in results.values()
+    ):
+        raise RuntimeError("target-blind successor evidence lacks both parent passes")
+    rule = evidence.get("preregistered_gate") or {}
+    threshold = float(rule.get(
+        "maximum_pooled_euclidean_wor_to_iid_trace_ratio_per_lane", -1.0,
+    ))
+    minimum = int(rule.get("minimum_material_checkpoints_per_lane", -1))
+    if threshold != 0.95 or minimum != 2 or any(
+        float(value.get("pooled_euclidean_wor_to_iid_trace_ratio", 2.0)) > threshold
+        or int(value.get("material_checkpoint_count", -1)) < minimum
+        or len(value.get("individual_euclidean_ratios", [])) != 4
+        or any(float(ratio) > threshold for ratio in value["individual_euclidean_ratios"])
+        for value in results.values()
+    ):
+        raise RuntimeError("target-blind successor evidence fails the preregistered ratio rule")
+
+    ledger_path = output_root / "derive" / "HYPOTHESIS_LEDGER.json"
+    if not ledger_path.is_file():
+        raise RuntimeError("derive stage must create the hypothesis ledger first")
+    ledger = _read_json(ledger_path)
+    if ledger.get("schema") != "final-unsb-route1-hypothesis-ledger-v1":
+        raise RuntimeError("hypothesis ledger schema mismatch")
+    parents = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") in parents_requested
+    ]
+    if {row.get("candidate_id") for row in parents} != set(parents_requested):
+        raise RuntimeError("target-blind successor parents are missing from the ledger")
+    if any(row.get("status") not in (
+        "FROZEN_FOR_GATES", "LONG_HORIZON_COMPLETE", "LONG_HORIZON_POSITIVE",
+    ) for row in parents):
+        raise RuntimeError("target-blind successor requires frozen or complete parents")
+
+    evidence_sha256 = file_sha256(evidence_path)
+    existing = [
+        row for row in ledger.get("records", [])
+        if isinstance(row, dict) and row.get("candidate_id") == candidate_id
+    ]
+    if existing:
+        binding = existing[0].get("target_blind_successor") or {}
+        if (
+            len(existing) != 1
+            or tuple(binding.get("parent_candidate_ids", [])) != parents_requested
+            or binding.get("evidence_sha256") != evidence_sha256
+        ):
+            raise RuntimeError("successor id is already bound to different evidence")
+        return {
+            "schema": "final-unsb-route1-target-blind-successor-registration-v1",
+            "status": existing[0]["status"],
+            "record": existing[0],
+            "hypothesis_ledger_sha256": file_sha256(ledger_path),
+            "confirmation20_opened": False,
+        }
+
+    record = {
+        "candidate_id": candidate_id,
+        "generation": 4,
+        "parent_candidate_id": list(parents_requested),
+        "parent_evidence": {
+            "failure_type": "time_stratum_sampling_variance",
+            "path": evidence_path.relative_to(ROOT).as_posix(),
+            "sha256": evidence_sha256,
+        },
+        "construction_route": "independent_unbiased_time_coupling",
+        "status": "DERIVATION_REQUIRED",
+        "revision_count": 0,
+        "target_blind_successor": {
+            "parent_candidate_ids": list(parents_requested),
+            "evidence_path": evidence_path.relative_to(ROOT).as_posix(),
+            "evidence_sha256": evidence_sha256,
+            "consumes_parent_revision": False,
+            "restart_from_common_e0": True,
+            "authorization_scope": "engineering_gates_then_small25_e200",
+        },
+        "experiments": [],
+        "paired_controller_access": False,
+        "confirmation20_opened": False,
+    }
+    ledger["records"].append(record)
+    write_json(ledger_path, ledger)
+    return {
+        "schema": "final-unsb-route1-target-blind-successor-registration-v1",
+        "status": "DERIVATION_REQUIRED",
+        "record": record,
+        "hypothesis_ledger_sha256": file_sha256(ledger_path),
+        "confirmation20_opened": False,
+    }
 
 
 def register_engineering_replacement(

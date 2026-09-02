@@ -7,8 +7,23 @@ import numpy as np
 import pytest
 import torch
 
-from research.local_route1.candidates import CARD_REQUIRED_FIELDS, CARD_SCHEMA
+from operations.local_route1_freeze_stcgr import (
+    CANDIDATE_ID,
+    EVIDENCE,
+    PARENT_IDS,
+    SPEC,
+)
+from research.local_route1.candidates import (
+    CARD_REQUIRED_FIELDS,
+    CARD_SCHEMA,
+    register_target_blind_successor,
+)
+from research.local_route1.generation1_gates import (
+    _stcgr_invariants,
+    _validate_stcgr_execution_evidence,
+)
 from research.local_route1.protocol import ROOT, file_sha256
+from research.local_route1.runtime import write_json
 from models.route1.stratified_time import (
     StratifiedTimeConditionalGFMixin,
     between_time_covariance_coefficient,
@@ -42,6 +57,39 @@ def test_derivation_card_is_complete_target_blind_and_evidence_bound() -> None:
     assert card["reuse_boundary_sha256"] == file_sha256(
         ROOT / "evidence" / "lineage" / "SEARCH005_REUSE_BOUNDARY.json"
     )
+
+
+def test_fixed_state_receipt_and_frozen_source_spec_are_small25_only() -> None:
+    receipt = json.loads((ROOT / EVIDENCE).read_text(encoding="utf-8"))
+    assert receipt["candidate_id"] == CANDIDATE_ID
+    assert receipt["small25_e200_authorized"] is True
+    assert receipt["full_data_training_authorized"] is False
+    assert receipt["paired_metric_control"] is False
+    assert set(receipt["source_lanes"].values()) == set(PARENT_IDS)
+    assert SPEC["model"] == "route1_stcgr"
+    assert SPEC["method"] == {"route1_stcgr_enable": True}
+    assert all((ROOT / relative).is_file() for relative in SPEC["sources"])
+
+
+def test_target_blind_successor_registration_is_evidence_bound_and_idempotent(tmp_path) -> None:
+    ledger = {
+        "schema": "final-unsb-route1-hypothesis-ledger-v1",
+        "records": [
+            {"candidate_id": value, "status": "FROZEN_FOR_GATES"}
+            for value in PARENT_IDS
+        ],
+    }
+    write_json(tmp_path / "derive" / "HYPOTHESIS_LEDGER.json", ledger)
+    first = register_target_blind_successor(
+        tmp_path, CANDIDATE_ID, parent_candidate_ids=PARENT_IDS,
+    )
+    second = register_target_blind_successor(
+        tmp_path, CANDIDATE_ID, parent_candidate_ids=PARENT_IDS,
+    )
+    assert first["status"] == "DERIVATION_REQUIRED"
+    assert second["record"] == first["record"]
+    assert first["record"]["generation"] == 4
+    assert first["record"]["paired_controller_access"] is False
 
 
 def test_exclusion_map_enumerates_every_off_diagonal_pair_once() -> None:
@@ -91,6 +139,44 @@ def test_fixed_state_covariance_prediction_has_registered_identity() -> None:
         within_trace=8.0, between_trace=0.0, time_strata=5,
     )
     assert identity["without_replacement_to_iid_trace_ratio"] == 1.0
+
+
+def test_stcgr_executable_invariants_and_pair_provenance() -> None:
+    assert all(row["status"] == "PASS" for row in _stcgr_invariants())
+
+    def diagnostic(updates: int) -> dict:
+        pairs = [[0] * 5 for _ in range(5)]
+        for index in range(updates):
+            first = index % 5
+            second = (first + 1) % 5
+            pairs[first][second] += 1
+        first_counts = [sum(row) for row in pairs]
+        second_counts = [sum(pairs[row][column] for row in range(5)) for column in range(5)]
+        return {
+            "pcrsmg_proposal": {
+                "update_index": updates,
+                "gf_bundle_count": updates,
+                "last_schedule": [
+                    "NATIVE_VIEW", "D_COMMIT", "E_COMMIT", "GF_BUNDLE",
+                    "GF_COMMIT",
+                ],
+            },
+            "stcgr": {
+                "num_timesteps": 5,
+                "bundle_count": updates,
+                "last_pair": [4, 0],
+                "first_counts": first_counts,
+                "second_counts": second_counts,
+                "pair_counts": pairs,
+            },
+        }
+
+    cross = {"rows": [{"candidate": {"method_diagnostics": diagnostic(8)}}]}
+    result = _validate_stcgr_execution_evidence(
+        cross, {"method_diagnostics": diagnostic(400)},
+    )
+    assert result["all_stcgr_pair_counts_equal_updates"] is True
+    assert result["pair_coupling"] == "ordered_without_replacement"
 
 
 def test_time_moment_summary_removes_finite_replicate_mean_noise() -> None:

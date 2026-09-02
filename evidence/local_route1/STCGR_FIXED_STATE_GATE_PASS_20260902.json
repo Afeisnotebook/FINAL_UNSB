@@ -1,0 +1,58 @@
+{
+  "schema": "final-unsb-route1-stcgr-fixed-state-gate-receipt-v1",
+  "recorded_at": "2026-09-02T10:49:00+08:00",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "implementation_commit": "1691707a68ec74910ff817e71b4565281044460f",
+  "audit_runtime": "preserved old-5090 route1 environment; read-only historical checkpoint audit",
+  "source_audit_schema": "final-unsb-route1-stratified-time-fixed-state-audit-v1",
+  "source_audit_sha256": "a235b2f55fa0c8370bece5f933bcee334c796b670e111f8647000bd6f406ef2e",
+  "source_lanes": {
+    "proposal": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "hjcgr": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+  },
+  "data_epochs": [60, 100, 150, 200],
+  "gradient_replicates_per_time": 8,
+  "bridge_time_strata": 5,
+  "state_boundary": "one native D/E commit, then frozen post-D/E G/F gradient audit",
+  "preregistered_gate": {
+    "maximum_pooled_euclidean_wor_to_iid_trace_ratio_per_lane": 0.95,
+    "minimum_material_checkpoints_per_lane": 2,
+    "every_checkpoint_must_be_noninferior": true,
+    "adam_metric_is_diagnostic_only": true,
+    "paired_metric_available": false
+  },
+  "results": {
+    "proposal": {
+      "pooled_euclidean_wor_to_iid_trace_ratio": 0.7893990114894737,
+      "individual_euclidean_ratios": [
+        0.7712708286336172,
+        0.7857835944167749,
+        0.7937289748832591,
+        0.8066658056351165
+      ],
+      "material_checkpoint_count": 4,
+      "pooled_adam_metric_wor_to_iid_trace_ratio": 0.8279603642545077,
+      "gate_pass": true
+    },
+    "hjcgr": {
+      "pooled_euclidean_wor_to_iid_trace_ratio": 0.7878108461440967,
+      "individual_euclidean_ratios": [
+        0.7736304956448147,
+        0.7879579675651166,
+        0.799999124212633,
+        0.7860362689559016
+      ],
+      "material_checkpoint_count": 4,
+      "pooled_adam_metric_wor_to_iid_trace_ratio": 0.8319594874356446,
+      "gate_pass": true
+    }
+  },
+  "all_eight_source_checkpoints_unchanged": true,
+  "all_eight_fixed_post_de_states_unchanged": true,
+  "full_preregistered_gate_executed": true,
+  "small25_e200_authorized": true,
+  "full_data_training_authorized": false,
+  "decision": "AUTHORIZE_STCGR_ENGINEERING_GATES_THEN_SMALL25_E200",
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

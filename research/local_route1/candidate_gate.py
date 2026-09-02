@@ -155,6 +155,20 @@ def run_candidate_gate(
             and player_evidence.get("replica_averaging_used") is False
         ):
             raise RuntimeError("HJ-PCNR gate lost its one-view HJ provenance")
+    if registration.spec.model == "route1_stcgr":
+        from models.route1.pcrsmg_ablation import PROPOSAL_SCHEDULE
+
+        player_evidence = report.get("player_conditional_execution_evidence")
+        if not isinstance(player_evidence, dict) or (
+            player_evidence.get("expected_schedule") != list(PROPOSAL_SCHEDULE)
+            or player_evidence.get("all_gf_bundle_counts_equal_updates") is not True
+            or player_evidence.get("all_stcgr_pair_counts_equal_updates") is not True
+            or player_evidence.get("all_observed_pairs_off_diagonal") is not True
+            or player_evidence.get("both_marginal_count_sums_equal_updates") is not True
+            or player_evidence.get("native_time_marginal") != "uniform"
+            or player_evidence.get("pair_coupling") != "ordered_without_replacement"
+        ):
+            raise RuntimeError("ST-CGR gate has invalid time-pair provenance")
     if registration.spec.model in (
         "route1_pcammcrb", "route1_pcrfammcrb", "route1_pcrfmcrb",
     ):

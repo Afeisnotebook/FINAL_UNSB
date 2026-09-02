@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import math
 import time
 from pathlib import Path
@@ -62,6 +63,8 @@ def _disabled_spec(context: CandidateGateContext) -> ProbeSpec:
         method["route1_hjcgr_enable"] = False
     elif spec.model == "route1_hjpcnr":
         method["route1_hjpcnr_enable"] = False
+    elif spec.model == "route1_stcgr":
+        method["route1_stcgr_enable"] = False
     elif spec.model in (
         "route1_bvcp_ablation", "route1_pcrsmg_ablation",
         "route1_amtnc_ablation", "route1_mcrb_ablation",
@@ -231,6 +234,9 @@ def _initialize_candidate_from_plain(model, model_name: str) -> None:
         model._initialize_pcrsmg_ablation_state()
     elif model_name == "route1_hjpcnr":
         model._initialize_pcnr_state()
+    elif model_name == "route1_stcgr":
+        model._initialize_pcrsmg_ablation_state()
+        model._initialize_stcgr_state()
     elif model_name == "route1_bvcp_ablation":
         model._initialize_bvcp_state()
         model._bvcp_loaded_state = False
@@ -306,6 +312,7 @@ def _branch_from_parent(
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "hnek_active": method.get("hnek_active"),
             "hj_controller": method.get("hj_controller", {}),
+            "stcgr": method.get("stcgr", {}),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -911,6 +918,7 @@ def _micro(context: CandidateGateContext, *, e0: dict) -> dict:
             "pcrsmg_proposal": method.get("pcrsmg_proposal", {}),
             "hnek_active": method.get("hnek_active"),
             "hj_controller": method.get("hj_controller", {}),
+            "stcgr": method.get("stcgr", {}),
             "pcammcrb": method.get("pcammcrb", {}),
             "mcrb": {
                 key: value for key, value in method.get("mcrb", {}).items()
@@ -1029,6 +1037,78 @@ def _pcrsmg_invariants() -> list[dict]:
             "name": "single_replica_dispatches_native_unsb",
             "status": "PASS",
             "observed": "pcrsmg_replicates=1 calls SBModel.optimize_parameters through super without touching method state",
+        },
+    ]
+
+
+def _stcgr_invariants() -> list[dict]:
+    from models.route1.stratified_time import (
+        between_time_covariance_coefficient,
+        ordered_time_pairs,
+    )
+    from research.local_route1.stratified_time_audit import (
+        covariance_trace_prediction,
+    )
+
+    size = 5
+    pairs = ordered_time_pairs(size)
+    first_counts = [sum(first == index for first, _ in pairs) for index in range(size)]
+    second_counts = [sum(second == index for _, second in pairs) for index in range(size)]
+    prediction = covariance_trace_prediction(
+        within_trace=8.0, between_trace=4.0, time_strata=size,
+    )
+    receipt_path = (
+        Path(__file__).resolve().parents[2] / "evidence" / "local_route1"
+        / "STCGR_FIXED_STATE_GATE_PASS_20260902.json"
+    )
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    fixed_state_pass = (
+        receipt.get("full_preregistered_gate_executed") is True
+        and receipt.get("small25_e200_authorized") is True
+        and receipt.get("full_data_training_authorized") is False
+        and receipt.get("paired_metric_control") is False
+        and all(
+            row.get("gate_pass") is True
+            and float(row.get("pooled_euclidean_wor_to_iid_trace_ratio", 2.0)) <= 0.95
+            and int(row.get("material_checkpoint_count", -1)) >= 2
+            for row in (receipt.get("results") or {}).values()
+        )
+    )
+    return [
+        {
+            "name": "ordered_support_excludes_only_diagonal_pairs",
+            "status": "PASS" if len(pairs) == size * (size - 1) and all(
+                first != second for first, second in pairs
+            ) else "FAIL",
+            "observed": {
+                "support_size": len(pairs),
+                "diagonal_count": sum(first == second for first, second in pairs),
+            },
+        },
+        {
+            "name": "both_time_replica_marginals_are_exactly_uniform",
+            "status": "PASS" if first_counts == [4] * 5 and second_counts == [4] * 5 else "FAIL",
+            "observed": {"first_counts": first_counts, "second_counts": second_counts},
+        },
+        {
+            "name": "without_replacement_covariance_is_psd_noninferior_to_iid",
+            "status": "PASS" if (
+                between_time_covariance_coefficient(size) == 0.375
+                and prediction["without_replacement_to_iid_trace_ratio"] < 1.0
+            ) else "FAIL",
+            "observed": prediction,
+        },
+        {
+            "name": "fixed_state_parent_gate_authorizes_only_small25",
+            "status": "PASS" if fixed_state_pass else "FAIL",
+            "observed": {
+                "receipt_sha256": __import__("hashlib").sha256(
+                    receipt_path.read_bytes()
+                ).hexdigest(),
+                "small25_e200_authorized": receipt.get("small25_e200_authorized"),
+                "full_data_training_authorized": receipt.get("full_data_training_authorized"),
+                "parent_results": receipt.get("results"),
+            },
         },
     ]
 
@@ -1799,6 +1879,57 @@ def _validate_pcrsmg_execution_evidence(cross: dict, micro: dict) -> dict:
     }
 
 
+def _validate_stcgr_execution_evidence(cross: dict, micro: dict) -> dict:
+    from models.route1.pcrsmg_ablation import PROPOSAL_SCHEDULE
+
+    expected = list(PROPOSAL_SCHEDULE)
+    diagnostics = [
+        row["candidate"]["method_diagnostics"] for row in cross.get("rows", [])
+    ]
+    diagnostics.append(micro.get("method_diagnostics", {}))
+    if not diagnostics:
+        raise RuntimeError("ST-CGR gate did not produce method diagnostics")
+    for diagnostic in diagnostics:
+        proposal = diagnostic.get("pcrsmg_proposal", {})
+        stratified = diagnostic.get("stcgr", {})
+        if proposal.get("last_schedule") != expected:
+            raise RuntimeError("ST-CGR did not execute the Proposal player boundary")
+        updates = int(proposal.get("update_index", -1))
+        bundles = int(proposal.get("gf_bundle_count", -2))
+        stratified_bundles = int(stratified.get("bundle_count", -3))
+        if not (updates == bundles == stratified_bundles and updates > 0):
+            raise RuntimeError("ST-CGR proposal and pair counters differ")
+        pair_counts = stratified.get("pair_counts", [])
+        size = int(stratified.get("num_timesteps", -1))
+        if size != 5 or len(pair_counts) != size or any(
+            len(row) != size for row in pair_counts
+        ):
+            raise RuntimeError("ST-CGR pair-count support shape changed")
+        if any(int(pair_counts[index][index]) != 0 for index in range(size)):
+            raise RuntimeError("ST-CGR observed a forbidden duplicate-time pair")
+        first = [int(value) for value in stratified.get("first_counts", [])]
+        second = [int(value) for value in stratified.get("second_counts", [])]
+        if (
+            len(first) != size or len(second) != size
+            or sum(first) != updates or sum(second) != updates
+            or sum(sum(int(value) for value in row) for row in pair_counts) != updates
+        ):
+            raise RuntimeError("ST-CGR marginal and ordered-pair counters differ")
+        last_pair = stratified.get("last_pair")
+        if not isinstance(last_pair, list) or len(last_pair) != 2 or last_pair[0] == last_pair[1]:
+            raise RuntimeError("ST-CGR last pair does not prove off-diagonal execution")
+    return {
+        "expected_schedule": expected,
+        "states_checked": len(diagnostics),
+        "all_gf_bundle_counts_equal_updates": True,
+        "all_stcgr_pair_counts_equal_updates": True,
+        "all_observed_pairs_off_diagonal": True,
+        "both_marginal_count_sums_equal_updates": True,
+        "native_time_marginal": "uniform",
+        "pair_coupling": "ordered_without_replacement",
+    }
+
+
 def _validate_hpcgr_execution_evidence(cross: dict, micro: dict) -> dict:
     from models.route1.pcrsmg_ablation import PROPOSAL_SCHEDULE
 
@@ -2016,6 +2147,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         invariants = _rsmg_invariants()
     elif invariant == "pcrsmg":
         invariants = _pcrsmg_invariants()
+    elif invariant == "stcgr":
+        invariants = _stcgr_invariants()
     elif invariant == "hpcgr":
         invariants = _hpcgr_invariants()
     elif invariant == "hjcgr":
@@ -2068,6 +2201,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
         player_conditional = _validate_hpcgr_execution_evidence(cross, micro)
     if invariant == "hjcgr":
         player_conditional = _validate_hjcgr_execution_evidence(cross, micro)
+    if invariant == "stcgr":
+        player_conditional = _validate_stcgr_execution_evidence(cross, micro)
     if full_state_hash(e0) != parent_hash:
         raise RuntimeError("candidate gate mutated shared e0")
     winner_observable_source = {
@@ -2117,6 +2252,8 @@ def _run(context: CandidateGateContext, *, invariant: str) -> dict:
                 if invariant == "pcnr" else
                 winner_observable_source
                 if invariant == "winner_ablation" else
+                "native uniform bridge-time marginals coupled without replacement in two post-D/E G/F views"
+                if invariant == "stcgr" else
                 "conditionally iid native UNSB stochastic gradients"
             ),
         },
@@ -2140,6 +2277,12 @@ def run_rsmg_gate(context: CandidateGateContext) -> dict:
 
 def run_pcrsmg_gate(context: CandidateGateContext) -> dict:
     return _run(context, invariant="pcrsmg")
+
+
+def run_stcgr_gate(context: CandidateGateContext) -> dict:
+    if context.registration.spec.model != "route1_stcgr":
+        raise RuntimeError("ST-CGR gate received the wrong model")
+    return _run(context, invariant="stcgr")
 
 
 def run_pcnr_gate(context: CandidateGateContext) -> dict:
