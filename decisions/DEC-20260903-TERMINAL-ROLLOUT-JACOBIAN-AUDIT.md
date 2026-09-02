@@ -30,3 +30,6 @@ OOM、NaN或状态污染。该smoke只验证实现和容量，不用于任何性
 旧的持久terminal-audit successor冻结于旧source hash，必须在本提交后以新commit
 重新部署；在新successor通过至少两次健康轮询前，旧进程保持不动。
 
+部署完成：新successor以commit `dc59ecb`、PID `15436`运行，健康监控PID为
+`20780`；两轮独立检查均为`HEALTHY`且零告警后，旧PID `13536/15672`才被退役。
+四条checkpoint relay未重启，远端训练未触碰。

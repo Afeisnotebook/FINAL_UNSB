@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-terminal-rollout-jvp-successor-deployment-v1",
+  "captured_at": "2026-09-03T06:39:48+08:00",
+  "status": "DEPLOYED_HEALTHY_AFTER_TWO_POLLS_OLD_WAITER_RETIRED",
+  "control": {
+    "git_commit": "dc59ecba11f1176c711682e83bed03a0b7c72e26",
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_TERMINAL_DC59ECB",
+    "worktree_clean": true,
+    "successor_source_sha256": "4c8a4b7f75abee17217471422c11f58fec6d71210f6b0c9f12c5ace1c5db2e83",
+    "terminal_audit_source_sha256": "79ecf83f1951e6dd5fb6648ce8bbbd665709a938d6ad0e81d6ab793048b31e9c",
+    "paper_protocol_fingerprint": "c6c0fec0a23bb299a754942ac5ee6072b40f91509ab06b5ded69b54dfd66da46",
+    "candidate_authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6"
+  },
+  "successor": {
+    "pid": 15436,
+    "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_rollout_jvp_dc59ecb",
+    "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "preflight_release": "READY",
+    "completed": [],
+    "contract_sha256": "766a07e2a51e1781289f99bcc29312a7da93be130a88cdee0f2996c5470b6fbc",
+    "fixed_epochs": [100, 150, 200],
+    "fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
+    "requires_complete_rollout_jvp": true,
+    "requires_six_domains_five_time_indices": true,
+    "requires_32_rollout_replicates": true,
+    "requires_4_gradient_replicates": true
+  },
+  "health_watch": {
+    "pid": 20780,
+    "output": "E:\\UNSB_Expl\\paper_eval_node\\incremental_health_rollout_jvp_dc59ecb",
+    "status_first_poll": "HEALTHY",
+    "status_second_poll": "HEALTHY",
+    "alert_count": 0,
+    "watched_relays": 4,
+    "watched_terminal_successor_pid": 15436,
+    "free_disk_gib_second_poll": 125.6382,
+    "required_disk_gib": 66.0,
+    "contract_sha256": "eb219bf56847193ce2bb305bc744f1237a48290702528c9e30ca4ba840391467"
+  },
+  "retired": {
+    "old_terminal_audit_pid": 13536,
+    "old_health_watcher_pid": 15672,
+    "old_terminal_audit_alive_after_retirement": false,
+    "old_health_watcher_alive_after_retirement": false,
+    "old_completed_probe_count": 0,
+    "new_terminal_audit_alive_after_retirement": true,
+    "new_health_watcher_alive_after_retirement": true
+  },
+  "non_interference": {
+    "remote_training_touched": false,
+    "checkpoint_relays_restarted": false,
+    "checkpoint_or_data_deleted": false,
+    "training_configuration_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "implementation_gate": "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_GATE_20260903.json",
+  "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
+}
