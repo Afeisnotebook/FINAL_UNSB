@@ -24,3 +24,9 @@ checkpoint、metric receipt和training protocol逐项闭环。该裁决不计算
 即使病理通过，输出也只授权编写一个derivation card和判死反例，不自动实现、启动或堆叠
 终端修复模块。若未通过，则明确保持“不要加入终端模块”。整个successor不读取中间性能、
 不控制训练、不选择最佳checkpoint，也不打开confirmation20。
+
+为避免12格审计完成后再次依赖人工上线，持久successor只有在完整target-blind release
+成立后，才获取本地共享GPU锁并在同一个冻结评估runtime内顺序生成12格标准统一指标，
+随后自动写出绝对路径binding并裁决。生成中的paired值不会进入successor状态的调度逻辑；
+若进程中断，已有metric必须通过原收据和哈希验证后才能继续。该自动化缩短工程关键路径，
+不改变上述科学信息边界。

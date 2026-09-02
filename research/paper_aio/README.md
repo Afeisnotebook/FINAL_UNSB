@@ -150,6 +150,9 @@ all e100/e150/e200 audits for 4090A plain, 5090C Proposal, 4090A AM-TNC and
 5090A ST-CGR, including unchanged parent state/RNG and the complete
 X_t-to-NFE5 rollout Jacobian. Only after the exact 12-cell audit state is
 complete may `terminal_adjudicate` open source-bound discovery metrics.
+The durable successor can then acquire the shared local GPU lock, evaluate the
+same 12 imported checkpoints in one frozen evaluator, create the absolute-path
+metric binding, and run the adjudicator without an unmonitored manual gap.
 
 The preregistered lead-lag test uses e100-to-e150 diagnostics and labels the
 future e150-to-e200 change on the common discovery70, replicate 0 and NFE 5.

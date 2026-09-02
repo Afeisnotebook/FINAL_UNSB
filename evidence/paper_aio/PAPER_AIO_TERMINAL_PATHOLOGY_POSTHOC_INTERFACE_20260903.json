@@ -31,13 +31,24 @@
     "training_control_authorized": false,
     "cross_runtime_matched_delta_computed": false
   },
+  "durable_auto_evaluation": {
+    "starts_only_after_exact_12_cell_target_blind_release": true,
+    "one_frozen_local_evaluator_runtime": true,
+    "uses_shared_gpu_lock": true,
+    "fixed_source_bound_checkpoints": true,
+    "writes_absolute_metric_bindings": true,
+    "metric_values_used_for_scheduling": false,
+    "restart_resumes_only_hash_validated_cells": true
+  },
   "implementation": [
     "research/paper_aio/terminal_adjudicate.py",
     "operations/paper_aio_terminal_pathology_successor.py"
   ],
   "tests": {
-    "targeted_passed": 14,
-    "full_suite_passed": 521,
+    "targeted_passed_before_auto_evaluation_extension": 14,
+    "full_suite_passed_before_auto_evaluation_extension": 521,
+    "targeted_passed_after_auto_evaluation_extension": 20,
+    "full_suite_passed_after_auto_evaluation_extension": 524,
     "coverage": [
       "shared leading signal",
       "weak-mechanism union rejection",
