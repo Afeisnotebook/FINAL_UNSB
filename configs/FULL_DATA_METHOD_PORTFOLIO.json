@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T01:29:50+08:00",
+  "captured_at": "2026-09-03T02:19:07+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -9,7 +9,7 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 2,
+      "completed_full_data_epoch": 4,
       "first_epoch_seconds": 4696.602091550827,
       "projected_completion": "2026-09-13T17:07:19+08:00",
       "matched_plain": "5090A/plain",
@@ -21,14 +21,16 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 1,
+      "completed_full_data_epoch": 2,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
-      "conservative_projected_completion": "2026-09-25T03:42:56+08:00",
+      "latest_resumed_epoch_seconds": 4992.375672578812,
+      "current_single_epoch_projected_completion": "2026-09-14",
+      "projection_note": "rough projection from the first completed post-e1 resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain": "5090A/plain paused recoverably at e9",
       "matched_delta_status": "deferred_until_plain_resumes_and_completes_e200",
       "scientific_role": "new evidence-derived stratified bridge-time estimator"
@@ -157,7 +159,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_CRITICAL_PATH_AUDIT_20260903T0219.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

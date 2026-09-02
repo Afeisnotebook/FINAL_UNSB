@@ -1,0 +1,134 @@
+{
+  "schema": "final-unsb-paper-live-critical-path-audit-v1",
+  "captured_at": "2026-09-03T02:19:07+08:00",
+  "repository_head": "132fef1ae6b521580f1db4af700fe19d5f29c5b8",
+  "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories and external baselines without metric-driven routing",
+  "live_training": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 46,
+      "updates": 393438,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "gpu_memory_mib": 1663,
+      "gpu_utilization_percent": 50,
+      "epoch_seconds": 1265.0016345977783,
+      "durable_successor": {
+        "lane": "amtnc",
+        "pid": 2182585,
+        "state": "WAITING_FOR_PREDECESSOR_E200"
+      }
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+      "data_epoch": 2,
+      "updates": 17106,
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "export_successor_pid": 336344,
+      "health_watcher_pid": 337510,
+      "health_alert_count": 0,
+      "gpu_memory_mib": 2186,
+      "gpu_utilization_percent": 26,
+      "latest_resumed_epoch_seconds": 4992.375672578812,
+      "rough_e200_completion_from_latest_resumed_epoch": "2026-09-14",
+      "matched_plain": {
+        "status": "PAUSED_RECOVERABLY_AT_E9_BY_EXPLICIT_USER_PRIORITY",
+        "updates": 76977,
+        "trainer_pid": null,
+        "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+        "resume_successor_pid": 342540,
+        "resume_successor_state": "WAITING_FOR_STCGR_COMPLETE_E200"
+      }
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 37,
+      "updates": 316461,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "epoch_seconds": 1684.9217510223389
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 19,
+      "updates": 162507,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "epoch_seconds": 2324.6193854808807
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+      "data_epoch": 4,
+      "updates": 34212,
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "health_watcher_pid": 13587,
+      "health_alert_count": 0,
+      "gpu_memory_mib": 2146,
+      "gpu_utilization_percent": 42,
+      "epoch_seconds": 4798.13661813736
+    }
+  },
+  "durable_nontraining_chain": {
+    "5090B_cut_to_exact_matched_plain": {
+      "pid": 38294,
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "fresh_e0": true,
+      "cross_host_checkpoint_resume": false
+    },
+    "5090B_runtime_relation_review": {
+      "pid": 2243220,
+      "status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+      "registry_edited": false
+    },
+    "unified_evaluation": {
+      "pid": 2209120,
+      "status": "WAITING_FOR_FIXED_IMPORTS_AND_4090A_AMTNC_GPU_RELEASE"
+    },
+    "amtnc_matched_evaluation": {
+      "pid": 2217242,
+      "status": "WAITING_FOR_STATIC_PAIR_EXPORTS"
+    },
+    "stcgr_matched_evaluation": {
+      "pid": 2217244,
+      "status": "WAITING_FOR_CANDIDATE_IMPORT_AND_MATCHED_PLAIN"
+    },
+    "final_discovery_delivery": {
+      "pid": 2220419,
+      "status": "WAITING_FOR_ALL_FIXED_E200_RESULTS"
+    }
+  },
+  "local_1060_and_cpu": {
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "gpu_memory_mib": 772,
+    "gpu_utilization_percent": 0,
+    "active_research_process": false,
+    "terminal_audit_status": "EXISTING_SMALL25_AUDIT_COMPLETE_FULL_DATA_FIXED_CHECKPOINTS_NOT_YET_AVAILABLE",
+    "terminal_pathology_gate": {
+      "required_support": "at least two methods and three domains",
+      "observed_support": "one method and one domain",
+      "confirmed": false,
+      "decision": "do not launch an unsupported terminal repair experiment"
+    },
+    "ddsb_status": "REPRODUCTION_INCOMPLETE_SOURCE_OR_FORMULA_LOCK_MISSING",
+    "idle_reason": "no source-authorized full-data checkpoint audit or DDSB implementation is currently runnable; GPU occupancy is not itself a scientific objective"
+  },
+  "scheduler_decision": {
+    "5090A_stcgr_priority_satisfied": true,
+    "5090A_plain_gpu_process_absent": true,
+    "other_live_training_changed": false,
+    "new_experiment_started": false,
+    "duplicate_successor_started": false,
+    "next_evidence_gate": "first available fixed e100 full-data UNSB-family checkpoint or a completed e200 predecessor"
+  },
+  "scientific_boundaries": {
+    "performance_values_read_by_scheduler": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}
