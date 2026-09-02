@@ -1,0 +1,128 @@
+{
+  "schema": "final-unsb-paper-five-node-metric-blind-health-v1",
+  "captured_at": "2026-09-03T05:02:18+08:00",
+  "status": "ALL_ACTIVE_TRAINING_AND_DURABLE_SUCCESSORS_HEALTHY_ZERO_ALERTS",
+  "nodes": {
+    "4090A": {
+      "observed_at": "2026-09-03T04:59:22+08:00",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "gpu_utilization_percent_snapshot": 50,
+      "gpu_memory_used_mib_snapshot": 1663,
+      "disk_free_gib_rounded": 388,
+      "lanes": {
+        "plain": {
+          "status": "CHILD_RUNNING",
+          "data_epoch": 54,
+          "updates": 461862,
+          "trainer_pid": 2072055
+        },
+        "amtnc": {
+          "status": "WAITING_FOR_PREDECESSOR_E200",
+          "successor_pid": 2182585
+        }
+      },
+      "health_watcher_pid": 2200307,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "posthoc_and_delivery_successors_healthy": true
+    },
+    "5090A": {
+      "observed_at": "2026-09-03T05:02:18+08:00",
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "gpu_utilization_percent_snapshot": 49,
+      "gpu_memory_used_mib_snapshot": 2186,
+      "disk_free_gib_rounded": 185,
+      "user_capacity_override": true,
+      "lanes": {
+        "G4-01-STRATIFIED-TIME-CONDITIONAL-GF": {
+          "status": "CHILD_RUNNING_ONLY_GPU_TRAINING_LANE",
+          "data_epoch": 4,
+          "updates": 34212,
+          "trainer_pid": 336346
+        },
+        "plain": {
+          "status": "PAUSED_AT_E9_NO_AUTOMATIC_RESUME",
+          "data_epoch": 9,
+          "updates": 76977,
+          "trainer_present": false
+        }
+      },
+      "health_watcher_pid": 352017,
+      "health_status": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090B": {
+      "observed_at": "2026-09-03T05:00:52+08:00",
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "gpu_utilization_percent_snapshot": 93,
+      "gpu_memory_used_mib_snapshot": 3479,
+      "disk_free_gib_rounded": 231,
+      "lanes": {
+        "cut": {
+          "status": "CHILD_RUNNING_COLOCATED",
+          "data_epoch": 43,
+          "updates": 367779,
+          "trainer_pid": 5771
+        },
+        "cyclegan": {
+          "status": "CHILD_RUNNING_COLOCATED",
+          "data_epoch": 24,
+          "updates": 205272,
+          "trainer_pid": 11846
+        }
+      },
+      "health_watcher_pid": 30355,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "matched_plain_successor": {
+        "status": "WAITING_FOR_PREDECESSOR_E200",
+        "pid": 38294,
+        "health_watcher_pid": 39139,
+        "health_status": "HEALTHY_ZERO_ALERTS",
+        "fresh_e0": true
+      }
+    },
+    "5090C": {
+      "observed_at": "2026-09-03T05:01:53+08:00",
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "gpu_utilization_percent_snapshot": 52,
+      "gpu_memory_used_mib_snapshot": 2146,
+      "disk_free_gib_rounded": 231,
+      "lanes": {
+        "proposal": {
+          "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+          "data_epoch": 6,
+          "updates": 51318,
+          "trainer_pid": 9734
+        }
+      },
+      "health_watcher_pid": 13587,
+      "health_status": "HEALTHY_ZERO_ALERTS"
+    },
+    "local_GTX1660": {
+      "observed_at": "2026-09-03T04:57:53+08:00",
+      "gpu": "NVIDIA GeForce GTX 1660",
+      "gpu_utilization_percent_snapshot": 0,
+      "gpu_memory_used_mib_snapshot": 775,
+      "disk_free_gib": 125.7329,
+      "incremental_relay_pids": [6292, 12656, 19904, 14528],
+      "terminal_audit_successor_pid": 13536,
+      "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "health_watcher_pid": 15672,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "completed_fixed_terminal_audits": []
+    }
+  },
+  "adjudication": {
+    "engineering_recovery_required": false,
+    "schedule_change_required": false,
+    "reason": "all active lanes are progressing under their frozen protocols and all durable successors are alive in the correct dependency states",
+    "next_fixed_training_event": "4090A plain e100 incremental export and local terminal audit",
+    "next_runtime_relation_event": "5090B CUT e200 followed by the fresh-e0 exact-runtime plain gate"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "scientific_configuration_changed": false
+  }
+}

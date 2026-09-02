@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T04:53:38+08:00",
+  "state_snapshot_time": "2026-09-03T05:02:18+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -9,13 +9,13 @@
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_HEALTH_20260903T050218.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 49, "latest_observed_updates": 419097, "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 40, "latest_observed_updates": 342120, "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 21, "latest_observed_updates": 179613, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 54, "latest_observed_updates": 461862, "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 43, "latest_observed_updates": 367779, "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 24, "latest_observed_updates": 205272, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -105,8 +105,8 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 5,
-        "latest_observed_updates": 42765,
+        "latest_observed_data_epoch": 6,
+        "latest_observed_updates": 51318,
         "first_epoch_seconds": 4696.602091550827,
         "latest_epoch_seconds": 4752.122806787491,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
@@ -541,7 +541,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T045338.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_HEALTH_20260903T050218.json",
     "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
