@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-5090a-stcgr-time-priority-reallocation-v1",
-  "captured_at": "2026-09-03T00:35:38+08:00",
+  "captured_at": "2026-09-03T00:46:10+08:00",
   "status": "STCGR_RUNNING_PLAIN_PAUSED_RECOVERABLY_BY_EXPLICIT_USER_PRIORITY",
   "scope": {
     "changed_host": "5090A",
@@ -62,12 +62,12 @@
     "eta_recalibration_points": [2, 5]
   },
   "monitoring": {
-    "old_watcher_pid": 327875,
-    "old_watcher_retired": true,
-    "watcher_pid": 336875,
+    "retired_watcher_pids": [327875, 336875],
+    "watcher_rebind_note": "PID 336875 correctly detected a static continuation state as stale; it was replaced without touching training by a PID-liveness continuation watch plus the existing lane-heartbeat watch",
+    "watcher_pid": 337510,
     "watcher_status": "HEALTHY",
     "watcher_alert_count": 0,
-    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090A_STCGR_PRIORITY_bf0f82c",
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090A_STCGR_PRIORITY_V2_a940a94",
     "disk_free_gib": 184.5373077392578,
     "estimated_remaining_write_gib": 24.0,
     "minimum_headroom_gib": 24.0,

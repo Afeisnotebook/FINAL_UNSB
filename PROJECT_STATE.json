@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T00:35:38+08:00",
+  "state_snapshot_time": "2026-09-03T00:46:10+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -50,7 +50,7 @@
         "export_successor_pid": 336344,
         "supervisor_pid": 336345,
         "trainer_pid": 336346,
-        "health_watcher_pid": 336875,
+        "health_watcher_pid": 337510,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
@@ -360,7 +360,7 @@
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
         "4090A": 2200307,
-        "5090A": 336875,
+        "5090A": 337510,
         "5090B": 30355,
         "5090C": 13587
       },
