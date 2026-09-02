@@ -9,10 +9,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 import time
 from pathlib import Path
+
+
+_SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 
 def atomic_json(path: Path, payload: dict) -> None:
@@ -33,21 +37,37 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--train-view", type=Path, required=True)
     parser.add_argument("--lane", required=True)
+    parser.add_argument("--candidate-id")
     parser.add_argument("--gpu", type=int, default=0)
     parser.add_argument("--restart-delay-seconds", type=int, default=30)
     parser.add_argument("--maximum-consecutive-failures", type=int, default=3)
     return parser.parse_args()
 
 
-def main() -> int:
-    args = arguments()
-    repo = args.repo.resolve()
-    output = args.output.resolve()
-    authorization = output / "gates" / f"LANE_AUTHORIZATION_{args.lane}.json"
-    if not authorization.is_file():
-        raise SystemExit(f"authorized paper lane required: {authorization}")
-    log = output / "logs" / f"SUPERVISOR_{args.lane}.log"
-    heartbeat = output / "gates" / f"SUPERVISOR_{args.lane}.json"
+def lane_identity(lane: str, candidate_id: str | None) -> tuple[str, str]:
+    if lane != "candidate":
+        if candidate_id is not None:
+            raise ValueError("--candidate-id is only valid with --lane candidate")
+        if not _SAFE_ID.fullmatch(str(lane)):
+            raise ValueError(f"unsafe paper lane: {lane!r}")
+        return str(lane), "static"
+    value = str(candidate_id or "")
+    if not _SAFE_ID.fullmatch(value):
+        raise ValueError("--lane candidate requires a safe --candidate-id")
+    return value, "candidate"
+
+
+def authorization_path(output: Path, lane: str, candidate_id: str | None) -> Path:
+    identity, kind = lane_identity(lane, candidate_id)
+    name = (
+        f"CANDIDATE_AUTHORIZATION_{identity}.json" if kind == "candidate" else
+        f"LANE_AUTHORIZATION_{identity}.json"
+    )
+    return Path(output) / "gates" / name
+
+
+def child_command(args: argparse.Namespace, output: Path) -> list[str]:
+    identity, kind = lane_identity(args.lane, args.candidate_id)
     command = [
         sys.executable, "-m", "research.paper_aio.run",
         "--stage", "train", "--lane", args.lane, "--resume",
@@ -56,13 +76,30 @@ def main() -> int:
         "--train-view", str(args.train_view.resolve()),
         "--gpu", str(args.gpu),
     ]
+    if kind == "candidate":
+        command += ["--candidate-id", identity]
+    return command
+
+
+def main() -> int:
+    args = arguments()
+    repo = args.repo.resolve()
+    output = args.output.resolve()
+    identity, lane_kind = lane_identity(args.lane, args.candidate_id)
+    authorization = authorization_path(output, args.lane, args.candidate_id)
+    if not authorization.is_file():
+        raise SystemExit(f"authorized paper lane required: {authorization}")
+    log = output / "logs" / f"SUPERVISOR_{identity}.log"
+    heartbeat = output / "gates" / f"SUPERVISOR_{identity}.json"
+    command = child_command(args, output)
     failures = 0
     while True:
         started = time.time()
         atomic_json(heartbeat, {
             "schema": "final-unsb-paper-supervisor-v1",
             "status": "CHILD_RUNNING",
-            "lane_id": args.lane,
+            "lane_id": identity,
+            "lane_kind": lane_kind,
             "command": command,
             "started_unix_time": started,
             "consecutive_failures": failures,
@@ -77,7 +114,7 @@ def main() -> int:
                 command, cwd=repo, stdout=handle, stderr=subprocess.STDOUT,
                 check=False,
             )
-        state_path = output / "lanes" / args.lane / "RUN_STATE.json"
+        state_path = output / "lanes" / identity / "RUN_STATE.json"
         state = {}
         if state_path.is_file():
             state = json.loads(state_path.read_text(encoding="utf-8"))
@@ -85,7 +122,8 @@ def main() -> int:
             atomic_json(heartbeat, {
                 "schema": "final-unsb-paper-supervisor-v1",
                 "status": "COMPLETE_E200",
-                "lane_id": args.lane,
+                "lane_id": identity,
+                "lane_kind": lane_kind,
                 "child_returncode": completed.returncode,
                 "run_state": state,
                 "confirmation20_opened": False,
@@ -96,7 +134,8 @@ def main() -> int:
             atomic_json(heartbeat, {
                 "schema": "final-unsb-paper-supervisor-v1",
                 "status": "BLOCKED_AFTER_REPEATED_ENGINEERING_FAILURE",
-                "lane_id": args.lane,
+                "lane_id": identity,
+                "lane_kind": lane_kind,
                 "child_returncode": completed.returncode,
                 "consecutive_failures": failures,
                 "last_run_state": state,
@@ -106,7 +145,8 @@ def main() -> int:
         atomic_json(heartbeat, {
             "schema": "final-unsb-paper-supervisor-v1",
             "status": "WAITING_TO_EXACT_RESUME",
-            "lane_id": args.lane,
+            "lane_id": identity,
+            "lane_kind": lane_kind,
             "child_returncode": completed.returncode,
             "consecutive_failures": failures,
             "restart_delay_seconds": int(args.restart_delay_seconds),

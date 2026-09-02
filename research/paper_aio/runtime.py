@@ -406,16 +406,18 @@ def append_jsonl(path: Path, payload: dict) -> None:
         handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 
-def train_lane(
-    *, lane_id: str, output_root: Path, train_view: Path, data_root: Path,
+def train_spec(
+    *, spec: LaneSpec, output_root: Path, train_view: Path, data_root: Path,
     manifest_path: Path, gpu: int, resume: bool,
     engineering_stop_after_updates: int | None = None,
     gate_context: bool = False,
+    authorization_kind: str = "lane",
 ) -> dict:
+    """Train one frozen paper spec, including a dynamically locked candidate."""
     from .evaluate import evaluate_live_model
 
     protocol = load_protocol()
-    spec = lane_spec(lane_id, protocol)
+    lane_id = spec.id
     if spec.backend != "internal":
         raise RuntimeError(
             f"{lane_id} is blocked: external source/formula/full-state adapter is not locked"
@@ -426,8 +428,14 @@ def train_lane(
         raise ValueError(f"engineering stop must be in [1,{target}]")
     output_root = Path(output_root).resolve()
     if not gate_context:
-        from .gates import require_lane_authorization
-        require_lane_authorization(output_root, lane_id)
+        if authorization_kind == "lane":
+            from .gates import require_lane_authorization
+            require_lane_authorization(output_root, lane_id)
+        elif authorization_kind == "candidate":
+            from .candidate_runtime import require_candidate_authorization
+            require_candidate_authorization(output_root, lane_id)
+        else:
+            raise RuntimeError(f"unknown paper authorization kind: {authorization_kind}")
     lane_root = output_root / "lanes" / lane_id
     latest = lane_root / "full_state_latest.pt"
     if latest.is_file() and not resume:
@@ -526,3 +534,18 @@ def train_lane(
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
     return result
+
+
+def train_lane(
+    *, lane_id: str, output_root: Path, train_view: Path, data_root: Path,
+    manifest_path: Path, gpu: int, resume: bool,
+    engineering_stop_after_updates: int | None = None,
+    gate_context: bool = False,
+) -> dict:
+    return train_spec(
+        spec=lane_spec(lane_id, load_protocol()), output_root=output_root,
+        train_view=train_view, data_root=data_root, manifest_path=manifest_path,
+        gpu=gpu, resume=resume,
+        engineering_stop_after_updates=engineering_stop_after_updates,
+        gate_context=gate_context, authorization_kind="lane",
+    )

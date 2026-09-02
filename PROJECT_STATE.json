@@ -12,9 +12,9 @@
     "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 4, "successor": "proposal"},
-      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 3, "successor": "cyclegan"},
-      "5090A_stcgr_small25": {"status": "CANDIDATE_CHUNK_RUNNING", "latest_observed_data_epoch": 5, "target_data_epoch": 200}
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 6, "successor": "proposal"},
+      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 4, "successor": "cyclegan"},
+      "5090A_stcgr_small25": {"status": "CANDIDATE_CHUNK_RUNNING", "latest_observed_data_epoch": 23, "target_data_epoch": 200}
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
@@ -22,6 +22,15 @@
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
     "active_new_candidate_full_data_authorized": false,
+    "candidate_full_data_gate_interface": {
+      "status": "IMPLEMENTED_FAIL_CLOSED_NOT_YET_EXECUTED",
+      "candidate_code_protocol_fingerprint": "63839258f46324331648dddef30e818f0f9adcc3ce40e10dd90307fa118156b1",
+      "requires_positive_small25_e200_receipt": true,
+      "requires_same_host_cross_code_runtime_gate": true,
+      "evidence_lock_authorizes_training": false,
+      "requires_separate_current_commit_authorization": true,
+      "evidence": "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json"
+    },
     "active_new_candidate_receipt_successor": {
       "status": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",
       "candidate_git_commit": "0637880f8e93742a0551a30c555d02a6323f583e",

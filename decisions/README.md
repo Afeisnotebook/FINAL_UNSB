@@ -77,3 +77,6 @@ authorize compute.
 22. `DEC-20260902-PAPER-AIO-NEW5090-CUT-ASSIGNMENT.md`：新5090通过门后运行CUT。
 23. `DEC-20260902-PAPER-AIO-DURABLE-SUCCESSION.md`：plain→Proposal与CUT→CycleGAN只在
     前序固定e200完成、后继全部工程门通过后自动衔接。
+24. `DEC-20260902-PAPER-AIO-CANDIDATE-CROSS-CODE-GATE.md`：新算法不能复用在飞plain的
+    旧代码授权；small25正向终点收据、同宿主跨代码e0/2000步、zero identity、resume与
+    重复评估全部通过后仍只形成证据lock，必须再签当前commit授权才能启动全量。

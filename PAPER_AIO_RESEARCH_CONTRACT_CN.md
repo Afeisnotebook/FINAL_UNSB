@@ -67,6 +67,11 @@ method-minus-plain 只能在相同 runtime cohort 中计算。checkpoint 不跨�
   有序对采样，单视图边际仍为原生均匀分布，期望不变；
 - ST-CGR只有在固定状态target-blind门和small25 e200完整裁决通过后，才能形成全量
   candidate lock；中间paired指标不得决定是否继续；
+- 全量candidate采用双阶段授权：先绑定source-bound small25 e200收据、完整trajectory、
+  derivation card、implementation源码哈希与同宿主paper plain e200；再证明跨代码e0核心、
+  原生2000步转移、zero-intervention、exact resume和重复评估全部精确一致。candidate
+  lock本身固定写`full_data_authorized=false`，只有与当前commit/协议指纹绑定的第二份
+  authorization才能启动171万步；
 - Bridge Martingale Consistency只在系统性末段条件均值漂移证据成立后才可生成，当前
   不具备长训授权；
 - 最多保留两个独立Generation-1方向，每个只允许一次由新因果证据支持的修订，禁止

@@ -13,6 +13,13 @@ import torch
 from research.local_route1.runtime import load_model_state, write_json
 
 from .adjudicate import adjudicate
+from .candidate_lock import materialize_candidate_lock
+from .candidate_runtime import (
+    authorize_candidate,
+    load_candidate_spec,
+    run_candidate_runtime_gate,
+    train_candidate,
+)
 from .evaluate import evaluate_live_model
 from .gates import (
     authorize_lane,
@@ -48,9 +55,11 @@ def parser() -> argparse.ArgumentParser:
             "preflight", "materialize", "runtime-twin", "resume-gate", "external-gate",
             "zero-intervention-gate", "authorize", "train", "evaluate",
             "evaluation-repeat-gate", "terminal-audit", "adjudicate",
+            "candidate-lock",
+            "candidate-runtime-gate",
         ],
     )
-    value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb"])
+    value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
     value.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     value.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     value.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -72,6 +81,17 @@ def parser() -> argparse.ArgumentParser:
         choices=["same_runtime_output_root", "exact_cross_4090_cohort"],
     )
     value.add_argument("--runtime-receipt", type=Path)
+    value.add_argument("--candidate-id")
+    value.add_argument("--candidate-terminal-receipt", type=Path)
+    value.add_argument("--candidate-trajectory", type=Path)
+    value.add_argument("--candidate-derivation-card", type=Path)
+    value.add_argument("--candidate-implementation", type=Path)
+    value.add_argument("--candidate-runtime-gate", type=Path)
+    value.add_argument("--parent-output", type=Path)
+    value.add_argument("--parent-runtime-receipt", type=Path)
+    value.add_argument("--parent-e0", type=Path)
+    value.add_argument("--parent-scientific-git-commit")
+    value.add_argument("--parent-protocol-fingerprint")
     return value
 
 
@@ -97,7 +117,12 @@ def _materialize(args) -> dict:
 def _load_checkpoint_model(args):
     if not args.lane or not args.checkpoint:
         raise SystemExit("stage requires --lane and --checkpoint")
-    spec = lane_spec(args.lane)
+    if args.lane == "candidate":
+        if not args.candidate_id:
+            raise SystemExit("candidate checkpoint stage requires --candidate-id")
+        spec, _ = load_candidate_spec(args.output.resolve(), args.candidate_id)
+    else:
+        spec = lane_spec(args.lane)
     payload = torch.load(args.checkpoint.resolve(), map_location="cpu", weights_only=False)
     model, primary, secondary, rows = prepare_lane(
         output_root=args.output.resolve(), train_view=args.train_view.resolve(),
@@ -133,6 +158,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.stage == "resume-gate":
         if not args.lane:
             raise SystemExit("resume-gate requires --lane")
+        if args.lane == "candidate":
+            raise SystemExit("candidate resume is part of --stage candidate-runtime-gate")
         result = run_resume_gate(
             output_root=args.output, train_view=args.train_view.resolve(),
             data_root=args.data_root.resolve(), manifest_path=args.manifest.resolve(),
@@ -146,13 +173,18 @@ def main(argv: list[str] | None = None) -> int:
     elif args.stage == "authorize":
         if not args.lane:
             raise SystemExit("authorize requires --lane")
-        result = authorize_lane(
-            output_root=args.output, lane_id=args.lane,
-            matched_plain_mode=args.matched_plain_mode,
-            runtime_receipt=(
-                None if args.runtime_receipt is None else args.runtime_receipt.resolve()
-            ),
-        )
+        if args.lane == "candidate":
+            if not args.candidate_id:
+                raise SystemExit("candidate authorization requires --candidate-id")
+            result = authorize_candidate(args.output, args.candidate_id)
+        else:
+            result = authorize_lane(
+                output_root=args.output, lane_id=args.lane,
+                matched_plain_mode=args.matched_plain_mode,
+                runtime_receipt=(
+                    None if args.runtime_receipt is None else args.runtime_receipt.resolve()
+                ),
+            )
     elif args.stage == "external-gate":
         if args.lane not in ("cut", "ddsb"):
             raise SystemExit("external-gate requires --lane cut|ddsb")
@@ -160,12 +192,22 @@ def main(argv: list[str] | None = None) -> int:
     elif args.stage == "train":
         if not args.lane:
             raise SystemExit("train requires --lane")
-        result = train_lane(
-            lane_id=args.lane, output_root=args.output,
-            train_view=args.train_view.resolve(), data_root=args.data_root.resolve(),
-            manifest_path=args.manifest.resolve(), gpu=args.gpu, resume=args.resume,
-            engineering_stop_after_updates=args.engineering_stop_after_updates,
-        )
+        if args.lane == "candidate":
+            if not args.candidate_id:
+                raise SystemExit("candidate training requires --candidate-id")
+            result = train_candidate(
+                candidate_id=args.candidate_id, output_root=args.output,
+                train_view=args.train_view.resolve(), data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(), gpu=args.gpu, resume=args.resume,
+                engineering_stop_after_updates=args.engineering_stop_after_updates,
+            )
+        else:
+            result = train_lane(
+                lane_id=args.lane, output_root=args.output,
+                train_view=args.train_view.resolve(), data_root=args.data_root.resolve(),
+                manifest_path=args.manifest.resolve(), gpu=args.gpu, resume=args.resume,
+                engineering_stop_after_updates=args.engineering_stop_after_updates,
+            )
     elif args.stage == "evaluate":
         if args.epoch is None:
             raise SystemExit("evaluate requires --epoch")
@@ -194,6 +236,66 @@ def main(argv: list[str] | None = None) -> int:
             gradient_replicates=args.audit_gradient_replicates,
         )
         append_audit(args.output / "TERMINAL_AUDIT.jsonl", result)
+    elif args.stage == "candidate-lock":
+        required = {
+            "--candidate-id": args.candidate_id,
+            "--candidate-terminal-receipt": args.candidate_terminal_receipt,
+            "--candidate-trajectory": args.candidate_trajectory,
+            "--candidate-derivation-card": args.candidate_derivation_card,
+            "--candidate-implementation": args.candidate_implementation,
+            "--candidate-runtime-gate": args.candidate_runtime_gate,
+            "--parent-output": args.parent_output,
+            "--parent-scientific-git-commit": args.parent_scientific_git_commit,
+            "--parent-protocol-fingerprint": args.parent_protocol_fingerprint,
+        }
+        missing = [key for key, value in required.items() if value is None]
+        if missing:
+            raise SystemExit("candidate-lock requires " + ", ".join(missing))
+        result = materialize_candidate_lock(
+            output_root=args.output,
+            candidate_id=args.candidate_id,
+            terminal_receipt=args.candidate_terminal_receipt,
+            trajectory=args.candidate_trajectory,
+            derivation_card=args.candidate_derivation_card,
+            implementation=args.candidate_implementation,
+            runtime_gate=args.candidate_runtime_gate,
+            parent_output=args.parent_output,
+            parent_scientific_git_commit=args.parent_scientific_git_commit,
+            parent_protocol_fingerprint=args.parent_protocol_fingerprint,
+        )
+    elif args.stage == "candidate-runtime-gate":
+        required = {
+            "--candidate-id": args.candidate_id,
+            "--candidate-terminal-receipt": args.candidate_terminal_receipt,
+            "--candidate-trajectory": args.candidate_trajectory,
+            "--candidate-derivation-card": args.candidate_derivation_card,
+            "--candidate-implementation": args.candidate_implementation,
+            "--parent-output": args.parent_output,
+            "--parent-runtime-receipt": args.parent_runtime_receipt,
+            "--parent-e0": args.parent_e0,
+            "--parent-scientific-git-commit": args.parent_scientific_git_commit,
+            "--parent-protocol-fingerprint": args.parent_protocol_fingerprint,
+        }
+        missing = [key for key, value in required.items() if value is None]
+        if missing:
+            raise SystemExit("candidate-runtime-gate requires " + ", ".join(missing))
+        result = run_candidate_runtime_gate(
+            output_root=args.output,
+            candidate_id=args.candidate_id,
+            terminal_receipt=args.candidate_terminal_receipt,
+            trajectory=args.candidate_trajectory,
+            derivation_card=args.candidate_derivation_card,
+            implementation=args.candidate_implementation,
+            parent_output=args.parent_output,
+            parent_runtime_receipt=args.parent_runtime_receipt,
+            parent_e0=args.parent_e0,
+            parent_scientific_git_commit=args.parent_scientific_git_commit,
+            parent_protocol_fingerprint=args.parent_protocol_fingerprint,
+            train_view=args.train_view.resolve(),
+            data_root=args.data_root.resolve(),
+            manifest_path=args.manifest.resolve(),
+            gpu=args.gpu,
+        )
     else:
         result = adjudicate(args.output)
     print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-candidate-cross-code-gate-implementation-v1",
+  "date": "2026-09-02",
+  "status": "IMPLEMENTED_FAIL_CLOSED_NOT_YET_EXECUTED",
+  "parent_repository_head": "1e7adad",
+  "candidate_code_protocol_fingerprint": "63839258f46324331648dddef30e818f0f9adcc3ce40e10dd90307fa118156b1",
+  "purpose": "permit an evidence-positive route-1 candidate to enter full-data gates without pretending that code added after the frozen paper plain belongs to the same protocol identity",
+  "required_small25_evidence": [
+    "source-bound complete e200 terminal receipt",
+    "positive frozen trajectory with all numeric guards",
+    "PASS_NOT_PLAIN_COLLAPSE absolute-trajectory guard",
+    "exact derivation-card and implementation hashes",
+    "frozen implementation source-file hashes"
+  ],
+  "required_parent_paper_evidence": [
+    "same-host full-data plain COMPLETE_E200 at 1710600 updates",
+    "parent training preflight and plain authorization",
+    "parent paper commit and protocol fingerprint",
+    "parent e0 and 2000-update runtime-twin receipt"
+  ],
+  "cross_code_gpu_checks": [
+    "candidate-code e0 scientific core equals parent paper e0",
+    "candidate-code native plain 2000-update transition equals parent runtime twin",
+    "disabled candidate transition equals native plain",
+    "candidate continuous and split-resume states are exact",
+    "candidate repeated discovery evaluation is exact",
+    "candidate runtime environment equals the parent plain host/runtime"
+  ],
+  "authorization_model": {
+    "evidence_lock_full_data_authorized": false,
+    "separate_current_commit_authorization_required": true,
+    "stale_git_or_protocol_fingerprint_fails_closed": true,
+    "negative_or_incomplete_small25_fails_closed": true
+  },
+  "public_interface": [
+    "--stage candidate-runtime-gate",
+    "--stage candidate-lock",
+    "--stage authorize --lane candidate --candidate-id ID",
+    "--stage train --lane candidate --candidate-id ID --resume"
+  ],
+  "verification": {
+    "pytest_passed": 402,
+    "contract_checks": "ALL_CONTRACT_CHECKS_PASSED",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "live_scientific_checkouts_mutated": false,
+  "full_data_candidate_currently_authorized": false,
+  "paired_metric_control": false,
+  "cross_host_delta": false,
+  "confirmation20_opened": false
+}

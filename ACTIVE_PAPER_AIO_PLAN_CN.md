@@ -22,8 +22,8 @@
 | 5090A | ST-CGR small25 e200 | candidate commit `0637880` | 只在完整e200后裁决，不看中间paired指标 |
 | 本地1660 | 合同、代码、只读审计 | 不与远端训练混用 | 准备候选全量冻结接口 |
 
-部署时的最新可复核进度为plain e4、CUT e3、ST-CGR e5；这些只是工程心跳，不是科学
-结论。三条训练均由持久监督器执行，plain→Proposal和CUT→CycleGAN另有fail-closed
+进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
+这些心跳不是科学结论。三条训练均由持久监督器执行，plain→Proposal和CUT→CycleGAN另有fail-closed
 后继等待器。ST-CGR也已部署source-bound终点receipt后继：只在完整e200轨迹出现后发布
 正式receipt，状态为`WAITING_FOR_COMPLETE_E200_TRAJECTORY`；它不会自动授权全量。
 
@@ -31,6 +31,8 @@
 
 1. ST-CGR完成small25 e200后，只按e150/e175/e200、e200、六域、SSIM/LPIPS、绝对
    轨迹和成本裁决；若通过，生成独立full candidate lock，不修改在飞paper协议。
+   该lock还必须通过跨代码e0/2000-step、zero-intervention、resume与重复评估门，且只有
+   随后的独立authorization能启动全量；任何一门失败都保持未授权。
 2. plain/CUT必须自然到e200；中间discovery值不触发早停、算法修改或资源调度。
 3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。
 4. plain完成后在同一4090执行Proposal专属resume/identity/eval门；CUT完成后在同一

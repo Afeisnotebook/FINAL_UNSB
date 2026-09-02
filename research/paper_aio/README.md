@@ -40,3 +40,40 @@ adjudicator; it never controls training.
 
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.
+
+## Evidence-locked new candidates
+
+A route-1 candidate is not another static lane name.  After a complete
+positive small25 e200 trajectory, use the following fail-closed sequence on
+the same host/runtime that produced the paper plain reference:
+
+```text
+python -m research.paper_aio.run --stage candidate-runtime-gate \
+  --candidate-id ID --candidate-terminal-receipt RECEIPT \
+  --candidate-trajectory TRAJECTORY --candidate-derivation-card CARD \
+  --candidate-implementation IMPLEMENTATION --parent-output PARENT \
+  --parent-runtime-receipt PARENT_TWIN --parent-e0 PARENT_E0 \
+  --parent-scientific-git-commit COMMIT --parent-protocol-fingerprint FP ...
+
+python -m research.paper_aio.run --stage candidate-lock \
+  --candidate-id ID --candidate-terminal-receipt RECEIPT \
+  --candidate-trajectory TRAJECTORY --candidate-derivation-card CARD \
+  --candidate-implementation IMPLEMENTATION \
+  --candidate-runtime-gate CANDIDATE_RUNTIME_GATE \
+  --parent-output PARENT --parent-scientific-git-commit COMMIT \
+  --parent-protocol-fingerprint FP ...
+
+python -m research.paper_aio.run --stage authorize --lane candidate \
+  --candidate-id ID ...
+python -m research.paper_aio.run --stage train --lane candidate \
+  --candidate-id ID --resume ...
+```
+
+The runtime gate independently proves exact parent/candidate e0 scientific
+cores, the native 2000-update transition, disabled-candidate identity,
+candidate full-state resume, and repeated evaluation.  The evidence lock
+deliberately records `full_data_authorized=false`; only a second fresh
+authorization bound to the current Git commit and protocol fingerprint may
+start the 1,710,600-update run.  A negative/incomplete small25 trajectory,
+stale source hash, different host runtime, or missing parent plain e200 state
+fails closed.
