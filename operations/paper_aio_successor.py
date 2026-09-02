@@ -93,7 +93,16 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--train-view", type=Path, required=True)
     parser.add_argument("--predecessor", required=True)
-    parser.add_argument("--successor", choices=("proposal", "cyclegan"), required=True)
+    parser.add_argument(
+        "--successor",
+        choices=("proposal", "amtnc", "hjcgr", "cyclegan"),
+        required=True,
+        help=(
+            "Frozen static paper lane to gate and start after the predecessor. "
+            "Adding a lane here changes only metric-blind scheduling; the "
+            "scientific lane definition remains pinned by the training repo."
+        ),
+    )
     parser.add_argument("--required-git-commit", required=True)
     parser.add_argument("--required-protocol-fingerprint", required=True)
     parser.add_argument("--gpu", type=int, default=0)
