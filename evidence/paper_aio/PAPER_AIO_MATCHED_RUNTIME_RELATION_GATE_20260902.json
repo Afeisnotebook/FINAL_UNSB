@@ -30,6 +30,19 @@
     "same-host training identity mismatch",
     "performance-contaminated relation registry"
   ],
+  "unified_evaluator_deployment": {
+    "host": "4090A",
+    "path": "/home/yc/FINAL_UNSB_PAPER_EVALUATOR_1b1c286",
+    "git_commit": "1b1c286c32a28ce962992989d6e24d6a329ed875",
+    "protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "targeted_tests": "17 passed",
+    "checkout_clean": true,
+    "running_training_modified": false,
+    "github_fetch_result": "transient_https_timeout",
+    "fallback_transport": "verified complete Git bundle over the local network",
+    "temporary_bundle_removed_after_commit_verification": true
+  },
   "running_training_source_modified": false,
   "paired_performance_read": false,
   "paired_metric_control": false,

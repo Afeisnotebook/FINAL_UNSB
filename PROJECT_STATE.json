@@ -196,6 +196,11 @@
       "runtime_twin_updates": 2000,
       "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
       "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+      "unified_evaluator_host": "4090A",
+      "unified_evaluator_path": "/home/yc/FINAL_UNSB_PAPER_EVALUATOR_1b1c286",
+      "unified_evaluator_commit": "1b1c286c32a28ce962992989d6e24d6a329ed875",
+      "unified_evaluator_protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+      "unified_evaluator_targeted_tests": "17 passed",
       "paired_performance_read": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_RUNTIME_RELATION_GATE_20260902.json",
       "decision": "decisions/DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md"
