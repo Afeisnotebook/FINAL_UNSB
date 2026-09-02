@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from research.paper_aio.runtime_relation import (
+    exact_candidate_control_relation_payload,
     materialize_exact_runtime_relation,
     runtime_pair_passed,
     runtime_pair_status,
@@ -183,6 +184,150 @@ def test_relation_materializer_requires_primary_exact_receipts(tmp_path: Path) -
             destination=tmp_path / "contaminated.json",
         )
 
+
+def _candidate_control_evidence(tmp_path: Path) -> dict[str, Path]:
+    from research.paper_aio.protocol import file_sha256
+
+    candidate_id = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    environment = {
+        "python": "3.11", "torch": "2.8", "torch_cuda": "12.8",
+        "cudnn": 91002, "gpu": "RTX 5090",
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": False, "tf32_cudnn": False,
+        "hostname": "candidate-host",
+    }
+    gate = {
+        "schema": "final-unsb-paper-candidate-runtime-gate-v1",
+        "status": "PASS_CROSS_CODE_CANDIDATE_RUNTIME",
+        "candidate_id": candidate_id,
+        "candidate_git_commit": "c" * 40,
+        "candidate_protocol_fingerprint": "candidate-fp",
+        "parent_protocol_fingerprint": "parent-fp",
+        "manifest_sha256": "m" * 64,
+        "parent_runtime_receipt_sha256": "r" * 64,
+        "environment": environment,
+        "e0_scientific_core_exact": True,
+        "parent_e0_scientific_core_sha256": "e" * 64,
+        "candidate_e0_scientific_core_sha256": "e" * 64,
+        "plain_2000_transition_exact": True,
+        "parent_plain_2000_transition_sha256": "s" * 64,
+        "candidate_plain_2000_transition_sha256": "s" * 64,
+        "zero_intervention_identity_exact": True,
+        "candidate_resume_exact": True,
+        "candidate_evaluation_repeat_exact": True,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    gate_path = _write(tmp_path / "candidate_gate.json", gate)
+    authorization = {
+        "schema": "final-unsb-paper-candidate-authorization-v1",
+        "status": "PASS_FULL_DATA_CANDIDATE_AUTHORIZATION",
+        "candidate_id": candidate_id,
+        "candidate_protocol_fingerprint": "candidate-fp",
+        "candidate_runtime_gate_sha256": file_sha256(gate_path),
+        "parent_e200_required_before_matched_adjudication": True,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    authorization_path = _write(tmp_path / "candidate_authorization.json", authorization)
+    authority = {
+        "schema": "final-unsb-paper-portable-candidate-evaluation-authority-v1",
+        "status": "FROZEN_EVALUATION_ONLY_AUTHORITY",
+        "candidate_id": candidate_id,
+        "training_identity": {
+            "git_commit": "c" * 40,
+            "protocol_fingerprint": "candidate-fp",
+        },
+        "source_evidence": {
+            "runtime_gate_sha256": file_sha256(gate_path),
+            "authorization_sha256": file_sha256(authorization_path),
+        },
+        "evaluation_only": True,
+        "authorizes_training": False,
+        "performance_metric_values_included": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    authority_path = _write(tmp_path / "candidate_authority.json", authority)
+    metadata = {
+        "schema": "final-unsb-paper-candidate-metadata-import-v1",
+        "status": "COMPLETE_VERIFIED_CANDIDATE_METADATA_IMPORT",
+        "candidate_id": candidate_id,
+        "source_host_label": "5090A",
+        "runtime_gate_sha256": file_sha256(gate_path),
+        "authorization_sha256": file_sha256(authorization_path),
+        "authority_sha256": file_sha256(authority_path),
+        "frozen_prior_evidence_transferred": True,
+        "paired_performance_used_for_training_or_scheduling": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    metadata_path = _write(tmp_path / "candidate_metadata.json", metadata)
+    plain = _runtime("5090B_MATCHED_PLAIN")
+    plain.update({
+        "protocol_fingerprint": "parent-fp",
+        "manifest_sha256": "m" * 64,
+        "e0_core_sha256": "e" * 64,
+        "step_core_sha256": "s" * 64,
+        "environment": {**environment, "hostname": "plain-host"},
+    })
+    plain_path = _write(tmp_path / "plain.json", plain)
+    return {
+        "gate": gate_path,
+        "authorization": authorization_path,
+        "authority": authority_path,
+        "metadata": metadata_path,
+        "plain": plain_path,
+    }
+
+
+def test_cross_host_candidate_control_requires_both_exact_proof_links(
+    tmp_path: Path,
+) -> None:
+    evidence = _candidate_control_evidence(tmp_path)
+    candidate_id = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    relation = exact_candidate_control_relation_payload(
+        candidate_id=candidate_id,
+        method_source_host_label="5090A",
+        plain_source_host_label="5090B_MATCHED_PLAIN",
+        candidate_runtime_gate=evidence["gate"],
+        candidate_authorization=evidence["authorization"],
+        candidate_metadata_import=evidence["metadata"],
+        candidate_authority=evidence["authority"],
+        plain_runtime_receipt=evidence["plain"],
+    )
+    registry = tmp_path / "candidate_relations.json"
+    registry.write_text(json.dumps({
+        "schema": "final-unsb-paper-matched-runtime-relations-v1",
+        "status": "ACTIVE_METRIC_BLIND_RELATIONS",
+        "relations": {candidate_id: relation},
+    }), encoding="utf-8")
+    result = runtime_pair_status(
+        method=_metric("5090A", "candidate-fp", "m" * 64),
+        plain=_metric("5090B_MATCHED_PLAIN", "parent-fp", "m" * 64),
+        lane_id=candidate_id,
+        candidate_cross_code_gate=True,
+        relations_path=registry,
+    )
+    assert result["status"] == (
+        "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION"
+    )
+    assert runtime_pair_passed(result)
+
+    plain = json.loads(evidence["plain"].read_text(encoding="utf-8"))
+    plain["step_core_sha256"] = "x" * 64
+    _write(evidence["plain"], plain)
+    with pytest.raises(RuntimeError, match="does not exactly reproduce"):
+        exact_candidate_control_relation_payload(
+            candidate_id=candidate_id,
+            method_source_host_label="5090A",
+            plain_source_host_label="5090B_MATCHED_PLAIN",
+            candidate_runtime_gate=evidence["gate"],
+            candidate_authorization=evidence["authorization"],
+            candidate_metadata_import=evidence["metadata"],
+            candidate_authority=evidence["authority"],
+            plain_runtime_receipt=evidence["plain"],
+        )
 
 def test_runtime_relation_cli_requires_explicit_primary_receipts() -> None:
     args = parser().parse_args([

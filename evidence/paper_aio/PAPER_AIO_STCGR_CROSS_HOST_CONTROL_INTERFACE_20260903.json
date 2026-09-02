@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-stcgr-cross-host-control-interface-v1",
+  "captured_at": "2026-09-03T04:30:00+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "method_source_host_label": "5090A",
+  "future_plain_source_host_label": "5090B_MATCHED_PLAIN",
+  "reason": "preserve a rigorous matched-control path after the explicit cancellation of automatic 5090A plain completion",
+  "proof_links": {
+    "candidate_to_parent": {
+      "required_status": "PASS_CROSS_CODE_CANDIDATE_RUNTIME",
+      "required_equalities": [
+        "e0 scientific core",
+        "native 2000-step transition",
+        "zero-intervention transition"
+      ]
+    },
+    "parent_to_new_plain": {
+      "required_status": "PASS_EXACT_RUNTIME_COHORT",
+      "required_equalities": [
+        "e0 core",
+        "2000-step core",
+        "parent protocol fingerprint",
+        "manifest",
+        "normalized runtime environment"
+      ]
+    }
+  },
+  "implementation": {
+    "payload": "research.paper_aio.runtime_relation.exact_candidate_control_relation_payload",
+    "successor": "operations/paper_aio_candidate_control_relation_successor.py",
+    "runtime_pair_status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+    "review_only": true,
+    "registry_edited": false,
+    "comparison_authorized": false
+  },
+  "tests": {
+    "targeted": "9 passed",
+    "corrupt_step_core_rejected": true,
+    "unbound_source_receipt_rejected": true,
+    "metric_contamination_rejected": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_authorized_or_scheduled": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-STCGR-CROSS-HOST-CONTROL-PROOF.md"
+}
