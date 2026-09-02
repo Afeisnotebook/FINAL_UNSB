@@ -44,7 +44,24 @@
     "self_null_state": "when time-conditional gradient means coincide, ST-CGR has exactly the same covariance as the iid pair; route1_stcgr_enable=false is exact plain identity",
     "known_limit": "without-replacement coupling does not reduce the expected within-time covariance term and must be killed if fixed-state vector audits show a negligible between-time component"
   },
-  "falsifying_experiment": "Before any long run, reject the mechanism if exhaustive marginal tests fail, zero-intervention differs from plain, full-state resume is not exact, or fixed-state gradient-vector Monte Carlo on Proposal/HJCGR states fails to show a material trace-variance reduction without mean shift. Paired PSNR is unavailable to this gate.",
+  "falsifying_experiment": "Before any long run, reject the mechanism if exhaustive marginal tests fail, zero-intervention differs from plain, full-state resume is not exact, or the preregistered fixed-state gradient-vector audit on Proposal/HJCGR e60/e100/e150/e200 states fails. A full gate uses eight native stochastic gradients per bridge-time stratum on one fixed official unpaired batch after one native D/E commit. For each parent lane, the pooled bias-corrected Euclidean without-replacement/iid pair-mean covariance-trace ratio must be at most 0.95, every checkpoint must be noninferior within numerical tolerance, and at least two of four checkpoints must individually reach 0.95. Adam-metric geometry is diagnostic, not an alternate rescue gate. Paired PSNR is unavailable to this gate.",
+  "fixed_state_gate": {
+    "parent_lanes": [
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "G3-02-HJ-CONDITIONAL-GF-RESAMPLING"
+    ],
+    "data_epochs": [60, 100, 150, 200],
+    "gradient_replicates_per_time": 8,
+    "bridge_time_strata": 5,
+    "fixed_official_unpaired_batches_per_checkpoint": 1,
+    "state_boundary": "after one native D/E commit and before the G/F commit",
+    "primary_geometry": "pre-Adam Euclidean gradient vector",
+    "diagnostic_geometry": "frozen Adam diagonal update metric",
+    "maximum_pooled_wor_to_iid_trace_ratio_per_lane": 0.95,
+    "minimum_material_checkpoints_per_lane": 2,
+    "per_checkpoint_noninferiority_tolerance": 1e-09,
+    "paired_metric_available": false
+  },
   "compute_cost": "the same two post-D/E G/F views as Proposal-only; no extra network evaluation relative to that parent and approximately twice native G/F compute",
   "memory_cost": "unchanged from Proposal-only because the two graphs are materialized and accumulated in the same serial order",
   "recovery_state_cost": "ordered-pair and marginal diagnostic counts plus the ordinary full RNG state; no network, teacher or optimizer is added",

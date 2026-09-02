@@ -15,6 +15,11 @@ from models.route1.stratified_time import (
     map_excluding_index,
     ordered_time_pairs,
 )
+from research.local_route1.stratified_time_audit import (
+    _TimeMoment,
+    covariance_trace_prediction,
+    summarize_time_moments,
+)
 
 
 def test_derivation_card_is_complete_target_blind_and_evidence_bound() -> None:
@@ -73,6 +78,34 @@ def test_without_replacement_mean_is_unbiased_and_psd_better_than_iid() -> None:
     eigvals = np.linalg.eigvalsh(iid_covariance - wor_covariance)
     assert np.all(eigvals >= -1e-12)
     assert np.any(eigvals > 1e-8)
+
+
+def test_fixed_state_covariance_prediction_has_registered_identity() -> None:
+    result = covariance_trace_prediction(
+        within_trace=8.0, between_trace=4.0, time_strata=5,
+    )
+    assert result["iid_pair_mean_covariance_trace"] == pytest.approx(6.0)
+    assert result["without_replacement_pair_mean_covariance_trace"] == pytest.approx(5.5)
+    assert result["without_replacement_to_iid_trace_ratio"] == pytest.approx(11 / 12)
+    identity = covariance_trace_prediction(
+        within_trace=8.0, between_trace=0.0, time_strata=5,
+    )
+    assert identity["without_replacement_to_iid_trace_ratio"] == 1.0
+
+
+def test_time_moment_summary_removes_finite_replicate_mean_noise() -> None:
+    # All strata share the same true mean and have symmetric finite-replicate
+    # noise.  The bias-corrected between-time term must self-null.
+    moments = []
+    for time_index in range(5):
+        moment = _TimeMoment()
+        for sign in (-1.0, 1.0):
+            value = torch.tensor([3.0 + sign * (time_index + 1)], dtype=torch.float32)
+            moment.add((value,))
+        moments.append(moment)
+    summary = summarize_time_moments(moments)
+    assert summary["between_time_mean_covariance_trace"] == 0.0
+    assert summary["without_replacement_to_iid_trace_ratio"] == 1.0
 
 
 def test_exclusion_map_fails_closed() -> None:
