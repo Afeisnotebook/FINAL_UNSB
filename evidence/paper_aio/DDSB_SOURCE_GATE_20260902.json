@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-ddsb-source-gate-v1",
+  "date": "2026-09-02",
+  "lane_id": "ddsb",
+  "status": "BLOCKED_SOURCE_OR_FORMULA_LOCK_MISSING",
+  "official_publication": {
+    "title": "Degradation-aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "doi": "10.52202/085713-0086",
+    "paper_url": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Paper-Conference.pdf",
+    "abstract_url": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html"
+  },
+  "public_author_source_found": false,
+  "paper_reproducibility_statement": "source code is promised to be public once published",
+  "specified": {
+    "bridge_steps": 5,
+    "tau": 0.01,
+    "dot_lambda": 0.01,
+    "batch_size": 1,
+    "epochs": 400,
+    "initial_lr": 0.0002,
+    "resolution": 512,
+    "generator_family": "five-level instance-normalized U-Net with AdaIN and sinusoidal time embedding",
+    "degradation_model": "three 64-channel convolution layers with ReLU",
+    "dot": "degradation-aware transport cost",
+    "dtc": "whole-trajectory consistency with cosine time weight"
+  },
+  "not_uniquely_specified": [
+    "complete source and environment",
+    "exact U-Net/AdaIN layer graph and channel schedule",
+    "MINE and Markovian discriminator architectures",
+    "optimizer ownership, update ordering and Adam beta values for every network",
+    "stop-gradient boundaries between restoration and degradation networks",
+    "normalization/reduction of the all-step DTC sum",
+    "exact training objective coefficients beyond DOT lambda",
+    "full-state checkpoint and resume semantics"
+  ],
+  "decision": "Do not launch a guessed DDSB implementation as a paper baseline.",
+  "fallback_lane": "cyclegan",
+  "scientific_failure": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

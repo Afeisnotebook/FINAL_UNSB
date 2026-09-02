@@ -52,3 +52,29 @@ class ImagePool():
                     return_images.append(image)
         return_images = torch.cat(return_images, 0)   # collect all the images and return
         return return_images
+
+    def state_dict(self):
+        """Return the exact recoverable replay-buffer state.
+
+        The original CycleGAN training script only persisted networks.  The
+        paper runner requires interruption-safe optimizer trajectories, so the
+        buffered fake images are part of scientific state as well.
+        """
+        return {
+            "pool_size": int(self.pool_size),
+            "num_imgs": int(getattr(self, "num_imgs", 0)),
+            "images": [image.detach().cpu().clone() for image in getattr(self, "images", [])],
+        }
+
+    def load_state_dict(self, state, *, device=None):
+        if int(state.get("pool_size", -1)) != int(self.pool_size):
+            raise RuntimeError("CycleGAN image-pool size mismatch")
+        images = list(state.get("images", []))
+        num_imgs = int(state.get("num_imgs", -1))
+        if num_imgs != len(images) or num_imgs > int(self.pool_size):
+            raise RuntimeError("CycleGAN image-pool payload is inconsistent")
+        self.num_imgs = num_imgs
+        self.images = [
+            image.detach().clone().to(device) if device is not None else image.detach().clone()
+            for image in images
+        ]

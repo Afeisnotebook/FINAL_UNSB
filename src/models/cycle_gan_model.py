@@ -140,7 +140,7 @@ class CycleGANModel(BaseModel):
         loss_D_fake = self.criterionGAN(pred_fake, False)
         # Combined loss and calculate gradients
         loss_D = (loss_D_real + loss_D_fake) * 0.5
-        if self.opt.amp:
+        if getattr(self.opt, "amp", False):
             with amp.scale_loss(loss_D, self.optimizer_D) as scaled_loss:
                 scaled_loss.backward()
         else:
@@ -184,7 +184,7 @@ class CycleGANModel(BaseModel):
         self.loss_cycle_B = self.criterionCycle(self.rec_B, self.real_B) * lambda_B
         # combined loss and calculate gradients
         self.loss_G = self.loss_G_A + self.loss_G_B + self.loss_cycle_A + self.loss_cycle_B + self.loss_idt_A + self.loss_idt_B
-        if self.opt.amp:
+        if getattr(self.opt, "amp", False):
             with amp.scale_loss(self.loss_G, self.optimizer_G) as scaled_loss:
                 scaled_loss.backward()
         else:
@@ -192,6 +192,27 @@ class CycleGANModel(BaseModel):
 
     def data_dependent_initialize(self):
         return
+
+    def get_extra_training_state(self):
+        state = super().get_extra_training_state()
+        if self.isTrain:
+            state["cycle_gan_image_pools"] = {
+                "fake_A": self.fake_A_pool.state_dict(),
+                "fake_B": self.fake_B_pool.state_dict(),
+            }
+        return state
+
+    def load_extra_training_state(self, state):
+        super().load_extra_training_state(state)
+        if not self.isTrain:
+            return
+        pools = (state or {}).get("cycle_gan_image_pools")
+        if pools is None:
+            if self.fake_A_pool.pool_size or self.fake_B_pool.pool_size:
+                raise RuntimeError("CycleGAN full-state checkpoint lacks image pools")
+            return
+        self.fake_A_pool.load_state_dict(pools["fake_A"], device=self.device)
+        self.fake_B_pool.load_state_dict(pools["fake_B"], device=self.device)
 
     def generate_visuals_for_evaluation(self, data, mode):
         with torch.no_grad():

@@ -1,0 +1,41 @@
+# FINAL_UNSB full-data paper runner
+
+This runner is independent of `research.local_route1`. It freezes the
+8,553-image-per-side official image-proportional unpaired measure, batch one,
+seed 2026 and 200 data epochs (1,710,600 optimizer updates). Paired discovery
+targets are evaluation-only; confirmation20 is unaddressable here.
+
+## Required order on every training host
+
+```text
+python -m research.paper_aio.run --stage materialize ...
+python -m research.paper_aio.run --stage preflight --node-role training ...
+python -m research.paper_aio.run --stage resume-gate --lane LANE ...
+python -m research.paper_aio.run --stage zero-intervention-gate ...  # Proposal host
+python -m research.paper_aio.run --stage authorize --lane LANE ...
+python -m research.paper_aio.run --stage train --lane LANE --resume ...
+```
+
+`train` refuses to start without a current lane authorization. Proposal must
+declare either `--matched-plain-mode same_runtime_output_root` or provide an
+exact cross-4090 twin receipt with
+`--matched-plain-mode exact_cross_4090_cohort --runtime-receipt PATH`.
+The 5090 is always a separate runtime and its values are never subtracted from
+a 4090 plain trajectory.
+
+## Audits and evaluation
+
+```text
+python -m research.paper_aio.run --stage evaluation-repeat-gate --lane LANE --checkpoint PATH ...
+python -m research.paper_aio.run --stage terminal-audit --lane LANE --checkpoint PATH ...
+python -m research.paper_aio.run --stage adjudicate ...
+```
+
+The terminal audit is target-blind. It records bridge increment/endpoint
+spectra, local and propagated perturbation gains, NFE4-to-NFE5 change, and
+forced-time native G/F gradient mean, variance, component conflict and Adam
+preconditioned norm. Paired performance is attached only afterwards by the
+adjudicator; it never controls training.
+
+Git contains protocol, code, compact receipts and decisions only. Views,
+checkpoints and full logs stay outside the repository.

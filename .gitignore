@@ -20,6 +20,7 @@ manifests/*.local.*
 /runs/
 /checkpoints/
 /logs/
+/tmp/
 /wandb/
 *.pt
 *.pth
