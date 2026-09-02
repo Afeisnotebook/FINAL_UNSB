@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-local-checkpoint-relays-deployment-v1",
+  "captured_at": "2026-09-03T02:37:02+08:00",
+  "control_head_before_deployment_record": "dce36f15f367a3412c503d5c9e77959fa4206b4f",
+  "frozen_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_EVAL_6275469",
+  "frozen_git_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
+  "relay_source_sha256": "290344423ca6f52752e82d94d355584610da0de55787feae92e1b5992a8f2928",
+  "destination_root": "E:\\UNSB_Expl\\paper_eval_node\\checkpoint_imports",
+  "relays": [
+    {
+      "relay_id": "4090A_algorithms",
+      "pid": 19200,
+      "source_host_label": "4090A",
+      "lanes": ["plain", "amtnc"],
+      "contract_sha256": "71b717380dda57cd7721ad4436d15ce43bd69431c690815f71d793cb611d8b8a"
+    },
+    {
+      "relay_id": "5090A_plain",
+      "pid": 17176,
+      "source_host_label": "5090A",
+      "lanes": ["plain"],
+      "contract_sha256": "d8e6b23d4cb84f0d7917c89a83bb5a46d02aeb17103ab7e2dc2b8251f01b9f2f"
+    },
+    {
+      "relay_id": "5090A_stcgr",
+      "pid": 19784,
+      "source_host_label": "5090A",
+      "lanes": ["G4-01-STRATIFIED-TIME-CONDITIONAL-GF"],
+      "contract_sha256": "42806afd20a9ad10960a4970725266ab159fee11b7e8042309ceaee086e48b37"
+    },
+    {
+      "relay_id": "5090B_external",
+      "pid": 16252,
+      "source_host_label": "5090B",
+      "lanes": ["cut", "cyclegan"],
+      "contract_sha256": "bc84eaa7e78d97c48c913ece7ee1a3c6fa363dd5ee69c299f8073c03f8aa5f28"
+    },
+    {
+      "relay_id": "5090B_matched_plain",
+      "pid": 19496,
+      "source_host_label": "5090B_MATCHED_PLAIN",
+      "lanes": ["plain"],
+      "contract_sha256": "4e6e3175faa26924bc81ba024685dbc0bdb7f325d83c2a2b483e457135b11d83"
+    },
+    {
+      "relay_id": "5090C_proposal",
+      "pid": 19236,
+      "source_host_label": "5090C",
+      "lanes": ["proposal"],
+      "contract_sha256": "44b655d18796d42605f00e01777a2d50c7f8e7c26b05c306a630215facaaf7ca"
+    }
+  ],
+  "first_poll": {
+    "all_processes_alive": true,
+    "all_statuses": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+    "all_last_error_types": "SourceExportNotReady",
+    "stderr_bytes": 0,
+    "authentication_failures": 0,
+    "integrity_failures": 0
+  },
+  "data_mirror_progress": {
+    "archive_gib": 6.456,
+    "status": "TRANSFERRING_IDLE_IO_PRIORITY"
+  },
+  "scientific_boundary": {
+    "password_persisted": false,
+    "performance_values_available_to_scheduler": false,
+    "checkpoint_download_before_source_e200": false,
+    "source_checkpoint_mutation": false,
+    "paired_metric_control": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}
