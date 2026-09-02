@@ -1,7 +1,8 @@
 {
   "schema": "final-unsb-paper-aio-verified-import-relays-evidence-v1",
   "captured_at": "2026-09-02T18:15:00+08:00",
-  "status": "THREE_DURABLE_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+  "status": "SUPERSEDED_BY_FAIL_CLOSED_V2_RELAYS",
+  "superseded_by": "evidence/paper_aio/PAPER_AIO_VERIFIED_IMPORT_RELAYS_V2_20260902.json",
   "purpose": "Close the source-export-to-unified-4090 staging gap without evaluating a model or exposing performance values to scheduling.",
   "destination_host": "4090A",
   "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T18:15:00+08:00",
+  "state_snapshot_time": "2026-09-02T18:30:20+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -12,7 +12,7 @@
     "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 23, "latest_observed_updates": 196719, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 24, "latest_observed_updates": 205272, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 20, "latest_observed_updates": 171060, "successor": null},
       "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E7_CONFIRMED", "latest_observed_data_epoch": 7, "latest_observed_updates": 59871, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
@@ -77,20 +77,20 @@
       ]
     },
     "unified_export_relays": {
-      "status": "THREE_DURABLE_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+      "status": "THREE_DURABLE_FAIL_CLOSED_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
       "destination_host": "4090A",
       "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
-      "control_commit": "acc4031127aad399854fc6dd7ae86c481a7a89d4",
+      "control_commit": "ce608998be4efadc24056a905e20d98349f4a10e",
       "relay_pids": {
-        "5090A_plain": 2163133,
-        "5090A_stcgr": 2163134,
-        "5090B_external": 2163231
+        "5090A_plain_v2": 2164861,
+        "5090A_stcgr_v2": 2164862,
+        "5090B_external_v2": 2164945
       },
       "password_persisted": false,
       "performance_values_read": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_VERIFIED_IMPORT_RELAYS_20260902.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_VERIFIED_IMPORT_RELAYS_V2_20260902.json"
     },
     "paper_complexity_interface": {
       "status": "IMPLEMENTED_AND_GPU_SMOKE_VERIFIED_AWAITING_FINAL_EXPORTED_CHECKPOINTS",
@@ -163,7 +163,7 @@
     "next_manual_decision_window": "after_full_e200_exports_and_unified_discovery_evaluation_before_confirmation20"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "acc4031127aad399854fc6dd7ae86c481a7a89d4",
+  "development_head_at_state_write": "ce608998be4efadc24056a905e20d98349f4a10e",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

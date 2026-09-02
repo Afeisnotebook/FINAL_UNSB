@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-aio-verified-import-relays-evidence-v2",
+  "captured_at": "2026-09-02T18:30:20.9545452+08:00",
+  "status": "THREE_DURABLE_FAIL_CLOSED_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+  "hardening_reason": "The first relay revision treated every OSError as a transient remote condition. That could conceal destination ENOSPC or local write failure. V2 classifies only missing remote exports and network failures as retryable; integrity, capacity and local IO errors publish a fail-closed state and terminate.",
+  "scientific_effect_of_replacement": "none; all source export sets were absent and no checkpoint, receipt or sidecar had been copied",
+  "retired_processes": {
+    "pids": [2163133, 2163134, 2163231],
+    "all_absent_after_replacement": true,
+    "data_deleted": false
+  },
+  "destination_host": "4090A",
+  "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+  "control": {
+    "git_commit": "ce608998be4efadc24056a905e20d98349f4a10e",
+    "checkout": "/home/yc/FINAL_UNSB_CONTROL_RELAY_806a39d",
+    "checkout_clean": true,
+    "script_sha256": "290344423ca6f52752e82d94d355584610da0de55787feae92e1b5992a8f2928",
+    "full_test_status": "433_PASSED"
+  },
+  "relays": [
+    {
+      "relay_id": "5090A_plain_v2",
+      "pid": 2164861,
+      "ppid_after_launcher_logout": 1,
+      "source_host_label": "5090A",
+      "source_port": 12770,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed/exports",
+      "lanes": ["plain"],
+      "contract_sha256": "12c921ac5dbec7d23b16173cf2fd58b2d7cedfd6df27a6fce026c738ff102169",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "last_error_type": "SourceExportNotReady"
+    },
+    {
+      "relay_id": "5090A_stcgr_v2",
+      "pid": 2164862,
+      "ppid_after_launcher_logout": 1,
+      "source_host_label": "5090A",
+      "source_port": 12770,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports",
+      "lanes": ["G4-01-STRATIFIED-TIME-CONDITIONAL-GF"],
+      "contract_sha256": "d301c5d52f1166dce7a9586fdd1dcd746e6fdcf4add44cfa69d2a223fcc7d149",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "last_error_type": "SourceExportNotReady"
+    },
+    {
+      "relay_id": "5090B_external_v2",
+      "pid": 2164945,
+      "ppid_after_launcher_logout": 1,
+      "source_host_label": "5090B",
+      "source_port": 44804,
+      "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/exports",
+      "lanes": ["cut", "cyclegan"],
+      "contract_sha256": "e1605c43299ff8a87f30e1c19e6b2487200a2cd051fa7dec7374ce076ff57bdb",
+      "state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "last_error_type": "SourceExportNotReady"
+    }
+  ],
+  "capacity_and_integrity_policy": {
+    "exact_remote_file_size_checked": true,
+    "minimum_post_download_free_bytes": 2147483648,
+    "partial_file_atomic_publish": true,
+    "existing_destination_hash_mismatch_fails_closed": true,
+    "download_hash_mismatch_fails_closed": true,
+    "local_write_or_capacity_failure_retried_as_network": false,
+    "remote_missing_export_retried": true,
+    "transient_network_failure_retried": true
+  },
+  "security_and_science_boundaries": {
+    "ssh_host_key_sha256_pinned": true,
+    "password_persisted": false,
+    "source_checkpoint_mutation": false,
+    "source_checkpoint_deletion": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "cross_host_matched_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
