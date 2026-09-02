@@ -131,3 +131,6 @@ authorize compute.
 40. `DEC-20260903-DURABLE-RUNTIME-RELATION-SUCCESSOR.md`：4090A持久等待5090B未来的
     2000-update exact runtime receipt，验明Proposal授权和三份原始回执后只生成
     review-only关系候选；不会自动改registry、启动任务或授权跨宿主delta。
+41. `DEC-20260903-STCGR-TO-PLAIN-DURABLE-RESUME.md`：5090A新增metric-blind接力，
+    只在ST-CGR完整e200后复验暂停于e9的plain checkpoint、授权、代码和协议身份，再从
+    原宿主原状态恢复plain；防止长程任务完成后再次等待人工上线。

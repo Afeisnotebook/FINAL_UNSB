@@ -26,7 +26,9 @@
 进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
 这些心跳不是科学结论。所有训练均由持久监督器执行。5090A plain停在e9完整状态且不会
 自动重启；5090B的plain继任器只在CUT完成和精确runtime门通过后启动。ST-CGR与Proposal
-均有独立source-bound exporter；任何relay或关系候选都不能自动改Git registry或授权结论。
+均有独立source-bound exporter；5090A另有metric-blind继任器等待ST-CGR e200，再复验
+e9完整状态并恢复原plain supervisor。任何relay或关系候选都不能自动改Git registry或
+授权结论。
 
 ## 最近硬门
 

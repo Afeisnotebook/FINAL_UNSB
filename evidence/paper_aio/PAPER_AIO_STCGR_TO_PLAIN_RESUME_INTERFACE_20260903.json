@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-stcgr-to-plain-resume-interface-v1",
+  "captured_at": "2026-09-03T01:52:00+08:00",
+  "status": "IMPLEMENTED_TESTED_AWAITING_DEPLOYMENT",
+  "source": "operations/paper_aio_paused_plain_resume_successor.py",
+  "predecessor": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF COMPLETE_CANDIDATE_E200",
+  "successor": "5090A plain exact resume from e9 to e200",
+  "frozen_plain_identity": {
+    "source_host_label": "5090A",
+    "resume_data_epoch": 9,
+    "resume_updates": 76977,
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
+    "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "verification": {
+    "targeted_tests": "4 passed",
+    "full_test_suite": "483 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "cross_host_checkpoint_resume": false,
+  "training_configuration_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "live_training_changed": false
+}
