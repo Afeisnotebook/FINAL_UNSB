@@ -54,6 +54,13 @@ training-step timing. FLOPs are deliberately not claimed because the custom
 stochastic bridge and lazy PatchNCE operators are not fully covered by one
 audited counter.
 
+Source-host exports can be transferred to one evaluation host with
+`operations/paper_aio_export_relay.py`.  The relay pins the SSH host key,
+accepts authentication only through a named environment variable, never
+persists the credential, and verifies the export receipt, checkpoint and
+sidecar hashes before publishing an import set.  It transfers no metric file
+and cannot mutate a source checkpoint.
+
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.
 
