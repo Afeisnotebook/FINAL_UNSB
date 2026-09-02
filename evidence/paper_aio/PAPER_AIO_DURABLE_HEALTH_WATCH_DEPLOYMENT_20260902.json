@@ -1,0 +1,140 @@
+{
+  "schema": "final-unsb-paper-durable-health-watch-deployment-v1",
+  "captured_at": "2026-09-02T21:59:01+08:00",
+  "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND",
+  "purpose": "detect silent long-run stalls and control-chain failures without touching scientific state",
+  "control": {
+    "git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
+    "script": "operations/paper_aio_health_watch.py",
+    "script_sha256": "9f4c60830df317c6ce0943f8699add955c220733b4b3b11863a09468cbacd09e",
+    "local_tests": "449 passed",
+    "contract_fail_closed": true,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "automatic_training_mutation": false,
+    "automatic_restart_or_kill": false
+  },
+  "deployments": {
+    "4090A": {
+      "status": "HEALTHY",
+      "watcher_pid": 2200307,
+      "watcher_ppid": 1,
+      "control_checkout": "/home/yc/FINAL_UNSB_HEALTH_a51d4cd_bundle",
+      "output": "/home/yc/runs/FINAL_UNSB_HEALTH_4090A_a51d4cd",
+      "contract_sha256": "7b2bf9f378c1063343823f8c68b729e67f5007132c30351ad511e8f8424697ca",
+      "state_snapshot_sha256": "57d9e474d6ca24ad7534592fd25fac0ba9ece749dd60069de17001ef3db6245f",
+      "watch_count": 10,
+      "watches": [
+        "plain supervisor and epoch heartbeat",
+        "plain source exporter",
+        "AM-TNC successor, future lane and exporter",
+        "5090A plain/ST-CGR, 5090B external and 5090C Proposal import relays"
+      ],
+      "latest_plain_data_epoch": 34,
+      "disk_free_gib": 386.50389862060547,
+      "required_disk_gib": 64.0,
+      "alert_count": 0
+    },
+    "5090A": {
+      "status": "HEALTHY",
+      "watcher_pid": 327875,
+      "watcher_ppid": 1,
+      "control_checkout": "/root/autodl-tmp/FINAL_UNSB_HEALTH_a51d4cd",
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090A_a51d4cd",
+      "contract_sha256": "3a067b6b399f7e880dad17340565f56e37c8e8c64c99041839964ef04917d450",
+      "state_snapshot_sha256": "aa02c807ac7ab86bc931b233558339e2432d0278722eb0806dcb9aea5b93b200",
+      "watch_count": 4,
+      "watches": [
+        "plain supervisor and epoch heartbeat",
+        "plain source exporter",
+        "ST-CGR continuation controller"
+      ],
+      "latest_plain_data_epoch": 5,
+      "disk_free_gib": 184.53734970092773,
+      "required_disk_gib": 48.0,
+      "user_capacity_override": true,
+      "alert_count": 0
+    },
+    "5090B": {
+      "status": "HEALTHY",
+      "watcher_pid": 30355,
+      "watcher_ppid": 1,
+      "control_checkout": "/root/autodl-tmp/FINAL_UNSB_HEALTH_a51d4cd_bundle",
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_a51d4cd_v2",
+      "contract_sha256": "40fa716175f011f24f61c5262c415dd884bd276bcdc24ffd5b2eb30782170667",
+      "state_snapshot_sha256": "68029ad4619c49d02f7af0f9e5fde683694999e45753ef675ecc749ae35b7cd9",
+      "watch_count": 6,
+      "watches": [
+        "CUT supervisor, epoch heartbeat and exporter",
+        "CycleGAN supervisor, epoch heartbeat and exporter"
+      ],
+      "latest_cut_data_epoch": 28,
+      "latest_cyclegan_data_epoch": 13,
+      "disk_free_gib": 231.50487518310547,
+      "required_disk_gib": 24.0,
+      "alert_count": 0
+    },
+    "5090C": {
+      "status": "HEALTHY",
+      "watcher_pid": 13587,
+      "watcher_ppid": 1,
+      "control_checkout": "/root/autodl-tmp/FINAL_UNSB_HEALTH_a51d4cd",
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090C_a51d4cd",
+      "contract_sha256": "c5a709abf7ef7940fff8a683cdb9bb48f56a065ddaf9cad7c36478a602ef7358",
+      "state_snapshot_sha256": "3bbc78356368aad5c066db62e58ca248ed79c2316333ae58dae925f6fec1ad22",
+      "watch_count": 3,
+      "watches": [
+        "Proposal supervisor, epoch heartbeat and exporter"
+      ],
+      "latest_proposal_data_epoch": 1,
+      "disk_free_gib": 230.3042755126953,
+      "required_disk_gib": 16.0,
+      "alert_count": 0
+    }
+  },
+  "detection_policy": {
+    "poll_seconds": 60,
+    "control_state_max_stale_seconds": 600,
+    "4090_plain_epoch_max_stale_seconds": 7200,
+    "5090a_plain_epoch_max_stale_seconds": 10800,
+    "cut_epoch_max_stale_seconds": 7200,
+    "cyclegan_epoch_max_stale_seconds": 10800,
+    "proposal_epoch_max_stale_seconds": 14400,
+    "future_amtnc_initial_state_allowance_seconds": 345600,
+    "capacity_rule": "free_gib >= estimated_remaining_write_gib + minimum_headroom_gib",
+    "boundary_flags": [
+      "paired_metric_control",
+      "paired_controller_access",
+      "confirmation20_opened"
+    ],
+    "alert_action": "write durable ALERT for Codex recovery; never mutate training automatically"
+  },
+  "5090b_deployment_incident": {
+    "status": "RECOVERED_CONTROL_PLANE_ONLY",
+    "first_attempt": "local clone from a linked worktree lacked fetched objects and produced an unusable checkout",
+    "second_attempt": "direct GitHub clone did not complete within the bounded wait and was interrupted",
+    "recovery": "verified complete Git bundle transferred and checked with git fsck before execution",
+    "failed_checkout_used_for_execution": false,
+    "training_processes_interrupted": false,
+    "checkpoints_modified": false,
+    "failed_directories_preserved": true,
+    "historical_evidence_deleted": false
+  },
+  "durability_verification": {
+    "all_watcher_ppids_equal_one": true,
+    "all_states_refreshed_after_at_least_one_poll": true,
+    "all_contracts_source_bound": true,
+    "all_alert_counts_zero": true,
+    "passwords_persisted": false,
+    "local_temporary_bundle_removed_after_verified_transfer": true
+  },
+  "scientific_boundaries": {
+    "paired_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "training_protocol_changed": false,
+    "healthy_training_interrupted": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}

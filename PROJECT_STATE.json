@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T21:30:50+08:00",
+  "state_snapshot_time": "2026-09-02T21:59:01+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -12,9 +12,9 @@
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 33, "latest_observed_updates": 282249, "successor": "amtnc", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 27, "latest_observed_updates": 230931, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E12_CONFIRMED", "latest_observed_data_epoch": 12, "latest_observed_updates": 102636, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 34, "latest_observed_updates": 290802, "successor": "amtnc", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 28, "latest_observed_updates": 239484, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E13_CONFIRMED", "latest_observed_data_epoch": 13, "latest_observed_updates": 111189, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -214,15 +214,31 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_RUNTIME_RELATION_GATE_20260902.json",
       "decision": "decisions/DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md"
     },
+    "durable_health_watch": {
+      "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND",
+      "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
+      "watcher_pids": {
+        "4090A": 2200307,
+        "5090A": 327875,
+        "5090B": 30355,
+        "5090C": 13587
+      },
+      "all_ppid_one": true,
+      "all_states_refreshed_after_initial_poll": true,
+      "alert_count": 0,
+      "automatic_training_mutation": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
+      "decision": "decisions/DEC-20260902-PAPER-DURABLE-HEALTH-WATCH.md"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
     "next_manual_decision_window": "2026-09-11_before_5090C_rental_cutoff_extend_one_day_minimum_two_days_safe"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "0847103555ef9a4b617586b46b7ec865c0421ae0",
+  "development_head_at_state_write": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

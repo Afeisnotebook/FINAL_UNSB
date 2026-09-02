@@ -103,3 +103,6 @@ authorize compute.
 31. `DEC-20260902-5090C-PROPOSAL-E1-THROUGHPUT.md`：5090C Proposal首个8,553-update
     完整epoch以4,696.60秒通过，确认约9月13日完成以及至少续租1天、稳妥续租2天；
     5090A第二个隔离plain epoch同时确认禁止共驻的关键路径判断。该证据不读取paired性能。
+32. `DEC-20260902-PAPER-DURABLE-HEALTH-WATCH.md`：四宿主新增独立、PPID 1、每分钟刷新
+    的metric-blind健康监控，覆盖训练heartbeat、successor、exporter、relay和真实磁盘需求；
+    只产生可恢复告警，不自动修改训练。5090B控制仓对象缺失事故由完整bundle恢复并留痕。
