@@ -171,6 +171,27 @@ cross-code candidate remains bound by its candidate runtime gate.  Thus a
 common evaluator cannot accidentally turn two non-equivalent training hosts
 into a matched delta.
 
+One method may have more than one independently proven plain control. The
+registry therefore accepts either the legacy single relation object or a list
+of relations for that lane, and selects exactly one entry by the method/plain
+source-host pair. A future entry is generated from primary receipts before it
+is committed:
+
+```text
+python -m research.paper_aio.run --stage runtime-relation --lane proposal \
+  --method-runtime-receipt METHOD_TWIN.json \
+  --plain-runtime-receipt PLAIN_TWIN.json \
+  --method-authorization-receipt METHOD_AUTHORIZATION.json \
+  --method-source-host-label 5090C \
+  --plain-source-host-label 5090B_MATCHED_PLAIN \
+  --receipt-output RELATION_CANDIDATE.json
+```
+
+The command requires identical 2000-update e0/step cores, protocol, manifest
+and normalized runtime environment. It creates a candidate only; a later Git
+decision must still append it to the registry. Missing or duplicate host-pair
+relations fail closed.
+
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
 deferred and engineering-blocked lanes, and remains

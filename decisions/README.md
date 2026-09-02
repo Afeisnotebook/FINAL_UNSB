@@ -125,3 +125,6 @@ authorize compute.
     实际是正在运行CUT/CycleGAN的既有5090B，并非新增空闲卡。部署metric-blind后继，
     CUT e200后只有通过与5090A的2000-update精确runtime门才从e0启动plain，以尽早
     恢复Proposal的matched control；该关系不会被偷换成ST-CGR跨宿主delta。
+39. `DEC-20260903-MULTI-CONTROL-RUNTIME-RELATION.md`：统一评估器兼容同一方法的多条
+    精确plain关系，并按实际method/plain宿主唯一匹配；新增由三份原始gate receipt
+    物化关系候选的fail-closed接口，但在5090B真实receipt出现前不修改当前registry。

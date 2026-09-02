@@ -38,6 +38,7 @@ from .runtime import (
     prepare_lane,
     train_lane,
 )
+from .runtime_relation import materialize_exact_runtime_relation
 from .terminal_audit import append_audit, audit_model
 from .unified import (
     candidate_spec_from_portable_authority,
@@ -65,7 +66,7 @@ def parser() -> argparse.ArgumentParser:
             "candidate-lock",
             "candidate-runtime-gate",
             "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
-            "complexity", "distribution",
+            "complexity", "distribution", "runtime-relation",
         ],
     )
     value.add_argument("--lane", choices=["input", "plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
@@ -118,6 +119,11 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--source-host-label")
     value.add_argument("--copied-checkpoint", type=Path)
     value.add_argument("--freeze-receipt", type=Path)
+    value.add_argument("--method-runtime-receipt", type=Path)
+    value.add_argument("--plain-runtime-receipt", type=Path)
+    value.add_argument("--method-authorization-receipt", type=Path)
+    value.add_argument("--method-source-host-label")
+    value.add_argument("--plain-source-host-label")
     return value
 
 
@@ -319,6 +325,28 @@ def main(argv: list[str] | None = None) -> int:
                 checkpoint_metadata=payload.get("metadata"),
                 gpu=args.gpu,
             )
+    elif args.stage == "runtime-relation":
+        required = {
+            "--lane": args.lane,
+            "--method-runtime-receipt": args.method_runtime_receipt,
+            "--plain-runtime-receipt": args.plain_runtime_receipt,
+            "--method-authorization-receipt": args.method_authorization_receipt,
+            "--method-source-host-label": args.method_source_host_label,
+            "--plain-source-host-label": args.plain_source_host_label,
+            "--receipt-output": args.receipt_output,
+        }
+        missing = [name for name, item in required.items() if item is None]
+        if missing:
+            raise SystemExit("runtime-relation requires " + ", ".join(missing))
+        result = materialize_exact_runtime_relation(
+            lane_id=args.lane,
+            method_source_host_label=args.method_source_host_label,
+            plain_source_host_label=args.plain_source_host_label,
+            method_runtime_receipt=args.method_runtime_receipt,
+            plain_runtime_receipt=args.plain_runtime_receipt,
+            method_authorization_receipt=args.method_authorization_receipt,
+            destination=args.receipt_output,
+        )
     elif args.stage == "candidate-lock":
         required = {
             "--candidate-id": args.candidate_id,

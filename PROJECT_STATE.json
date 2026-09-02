@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T01:20:47+08:00",
+  "state_snapshot_time": "2026-09-03T01:29:50+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -374,6 +374,19 @@
       "paired_performance_read": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_RUNTIME_RELATION_GATE_20260902.json",
       "decision": "decisions/DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md"
+    },
+    "multi_control_runtime_relation_interface": {
+      "status": "IMPLEMENTED_TESTED_NOT_AUTHORIZED_AWAITING_5090B_PRIMARY_RECEIPT",
+      "legacy_single_relation_compatible": true,
+      "multiple_plain_relations_per_method": true,
+      "unique_method_plain_host_pair_required": true,
+      "materializer_stage": "runtime-relation",
+      "current_registry_changed": false,
+      "future_5090b_relation_authorized": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_MULTI_CONTROL_RUNTIME_RELATION_INTERFACE_20260903.json",
+      "decision": "decisions/DEC-20260903-MULTI-CONTROL-RUNTIME-RELATION.md"
     },
     "durable_health_watch": {
       "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_REBOUND_TO_STCGR",

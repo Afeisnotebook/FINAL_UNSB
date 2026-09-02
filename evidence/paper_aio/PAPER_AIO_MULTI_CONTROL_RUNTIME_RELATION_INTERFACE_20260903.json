@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-paper-multi-control-runtime-relation-interface-v1",
+  "captured_at": "2026-09-03T01:29:50+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_AUTHORIZED_AWAITING_5090B_PRIMARY_RECEIPT",
+  "problem": "the original registry supported only one plain runtime relation per method lane",
+  "implementation": {
+    "module": "research/paper_aio/runtime_relation.py",
+    "cli": "python -m research.paper_aio.run --stage runtime-relation",
+    "legacy_single_object_supported": true,
+    "multiple_relation_list_supported": true,
+    "selection_key": ["method_source_host_label", "plain_source_host_label"],
+    "missing_relation": "FAIL_MISSING_EXACT_CROSS_HOST_RUNTIME_RELATION",
+    "duplicate_relation": "FAIL_AMBIGUOUS_EXACT_CROSS_HOST_RUNTIME_RELATION"
+  },
+  "verification": {
+    "targeted_tests": "20 passed",
+    "full_test_suite": "475 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "required_primary_inputs": [
+    "5090C Proposal PASS exact runtime-twin receipt",
+    "5090B_MATCHED_PLAIN PASS exact runtime-twin receipt",
+    "5090C Proposal authorization bound to its runtime receipt"
+  ],
+  "exact_identity": [
+    "2000 updates",
+    "e0 scientific core SHA256",
+    "step scientific core SHA256",
+    "training protocol fingerprint",
+    "manifest SHA256",
+    "normalized Python/Torch/CUDA/cuDNN/GPU/determinism environment"
+  ],
+  "current_registry_changed": false,
+  "future_5090b_relation_authorized": false,
+  "future_relation_candidate_exists": false,
+  "training_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}
