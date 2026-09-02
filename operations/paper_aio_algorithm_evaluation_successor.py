@@ -34,6 +34,7 @@ from operations.paper_aio_unified_evaluation_successor import (
     _write_json,
     existing_evaluation_status,
     import_lane_path,
+    imports_ready,
     validate_import_lane,
 )
 from research.paper_aio.protocol import (
@@ -261,10 +262,10 @@ def _ready(contract: dict[str, Any]) -> tuple[bool, str]:
             Path(contract["method_source_root"]), contract["method_lane"],
         )
         return plain_ready and method_ready, "WAITING_FOR_STATIC_PAIR_EXPORTS"
-    imported = import_lane_path(
+    imported = imports_ready(
         Path(contract["method_source_root"]),
-        contract["method_lane"], contract["method_source_host"],
-    ).is_file()
+        {contract["method_lane"]: contract["method_source_host"]},
+    )
     metadata = Path(contract["candidate_metadata_receipt"]).is_file()
     cohort = cohort_decision(Path(contract["first_wave_cohort"]))
     if cohort == "BLOCKED":

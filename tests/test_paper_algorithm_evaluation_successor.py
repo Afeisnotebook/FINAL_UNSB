@@ -205,6 +205,38 @@ def test_cohort_dependency_fails_closed(tmp_path: Path) -> None:
     assert successor.cohort_decision(cohort) == "BLOCKED"
 
 
+def test_dynamic_readiness_requires_completed_import_set(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    metadata_receipt = _write(tmp_path / "metadata.json", {})
+    cohort = _write(tmp_path / "cohort.json", {
+        "schema": "final-unsb-paper-unified-evaluation-cohort-v1",
+        "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+        "cross_host_training_delta_merged": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    })
+    observed = {}
+
+    def complete_import(root: Path, lanes: dict[str, str]) -> bool:
+        observed.update({"root": root, "lanes": lanes})
+        return False
+
+    monkeypatch.setattr(successor, "imports_ready", complete_import)
+    contract = {
+        "mode": "dynamic_candidate",
+        "method_source_root": str(tmp_path / "imports"),
+        "method_lane": CANDIDATE,
+        "method_source_host": "5090A",
+        "candidate_metadata_receipt": str(metadata_receipt),
+        "first_wave_cohort": str(cohort),
+    }
+    ready, status = successor._ready(contract)
+    assert ready is False
+    assert status == "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT"
+    assert observed["lanes"] == {CANDIDATE: "5090A"}
+
+
 def test_disposition_requires_fixed_e200_gate_and_binds_receipts(
     tmp_path: Path,
 ) -> None:
