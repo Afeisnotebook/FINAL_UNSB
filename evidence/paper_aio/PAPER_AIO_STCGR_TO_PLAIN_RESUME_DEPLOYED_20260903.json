@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-stcgr-to-plain-resume-deployment-v1",
+  "captured_at": "2026-09-03T02:06:33+08:00",
+  "status": "DEPLOYED_HEALTHY_WAITING_FOR_STCGR_COMPLETE_E200",
+  "host": "5090A",
+  "control_checkout": "/root/autodl-tmp/FINAL_UNSB_CONTROL_PLAIN_RESUME_7adce4a",
+  "control_commit": "7adce4a7dea0fc320935810d946b464db25c94dc",
+  "control_checkout_clean": true,
+  "control_script_sha256": "5b41112c3a77ff535f2cde10a34eca33edb1e65eee6dda5a5e34a48467b3c385",
+  "deployment_transport": {
+    "method": "verified local git bundle after remote GitHub clone stalled",
+    "bundle_sha256": "21565bdc9ed900e97ed8d4a15ed1e8c9156d86d8eeb04b40fbe01ae24efa8db7",
+    "remote_bundle_bytes": 2849501,
+    "remote_and_local_bundle_hash_equal": true,
+    "failed_clone_processes_stopped": [341710, 341711],
+    "incomplete_clone_directory_deleted": false,
+    "scientific_checkout_modified": false,
+    "training_process_interrupted": false
+  },
+  "successor": {
+    "pid": 342540,
+    "ppid": 1,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_STCGR_TO_PLAIN_RESUME_7adce4a",
+    "status": "WAITING_FOR_STCGR_COMPLETE_E200",
+    "contract_sha256": "b3a6c10e93b5cba4d92320025fbfae902db028b51f717dd121a1110904c95404",
+    "predecessor_status": "CANDIDATE_SUPERVISOR_RUNNING",
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "timeout_hours": 960
+  },
+  "health_watch": {
+    "pid": 342597,
+    "ppid": 1,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "contract_sha256": "2001bce4be4336f942a5ccb078003a853017a488d26e03c24b2a3a2fabfe1e1f",
+    "free_disk_gib": 184.49348068237305,
+    "estimated_remaining_write_gib": 24,
+    "minimum_headroom_gib": 24,
+    "user_capacity_override": true
+  },
+  "plain_resume_identity": {
+    "source_host_label": "5090A",
+    "resume_data_epoch": 9,
+    "resume_updates": 76977,
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
+    "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "plain_trainer_present_at_deployment": false
+  },
+  "retired_precontract_waiter": {
+    "successor_pid": 342166,
+    "health_watcher_pid": 342244,
+    "both_stopped_before_replacement": true,
+    "scientific_training_owned": false,
+    "files_deleted": false
+  },
+  "active_stcgr_trainer_pid": 336346,
+  "stcgr_interrupted": false,
+  "cross_host_checkpoint_resume": false,
+  "training_configuration_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

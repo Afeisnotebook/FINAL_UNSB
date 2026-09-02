@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-stcgr-to-plain-resume-interface-v1",
   "captured_at": "2026-09-03T01:52:00+08:00",
-  "status": "IMPLEMENTED_TESTED_AWAITING_DEPLOYMENT",
+  "status": "IMPLEMENTED_TESTED_AND_DEPLOYED",
   "source": "operations/paper_aio_paused_plain_resume_successor.py",
   "predecessor": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF COMPLETE_CANDIDATE_E200",
   "successor": "5090A plain exact resume from e9 to e200",
@@ -26,5 +26,6 @@
   "performance_values_read": false,
   "paired_metric_control": false,
   "confirmation20_opened": false,
+  "deployment_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_TO_PLAIN_RESUME_DEPLOYED_20260903.json",
   "live_training_changed": false
 }

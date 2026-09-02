@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T01:46:01+08:00",
+  "state_snapshot_time": "2026-09-03T02:06:33+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -51,12 +51,35 @@
         "supervisor_pid": 336345,
         "trainer_pid": 336346,
         "health_watcher_pid": 337510,
+        "plain_resume_successor_pid": 342540,
+        "plain_resume_health_watcher_pid": 342597,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "DEFERRED_5090A_PLAIN_PAUSED_RECOVERABLY_AT_E9",
         "absolute_trajectory_is_not_matched_gain": true,
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json"
+      },
+      "5090A_plain_resume_after_stcgr": {
+        "status": "DURABLE_WAITING_FOR_STCGR_COMPLETE_E200",
+        "successor_pid": 342540,
+        "health_watcher_pid": 342597,
+        "health_status": "HEALTHY_ZERO_ALERTS",
+        "control_commit": "7adce4a7dea0fc320935810d946b464db25c94dc",
+        "control_script_sha256": "5b41112c3a77ff535f2cde10a34eca33edb1e65eee6dda5a5e34a48467b3c385",
+        "contract_sha256": "b3a6c10e93b5cba4d92320025fbfae902db028b51f717dd121a1110904c95404",
+        "successor_output": "/root/autodl-tmp/runs/FINAL_UNSB_STCGR_TO_PLAIN_RESUME_7adce4a",
+        "plain_resume_data_epoch": 9,
+        "plain_resume_updates": 76977,
+        "plain_full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+        "plain_scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
+        "plain_trainer_started_at_deployment": false,
+        "cross_host_checkpoint_resume": false,
+        "training_configuration_changed": false,
+        "performance_values_read": false,
+        "paired_metric_control": false,
+        "confirmation20_opened": false,
+        "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_TO_PLAIN_RESUME_DEPLOYED_20260903.json"
       },
       "5090C_proposal": {
         "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
@@ -402,6 +425,7 @@
       "watcher_pids": {
         "4090A": 2200307,
         "5090A": 337510,
+        "5090A_stcgr_to_plain": 342597,
         "5090B": 30355,
         "5090C": 13587
       },
