@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-paper-post-freeze-distribution-interface-v1",
+  "captured_at": "2026-09-03T00:08:58+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_DEPLOYED_AWAITING_COMMITTED_PAPER_FREEZE",
+  "implementation": {
+    "module": "research/paper_aio/distribution.py",
+    "cli": "python -m research.paper_aio.run --stage distribution",
+    "receipt_schema": "final-unsb-paper-post-freeze-distribution-metrics-v1",
+    "freeze_schema": "final-unsb-paper-algorithm-and-baseline-freeze-v1",
+    "unit_tests_at_record_write": 6,
+    "clean_fid_evaluator_environment_version": "0.1.35",
+    "clean_fid_import_on_4090a": "PASS"
+  },
+  "frozen_measure": {
+    "primary": "six-domain macro KID",
+    "supplementary": ["pooled KID", "pooled FID"],
+    "fid_warning": "pooled FID uses only 480 discovery images",
+    "image_size": 128,
+    "discovery_per_domain": 80,
+    "domains": 6,
+    "unsb_primary_nfe": 5,
+    "unsb_replicates": 5,
+    "deterministic_replicates": 1,
+    "clean_fid_mode": "clean",
+    "feature_model": "inception_v3",
+    "kid_num_subsets": 100,
+    "kid_max_subset_size": 1000
+  },
+  "freeze_gate": {
+    "receipt_must_be_in_git": true,
+    "working_blob_must_equal_committed_blob": true,
+    "algorithm_configuration_frozen": true,
+    "baseline_configuration_frozen": true,
+    "e200_results_frozen": true,
+    "paper_claims_frozen": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  },
+  "runtime_provenance": [
+    "source checkpoint SHA256 before and after",
+    "freeze receipt file/object SHA256 and Git commit",
+    "Clean-FID package and module identity",
+    "Inception feature-model state SHA256",
+    "discovery identity and CRN-row SHA256",
+    "per-replicate and aggregate distribution metrics"
+  ],
+  "deployment": {
+    "launched": false,
+    "reason": "the full-data algorithm, baseline and paper claim set is not frozen",
+    "gpu_time_consumed": false
+  },
+  "scientific_boundaries": {
+    "training_changed": false,
+    "intermediate_performance_read": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "new_algorithm_created": false,
+    "confirmation20_opened": false
+  }
+}

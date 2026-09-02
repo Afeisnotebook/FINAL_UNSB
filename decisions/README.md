@@ -115,3 +115,6 @@ authorize compute.
 35. `DEC-20260902-PAPER-FINAL-DISCOVERY-DELIVERY.md`：全部固定e200结果到齐后，4090A
     自动完成六条lane的统一复杂度测量，并在保持5090A/4090A两个合法plain关系的前提下
     生成多算法full-data discovery portfolio；该产物仍需人工论文审查，不能自动打开confirmation。
+36. `DEC-20260903-POST-FREEZE-DISTRIBUTION-EVALUATION.md`：KID/FID接口已实现但不部署；
+    只有算法、基线、e200结果和论文主张形成Git内显式冻结收据后，才可在discovery80上
+    运行macro KID与补充pooled KID/FID，confirmation20仍不得打开。

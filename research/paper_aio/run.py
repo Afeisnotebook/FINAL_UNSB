@@ -10,8 +10,6 @@ from pathlib import Path
 
 import torch
 
-from research.local_route1.runtime import load_model_state, write_json
-
 from .adjudicate import adjudicate
 from .candidate_lock import materialize_candidate_lock
 from .candidate_runtime import (
@@ -21,6 +19,7 @@ from .candidate_runtime import (
     train_candidate,
 )
 from .complexity import profile_model
+from .distribution import profile_distribution
 from .evaluate import evaluate_live_model
 from .gates import (
     authorize_lane,
@@ -31,7 +30,7 @@ from .gates import (
     run_resume_gate,
     run_zero_intervention_gate,
 )
-from .protocol import ROOT, evaluation_bundle_fingerprint, lane_spec, load_protocol
+from .protocol import ROOT, evaluation_bundle_fingerprint, lane_spec
 from .runtime import (
     _annotated_rows,
     load_full_state,
@@ -66,10 +65,10 @@ def parser() -> argparse.ArgumentParser:
             "candidate-lock",
             "candidate-runtime-gate",
             "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
-            "complexity",
+            "complexity", "distribution",
         ],
     )
-    value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
+    value.add_argument("--lane", choices=["input", "plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
     value.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     value.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     value.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -118,6 +117,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--receipt-output", type=Path)
     value.add_argument("--source-host-label")
     value.add_argument("--copied-checkpoint", type=Path)
+    value.add_argument("--freeze-receipt", type=Path)
     return value
 
 
@@ -293,6 +293,32 @@ def main(argv: list[str] | None = None) -> int:
                 if args.candidate_authority is not None else None
             ),
         )
+    elif args.stage == "distribution":
+        if args.receipt_output is None or args.freeze_receipt is None or args.lane is None:
+            raise SystemExit(
+                "distribution requires --lane, --receipt-output and --freeze-receipt"
+            )
+        if args.lane == "input":
+            manifest_report(args.manifest.resolve(), data_root=args.data_root.resolve())
+            result = profile_distribution(
+                model=None, spec=None, rows=_annotated_rows(args.manifest.resolve()),
+                data_root=args.data_root.resolve(),
+                destination=args.receipt_output.resolve(),
+                freeze_receipt=args.freeze_receipt.resolve(), checkpoint=None,
+                checkpoint_step=None, checkpoint_metadata=None, gpu=args.gpu,
+            )
+        else:
+            model, spec, rows, payload, primary, secondary = _load_checkpoint_model(args)
+            result = profile_distribution(
+                model=model, spec=spec, rows=rows,
+                data_root=args.data_root.resolve(),
+                destination=args.receipt_output.resolve(),
+                freeze_receipt=args.freeze_receipt.resolve(),
+                checkpoint=args.checkpoint.resolve(),
+                checkpoint_step=int(payload.get("step", -1)),
+                checkpoint_metadata=payload.get("metadata"),
+                gpu=args.gpu,
+            )
     elif args.stage == "candidate-lock":
         required = {
             "--candidate-id": args.candidate_id,

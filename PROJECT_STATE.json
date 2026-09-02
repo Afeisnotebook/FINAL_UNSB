@@ -227,6 +227,22 @@
       "flops_claimed": false,
       "evidence": "evidence/paper_aio/PAPER_COMPLEXITY_INTERFACE_20260902.json"
     },
+    "post_freeze_distribution_interface": {
+      "status": "IMPLEMENTED_TESTED_NOT_DEPLOYED_AWAITING_COMMITTED_PAPER_FREEZE",
+      "primary_metric": "six_domain_macro_kid",
+      "supplementary_metrics": ["pooled_kid", "pooled_fid_small_sample"],
+      "fixed_epoch": 200,
+      "discovery_per_domain": 80,
+      "unsb_replicates": 5,
+      "unsb_primary_nfe": 5,
+      "requires_committed_freeze_receipt": true,
+      "paper_claims_currently_frozen": false,
+      "deployed": false,
+      "confirmation_authorized": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_POST_FREEZE_DISTRIBUTION_INTERFACE_20260903.json",
+      "decision": "decisions/DEC-20260903-POST-FREEZE-DISTRIBUTION-EVALUATION.md"
+    },
     "stcgr_portable_evaluation_authority": {
       "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_IMPORTED_CANDIDATE_CHECKPOINT",
       "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",

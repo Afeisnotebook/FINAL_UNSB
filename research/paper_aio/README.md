@@ -238,3 +238,19 @@ This is a discovery-stage delivery, not an automatic claim freeze. It never
 chooses a checkpoint, never changes a run, does not claim unaudited FLOPs, and
 leaves `paper_claims_frozen=false` and `confirmation_authorized=false` for the
 subsequent human/Codex paper review.
+
+## Post-freeze distribution metrics
+
+`research.paper_aio.distribution` implements the preregistered KID/FID stage,
+but it cannot run during discovery.  `--stage distribution` requires a freeze
+receipt already committed to this repository.  That receipt must freeze the
+algorithm, baseline, e200 result and paper-claim set while leaving confirmation
+unauthorized and closed.
+
+After that gate, the evaluator uses discovery80 at 128 pixels.  UNSB-family
+lanes use the five fixed CRN replicates at NFE=5; deterministic lanes use one
+replicate.  Six-domain macro KID is primary.  Pooled KID and pooled FID are
+supplementary, and FID is labeled as a 480-image small-sample estimate.  The
+receipt records the Clean-FID and Inception identities, RNG-isolated KID seeds,
+checkpoint hash, CRN identity and image quantization.  It never opens
+confirmation20 or selects a lane/checkpoint.
