@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T05:02:18+08:00",
+  "captured_at": "2026-09-03T05:12:57+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -13,9 +13,10 @@
       "first_epoch_seconds": 4696.602091550827,
       "latest_epoch_seconds": 4752.122806787491,
       "projected_completion": "2026-09-13T21:09:48+08:00",
-      "matched_plain": "5090A/plain",
-      "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
-      "matched_delta_status": "unavailable_until_a_new_explicit_legal_plain_e200_plan_or_an_independently_approved_control_relation",
+      "matched_plain_current_registry": "5090A/plain_without_e200_control",
+      "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
+      "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
+      "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
       "scientific_role": "most portable conditional-variance-reduction result"
     },
@@ -33,8 +34,9 @@
       "latest_resumed_epoch_seconds": 5259.2815952301025,
       "current_single_epoch_projected_completion": "2026-09-15T03:13:57+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
-      "matched_plain": "5090A/plain paused recoverably at e9",
-      "matched_delta_status": "unavailable_until_a_new_explicit_legal_plain_e200_plan",
+      "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
+      "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
+      "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "scientific_role": "new evidence-derived stratified bridge-time estimator",
       "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T045338.json"
     },
@@ -108,7 +110,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json"
   },
   "post_training_delivery": {
-    "status": "DURABLE_FIRST_WAVE_UNIFIED_EVALUATOR_WAITING_METRIC_BLIND",
+    "status": "LEGACY_WAITER_HEALTHY_BUT_SUPERSEDED_AS_COMPLETION_PATH_BY_5090A_PLAIN_CANCELLATION",
     "host": "4090A",
     "pid": 2209120,
     "ppid": 1,
@@ -124,6 +126,13 @@
     "health_watcher_pid": 2209213,
     "health_status": "HEALTHY",
     "first_wave_complete_is_not_algorithm_freeze": true,
+    "replacement_status": "code_ready_waiting_for_5090B_runtime_receipt_relation_candidates_and_git_review",
+    "replacement_lane_sources": {
+      "plain": "5090B_MATCHED_PLAIN",
+      "proposal": "5090C",
+      "cut": "5090B",
+      "cyclegan": "5090B"
+    },
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
   },
   "local_evaluation_node": {
@@ -168,8 +177,8 @@
     },
     "stcgr": {
       "pid": 2217244,
-      "status": "waiting_for_5090a_candidate_import_and_reviewed_exact_cross_host_candidate_control_relation",
-      "matched_plain": "5090A/plain",
+      "status": "legacy_waiter_bound_to_superseded_5090A_plain_cohort_pending_safe_replacement",
+      "matched_plain": "5090B_MATCHED_PLAIN/plain after reviewed relation",
       "candidate_metadata_import": "complete_verified",
       "future_alternate_plain": "5090B_MATCHED_PLAIN",
       "alternate_control_relation": "review_only_successor_armed_not_yet_authorized"
@@ -180,7 +189,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json"
   },
   "final_discovery_delivery": {
-    "status": "durable_waiting_for_all_fixed_e200_results",
+    "status": "legacy_waiter_healthy_but_superseded_pending_safe_dynamic_control_replacement",
     "pid": 2220419,
     "ppid": 1,
     "control_commit": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",
@@ -198,11 +207,14 @@
     "preserves_distinct_matched_plains": true,
     "paper_claims_frozen": false,
     "confirmation_authorized": false,
+    "replacement_contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",
+    "replacement_interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
+    "replacement_decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_HEALTH_20260903T050218.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_HEALTH_20260903T050218.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

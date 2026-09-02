@@ -1,0 +1,99 @@
+{
+  "schema": "final-unsb-paper-global-reschedule-and-delivery-handoff-v1",
+  "captured_at": "2026-09-03T05:12:57+08:00",
+  "status": "TRAINING_SCHEDULE_RETAINED_DELIVERY_CRITICAL_PATH_REPAIRED_IN_CODE",
+  "live_metric_blind_snapshot": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 54,
+      "updates": 461862,
+      "trainer_pid": 2072055,
+      "health_watcher_pid": 2200307,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_ONLY_GPU_TRAINING_LANE",
+      "data_epoch": 4,
+      "updates": 34212,
+      "trainer_pid": 336346,
+      "supervisor_pid": 336345,
+      "health_watcher_pid": 352017,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 44,
+      "updates": 376332,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 24,
+      "updates": 205272,
+      "trainer_pid": 11846,
+      "shared_health_watcher_pid": 30355,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 6,
+      "updates": 51318,
+      "trainer_pid": 9734,
+      "supervisor_pid": 9729,
+      "health_watcher_pid": 13587,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "local_1060": {
+      "status": "IDLE_FOR_TRAINING_INCREMENTAL_AUDIT_PIPELINE_WAITING_FIXED_IMPORTS",
+      "health_watcher_pid": 15672,
+      "health": "HEALTHY_ZERO_ALERTS"
+    }
+  },
+  "schedule_decision": {
+    "changed_running_training": false,
+    "4090A_queue": ["plain_e200", "amtnc_e200", "unified_read_only_evaluation"],
+    "5090A_queue": ["stcgr_e200", "source_bound_export"],
+    "5090B_queue": ["cut_e200_and_cyclegan_e200", "fresh_e0_matched_plain_e200"],
+    "5090C_queue": ["proposal_e200", "source_bound_export"],
+    "local_queue": ["incremental_terminal_audit", "fixed_checkpoint_target_blind_audit"],
+    "why_5090c_remains_proposal": "highest-evidence portable algorithm was previously trapped behind 4090A plain; moving it off the serial chain advances the earliest reliable method result while retaining ST-CGR and AM-TNC as independent mathematical routes",
+    "why_no_second_5090c_lane": "no additional evidence-backed algorithm is fully gated for an in-lease close; colocation would delay the Proposal critical result"
+  },
+  "projected_windows_not_deadlines": {
+    "external_baseline_core": "2026-09-06/2026-09-08",
+    "4090A_plain": "2026-09-05/2026-09-06",
+    "4090A_amtnc": "2026-09-11/2026-09-13",
+    "5090B_matched_plain": "2026-09-12/2026-09-13",
+    "5090C_proposal": "2026-09-13/2026-09-14",
+    "5090A_stcgr": "2026-09-15/2026-09-16",
+    "layered_multi_algorithm_set_after_unified_evaluation": "2026-09-16_or_later"
+  },
+  "runtime_control": {
+    "proposal_existing_relation": "5090C_to_5090A_PASS_EXACT_RUNTIME_RELATION_but_5090A_plain_has_no_e200",
+    "proposal_future_control": "5090B_MATCHED_PLAIN_requires_review_only_candidate_then_git_registry_review",
+    "stcgr_future_control": "5090B_MATCHED_PLAIN_requires_explicit_cross_host_cross_code_two_link_candidate_then_git_registry_review",
+    "cross_non_equivalent_runtime_delta": false
+  },
+  "delivery_path": {
+    "legacy_unified_evaluator_pid": 2209120,
+    "legacy_final_delivery_pid": 2220419,
+    "legacy_status": "HEALTHY_WAITERS_BUT_SUPERSEDED_AS_COMPLETION_PATH_AFTER_5090A_PLAIN_CANCELLATION",
+    "immediate_retirement": false,
+    "retirement_condition": "replacement_5090B_control_evaluator_deployed_and_two_heartbeats_healthy",
+    "code_change": "final-delivery contract v2 freezes dynamic source hosts and validates late-three reviewed runtime relations",
+    "delivery_interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
+    "replacement_plain_source": "5090B_MATCHED_PLAIN",
+    "replacement_deployment_status": "WAITING_FOR_PRIMARY_RUNTIME_RECEIPT_RELATION_CANDIDATES_AND_GIT_REVIEW"
+  },
+  "next_manual_or_codex_decision": {
+    "trigger": "5090B exact runtime receipt and both review-only relation candidates exist",
+    "expected_window": "around 2026-09-06",
+    "action": "audit candidates, commit accepted registry relations, deploy replacement evaluator/final successor, then retire legacy waiters"
+  },
+  "performance_values_read": false,
+  "metric_values_used_for_training_or_scheduling": false,
+  "best_checkpoint_selection": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md"
+}
