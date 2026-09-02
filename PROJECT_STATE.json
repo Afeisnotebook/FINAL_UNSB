@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T17:31:00+08:00",
+  "state_snapshot_time": "2026-09-02T18:00:00+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -12,9 +12,9 @@
     "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 19, "latest_observed_updates": 162507, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 17, "latest_observed_updates": 145401, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E5_CONFIRMED", "latest_observed_data_epoch": 5, "latest_observed_updates": 42765, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 23, "latest_observed_updates": 196719, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 20, "latest_observed_updates": 171060, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E7_CONFIRMED", "latest_observed_data_epoch": 7, "latest_observed_updates": 59871, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_GATES_RUNNING",
         "latest_observed_data_epoch": 200,
@@ -25,6 +25,8 @@
       },
       "5090A_plain": {
         "status": "CHILD_RUNNING_AFTER_METRIC_BLIND_STCGR_E200_TRIGGER",
+        "latest_observed_data_epoch": 1,
+        "latest_observed_updates": 8553,
         "trigger_supervisor_pid": 296778,
         "supervisor_pid": 305489,
         "trainer_pid": 305490,
@@ -141,10 +143,11 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_REALTIME_SCHEDULING_AUDIT_20260902.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_STATUS_20260902_1800.json",
     "next_manual_decision_window": "after_full_e200_exports_and_unified_discovery_evaluation_before_confirmation20"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "3cfff2fcffe57447943f204a423843ba6f9c0e72",
+  "development_head_at_state_write": "fc0d5c3e67277ddb4bd43eb565260fe48994d905",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

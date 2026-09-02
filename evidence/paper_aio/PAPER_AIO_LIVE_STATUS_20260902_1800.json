@@ -1,0 +1,152 @@
+{
+  "schema": "final-unsb-paper-aio-live-status-v1",
+  "captured_at": "2026-09-02T18:00:00+08:00",
+  "status": "HEALTHY_CRITICAL_PATH_RUNNING_WITH_DURABLE_SUCCESSORS",
+  "north_star": "Obtain full-data e200 paper baselines, matched Proposal, and at least one evidence-derived new-algorithm trajectory without paired control or best-checkpoint selection.",
+  "running": [
+    {
+      "host": "4090A",
+      "lane": "plain",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "updates": 196719,
+      "data_epoch": 23,
+      "target_data_epoch": 200,
+      "last_epoch_seconds": 1264.3820927143097,
+      "gpu_memory_mib_at_audit": 1663,
+      "gpu_utilization_percent_at_audit": 51
+    },
+    {
+      "host": "5090B",
+      "lane": "cut",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8",
+      "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "updates": 171060,
+      "data_epoch": 20,
+      "target_data_epoch": 200,
+      "last_epoch_seconds": 1684.5491182804108
+    },
+    {
+      "host": "5090B",
+      "lane": "cyclegan",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8",
+      "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "updates": 59871,
+      "data_epoch": 7,
+      "target_data_epoch": 200,
+      "last_epoch_seconds": 2339.396047592163,
+      "combined_gpu_memory_mib_at_audit": 3479,
+      "combined_gpu_utilization_percent_at_audit": 92
+    },
+    {
+      "host": "5090A",
+      "lane": "plain",
+      "supervisor_pid": 305489,
+      "trainer_pid": 305490,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed",
+      "git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "updates": 8553,
+      "data_epoch": 1,
+      "target_data_epoch": 200,
+      "last_epoch_seconds_during_transient_candidate_colocation": 4332.962903261185
+    },
+    {
+      "host": "5090A",
+      "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF e1 capacity probe",
+      "activation_successor_pid": 298747,
+      "trainer_pid": 309849,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+      "git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+      "status": "RUNNING_E1_CAPACITY_PROBE",
+      "automatic_stop_after_updates": 8553,
+      "continue_beyond_e1": false
+    }
+  ],
+  "durable_waiters": [
+    {
+      "host": "4090A",
+      "pid": 2089059,
+      "task": "Proposal-only after matched plain e200",
+      "duplicate_future_launch": false
+    },
+    {
+      "host": "4090A",
+      "pids": [2101680, 2101681],
+      "task": "plain and Proposal source exports"
+    },
+    {
+      "host": "5090B",
+      "pids": [9515, 9516],
+      "task": "CUT and CycleGAN source exports",
+      "old_duplicate_successor_pid_7414_present": false
+    },
+    {
+      "host": "5090A",
+      "pid": 308472,
+      "task": "wait for candidate e1 receipt, then plain e200, then exact-resume ST-CGR through e200",
+      "state": "WAIT_ACTIVATION",
+      "mode": "after_parent"
+    },
+    {
+      "host": "5090A",
+      "pid": 296821,
+      "task": "plain source export"
+    }
+  ],
+  "dependency_dag": [
+    "4090A plain e200 -> Proposal-only e200 -> both source exports -> unified 4090 evaluation -> matched Proposal adjudication",
+    "5090B CUT and CycleGAN e200 -> both source exports -> unified evaluation -> external-baseline table",
+    "5090A candidate e1 exact state -> wait for same-host plain e200 -> ST-CGR exact resume to e200 -> both source exports -> unified 5090A evaluation -> matched new-algorithm adjudication",
+    "authoritative DDSB formula-source-implementation lock -> DDSB engineering gate -> only then DDSB e200",
+    "all required e200 exports -> paper table, trajectories, complexity receipts and algorithm-set adjudication -> only then confirmation20 decision"
+  ],
+  "colocation_decisions": {
+    "4090A_plain_plus_proposal": "REJECTED_KEEP_SEQUENTIAL_BECAUSE_MEASURED_PLAIN_SLOWDOWN_INCREASED_MAKESPAN",
+    "5090B_cut_plus_cyclegan": "ACCEPTED_AND_RUNNING_EXPECTED_TO_SAVE_ABOUT_11.96_HOURS",
+    "5090A_plain_plus_stcgr": "REJECTED_AFTER_TRANSIENT_E1_PROBE_BECAUSE_CANDIDATE_SLOWDOWN_LOWER_BOUND_WAS_1.93X"
+  },
+  "capacity": {
+    "4090A_available_gib": 387,
+    "5090B_available_gib": 232,
+    "5090A_available_gib": 186,
+    "5090A_user_capacity_override": "ACTIVE",
+    "5090A_estimated_worst_incremental_write_gib": 24,
+    "5090A_effective_safety_floor_gib": 48,
+    "deletion_performed": false
+  },
+  "queues": {
+    "4090A": ["plain e200", "Proposal-only e200", "source export and unified evaluation staging"],
+    "5090B": ["CUT and CycleGAN e200", "source exports", "DDSB only after authoritative reproduction gate"],
+    "5090A": ["finish ST-CGR e1 probe", "plain e200", "ST-CGR exact resume to e200", "source exports"],
+    "local_GTX1660_CPU": ["validate incoming exports", "unified deterministic evaluation", "final checkpoint complexity profiling and paper result adjudication"]
+  },
+  "makespan": {
+    "overall_first_complete_paper_and_new_algorithm_window_days": [10, 13],
+    "recalibration_trigger": "candidate e1 completion followed by the first non-colocated 5090A plain epoch",
+    "next_manual_scientific_decision": "after required e200 exports and unified discovery evaluation, provisionally 2026-09-12 through 2026-09-15"
+  },
+  "local_engineering": {
+    "paper_complexity_interface_commit": "fc0d5c3e67277ddb4bd43eb565260fe48994d905",
+    "test_status": "426_PASSED",
+    "paper_complexity_gpu_smoke": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE"
+  },
+  "scientific_boundaries": {
+    "intermediate_paired_metrics_used_for_control": false,
+    "best_checkpoint_selection": false,
+    "cross_host_matched_delta_merge": false,
+    "ddsb_guessed_implementation_started": false,
+    "confirmation20_opened": false,
+    "healthy_training_restarted": false
+  }
+}
