@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-local-evaluation-node-deployment-v1",
+  "captured_at": "2026-09-03T02:31:22+08:00",
+  "control_head_before_deployment_record": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
+  "purpose": "move fixed-checkpoint evaluation and target-blind terminal audits off long-training GPUs without changing any training transition",
+  "capacity": {
+    "remote_dataset_bytes": 26201303667,
+    "remote_dataset_files": 137997,
+    "local_free_gib_before_copy": 175.09,
+    "local_archive_plus_extracted_worst_case_gib": 50,
+    "local_audit_preflight_minimum_free_gib": 50,
+    "capacity_pass": true
+  },
+  "data_mirror": {
+    "status": "TRANSFERRING_IDLE_IO_PRIORITY",
+    "pid": 15608,
+    "source_host": "final-unsb-4090",
+    "source_path": "/home/yc/dataset",
+    "destination_root": "E:\\UNSB_Expl\\paper_eval_node",
+    "state": "E:\\UNSB_Expl\\paper_eval_node\\MIRROR_STATE.json",
+    "source_control_commit": "d170d4da3e3400d34ba3eec97200662d948262e0",
+    "remote_io_class": "idle",
+    "remote_nice": 19,
+    "observed_archive_gib": 2.702,
+    "stderr_bytes": 0,
+    "source_mutated": false
+  },
+  "training_non_interference_probe": {
+    "lane": "4090A_plain",
+    "epoch_before_copy_seconds": 1265.0016345977783,
+    "epoch_during_copy_seconds": 1266.3245391845703,
+    "relative_change_percent": 0.10457652903892461,
+    "interpretation": "no measurable material slowdown at the first complete epoch boundary; continue idle-priority transfer"
+  },
+  "audit_only_preflight_successor": {
+    "status": "WAITING_FOR_MIRROR",
+    "wrapper_pid": 19360,
+    "successor_pid": 19348,
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_EVAL_6275469",
+    "frozen_git_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
+    "output": "E:\\UNSB_Expl\\paper_eval_node\\audit_preflight",
+    "contract_sha256": "a191bd880f0b1fac10cfd4aa0223439d1ff160b50baab6e0e50d919dc81b82fb",
+    "next_transition": "run canonical materialize plus full manifest/content-hash preflight after mirror completion"
+  },
+  "authorization_boundary": {
+    "training_authorized": false,
+    "checkpoint_evaluation_started": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "archive_retained_until_manifest_gate": true
+  }
+}

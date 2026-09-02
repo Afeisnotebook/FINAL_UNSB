@@ -117,6 +117,17 @@
     "first_wave_complete_is_not_algorithm_freeze": true,
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
   },
+  "local_evaluation_node": {
+    "status": "data_mirror_running_audit_only_preflight_successor_waiting",
+    "mirror_pid": 15608,
+    "preflight_successor_pid": 19348,
+    "frozen_successor_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
+    "role": "evaluate fixed exported checkpoints and run target-blind full-data terminal audits without occupying a training GPU",
+    "training_authorized": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json"
+  },
   "algorithm_posthoc_delivery": {
     "status": "AMTNC_AND_STCGR_MATCHED_EVALUATION_SUCCESSORS_ARMED",
     "control_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
@@ -159,7 +170,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_CRITICAL_PATH_AUDIT_20260903T0219.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false
