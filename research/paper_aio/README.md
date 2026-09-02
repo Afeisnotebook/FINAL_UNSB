@@ -224,3 +224,17 @@ Dynamic candidate metadata is imported once with
 host key and binds the candidate lock, authorization and runtime gate to hashes
 already frozen by the portable evaluation authority. Prior small25 evidence is
 transported as immutable provenance, never as a full-data controller.
+
+## Final discovery delivery
+
+`operations.paper_aio_final_delivery_successor.py` waits for the fixed
+first-wave, AM-TNC and ST-CGR terminal dispositions. It then profiles every
+predeclared e200 model in the 4090 evaluator and emits
+`PAPER_ALGORITHM_PORTFOLIO.json`. The compact portfolio preserves the separate
+4090A and 5090A matched plains, includes all passing or failing current
+implementations, and carries parameter, latency and memory evidence.
+
+This is a discovery-stage delivery, not an automatic claim freeze. It never
+chooses a checkpoint, never changes a run, does not claim unaudited FLOPs, and
+leaves `paper_claims_frozen=false` and `confirmation_authorized=false` for the
+subsequent human/Codex paper review.

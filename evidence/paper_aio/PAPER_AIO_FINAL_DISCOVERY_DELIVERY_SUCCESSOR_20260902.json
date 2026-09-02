@@ -1,0 +1,98 @@
+{
+  "schema": "final-unsb-paper-final-discovery-delivery-deployment-v1",
+  "captured_at": "2026-09-02T23:54:10+08:00",
+  "status": "DURABLE_FINAL_DISCOVERY_DELIVERY_WAITING",
+  "purpose": "after every fixed e200 result, automatically profile paper complexity and combine all legal matched cohorts into one review-ready multi-algorithm discovery portfolio",
+  "control": {
+    "git_commit": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",
+    "script": "operations/paper_aio_final_delivery_successor.py",
+    "checkout": "/home/yc/FINAL_UNSB_FINAL_DELIVERY_adb6cf8",
+    "paper_protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "local_full_suite": "463 passed",
+    "remote_4090a_targeted_suite": "17 passed",
+    "ruff": "pass",
+    "py_compile": "pass"
+  },
+  "deployment": {
+    "host": "4090A",
+    "pid": 2220419,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_adb6cf8",
+    "state": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_adb6cf8/operations/FINAL_DELIVERY_STATE.json",
+    "contract_sha256": "12108043467ea1332daccad75b6883ed1db61c3e4a65bece15f5ac4ffcdbf746",
+    "current_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+    "dependencies": {
+      "first_wave": "WAIT",
+      "amtnc": "WAIT",
+      "stcgr": "WAIT",
+      "all_imports": "WAIT",
+      "amtnc_export": "WAIT"
+    },
+    "complexity_completed": 0,
+    "performance_values_read": false,
+    "metric_values_used_for_training_or_scheduling": false
+  },
+  "fixed_complexity_protocol": {
+    "primary_epoch": 200,
+    "lanes": [
+      "plain",
+      "proposal",
+      "cut",
+      "cyclegan",
+      "amtnc",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    ],
+    "unified_environment": "4090A evaluator",
+    "inference_nfe_unsb": [1, 2, 3, 4, 5],
+    "inference_nfe_external": [1],
+    "measures": [
+      "parameter inventory",
+      "inference latency",
+      "training-step latency",
+      "peak allocated and reserved memory"
+    ],
+    "flops_reported": false,
+    "flops_reason": "custom stochastic bridge and lazy PatchNCE operators lack one audited complete counter",
+    "checkpoint_read_only": true,
+    "target_path_read": false
+  },
+  "portfolio_partition": {
+    "proposal": {"matched_plain": "5090A/plain", "source_scope": "exact cross-host runtime relation"},
+    "stcgr": {"matched_plain": "5090A/plain", "source_scope": "same-host cross-code candidate gate"},
+    "amtnc": {"matched_plain": "4090A/plain", "source_scope": "same source runtime"},
+    "external_baselines": ["input", "cut", "cyclegan"],
+    "hjcgr": "deferred_not_falsified",
+    "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure"
+  },
+  "future_output": {
+    "portfolio": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_adb6cf8/PAPER_ALGORITHM_PORTFOLIO.json",
+    "status_when_complete": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_AWAITING_CONFIRMATION_DECISION",
+    "accepted_algorithms_can_be_multiple": true,
+    "failed_lane_wording": "failed_current_implementation_and_protocol",
+    "paper_claims_frozen": false,
+    "confirmation_authorized": false
+  },
+  "health_watch": {
+    "status": "HEALTHY_AFTER_SECOND_POLL",
+    "pid": 2220505,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_FINAL_DELIVERY_adb6cf8",
+    "contract_sha256": "28ae3518e2860145451ebc984e3eaf3678e3fb52d8a9f06a0e8a68b1a77f35e9",
+    "alert_count": 0,
+    "disk_free_gib": 386.4280700683594,
+    "estimated_remaining_write_gib": 8.0,
+    "minimum_headroom_gib": 16.0,
+    "required_disk_gib": 24.0
+  },
+  "scientific_boundaries": {
+    "wait_dependencies_are_metric_blind": true,
+    "all_lanes_profiled_regardless_of_result_sign": true,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "new_experiment_created": false,
+    "training_protocol_changed": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}

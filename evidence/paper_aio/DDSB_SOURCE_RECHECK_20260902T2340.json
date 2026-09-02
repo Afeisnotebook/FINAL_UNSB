@@ -1,0 +1,25 @@
+{
+  "schema": "final-unsb-ddsb-authority-source-recheck-v1",
+  "checked_at": "2026-09-02T23:40:00+08:00",
+  "status": "UNCHANGED_REPRODUCTION_INCOMPLETE",
+  "paper": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "official_abstract": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "official_pdf": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Paper-Conference.pdf"
+  },
+  "recheck_scope": [
+    "exact-title public web search",
+    "exact-title GitHub search",
+    "method-name GitHub search",
+    "official NeurIPS publication page",
+    "author laboratory publication listing"
+  ],
+  "author_maintained_public_source_found": false,
+  "new_information_sufficient_to_close_formula_implementation_gate": false,
+  "decision": "retain DDSB as reproduction_incomplete; do not launch a guessed implementation",
+  "scientific_failure": false,
+  "replacement_experiment_started": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

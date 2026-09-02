@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-02T23:36:18+08:00",
+  "captured_at": "2026-09-02T23:54:10+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -100,6 +100,27 @@
     "health_status": "HEALTHY",
     "cross_non_equivalent_runtime_delta": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json"
+  },
+  "final_discovery_delivery": {
+    "status": "durable_waiting_for_all_fixed_e200_results",
+    "pid": 2220419,
+    "ppid": 1,
+    "control_commit": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_adb6cf8",
+    "health_watcher_pid": 2220505,
+    "health_status": "HEALTHY",
+    "complexity_lanes": [
+      "plain",
+      "proposal",
+      "cut",
+      "cyclegan",
+      "amtnc",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    ],
+    "preserves_distinct_matched_plains": true,
+    "paper_claims_frozen": false,
+    "confirmation_authorized": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_STATUS_20260902T225900.json",

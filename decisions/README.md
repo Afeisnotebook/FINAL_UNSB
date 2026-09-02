@@ -112,3 +112,6 @@ authorize compute.
 34. `DEC-20260902-PAPER-DURABLE-MATCHED-ALGORITHM-EVALUATION.md`：AM-TNC不能误用首波
     5090A plain，故单独绑定4090A plain；ST-CGR只绑定5090A plain并等待首波cohort锁定。
     两条e200后评估/裁决链均已持久化，固定五个epoch且不能以指标控制训练或选择checkpoint。
+35. `DEC-20260902-PAPER-FINAL-DISCOVERY-DELIVERY.md`：全部固定e200结果到齐后，4090A
+    自动完成六条lane的统一复杂度测量，并在保持5090A/4090A两个合法plain关系的前提下
+    生成多算法full-data discovery portfolio；该产物仍需人工论文审查，不能自动打开confirmation。
