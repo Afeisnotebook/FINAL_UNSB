@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-paper-terminal-pathology-posthoc-interface-v1",
+  "captured_at": "2026-09-03T07:05:00+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "fixed_probes": [
+    "4090A_plain",
+    "5090C_proposal",
+    "4090A_amtnc",
+    "5090A_stcgr"
+  ],
+  "fixed_epochs": [100, 150, 200],
+  "information_boundary": {
+    "all_target_blind_audits_required_before_metric_binding_parse": true,
+    "diagnostic_window": "e100_to_e150",
+    "future_label_window": "e150_to_e200",
+    "paired_subset": "common_discovery70_replicate0_nfe5",
+    "intermediate_performance_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "fixed_thresholds": {
+    "spectral_collapse_ratio_max": 0.9,
+    "amplification_ratio_min": 1.1,
+    "future_psnr_decline_db_max": -0.05,
+    "minimum_support_methods": 2,
+    "minimum_support_domains": 3
+  },
+  "authority_boundary": {
+    "positive_decision_authorizes_derivation_only": true,
+    "algorithm_or_module_auto_start": false,
+    "training_control_authorized": false,
+    "cross_runtime_matched_delta_computed": false
+  },
+  "implementation": [
+    "research/paper_aio/terminal_adjudicate.py",
+    "operations/paper_aio_terminal_pathology_successor.py"
+  ],
+  "tests": {
+    "targeted_passed": 14,
+    "full_suite_passed": 521,
+    "coverage": [
+      "shared leading signal",
+      "weak-mechanism union rejection",
+      "paired binding information barrier",
+      "fixed sample identity",
+      "source-bound metric path",
+      "exact complete audit release"
+    ]
+  },
+  "decision": "decisions/DEC-20260903-TERMINAL-PATHOLOGY-POSTHOC-ADJUDICATION.md"
+}

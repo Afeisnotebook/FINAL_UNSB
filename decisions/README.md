@@ -147,3 +147,7 @@ authorize compute.
 45. `DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md`：纠正终端谱审计把单步netG
     Jacobian误作完整rollout Jacobian的缺口；新增lane-blind CRN方向的NFE5幂迭代、
     endpoint运输方向定义和严格输出验收，并在本地1060真实模型上通过容量smoke。
+46. `DEC-20260903-TERMINAL-PATHOLOGY-POSTHOC-ADJUDICATION.md`：在任何paired结果可读前
+    验签四条固定probe的12个target-blind审计，以e100→e150诊断预测e150→e200变化；
+    固定阈值、同一统一评估器和跨方法/域支持共同决定是否只授权后续数学推导，绝不自动
+    启动终端模块或控制在飞训练。

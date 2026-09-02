@@ -143,6 +143,29 @@ bundle hash before computing method-minus-plain deltas.  Terminal metrics also
 report the macro PSNR/SSIM/LPIPS standard deviation across the five fixed
 rollout bundles (population standard deviation, `ddof=0`).
 
+## Posthoc terminal-pathology adjudication
+
+The full-data terminal audit is target-blind. It first freezes and validates
+all e100/e150/e200 audits for 4090A plain, 5090C Proposal, 4090A AM-TNC and
+5090A ST-CGR, including unchanged parent state/RNG and the complete
+X_t-to-NFE5 rollout Jacobian. Only after the exact 12-cell audit state is
+complete may `terminal_adjudicate` open source-bound discovery metrics.
+
+The preregistered lead-lag test uses e100-to-e150 diagnostics and labels the
+future e150-to-e200 change on the common discovery70, replicate 0 and NFE 5.
+It confirms a mechanism only when the same spectral-collapse or perturbation-
+amplification rule supports at least two probes and three domains. Metric
+bindings use absolute receipt/metric paths, and every metric must come from
+one evaluator runtime with the frozen manifest and CRN bundle. A positive
+decision authorizes writing a derivation card only; it never starts a repair
+module or controls an existing training run.
+
+```text
+python -m research.paper_aio.terminal_adjudicate \
+  --audit-root AUDITS --metric-bindings METRIC_BINDINGS.json \
+  --output TERMINAL_PATHOLOGY_DECISION.json
+```
+
 ## One-container final evaluation
 
 Training checkpoints never resume across hosts. After each source lane ends,
