@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T12:28:40.6360806+08:00",
+  "state_snapshot_time": "2026-09-02T12:44:29.2410907+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -31,7 +31,7 @@
     "active_new_candidate_full_data_authorized": false,
     "candidate_full_data_gate_interface": {
       "status": "IMPLEMENTED_FAIL_CLOSED_NOT_YET_EXECUTED",
-      "candidate_code_protocol_fingerprint": "3f339224de364e7caf7a426782da1f361cf7b1e2afec0a62942dc52cfbbe4ef5",
+      "candidate_code_protocol_fingerprint": "51c4e0d68f748bc92372a5409464828a0e9fbe60372a2692a462b5a4663976a1",
       "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
       "requires_positive_small25_e200_receipt": true,
       "requires_same_host_cross_code_runtime_gate": true,
@@ -45,10 +45,14 @@
     "unified_evaluation_interface": {
       "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_E200_CHECKPOINTS",
       "source_export_epochs": [100, 125, 150, 175, 200],
-      "required_first_wave_lanes": ["plain", "proposal", "cut", "cyclegan"],
+      "required_first_wave_lanes": ["input", "plain", "proposal", "cut", "cyclegan"],
+      "input_reference": "evaluation_only_discovery80_psnr_ssim_lpips",
       "training_checkpoint_read_only": true,
       "cross_host_training_delta_merged": false,
-      "evidence": "evidence/paper_aio/PAPER_UNIFIED_EVALUATION_COHORT_INTERFACE_20260902.json"
+      "evidence": [
+        "evidence/paper_aio/PAPER_UNIFIED_EVALUATION_COHORT_INTERFACE_20260902.json",
+        "evidence/paper_aio/PAPER_INPUT_REFERENCE_INTERFACE_20260902.json"
+      ]
     },
     "durable_source_export_successors": {
       "status": "FOUR_SUCCESSORS_WAITING_FOR_COMPLETE_E200",

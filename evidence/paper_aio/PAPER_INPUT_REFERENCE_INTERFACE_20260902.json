@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-paper-input-reference-interface-v1",
+  "captured_at": "2026-09-02T12:44:29.2410907+08:00",
+  "implementation_git_commit": "9ec6e7a",
+  "unified_evaluator_protocol_fingerprint": "51c4e0d68f748bc92372a5409464828a0e9fbe60372a2692a462b5a4663976a1",
+  "frozen_training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "frozen_training_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "input_reference": {
+    "training_lane": false,
+    "split": "discovery",
+    "count_per_domain": 80,
+    "domains": 6,
+    "replicates": 1,
+    "nfe": 0,
+    "metrics": ["PSNR", "SSIM", "LPIPS"],
+    "same_resize_and_metric_implementation_as_models": true,
+    "same_unified_environment_required": true
+  },
+  "first_wave_completion_requires": [
+    "input:e200",
+    "plain:e100,e125,e150,e175,e200",
+    "proposal:e100,e125,e150,e175,e200",
+    "cut:e100,e125,e150,e175,e200",
+    "cyclegan:e100,e125,e150,e175,e200"
+  ],
+  "tests": {
+    "pytest_passed": 411,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "scientific_training_code_mutated": false,
+  "best_checkpoint_selection": false,
+  "paired_metric_control": false,
+  "cross_host_training_delta_merged": false,
+  "confirmation20_opened": false
+}
