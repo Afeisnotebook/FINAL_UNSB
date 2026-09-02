@@ -1,0 +1,34 @@
+{
+  "schema": "final-unsb-paper-matched-runtime-relations-v1",
+  "status": "ACTIVE_METRIC_BLIND_RELATIONS",
+  "relations": {
+    "proposal": {
+      "status": "PASS_EXACT_RUNTIME_RELATION",
+      "method_lane": "proposal",
+      "method_source_host_label": "5090C",
+      "plain_source_host_label": "5090A",
+      "updates": 2000,
+      "training_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+      "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+      "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+      "method_runtime_receipt_sha256": "fb6efa78d053092a24bd65deb284b71fb12a99c5bbe67e8692eb18a9e6230b72",
+      "plain_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+      "method_authorization_receipt_sha256": "cc0f71bbb2bd7f427c49efadb810e6c35e015be4d49a91f1b72c59c106f2e88f",
+      "normalized_environment": {
+        "python": "3.11.16",
+        "torch": "2.8.0+cu128",
+        "torch_cuda": "12.8",
+        "cudnn": 91002,
+        "gpu": "NVIDIA GeForce RTX 5090",
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "differences": {},
+      "performance_values_read": false,
+      "paired_metric_control": false,
+      "confirmation20_opened": false
+    }
+  }
+}

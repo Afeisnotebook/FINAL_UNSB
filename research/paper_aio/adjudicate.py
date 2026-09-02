@@ -10,6 +10,7 @@ import numpy as np
 from research.local_route1.runtime import write_json
 
 from .protocol import REQUIRED_PAPER_TABLE, lane_spec, load_protocol
+from .runtime_relation import runtime_pair_passed, runtime_pair_status
 
 
 def _read(path: Path) -> dict:
@@ -95,6 +96,9 @@ def _candidate_definitions(output_root: Path) -> list[dict]:
 def adjudicate(output_root: Path) -> dict:
     protocol = load_protocol()
     output_root = Path(output_root)
+    unified_cohort_declared = (
+        output_root / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+    ).is_file()
     definitions = [{
         "lane_id": "input", "role": "evaluation-only degraded input reference",
         "backend": "evaluation_only", "family": "input",
@@ -164,11 +168,17 @@ def adjudicate(output_root: Path) -> dict:
         if definition["family"] == "unsb" and lane != "plain":
             trajectory = []
             crn_exact = True
+            runtime_exact = True
             for epoch in protocol["training"]["late_epochs"]:
                 method = _metric(metrics_root, lane, epoch)
                 plain = _metric(plain_root, "plain", epoch)
                 if method is None or plain is None:
                     continue
+                runtime_relation = runtime_pair_status(
+                    method=method, plain=plain, lane_id=lane,
+                    candidate_cross_code_gate=definition["candidate_lock"] is not None,
+                    allow_legacy_missing=not unified_cohort_declared,
+                )
                 matched = (
                     method.get("protocol_fingerprint") == plain.get("protocol_fingerprint")
                     and method.get("evaluation_input_sha256")
@@ -177,7 +187,9 @@ def adjudicate(output_root: Path) -> dict:
                     and method.get("confirmation20_opened") is False
                     and plain.get("confirmation20_opened") is False
                 )
+                matched = matched and runtime_pair_passed(runtime_relation)
                 crn_exact = crn_exact and matched
+                runtime_exact = runtime_exact and runtime_pair_passed(runtime_relation)
                 deltas = _domain_delta(method, plain)
                 psnr = [value["psnr"] for value in deltas.values()]
                 trajectory.append({
@@ -192,6 +204,7 @@ def adjudicate(output_root: Path) -> dict:
                     "worst_domain_delta": min(psnr),
                     "domain_delta": deltas,
                     "crn_exact": matched,
+                    "runtime_relation": runtime_relation,
                     "candidate_macro_psnr": method["macro_psnr"],
                     "plain_macro_psnr": plain["macro_psnr"],
                 })
@@ -224,6 +237,7 @@ def adjudicate(output_root: Path) -> dict:
                     "late_three_macro_psnr_delta": late_mean,
                     "e200_macro_psnr_delta": terminal_delta,
                     "crn_exact_at_all_late_points": crn_exact,
+                    "runtime_relation_exact_at_all_late_points": runtime_exact,
                     "candidate_e150_to_e200_change_db": candidate_change,
                     "plain_e150_to_e200_change_db": plain_change,
                     "plain_collapse_guard": (

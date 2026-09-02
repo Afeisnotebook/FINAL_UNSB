@@ -130,6 +130,7 @@ def milestone_steps(protocol: dict | None = None) -> list[int]:
 def _fingerprinted_files() -> list[Path]:
     exact = [
         CONFIG_PATH,
+        ROOT / "configs" / "PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
         ROOT / "production" / "metrics.py",
     ]
     # A receipt must become stale after *any* transition/evaluation source

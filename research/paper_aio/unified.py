@@ -27,6 +27,7 @@ from .protocol import (
     protocol_fingerprint,
 )
 from .runtime import _annotated_rows, load_full_state, manifest_report, prepare_lane
+from .runtime_relation import runtime_pair_passed, runtime_pair_status
 
 
 EXPORT_SCHEMA = "final-unsb-paper-checkpoint-export-v1"
@@ -285,6 +286,7 @@ def evaluate_imported_checkpoint(
         "epoch": epoch,
         "updates": _expected_step(epoch),
         "training_protocol_fingerprint": export.get("training_protocol_fingerprint"),
+        "manifest_sha256": export.get("manifest_sha256"),
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
@@ -312,6 +314,8 @@ def evaluate_imported_checkpoint(
         "source_export_receipt": str(export_path),
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
+        "training_protocol_fingerprint": export.get("training_protocol_fingerprint"),
+        "manifest_sha256": export.get("manifest_sha256"),
         "portable_candidate_authority_sha256": authority_sha256,
         "metric": str(metric_path.resolve()),
         "metric_sha256": file_sha256(metric_path),
@@ -484,6 +488,18 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
             expected = _expected_evaluation(epoch, family)
             if any(metric.get(key) != value for key, value in expected.items()):
                 raise RuntimeError(f"unified metric protocol mismatch: {lane_id} e{epoch}")
+            if (
+                not metric.get("source_host_label")
+                or not metric.get("training_protocol_fingerprint")
+                or not metric.get("manifest_sha256")
+                or receipt.get("source_host_label") != metric.get("source_host_label")
+                or receipt.get("training_protocol_fingerprint")
+                != metric.get("training_protocol_fingerprint")
+                or receipt.get("manifest_sha256") != metric.get("manifest_sha256")
+            ):
+                raise RuntimeError(
+                    f"unified metric training-runtime identity mismatch: {lane_id} e{epoch}"
+                )
             if metric.get("protocol_fingerprint") != FROZEN_EVALUATION_BUNDLE_FINGERPRINT:
                 raise RuntimeError("unified metric CRN bundle identity changed")
             if (
@@ -505,6 +521,16 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
         raise RuntimeError("unified evaluator fingerprint is stale for the current checkout")
     if environment != current_unified_environment:
         raise RuntimeError("unified cohort lock must be issued inside the evaluation runtime")
+    proposal_runtime_relation = runtime_pair_status(
+        method=_read_json(output_root / "lanes" / "proposal" / "metrics" / "e200.json"),
+        plain=_read_json(output_root / "lanes" / "plain" / "metrics" / "e200.json"),
+        lane_id="proposal",
+    )
+    if not runtime_pair_passed(proposal_runtime_relation):
+        raise RuntimeError(
+            "Proposal/plain training runtimes are not a proven matched relation: "
+            + str(proposal_runtime_relation.get("status"))
+        )
     result = {
         "schema": UNIFIED_COHORT_SCHEMA,
         "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
@@ -515,6 +541,7 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
         "unified_environment": environment,
         "receipts": receipts,
         "training_hosts_remain_separate": True,
+        "proposal_plain_runtime_relation": proposal_runtime_relation,
         "cross_host_training_delta_merged": False,
         "paired_metric_control": False,
         "confirmation20_opened": False,

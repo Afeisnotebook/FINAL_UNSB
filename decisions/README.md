@@ -93,3 +93,6 @@ authorize compute.
     twin后直接运行Proposal，4090A在plain后改跑独立几何路线AM-TNC；ST-CGR继续等待
     5090A matched plain。该重排并行得到至少三条自研全量轨迹，HJCGR仅因成本与跨runtime
     风险延期，未被写成机制证伪。
+29. `DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md`：统一评估环境只消除评估器差异，
+    不能单独证明跨宿主训练matched。Proposal/5090C与plain/5090A的delta必须同时通过
+    CRN逐图身份和预训练2000步runtime relation；缺少任一项即fail closed。

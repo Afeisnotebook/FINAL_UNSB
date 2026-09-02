@@ -10,6 +10,7 @@
       "host": "5090C",
       "matched_plain": "5090A/plain",
       "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
+      "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
       "scientific_role": "most portable conditional-variance-reduction result"
     },
     "stcgr": {

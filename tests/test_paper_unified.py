@@ -151,6 +151,18 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
     )
     for lane_id in REQUIRED_FIRST_WAVE:
         family = lane_spec(lane_id).family
+        source_host = (
+            "5090A" if lane_id == "plain" else
+            "5090C" if lane_id == "proposal" else
+            "5090B"
+        )
+        training_fingerprint = (
+            "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+            if lane_id in ("plain", "proposal") else "external-training"
+        )
+        training_manifest = (
+            "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+        )
         for epoch in UNIFIED_EPOCHS:
             expected = _expected_evaluation(epoch, family)
             metric = _write(
@@ -158,6 +170,9 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
                 {
                     **expected,
                     "protocol_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+                    "source_host_label": source_host,
+                    "training_protocol_fingerprint": training_fingerprint,
+                    "manifest_sha256": training_manifest,
                     "training_checkpoint_read_only": True,
                     "cross_host_training_delta_merged": False,
                     "confirmation20_opened": False,
@@ -170,7 +185,9 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
                     "status": "PASS_UNIFIED_READ_ONLY_EVALUATION",
                     "lane_id": lane_id,
                     "epoch": epoch,
-                    "source_host_label": "4090A" if lane_id in ("plain", "proposal") else "5090B",
+                    "source_host_label": source_host,
+                    "training_protocol_fingerprint": training_fingerprint,
+                    "manifest_sha256": training_manifest,
                     "metric": str(metric.resolve()),
                     "metric_sha256": file_sha256(metric),
                     "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
@@ -186,6 +203,9 @@ def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
     assert result["status"] == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
     assert result["required_lanes"] == list(REQUIRED_PAPER_TABLE)
     assert result["training_hosts_remain_separate"] is True
+    assert result["proposal_plain_runtime_relation"]["status"] == (
+        "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION"
+    )
     bad = tmp_path / "gates" / "UNIFIED_EVALUATION_cut_e200.json"
     value = json.loads(bad.read_text(encoding="utf-8"))
     value["cross_host_training_delta_merged"] = True

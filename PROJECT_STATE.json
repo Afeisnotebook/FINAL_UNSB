@@ -189,6 +189,17 @@
       "decision": "decisions/DEC-20260902-5090C-GLOBAL-PORTFOLIO-RESCHEDULE.md",
       "evidence": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json"
     },
+    "matched_runtime_relation_gate": {
+      "status": "IMPLEMENTED_FAIL_CLOSED_AWAITING_E200_CHECKPOINTS",
+      "method": "5090C_proposal",
+      "plain": "5090A_plain",
+      "runtime_twin_updates": 2000,
+      "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+      "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+      "paired_performance_read": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_RUNTIME_RELATION_GATE_20260902.json",
+      "decision": "decisions/DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,

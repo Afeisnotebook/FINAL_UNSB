@@ -172,6 +172,9 @@ def _metric(value: float) -> dict:
         "macro_lpips": 0.5 - value / 100,
         "domains": domains,
         "protocol_fingerprint": "bundle",
+        "source_host_label": "4090A",
+        "training_protocol_fingerprint": "training",
+        "manifest_sha256": "manifest",
         "evaluation_input_sha256": "inputs",
         "images": [{
             "domain": "a", "stem": "one", "order": 0,

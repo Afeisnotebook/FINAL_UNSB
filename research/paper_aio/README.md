@@ -161,6 +161,16 @@ cohort can change `PAPER_RESULTS.json` from `FIRST_WAVE_INCOMPLETE` to
 `FIRST_WAVE_COMPLETE`; host-separated training remains explicit and no
 CUT/CycleGAN-minus-plain matched claim is created.
 
+Unified evaluation is not, by itself, a training-runtime match.  Every imported
+metric records its source host, training protocol fingerprint and manifest.
+When a static UNSB method and plain have different source-host labels,
+`unified-lock` and adjudication additionally require the metric-blind exact
+relation in `configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json`.  Same-host
+static methods require equal training protocol and manifest; a dynamic
+cross-code candidate remains bound by its candidate runtime gate.  Thus a
+common evaluator cannot accidentally turn two non-equivalent training hosts
+into a matched delta.
+
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
 deferred and engineering-blocked lanes, and remains
