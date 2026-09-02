@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T01:16:27+08:00",
+  "captured_at": "2026-09-03T01:20:47+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -69,7 +69,7 @@
       "5090C": 13587
     },
     "auxiliary_watcher_pids": {
-      "5090B_matched_plain_successor": 38339,
+      "5090B_matched_plain_successor": 39139,
       "4090A_5090B_matched_plain_relay": 2237500
     },
     "evidence": [

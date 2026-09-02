@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T01:16:27+08:00",
+  "state_snapshot_time": "2026-09-03T01:20:47+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -79,7 +79,7 @@
       "5090B_matched_plain_successor": {
         "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_GATES",
         "successor_pid": 38294,
-        "health_watcher_pid": 38339,
+        "health_watcher_pid": 39139,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "source_export_relay_pid": 2236741,
         "source_export_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",

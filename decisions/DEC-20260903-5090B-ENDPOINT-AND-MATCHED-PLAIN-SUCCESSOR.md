@@ -35,3 +35,6 @@ e100/e125/e150/e175/e200 exports。首次用错不含`paramiko`的conda解释器
 复制前fail closed；保留该回执后改用已承载现有5090B relay的系统Python，v2现为
 健康等待状态。该relay只复制带哈希的checkpoint、sidecar和export receipt，不读取
 metric文件。它不会自行创建runtime relation或触发论文delta。
+
+辅助watcher随后把successor状态新鲜度窗口从600秒校正为3600秒：PID仍每分钟检查，
+但同步执行2000-update gate时不会因状态文件暂时不刷新而误报。该重绑不重启successor。

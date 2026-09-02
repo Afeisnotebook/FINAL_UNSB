@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-5090b-endpoint-and-matched-plain-successor-v1",
-  "captured_at": "2026-09-03T01:16:27+08:00",
+  "captured_at": "2026-09-03T01:20:47+08:00",
   "status": "EXISTING_5090B_IDENTIFIED_MATCHED_PLAIN_SUCCESSOR_ARMED",
   "endpoint_identity": {
     "logical_host": "5090B",
@@ -54,11 +54,15 @@
     "projected_plain_e200_window": "2026-09-12/2026-09-13"
   },
   "monitoring": {
-    "watcher_pid": 38339,
+    "retired_watcher_pid": 38339,
+    "retired_watcher_reason": "the 600-second successor-state freshness threshold could false-alert while a 2000-update gate is synchronously running",
+    "watcher_pid": 39139,
     "ppid": 1,
     "status": "HEALTHY",
     "alert_count": 0,
-    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_MATCHED_PLAIN_899add3",
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_MATCHED_PLAIN_V2_8e70fd9",
+    "successor_state_max_age_seconds": 3600,
+    "successor_pid_checked_each_poll": true,
     "disk_free_gib": 231.48098754882812,
     "estimated_remaining_write_gib": 8.0,
     "minimum_headroom_gib": 16.0
