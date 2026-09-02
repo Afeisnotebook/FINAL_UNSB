@@ -91,12 +91,17 @@ def process_alive(pid: int) -> bool:
         kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         kernel32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
         kernel32.OpenProcess.restype = wintypes.HANDLE
-        kernel32.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        kernel32.GetExitCodeProcess.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(wintypes.DWORD),
+        ]
         kernel32.GetExitCodeProcess.restype = wintypes.BOOL
         kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
         kernel32.CloseHandle.restype = wintypes.BOOL
         handle = kernel32.OpenProcess(
-            process_query_limited_information, False, int(pid),
+            process_query_limited_information,
+            False,
+            int(pid),
         )
         if not handle:
             # Access denied means the process exists but is not queryable.  A
@@ -120,7 +125,7 @@ def process_alive(pid: int) -> bool:
 
 def _terminal(payload: dict[str, Any]) -> bool:
     status = str(payload.get("status", ""))
-    if status == "COMPLETE_E200" or status.startswith("COMPLETE_SUCCESSOR_E200"):
+    if status.startswith("COMPLETE_"):
         return True
     epoch = payload.get("data_epoch")
     try:
@@ -130,7 +135,10 @@ def _terminal(payload: dict[str, Any]) -> bool:
 
 
 def evaluate_watch(
-    spec: dict[str, Any], *, now: float, watch_started: float,
+    spec: dict[str, Any],
+    *,
+    now: float,
+    watch_started: float,
     alive: Callable[[int], bool] = process_alive,
 ) -> dict[str, Any]:
     path = Path(spec["state_path"])
@@ -149,25 +157,32 @@ def evaluate_watch(
         result["health"] = (
             "WAITING_FOR_INITIAL_STATE"
             if initial_age <= float(spec["allow_missing_seconds"]) and pid_ok
-            else "ALERT_STATE_MISSING" if pid_ok else "ALERT_PID_DEAD_AND_STATE_MISSING"
+            else "ALERT_STATE_MISSING"
+            if pid_ok
+            else "ALERT_PID_DEAD_AND_STATE_MISSING"
         )
         return result
 
     payload = read_json(path)
     status = payload.get("status")
     age = max(0.0, now - path.stat().st_mtime)
-    result.update({
-        "state_age_seconds": age,
-        "upstream_status": status,
-        "data_epoch": payload.get("data_epoch"),
-        "updates": payload.get("updates"),
-        "paired_metric_control": payload.get("paired_metric_control"),
-        "paired_controller_access": payload.get("paired_controller_access"),
-        "confirmation20_opened": payload.get("confirmation20_opened"),
-    })
+    result.update(
+        {
+            "state_age_seconds": age,
+            "upstream_status": status,
+            "data_epoch": payload.get("data_epoch"),
+            "updates": payload.get("updates"),
+            "paired_metric_control": payload.get("paired_metric_control"),
+            "paired_controller_access": payload.get("paired_controller_access"),
+            "confirmation20_opened": payload.get("confirmation20_opened"),
+        }
+    )
     boundary_violation = any(
-        payload.get(key) is True for key in (
-            "paired_metric_control", "paired_controller_access", "confirmation20_opened",
+        payload.get(key) is True
+        for key in (
+            "paired_metric_control",
+            "paired_controller_access",
+            "confirmation20_opened",
         )
     )
     if boundary_violation:
@@ -186,7 +201,10 @@ def evaluate_watch(
 
 
 def evaluate_contract(
-    contract: dict[str, Any], *, now: float, watch_started: float,
+    contract: dict[str, Any],
+    *,
+    now: float,
+    watch_started: float,
     alive: Callable[[int], bool] = process_alive,
     disk_usage: Callable[[str], Any] = shutil.disk_usage,
 ) -> dict[str, Any]:
@@ -195,10 +213,9 @@ def evaluate_contract(
         for spec in contract["watches"]
     ]
     disk = disk_usage(contract["disk_path"])
-    free_gib = float(disk.free) / (1024 ** 3)
-    required_gib = (
-        float(contract["estimated_remaining_write_gib"])
-        + float(contract["minimum_headroom_gib"])
+    free_gib = float(disk.free) / (1024**3)
+    required_gib = float(contract["estimated_remaining_write_gib"]) + float(
+        contract["minimum_headroom_gib"]
     )
     disk_health = "HEALTHY" if free_gib >= required_gib else "ALERT_REAL_CAPACITY_RISK"
     alerts = [row for row in rows if str(row["health"]).startswith("ALERT")]
@@ -253,7 +270,10 @@ def proposed_contract(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("health-watch poll interval must be in [30,600]")
     if float(args.timeout_hours) < 24:
         raise ValueError("health-watch timeout must be at least 24 hours")
-    if float(args.estimated_remaining_write_gib) < 0 or float(args.minimum_headroom_gib) < 0:
+    if (
+        float(args.estimated_remaining_write_gib) < 0
+        or float(args.minimum_headroom_gib) < 0
+    ):
         raise ValueError("health-watch capacity estimates must be non-negative")
     watches = [parse_watch(value) for value in args.watch]
     names = [row["name"] for row in watches]
@@ -323,7 +343,10 @@ def main() -> int:
     deadline = started + float(contract["timeout_hours"]) * 3600.0
     try:
         while True:
-            if file_sha256(Path(contract["control_script"])) != contract["control_script_sha256"]:
+            if (
+                file_sha256(Path(contract["control_script"]))
+                != contract["control_script_sha256"]
+            ):
                 raise RuntimeError("paper health-watch control script changed")
             state = evaluate_contract(contract, now=time.time(), watch_started=started)
             state["watcher_pid"] = os.getpid()
@@ -336,19 +359,24 @@ def main() -> int:
                 return 3
             time.sleep(int(contract["poll_seconds"]))
     except Exception as error:
-        atomic_json(output / "HEALTH_WATCH_FATAL.json", {
-            "schema": STATE_SCHEMA,
-            "status": "FATAL",
-            "host_label": contract["host_label"],
-            "error_type": type(error).__name__,
-            "error": str(error),
-            "performance_values_read": False,
-            "paired_metric_control": False,
-            "confirmation20_opened": False,
-        })
+        atomic_json(
+            output / "HEALTH_WATCH_FATAL.json",
+            {
+                "schema": STATE_SCHEMA,
+                "status": "FATAL",
+                "host_label": contract["host_label"],
+                "error_type": type(error).__name__,
+                "error": str(error),
+                "performance_values_read": False,
+                "paired_metric_control": False,
+                "confirmation20_opened": False,
+            },
+        )
         return 4
     finally:
-        if lock.is_file() and lock.read_text(encoding="utf-8").strip() == str(os.getpid()):
+        if lock.is_file() and lock.read_text(encoding="utf-8").strip() == str(
+            os.getpid()
+        ):
             lock.unlink()
 
 
