@@ -8,7 +8,8 @@ GPU runtime/equivalence gate may issue a full-data candidate authorization:
 * a source-bound, complete small25 e200 receipt;
 * a positive frozen trajectory and its no-plain-collapse adjudication;
 * the exact derivation card and implementation manifest named by that receipt;
-* a complete same-host paper plain trajectory;
+* a healthy authorized same-host paper plain trajectory (which may train in
+  parallel, but must be complete before matched adjudication);
 * the frozen parent paper protocol/commit/e0 identity; and
 * a candidate-specific cross-code runtime gate.
 
@@ -38,6 +39,7 @@ TRAJECTORY_SCHEMA = "final-unsb-route1-candidate-trajectory-v1"
 POSITIVE_TRAJECTORY_STATUS = "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION"
 RUNTIME_GATE_SCHEMA = "final-unsb-paper-candidate-runtime-gate-v1"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
+PARENT_READINESS_MODES = ("complete_e200", "authorized_running")
 
 
 def safe_candidate_id(value: str) -> str:
@@ -189,23 +191,26 @@ def _validate_small25_evidence(
 
 def _validate_parent_plain(
     *, parent_output: Path, required_commit: str, required_protocol_fingerprint: str,
+    readiness_mode: str = "complete_e200",
 ) -> dict[str, Any]:
+    if readiness_mode not in PARENT_READINESS_MODES:
+        raise RuntimeError(f"unknown parent plain readiness mode: {readiness_mode}")
     preflight_path = parent_output / "gates" / "PREFLIGHT.json"
     authorization_path = parent_output / "gates" / "LANE_AUTHORIZATION_plain.json"
     run_state_path = parent_output / "lanes" / "plain" / "RUN_STATE.json"
     latest_sidecar_path = parent_output / "lanes" / "plain" / "full_state_latest.pt.json"
     e0_sidecar_path = parent_output / "shared_e0" / "unsb_common" / "e0.pt.json"
-    required_paths = (
-        preflight_path, authorization_path, run_state_path, latest_sidecar_path,
-        e0_sidecar_path,
-    )
+    supervisor_path = parent_output / "gates" / "SUPERVISOR_plain.json"
+    required_paths = [preflight_path, authorization_path, e0_sidecar_path]
+    if readiness_mode == "complete_e200":
+        required_paths.extend((run_state_path, latest_sidecar_path))
+    else:
+        required_paths.append(supervisor_path)
     missing = [str(path) for path in required_paths if not path.is_file()]
     if missing:
-        raise RuntimeError(f"same-host parent paper plain is incomplete: {missing}")
+        raise RuntimeError(f"same-host parent paper plain is not ready: {missing}")
     preflight = _read_json(preflight_path)
     authorization = _read_json(authorization_path)
-    run_state = _read_json(run_state_path)
-    latest = _read_json(latest_sidecar_path)
     e0 = _read_json(e0_sidecar_path)
     if preflight.get("status") != "PASS" or preflight.get("node_role") != "training":
         raise RuntimeError("parent paper training preflight did not pass")
@@ -213,6 +218,66 @@ def _validate_parent_plain(
         raise RuntimeError("parent paper full-data hashes were not verified")
     if authorization.get("status") != "PASS" or authorization.get("lane_id") != "plain":
         raise RuntimeError("parent paper plain authorization did not pass")
+    e0_metadata = e0.get("metadata", {})
+    for record, label in ((preflight, "preflight"),
+                          (authorization, "authorization"),
+                          (e0_metadata, "e0")):
+        if record.get("protocol_fingerprint") != required_protocol_fingerprint:
+            raise RuntimeError(f"parent paper {label} protocol fingerprint mismatch")
+    if e0_metadata.get("git_commit") != required_commit:
+        raise RuntimeError("parent paper e0 scientific commit mismatch")
+    for record, label in ((preflight, "preflight"),
+                          (authorization, "authorization")):
+        if record.get("confirmation20_opened") is not False:
+            raise RuntimeError(f"parent paper {label} opened confirmation20")
+    result = {
+        "parent_output": str(parent_output.resolve()),
+        "readiness_mode": readiness_mode,
+        "preflight_sha256": file_sha256(preflight_path),
+        "plain_authorization_sha256": file_sha256(authorization_path),
+        "plain_e0_sidecar_sha256": file_sha256(e0_sidecar_path),
+        "parent_e0_scientific_state_sha256": e0.get("scientific_state_sha256"),
+        "terminal_e200_required_before_matched_adjudication": True,
+    }
+    if readiness_mode == "authorized_running":
+        supervisor = _read_json(supervisor_path)
+        if supervisor.get("status") == "COMPLETE_E200":
+            # Once terminal, demand the stronger proof rather than accepting a
+            # weaker historical running receipt.
+            return _validate_parent_plain(
+                parent_output=parent_output, required_commit=required_commit,
+                required_protocol_fingerprint=required_protocol_fingerprint,
+                readiness_mode="complete_e200",
+            ) | {"requested_readiness_mode": "authorized_running"}
+        if supervisor.get("status") not in ("CHILD_RUNNING", "WAITING_TO_EXACT_RESUME"):
+            raise RuntimeError("parent paper plain durable supervisor is not healthy")
+        if supervisor.get("lane_id") != "plain":
+            raise RuntimeError("parent paper supervisor lane mismatch")
+        if (
+            supervisor.get("paired_metric_control") is not False
+            or supervisor.get("confirmation20_opened") is not False
+        ):
+            raise RuntimeError("parent paper supervisor violates scientific boundaries")
+        command = supervisor.get("command")
+        if not isinstance(command, list) or "--resume" not in command:
+            raise RuntimeError("parent paper supervisor is not an exact-resume command")
+        try:
+            lane_index = command.index("--lane")
+        except ValueError as error:
+            raise RuntimeError("parent paper supervisor command lacks --lane") from error
+        if lane_index + 1 >= len(command) or command[lane_index + 1] != "plain":
+            raise RuntimeError("parent paper supervisor command is not plain")
+        result.update({
+            "parent_status": supervisor["status"],
+            "plain_supervisor_sha256": file_sha256(supervisor_path),
+            "plain_run_state_sha256": None,
+            "plain_latest_sidecar_sha256": None,
+            "plain_terminal_scientific_state_sha256": None,
+        })
+        return result
+
+    run_state = _read_json(run_state_path)
+    latest = _read_json(latest_sidecar_path)
     if run_state.get("status") != "COMPLETE_E200":
         raise RuntimeError("parent paper plain has not completed e200")
     if int(run_state.get("final_updates", -1)) != 1_710_600:
@@ -220,36 +285,28 @@ def _validate_parent_plain(
     if int(latest.get("step", -1)) != 1_710_600:
         raise RuntimeError("parent paper plain latest checkpoint is not e200")
     metadata = latest.get("metadata", {})
-    for record, label in (
-        (preflight, "preflight"), (authorization, "authorization"),
-        (metadata, "plain checkpoint"), (e0.get("metadata", {}), "e0"),
-    ):
-        if record.get("protocol_fingerprint") != required_protocol_fingerprint:
-            raise RuntimeError(f"parent paper {label} protocol fingerprint mismatch")
-    for record, label in ((metadata, "plain checkpoint"), (e0.get("metadata", {}), "e0")):
-        if record.get("git_commit") != required_commit:
-            raise RuntimeError(f"parent paper {label} scientific commit mismatch")
-    for record, label in ((preflight, "preflight"), (authorization, "authorization"),
-                          (run_state, "run state"), (metadata, "plain checkpoint")):
+    if metadata.get("protocol_fingerprint") != required_protocol_fingerprint:
+        raise RuntimeError("parent paper plain checkpoint protocol fingerprint mismatch")
+    if metadata.get("git_commit") != required_commit:
+        raise RuntimeError("parent paper plain checkpoint scientific commit mismatch")
+    for record, label in ((run_state, "run state"), (metadata, "plain checkpoint")):
         if record.get("confirmation20_opened") is not False:
             raise RuntimeError(f"parent paper {label} opened confirmation20")
     if metadata.get("paired_controller_access") is not False:
         raise RuntimeError("parent paper plain checkpoint reports paired controller access")
-    return {
-        "parent_output": str(parent_output.resolve()),
-        "preflight_sha256": file_sha256(preflight_path),
-        "plain_authorization_sha256": file_sha256(authorization_path),
+    result.update({
+        "parent_status": "COMPLETE_E200",
         "plain_run_state_sha256": file_sha256(run_state_path),
         "plain_latest_sidecar_sha256": file_sha256(latest_sidecar_path),
-        "plain_e0_sidecar_sha256": file_sha256(e0_sidecar_path),
         "plain_terminal_scientific_state_sha256": latest.get("scientific_state_sha256"),
-        "parent_e0_scientific_state_sha256": e0.get("scientific_state_sha256"),
-    }
+    })
+    return result
 
 
 def _validate_runtime_gate(
     *, path: Path, candidate_id: str, algorithm_fingerprint: str,
     parent_commit: str, parent_protocol_fingerprint: str,
+    parent_readiness_mode: str,
 ) -> dict[str, Any]:
     gate = _read_json(path)
     required = {
@@ -259,6 +316,7 @@ def _validate_runtime_gate(
         "algorithm_fingerprint": algorithm_fingerprint,
         "parent_scientific_git_commit": parent_commit,
         "parent_protocol_fingerprint": parent_protocol_fingerprint,
+        "parent_readiness_mode": parent_readiness_mode,
         "e0_scientific_core_exact": True,
         "plain_2000_transition_exact": True,
         "zero_intervention_identity_exact": True,
@@ -289,6 +347,7 @@ def materialize_candidate_lock(
     trajectory: Path, derivation_card: Path, implementation: Path,
     runtime_gate: Path, parent_output: Path, parent_scientific_git_commit: str,
     parent_protocol_fingerprint: str,
+    parent_readiness_mode: str = "complete_e200",
 ) -> dict[str, Any]:
     """Materialize a PASS lock only after every independent prerequisite passes."""
     candidate_id = safe_candidate_id(candidate_id)
@@ -308,12 +367,14 @@ def materialize_candidate_lock(
         parent_output=Path(parent_output).resolve(),
         required_commit=str(parent_scientific_git_commit),
         required_protocol_fingerprint=str(parent_protocol_fingerprint),
+        readiness_mode=parent_readiness_mode,
     )
     gate = _validate_runtime_gate(
         path=paths[4], candidate_id=candidate_id,
         algorithm_fingerprint=receipt["algorithm_fingerprint"],
         parent_commit=str(parent_scientific_git_commit),
         parent_protocol_fingerprint=str(parent_protocol_fingerprint),
+        parent_readiness_mode=parent_readiness_mode,
     )
     if gate["candidate_git_commit"] == str(parent_scientific_git_commit) and (
         gate["candidate_protocol_fingerprint"] == str(parent_protocol_fingerprint)

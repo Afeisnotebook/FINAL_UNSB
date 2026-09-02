@@ -60,7 +60,8 @@ python -m research.paper_aio.run --stage candidate-runtime-gate \
   --candidate-trajectory TRAJECTORY --candidate-derivation-card CARD \
   --candidate-implementation IMPLEMENTATION --parent-output PARENT \
   --parent-runtime-receipt PARENT_TWIN --parent-e0 PARENT_E0 \
-  --parent-scientific-git-commit COMMIT --parent-protocol-fingerprint FP ...
+  --parent-scientific-git-commit COMMIT --parent-protocol-fingerprint FP \
+  --parent-readiness-mode authorized_running ...
 
 python -m research.paper_aio.run --stage candidate-lock \
   --candidate-id ID --candidate-terminal-receipt RECEIPT \
@@ -68,7 +69,8 @@ python -m research.paper_aio.run --stage candidate-lock \
   --candidate-implementation IMPLEMENTATION \
   --candidate-runtime-gate CANDIDATE_RUNTIME_GATE \
   --parent-output PARENT --parent-scientific-git-commit COMMIT \
-  --parent-protocol-fingerprint FP ...
+  --parent-protocol-fingerprint FP \
+  --parent-readiness-mode authorized_running ...
 
 python -m research.paper_aio.run --stage authorize --lane candidate \
   --candidate-id ID ...
@@ -82,8 +84,18 @@ candidate full-state resume, and repeated evaluation.  The evidence lock
 deliberately records `full_data_authorized=false`; only a second fresh
 authorization bound to the current Git commit and protocol fingerprint may
 start the 1,710,600-update run.  A negative/incomplete small25 trajectory,
-stale source hash, different host runtime, or missing parent plain e200 state
-fails closed.
+stale source hash, different host runtime, or missing healthy authorized
+parent plain fails closed; matched adjudication separately requires parent
+plain e200.
+
+`authorized_running` removes a scheduling-only dependency: after the
+candidate's small25 e200 receipt exists, its full run may overlap a healthy,
+authorized, exact-resume same-host plain run. It does not relax the comparison
+boundary. The parent plain must still reach e200 and enter the unified locked
+evaluation cohort before any matched delta or paper claim can be produced.
+The default remains `complete_e200`; concurrent readiness must be requested
+explicitly and is recorded in the runtime gate, candidate lock, and fresh
+authorization.
 
 Training source identity and evaluation randomness are deliberately separate.
 All paper checkpoints use the frozen first-wave `68f53a8e...` bundle seed so a

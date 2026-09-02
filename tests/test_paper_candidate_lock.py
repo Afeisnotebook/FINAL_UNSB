@@ -128,6 +128,7 @@ def _fixture(tmp_path: Path) -> dict[str, Path | str]:
         "algorithm_fingerprint": ALGORITHM,
         "parent_scientific_git_commit": PARENT_COMMIT,
         "parent_protocol_fingerprint": PARENT_PROTOCOL,
+        "parent_readiness_mode": "complete_e200",
         "candidate_git_commit": "b" * 40,
         "candidate_protocol_fingerprint": "c" * 64,
         "e0_scientific_core_exact": True,
@@ -174,6 +175,58 @@ def test_candidate_lock_binds_small25_parent_and_runtime_without_authorizing(tmp
         tmp_path / "paper_candidate" / "candidate_locks" / CANDIDATE_ID
         / "CANDIDATE_LOCK.json"
     ).is_file()
+
+
+def test_candidate_lock_can_overlap_healthy_authorized_parent(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    kwargs = _fixture(tmp_path)
+    parent = Path(kwargs["parent_output"])
+    (parent / "lanes" / "plain" / "RUN_STATE.json").unlink()
+    (parent / "lanes" / "plain" / "full_state_latest.pt.json").unlink()
+    _write(parent / "gates" / "SUPERVISOR_plain.json", {
+        "schema": "final-unsb-paper-supervisor-v1",
+        "status": "CHILD_RUNNING",
+        "lane_id": "plain",
+        "command": ["python", "-m", "research.paper_aio.run", "--stage", "train",
+                    "--lane", "plain", "--resume"],
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    })
+    runtime_path = Path(kwargs["runtime_gate"])
+    runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+    runtime["parent_readiness_mode"] = "authorized_running"
+    runtime["candidate_git_commit"] = "b" * 40
+    runtime["candidate_protocol_fingerprint"] = protocol_fingerprint()
+    _write(runtime_path, runtime)
+    kwargs["parent_readiness_mode"] = "authorized_running"
+    result = materialize_candidate_lock(**kwargs)
+    assert result["parent_paper"]["readiness_mode"] == "authorized_running"
+    assert result["parent_paper"]["parent_status"] == "CHILD_RUNNING"
+    assert result["parent_paper"]["terminal_e200_required_before_matched_adjudication"] is True
+    output = Path(kwargs["output_root"])
+    _write(output / "gates" / "PREFLIGHT.json", {
+        "status": "PASS",
+        "node_role": "training",
+        "protocol_fingerprint": protocol_fingerprint(),
+        "manifest": {"content_hashes_verified": True},
+    })
+    monkeypatch.setattr(
+        "research.paper_aio.candidate_runtime._require_clean_checkout",
+        lambda: "b" * 40,
+    )
+    authorization = authorize_candidate(output, CANDIDATE_ID)
+    assert authorization["status"] == "PASS_FULL_DATA_CANDIDATE_AUTHORIZATION"
+    assert authorization["parent_readiness_mode"] == "authorized_running"
+    assert authorization["parent_e200_required_before_matched_adjudication"] is True
+
+
+def test_candidate_lock_default_still_requires_parent_e200(tmp_path: Path) -> None:
+    kwargs = _fixture(tmp_path)
+    parent = Path(kwargs["parent_output"])
+    (parent / "lanes" / "plain" / "RUN_STATE.json").unlink()
+    with pytest.raises(RuntimeError, match="not ready"):
+        materialize_candidate_lock(**kwargs)
 
 
 def test_candidate_lock_rejects_negative_or_plain_collapse_trajectory(tmp_path: Path) -> None:

@@ -120,6 +120,7 @@ def run_candidate_runtime_gate(
     parent_scientific_git_commit: str, parent_protocol_fingerprint: str,
     train_view: Path, data_root: Path, manifest_path: Path, gpu: int,
     capacity_override: Path | None = None, host_label: str = "local",
+    parent_readiness_mode: str = "complete_e200",
 ) -> dict[str, Any]:
     """Prove cross-code equivalence without treating source changes as matched."""
     candidate_id = safe_candidate_id(candidate_id)
@@ -140,6 +141,7 @@ def run_candidate_runtime_gate(
         parent_output=parent_output,
         required_commit=str(parent_scientific_git_commit),
         required_protocol_fingerprint=str(parent_protocol_fingerprint),
+        readiness_mode=parent_readiness_mode,
     )
     current_fingerprint = protocol_fingerprint(manifest_path)
     if (
@@ -279,6 +281,7 @@ def run_candidate_runtime_gate(
         "candidate_protocol_fingerprint": current_fingerprint,
         "parent_scientific_git_commit": str(parent_scientific_git_commit),
         "parent_protocol_fingerprint": str(parent_protocol_fingerprint),
+        "parent_readiness_mode": parent_readiness_mode,
         "manifest_sha256": preflight["manifest"]["sha256"],
         "parent_runtime_receipt": str(parent_twin_path),
         "parent_runtime_receipt_sha256": file_sha256(parent_twin_path),
@@ -365,6 +368,14 @@ def authorize_candidate(output_root: Path, candidate_id: str) -> dict[str, Any]:
         raise RuntimeError("candidate Git commit changed after runtime gate")
     if runtime.get("candidate_protocol_fingerprint") != current_fingerprint:
         raise RuntimeError("candidate protocol fingerprint changed after runtime gate")
+    parent = lock.get("parent_paper") or {}
+    parent_readiness_mode = str(parent.get("readiness_mode", "complete_e200"))
+    _validate_parent_plain(
+        parent_output=Path(str(parent.get("parent_output", ""))).resolve(),
+        required_commit=str(parent.get("scientific_git_commit", "")),
+        required_protocol_fingerprint=str(parent.get("protocol_fingerprint", "")),
+        readiness_mode=parent_readiness_mode,
+    )
     preflight_path = Path(output_root).resolve() / "gates" / "PREFLIGHT.json"
     if not preflight_path.is_file():
         raise RuntimeError("candidate paper preflight is missing")
@@ -386,6 +397,8 @@ def authorize_candidate(output_root: Path, candidate_id: str) -> dict[str, Any]:
         "candidate_protocol_fingerprint": current_fingerprint,
         "candidate_lock_sha256": file_sha256(lock_path),
         "candidate_runtime_gate_sha256": file_sha256(runtime_path),
+        "parent_readiness_mode": parent_readiness_mode,
+        "parent_e200_required_before_matched_adjudication": True,
         "issued_unix_time": time.time(),
         "paired_metric_control": False,
         "confirmation20_opened": False,

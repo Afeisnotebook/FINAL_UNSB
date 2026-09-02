@@ -100,6 +100,15 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--parent-e0", type=Path)
     value.add_argument("--parent-scientific-git-commit")
     value.add_argument("--parent-protocol-fingerprint")
+    value.add_argument(
+        "--parent-readiness-mode",
+        choices=["complete_e200", "authorized_running"],
+        default="complete_e200",
+        help=(
+            "authorized_running permits candidate training to overlap a healthy "
+            "same-host plain; complete e200 remains mandatory before adjudication"
+        ),
+    )
     value.add_argument("--source-sidecar", type=Path)
     value.add_argument("--source-receipt", type=Path)
     value.add_argument("--receipt-output", type=Path)
@@ -279,6 +288,7 @@ def main(argv: list[str] | None = None) -> int:
             parent_output=args.parent_output,
             parent_scientific_git_commit=args.parent_scientific_git_commit,
             parent_protocol_fingerprint=args.parent_protocol_fingerprint,
+            parent_readiness_mode=args.parent_readiness_mode,
         )
     elif args.stage == "candidate-runtime-gate":
         required = {
@@ -314,6 +324,7 @@ def main(argv: list[str] | None = None) -> int:
             gpu=args.gpu,
             capacity_override=args.capacity_override_receipt,
             host_label=args.host_label,
+            parent_readiness_mode=args.parent_readiness_mode,
         )
     elif args.stage == "checkpoint-export":
         required = {
