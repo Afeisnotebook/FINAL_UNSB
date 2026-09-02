@@ -35,3 +35,12 @@ Both algorithm successors and their independent health watcher are detached
 with PPID 1. A shared GPU lock serializes all evaluator work. Exact process IDs,
 paths, hashes, source relations, current states and boundary flags are in
 `evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json`.
+
+A post-deployment race audit found that the first ST-CGR successor considered
+the imported lane receipt sufficient before checking its completed import-set
+membership. The window is extremely short and would only have caused a
+fail-closed controller exit, but leaving it would weaken unattended delivery.
+Both initial successors were still waiting with zero evaluations, so they and
+their watcher were replaced without touching training. The current successor
+requires the complete import set and is bound to commit `0492097`; the retired
+control files remain archived for audit.

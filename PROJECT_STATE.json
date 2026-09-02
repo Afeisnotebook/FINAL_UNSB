@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T23:26:47+08:00",
+  "state_snapshot_time": "2026-09-02T23:36:18+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -127,32 +127,32 @@
     },
     "matched_algorithm_evaluation_successors": {
       "status": "AMTNC_AND_STCGR_POSTHOC_DELIVERY_ARMED",
-      "control_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+      "control_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
       "protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
       "amtnc": {
         "status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
-        "pid": 2215253,
+        "pid": 2217242,
         "ppid": 1,
         "method_source": "4090A_amtnc",
         "matched_plain": "4090A_plain",
-        "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_9d197df",
-        "contract_sha256": "c7343a09c2d6b3b7798ae652ebb344719da0b6c1ba5c39eb12a29c355df809e6"
+        "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_0492097",
+        "contract_sha256": "0beb7125f492cbe8dc3bb05d44b5eaeac396874a1639e4daafdfe592e15b47d1"
       },
       "stcgr": {
         "status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
-        "pid": 2215255,
+        "pid": 2217244,
         "ppid": 1,
         "method_source": "5090A_G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
         "matched_plain": "5090A_plain",
         "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948",
-        "contract_sha256": "e26fac22e86d95112c4c281ddb00705c17768ad24aa950a1727b069b1296a180",
+        "contract_sha256": "458b8d86574d0d9938f8cd3d546ac70055666f535fceec181b0ac4481cae00dc",
         "candidate_metadata_receipt_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364"
       },
       "health_watcher": {
         "status": "HEALTHY_AFTER_SECOND_POLL",
-        "pid": 2215392,
+        "pid": 2217321,
         "ppid": 1,
-        "contract_sha256": "21bc7d820c8603a53fa5fa186d658e6f6b08d7de7705ddb7f0b444f758e87e46",
+        "contract_sha256": "4d9fa1a601a63a6c3359d5c5ced1af6fcf4efac5d7a3bdd6e9e6ba5034f41560",
         "alert_count": 0
       },
       "shared_gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
@@ -305,7 +305,7 @@
     "next_manual_decision_window": "2026-09-11_before_5090C_rental_cutoff_extend_one_day_minimum_two_days_safe"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+  "development_head_at_state_write": "049209741776b66f9881a73b1cfa7c668aeb1da2",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

@@ -1,16 +1,16 @@
 {
   "schema": "final-unsb-paper-durable-algorithm-evaluation-successors-v1",
-  "captured_at": "2026-09-02T23:26:47+08:00",
+  "captured_at": "2026-09-02T23:36:18+08:00",
   "status": "AMTNC_AND_STCGR_MATCHED_POSTHOC_DELIVERY_ARMED",
   "purpose": "ensure both evidence-backed full-data algorithm lanes automatically reach their legal matched evaluation and posthoc scientific disposition after e200",
   "control": {
-    "git_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+    "git_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
     "algorithm_successor_script": "operations/paper_aio_algorithm_evaluation_successor.py",
     "candidate_metadata_relay_script": "operations/paper_aio_candidate_metadata_relay.py",
     "paper_protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
     "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
-    "local_full_suite": "458 passed",
-    "remote_4090a_targeted_suite": "25 passed",
+    "local_full_suite": "459 passed",
+    "remote_4090a_targeted_suite": "26 passed",
     "ruff": "pass",
     "py_compile": "pass"
   },
@@ -19,7 +19,7 @@
     "amtnc": {
       "method_source": "4090A/amtnc",
       "matched_plain": "4090A/plain",
-      "evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_9d197df",
+      "evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_0492097",
       "comparison_scope": "same_source_runtime",
       "shares_first_wave_5090a_plain": false
     },
@@ -48,12 +48,12 @@
   "deployments": {
     "amtnc": {
       "status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
-      "pid": 2215253,
+      "pid": 2217242,
       "ppid": 1,
       "method_lane": "amtnc",
       "mode": "static_pair",
-      "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_9d197df",
-      "contract_sha256": "c7343a09c2d6b3b7798ae652ebb344719da0b6c1ba5c39eb12a29c355df809e6",
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_0492097",
+      "contract_sha256": "0beb7125f492cbe8dc3bb05d44b5eaeac396874a1639e4daafdfe592e15b47d1",
       "source_export_root": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/exports",
       "fixed_lanes": ["plain", "amtnc"],
       "fixed_epochs": [100, 125, 150, 175, 200],
@@ -61,12 +61,12 @@
     },
     "stcgr": {
       "status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
-      "pid": 2215255,
+      "pid": 2217244,
       "ppid": 1,
       "method_lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "mode": "dynamic_candidate",
       "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948",
-      "contract_sha256": "e26fac22e86d95112c4c281ddb00705c17768ad24aa950a1727b069b1296a180",
+      "contract_sha256": "458b8d86574d0d9938f8cd3d546ac70055666f535fceec181b0ac4481cae00dc",
       "source_import_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
       "fixed_epochs": [100, 125, 150, 175, 200],
       "expected_trigger": "verified 5090A candidate import plus metadata receipt plus completed first-wave cohort"
@@ -80,12 +80,12 @@
   },
   "health_watch": {
     "status": "HEALTHY_AFTER_SECOND_POLL",
-    "pid": 2215392,
+    "pid": 2217321,
     "ppid": 1,
-    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_POSTHOC_9d197df",
-    "contract_sha256": "21bc7d820c8603a53fa5fa186d658e6f6b08d7de7705ddb7f0b444f758e87e46",
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_POSTHOC_0492097",
+    "contract_sha256": "4d9fa1a601a63a6c3359d5c5ced1af6fcf4efac5d7a3bdd6e9e6ba5034f41560",
     "alert_count": 0,
-    "disk_free_gib": 386.45737075805664,
+    "disk_free_gib": 386.4428024291992,
     "estimated_remaining_write_gib": 4.0,
     "minimum_headroom_gib": 16.0,
     "required_disk_gib": 20.0
@@ -96,6 +96,26 @@
     "recovery": "reran the identical frozen contract with the host system control-plane Python 3.8 that already provides paramiko 2.6.0",
     "first_attempt_reached_remote_connection": false,
     "checkpoint_loaded": false,
+    "training_interrupted": false,
+    "scientific_state_modified": false
+  },
+  "import_set_race_audit": {
+    "status": "CORRECTED_BEFORE_ANY_CHECKPOINT_LOAD",
+    "finding": "the first dynamic successor checked the lane receipt before requiring its completed import-set membership",
+    "risk": "a millisecond-scale publication race could have converted a still-finishing import into a fail-closed controller exit",
+    "correction": "dynamic readiness now requires the complete verified import set through the same membership predicate used by the first-wave successor",
+    "retired_control_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+    "retired_amtnc_pid": 2215253,
+    "retired_stcgr_pid": 2215255,
+    "retired_health_pid": 2215392,
+    "retired_states": [
+      "WAITING_FOR_STATIC_PAIR_EXPORTS",
+      "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT"
+    ],
+    "retired_completed_evaluations": 0,
+    "retired_dynamic_control_archive": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948/operations/archive_9d197df",
+    "checkpoint_loaded": false,
+    "metric_generated": false,
     "training_interrupted": false,
     "scientific_state_modified": false
   },

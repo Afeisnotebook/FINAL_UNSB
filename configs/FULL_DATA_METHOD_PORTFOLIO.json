@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-02T23:26:47+08:00",
+  "captured_at": "2026-09-02T23:36:18+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -83,20 +83,20 @@
   },
   "algorithm_posthoc_delivery": {
     "status": "AMTNC_AND_STCGR_MATCHED_EVALUATION_SUCCESSORS_ARMED",
-    "control_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+    "control_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
     "amtnc": {
-      "pid": 2215253,
+      "pid": 2217242,
       "status": "waiting_for_4090a_plain_and_amtnc_exports",
       "matched_plain": "4090A/plain",
       "separate_output_required": true
     },
     "stcgr": {
-      "pid": 2215255,
+      "pid": 2217244,
       "status": "waiting_for_5090a_candidate_import_and_first_wave_cohort",
       "matched_plain": "5090A/plain",
       "candidate_metadata_import": "complete_verified"
     },
-    "health_watcher_pid": 2215392,
+    "health_watcher_pid": 2217321,
     "health_status": "HEALTHY",
     "cross_non_equivalent_runtime_delta": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json"
