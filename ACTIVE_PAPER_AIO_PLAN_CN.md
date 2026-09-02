@@ -18,17 +18,18 @@
 | 宿主 | 当前任务 | 冻结身份 | 自动后继 |
 |---|---|---|---|
 | 4090A | full plain e200 | 当前live commit/fp见`PROJECT_STATE.json` | plain后运行AM-TNC |
-| 5090A | full ST-CGR e200 | candidate `656670c` / fp `2fbdd6f...` | e200后source-bound export；plain稍后精确恢复 |
+| 5090A | full ST-CGR e200 | candidate `656670c` / fp `2fbdd6f...` | e200后source-bound export；plain无自动恢复授权 |
 | 5090B | full CUT + CycleGAN e200同卡 | 各自冻结外部基线协议 | CUT后先exact twin，再fresh-e0 matched plain |
 | 5090C | full Proposal e200 | commit `e4a5eed` / fp `e5704e...` | source-bound export |
 | 本地1660 | 合同、代码、只读审计 | 不与远端训练混用 | 准备统一评估和只读runtime关系证据 |
 
 进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
 这些心跳不是科学结论。所有训练均由持久监督器执行。5090A plain停在e9完整状态且不会
-自动重启；5090B的plain继任器只在CUT完成和精确runtime门通过后启动。ST-CGR与Proposal
-均有独立source-bound exporter；5090A另有metric-blind继任器等待ST-CGR e200，再复验
-e9完整状态并恢复原plain supervisor。任何relay或关系候选都不能自动改Git registry或
-授权结论。
+自动重启；旧plain恢复状态文件只作历史留档，关联PID均已退出，不能被解释为仍在等待的
+有效继任器；5090B的plain继任器只在CUT完成和精确runtime门通过后启动。ST-CGR与Proposal
+均有独立source-bound exporter。此前等待ST-CGR e200后恢复5090A plain的metric-blind
+继任器已退役，未来恢复必须有新的明确决策。任何relay或关系候选都不能自动改Git registry
+或授权结论。
 
 ## 最近硬门
 

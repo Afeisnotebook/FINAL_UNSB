@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T04:43:21+08:00",
+  "state_snapshot_time": "2026-09-03T04:53:38+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -46,8 +46,8 @@
       },
       "5090A_stcgr_full": {
         "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
-        "latest_completed_data_epoch": 3,
-        "latest_completed_updates": 25659,
+        "latest_completed_data_epoch": 4,
+        "latest_completed_updates": 34212,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -63,9 +63,10 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 4955.223417758942,
-        "projected_completion_from_latest_epoch": "2026-09-14T10:26:38+08:00",
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
+        "latest_epoch_wall_seconds": 5259.2815952301025,
+        "projected_completion_from_latest_epoch": "2026-09-15T03:13:57+08:00",
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T045338.json"
       },
       "5090A_plain_resume_after_stcgr": {
         "status": "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY",
@@ -540,7 +541,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T045338.json",
     "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",

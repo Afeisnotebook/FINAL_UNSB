@@ -10,11 +10,12 @@
 confirmation20继续封存；paired指标不能控制训练；不同宿主delta不得合并；checkpoint
 不得跨宿主续接；一个action-priority候选不等于唯一科学算法。
 
-当前4090A运行full plain，完成后同宿主自动验门并运行Proposal；新5090B运行CUT，
-完成后自动验门并运行CycleGAN；旧5090A运行新构造ST-CGR的small25/e200。终端低方差
-奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；ST-CGR来自已确认的
-time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB没有找到作者公开源码，
-当前只可标记`reproduction_incomplete`。
+当前4090A运行full plain，完成后同宿主自动验门并运行AM-TNC；5090B同卡运行CUT与
+CycleGAN，CUT完成后执行fresh-e0 exact-runtime matched plain；5090C运行Proposal；
+5090A的plain完整暂停于e9且所有自动恢复链均已退役，当前只运行新构造ST-CGR的
+full-data/e200。终端低方差奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；
+ST-CGR来自已确认的time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB
+没有找到作者公开源码，当前只可标记`reproduction_incomplete`。
 
 全量科学commit为`31f2fb8...`、协议指纹为`68f53a8e...`。较新commit只可增加门禁、
 持久编排、候选代码与compact evidence，不能修改在飞科学轨迹。当前合同见
