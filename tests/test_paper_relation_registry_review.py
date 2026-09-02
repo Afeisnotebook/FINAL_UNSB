@@ -72,17 +72,56 @@ def _relation(lane: str, method: str, plain: str) -> dict:
     }
 
 
+def _state(path: Path, relation_path: Path, relation_sha: str, lane: str) -> Path:
+    cross_code = lane == review.STCGR_ID
+    relation = json.loads(relation_path.read_text(encoding="utf-8"))
+    return _write(
+        path,
+        {
+            "schema": (
+                review.CANDIDATE_STATE_SCHEMA
+                if cross_code
+                else review.STANDARD_STATE_SCHEMA
+            ),
+            "status": (
+                "COMPLETE_REVIEW_ONLY_CANDIDATE_CONTROL_RELATION"
+                if cross_code
+                else "COMPLETE_REVIEW_ONLY_RUNTIME_RELATION_CANDIDATE"
+            ),
+            "candidate_id" if cross_code else "lane_id": lane,
+            "method_source_host_label": "5090A" if cross_code else "5090C",
+            "plain_source_host_label": "5090B_MATCHED_PLAIN",
+            "relation_candidate": str(relation_path.resolve()),
+            "relation_candidate_sha256": relation_sha,
+            "plain_runtime_receipt_sha256": relation["plain_runtime_receipt_sha256"],
+            **({"proof_chain": relation["proof_chain"]} if cross_code else {}),
+            "exact_runtime_equivalence": True,
+            "registry_edited": False,
+            "comparison_authorized": False,
+            "performance_values_read": False,
+            "paired_metric_control": False,
+            "confirmation20_opened": False,
+        },
+    )
+
+
 def test_candidate_validation_is_type_and_host_bound(tmp_path: Path) -> None:
     path = _write(tmp_path / "proposal.json", _relation("proposal", "5090C", "P"))
     value = review.validate_relation_candidate(
-        path, expected_sha256=file_sha256(path), lane_id="proposal",
-        method_source_host="5090C", plain_source_host="P",
+        path,
+        expected_sha256=file_sha256(path),
+        lane_id="proposal",
+        method_source_host="5090C",
+        plain_source_host="P",
     )
     assert value["status"] == review.STANDARD_STATUS
     with pytest.raises(RuntimeError, match="invalid review-only"):
         review.validate_relation_candidate(
-            path, expected_sha256=file_sha256(path), lane_id="proposal",
-            method_source_host="5090A", plain_source_host="P",
+            path,
+            expected_sha256=file_sha256(path),
+            lane_id="proposal",
+            method_source_host="5090A",
+            plain_source_host="P",
         )
 
 
@@ -90,15 +129,21 @@ def test_stcgr_requires_cross_code_candidate_proof(tmp_path: Path) -> None:
     value = _relation(review.STCGR_ID, "5090A", "P")
     path = _write(tmp_path / "stcgr.json", value)
     review.validate_relation_candidate(
-        path, expected_sha256=file_sha256(path), lane_id=review.STCGR_ID,
-        method_source_host="5090A", plain_source_host="P",
+        path,
+        expected_sha256=file_sha256(path),
+        lane_id=review.STCGR_ID,
+        method_source_host="5090A",
+        plain_source_host="P",
     )
     value["status"] = review.STANDARD_STATUS
     _write(path, value)
     with pytest.raises(RuntimeError, match="invalid review-only"):
         review.validate_relation_candidate(
-            path, expected_sha256=file_sha256(path), lane_id=review.STCGR_ID,
-            method_source_host="5090A", plain_source_host="P",
+            path,
+            expected_sha256=file_sha256(path),
+            lane_id=review.STCGR_ID,
+            method_source_host="5090A",
+            plain_source_host="P",
         )
 
 
@@ -113,6 +158,43 @@ def test_proposal_is_idempotent_and_rejects_conflict() -> None:
         review.propose_registry(value, [conflict])
 
 
+def test_successor_state_binds_candidate_path_hash_and_hosts(tmp_path: Path) -> None:
+    candidate = _write(
+        tmp_path / "proposal.json",
+        _relation("proposal", "5090C", "5090B_MATCHED_PLAIN"),
+    )
+    state = _state(
+        tmp_path / "state.json",
+        candidate,
+        file_sha256(candidate),
+        "proposal",
+    )
+    value = review.validate_candidate_state(
+        state,
+        expected_sha256=file_sha256(state),
+        candidate_path=candidate,
+        candidate_sha256=file_sha256(candidate),
+        candidate=_relation("proposal", "5090C", "5090B_MATCHED_PLAIN"),
+        lane_id="proposal",
+        method_source_host="5090C",
+        plain_source_host="5090B_MATCHED_PLAIN",
+    )
+    assert value["exact_runtime_equivalence"] is True
+    value["relation_candidate_sha256"] = "x" * 64
+    _write(state, value)
+    with pytest.raises(RuntimeError, match="invalid relation successor"):
+        review.validate_candidate_state(
+            state,
+            expected_sha256=file_sha256(state),
+            candidate_path=candidate,
+            candidate_sha256=file_sha256(candidate),
+            candidate=_relation("proposal", "5090C", "5090B_MATCHED_PLAIN"),
+            lane_id="proposal",
+            method_source_host="5090C",
+            plain_source_host="5090B_MATCHED_PLAIN",
+        )
+
+
 def test_review_outputs_proposal_without_editing_registry(tmp_path: Path) -> None:
     registry = _write(tmp_path / "registry.json", _base())
     proposal = _write(
@@ -123,10 +205,27 @@ def test_review_outputs_proposal_without_editing_registry(tmp_path: Path) -> Non
         tmp_path / "stcgr.json",
         _relation(review.STCGR_ID, "5090A", "5090B_MATCHED_PLAIN"),
     )
+    proposal_state = _state(
+        tmp_path / "proposal_state.json",
+        proposal,
+        file_sha256(proposal),
+        "proposal",
+    )
+    stcgr_state = _state(
+        tmp_path / "stcgr_state.json",
+        stcgr,
+        file_sha256(stcgr),
+        review.STCGR_ID,
+    )
     args = SimpleNamespace(
         registry=registry,
         candidate=[proposal, stcgr],
         expected_candidate_sha256=[file_sha256(proposal), file_sha256(stcgr)],
+        candidate_state=[proposal_state, stcgr_state],
+        expected_candidate_state_sha256=[
+            file_sha256(proposal_state),
+            file_sha256(stcgr_state),
+        ],
         required_lane=["proposal", review.STCGR_ID],
         method_host=["proposal=5090C", f"{review.STCGR_ID}=5090A"],
         plain_source_host="5090B_MATCHED_PLAIN",
@@ -137,7 +236,9 @@ def test_review_outputs_proposal_without_editing_registry(tmp_path: Path) -> Non
     assert receipt["registry_edited"] is False
     assert receipt["comparison_authorized"] is False
     assert read_json(registry) == _base()
-    proposed = read_json(tmp_path / "review" / "PROPOSED_RUNTIME_RELATION_REGISTRY.json")
+    proposed = read_json(
+        tmp_path / "review" / "PROPOSED_RUNTIME_RELATION_REGISTRY.json"
+    )
     assert set(proposed["relations"]) == {"proposal", review.STCGR_ID}
 
 

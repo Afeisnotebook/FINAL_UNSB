@@ -10,13 +10,14 @@ Proposal与ST-CGR的两个持久successor会在5090B runtime receipt出现后分
 
 ## 决策
 
-新增`operations.paper_aio_relation_registry_review`。它同时接收冻结候选路径、预期SHA256、
-lane、method host、plain host与当前registry，并重新验证：
+新增`operations.paper_aio_relation_registry_review`。它同时接收冻结候选路径、候选完成状态、
+两者的预期SHA256、lane、method host、plain host与当前registry，并重新验证：
 
 - Proposal只能使用标准exact runtime relation；
 - ST-CGR只能使用cross-host/cross-code candidate relation；
 - 2000-step、manifest、e0/step core与所有原始回执哈希齐全；
 - candidate proof chain精确为candidate-to-parent加parent-to-plain两段证明；
+- successor completion state精确绑定候选路径、候选哈希、宿主对和完成状态；
 - 无PSNR/SSIM/LPIPS/FID/KID/ranking/delta字段；
 - 同一method/plain host pair不存在歧义或冲突。
 
@@ -30,4 +31,3 @@ commit。这样既保留论文级人工裁决边界，又把容易出错的机�
 - 关系审核完全metric-blind，不读取训练性能或confirmation20。
 - 缺候选、哈希漂移、类型不匹配、宿主不匹配、重复或冲突一律fail closed。
 - 该接口不改变任何在飞训练、后继队列或科学协议。
-

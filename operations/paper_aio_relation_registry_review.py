@@ -15,7 +15,10 @@ from pathlib import Path
 from typing import Any
 
 from operations.paper_aio_runtime_relation_successor import contains_performance_field
-from operations.paper_aio_unified_evaluation_successor import _write_json, parse_lane_source
+from operations.paper_aio_unified_evaluation_successor import (
+    _write_json,
+    parse_lane_source,
+)
 from research.paper_aio.protocol import file_sha256, object_sha256
 from research.paper_aio.runtime_relation import relation_candidates
 
@@ -25,6 +28,10 @@ REVIEW_SCHEMA = "final-unsb-paper-runtime-relation-registry-review-v1"
 STANDARD_STATUS = "PASS_EXACT_RUNTIME_RELATION"
 CANDIDATE_STATUS = "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION"
 STCGR_ID = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+STANDARD_STATE_SCHEMA = "final-unsb-paper-runtime-relation-successor-state-v1"
+CANDIDATE_STATE_SCHEMA = (
+    "final-unsb-paper-candidate-control-relation-successor-state-v1"
+)
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -42,8 +49,12 @@ def _sha256_fields(value: dict[str, Any], fields: tuple[str, ...]) -> bool:
 
 
 def validate_relation_candidate(
-    path: Path, *, expected_sha256: str, lane_id: str,
-    method_source_host: str, plain_source_host: str,
+    path: Path,
+    *,
+    expected_sha256: str,
+    lane_id: str,
+    method_source_host: str,
+    plain_source_host: str,
 ) -> dict[str, Any]:
     path = Path(path)
     if not path.is_file() or file_sha256(path) != expected_sha256:
@@ -84,7 +95,8 @@ def validate_relation_candidate(
             common
             and lane_id == STCGR_ID
             and value.get("candidate_id") == lane_id
-            and value.get("proof_chain") == {
+            and value.get("proof_chain")
+            == {
                 "candidate_to_parent": "PASS_CROSS_CODE_CANDIDATE_RUNTIME",
                 "parent_to_plain": "PASS_EXACT_RUNTIME_COHORT",
             }
@@ -117,12 +129,63 @@ def validate_registry(path: Path) -> dict[str, Any]:
         or not isinstance(value.get("relations"), dict)
         or contains_performance_field(value)
     ):
-        raise RuntimeError("runtime relation registry is invalid or metric-contaminated")
+        raise RuntimeError(
+            "runtime relation registry is invalid or metric-contaminated"
+        )
+    return value
+
+
+def validate_candidate_state(
+    path: Path,
+    *,
+    expected_sha256: str,
+    candidate_path: Path,
+    candidate_sha256: str,
+    candidate: dict[str, Any],
+    lane_id: str,
+    method_source_host: str,
+    plain_source_host: str,
+) -> dict[str, Any]:
+    path = Path(path)
+    if not path.is_file() or file_sha256(path) != expected_sha256:
+        raise RuntimeError(f"relation successor state is absent or changed: {path}")
+    value = read_json(path)
+    cross_code = lane_id == STCGR_ID
+    expected_schema = CANDIDATE_STATE_SCHEMA if cross_code else STANDARD_STATE_SCHEMA
+    expected_status = (
+        "COMPLETE_REVIEW_ONLY_CANDIDATE_CONTROL_RELATION"
+        if cross_code
+        else "COMPLETE_REVIEW_ONLY_RUNTIME_RELATION_CANDIDATE"
+    )
+    state_lane = value.get("candidate_id") if cross_code else value.get("lane_id")
+    advertised = Path(str(value.get("relation_candidate", "")))
+    valid = (
+        value.get("schema") == expected_schema
+        and value.get("status") == expected_status
+        and state_lane == lane_id
+        and value.get("method_source_host_label") == method_source_host
+        and value.get("plain_source_host_label") == plain_source_host
+        and advertised.resolve() == Path(candidate_path).resolve()
+        and value.get("relation_candidate_sha256") == candidate_sha256
+        and value.get("plain_runtime_receipt_sha256")
+        == candidate.get("plain_runtime_receipt_sha256")
+        and (not cross_code or value.get("proof_chain") == candidate.get("proof_chain"))
+        and value.get("exact_runtime_equivalence") is True
+        and value.get("registry_edited") is False
+        and value.get("comparison_authorized") is False
+        and value.get("performance_values_read") is False
+        and value.get("paired_metric_control") is False
+        and value.get("confirmation20_opened") is False
+        and not contains_performance_field(value)
+    )
+    if not valid:
+        raise RuntimeError(f"invalid relation successor completion state: {lane_id}")
     return value
 
 
 def propose_registry(
-    registry: dict[str, Any], candidates: list[dict[str, Any]],
+    registry: dict[str, Any],
+    candidates: list[dict[str, Any]],
 ) -> dict[str, Any]:
     result = json.loads(json.dumps(registry))
     relations = result["relations"]
@@ -139,7 +202,8 @@ def propose_registry(
         seen_new.add(key)
         existing = relation_candidates(result, lane)
         matching = [
-            row for row in existing
+            row
+            for row in existing
             if (
                 row.get("method_source_host_label") == key[1]
                 and row.get("plain_source_host_label") == key[2]
@@ -159,37 +223,65 @@ def propose_registry(
 
 
 def review(args: argparse.Namespace) -> dict[str, Any]:
-    if len(args.candidate) != len(args.expected_candidate_sha256):
-        raise RuntimeError("candidate paths and expected hashes must have equal length")
+    lengths = {
+        len(args.candidate),
+        len(args.expected_candidate_sha256),
+        len(args.candidate_state),
+        len(args.expected_candidate_state_sha256),
+    }
+    if len(lengths) != 1:
+        raise RuntimeError("candidate paths, states, and expected hashes must align")
     expected_hosts = dict(parse_lane_source(value) for value in args.method_host)
     if len(expected_hosts) != len(args.method_host):
         raise RuntimeError("method host declarations contain duplicate lanes")
     required = set(args.required_lane)
     if required != set(expected_hosts) or len(args.candidate) != len(required):
-        raise RuntimeError("required lanes, method hosts, and candidates must match exactly")
+        raise RuntimeError(
+            "required lanes, method hosts, and candidates must match exactly"
+        )
     candidates = []
     candidate_rows = []
-    for path, expected_hash in zip(
-        args.candidate, args.expected_candidate_sha256, strict=True,
+    for path, expected_hash, state_path, expected_state_hash in zip(
+        args.candidate,
+        args.expected_candidate_sha256,
+        args.candidate_state,
+        args.expected_candidate_state_sha256,
+        strict=True,
     ):
         raw = read_json(path)
         lane = str(raw.get("method_lane", ""))
         if lane not in required:
             raise RuntimeError(f"unexpected runtime relation lane: {lane}")
         value = validate_relation_candidate(
-            path, expected_sha256=expected_hash, lane_id=lane,
+            path,
+            expected_sha256=expected_hash,
+            lane_id=lane,
+            method_source_host=expected_hosts[lane],
+            plain_source_host=args.plain_source_host,
+        )
+        validate_candidate_state(
+            state_path,
+            expected_sha256=expected_state_hash,
+            candidate_path=path,
+            candidate_sha256=expected_hash,
+            candidate=value,
+            lane_id=lane,
             method_source_host=expected_hosts[lane],
             plain_source_host=args.plain_source_host,
         )
         candidates.append(value)
-        candidate_rows.append({
-            "lane_id": lane,
-            "method_source_host_label": expected_hosts[lane],
-            "plain_source_host_label": args.plain_source_host,
-            "path": str(path.resolve()),
-            "sha256": expected_hash,
-            "status": value["status"],
-        })
+        candidate_rows.append(
+            {
+                "lane_id": lane,
+                "method_source_host_label": expected_hosts[lane],
+                "plain_source_host_label": args.plain_source_host,
+                "path": str(path.resolve()),
+                "sha256": expected_hash,
+                "successor_state": str(state_path.resolve()),
+                "successor_state_sha256": expected_state_hash,
+                "status": value["status"],
+            }
+        )
     if {row["lane_id"] for row in candidate_rows} != required:
         raise RuntimeError("relation candidates do not cover every required lane")
     registry_path = args.registry.resolve()
@@ -226,7 +318,15 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--registry", type=Path, required=True)
     value.add_argument("--candidate", type=Path, action="append", required=True)
     value.add_argument(
-        "--expected-candidate-sha256", action="append", required=True,
+        "--expected-candidate-sha256",
+        action="append",
+        required=True,
+    )
+    value.add_argument("--candidate-state", type=Path, action="append", required=True)
+    value.add_argument(
+        "--expected-candidate-state-sha256",
+        action="append",
+        required=True,
     )
     value.add_argument("--required-lane", action="append", required=True)
     value.add_argument("--method-host", action="append", required=True)

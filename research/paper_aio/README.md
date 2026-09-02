@@ -201,6 +201,10 @@ python -m operations.paper_aio_relation_registry_review \
   --registry configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json \
   --candidate PROPOSAL_RELATION.json --expected-candidate-sha256 SHA256 \
   --candidate STCGR_RELATION.json --expected-candidate-sha256 SHA256 \
+  --candidate-state PROPOSAL_SUCCESSOR_STATE.json \
+  --expected-candidate-state-sha256 SHA256 \
+  --candidate-state STCGR_SUCCESSOR_STATE.json \
+  --expected-candidate-state-sha256 SHA256 \
   --required-lane proposal \
   --required-lane G4-01-STRATIFIED-TIME-CONDITIONAL-GF \
   --method-host proposal=5090C \
@@ -209,11 +213,12 @@ python -m operations.paper_aio_relation_registry_review \
 ```
 
 The review command revalidates type-specific proof fields, all primary hashes,
-the 2000-update identity, the exact method/plain host pairs, absence of metric
-fields and uniqueness against the current registry. It emits a deterministic
-proposed registry and a compact receipt. It never edits Git or authorizes a
-comparison; Codex must inspect and apply the proposed object as an explicit
-registry commit.
+the 2000-update identity, the exact method/plain host pairs, and the immutable
+completion state that binds each successor to the candidate path and digest.
+It also verifies absence of metric fields and uniqueness against the current
+registry. It emits a deterministic proposed registry and a compact receipt. It
+never edits Git or authorizes a comparison; Codex must inspect and apply the
+proposed object as an explicit registry commit.
 
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
