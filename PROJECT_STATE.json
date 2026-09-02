@@ -13,8 +13,8 @@
     "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 6, "successor": "proposal"},
-      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 4, "successor": "cyclegan"},
-      "5090A_stcgr_small25": {"status": "CANDIDATE_CHUNK_RUNNING", "latest_observed_data_epoch": 23, "target_data_epoch": 200}
+      "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 5, "successor": "cyclegan"},
+      "5090A_stcgr_small25": {"status": "CANDIDATE_CHUNK_RUNNING", "latest_observed_data_epoch": 30, "target_data_epoch": 200}
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
@@ -24,12 +24,16 @@
     "active_new_candidate_full_data_authorized": false,
     "candidate_full_data_gate_interface": {
       "status": "IMPLEMENTED_FAIL_CLOSED_NOT_YET_EXECUTED",
-      "candidate_code_protocol_fingerprint": "63839258f46324331648dddef30e818f0f9adcc3ce40e10dd90307fa118156b1",
+      "candidate_code_protocol_fingerprint": "8f02ace09e647bfbae016b52d9e219e2e72e90ce380be94cd3e61df1613dfcad",
+      "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
       "requires_positive_small25_e200_receipt": true,
       "requires_same_host_cross_code_runtime_gate": true,
       "evidence_lock_authorizes_training": false,
       "requires_separate_current_commit_authorization": true,
-      "evidence": "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json"
+      "evidence": [
+        "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json",
+        "evidence/paper_aio/PAPER_COMMON_CRN_AND_DYNAMIC_ADJUDICATION_20260902.json"
+      ]
     },
     "active_new_candidate_receipt_successor": {
       "status": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",

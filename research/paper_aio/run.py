@@ -30,7 +30,7 @@ from .gates import (
     run_resume_gate,
     run_zero_intervention_gate,
 )
-from .protocol import ROOT, lane_spec, load_protocol
+from .protocol import ROOT, evaluation_bundle_fingerprint, lane_spec, load_protocol
 from .runtime import (
     _annotated_rows,
     load_full_state,
@@ -214,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
         model, spec, rows, payload, primary, secondary = _load_checkpoint_model(args)
         result = evaluate_live_model(
             model=model, spec=spec, rows=rows, data_root=args.data_root.resolve(),
-            protocol_hash=payload["metadata"]["protocol_fingerprint"],
+            protocol_hash=evaluation_bundle_fingerprint(),
             epoch=args.epoch, lane_root=args.output / "lanes" / spec.id,
         )
     elif args.stage == "evaluation-repeat-gate":
@@ -222,13 +222,13 @@ def main(argv: list[str] | None = None) -> int:
         result = run_evaluation_repeat_gate(
             output_root=args.output, model=model, spec=spec, rows=rows,
             data_root=args.data_root.resolve(),
-            protocol_hash=payload["metadata"]["protocol_fingerprint"],
+            protocol_hash=evaluation_bundle_fingerprint(),
         )
     elif args.stage == "terminal-audit":
         model, spec, rows, payload, primary, secondary = _load_checkpoint_model(args)
         result = audit_model(
             model=model, spec=spec, rows=rows, data_root=args.data_root.resolve(),
-            protocol_hash=payload["metadata"]["protocol_fingerprint"],
+            protocol_hash=evaluation_bundle_fingerprint(),
             checkpoint_label=args.checkpoint.name,
             replicates=args.audit_replicates,
             samples_per_domain=args.audit_samples_per_domain,

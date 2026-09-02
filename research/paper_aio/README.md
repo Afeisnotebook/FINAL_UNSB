@@ -77,3 +77,11 @@ authorization bound to the current Git commit and protocol fingerprint may
 start the 1,710,600-update run.  A negative/incomplete small25 trajectory,
 stale source hash, different host runtime, or missing parent plain e200 state
 fails closed.
+
+Training source identity and evaluation randomness are deliberately separate.
+All paper checkpoints use the frozen first-wave `68f53a8e...` bundle seed so a
+new candidate source fingerprint cannot silently change its rollout noise.
+Adjudication checks every late image's domain, stem, order, replicate, NFE and
+bundle hash before computing method-minus-plain deltas.  Terminal metrics also
+report the macro PSNR/SSIM/LPIPS standard deviation across the five fixed
+rollout bundles (population standard deviation, `ddof=0`).

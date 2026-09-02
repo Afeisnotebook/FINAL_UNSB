@@ -80,3 +80,6 @@ authorize compute.
 24. `DEC-20260902-PAPER-AIO-CANDIDATE-CROSS-CODE-GATE.md`：新算法不能复用在飞plain的
     旧代码授权；small25正向终点收据、同宿主跨代码e0/2000步、zero identity、resume与
     重复评估全部通过后仍只形成证据lock，必须再签当前commit授权才能启动全量。
+25. `DEC-20260902-PAPER-AIO-COMMON-CRN-DYNAMIC-ADJUDICATION.md`：训练源码指纹和CRN
+    bundle身份分离；新候选保留独立训练指纹，但固定复用首波`68f53a8e...`随机bundle，
+    逐图CRN完全匹配后才计算同宿主delta，并报告e200五bundle随机性标准差。

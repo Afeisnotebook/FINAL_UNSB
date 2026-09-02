@@ -18,6 +18,9 @@ EVALUATION_SCHEMA = "final-unsb-paper-aio-evaluation-v1"
 EXPECTED_MANIFEST_SHA256 = (
     "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
 )
+FROZEN_EVALUATION_BUNDLE_FINGERPRINT = (
+    "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+)
 
 
 def canonical_json(value: Any) -> str:
@@ -55,6 +58,11 @@ def git_commit() -> str:
 
 def load_protocol() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+
+
+def evaluation_bundle_fingerprint(protocol: dict | None = None) -> str:
+    protocol = protocol or load_protocol()
+    return str(protocol["evaluation"]["bundle_seed_fingerprint"])
 
 
 @dataclass(frozen=True)
@@ -181,6 +189,8 @@ def validate_protocol(protocol: dict | None = None) -> list[str]:
         errors.append("confirmation20 must remain locked")
     if training.get("sampling_measure") != "official_image_proportional_unpaired":
         errors.append("main paper sampling measure changed")
+    if evaluation_bundle_fingerprint(protocol) != FROZEN_EVALUATION_BUNDLE_FINGERPRINT:
+        errors.append("paper common-random-number bundle identity changed")
     lane_ids = [row.get("id") for row in protocol.get("lanes", [])]
     required = {"plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb"}
     if set(lane_ids) != required or len(lane_ids) != len(required):

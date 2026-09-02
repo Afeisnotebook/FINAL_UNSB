@@ -61,6 +61,7 @@
     "beta2": 0.999
   },
   "evaluation": {
+    "bundle_seed_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "trajectory_discovery_per_domain": 70,
     "terminal_discovery_per_domain": 80,
     "primary_replicate": 0,

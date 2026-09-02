@@ -10,7 +10,11 @@ from research.paper_aio.candidate_runtime import (
     authorize_candidate,
     require_candidate_authorization,
 )
-from research.paper_aio.protocol import file_sha256, protocol_fingerprint
+from research.paper_aio.protocol import (
+    FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
+    file_sha256,
+    protocol_fingerprint,
+)
 
 
 CANDIDATE_ID = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
@@ -141,6 +145,7 @@ def _fixture(tmp_path: Path) -> dict[str, Path | str]:
         "candidate_resume_split_sha256": "0" * 64,
         "evaluation_first_sha256": "1" * 64,
         "evaluation_second_sha256": "1" * 64,
+        "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "paired_metric_control": False,
         "confirmation20_opened": False,
     })

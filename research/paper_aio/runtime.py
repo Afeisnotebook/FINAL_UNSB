@@ -33,6 +33,7 @@ from .protocol import (
     ROOT,
     LaneSpec,
     epoch_to_step,
+    evaluation_bundle_fingerprint,
     git_commit,
     lane_spec,
     load_protocol,
@@ -498,7 +499,7 @@ def train_spec(
             )
             evaluate_live_model(
                 model=model, spec=spec, rows=rows, data_root=data_root,
-                protocol_hash=metadata["protocol_fingerprint"],
+                protocol_hash=evaluation_bundle_fingerprint(protocol),
                 epoch=int(completed_epoch), lane_root=lane_root,
             )
         trace = {

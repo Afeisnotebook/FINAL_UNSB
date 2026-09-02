@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-paper-common-crn-and-dynamic-adjudication-v1",
+  "date": "2026-09-02",
+  "status": "IMPLEMENTED_AND_CPU_VERIFIED_NOT_YET_USED_FOR_SCIENTIFIC_SELECTION",
+  "supersedes_fields": {
+    "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json": [
+      "candidate_code_protocol_fingerprint",
+      "verification.pytest_passed"
+    ]
+  },
+  "current_candidate_code_protocol_fingerprint": "8f02ace09e647bfbae016b52d9e219e2e72e90ce380be94cd3e61df1613dfcad",
+  "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "reason": "a new algorithm must have a distinct training source fingerprint without receiving different CRN latent and rollout-noise bundles from the frozen parent paper plain",
+  "terminal_evaluation": {
+    "discovery_per_domain": 80,
+    "fixed_rollout_bundles": 5,
+    "unsb_nfe_values": [1, 2, 3, 4, 5],
+    "reports_replicate_macro_cells": true,
+    "reports_population_stochasticity_std_ddof": 0
+  },
+  "late_delta_guard": {
+    "requires_exact_domain_stem_order_replicate_nfe_and_bundle_hash": true,
+    "requires_same_evaluation_input_hash": true,
+    "requires_same_bundle_fingerprint": true,
+    "requires_plain_collapse_guard": true,
+    "dynamic_evidence_locked_candidates_included": true
+  },
+  "first_wave_complete_requires": [
+    "plain",
+    "proposal",
+    "cut",
+    "cyclegan"
+  ],
+  "verification": {
+    "pytest_passed": 404,
+    "contract_checks": "ALL_CONTRACT_CHECKS_PASSED",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "live_scientific_checkouts_mutated": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

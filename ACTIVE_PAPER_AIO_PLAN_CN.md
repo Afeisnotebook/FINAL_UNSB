@@ -33,6 +33,8 @@
    轨迹和成本裁决；若通过，生成独立full candidate lock，不修改在飞paper协议。
    该lock还必须通过跨代码e0/2000-step、zero-intervention、resume与重复评估门，且只有
    随后的独立authorization能启动全量；任何一门失败都保持未授权。
+   新候选虽具有独立训练协议指纹，但评估使用固定`68f53a8e...` CRN bundle身份；只有
+   late三点逐图CRN完全一致才允许与同宿主parent plain计算delta。
 2. plain/CUT必须自然到e200；中间discovery值不触发早停、算法修改或资源调度。
 3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。
 4. plain完成后在同一4090执行Proposal专属resume/identity/eval门；CUT完成后在同一

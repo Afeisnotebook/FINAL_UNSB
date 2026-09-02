@@ -7,11 +7,17 @@ import pytest
 import torch
 
 from research.paper_aio.adjudicate import adjudicate
-from research.paper_aio.evaluate import select_discovery
+from research.paper_aio.evaluate import (
+    aggregate_metric_rows,
+    replicate_stochasticity,
+    select_discovery,
+)
 from research.paper_aio.gates import external_gate_status, scientific_core
 from research.paper_aio.protocol import (
     EXPECTED_MANIFEST_SHA256,
+    FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
     epoch_to_step,
+    evaluation_bundle_fingerprint,
     lane_spec,
     load_protocol,
     steps_per_epoch,
@@ -30,6 +36,7 @@ def test_frozen_paper_protocol_and_full_manifest() -> None:
     assert protocol["manifest"]["sha256"] == EXPECTED_MANIFEST_SHA256
     assert steps_per_epoch(protocol) == 8553
     assert epoch_to_step(200, protocol) == 1_710_600
+    assert evaluation_bundle_fingerprint(protocol) == FROZEN_EVALUATION_BUNDLE_FINGERPRINT
     report = manifest_report(ROOT / "manifests" / "FULL_DATA_MANIFEST.csv")
     assert report["counts"] == {"train": 8553, "discovery": 480, "confirmation": 120}
     assert len(report["domains"]) == 6
@@ -81,6 +88,27 @@ def test_image_pool_roundtrip_is_exact() -> None:
         restored.load_state_dict(bad)
 
 
+def test_terminal_rollout_stochasticity_is_macro_and_explicit() -> None:
+    first = aggregate_metric_rows([
+        {"domain": "a", "psnr": 10.0, "ssim": 0.5, "lpips": 0.4},
+        {"domain": "b", "psnr": 20.0, "ssim": 0.7, "lpips": 0.2},
+    ])
+    second = aggregate_metric_rows([
+        {"domain": "a", "psnr": 12.0, "ssim": 0.6, "lpips": 0.3},
+        {"domain": "b", "psnr": 22.0, "ssim": 0.8, "lpips": 0.1},
+    ])
+    stochasticity = replicate_stochasticity([first, second])
+    assert first["macro_psnr"] == 15.0
+    assert second["macro_psnr"] == 17.0
+    assert stochasticity == {
+        "macro_psnr_std": 1.0,
+        "macro_ssim_std": pytest.approx(0.05),
+        "macro_lpips_std": pytest.approx(0.05),
+        "ddof": 0,
+        "replicate_count": 2,
+    }
+
+
 def test_runtime_core_excludes_only_host_metadata() -> None:
     payload = {
         "step": 10,
@@ -114,6 +142,13 @@ def _metric(value: float) -> dict:
         "macro_ssim": value / 100,
         "macro_lpips": 0.5 - value / 100,
         "domains": domains,
+        "protocol_fingerprint": "bundle",
+        "evaluation_input_sha256": "inputs",
+        "images": [{
+            "domain": "a", "stem": "one", "order": 0,
+            "replicate": 0, "nfe": 5, "crn_bundle_sha256": "crn",
+        }],
+        "confirmation20_opened": False,
     }
 
 
@@ -133,3 +168,34 @@ def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
     )
     assert proposal_row["scientific_gate"]["status"] == "PASS"
     assert result["algorithm_set"]["accepted_algorithms"] == ["proposal"]
+
+
+def test_adjudication_includes_evidence_locked_dynamic_candidate(tmp_path: Path) -> None:
+    candidate_id = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    lock = tmp_path / "candidate_locks" / candidate_id / "CANDIDATE_LOCK.json"
+    lock.parent.mkdir(parents=True)
+    lock.write_text(json.dumps({
+        "schema": "final-unsb-paper-candidate-lock-v1",
+        "status": "PASS_FULL_DATA_CANDIDATE_LOCK",
+        "candidate_id": candidate_id,
+        "full_data_authorized": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+        "parent_paper": {"parent_output": str(tmp_path)},
+    }), encoding="utf-8")
+    for epoch in (150, 175, 200):
+        plain = tmp_path / "lanes" / "plain" / "metrics" / f"e{epoch:03d}.json"
+        candidate = tmp_path / "lanes" / candidate_id / "metrics" / f"e{epoch:03d}.json"
+        plain.parent.mkdir(parents=True, exist_ok=True)
+        candidate.parent.mkdir(parents=True, exist_ok=True)
+        plain.write_text(json.dumps(_metric(10.0 + epoch / 1000)), encoding="utf-8")
+        candidate.write_text(json.dumps(_metric(10.3 + epoch / 1000)), encoding="utf-8")
+    result = adjudicate(tmp_path)
+    row = next(
+        value for value in result["results"]["lanes"]
+        if value["lane_id"] == candidate_id
+    )
+    assert row["comparison_scope"] == "same_host_cross_code_runtime_gate"
+    assert row["scientific_gate"]["status"] == "PASS"
+    assert row["scientific_gate"]["crn_exact_at_all_late_points"] is True
+    assert candidate_id in result["algorithm_set"]["accepted_algorithms"]

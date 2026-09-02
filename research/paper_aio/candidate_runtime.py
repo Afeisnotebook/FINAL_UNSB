@@ -29,6 +29,7 @@ from .gates import (
 from .protocol import (
     LaneSpec,
     file_sha256,
+    evaluation_bundle_fingerprint,
     git_commit,
     lane_spec,
     load_protocol,
@@ -260,7 +261,7 @@ def run_candidate_runtime_gate(
     repeat = run_evaluation_repeat_gate(
         output_root=output_root / "candidate_runtime_gate" / candidate_id,
         model=model, spec=candidate, rows=rows, data_root=data_root,
-        protocol_hash=current_fingerprint,
+        protocol_hash=evaluation_bundle_fingerprint(),
     )
     del model
     if torch.cuda.is_available():
@@ -295,6 +296,7 @@ def run_candidate_runtime_gate(
         "candidate_resume_continuous_sha256": continuous_hash,
         "candidate_resume_split_sha256": resumed_hash,
         "candidate_evaluation_repeat_exact": evaluation_exact,
+        "evaluation_bundle_fingerprint": evaluation_bundle_fingerprint(),
         "evaluation_first_sha256": repeat["first_result_sha256"],
         "evaluation_second_sha256": repeat["second_result_sha256"],
         "paired_metric_control": False,

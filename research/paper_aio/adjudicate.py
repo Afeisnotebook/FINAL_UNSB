@@ -35,33 +35,101 @@ def _domain_delta(method: dict, plain: dict) -> dict:
     }
 
 
+def _crn_identity(metric: dict) -> list[tuple]:
+    return [
+        (
+            row.get("domain"), row.get("stem"), int(row.get("order", -1)),
+            int(row.get("replicate", -1)), int(row.get("nfe", -1)),
+            row.get("crn_bundle_sha256"),
+        )
+        for row in metric.get("images", []) if isinstance(row, dict)
+    ]
+
+
+def _candidate_definitions(output_root: Path) -> list[dict]:
+    definitions = []
+    root = Path(output_root) / "candidate_locks"
+    if not root.is_dir():
+        return definitions
+    for path in sorted(root.glob("*/CANDIDATE_LOCK.json")):
+        lock = _read(path)
+        if (
+            lock.get("schema") != "final-unsb-paper-candidate-lock-v1"
+            or lock.get("status") != "PASS_FULL_DATA_CANDIDATE_LOCK"
+            or lock.get("full_data_authorized") is not False
+            or lock.get("paired_metric_control") is not False
+            or lock.get("confirmation20_opened") is not False
+        ):
+            raise RuntimeError(f"invalid dynamic paper candidate lock: {path}")
+        candidate_id = str(lock["candidate_id"])
+        definitions.append({
+            "lane_id": candidate_id,
+            "role": "evidence-locked full-data paper candidate",
+            "backend": "internal",
+            "family": "unsb",
+            "metrics_root": Path(output_root),
+            "plain_root": Path(lock["parent_paper"]["parent_output"]),
+            "comparison_scope": "same_host_cross_code_runtime_gate",
+            "candidate_lock": str(path.resolve()),
+        })
+    return definitions
+
+
 def adjudicate(output_root: Path) -> dict:
     protocol = load_protocol()
     output_root = Path(output_root)
-    plain_metrics = {
-        epoch: _metric(output_root, "plain", epoch)
-        for epoch in protocol["training"]["milestone_epochs"]
-    }
+    definitions = [
+        {
+            "lane_id": row["id"], "role": row["role"],
+            "backend": row["backend"], "family": lane_spec(row["id"], protocol).family,
+            "metrics_root": output_root, "plain_root": output_root,
+            "comparison_scope": (
+                "same_runtime_output_root" if lane_spec(row["id"], protocol).family == "unsb"
+                else "standalone_fixed_protocol"
+            ),
+            "candidate_lock": None,
+        }
+        for row in protocol["lanes"]
+    ]
+    definitions.extend(_candidate_definitions(output_root))
     lanes = []
-    for row in protocol["lanes"]:
-        lane = row["id"]
-        terminal = _metric(output_root, lane, 200)
+    for definition in definitions:
+        lane = definition["lane_id"]
+        metrics_root = Path(definition["metrics_root"])
+        plain_root = Path(definition["plain_root"])
+        terminal = _metric(metrics_root, lane, 200)
         entry = {
             "lane_id": lane,
-            "role": row["role"],
-            "backend": row["backend"],
+            "role": definition["role"],
+            "backend": definition["backend"],
+            "comparison_scope": definition["comparison_scope"],
+            "candidate_lock": definition["candidate_lock"],
             "status": "COMPLETE_E200" if terminal is not None else "INCOMPLETE",
             "terminal": None if terminal is None else {
                 key: terminal[key] for key in ("macro_psnr", "macro_ssim", "macro_lpips")
             },
         }
-        if lane_spec(lane, protocol).family == "unsb" and lane != "plain":
+        if terminal is not None:
+            entry["terminal"]["stochasticity"] = terminal.get("stochasticity")
+            entry["terminal"]["count_per_domain"] = terminal.get("count_per_domain")
+            entry["terminal"]["replicates"] = terminal.get("replicates")
+        if definition["family"] == "unsb" and lane != "plain":
             trajectory = []
+            crn_exact = True
             for epoch in protocol["training"]["late_epochs"]:
-                method = _metric(output_root, lane, epoch)
-                plain = plain_metrics.get(epoch)
+                method = _metric(metrics_root, lane, epoch)
+                plain = _metric(plain_root, "plain", epoch)
                 if method is None or plain is None:
                     continue
+                matched = (
+                    method.get("protocol_fingerprint") == plain.get("protocol_fingerprint")
+                    and method.get("evaluation_input_sha256")
+                    == plain.get("evaluation_input_sha256")
+                    and _crn_identity(method) == _crn_identity(plain)
+                    and method.get("confirmation20_opened") is False
+                    and plain.get("confirmation20_opened") is False
+                )
+                crn_exact = crn_exact and matched
                 deltas = _domain_delta(method, plain)
                 psnr = [value["psnr"] for value in deltas.values()]
                 trajectory.append({
@@ -75,29 +143,51 @@ def adjudicate(output_root: Path) -> dict:
                     "positive_domains": sum(value > 0 for value in psnr),
                     "worst_domain_delta": min(psnr),
                     "domain_delta": deltas,
+                    "crn_exact": matched,
+                    "candidate_macro_psnr": method["macro_psnr"],
+                    "plain_macro_psnr": plain["macro_psnr"],
                 })
             entry["late_trajectory"] = trajectory
             if len(trajectory) == 3:
                 lpips = [row["macro_lpips_delta"] for row in trajectory]
                 late_mean = float(np.mean([row["macro_psnr_delta"] for row in trajectory]))
                 terminal_delta = float(trajectory[-1]["macro_psnr_delta"])
+                candidate_change = float(
+                    trajectory[-1]["candidate_macro_psnr"]
+                    - trajectory[0]["candidate_macro_psnr"]
+                )
+                plain_change = float(
+                    trajectory[-1]["plain_macro_psnr"]
+                    - trajectory[0]["plain_macro_psnr"]
+                )
+                plain_collapse_guard = not (
+                    candidate_change < -0.3 and plain_change < -0.3
+                )
                 accepted = (
-                    late_mean > 0 and terminal_delta > 0
+                    crn_exact and late_mean > 0 and terminal_delta > 0
                     and sum(row["positive_domains"] >= 4 for row in trajectory) >= 2
                     and float(np.mean([row["worst_domain_delta"] for row in trajectory])) > -1.0
                     and float(np.mean([row["macro_ssim_delta"] for row in trajectory])) >= 0
                     and all(value is not None and value <= 0 for value in lpips)
+                    and plain_collapse_guard
                 )
                 entry["scientific_gate"] = {
                     "status": "PASS" if accepted else "FAIL",
                     "late_three_macro_psnr_delta": late_mean,
                     "e200_macro_psnr_delta": terminal_delta,
+                    "crn_exact_at_all_late_points": crn_exact,
+                    "candidate_e150_to_e200_change_db": candidate_change,
+                    "plain_e150_to_e200_change_db": plain_change,
+                    "plain_collapse_guard": (
+                        "PASS_NOT_PLAIN_COLLAPSE" if plain_collapse_guard else
+                        "FAIL_RELATIVE_ADVANTAGE_COINCIDES_WITH_BOTH_COLLAPSING"
+                    ),
                     "confirmation20_opened": False,
                 }
         lanes.append(entry)
     complete_required = all(
         next(row for row in lanes if row["lane_id"] == lane)["status"] == "COMPLETE_E200"
-        for lane in ("plain", "proposal", "cyclegan")
+        for lane in ("plain", "proposal", "cut", "cyclegan")
     )
     result = {
         "schema": "final-unsb-paper-results-v1",

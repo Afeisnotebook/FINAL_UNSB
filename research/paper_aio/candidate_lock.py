@@ -29,7 +29,7 @@ from typing import Any
 
 from research.local_route1.runtime import write_json
 
-from .protocol import ROOT, file_sha256
+from .protocol import FROZEN_EVALUATION_BUNDLE_FINGERPRINT, ROOT, file_sha256
 
 
 LOCK_SCHEMA = "final-unsb-paper-candidate-lock-v1"
@@ -264,6 +264,7 @@ def _validate_runtime_gate(
         "zero_intervention_identity_exact": True,
         "candidate_resume_exact": True,
         "candidate_evaluation_repeat_exact": True,
+        "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "paired_metric_control": False,
         "confirmation20_opened": False,
     }

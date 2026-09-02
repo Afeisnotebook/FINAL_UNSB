@@ -53,6 +53,9 @@ method-minus-plain 只能在相同 runtime cohort 中计算。checkpoint 不跨�
 - e1–e200固定discovery70与CRN单rollout，PSNR/SSIM；晚期增加LPIPS；
 - UNSB家族e100/e150/e200固定报告NFE1–5，不据此选择最佳NFE；
 - e200补全discovery80并运行5个固定rollout bundle；
+- CRN bundle seed身份固定为首波paper指纹`68f53a8e...`，与之后新增候选导致的训练
+  源码指纹变化解耦；候选和parent plain只有逐图stem/order/replicate/NFE/bundle hash
+  全部一致时才允许计算delta；
 - 主表只使用e200，sustained指标固定e150/e175/e200；
 - KID/FID和补充分辨率推理只在算法冻结后计算；
 - confirmation20直到算法、基线配置和论文主张全部冻结后才允许一次性打开。

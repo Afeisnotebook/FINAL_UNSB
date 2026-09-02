@@ -108,6 +108,50 @@ def evaluation_input_hash(selected: list[dict], protocol_hash: str) -> str:
     return digest.hexdigest()
 
 
+def aggregate_metric_rows(rows: list[dict]) -> dict:
+    """Macro-average one fixed NFE/replicate slice through six domains."""
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[row["domain"]].append(row)
+    domains = {}
+    for domain, domain_rows in sorted(grouped.items()):
+        domains[domain] = {
+            "n": len(domain_rows),
+            "psnr": float(np.mean([row["psnr"] for row in domain_rows])),
+            "ssim": float(np.mean([row["ssim"] for row in domain_rows])),
+            "lpips": (
+                None if any(row["lpips"] is None for row in domain_rows)
+                else float(np.mean([row["lpips"] for row in domain_rows]))
+            ),
+        }
+    if not domains:
+        raise RuntimeError("cannot aggregate an empty paper evaluation slice")
+    return {
+        "macro_psnr": float(np.mean([row["psnr"] for row in domains.values()])),
+        "macro_ssim": float(np.mean([row["ssim"] for row in domains.values()])),
+        "macro_lpips": (
+            None if any(row["lpips"] is None for row in domains.values())
+            else float(np.mean([row["lpips"] for row in domains.values()]))
+        ),
+        "domains": domains,
+    }
+
+
+def replicate_stochasticity(cells: list[dict]) -> dict:
+    if not cells:
+        raise RuntimeError("paper stochasticity needs at least one rollout bundle")
+    return {
+        "macro_psnr_std": float(np.std([row["macro_psnr"] for row in cells])),
+        "macro_ssim_std": float(np.std([row["macro_ssim"] for row in cells])),
+        "macro_lpips_std": (
+            None if any(row["macro_lpips"] is None for row in cells)
+            else float(np.std([row["macro_lpips"] for row in cells]))
+        ),
+        "ddof": 0,
+        "replicate_count": len(cells),
+    }
+
+
 def evaluate_model(
     model, *, spec: LaneSpec, rows: list[dict], data_root: Path,
     protocol_hash: str, count_per_domain: int, replicates: int,
@@ -155,28 +199,20 @@ def evaluate_model(
     cells = {}
     for nfe in nfe_values:
         values = [row for row in image_rows if row["nfe"] == nfe]
-        grouped = defaultdict(list)
-        for row in values:
-            grouped[row["domain"]].append(row)
-        domains = {}
-        for domain, domain_rows in sorted(grouped.items()):
-            domains[domain] = {
-                "n": len(domain_rows),
-                "psnr": float(np.mean([row["psnr"] for row in domain_rows])),
-                "ssim": float(np.mean([row["ssim"] for row in domain_rows])),
-                "lpips": (
-                    None if any(row["lpips"] is None for row in domain_rows)
-                    else float(np.mean([row["lpips"] for row in domain_rows]))
-                ),
+        aggregate = aggregate_metric_rows(values)
+        replicate_cells = [
+            {
+                "replicate": replicate,
+                **aggregate_metric_rows([
+                    row for row in values if int(row["replicate"]) == replicate
+                ]),
             }
+            for replicate in range(int(replicates))
+        ]
         cells[str(nfe)] = {
-            "macro_psnr": float(np.mean([row["psnr"] for row in domains.values()])),
-            "macro_ssim": float(np.mean([row["ssim"] for row in domains.values()])),
-            "macro_lpips": (
-                None if any(row["lpips"] is None for row in domains.values())
-                else float(np.mean([row["lpips"] for row in domains.values()]))
-            ),
-            "domains": domains,
+            **aggregate,
+            "replicate_cells": replicate_cells,
+            "stochasticity": replicate_stochasticity(replicate_cells),
         }
     primary_nfe = 5 if spec.family == "unsb" else 1
     if str(primary_nfe) not in cells:
@@ -194,6 +230,8 @@ def evaluate_model(
         "evaluation_input_sha256": evaluation_input_hash(selected, protocol_hash),
         **{key: primary[key] for key in ("macro_psnr", "macro_ssim", "macro_lpips")},
         "domains": primary["domains"],
+        "replicate_cells": primary["replicate_cells"],
+        "stochasticity": primary["stochasticity"],
         "nfe_cells": cells,
         "images": image_rows,
         "lpips_requested": bool(include_lpips),
