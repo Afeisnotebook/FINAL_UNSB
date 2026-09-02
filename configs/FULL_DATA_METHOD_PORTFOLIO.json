@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T06:51:16+08:00",
+  "captured_at": "2026-09-03T07:13:43+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -78,7 +78,8 @@
     "auxiliary_watcher_pids": {
       "5090B_matched_plain_successor": 61725,
       "4090A_5090B_matched_plain_relay": 2237500,
-      "local_incremental_terminal_audit": 15672,
+      "local_incremental_terminal_audit": 20780,
+      "local_terminal_pathology_auto_successor": 18712,
       "4090A_stcgr_control_relation": 2289036
     },
     "evidence": [
@@ -166,6 +167,12 @@
     "incremental_health_watcher_pid": 20780,
     "incremental_health_status": "healthy_after_second_poll_zero_alerts",
     "retired_incremental_health_watcher_pid": 15672,
+    "terminal_pathology_successor_status": "healthy_waiting_target_blind_release_then_auto_unified_evaluation_and_posthoc_adjudication",
+    "terminal_pathology_successor_pid": 21384,
+    "terminal_pathology_health_watcher_pid": 18712,
+    "terminal_pathology_control_commit": "21cf67d107091e2ed1cf047bcbeb7f617a2c21d2",
+    "terminal_pathology_paired_files_parsed": false,
+    "terminal_pathology_algorithm_auto_start": false,
     "role": "evaluate fixed exported checkpoints and run target-blind full-data terminal audits without occupying a training GPU",
     "training_authorized": false,
     "performance_values_read": false,
@@ -177,7 +184,8 @@
       "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json",
       "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_GATE_20260903.json",
-      "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json"
+      "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json",
+      "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_AUTO_SUCCESSOR_DEPLOYED_20260903.json"
     ]
   },
   "algorithm_posthoc_delivery": {

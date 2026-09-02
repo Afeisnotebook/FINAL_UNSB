@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-terminal-pathology-posthoc-interface-v1",
   "captured_at": "2026-09-03T07:05:00+08:00",
-  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "status": "IMPLEMENTED_TESTED_AND_DURABLY_DEPLOYED",
   "fixed_probes": [
     "4090A_plain",
     "5090C_proposal",

@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-paper-terminal-pathology-auto-successor-deployment-v1",
+  "captured_at": "2026-09-03T07:13:43+08:00",
+  "status": "HEALTHY_WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+  "deployment": {
+    "control_git_commit": "21cf67d107091e2ed1cf047bcbeb7f617a2c21d2",
+    "frozen_clean_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_PATHOLOGY_21CF67D",
+    "successor_pid": 21384,
+    "health_watcher_pid": 18712,
+    "output_root": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_auto_21cf67d",
+    "contract_sha256": "817ba46f05e2f324ffee28b13c96e914b7e8bee5b6846d3c18b168e85cd35c2e",
+    "initial_state_sha256": "013511732f13fbc8678546c6baa5b14a8df6dc23b52455a3119658c3a2a423a",
+    "health_contract_sha256": "4db383f45cc1ee050d6bd0ab7da0f6f8963cc906742438ff48fe4f65e5d25f29",
+    "evaluation_python": "E:\\conda\\python.exe",
+    "shared_gpu_lock": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock"
+  },
+  "durable_chain": [
+    "wait for exact 12-cell target-blind terminal-audit release",
+    "acquire the local shared evaluation GPU lock",
+    "run fixed source-bound unified evaluations for the same 12 cells",
+    "write absolute metric bindings",
+    "attach e150-to-e200 paired labels posthoc",
+    "emit one terminal-pathology decision without starting an algorithm"
+  ],
+  "second_heartbeat": {
+    "successor_alive": true,
+    "successor_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "automatic_unified_evaluations": true,
+    "paired_files_parsed": false,
+    "health_watcher_alive": true,
+    "health_status": "HEALTHY",
+    "alert_count": 0,
+    "free_disk_gib": 125.6045,
+    "estimated_remaining_write_gib": 2,
+    "minimum_headroom_gib": 4
+  },
+  "superseded_processes": {
+    "manual_binding_successor_pid": 20084,
+    "manual_binding_health_watcher_pid": 14580,
+    "identity_verified_before_stop": true,
+    "both_confirmed_stopped": true
+  },
+  "deployment_incident": {
+    "failed_initial_pid": 20128,
+    "failure": "direct operations script lacked repository-root import bootstrap",
+    "failed_before_contract_or_state_write": true,
+    "paired_metrics_read": false,
+    "training_or_audit_touched": false,
+    "regression_test_added": true,
+    "fixed_by_commits": [
+      "f102c9f98ed8d306417eaa6a86d8482936fee1e2",
+      "60d4ab62c0578e1b4463ce090e8b37280b5062df"
+    ]
+  },
+  "scientific_boundaries": {
+    "performance_values_read_before_audit_release": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "algorithm_or_module_auto_start": false,
+    "cross_runtime_matched_delta_computed": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-TERMINAL-PATHOLOGY-POSTHOC-ADJUDICATION.md"
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T06:51:16+08:00",
+  "state_snapshot_time": "2026-09-03T07:13:43+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -380,6 +380,13 @@
       "retired_incremental_health_watcher_pid": 15672,
       "incremental_health_watcher_commit": "dc59ecba11f1176c711682e83bed03a0b7c72e26",
       "incremental_health_watcher_output": "E:\\UNSB_Expl\\paper_eval_node\\incremental_health_rollout_jvp_dc59ecb",
+      "terminal_pathology_successor_status": "HEALTHY_WAITING_EXACT_12_CELL_TARGET_BLIND_RELEASE_THEN_AUTO_UNIFIED_EVALUATION_AND_POSTHOC_ADJUDICATION",
+      "terminal_pathology_successor_pid": 21384,
+      "terminal_pathology_health_watcher_pid": 18712,
+      "terminal_pathology_control_commit": "21cf67d107091e2ed1cf047bcbeb7f617a2c21d2",
+      "terminal_pathology_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_auto_21cf67d",
+      "terminal_pathology_paired_files_parsed": false,
+      "terminal_pathology_algorithm_auto_start": false,
       "training_non_interference_probe": "4090A_plain_e47_1266.3245_seconds_vs_prior_e46_1265.0016_seconds",
       "training_authorized": false,
       "checkpoint_evaluation_started": false,
@@ -393,7 +400,8 @@
         "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json",
         "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json",
         "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_GATE_20260903.json",
-        "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json"
+        "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json",
+        "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_AUTO_SUCCESSOR_DEPLOYED_20260903.json"
       ],
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
     },
