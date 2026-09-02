@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T03:45:24+08:00",
+  "state_snapshot_time": "2026-09-03T04:11:11+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -25,7 +25,7 @@
         "evidence": "evidence/remote_route1_offload/STCGR_SMALL25_E200_TERMINAL_20260902.json"
       },
       "5090A_plain": {
-        "status": "PAUSED_BY_EXPLICIT_USER_TIME_PRIORITY_AT_E9_EXACT_RESUME_PRESERVED",
+        "status": "PAUSED_AT_E9_AUTOMATIC_RESUME_AND_EXPORT_RETIRED_EXACT_STATE_PRESERVED",
         "latest_observed_data_epoch": 9,
         "latest_observed_updates": 76977,
         "first_isolated_epoch_seconds": 2495.9294855594635,
@@ -34,7 +34,9 @@
         "trigger_supervisor_pid": null,
         "supervisor_pid": null,
         "trainer_pid": null,
-        "export_successor_pid": 296821,
+        "export_successor_pid": null,
+        "retired_export_successor_pid": 296821,
+        "automatic_export_waiter_disabled": true,
         "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
         "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
         "automatic_restart_disabled": true,
@@ -51,23 +53,27 @@
         "export_successor_pid": 336344,
         "supervisor_pid": 336345,
         "trainer_pid": 336346,
-        "health_watcher_pid": 337510,
-        "plain_resume_successor_pid": 342540,
-        "plain_resume_health_watcher_pid": 342597,
+        "health_watcher_pid": 352017,
+        "plain_resume_successor_pid": null,
+        "plain_resume_health_watcher_pid": null,
+        "retired_plain_resume_successor_pid": 342540,
+        "retired_plain_resume_health_watcher_pid": 342597,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
-        "matched_plain_status": "DEFERRED_5090A_PLAIN_PAUSED_RECOVERABLY_AT_E9",
+        "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
         "latest_epoch_wall_seconds": 4955.223417758942,
         "projected_completion_from_latest_epoch": "2026-09-14T10:26:38+08:00",
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PRIORITY_LIVE_CONFIRMATION_20260903T031659.json"
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
       },
       "5090A_plain_resume_after_stcgr": {
-        "status": "DURABLE_WAITING_FOR_STCGR_COMPLETE_E200",
-        "successor_pid": 342540,
-        "health_watcher_pid": 342597,
-        "health_status": "HEALTHY_ZERO_ALERTS",
+        "status": "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY",
+        "successor_pid": null,
+        "health_watcher_pid": null,
+        "retired_successor_pid": 342540,
+        "retired_health_watcher_pid": 342597,
+        "health_status": "RETIRED_NO_AUTOMATIC_RESUME",
         "control_commit": "7adce4a7dea0fc320935810d946b464db25c94dc",
         "control_script_sha256": "5b41112c3a77ff535f2cde10a34eca33edb1e65eee6dda5a5e34a48467b3c385",
         "contract_sha256": "b3a6c10e93b5cba4d92320025fbfae902db028b51f717dd121a1110904c95404",
@@ -77,12 +83,14 @@
         "plain_full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
         "plain_scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
         "plain_trainer_started_at_deployment": false,
+        "automatic_resume_authorized": false,
+        "future_resume_requires_new_explicit_decision": true,
         "cross_host_checkpoint_resume": false,
         "training_configuration_changed": false,
         "performance_values_read": false,
         "paired_metric_control": false,
         "confirmation20_opened": false,
-        "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_TO_PLAIN_RESUME_DEPLOYED_20260903.json"
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
       },
       "5090C_proposal": {
         "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
@@ -429,13 +437,13 @@
     },
     "full_data_method_portfolio": {
       "status": "PROPOSAL_AND_STCGR_RUNNING_AMTNC_DURABLY_QUEUED",
-      "proposal": "running_5090C_runtime_equivalent_to_5090A_plain_matched_delta_deferred",
+      "proposal": "running_5090C_runtime_equivalent_to_5090A_plain_matched_delta_unavailable_until_future_legal_control",
       "amtnc": "queued_after_4090A_plain",
-      "stcgr": "running_5090A_from_e1_absolute_trajectory_first_matched_delta_deferred",
+      "stcgr": "running_5090A_from_e1_absolute_trajectory_first_matched_delta_unavailable_until_future_legal_control",
       "hjcgr": "deferred_not_falsified",
       "portfolio": "configs/FULL_DATA_METHOD_PORTFOLIO.json",
-      "decision": "decisions/DEC-20260903-5090A-STCGR-TIME-PRIORITY.md",
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json"
+      "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
     },
     "matched_runtime_relation_gate": {
       "status": "IMPLEMENTED_FAIL_CLOSED_AWAITING_E200_CHECKPOINTS",
@@ -475,12 +483,11 @@
       "decision": "decisions/DEC-20260903-DURABLE-RUNTIME-RELATION-SUCCESSOR.md"
     },
     "durable_health_watch": {
-      "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_REBOUND_TO_STCGR",
+      "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
         "4090A": 2200307,
-        "5090A": 337510,
-        "5090A_stcgr_to_plain": 342597,
+        "5090A": 352017,
         "5090B": 30355,
         "5090C": 13587
       },
@@ -488,14 +495,14 @@
       "all_states_refreshed_after_initial_poll": true,
       "alert_count": 0,
       "automatic_training_mutation": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json",
-      "decision": "decisions/DEC-20260903-5090A-STCGR-TIME-PRIORITY.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+      "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
     },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
     "next_manual_decision_window": "5090B CUT e200 exact-runtime-gate result around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",

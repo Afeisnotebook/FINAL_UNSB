@@ -59,8 +59,12 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     )
     assert (
         portfolio["methods"]["stcgr"]["matched_delta_status"]
-        == "deferred_until_plain_resumes_and_completes_e200"
+        == "unavailable_until_a_new_explicit_legal_plain_e200_plan"
     )
+    plain_resume = state["paper_aio_20260902"]["runs"]["5090A_plain_resume_after_stcgr"]
+    assert plain_resume["status"] == "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY"
+    assert plain_resume["automatic_resume_authorized"] is False
+    assert plain_resume["future_resume_requires_new_explicit_decision"] is True
     assert portfolio["methods"]["hjcgr"]["status"] == "deferred"
     assert portfolio["methods"]["hjcgr"]["mechanism_falsified"] is False
     authorization = project["authorization_required"]

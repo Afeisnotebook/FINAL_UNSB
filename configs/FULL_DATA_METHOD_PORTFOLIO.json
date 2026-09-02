@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T03:45:24+08:00",
+  "captured_at": "2026-09-03T04:11:11+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -15,6 +15,7 @@
       "projected_completion": "2026-09-13T21:09:48+08:00",
       "matched_plain": "5090A/plain",
       "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
+      "matched_delta_status": "unavailable_until_a_new_explicit_legal_plain_e200_plan_or_an_independently_approved_control_relation",
       "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
       "scientific_role": "most portable conditional-variance-reduction result"
     },
@@ -33,9 +34,9 @@
       "current_single_epoch_projected_completion": "2026-09-14T10:26:38+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain": "5090A/plain paused recoverably at e9",
-      "matched_delta_status": "deferred_until_plain_resumes_and_completes_e200",
+      "matched_delta_status": "unavailable_until_a_new_explicit_legal_plain_e200_plan",
       "scientific_role": "new evidence-derived stratified bridge-time estimator",
-      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PRIORITY_LIVE_CONFIRMATION_20260903T031659.json"
+      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
     },
     "amtnc": {
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -57,18 +58,18 @@
   },
   "controls_and_external": {
     "plain_4090A": "running",
-    "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved",
+    "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "durably_queued_after_cut_with_exact_runtime_gate_fresh_e0",
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
     "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure"
   },
   "operational_monitoring": {
-    "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_WATCH_REBOUND_TO_STCGR",
+    "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "watcher_pids": {
       "4090A": 2200307,
-      "5090A": 337510,
+      "5090A": 352017,
       "5090B": 30355,
       "5090C": 13587
     },
@@ -78,7 +79,8 @@
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
-      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json"
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json",
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
     ]
   },
   "future_matched_plain_successor": {
@@ -155,7 +157,7 @@
     },
     "stcgr": {
       "pid": 2217244,
-      "status": "waiting_for_5090a_candidate_import_and_deferred_matched_plain",
+      "status": "waiting_for_5090a_candidate_import_and_a_future_explicit_legal_matched_control",
       "matched_plain": "5090A/plain",
       "candidate_metadata_import": "complete_verified"
     },
@@ -187,7 +189,7 @@
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false
