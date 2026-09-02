@@ -1,0 +1,29 @@
+{
+  "schema": "final-unsb-paper-result-disposition-boundary-v1",
+  "captured_at": "2026-09-02T12:48:47.4984202+08:00",
+  "implementation_git_commit": "9d69368",
+  "unified_evaluator_protocol_fingerprint": "0616221e08d01cd13f2428002d6c48de2f1ed954a5478f2acdb7ff9329cf5782",
+  "first_wave_complete_semantics": "input/plain/proposal/cut/cyclegan unified evidence is ready; new-algorithm and claim adjudication remains open",
+  "algorithm_set_status_after_first_wave": "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING",
+  "explicit_dispositions": [
+    "COMPLETE_E200",
+    "INCOMPLETE",
+    "INCOMPLETE_AUTHORIZED",
+    "EVIDENCE_LOCKED_NOT_AUTHORIZED",
+    "DEFERRED_NOT_FIRST_WAVE",
+    "ENGINEERING_BLOCKED",
+    "REPRODUCTION_INCOMPLETE"
+  ],
+  "ddsb_disposition": "REPRODUCTION_INCOMPLETE",
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "tests": {
+    "pytest_passed": 411,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "scientific_training_code_mutated": false,
+  "paired_metric_control": false,
+  "cross_host_training_delta_merged": false,
+  "confirmation20_opened": false
+}

@@ -2,7 +2,8 @@
   "schema": "final-unsb-paper-input-reference-interface-v1",
   "captured_at": "2026-09-02T12:44:29.2410907+08:00",
   "implementation_git_commit": "9ec6e7a",
-  "unified_evaluator_protocol_fingerprint": "51c4e0d68f748bc92372a5409464828a0e9fbe60372a2692a462b5a4663976a1",
+  "unified_evaluator_protocol_fingerprint": "0616221e08d01cd13f2428002d6c48de2f1ed954a5478f2acdb7ff9329cf5782",
+  "result_disposition_followup_git_commit": "9d69368",
   "frozen_training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
   "frozen_training_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
   "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
@@ -15,7 +16,8 @@
     "nfe": 0,
     "metrics": ["PSNR", "SSIM", "LPIPS"],
     "same_resize_and_metric_implementation_as_models": true,
-    "same_unified_environment_required": true
+    "same_unified_environment_required": true,
+    "full_manifest_and_content_hash_gate_required": true
   },
   "first_wave_completion_requires": [
     "input:e200",
