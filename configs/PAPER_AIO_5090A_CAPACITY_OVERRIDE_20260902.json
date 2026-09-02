@@ -1,0 +1,25 @@
+{
+  "schema": "final-unsb-paper-user-capacity-override-v1",
+  "status": "USER_CAPACITY_OVERRIDE",
+  "issued_at": "2026-09-02T13:00:00+08:00",
+  "scope": "FINAL_UNSB paper full-data work on existing 5090A",
+  "allowed_host_labels": ["5090A"],
+  "allowed_node_roles": ["training"],
+  "protocol_minimum_free_gib": 200,
+  "estimated_worst_case_incremental_write_gib": 24,
+  "estimate_components": {
+    "two_full_lanes_milestones_latest_and_atomic_save_gib": 8,
+    "two_lane_e100_e125_e150_e175_e200_exports_gib": 3,
+    "e0_resume_candidate_runtime_and_evaluation_gate_scratch_gib": 5,
+    "logs_compact_evidence_and_framework_cache_gib": 4,
+    "unallocated_write_uncertainty_inside_estimate_gib": 4
+  },
+  "safety_multiplier": 2,
+  "minimum_operational_floor_gib": 32,
+  "effective_minimum_free_gib": 48,
+  "observed_available_gib_at_issue": 188.42,
+  "decision": "The former fixed 200 GiB threshold is waived for 5090A; fail only if real free capacity falls below the conservative 48 GiB effective floor.",
+  "no_deletion_authorized": true,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

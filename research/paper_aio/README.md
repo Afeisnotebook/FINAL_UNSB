@@ -24,6 +24,13 @@ exact cross-4090 twin receipt with
 The 5090 is always a separate runtime and its values are never subtracted from
 a 4090 plain trajectory.
 
+The frozen scientific protocol retains its original conservative 200 GiB
+disk default. A task-specific user capacity waiver is supplied as a separate,
+hashed operational receipt with `--capacity-override-receipt` and a bound
+`--host-label`. The runner recomputes the effective floor from the receipt's
+worst-case incremental-write estimate and safety multiplier. An override is
+never permission to delete data, checkpoints, or historical evidence.
+
 ## Audits and evaluation
 
 ```text

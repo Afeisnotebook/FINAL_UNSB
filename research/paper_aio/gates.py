@@ -33,6 +33,9 @@ from research.local_route1.runtime import seed_everything
 from .protocol import LaneSpec
 
 
+CAPACITY_OVERRIDE_SCHEMA = "final-unsb-paper-user-capacity-override-v1"
+
+
 def _read_json(path: Path) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -94,9 +97,64 @@ def environment_record() -> dict:
     }
 
 
+def resolve_capacity_policy(
+    *, protocol_minimum_gib: int, override_path: Path | None,
+    host_label: str, node_role: str,
+) -> tuple[float, dict]:
+    """Resolve an operational disk floor without changing scientific protocol.
+
+    A user override is deliberately a separate, hashed receipt: storage policy
+    must not silently mutate the frozen training objective or protocol
+    fingerprint.  The effective floor is recomputed from the stated worst-case
+    incremental write and safety factor rather than trusted from the receipt.
+    """
+    default = {
+        "mode": "PROTOCOL_DEFAULT",
+        "protocol_minimum_free_gib": int(protocol_minimum_gib),
+        "effective_minimum_free_gib": float(protocol_minimum_gib),
+    }
+    if override_path is None:
+        return float(protocol_minimum_gib), default
+    path = Path(override_path).resolve()
+    if not path.is_file():
+        raise RuntimeError(f"capacity override receipt missing: {path}")
+    payload = _read_json(path)
+    if payload.get("schema") != CAPACITY_OVERRIDE_SCHEMA:
+        raise RuntimeError("capacity override schema mismatch")
+    if payload.get("status") != "USER_CAPACITY_OVERRIDE":
+        raise RuntimeError("capacity override was not explicitly user-authorized")
+    if payload.get("no_deletion_authorized") is not True:
+        raise RuntimeError("capacity override must preserve existing scientific assets")
+    if host_label not in payload.get("allowed_host_labels", []):
+        raise RuntimeError(f"capacity override does not authorize host {host_label}")
+    if node_role not in payload.get("allowed_node_roles", []):
+        raise RuntimeError(f"capacity override does not authorize role {node_role}")
+    worst_case = float(payload["estimated_worst_case_incremental_write_gib"])
+    safety = float(payload["safety_multiplier"])
+    floor = float(payload["minimum_operational_floor_gib"])
+    if worst_case <= 0 or safety < 1 or floor <= 0:
+        raise RuntimeError("capacity override bounds must be positive and conservative")
+    computed = max(worst_case * safety, floor)
+    declared = float(payload["effective_minimum_free_gib"])
+    if abs(computed - declared) > 1e-9:
+        raise RuntimeError("capacity override effective floor is not derivable from its bounds")
+    return computed, {
+        "mode": "USER_CAPACITY_OVERRIDE",
+        "receipt": str(path),
+        "receipt_sha256": file_sha256(path),
+        "protocol_minimum_free_gib": int(protocol_minimum_gib),
+        "estimated_worst_case_incremental_write_gib": worst_case,
+        "safety_multiplier": safety,
+        "minimum_operational_floor_gib": floor,
+        "effective_minimum_free_gib": computed,
+        "no_deletion_authorized": True,
+    }
+
+
 def run_preflight(
     *, output_root: Path, manifest_path: Path, data_root: Path | None,
     train_view: Path | None, node_role: str = "training",
+    capacity_override: Path | None = None, host_label: str = "local",
 ) -> dict:
     seed_everything(int(load_protocol()["seed"]))
     errors = validate_protocol()
@@ -122,9 +180,15 @@ def run_preflight(
     free_gib = shutil.disk_usage(disk_path).free / (1024 ** 3)
     if node_role not in ("training", "audit_only"):
         raise ValueError(f"unknown paper node role: {node_role}")
-    minimum = (
+    protocol_minimum = (
         int(protocol["resource_policy"]["minimum_free_disk_gib"])
         if node_role == "training" else 50
+    )
+    minimum, capacity_policy = resolve_capacity_policy(
+        protocol_minimum_gib=protocol_minimum,
+        override_path=capacity_override,
+        host_label=host_label,
+        node_role=node_role,
     )
     if free_gib < minimum:
         raise RuntimeError(f"paper run needs at least {minimum} GiB free; found {free_gib:.1f}")
@@ -137,6 +201,8 @@ def run_preflight(
         "environment": environment_record(),
         "free_disk_gib": free_gib,
         "minimum_free_disk_gib": minimum,
+        "capacity_policy": capacity_policy,
+        "host_label": host_label,
         "node_role": node_role,
         "sampling_measure": protocol["training"]["sampling_measure"],
         "batch_size": 1,

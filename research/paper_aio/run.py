@@ -83,6 +83,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--audit-gradient-replicates", type=int, default=4)
     value.add_argument("--skip-content-hashes", action="store_true")
     value.add_argument("--node-role", choices=["training", "audit_only"], default="training")
+    value.add_argument("--capacity-override-receipt", type=Path)
     value.add_argument(
         "--matched-plain-mode",
         choices=["same_runtime_output_root", "exact_cross_4090_cohort"],
@@ -122,6 +123,8 @@ def _materialize(args) -> dict:
         data_root=None if args.skip_content_hashes else args.data_root.resolve(),
         train_view=args.train_view.resolve(),
         node_role=args.node_role,
+        capacity_override=args.capacity_override_receipt,
+        host_label=args.host_label,
     )
     return {"manifest": report, "preflight": gate}
 
@@ -157,6 +160,8 @@ def main(argv: list[str] | None = None) -> int:
             data_root=None if args.skip_content_hashes else args.data_root.resolve(),
             train_view=args.train_view.resolve() if args.train_view.exists() else None,
             node_role=args.node_role,
+            capacity_override=args.capacity_override_receipt,
+            host_label=args.host_label,
         )
     elif args.stage == "materialize":
         result = _materialize(args)
@@ -307,6 +312,8 @@ def main(argv: list[str] | None = None) -> int:
             data_root=args.data_root.resolve(),
             manifest_path=args.manifest.resolve(),
             gpu=args.gpu,
+            capacity_override=args.capacity_override_receipt,
+            host_label=args.host_label,
         )
     elif args.stage == "checkpoint-export":
         required = {

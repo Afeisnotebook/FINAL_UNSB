@@ -119,6 +119,7 @@ def run_candidate_runtime_gate(
     parent_output: Path, parent_runtime_receipt: Path, parent_e0: Path,
     parent_scientific_git_commit: str, parent_protocol_fingerprint: str,
     train_view: Path, data_root: Path, manifest_path: Path, gpu: int,
+    capacity_override: Path | None = None, host_label: str = "local",
 ) -> dict[str, Any]:
     """Prove cross-code equivalence without treating source changes as matched."""
     candidate_id = safe_candidate_id(candidate_id)
@@ -149,6 +150,7 @@ def run_candidate_runtime_gate(
     preflight = run_preflight(
         output_root=output_root, manifest_path=manifest_path, data_root=data_root,
         train_view=train_view, node_role="training",
+        capacity_override=capacity_override, host_label=host_label,
     )
 
     parent_twin_path = Path(parent_runtime_receipt).resolve()
