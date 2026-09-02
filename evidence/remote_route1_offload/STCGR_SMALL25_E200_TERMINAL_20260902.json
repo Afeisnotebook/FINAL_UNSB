@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-route1-stcgr-small25-e200-terminal-v1",
+  "captured_at": "2026-09-02T16:32:00+08:00",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "status": "STRICT_SMALL25_SUSTAINED_PASS_FULL_DATA_GATES_RUNNING",
+  "scientific_protocol": {
+    "view": "small25_six_domains_150_unpaired_images_per_side",
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epochs": 200,
+    "updates": 30000,
+    "same_host_plain_crn_matched": true,
+    "paired_metrics_used_only_after_complete_trajectory": true,
+    "paired_metrics_used_for_training_or_control": false,
+    "confirmation20_opened": false
+  },
+  "source_identity": {
+    "training_git_commit": "0637880f8e93742a0551a30c555d02a6323f583e",
+    "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+    "candidate_fingerprint": "df0c9629e83ae05cd66f2dd1e6013fb1ba80170104fc25d0abc5617e5d91ec7a",
+    "candidate_training_core_fingerprint": "047bb941214000ba45813d06b9ba9bbdeda813c438c650bcbf30c1cb1e6a6835",
+    "manifest_sha256": "1a66cf71420ebb996abce23eecb7e555a6d9d93a39b6b8c3fc17dbf0ead42b7b",
+    "base_e0_scientific_state_sha256": "2105410818ec9f5382c497e1848009d18688dafe5878a19157b450d1e8b206c1"
+  },
+  "terminal_artifacts": {
+    "receipt_sha256": "f28939e92dd980476631ec94426d22c9cce80b661d3a6e67b975621bdc796c11",
+    "trajectory_sha256": "f97dbb6928a6d4e7c8dd1e57ac44c6077bfc23a4d049972bcda1c0f1df73ade8",
+    "e200_metric_sha256": "af53ed1ade3ccbf433bdcdb8ae175da8021269a09ba90989c79850970959cca4",
+    "e200_full_state_sha256": "be0b01d8a22a63539a256dbe5cad455cf1d82f98a0a7c13eb8ad39db6e1a74ec",
+    "e200_scientific_state_sha256": "31946514284904d80f8a7e1b6124aae8234e560b054871fccff960986fcc544c",
+    "receipt_status": "ACCEPTED_SOURCE_BOUND_COMPLETE_E200_RECEIPT",
+    "trajectory_status": "NUMERIC_GATE_PASS_PENDING_CAUSAL_ADJUDICATION"
+  },
+  "preregistered_ranking": {
+    "late_three_mean_macro_psnr_delta_db": 1.0446466893817294,
+    "e200_macro_psnr_delta_db": 0.28630842486285246,
+    "late_points_with_four_of_six_positive_domains": 3,
+    "late_average_worst_domain_delta_db": -0.19674689246966418,
+    "late_mean_macro_ssim_delta": 0.041698579750363785,
+    "late_mean_macro_lpips_delta": -0.03473737517164812,
+    "candidate_best_to_terminal_three_point_rolling_drawdown_db": 0.0,
+    "candidate_absolute_peak_to_e200_drawdown_db": 0.10646658809755394,
+    "plain_collapse_guard": "PASS_NOT_PLAIN_COLLAPSE"
+  },
+  "late_absolute_trajectory": {
+    "candidate_macro_psnr": {"e150": 17.894124750219152, "e175": 18.169579331114686, "e200": 18.063112743017133},
+    "plain_macro_psnr": {"e150": 15.989093248916094, "e175": 17.22697918913541, "e200": 17.77680431815428},
+    "positive_domain_counts": {"e150": 6, "e175": 5, "e200": 4}
+  },
+  "e200_domain_psnr_delta_db": {
+    "FoggyCityscapes": 0.5381945387931246,
+    "LowLightTrafficData": -0.25674196250384895,
+    "RSCityscapes": 0.279196283146657,
+    "RainCityscapes": 0.8731026503793657,
+    "RainDS-syn": -0.24414452487856053,
+    "SnowTrafficData": 0.5282435642403698
+  },
+  "cost": {
+    "median_epoch_wall_seconds": 86.98889434337616,
+    "network_evaluation_count_relative_to_proposal_only": "same",
+    "native_compute_budget_equivalence_claimed": false
+  },
+  "scientific_disposition": {
+    "small25_full_data_promotion_gate": "PASS",
+    "full_data_result_available": false,
+    "cross_seed_stability_claimed": false,
+    "paper_claim_frozen": false,
+    "interpretation": "The evidence-derived without-replacement bridge-time coupling preserves the native conditional mean and produced a sustained small25 result. This authorizes paper runtime, lock and full-data gates; it is not yet a full-data or multi-seed conclusion."
+  },
+  "running_successors": {
+    "same_host_plain": {"status": "CHILD_RUNNING", "supervisor_pid": 305489, "trainer_pid": 305490},
+    "candidate_activation": {"status": "RUNNING_RUNTIME_GATE", "successor_pid": 298747, "runtime_gate_child_pid": 305716},
+    "candidate_continued_beyond_e1": false
+  }
+}
