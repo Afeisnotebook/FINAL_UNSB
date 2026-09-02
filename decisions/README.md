@@ -86,3 +86,6 @@ authorize compute.
 26. `DEC-20260902-PAPER-AIO-UNIFIED-EVALUATION-COHORT.md`：四条首波lane的五个固定
     checkpoint必须先做source-bound export，再在单一4090评估环境只读复算；缺少20个
     receipt中的任意一个时，`PAPER_RESULTS`不得宣称第一波完成。
+27. `DEC-20260902-PAPER-AIO-DURABLE-SOURCE-EXPORT.md`：plain、Proposal、CUT、CycleGAN
+    各自拥有独立GPU-free export继任器；只在本lane密封e200后签收五个固定checkpoint，
+    不读取性能、不复制权重，也不干扰原训练继任链。

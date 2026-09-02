@@ -100,6 +100,10 @@ evaluator fingerprint复算并锁成`UNIFIED_EVALUATION_COHORT`后，第一波�
 监督器。前序lane到`COMPLETE_E200`后，后继必须重新通过磁盘、数据、resume、重复评估
 和方法专属身份门；失败时写明阻断，不得静默跳过。
 
+每条首波lane另有GPU-free checkpoint-export继任器；它与训练后继彼此独立，只在密封
+e200后校验训练commit/protocol并签收五个固定milestone，不读取性能、不复制checkpoint、
+不触发任何算法或算力路由。
+
 本阶段完成需同时满足：
 
 - 所有已授权第一波lane完成e200或给出非科学性的明确工程/复现阻断；
