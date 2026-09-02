@@ -127,6 +127,8 @@
     "health_status": "HEALTHY",
     "first_wave_complete_is_not_algorithm_freeze": true,
     "replacement_status": "code_ready_waiting_for_5090B_runtime_receipt_relation_candidates_and_git_review",
+    "registry_review_interface_commit": "729717a16f31d30e31178ed97b2e52fa2f39d653",
+    "registry_review_status": "implemented_tested_waiting_real_candidates",
     "replacement_lane_sources": {
       "plain": "5090B_MATCHED_PLAIN",
       "proposal": "5090C",

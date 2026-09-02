@@ -550,15 +550,17 @@
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
     "latest_live_status": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
     "delivery_handoff_repair": {
-      "status": "DYNAMIC_SOURCE_CONTRACT_IMPLEMENTED_AWAITING_REVIEWED_5090B_RELATIONS",
+      "status": "DYNAMIC_SOURCE_CONTRACT_AND_REGISTRY_REVIEW_IMPLEMENTED_AWAITING_REAL_5090B_RELATIONS",
       "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",
       "interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
+      "registry_review_interface_commit": "729717a16f31d30e31178ed97b2e52fa2f39d653",
       "legacy_unified_evaluator_pid": 2209120,
       "legacy_final_delivery_pid": 2220419,
       "legacy_waiters_retained_until_replacement_healthy": true,
       "replacement_plain_source": "5090B_MATCHED_PLAIN",
       "decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
-      "evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
+      "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_REGISTRY_REVIEW_INTERFACE_20260903.json"
     },
     "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },

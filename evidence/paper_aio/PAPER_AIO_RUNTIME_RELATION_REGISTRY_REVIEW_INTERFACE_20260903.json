@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-runtime-relation-registry-review-interface-evidence-v1",
+  "captured_at": "2026-09-03T05:21:23+08:00",
+  "status": "IMPLEMENTED_TESTED_AWAITING_REAL_5090B_RELATION_CANDIDATES",
+  "implementation_commit": "729717a16f31d30e31178ed97b2e52fa2f39d653",
+  "interface": "operations.paper_aio_relation_registry_review",
+  "inputs": {
+    "base_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
+    "required_lanes": [
+      "proposal",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    ],
+    "future_plain_source_host": "5090B_MATCHED_PLAIN",
+    "proposal_method_source_host": "5090C",
+    "stcgr_method_source_host": "5090A",
+    "candidate_paths_and_sha256_must_be_explicit": true
+  },
+  "validated_invariants": [
+    "Proposal uses only PASS_EXACT_RUNTIME_RELATION",
+    "ST-CGR uses only PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+    "method and plain host labels exactly match the review contract",
+    "runtime identity is exactly 2000 updates with manifest and e0/step hashes",
+    "candidate proof chain is candidate-to-parent plus parent-to-plain",
+    "all primary receipt hashes are present",
+    "performance fields are absent",
+    "existing method/plain host pairs are unique and non-conflicting"
+  ],
+  "outputs": [
+    "PROPOSED_RUNTIME_RELATION_REGISTRY.json",
+    "RUNTIME_RELATION_REGISTRY_REVIEW.json"
+  ],
+  "authority_boundary": {
+    "tracked_registry_edited": false,
+    "comparison_authorized": false,
+    "explicit_codex_review_and_apply_patch_commit_still_required": true,
+    "training_changed": false
+  },
+  "verification": {
+    "targeted_tests": "4 passed",
+    "full_pytest": "504 passed",
+    "ruff_changed_files": "pass",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "next_trigger": "both review-only relation candidates exist after the 5090B exact runtime receipt",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "decision": "decisions/DEC-20260903-RUNTIME-RELATION-REGISTRY-REVIEW.md"
+}
