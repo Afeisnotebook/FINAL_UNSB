@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T07:47:59+08:00",
+  "captured_at": "2026-09-03T07:54:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -18,7 +18,8 @@
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
       "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
-      "scientific_role": "most portable conditional-variance-reduction result"
+      "scientific_role": "most portable conditional-variance-reduction result",
+      "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
     },
     "stcgr": {
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",

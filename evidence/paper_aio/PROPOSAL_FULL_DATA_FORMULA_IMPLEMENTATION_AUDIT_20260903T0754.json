@@ -1,0 +1,100 @@
+{
+  "schema": "final-unsb-paper-proposal-formula-implementation-live-audit-v1",
+  "captured_at": "2026-09-03T07:54:00+08:00",
+  "status": "PASS_FROZEN_SOURCE_FORMULA_IMPLEMENTATION_RUNTIME_AND_E8_LIVE_STATE_CONSISTENT",
+  "algorithm": {
+    "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "lane": "proposal",
+    "model": "route1_pcrsmg_ablation",
+    "host": "5090C",
+    "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed"
+  },
+  "formula_audit": {
+    "state_boundary": "Take the native one-view D update and native one-view E update first. At the resulting post-D/E state, draw two fresh conditionally iid G/F views and average their pre-Adam gradients before one G/F optimizer step.",
+    "estimator": "g_hat_GF(theta,S) = (g_GF(theta,S;xi_1) + g_GF(theta,S;xi_2))/2, with xi_1 and xi_2 conditionally iid given the post-D/E state S.",
+    "conditional_expectation": "E[g_hat_GF | S] = E[g_GF(theta,S;xi) | S].",
+    "conditional_covariance": "Cov[g_hat_GF | S] = Cov[g_GF(theta,S;xi) | S]/2 under the preregistered conditional-iid assumption.",
+    "changes_training_objective": false,
+    "changes_finite_step_cross_player_noise_coupling": true,
+    "changes_endpoint_or_data_measure": false,
+    "compute_only_signal_risk": "The G/F portion uses two views, so any final gain must be reported jointly with wall-clock and compute cost; the mathematical claim is variance reduction at fixed optimizer update, not equal-FLOP superiority."
+  },
+  "implementation_mapping": {
+    "schedule": "active from update 0 through target update 1710599 without a paired-controlled window",
+    "discriminator": "one native stochastic view and one optimizer step",
+    "endpoint_regressor": "one native stochastic view and one optimizer step",
+    "generator_feature_network": "two fresh sequential views, each loss divided by 2 before backward, followed by exactly one G/F optimizer step",
+    "concatenated_batch_semantics": false,
+    "paired_target_access": false,
+    "domain_label_access": false,
+    "fixed_exit_window": false
+  },
+  "frozen_source_git_blob_sha_prefixes": {
+    "src/models/route1/pcrsmg.py": "8498d78",
+    "src/models/route1/pcrsmg_ablation.py": "c21d63",
+    "src/models/route1_pcrsmg_ablation_model.py": "a9fd4ac",
+    "src/models/sb_model.py": "58ab",
+    "research/paper_aio/protocol.py": "98f19b8",
+    "paper_protocol_config": "09f178"
+  },
+  "live_full_state_e8": {
+    "global_step": 68424,
+    "completed_data_epoch": 8,
+    "target_updates": 1710600,
+    "full_state_sha256_prefix": "01b8b296",
+    "scientific_state_sha256_prefix": "a99a11c9",
+    "gf_bundle_count": 68424,
+    "method_update_index": 68424,
+    "search_global_step": 68423,
+    "search_total_steps": 1710600,
+    "proposal_schedule_exact": true,
+    "python_numpy_cpu_cuda_rng_present": true,
+    "independent_primary_secondary_sampler_state_present": true,
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "sampling_protocol": "official_image_proportional_unpaired",
+    "paired_or_confirmation_state_present": false
+  },
+  "runtime_relation": {
+    "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/gates/RUNTIME_TWIN_5090C.json",
+    "receipt_sha256_prefix": "fb6efa78",
+    "status": "PASS_EXACT_RUNTIME_COHORT",
+    "updates": 2000,
+    "peer": "5090A",
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "exact": true,
+    "differences": {},
+    "legacy_lane_authority_label": "exact_cross_4090_cohort",
+    "legacy_label_is_hardware_evidence": false,
+    "matched_e200_control_available_now": false,
+    "future_control": "5090B plain only after its exact runtime receipt and explicit Git relation admission"
+  },
+  "verification": {
+    "tests": [
+      "tests/test_route1_generation1_operators.py",
+      "tests/test_route1_generation1_cards.py",
+      "tests/test_route1_winner_ablation_freeze.py",
+      "tests/test_paper_aio.py"
+    ],
+    "tests_passed": 28,
+    "derivation_card": "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+    "family_derivation": "research/local_route1/derivation_cards/SELECTIVE-GF-CONDITIONAL-ESTIMATOR-FAMILY.md"
+  },
+  "adjudication": {
+    "continue_to_e200": true,
+    "restart_required": false,
+    "algorithm_change_required": false,
+    "matched_gain_claim_authorized": false,
+    "reason": "The frozen source, conditional-unbiased estimator, schedule counters, complete method state, RNG/sampler state and e8 live checkpoint agree. Runtime equivalence is proven to the paused 5090A cohort, but no admitted e200 plain control exists yet."
+  },
+  "boundaries": {
+    "paired_metric_control": false,
+    "intermediate_paired_result_read": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
