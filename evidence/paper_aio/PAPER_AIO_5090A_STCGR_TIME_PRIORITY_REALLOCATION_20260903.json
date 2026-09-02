@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-time-priority-reallocation-v1",
+  "captured_at": "2026-09-03T00:35:38+08:00",
+  "status": "STCGR_RUNNING_PLAIN_PAUSED_RECOVERABLY_BY_EXPLICIT_USER_PRIORITY",
+  "scope": {
+    "changed_host": "5090A",
+    "other_hosts_touched": false,
+    "other_healthy_training_interrupted": false
+  },
+  "user_override": {
+    "authorized": true,
+    "request": "cancel the current matched plain task on 5090A and immediately start ST-CGR validation",
+    "tradeoff": "time-to-ST-CGR takes priority over immediate matched-plain availability"
+  },
+  "plain_before_pause": {
+    "lane": "plain",
+    "data_epoch": 9,
+    "updates": 76977,
+    "trigger_pid": 296778,
+    "supervisor_pid": 305489,
+    "trainer_pid": 305490,
+    "export_successor_pid": 296821,
+    "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "full_state": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed/lanes/plain/full_state_latest.pt",
+    "full_state_sha256_before": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611"
+  },
+  "plain_after_pause": {
+    "status": "PAUSED_BY_EXPLICIT_USER_TIME_PRIORITY_AT_E9",
+    "trigger_alive": false,
+    "supervisor_alive": false,
+    "trainer_alive": false,
+    "automatic_restart_disabled": true,
+    "export_successor_pid": 296821,
+    "export_successor_status": "WAITING_FOR_COMPLETE_E200",
+    "full_state_sha256_after": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "checkpoint_unchanged": true,
+    "exact_resume_preserved": true,
+    "data_deleted": false,
+    "checkpoint_deleted": false
+  },
+  "stcgr": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+    "resume_data_epoch": 1,
+    "resume_updates": 8553,
+    "target_data_epoch": 200,
+    "target_updates": 1710600,
+    "continuation_pid": 336340,
+    "export_successor_pid": 336344,
+    "supervisor_pid": 336345,
+    "trainer_pid": 336346,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "supervisor_failures": 0,
+    "observed_gpu_memory_mib": 2186,
+    "observed_gpu_utilization_percent": 50,
+    "e1_epoch_seconds": 9609.626783132553,
+    "conservative_projected_e200": "2026-09-25T03:42:56+08:00",
+    "eta_recalibration_points": [2, 5]
+  },
+  "monitoring": {
+    "old_watcher_pid": 327875,
+    "old_watcher_retired": true,
+    "watcher_pid": 336875,
+    "watcher_status": "HEALTHY",
+    "watcher_alert_count": 0,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090A_STCGR_PRIORITY_bf0f82c",
+    "disk_free_gib": 184.5373077392578,
+    "estimated_remaining_write_gib": 24.0,
+    "minimum_headroom_gib": 24.0,
+    "user_capacity_override": true
+  },
+  "matched_relations": {
+    "stcgr_matched_plain": "5090A/plain",
+    "stcgr_matched_delta_status": "DEFERRED_UNTIL_5090A_PLAIN_RESUMES_AND_COMPLETES_E200",
+    "proposal_matched_plain": "5090A/plain",
+    "proposal_runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
+    "proposal_matched_delta_status": "DEFERRED_UNTIL_5090A_PLAIN_RESUMES_AND_COMPLETES_E200",
+    "absolute_trajectory_is_not_matched_gain": true,
+    "cross_non_equivalent_runtime_delta": false
+  },
+  "scientific_boundaries": {
+    "training_configuration_changed": false,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "plain_pause_is_failure": false,
+    "plain_pause_is_mechanism_falsification": false,
+    "stcgr_absolute_trajectory_can_support_relative_gain_claim": false
+  }
+}

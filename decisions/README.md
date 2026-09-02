@@ -118,3 +118,6 @@ authorize compute.
 36. `DEC-20260903-POST-FREEZE-DISTRIBUTION-EVALUATION.md`：KID/FID接口已实现但不部署；
     只有算法、基线、e200结果和论文主张形成Git内显式冻结收据后，才可在discovery80上
     运行macro KID与补充pooled KID/FID，confirmation20仍不得打开。
+37. `DEC-20260903-5090A-STCGR-TIME-PRIORITY.md`：按用户明确的紧迫工期授权，5090A
+    plain在可精确恢复的e9暂停并撤销自动重启，ST-CGR从完整e1状态立即恢复长训。
+    在plain未来补完前只承认绝对轨迹，不宣称ST-CGR或Proposal的matched收益。
