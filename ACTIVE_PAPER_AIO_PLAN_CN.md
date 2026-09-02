@@ -24,7 +24,8 @@
 
 部署时的最新可复核进度为plain e4、CUT e3、ST-CGR e5；这些只是工程心跳，不是科学
 结论。三条训练均由持久监督器执行，plain→Proposal和CUT→CycleGAN另有fail-closed
-后继等待器。
+后继等待器。ST-CGR也已部署source-bound终点receipt后继：只在完整e200轨迹出现后发布
+正式receipt，状态为`WAITING_FOR_COMPLETE_E200_TRAJECTORY`；它不会自动授权全量。
 
 ## 最近硬门
 

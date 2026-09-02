@@ -22,6 +22,12 @@
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
     "active_new_candidate_full_data_authorized": false,
+    "active_new_candidate_receipt_successor": {
+      "status": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",
+      "candidate_git_commit": "0637880f8e93742a0551a30c555d02a6323f583e",
+      "contract_sha256": "e1ee39b7753554f516ce57ef028c058faade84259528212035ca75aec8682a71",
+      "evidence": "evidence/remote_route1_offload/STCGR_E200_RECEIPT_SUCCESSOR_ARMED_20260902.json"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false
