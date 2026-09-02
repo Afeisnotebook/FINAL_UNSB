@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T12:48:47.4984202+08:00",
+  "state_snapshot_time": "2026-09-02T12:50:52.7422985+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -16,8 +16,8 @@
       "5090B_cut": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 7, "latest_observed_updates": 59871, "successor": "cyclegan"},
       "5090A_stcgr_small25": {
         "status": "CANDIDATE_CHUNK_RUNNING",
-        "latest_observed_data_epoch": 51,
-        "latest_observed_updates": 7650,
+        "latest_observed_data_epoch": 66,
+        "latest_observed_updates": 9900,
         "target_data_epoch": 200,
         "latest_engineering_milestone": "e40_checkpoint_and_evaluation_artifacts_verified_without_reading_performance",
         "evidence": "evidence/remote_route1_offload/STCGR_E40_ENGINEERING_MILESTONE_20260902.json"
@@ -66,6 +66,14 @@
       "performance_values_read": false,
       "checkpoint_copy_performed": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_EXPORT_SUCCESSORS_20260902.json"
+    },
+    "remote5090A_full_data_capacity_gate": {
+      "status": "BLOCKED_UNTIL_AT_LEAST_200_GIB_FREE",
+      "available_gib": 188.42,
+      "minimum_deficit_gib": 11.58,
+      "recommended_expansion_gib": 32,
+      "historical_scientific_assets_deleted": false,
+      "evidence": "evidence/paper_aio/REMOTE5090A_FULL_DATA_CAPACITY_GATE_20260902.json"
     },
     "active_new_candidate_receipt_successor": {
       "status": "WAITING_FOR_COMPLETE_E200_TRAJECTORY",

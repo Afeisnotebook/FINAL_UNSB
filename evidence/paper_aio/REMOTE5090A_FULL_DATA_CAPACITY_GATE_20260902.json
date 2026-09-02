@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-paper-remote-capacity-gate-v1",
+  "captured_at": "2026-09-02T12:50:52.7422985+08:00",
+  "host": "5090A",
+  "mount": "/root/autodl-tmp",
+  "filesystem_bytes": 268435456000,
+  "used_bytes": 66119553024,
+  "available_bytes": 202315902976,
+  "available_gib": 188.42,
+  "frozen_minimum_free_gib": 200,
+  "minimum_deficit_gib": 11.58,
+  "recommended_expansion_gib": 32,
+  "status": "BLOCKED_FOR_NEW_FULL_DATA_LANE_UNTIL_CAPACITY_GATE_PASSES",
+  "current_small25_lane": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "latest_observed_data_epoch": 66,
+    "latest_observed_updates": 9900,
+    "target_data_epoch": 200,
+    "status": "RUNNING_UNAFFECTED"
+  },
+  "preservation_decision": "do not delete or relocate historical scientific checkpoints without an explicit verified archival operation",
+  "allowed_next_paths": [
+    "expand 5090A data disk and run a fresh full-data preflight before any matched plain",
+    "queue an eligible candidate behind the same-host 4090A plain and Proposal trajectories"
+  ],
+  "full_data_lane_started_on_5090A": false,
+  "scientific_assets_deleted": false,
+  "paired_metric_control": false,
+  "cross_host_delta_merged": false,
+  "confirmation20_opened": false
+}
