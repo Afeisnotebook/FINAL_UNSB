@@ -45,6 +45,15 @@ forced-time native G/F gradient mean, variance, component conflict and Adam
 preconditioned norm. Paired performance is attached only afterwards by the
 adjudicator; it never controls training.
 
+Paper complexity uses an immutable checkpoint through `--stage complexity`.
+It records per-network parameter counts, fixed NFE 1--5 inference latency, one
+complete optimizer-step latency, and CUDA peak memory. The profiler uses one
+training input only, never reads the paired target, verifies the source
+checkpoint hash before and after, and discards the in-memory model used for
+training-step timing. FLOPs are deliberately not claimed because the custom
+stochastic bridge and lazy PatchNCE operators are not fully covered by one
+audited counter.
+
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.
 

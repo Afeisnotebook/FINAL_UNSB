@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-complexity-interface-evidence-v1",
+  "recorded_at": "2026-09-02T17:57:11.0369423+08:00",
+  "status": "IMPLEMENTED_AND_GPU_SMOKE_VERIFIED_AWAITING_FINAL_EXPORTED_CHECKPOINTS",
+  "purpose": "Provide one target-blind, checkpoint-read-only interface for paper parameter, latency and peak-memory reporting without changing any running scientific lane.",
+  "interface": {
+    "command_stage": "complexity",
+    "schema": "final-unsb-paper-complexity-profile-v1",
+    "inference_nfe_unsb": [1, 2, 3, 4, 5],
+    "inference_nfe_external": [1],
+    "inference_warmup_repeats": 5,
+    "inference_measured_repeats": 30,
+    "training_warmup_steps": 3,
+    "training_measured_steps": 10,
+    "flops_claimed": false,
+    "flops_omission_reason": "The custom stochastic bridge and lazy PatchNCE operators are not fully covered by one audited FLOP counter; measured latency, NFE and peak memory are reported instead."
+  },
+  "engineering_smoke": {
+    "host": "DESKTOP-56OTAME",
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "lane": "plain",
+    "checkpoint_label": "existing one-step paper smoke checkpoint",
+    "checkpoint_sha256": "e0decf9c3b87c4a855f74ed511fb3c3c40b7eb3462689b8c86c2b887d20e388e",
+    "receipt_outside_git": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_PAPER_COMPLEXITY_SMOKE_WORKING5\\complexity\\plain\\step1.json",
+    "receipt_sha256": "36fc4b5a65b24ba9652f1d378e71e22c6ee88e887300fd8f7a8e8da943104009",
+    "protocol_fingerprint": "cc0e828941781ccb62b8b70ad0f4f56061525b7dcb87b42c194e35263db8e965",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "unique_parameters": 21540101,
+    "unique_optimizer_owned_parameters": 21540101,
+    "nfe5_median_ms": 168.28824998810887,
+    "training_step_median_ms": 782.6161500124726,
+    "peak_training_allocated_bytes": 1024621056,
+    "peak_training_reserved_bytes": 1107296256,
+    "checkpoint_unchanged": true,
+    "target_path_read": false
+  },
+  "interpretation_boundary": {
+    "engineering_smoke_is_paper_result": false,
+    "final_timings_require_exported_e200_checkpoints_in_unified_evaluation_runtime": true,
+    "disposable_model_state_may_change_during_training_timing": true,
+    "source_checkpoint_may_change": false,
+    "performance_metric_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "source_sha256": {
+    "research/paper_aio/complexity.py": "09c1be4090b6d9c4a2c0ba9a297fe67d30b85d2a8b8df74672f7241134770c6b",
+    "research/paper_aio/run.py": "b7f608d07d73888ef50b9f24341e48a9114add8bf150ac64c6e19524eb268294"
+  }
+}

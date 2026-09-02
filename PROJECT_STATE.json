@@ -74,6 +74,15 @@
         "evidence/paper_aio/PAPER_RESULT_DISPOSITION_BOUNDARY_20260902.json"
       ]
     },
+    "paper_complexity_interface": {
+      "status": "IMPLEMENTED_AND_GPU_SMOKE_VERIFIED_AWAITING_FINAL_EXPORTED_CHECKPOINTS",
+      "schema": "final-unsb-paper-complexity-profile-v1",
+      "engineering_smoke_host": "local GTX1660",
+      "source_checkpoint_unchanged": true,
+      "target_path_read": false,
+      "flops_claimed": false,
+      "evidence": "evidence/paper_aio/PAPER_COMPLEXITY_INTERFACE_20260902.json"
+    },
     "durable_source_export_successors": {
       "status": "FOUR_FIRST_WAVE_SUCCESSORS_PLUS_5090A_CONTROL_SUCCESSOR_WAITING",
       "control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468",

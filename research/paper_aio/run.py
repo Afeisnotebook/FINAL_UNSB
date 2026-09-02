@@ -20,6 +20,7 @@ from .candidate_runtime import (
     run_candidate_runtime_gate,
     train_candidate,
 )
+from .complexity import profile_model
 from .evaluate import evaluate_live_model
 from .gates import (
     authorize_lane,
@@ -64,6 +65,7 @@ def parser() -> argparse.ArgumentParser:
             "candidate-lock",
             "candidate-runtime-gate",
             "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
+            "complexity",
         ],
     )
     value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
@@ -262,6 +264,17 @@ def main(argv: list[str] | None = None) -> int:
             gradient_replicates=args.audit_gradient_replicates,
         )
         append_audit(args.output / "TERMINAL_AUDIT.jsonl", result)
+    elif args.stage == "complexity":
+        if args.receipt_output is None:
+            raise SystemExit("complexity requires --receipt-output")
+        model, spec, rows, payload, primary, secondary = _load_checkpoint_model(args)
+        result = profile_model(
+            model=model, spec=spec, rows=rows, primary=primary,
+            secondary=secondary, data_root=args.data_root.resolve(),
+            checkpoint=args.checkpoint.resolve(),
+            checkpoint_metadata=payload["metadata"],
+            destination=args.receipt_output.resolve(),
+        )
     elif args.stage == "candidate-lock":
         required = {
             "--candidate-id": args.candidate_id,
