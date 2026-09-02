@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-ddsb-authority-source-recheck-v1",
+  "checked_at": "2026-09-03T06:11:11+08:00",
+  "status": "UNCHANGED_REPRODUCTION_INCOMPLETE",
+  "paper": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "doi": "10.52202/085713-0086",
+    "official_abstract": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "official_pdf": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Paper-Conference.pdf",
+    "official_supplement": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Supplemental-Conference.zip"
+  },
+  "authority_checks": {
+    "official_neurips_page_has_code_link": false,
+    "paper_reproducibility_statement": "source code is promised to be public once published",
+    "official_author_profile_checked": "https://ivi.fnwi.uva.nl/vislab/author/jingjun-yi/",
+    "official_author_profile_has_code_or_project_link": false,
+    "github_repository_search": [
+      {
+        "query": "\"Degradation-Aware Dynamic Schrodinger Bridge\"",
+        "total_count": 0
+      },
+      {
+        "query": "DDSB unpaired image restoration",
+        "total_count": 0
+      },
+      {
+        "query": "\"Jingjun Yi\" DDSB",
+        "total_count": 0
+      },
+      {
+        "query": "\"Qi Bi\" DDSB",
+        "total_count": 0
+      }
+    ],
+    "github_exact_title_web_search_repository_count": 0,
+    "author_maintained_public_source_found": false
+  },
+  "formula_implementation_lock": {
+    "prior_gate": "evidence/paper_aio/DDSB_SOURCE_GATE_20260902.json",
+    "new_information_sufficient_to_close_gate": false,
+    "still_not_uniquely_specified": [
+      "exact U-Net and AdaIN graph",
+      "MINE and Markovian discriminator architectures",
+      "optimizer ownership and multi-network update order",
+      "stop-gradient boundaries",
+      "DTC normalization and reduction",
+      "complete loss coefficients",
+      "full-state checkpoint and resume semantics"
+    ]
+  },
+  "decision": "retain DDSB as reproduction_incomplete; do not launch a guessed implementation",
+  "resource_action": "none; no GPU lane started or changed",
+  "scientific_failure": false,
+  "replacement_experiment_started": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

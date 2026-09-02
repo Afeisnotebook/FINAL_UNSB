@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T05:58:10+08:00",
+  "captured_at": "2026-09-03T06:11:11+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -64,7 +64,7 @@
     "plain_5090B_matched": "durably_queued_after_cut_with_exact_runtime_gate_fresh_e0",
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
-    "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure"
+    "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure_rechecked_20260903T061111"
   },
   "operational_monitoring": {
     "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
