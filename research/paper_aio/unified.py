@@ -8,7 +8,7 @@ from typing import Any
 
 import torch
 
-from research.local_route1.runtime import full_state_hash, write_json
+from research.local_route1.runtime import full_state_hash, seed_everything, write_json
 
 from .candidate_runtime import load_candidate_spec
 from .evaluate import evaluate_input_baseline, evaluate_model
@@ -36,6 +36,17 @@ UNIFIED_COHORT_SCHEMA = "final-unsb-paper-unified-evaluation-cohort-v1"
 UNIFIED_EPOCHS = (100, 125, 150, 175, 200)
 # Backward-compatible public name for the four trained first-wave lanes.
 REQUIRED_FIRST_WAVE = REQUIRED_FIRST_WAVE_TRAINED
+
+
+def _deterministic_unified_environment() -> dict[str, Any]:
+    """Normalize and verify the evaluator before recording its identity."""
+    seed_everything(int(load_protocol()["seed"]))
+    environment = environment_record()
+    if environment.get("tf32_matmul") or environment.get("tf32_cudnn"):
+        raise RuntimeError("unified paper evaluation requires TF32 disabled")
+    if environment.get("cublas_workspace_config") != ":4096:8":
+        raise RuntimeError("unified paper evaluation requires deterministic CuBLAS")
+    return environment
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -129,6 +140,7 @@ def evaluate_imported_checkpoint(
 ) -> dict[str, Any]:
     """Evaluate a copied model read-only inside one common runtime."""
     output_root = Path(output_root).resolve()
+    unified_environment = _deterministic_unified_environment()
     export_path = Path(export_receipt).resolve()
     checkpoint = Path(copied_checkpoint).resolve()
     if not export_path.is_file() or not checkpoint.is_file():
@@ -187,7 +199,7 @@ def evaluate_imported_checkpoint(
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
         "source_host_label": export["source_host_label"],
-        "unified_environment": environment_record(),
+        "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
         "cross_host_training_delta_merged": False,
     })
@@ -214,7 +226,7 @@ def evaluate_imported_checkpoint(
         "evaluation_schema": EVALUATION_SCHEMA,
         "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
-        "unified_environment": environment_record(),
+        "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
         "paired_metric_control": False,
         "cross_host_training_delta_merged": False,
@@ -242,6 +254,7 @@ def evaluate_input_reference(
     output_root = Path(output_root).resolve()
     data_root = Path(data_root).resolve()
     manifest_path = Path(manifest_path).resolve()
+    unified_environment = _deterministic_unified_environment()
     manifest_report(manifest_path, data_root=data_root)
     device = torch.device(
         f"cuda:{int(gpu)}" if torch.cuda.is_available() else "cpu"
@@ -255,7 +268,7 @@ def evaluate_input_reference(
         "epoch": 200,
         "updates": 0,
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
-        "unified_environment": environment_record(),
+        "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
         "cross_host_training_delta_merged": False,
     })
@@ -276,7 +289,7 @@ def evaluate_input_reference(
         "evaluation_schema": EVALUATION_SCHEMA,
         "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
-        "unified_environment": environment_record(),
+        "unified_environment": unified_environment,
         "evaluation_only_reference": True,
         "training_checkpoint_read_only": True,
         "paired_metric_control": False,
@@ -308,6 +321,7 @@ def _expected_evaluation(epoch: int, family: str) -> dict[str, Any]:
 def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
     """Require every first-wave model in one evaluator before adjudication."""
     output_root = Path(output_root).resolve()
+    current_unified_environment = _deterministic_unified_environment()
     receipts = []
     input_receipt_path = output_root / "gates" / "UNIFIED_EVALUATION_input_e200.json"
     if not input_receipt_path.is_file():
@@ -397,7 +411,7 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
             })
     if evaluator_fingerprint != protocol_fingerprint():
         raise RuntimeError("unified evaluator fingerprint is stale for the current checkout")
-    if environment != environment_record():
+    if environment != current_unified_environment:
         raise RuntimeError("unified cohort lock must be issued inside the evaluation runtime")
     result = {
         "schema": UNIFIED_COHORT_SCHEMA,

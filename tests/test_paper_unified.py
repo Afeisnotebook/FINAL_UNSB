@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from research.local_route1.runtime import full_state_hash
+from research.local_route1.runtime import full_state_hash, seed_everything
 from research.paper_aio.protocol import (
     FULL_STATE_SCHEMA,
     FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
@@ -80,6 +80,7 @@ def test_checkpoint_export_is_source_and_scientific_state_bound(tmp_path: Path) 
 def test_unified_cohort_requires_all_first_wave_lanes_and_fixed_protocol(
     tmp_path: Path,
 ) -> None:
+    seed_everything(2026)
     environment = environment_record()
     evaluator = protocol_fingerprint()
     input_metric = _write(
