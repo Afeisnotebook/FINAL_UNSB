@@ -3,8 +3,9 @@
 This is the final unattended paper-discovery handoff. It waits for every
 predeclared e200 evaluation/disposition, profiles the fixed e200 checkpoints in
 one 4090 environment, and combines results without ever changing a running
-experiment. AM-TNC retains its 4090A plain comparison; Proposal and ST-CGR
-retain their separately proven 5090A-plain relations.
+experiment. AM-TNC retains its 4090A plain comparison. Proposal and ST-CGR use
+the plain source named by the frozen deployment contract, but only after the
+post-hoc dispositions prove that exact runtime relation at every late epoch.
 """
 
 from __future__ import annotations
@@ -29,6 +30,7 @@ from operations.paper_aio_unified_evaluation_successor import (
     _write_json,
     import_lane_path,
     imports_ready,
+    parse_lane_source,
     validate_import_lane,
 )
 from research.paper_aio.protocol import (
@@ -36,21 +38,17 @@ from research.paper_aio.protocol import (
     file_sha256,
     protocol_fingerprint,
 )
+from research.paper_aio.runtime_relation import runtime_pair_passed
 
 
-CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v1"
+CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v2"
 STATE_SCHEMA = "final-unsb-paper-final-delivery-successor-state-v1"
 PORTFOLIO_SCHEMA = "final-unsb-paper-full-data-algorithm-portfolio-v1"
 COMPLEXITY_SCHEMA = "final-unsb-paper-complexity-profile-v1"
 DISPOSITION_SCHEMA = "final-unsb-paper-algorithm-disposition-v1"
 COMPLETE_STATUS = "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY"
 STCGR_ID = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
-FIXED_FIRST_WAVE_SOURCES = {
-    "plain": "5090A",
-    "proposal": "5090C",
-    "cut": "5090B",
-    "cyclegan": "5090B",
-}
+FIRST_WAVE_LANES = ("plain", "proposal", "cut", "cyclegan")
 COMPLEXITY_LANES = ("plain", "proposal", "cut", "cyclegan", "amtnc", STCGR_ID)
 
 
@@ -137,11 +135,12 @@ def _source_rows(contract: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
             import_lane_path(import_root, lane, host), import_root=import_root,
             lane_id=lane, host_label=host,
         )
-        for lane, host in FIXED_FIRST_WAVE_SOURCES.items()
+        for lane, host in contract["first_wave_lane_sources"].items()
     }
+    stcgr_host = contract["stcgr_source_host"]
     rows[STCGR_ID] = validate_import_lane(
-        import_lane_path(import_root, STCGR_ID, "5090A"),
-        import_root=import_root, lane_id=STCGR_ID, host_label="5090A",
+        import_lane_path(import_root, STCGR_ID, stcgr_host),
+        import_root=import_root, lane_id=STCGR_ID, host_label=stcgr_host,
     )
     rows["amtnc"] = validate_local_export_lane(
         Path(contract["amtnc_export_root"]), lane_id="amtnc",
@@ -196,10 +195,60 @@ def _complexity_summary(value: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _validated_control_relation(
+    entry: dict[str, Any], *, lane_id: str, method_source_host: str,
+    plain_source_host: str, candidate_cross_code: bool = False,
+) -> dict[str, Any]:
+    """Bind a reported delta to one reviewed late-epoch runtime relation."""
+    trajectory = entry.get("late_trajectory")
+    if not isinstance(trajectory, list) or [
+        int(row.get("epoch", -1)) for row in trajectory if isinstance(row, dict)
+    ] != [150, 175, 200]:
+        raise RuntimeError(f"{lane_id} lacks the fixed late-three trajectory")
+    relations = []
+    allowed_statuses = (
+        {
+            "PASS_SAME_HOST_CROSS_CODE_CANDIDATE_GATE",
+            "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+        }
+        if candidate_cross_code else
+        {"PASS_SAME_SOURCE_RUNTIME", "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION"}
+    )
+    for row in trajectory:
+        relation = row.get("runtime_relation") or {}
+        if (
+            row.get("crn_exact") is not True
+            or not runtime_pair_passed(relation)
+            or relation.get("status") not in allowed_statuses
+            or relation.get("method_source_host_label") != method_source_host
+            or relation.get("plain_source_host_label") != plain_source_host
+        ):
+            raise RuntimeError(
+                f"{lane_id} is not bound to the frozen matched plain relation"
+            )
+        relations.append(relation)
+    identity = {
+        key: relations[0].get(key)
+        for key in (
+            "status", "method_source_host_label", "plain_source_host_label",
+            "runtime_twin_updates", "e0_core_sha256", "step_core_sha256",
+        )
+    }
+    if any(
+        {
+            key: relation.get(key) for key in identity
+        } != identity
+        for relation in relations[1:]
+    ):
+        raise RuntimeError(f"{lane_id} runtime relation changed across late epochs")
+    return identity
+
+
 def build_portfolio(
     *, first_wave_results: dict[str, Any], amtnc_disposition: dict[str, Any],
     stcgr_disposition: dict[str, Any], complexity: dict[str, dict[str, Any]],
     source_hashes: dict[str, str], method_portfolio: dict[str, Any],
+    first_wave_lane_sources: dict[str, str], stcgr_source_host: str,
 ) -> dict[str, Any]:
     if (
         first_wave_results.get("schema") != "final-unsb-paper-results-v1"
@@ -216,11 +265,26 @@ def build_portfolio(
     required = {"input", "plain", "proposal", "cut", "cyclegan", STCGR_ID}
     if not required.issubset(by_lane):
         raise RuntimeError("first-wave result lacks fixed lanes or ST-CGR")
+    if set(first_wave_lane_sources) != set(FIRST_WAVE_LANES):
+        raise RuntimeError("final portfolio has an incomplete first-wave source map")
+    plain_source_host = first_wave_lane_sources["plain"]
+    proposal_relation = _validated_control_relation(
+        by_lane["proposal"], lane_id="proposal",
+        method_source_host=first_wave_lane_sources["proposal"],
+        plain_source_host=plain_source_host,
+    )
+    stcgr_relation = _validated_control_relation(
+        stcgr_disposition["entry"], lane_id=STCGR_ID,
+        method_source_host=stcgr_source_host,
+        plain_source_host=plain_source_host,
+        candidate_cross_code=True,
+    )
     methods = {
         "proposal": {
             "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
-            "matched_plain": "5090A/plain",
+            "matched_plain": f"{plain_source_host}/plain",
             "comparison_scope": by_lane["proposal"].get("comparison_scope"),
+            "runtime_relation": proposal_relation,
             "result": by_lane["proposal"],
         },
         "amtnc": {
@@ -231,8 +295,9 @@ def build_portfolio(
         },
         "stcgr": {
             "algorithm_id": STCGR_ID,
-            "matched_plain": "5090A/plain",
-            "comparison_scope": "same_host_cross_code_candidate_gate",
+            "matched_plain": f"{plain_source_host}/plain",
+            "comparison_scope": stcgr_disposition["entry"].get("comparison_scope"),
+            "runtime_relation": stcgr_relation,
             "result": stcgr_disposition["entry"],
         },
     }
@@ -261,6 +326,11 @@ def build_portfolio(
         "failed_current_implementation_and_protocol": failed,
         "external_baselines": external,
         "plain_control": by_lane["plain"],
+        "frozen_source_hosts": {
+            "first_wave": first_wave_lane_sources,
+            STCGR_ID: stcgr_source_host,
+            "amtnc": "4090A",
+        },
         "complexity": {
             lane: _complexity_summary(complexity[lane])
             for lane in COMPLEXITY_LANES
@@ -285,6 +355,15 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("final delivery checkout must be clean")
     if head != args.required_control_git_commit:
         raise RuntimeError("final delivery checkout moved")
+    pairs = [parse_lane_source(value) for value in args.lane_source]
+    lane_sources = dict(pairs)
+    if len(lane_sources) != len(pairs) or set(lane_sources) != set(FIRST_WAVE_LANES):
+        raise RuntimeError(
+            "--lane-source must name plain, proposal, cut, and cyclegan exactly once"
+        )
+    _, stcgr_source_host = parse_lane_source(
+        f"{STCGR_ID}={args.stcgr_source_host}"
+    )
     return {
         "schema": CONTRACT_SCHEMA,
         "status": "FROZEN_WAITING",
@@ -301,6 +380,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "import_root": str(args.import_root.resolve()),
         "amtnc_export_root": str(args.amtnc_export_root.resolve()),
         "candidate_authority": str(args.candidate_authority.resolve()),
+        "first_wave_lane_sources": lane_sources,
+        "stcgr_source_host": stcgr_source_host,
         "first_wave_state": str(args.first_wave_state.resolve()),
         "amtnc_state": str(args.amtnc_state.resolve()),
         "stcgr_state": str(args.stcgr_state.resolve()),
@@ -365,7 +446,10 @@ def _dependencies(contract: dict[str, Any]) -> tuple[bool, dict[str, str]]:
         raise RuntimeError(f"final delivery dependency blocked: {states}")
     imported = imports_ready(
         Path(contract["import_root"]),
-        {**FIXED_FIRST_WAVE_SOURCES, STCGR_ID: "5090A"},
+        {
+            **contract["first_wave_lane_sources"],
+            STCGR_ID: contract["stcgr_source_host"],
+        },
     )
     amtnc = (
         Path(contract["amtnc_export_root"]) / "amtnc" / "EXPORT_SET.json"
@@ -506,6 +590,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 amtnc_disposition=amtnc, stcgr_disposition=stcgr,
                 complexity=values, source_hashes=source_hashes,
                 method_portfolio=method_portfolio,
+                first_wave_lane_sources=contract["first_wave_lane_sources"],
+                stcgr_source_host=contract["stcgr_source_host"],
             )
             result_path = output / "PAPER_ALGORITHM_PORTFOLIO.json"
             _write_json(result_path, result)
@@ -546,6 +632,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--import-root", type=Path, required=True)
     value.add_argument("--amtnc-export-root", type=Path, required=True)
     value.add_argument("--candidate-authority", type=Path, required=True)
+    value.add_argument("--lane-source", action="append", required=True)
+    value.add_argument("--stcgr-source-host", default="5090A")
     value.add_argument("--first-wave-state", type=Path, required=True)
     value.add_argument("--amtnc-state", type=Path, required=True)
     value.add_argument("--stcgr-state", type=Path, required=True)

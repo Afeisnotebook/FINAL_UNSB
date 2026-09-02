@@ -59,7 +59,15 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     )
     assert (
         portfolio["methods"]["stcgr"]["matched_delta_status"]
-        == "unavailable_until_a_new_explicit_legal_plain_e200_plan"
+        == "unavailable_until_5090B_e200_and_reviewed_registry_relation"
+    )
+    assert (
+        portfolio["methods"]["proposal"]["matched_delta_status"]
+        == "unavailable_until_5090B_e200_and_reviewed_registry_relation"
+    )
+    assert (
+        portfolio["post_training_delivery"]["replacement_lane_sources"]["plain"]
+        == "5090B_MATCHED_PLAIN"
     )
     plain_resume = state["paper_aio_20260902"]["runs"]["5090A_plain_resume_after_stcgr"]
     assert plain_resume["status"] == "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY"
