@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T00:46:10+08:00",
+  "captured_at": "2026-09-03T01:07:12+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -54,6 +54,7 @@
   "controls_and_external": {
     "plain_4090A": "running",
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved",
+    "plain_5090B_matched": "durably_queued_after_cut_with_exact_runtime_gate_fresh_e0",
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
     "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure"
@@ -67,10 +68,28 @@
       "5090B": 30355,
       "5090C": 13587
     },
+    "auxiliary_watcher_pids": {
+      "5090B_matched_plain_successor": 38339
+    },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json"
     ]
+  },
+  "future_matched_plain_successor": {
+    "status": "WAITING_FOR_5090B_CUT_E200",
+    "pid": 38294,
+    "host": "5090B",
+    "lane": "plain",
+    "fresh_e0": true,
+    "exact_runtime_peer": "5090A",
+    "runtime_gate_updates": 2000,
+    "long_training_fail_closed_until_exact_pass": true,
+    "source_host_label": "5090B_MATCHED_PLAIN",
+    "proposal_relation_status": "not_yet_authorized_await_runtime_gate",
+    "stcgr_relation_status": "not_authorized_by_this_successor",
+    "projected_e200_window": "2026-09-12/2026-09-13",
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json"
   },
   "post_training_delivery": {
     "status": "DURABLE_FIRST_WAVE_UNIFIED_EVALUATOR_WAITING_METRIC_BLIND",
@@ -133,7 +152,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

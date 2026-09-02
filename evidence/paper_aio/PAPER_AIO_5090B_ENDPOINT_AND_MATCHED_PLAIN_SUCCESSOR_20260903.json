@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-5090b-endpoint-and-matched-plain-successor-v1",
+  "captured_at": "2026-09-03T01:07:12+08:00",
+  "status": "EXISTING_5090B_IDENTIFIED_MATCHED_PLAIN_SUCCESSOR_ARMED",
+  "endpoint_identity": {
+    "logical_host": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "driver": "595.71.05",
+    "new_additive_gpu": false,
+    "reason": "the endpoint contains the already registered CUT, CycleGAN, exporters and 5090B health watcher"
+  },
+  "live_snapshot": {
+    "4090A_plain": {"data_epoch": 42, "updates": 359226, "status": "HEALTHY"},
+    "5090A_stcgr": {"data_epoch": 1, "updates": 8553, "status": "CHILD_RUNNING"},
+    "5090B_cut": {"data_epoch": 35, "updates": 299355, "epoch_seconds": 1656.4699356555939, "status": "CHILD_RUNNING_COLOCATED"},
+    "5090B_cyclegan": {"data_epoch": 18, "updates": 153954, "epoch_seconds": 2335.2104501724243, "status": "CHILD_RUNNING_COLOCATED"},
+    "5090C_proposal": {"data_epoch": 3, "updates": 25659, "epoch_seconds": 4749.600796222687, "status": "CHILD_RUNNING"},
+    "all_existing_health_watchers": "HEALTHY_ZERO_ALERTS",
+    "confirmation20_opened": false
+  },
+  "prepared_runtime": {
+    "scientific_checkout": "/root/autodl-tmp/FINAL_UNSB_PAPER_MATCHED_5090B_e4a5eed",
+    "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "scientific_checkout_clean": true,
+    "control_checkout": "/root/autodl-tmp/FINAL_UNSB_CONTROL_5090B_899add3",
+    "control_commit": "899add38670369fb94a98af348c2e48e38a06753",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "view_counts": {"trainA": 8553, "trainB": 8553, "discoveryA": 480, "discoveryB": 480, "confirmationA": 120, "confirmationB": 120},
+    "python": "3.11.16",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+    "peer_host_label": "5090A",
+    "peer_e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "peer_step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739"
+  },
+  "successor": {
+    "status": "WAITING_FOR_PREDECESSOR_E200",
+    "pid": 38294,
+    "ppid": 1,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "predecessor": "5090B CUT COMPLETE_E200",
+    "predecessor_state": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/gates/SUPERVISOR_cut.json",
+    "gate_order": ["full preflight", "exact resume", "2000-update peer runtime twin", "repeat evaluation", "plain authorization"],
+    "long_training_condition": "PASS_EXACT_RUNTIME_COHORT",
+    "fresh_e0": true,
+    "cross_host_checkpoint_resume": false,
+    "source_host_label": "5090B_MATCHED_PLAIN",
+    "expected_trigger_window": "2026-09-06",
+    "projected_plain_e200_window": "2026-09-12/2026-09-13"
+  },
+  "monitoring": {
+    "watcher_pid": 38339,
+    "ppid": 1,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_MATCHED_PLAIN_899add3",
+    "disk_free_gib": 231.48098754882812,
+    "estimated_remaining_write_gib": 8.0,
+    "minimum_headroom_gib": 16.0
+  },
+  "scientific_boundary": {
+    "existing_training_interrupted": false,
+    "training_configuration_changed": false,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "proposal_delta_authorized_before_new_relation": false,
+    "stcgr_cross_host_delta_authorized": false,
+    "runtime_twin_failure_means_mechanism_falsified": false
+  },
+  "next_actions": [
+    "observe CUT COMPLETE_E200 without reading performance",
+    "require exact runtime twin before long plain",
+    "after a PASS receipt, commit a new explicit Proposal-to-plain runtime relation and arm source-bound export relay",
+    "confirm 5090B rental end date before the projected plain e200 window"
+  ]
+}

@@ -121,3 +121,7 @@ authorize compute.
 37. `DEC-20260903-5090A-STCGR-TIME-PRIORITY.md`：按用户明确的紧迫工期授权，5090A
     plain在可精确恢复的e9暂停并撤销自动重启，ST-CGR从完整e1状态立即恢复长训。
     在plain未来补完前只承认绝对轨迹，不宣称ST-CGR或Proposal的matched收益。
+38. `DEC-20260903-5090B-ENDPOINT-AND-MATCHED-PLAIN-SUCCESSOR.md`：新提供的SSH端点
+    实际是正在运行CUT/CycleGAN的既有5090B，并非新增空闲卡。部署metric-blind后继，
+    CUT e200后只有通过与5090A的2000-update精确runtime门才从e0启动plain，以尽早
+    恢复Proposal的matched control；该关系不会被偷换成ST-CGR跨宿主delta。
