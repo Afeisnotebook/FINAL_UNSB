@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-durable-successors-v1",
+  "date": "2026-09-02",
+  "orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
+  "orchestrator_sha256": "747a9e39d40457e5400659e953cf9ab511cc58ff8d5d239645587772673c69bc",
+  "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "paper_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "chains": [
+    {
+      "host_role": "4090A_same_runtime_matched_unsb",
+      "predecessor": "plain",
+      "successor": "proposal",
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "predecessor_status_at_deployment": "CHILD_RUNNING",
+      "successor_process_id_at_deployment": 2089059,
+      "state_receipt_sha256_at_deployment": "0616c23d6c8b7841e0bd37280b077f97ee2c153638fdc88a96824e4d8b0be5f3",
+      "required_successor_gates": [
+        "fresh_training_preflight_with_200_GiB_minimum",
+        "proposal_exact_resume",
+        "proposal_zero_intervention_identity",
+        "proposal_repeated_evaluation",
+        "same_runtime_output_root_authorization"
+      ],
+      "cross_host_delta": false
+    },
+    {
+      "host_role": "5090B_external_translation",
+      "predecessor": "cut",
+      "successor": "cyclegan",
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "predecessor_status_at_deployment": "CHILD_RUNNING",
+      "successor_process_id_at_deployment": 7414,
+      "state_receipt_sha256_at_deployment": "29b9e6008eeaf354d720ac4919c464a5b07e83c6493245ab1f8ecaa170758137",
+      "required_successor_gates": [
+        "fresh_training_preflight_with_200_GiB_minimum",
+        "cyclegan_exact_resume",
+        "cyclegan_repeated_evaluation",
+        "standalone_fixed_protocol_authorization"
+      ],
+      "cross_host_delta": false
+    }
+  ],
+  "transition_trigger": "predecessor supervisor status equals COMPLETE_E200",
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "scientific_training_code_mutated": false
+}
