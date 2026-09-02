@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-unified-evaluation-cohort-interface-v1",
+  "date": "2026-09-02",
+  "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_E200_CHECKPOINTS",
+  "current_candidate_code_protocol_fingerprint": "3f339224de364e7caf7a426782da1f361cf7b1e2afec0a62942dc52cfbbe4ef5",
+  "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "source_export_epochs": [100, 125, 150, 175, 200],
+  "required_first_wave_lanes": ["plain", "proposal", "cut", "cyclegan"],
+  "source_export_binds": [
+    "checkpoint_sha256",
+    "sidecar_sha256",
+    "scientific_state_sha256",
+    "lane_semantics",
+    "training_git_commit",
+    "training_protocol_fingerprint",
+    "manifest_sha256",
+    "source_host_label"
+  ],
+  "unified_gate_requires": [
+    "all four lanes and all five epochs",
+    "one evaluator protocol fingerprint",
+    "one runtime environment",
+    "frozen CRN bundle fingerprint",
+    "read-only checkpoint loading",
+    "terminal discovery80 and five rollout bundles",
+    "fixed UNSB NFE reporting",
+    "no cross-host training delta merge"
+  ],
+  "completion_semantics": {
+    "paper_results_first_wave_complete_requires_unified_cohort": true,
+    "missing_or_stale_receipt_fails_closed": true,
+    "existing_different_metric_is_never_overwritten": true,
+    "training_checkpoint_cross_host_resume": false
+  },
+  "public_interface": [
+    "--stage checkpoint-export",
+    "--stage unified-evaluate",
+    "--stage unified-lock",
+    "--stage adjudicate"
+  ],
+  "verification": {
+    "pytest_passed": 407,
+    "contract_checks": "ALL_CONTRACT_CHECKS_PASSED",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "live_scientific_checkouts_mutated": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

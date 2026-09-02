@@ -51,6 +51,16 @@ def _candidate_definitions(output_root: Path) -> list[dict]:
     root = Path(output_root) / "candidate_locks"
     if not root.is_dir():
         return definitions
+    cohort_path = Path(output_root) / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+    unified = False
+    if cohort_path.is_file():
+        cohort = _read(cohort_path)
+        unified = (
+            cohort.get("schema") == "final-unsb-paper-unified-evaluation-cohort-v1"
+            and cohort.get("status") == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
+            and cohort.get("cross_host_training_delta_merged") is False
+            and cohort.get("confirmation20_opened") is False
+        )
     for path in sorted(root.glob("*/CANDIDATE_LOCK.json")):
         lock = _read(path)
         if (
@@ -68,8 +78,14 @@ def _candidate_definitions(output_root: Path) -> list[dict]:
             "backend": "internal",
             "family": "unsb",
             "metrics_root": Path(output_root),
-            "plain_root": Path(lock["parent_paper"]["parent_output"]),
-            "comparison_scope": "same_host_cross_code_runtime_gate",
+            "plain_root": (
+                Path(output_root) if unified else
+                Path(lock["parent_paper"]["parent_output"])
+            ),
+            "comparison_scope": (
+                "one_container_unified_evaluation" if unified else
+                "same_host_cross_code_runtime_gate"
+            ),
             "candidate_lock": str(path.resolve()),
         })
     return definitions
@@ -185,7 +201,15 @@ def adjudicate(output_root: Path) -> dict:
                     "confirmation20_opened": False,
                 }
         lanes.append(entry)
-    complete_required = all(
+    cohort_path = output_root / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+    cohort = _read(cohort_path) if cohort_path.is_file() else {}
+    unified_cohort_pass = (
+        cohort.get("schema") == "final-unsb-paper-unified-evaluation-cohort-v1"
+        and cohort.get("status") == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
+        and cohort.get("cross_host_training_delta_merged") is False
+        and cohort.get("confirmation20_opened") is False
+    )
+    complete_required = unified_cohort_pass and all(
         next(row for row in lanes if row["lane_id"] == lane)["status"] == "COMPLETE_E200"
         for lane in ("plain", "proposal", "cut", "cyclegan")
     )
@@ -194,6 +218,10 @@ def adjudicate(output_root: Path) -> dict:
         "status": "FIRST_WAVE_COMPLETE" if complete_required else "FIRST_WAVE_INCOMPLETE",
         "primary_epoch": 200,
         "best_checkpoint_selection": False,
+        "unified_evaluation_cohort_pass": unified_cohort_pass,
+        "unified_evaluation_cohort": (
+            None if not cohort_path.is_file() else str(cohort_path.resolve())
+        ),
         "lanes": lanes,
         "cross_5090_delta_merged": False,
         "paired_metric_control": False,

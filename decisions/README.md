@@ -83,3 +83,6 @@ authorize compute.
 25. `DEC-20260902-PAPER-AIO-COMMON-CRN-DYNAMIC-ADJUDICATION.md`：训练源码指纹和CRN
     bundle身份分离；新候选保留独立训练指纹，但固定复用首波`68f53a8e...`随机bundle，
     逐图CRN完全匹配后才计算同宿主delta，并报告e200五bundle随机性标准差。
+26. `DEC-20260902-PAPER-AIO-UNIFIED-EVALUATION-COHORT.md`：四条首波lane的五个固定
+    checkpoint必须先做source-bound export，再在单一4090评估环境只读复算；缺少20个
+    receipt中的任意一个时，`PAPER_RESULTS`不得宣称第一波完成。

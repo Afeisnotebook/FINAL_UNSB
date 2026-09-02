@@ -39,6 +39,11 @@ from .runtime import (
     train_lane,
 )
 from .terminal_audit import append_audit, audit_model
+from .unified import (
+    evaluate_imported_checkpoint,
+    export_checkpoint_receipt,
+    lock_unified_evaluation_cohort,
+)
 
 
 DEFAULT_OUTPUT = ROOT.parent / "runs" / "FINAL_UNSB_PAPER_AIO_V1"
@@ -57,6 +62,7 @@ def parser() -> argparse.ArgumentParser:
             "evaluation-repeat-gate", "terminal-audit", "adjudicate",
             "candidate-lock",
             "candidate-runtime-gate",
+            "checkpoint-export", "unified-evaluate", "unified-lock",
         ],
     )
     value.add_argument("--lane", choices=["plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
@@ -92,6 +98,11 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--parent-e0", type=Path)
     value.add_argument("--parent-scientific-git-commit")
     value.add_argument("--parent-protocol-fingerprint")
+    value.add_argument("--source-sidecar", type=Path)
+    value.add_argument("--source-receipt", type=Path)
+    value.add_argument("--receipt-output", type=Path)
+    value.add_argument("--source-host-label")
+    value.add_argument("--copied-checkpoint", type=Path)
     return value
 
 
@@ -296,6 +307,52 @@ def main(argv: list[str] | None = None) -> int:
             manifest_path=args.manifest.resolve(),
             gpu=args.gpu,
         )
+    elif args.stage == "checkpoint-export":
+        required = {
+            "--lane": args.lane,
+            "--epoch": args.epoch,
+            "--checkpoint": args.checkpoint,
+            "--source-sidecar": args.source_sidecar,
+            "--source-host-label": args.source_host_label,
+            "--receipt-output": args.receipt_output,
+        }
+        missing = [key for key, value in required.items() if value is None]
+        if missing:
+            raise SystemExit("checkpoint-export requires " + ", ".join(missing))
+        lane_id = args.candidate_id if args.lane == "candidate" else args.lane
+        if not lane_id:
+            raise SystemExit("candidate checkpoint-export requires --candidate-id")
+        result = export_checkpoint_receipt(
+            checkpoint=args.checkpoint,
+            sidecar=args.source_sidecar,
+            lane_id=lane_id,
+            epoch=args.epoch,
+            host_label=args.source_host_label,
+            destination=args.receipt_output,
+        )
+    elif args.stage == "unified-evaluate":
+        required = {
+            "--lane": args.lane,
+            "--source-receipt": args.source_receipt,
+            "--copied-checkpoint": args.copied_checkpoint,
+        }
+        missing = [key for key, value in required.items() if value is None]
+        if missing:
+            raise SystemExit("unified-evaluate requires " + ", ".join(missing))
+        if args.lane == "candidate" and not args.candidate_id:
+            raise SystemExit("candidate unified-evaluate requires --candidate-id")
+        result = evaluate_imported_checkpoint(
+            output_root=args.output,
+            export_receipt=args.source_receipt,
+            copied_checkpoint=args.copied_checkpoint,
+            train_view=args.train_view.resolve(),
+            data_root=args.data_root.resolve(),
+            manifest_path=args.manifest.resolve(),
+            gpu=args.gpu,
+            candidate_id=args.candidate_id if args.lane == "candidate" else None,
+        )
+    elif args.stage == "unified-lock":
+        result = lock_unified_evaluation_cohort(args.output)
     else:
         result = adjudicate(args.output)
     print(json.dumps(result, ensure_ascii=False, indent=2))

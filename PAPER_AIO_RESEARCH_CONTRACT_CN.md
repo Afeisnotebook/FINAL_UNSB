@@ -47,6 +47,11 @@ method-minus-plain 只能在相同 runtime cohort 中计算。checkpoint 不跨�
 结果不能减4090 plain。所有最终模型复制到一个固定4090评估容器做统一推理，但复制模型
 不等于合并训练轨迹。
 
+统一评估必须先由source host为e100/e125/e150/e175/e200 checkpoint生成同时绑定文件hash、
+scientific-state hash、lane语义、训练commit/fingerprint与宿主标签的export receipt；复制后
+只能只读加载。plain、Proposal、CUT、CycleGAN五个epoch全部在同一environment与当前
+evaluator fingerprint复算并锁成`UNIFIED_EVALUATION_COHORT`后，第一波才可标记完成。
+
 ## 4. 评估和确认集
 
 - 固定里程碑：e1/5/10/20/40/60/80/100/125/150/175/200；

@@ -85,3 +85,31 @@ Adjudication checks every late image's domain, stem, order, replicate, NFE and
 bundle hash before computing method-minus-plain deltas.  Terminal metrics also
 report the macro PSNR/SSIM/LPIPS standard deviation across the five fixed
 rollout bundles (population standard deviation, `ddof=0`).
+
+## One-container final evaluation
+
+Training checkpoints never resume across hosts. After each source lane ends,
+bind every e100/e125/e150/e175/e200 checkpoint before copying it:
+
+```text
+python -m research.paper_aio.run --stage checkpoint-export --lane LANE \
+  --epoch EPOCH --checkpoint SOURCE.pt --source-sidecar SOURCE.pt.json \
+  --source-host-label HOST --receipt-output EXPORT.json
+```
+
+Copy the checkpoint and export JSON to the chosen 4090 evaluation container,
+then evaluate them read-only:
+
+```text
+python -m research.paper_aio.run --stage unified-evaluate --lane LANE \
+  --source-receipt EXPORT.json --copied-checkpoint COPIED.pt ...
+python -m research.paper_aio.run --stage unified-lock ...
+python -m research.paper_aio.run --stage adjudicate ...
+```
+
+`unified-lock` requires all five frozen epochs for plain, Proposal-only, CUT
+and CycleGAN in one environment and evaluator fingerprint. It checks every
+copied checkpoint hash, metric hash, CRN policy and read-only flag. Only this
+cohort can change `PAPER_RESULTS.json` from `FIRST_WAVE_INCOMPLETE` to
+`FIRST_WAVE_COMPLETE`; host-separated training remains explicit and no
+CUT/CycleGAN-minus-plain matched claim is created.

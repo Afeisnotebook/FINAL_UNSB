@@ -155,6 +155,7 @@ def _metric(value: float) -> dict:
 def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
     result = adjudicate(tmp_path)
     assert result["results"]["status"] == "FIRST_WAVE_INCOMPLETE"
+    assert result["results"]["unified_evaluation_cohort_pass"] is False
     for epoch in (150, 175, 200):
         plain = tmp_path / "lanes" / "plain" / "metrics" / f"e{epoch:03d}.json"
         proposal = tmp_path / "lanes" / "proposal" / "metrics" / f"e{epoch:03d}.json"
@@ -168,6 +169,29 @@ def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
     )
     assert proposal_row["scientific_gate"]["status"] == "PASS"
     assert result["algorithm_set"]["accepted_algorithms"] == ["proposal"]
+
+
+def test_first_wave_completion_requires_unified_cohort_and_four_lanes(tmp_path: Path) -> None:
+    for lane in ("plain", "proposal"):
+        for epoch in (150, 175, 200):
+            path = tmp_path / "lanes" / lane / "metrics" / f"e{epoch:03d}.json"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(_metric(10.0 + (lane == "proposal") * 0.2)), encoding="utf-8")
+    for lane in ("cut", "cyclegan"):
+        path = tmp_path / "lanes" / lane / "metrics" / "e200.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(_metric(9.0)), encoding="utf-8")
+    cohort = tmp_path / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+    cohort.parent.mkdir(parents=True, exist_ok=True)
+    cohort.write_text(json.dumps({
+        "schema": "final-unsb-paper-unified-evaluation-cohort-v1",
+        "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+        "cross_host_training_delta_merged": False,
+        "confirmation20_opened": False,
+    }), encoding="utf-8")
+    result = adjudicate(tmp_path)
+    assert result["results"]["status"] == "FIRST_WAVE_COMPLETE"
+    assert result["results"]["unified_evaluation_cohort_pass"] is True
 
 
 def test_adjudication_includes_evidence_locked_dynamic_candidate(tmp_path: Path) -> None:

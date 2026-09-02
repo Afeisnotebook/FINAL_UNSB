@@ -47,6 +47,8 @@
 - 对通过small25门的新算法安排自己的全量e200，而不是把Proposal当唯一方法；
 - 有可靠源码和资源时补DDSB或第二优先级DCLGAN/NEGCUT；
 - 统一4090评估容器完成e200 discovery80、5 bundles、NFE1–5、LPIPS/KID/FID；
+- 在统一评估前分别为四条source lane的e100/e125/e150/e175/e200生成checkpoint export
+  receipt；复制后只读复算，四lane×五epoch完整同容器门通过才形成第一波结果锁；
 - 冻结算法集合与论文主张，之后只打开一次confirmation20；
 - 仅对全量seed2026严格通过的plain和最终论文算法考虑seed2027/2028。
 
