@@ -1,6 +1,6 @@
 # DDSB source gate: reproduction incomplete, not a negative result
 
-Date: 2026-09-02  
+Date: 2026-09-02
 Scope: full-data paper baseline only
 
 ## Decision
