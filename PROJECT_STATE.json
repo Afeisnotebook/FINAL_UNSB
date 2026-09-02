@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T04:19:57+08:00",
+  "state_snapshot_time": "2026-09-03T04:43:21+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -462,7 +462,7 @@
       "status": "PROPOSAL_AND_STCGR_RUNNING_AMTNC_DURABLY_QUEUED",
       "proposal": "running_5090C_runtime_equivalent_to_5090A_plain_matched_delta_unavailable_until_future_legal_control",
       "amtnc": "queued_after_4090A_plain",
-      "stcgr": "running_5090A_from_e1_absolute_trajectory_first_matched_delta_unavailable_until_future_legal_control",
+      "stcgr": "running_5090A_from_e1_absolute_trajectory_first_cross_host_control_proof_successor_armed",
       "hjcgr": "deferred_not_falsified",
       "portfolio": "configs/FULL_DATA_METHOD_PORTFOLIO.json",
       "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md",
@@ -485,7 +485,7 @@
       "decision": "decisions/DEC-20260902-PAPER-MATCHED-RUNTIME-RELATION.md"
     },
     "multi_control_runtime_relation_interface": {
-      "status": "IMPLEMENTED_TESTED_SUCCESSOR_DEPLOYED_AWAITING_5090B_PRIMARY_RECEIPT",
+      "status": "PROPOSAL_AND_STCGR_REVIEW_ONLY_RELATION_SUCCESSORS_DEPLOYED_AWAITING_5090B_PRIMARY_RECEIPT",
       "legacy_single_relation_compatible": true,
       "multiple_plain_relations_per_method": true,
       "unique_method_plain_host_pair_required": true,
@@ -499,6 +499,19 @@
       "runtime_relation_successor_control_commit": "59faf8ea0bd06ebe9993a88c2d8c081e534ec5d8",
       "runtime_relation_successor_output": "/home/yc/runs/FINAL_UNSB_PAPER_RUNTIME_RELATION_59faf8e",
       "runtime_relation_successor_state": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+      "stcgr_candidate_control_relation": {
+        "status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+        "successor_pid": 2289024,
+        "successor_ppid": 1,
+        "health_watcher_pid": 2289036,
+        "health_status": "HEALTHY_AFTER_SECOND_POLL_ZERO_ALERTS",
+        "control_commit": "bff68030742acc1e4a4f9b85bb88b5d78c01abad",
+        "output": "/home/yc/runs/FINAL_UNSB_PAPER_STCGR_CONTROL_RELATION_bff6803",
+        "registry_edited": false,
+        "comparison_authorized": false,
+        "proof_mode": "explicit_candidate_to_parent_plus_parent_to_plain",
+        "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json"
+      },
       "registry_edit_requires_later_human_git_review": true,
       "performance_values_read": false,
       "confirmation20_opened": false,
@@ -513,7 +526,8 @@
         "5090A": 352017,
         "5090B": 30355,
         "5090C": 13587,
-        "local_incremental_audit": 15672
+        "local_incremental_audit": 15672,
+        "4090A_stcgr_control_relation": 2289036
       },
       "all_ppid_one": true,
       "all_states_refreshed_after_initial_poll": true,
@@ -526,8 +540,8 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json",
-    "next_manual_decision_window": "5090B CUT e200 exact-runtime-gate result around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
+    "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
   "development_head_at_state_write": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",

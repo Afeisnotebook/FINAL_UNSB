@@ -65,6 +65,14 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert plain_resume["status"] == "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY"
     assert plain_resume["automatic_resume_authorized"] is False
     assert plain_resume["future_resume_requires_new_explicit_decision"] is True
+    future_control = portfolio["future_matched_plain_successor"]
+    assert future_control["stcgr_relation_status"] == (
+        "review_only_two_link_proof_successor_armed_registry_unchanged"
+    )
+    relation = state["paper_aio_20260902"]["multi_control_runtime_relation_interface"]
+    stcgr_relation = relation["stcgr_candidate_control_relation"]
+    assert stcgr_relation["registry_edited"] is False
+    assert stcgr_relation["comparison_authorized"] is False
     assert portfolio["methods"]["hjcgr"]["status"] == "deferred"
     assert portfolio["methods"]["hjcgr"]["mechanism_falsified"] is False
     authorization = project["authorization_required"]

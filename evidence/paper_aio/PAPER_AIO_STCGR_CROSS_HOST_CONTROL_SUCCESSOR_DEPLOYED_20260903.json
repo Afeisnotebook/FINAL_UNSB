@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-stcgr-cross-host-control-successor-deployment-v1",
+  "captured_at": "2026-09-03T04:43:21+08:00",
+  "status": "DEPLOYED_HEALTHY_WAITING_FOR_VERIFIED_5090B_PLAIN_RUNTIME_RECEIPT",
+  "host": "4090A",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "control": {
+    "git_commit": "bff68030742acc1e4a4f9b85bb88b5d78c01abad",
+    "checkout": "/home/yc/FINAL_UNSB_STCGR_CONTROL_bff6803",
+    "checkout_clean": true,
+    "source_bundle_sha256": "eebcc0f57d84159176264a0b80ff67b96ccbd6c12c82567595464b869762b505",
+    "control_script": "operations/paper_aio_candidate_control_relation_successor.py",
+    "control_script_sha256": "38d357d71641c637a36f1b8ac40d89118a61b82f607c80d8c49afd63a786be76"
+  },
+  "successor": {
+    "pid": 2289024,
+    "ppid": 1,
+    "status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_STCGR_CONTROL_RELATION_bff6803",
+    "contract_sha256": "12353c2b776f0aca97a7c3df5beed9ec40e24978ffc9ce961269512160504238",
+    "upstream_successor_pid": 2243220,
+    "upstream_status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+    "future_plain_source_host_label": "5090B_MATCHED_PLAIN",
+    "registry_edited": false,
+    "comparison_authorized": false,
+    "training_authorized_or_scheduled": false
+  },
+  "health_watch": {
+    "pid": 2289036,
+    "ppid": 1,
+    "status_after_second_poll": "HEALTHY",
+    "alert_count": 0,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_STCGR_CONTROL_RELATION_bff6803",
+    "contract_sha256": "08c43700c8ea32c75073e63752d78d79518f93c573961a2e4afe52476577906a",
+    "free_disk_gib": 387.2921,
+    "estimated_remaining_write_gib": 0.01,
+    "minimum_headroom_gib": 4
+  },
+  "proof_inputs": {
+    "candidate_runtime_gate_sha256": "6fe4deca6f884e8ccac1726b0ae87abf9a7e23b34d68680d4439390fb9caf689",
+    "candidate_authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3",
+    "candidate_metadata_import_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364",
+    "candidate_authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+    "source_successor_contract_sha256": "2e4b4057468cd13870415be8ea73f61ec5319abaa5693c10b44aaf0ff7615540",
+    "plain_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "deployment_incidents": [
+    {
+      "condition": "two GitHub-side TLS clone attempts failed before checkout creation",
+      "recovery": "transferred a locally verified 2.9 MB Git bundle with identical SHA256",
+      "run_or_training_state_created": false
+    },
+    {
+      "condition": "the first direct-script invocation lacked repo-root PYTHONPATH and exited before contract creation",
+      "recovery": "used the supported python -m operations module entry from the same frozen checkout",
+      "scientific_state_changed": false
+    }
+  ],
+  "future_release": {
+    "automatic_registry_edit": false,
+    "automatic_comparison_authorization": false,
+    "required_next_evidence": "verified 5090B exact runtime receipt",
+    "required_human_step": "review and commit the generated relation candidate before any ST-CGR matched delta",
+    "plain_e200_still_required": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_configuration_changed": false,
+    "running_training_interrupted": false,
+    "confirmation20_opened": false
+  },
+  "interface_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_INTERFACE_20260903.json",
+  "decision": "decisions/DEC-20260903-STCGR-CROSS-HOST-CONTROL-PROOF.md"
+}

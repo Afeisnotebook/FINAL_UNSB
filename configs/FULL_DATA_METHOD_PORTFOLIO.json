@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T04:19:57+08:00",
+  "captured_at": "2026-09-03T04:43:21+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -76,7 +76,8 @@
     "auxiliary_watcher_pids": {
       "5090B_matched_plain_successor": 39139,
       "4090A_5090B_matched_plain_relay": 2237500,
-      "local_incremental_terminal_audit": 15672
+      "local_incremental_terminal_audit": 15672,
+      "4090A_stcgr_control_relation": 2289036
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -96,7 +97,10 @@
     "source_host_label": "5090B_MATCHED_PLAIN",
     "proposal_relation_status": "not_yet_authorized_await_runtime_gate",
     "proposal_relation_materializer": "implemented_fail_closed_multi_control_interface",
-    "stcgr_relation_status": "not_authorized_by_this_successor",
+    "stcgr_relation_status": "review_only_two_link_proof_successor_armed_registry_unchanged",
+    "stcgr_relation_successor_pid": 2289024,
+    "stcgr_relation_health_watcher_pid": 2289036,
+    "stcgr_relation_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
     "source_export_relay_pid": 2236741,
     "source_export_relay_status": "waiting_metric_blind",
     "source_export_relay_health_watcher_pid": 2237500,
@@ -164,9 +168,11 @@
     },
     "stcgr": {
       "pid": 2217244,
-      "status": "waiting_for_5090a_candidate_import_and_a_future_explicit_legal_matched_control",
+      "status": "waiting_for_5090a_candidate_import_and_reviewed_exact_cross_host_candidate_control_relation",
       "matched_plain": "5090A/plain",
-      "candidate_metadata_import": "complete_verified"
+      "candidate_metadata_import": "complete_verified",
+      "future_alternate_plain": "5090B_MATCHED_PLAIN",
+      "alternate_control_relation": "review_only_successor_armed_not_yet_authorized"
     },
     "health_watcher_pid": 2217321,
     "health_status": "HEALTHY",
@@ -196,7 +202,7 @@
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false
