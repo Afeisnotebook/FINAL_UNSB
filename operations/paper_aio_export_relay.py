@@ -217,10 +217,13 @@ def _download_verified(sftp, remote: str, destination: Path, expected: str) -> s
 
 def _contract(args: argparse.Namespace) -> dict[str, Any]:
     lanes = [str(value) for value in args.lane]
+    relay_id = str(args.relay_id or args.source_host_label)
     if len(set(lanes)) != len(lanes) or any(not _SAFE_ID.fullmatch(value) for value in lanes):
         raise ValueError("relay lanes must be unique safe identifiers")
     if not _SAFE_ID.fullmatch(str(args.source_host_label)):
         raise ValueError("source host label must be a safe identifier")
+    if not _SAFE_ID.fullmatch(relay_id):
+        raise ValueError("relay id must be a safe identifier")
     if not str(args.password_env).startswith("FINAL_UNSB_"):
         raise ValueError("relay password environment must use a FINAL_UNSB_ prefix")
     if not str(args.expected_host_key_sha256).startswith("SHA256:"):
@@ -235,6 +238,7 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "status": "FROZEN_WAITING",
         "control_script": str(script),
         "control_script_sha256": file_sha256(script),
+        "relay_id": relay_id,
         "source_host_label": str(args.source_host_label),
         "source_host": str(args.source_host),
         "source_port": int(args.source_port),
@@ -260,7 +264,7 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
 def _freeze_contract(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
     proposed = _contract(args)
     root = args.destination_root.resolve()
-    path = root / "operations" / f"IMPORT_RELAY_{args.source_host_label}_CONTRACT.json"
+    path = root / "operations" / f"IMPORT_RELAY_{proposed['relay_id']}_CONTRACT.json"
     if path.is_file():
         current = _read_json_bytes(path.read_bytes(), str(path))
         if current != proposed:
@@ -348,9 +352,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     contract_path, contract = _freeze_contract(args)
     root = Path(contract["destination_root"])
     operations = root / "operations"
-    state_path = operations / f"IMPORT_RELAY_{contract['source_host_label']}_STATE.json"
-    final_path = operations / f"IMPORT_SET_{contract['source_host_label']}.json"
-    lock_path = operations / f"IMPORT_RELAY_{contract['source_host_label']}.lock"
+    relay_id = contract["relay_id"]
+    state_path = operations / f"IMPORT_RELAY_{relay_id}_STATE.json"
+    final_path = operations / f"IMPORT_SET_{relay_id}.json"
+    lock_path = operations / f"IMPORT_RELAY_{relay_id}.lock"
     operations.mkdir(parents=True, exist_ok=True)
     started = time.time()
     with lock_path.open("w", encoding="utf-8") as lock:
@@ -378,6 +383,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     "schema": STATE_SCHEMA,
                     "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
                     "pid": os.getpid(),
+                    "relay_id": relay_id,
                     "source_host_label": contract["source_host_label"],
                     "lanes": contract["lanes"],
                     "contract": str(contract_path),
@@ -392,6 +398,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 result = {
                     "schema": IMPORT_SET_SCHEMA,
                     "status": "COMPLETE_VERIFIED_IMPORT_SET",
+                    "relay_id": relay_id,
                     "source_host_label": contract["source_host_label"],
                     "lanes": contract["lanes"],
                     "epochs": list(UNIFIED_EPOCHS),
@@ -419,6 +426,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     "schema": STATE_SCHEMA,
                     "status": "COMPLETE_VERIFIED_IMPORT_SET",
                     "pid": os.getpid(),
+                    "relay_id": relay_id,
                     "source_host_label": contract["source_host_label"],
                     "result": str(final_path),
                     "result_sha256": file_sha256(final_path),
@@ -435,6 +443,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--destination-root", type=Path, required=True)
+    parser.add_argument("--relay-id")
     parser.add_argument("--source-host-label", required=True)
     parser.add_argument("--source-host", required=True)
     parser.add_argument("--source-port", type=int, required=True)

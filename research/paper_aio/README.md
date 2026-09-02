@@ -59,7 +59,9 @@ Source-host exports can be transferred to one evaluation host with
 accepts authentication only through a named environment variable, never
 persists the credential, and verifies the export receipt, checkpoint and
 sidecar hashes before publishing an import set.  It transfers no metric file
-and cannot mutate a source checkpoint.
+and cannot mutate a source checkpoint.  `--relay-id` distinguishes multiple
+run roots on one physical source host without changing the source-host label
+recorded in the scientific receipts.
 
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.

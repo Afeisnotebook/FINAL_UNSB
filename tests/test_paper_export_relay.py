@@ -100,7 +100,8 @@ def test_contract_never_persists_password(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr(relay, "__file__", str(tmp_path / "relay.py"))
     (tmp_path / "relay.py").write_text("frozen", encoding="utf-8")
     args = SimpleNamespace(
-        lane=["cut", "cyclegan"], source_host_label="5090B",
+        lane=["cut", "cyclegan"], relay_id="external5090B",
+        source_host_label="5090B",
         password_env="FINAL_UNSB_PAPER_RELAY_5090B_PASSWORD",
         expected_host_key_sha256="SHA256:fixed", poll_seconds=60,
         timeout_hours=480, source_host="example", source_port=44804,
@@ -110,5 +111,6 @@ def test_contract_never_persists_password(tmp_path, monkeypatch) -> None:
     contract = _contract(args)
     encoded = json.dumps(contract)
     assert contract["password_persisted"] is False
+    assert contract["relay_id"] == "external5090B"
     assert contract["password_env"] == "FINAL_UNSB_PAPER_RELAY_5090B_PASSWORD"
     assert "secret-value" not in encoded
