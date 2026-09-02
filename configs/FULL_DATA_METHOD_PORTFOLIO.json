@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T07:18:31+08:00",
+  "captured_at": "2026-09-03T07:33:16+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -80,7 +80,8 @@
       "4090A_5090B_matched_plain_relay": 2237500,
       "local_incremental_terminal_audit": 20780,
       "local_terminal_pathology_auto_successor": 18712,
-      "4090A_stcgr_control_relation": 2289036
+      "4090A_stcgr_control_relation": 2289036,
+      "4090A_registry_review_successor": 2349694
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -134,15 +135,19 @@
     "health_status": "HEALTHY",
     "first_wave_complete_is_not_algorithm_freeze": true,
     "replacement_status": "code_ready_waiting_for_5090B_runtime_receipt_relation_candidates_and_git_review",
-    "registry_review_interface_commit": "1acfca69af1a9643e9b45e2f018f37e53ebe23a9",
-    "registry_review_status": "implemented_tested_successor_state_bound_waiting_real_candidates",
+    "registry_review_interface_commit": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
+    "registry_review_status": "deployed_healthy_waiting_both_review_only_candidates_explicit_git_admission_still_required",
+    "registry_review_successor_pid": 2349420,
+    "registry_review_health_watcher_pid": 2349694,
+    "registry_review_output": "/home/yc/runs/FINAL_UNSB_REGISTRY_REVIEW_1660b1d",
     "replacement_lane_sources": {
       "plain": "5090B_MATCHED_PLAIN",
       "proposal": "5090C",
       "cut": "5090B",
       "cyclegan": "5090B"
     },
-    "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json",
+    "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
   },
   "local_evaluation_node": {
     "status": "preflight_pass_full_rollout_jvp_terminal_audit_pipeline_healthy_waiting_fixed_e100_e150_e200_imports",

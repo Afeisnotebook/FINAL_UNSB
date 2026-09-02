@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-paper-durable-relation-registry-review-deployment-v1",
+  "captured_at": "2026-09-03T07:33:16+08:00",
+  "status": "DEPLOYED_HEALTHY_WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+  "host": "4090A",
+  "frozen_control": {
+    "repo": "/home/yc/FINAL_UNSB_REGISTRY_REVIEW_1660b1d",
+    "git_commit": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
+    "python": "/home/yc/stone_tool_deploy/stone_tool_env/bin/python3.11"
+  },
+  "successor": {
+    "pid": 2349420,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_REGISTRY_REVIEW_1660b1d",
+    "contract": "/home/yc/runs/FINAL_UNSB_REGISTRY_REVIEW_1660b1d/operations/REGISTRY_REVIEW_SUCCESSOR_CONTRACT.json",
+    "contract_sha256": "c27aedc09d584c19b5eb3735e72cfe5eed8906eecbc993f9c81544e71b1aaaac",
+    "state": "/home/yc/runs/FINAL_UNSB_REGISTRY_REVIEW_1660b1d/operations/REGISTRY_REVIEW_SUCCESSOR_STATE.json",
+    "state_sha256_at_capture": "011453ae945391d9cb7c70df3fd0d57947ddd750096a8c4441a3cc8c4ef99b55",
+    "state_status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+    "proposal_release": "WAIT",
+    "stcgr_release": "WAIT",
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "health_watch": {
+    "pid": 2349694,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_REGISTRY_REVIEW_1660b1d",
+    "contract_sha256": "befb91cf932415ec56d5e4446ab4e01fc8431fe00d8791c4f20d00283379429a",
+    "state_sha256_at_capture": "388a90d933d58c39cb7e56db5ddb2cf188c5f5027a6d47b9cad3670f1c5fea80",
+    "status_after_multiple_polls": "HEALTHY",
+    "alert_count": 0,
+    "successor_pid_alive": true,
+    "disk_free_gib": 387.0915298461914,
+    "estimated_remaining_write_gib": 0.1,
+    "minimum_headroom_gib": 4.0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "upstreams": {
+    "proposal_relation_successor_pid": 2243220,
+    "proposal_relation_status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+    "stcgr_relation_successor_pid": 2289024,
+    "stcgr_relation_status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+    "plain_source_host": "5090B_MATCHED_PLAIN"
+  },
+  "authority_boundary": {
+    "tracked_registry_edited": false,
+    "comparison_authorized": false,
+    "evaluation_auto_started": false,
+    "explicit_codex_git_admission_required": true,
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "implementation_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_INTERFACE_20260903.json",
+  "decision": "decisions/DEC-20260903-DURABLE-RELATION-REGISTRY-REVIEW.md"
+}

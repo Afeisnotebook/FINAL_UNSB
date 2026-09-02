@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-durable-relation-registry-review-interface-v1",
   "captured_at": "2026-09-03T07:28:00+08:00",
-  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "status": "IMPLEMENTED_TESTED_AND_DEPLOYED_HEALTHY_WAITING_REAL_CANDIDATES",
   "upstreams": {
     "proposal_relation_state": "COMPLETE_REVIEW_ONLY_RUNTIME_RELATION_CANDIDATE",
     "stcgr_relation_state": "COMPLETE_REVIEW_ONLY_CANDIDATE_CONTROL_RELATION",
@@ -39,6 +39,14 @@
     "changed_files_ruff": "pass",
     "compileall": "pass",
     "git_diff_check": "pass"
+  },
+  "deployment": {
+    "host": "4090A",
+    "successor_pid": 2349420,
+    "health_watcher_pid": 2349694,
+    "successor_status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
   },
   "implementation": "operations/paper_aio_relation_registry_review_successor.py",
   "decision": "decisions/DEC-20260903-DURABLE-RELATION-REGISTRY-REVIEW.md"

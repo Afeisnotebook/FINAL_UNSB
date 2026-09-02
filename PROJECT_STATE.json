@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T07:18:31+08:00",
+  "state_snapshot_time": "2026-09-03T07:33:16+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -570,22 +570,26 @@
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
     "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T071831.json",
     "delivery_handoff_repair": {
-      "status": "DYNAMIC_SOURCE_CONTRACT_AND_STATE_BOUND_REGISTRY_REVIEW_IMPLEMENTED_AWAITING_REAL_5090B_RELATIONS",
+      "status": "DYNAMIC_SOURCE_CONTRACT_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
       "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",
       "interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
-      "registry_review_interface_commit": "1acfca69af1a9643e9b45e2f018f37e53ebe23a9",
+      "registry_review_interface_commit": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
+      "registry_review_successor_pid": 2349420,
+      "registry_review_health_watcher_pid": 2349694,
+      "registry_review_status": "HEALTHY_WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+      "registry_review_output": "/home/yc/runs/FINAL_UNSB_REGISTRY_REVIEW_1660b1d",
       "legacy_unified_evaluator_pid": 2209120,
       "legacy_final_delivery_pid": 2220419,
       "legacy_waiters_retained_until_replacement_healthy": true,
       "replacement_plain_source": "5090B_MATCHED_PLAIN",
       "decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
-      "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json"
+      "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
     },
     "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",
+  "development_head_at_state_write": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",
