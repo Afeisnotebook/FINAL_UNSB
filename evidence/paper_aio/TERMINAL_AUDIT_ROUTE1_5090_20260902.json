@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-existing-terminal-audit-compact-v1",
+  "date": "2026-09-02",
+  "audit_source_sha256": "376fa8c4dcf7ee56d383056e05506c4ab99b79b3b3ddf601ab35dee7c5ef38f3",
+  "runtime": "5090 frozen route1 cohort",
+  "checkpoints": 12,
+  "lanes": ["plain", "proposal", "hjcgr"],
+  "epochs": [60, 100, 150, 200],
+  "rollout_replicates_per_checkpoint": 32,
+  "fixed_samples_per_domain": 1,
+  "gradient_replicates_per_time_stratum": 4,
+  "macro_trajectory": [
+    {"lane": "plain", "epoch": 60, "psnr": 15.828469, "endpoint_trace": 0.04172150, "effective_rank": 26.45523, "propagated_gain": 0.265101, "nfe4_to_nfe5_rms": 0.039156},
+    {"lane": "plain", "epoch": 100, "psnr": 14.012096, "endpoint_trace": 0.02913728, "effective_rank": 26.73135, "propagated_gain": 0.295987, "nfe4_to_nfe5_rms": 0.039459},
+    {"lane": "plain", "epoch": 150, "psnr": 15.989093, "endpoint_trace": 0.06436356, "effective_rank": 20.43016, "propagated_gain": 0.344173, "nfe4_to_nfe5_rms": 0.038056},
+    {"lane": "plain", "epoch": 200, "psnr": 17.776804, "endpoint_trace": 0.08039306, "effective_rank": 23.94998, "propagated_gain": 0.314746, "nfe4_to_nfe5_rms": 0.031513},
+    {"lane": "proposal", "epoch": 60, "psnr": 14.801024, "psnr_delta": -1.027445, "endpoint_trace": 0.02950717, "effective_rank": 22.05631, "propagated_gain": 0.268695, "nfe4_to_nfe5_rms": 0.044236},
+    {"lane": "proposal", "epoch": 100, "psnr": 14.936528, "psnr_delta": 0.924432, "endpoint_trace": 0.03530623, "effective_rank": 20.85276, "propagated_gain": 0.327469, "nfe4_to_nfe5_rms": 0.041922},
+    {"lane": "proposal", "epoch": 150, "psnr": 17.362860, "psnr_delta": 1.373766, "endpoint_trace": 0.04125633, "effective_rank": 25.23702, "propagated_gain": 0.324288, "nfe4_to_nfe5_rms": 0.036415},
+    {"lane": "proposal", "epoch": 200, "psnr": 18.350600, "psnr_delta": 0.573796, "endpoint_trace": 0.03380545, "effective_rank": 26.93376, "propagated_gain": 0.344669, "nfe4_to_nfe5_rms": 0.032557},
+    {"lane": "hjcgr", "epoch": 60, "psnr": 16.001297, "psnr_delta": 0.172828, "endpoint_trace": 0.02336231, "effective_rank": 23.29071, "propagated_gain": 0.257982, "nfe4_to_nfe5_rms": 0.039070},
+    {"lane": "hjcgr", "epoch": 100, "psnr": 14.207216, "psnr_delta": 0.195120, "endpoint_trace": 0.17505183, "effective_rank": 9.41535, "propagated_gain": 0.512148, "nfe4_to_nfe5_rms": 0.095643},
+    {"lane": "hjcgr", "epoch": 150, "psnr": 17.645264, "psnr_delta": 1.656171, "endpoint_trace": 0.05300215, "effective_rank": 24.81402, "propagated_gain": 0.319393, "nfe4_to_nfe5_rms": 0.037075},
+    {"lane": "hjcgr", "epoch": 200, "psnr": 17.682574, "psnr_delta": -0.094231, "endpoint_trace": 0.03484486, "effective_rank": 26.38339, "propagated_gain": 0.328648, "nfe4_to_nfe5_rms": 0.034653}
+  ],
+  "pre_registered_interpretation": {
+    "spectral_degeneration": "endpoint trace and effective rank both decrease before a later PSNR decline",
+    "perturbation_amplification": "target-blind propagated gain crosses from at most one to greater than one before a later PSNR decline",
+    "required_support": {"lanes": 2, "domains": 3}
+  },
+  "witnesses": [
+    {
+      "lane": "hjcgr",
+      "domain": "RainDS-syn",
+      "signal_interval": [100, 150],
+      "future_performance_interval": [150, 200],
+      "spectral_degeneration": true,
+      "perturbation_amplification": false
+    }
+  ],
+  "supporting_lane_count": 1,
+  "supporting_domain_count": 1,
+  "terminal_low_variance_singular_drift_confirmed": false,
+  "decision": "Do not add or claim a terminal repair module from this evidence. Keep the martingale/bridge-time routes gated on independent standalone evidence.",
+  "limitations": [
+    "one fixed discovery sample per domain",
+    "four checkpoint times",
+    "small25 route1 states rather than the new full-data trajectory"
+  ],
+  "parent_state_and_rng_unchanged_for_all_audits": true,
+  "paired_metrics_attached_posthoc": true,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
