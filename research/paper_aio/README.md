@@ -196,3 +196,31 @@ run. It resumes only from hash-validated fixed receipts, uses a GPU lock, and
 emits a monitor-recognizable terminal status after unified lock and posthoc
 adjudication. It automates first-wave delivery only; later candidate cohorts
 still require their separately authorized disposition path.
+
+## Matched posthoc algorithm delivery
+
+A common evaluation container does not make different training hosts matched.
+The durable posthoc successor therefore has two explicit modes. `static_pair`
+builds an isolated same-host comparison root for 4090A plain and AM-TNC.
+`dynamic_candidate` adds ST-CGR only to the already locked cohort containing
+its 5090A plain. Both modes fix e100/e125/e150/e175/e200 and emit a separate
+algorithm disposition after the terminal adjudicator runs:
+
+```text
+python -m operations.paper_aio_algorithm_evaluation_successor \
+  --mode static_pair --method-lane amtnc \
+  --plain-source-host 4090A --method-source-host 4090A ...
+
+python -m operations.paper_aio_algorithm_evaluation_successor \
+  --mode dynamic_candidate \
+  --method-lane G4-01-STRATIFIED-TIME-CONDITIONAL-GF \
+  --method-source-host 5090A --candidate-authority AUTHORITY.json \
+  --candidate-metadata-receipt METADATA_IMPORT.json \
+  --first-wave-cohort UNIFIED_EVALUATION_COHORT.json ...
+```
+
+Dynamic candidate metadata is imported once with
+`operations.paper_aio_candidate_metadata_relay.py`. It verifies the pinned SSH
+host key and binds the candidate lock, authorization and runtime gate to hashes
+already frozen by the portable evaluation authority. Prior small25 evidence is
+transported as immutable provenance, never as a full-data controller.

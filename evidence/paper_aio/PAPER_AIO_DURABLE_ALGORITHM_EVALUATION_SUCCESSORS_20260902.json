@@ -1,0 +1,119 @@
+{
+  "schema": "final-unsb-paper-durable-algorithm-evaluation-successors-v1",
+  "captured_at": "2026-09-02T23:26:47+08:00",
+  "status": "AMTNC_AND_STCGR_MATCHED_POSTHOC_DELIVERY_ARMED",
+  "purpose": "ensure both evidence-backed full-data algorithm lanes automatically reach their legal matched evaluation and posthoc scientific disposition after e200",
+  "control": {
+    "git_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+    "algorithm_successor_script": "operations/paper_aio_algorithm_evaluation_successor.py",
+    "candidate_metadata_relay_script": "operations/paper_aio_candidate_metadata_relay.py",
+    "paper_protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "local_full_suite": "458 passed",
+    "remote_4090a_targeted_suite": "25 passed",
+    "ruff": "pass",
+    "py_compile": "pass"
+  },
+  "runtime_relation_partition": {
+    "reason": "a common evaluator does not make different training hosts matched",
+    "amtnc": {
+      "method_source": "4090A/amtnc",
+      "matched_plain": "4090A/plain",
+      "evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_9d197df",
+      "comparison_scope": "same_source_runtime",
+      "shares_first_wave_5090a_plain": false
+    },
+    "stcgr": {
+      "method_source": "5090A/G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "matched_plain": "5090A/plain",
+      "evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948",
+      "comparison_scope": "same_host_cross_code_candidate_gate",
+      "requires_first_wave_cohort_lock": true
+    }
+  },
+  "candidate_metadata_import": {
+    "status": "COMPLETE_VERIFIED_CANDIDATE_METADATA_IMPORT",
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "source_host_label": "5090A",
+    "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948/operations/CANDIDATE_METADATA_IMPORT_G4-01-STRATIFIED-TIME-CONDITIONAL-GF.json",
+    "receipt_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364",
+    "authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+    "candidate_lock_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+    "authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3",
+    "runtime_gate_sha256": "6fe4deca6f884e8ccac1726b0ae87abf9a7e23b34d68680d4439390fb9caf689",
+    "frozen_prior_small25_evidence_transferred": true,
+    "paired_performance_used_for_training_or_scheduling": false,
+    "password_persisted": false
+  },
+  "deployments": {
+    "amtnc": {
+      "status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+      "pid": 2215253,
+      "ppid": 1,
+      "method_lane": "amtnc",
+      "mode": "static_pair",
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_9d197df",
+      "contract_sha256": "c7343a09c2d6b3b7798ae652ebb344719da0b6c1ba5c39eb12a29c355df809e6",
+      "source_export_root": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/exports",
+      "fixed_lanes": ["plain", "amtnc"],
+      "fixed_epochs": [100, 125, 150, 175, 200],
+      "expected_trigger": "both 4090A source-bound export sets complete"
+    },
+    "stcgr": {
+      "status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+      "pid": 2215255,
+      "ppid": 1,
+      "method_lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "mode": "dynamic_candidate",
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948",
+      "contract_sha256": "e26fac22e86d95112c4c281ddb00705c17768ad24aa950a1727b069b1296a180",
+      "source_import_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+      "fixed_epochs": [100, 125, 150, 175, 200],
+      "expected_trigger": "verified 5090A candidate import plus metadata receipt plus completed first-wave cohort"
+    }
+  },
+  "shared_gpu_serialization": {
+    "host": "4090A",
+    "gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "policy": "first ready evaluator acquires the lock; no evaluation overlaps another evaluation or training-owned release boundary",
+    "training_configuration_changed": false
+  },
+  "health_watch": {
+    "status": "HEALTHY_AFTER_SECOND_POLL",
+    "pid": 2215392,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_POSTHOC_9d197df",
+    "contract_sha256": "21bc7d820c8603a53fa5fa186d658e6f6b08d7de7705ddb7f0b444f758e87e46",
+    "alert_count": 0,
+    "disk_free_gib": 386.45737075805664,
+    "estimated_remaining_write_gib": 4.0,
+    "minimum_headroom_gib": 16.0,
+    "required_disk_gib": 20.0
+  },
+  "deployment_incident": {
+    "status": "RECOVERED_CONTROL_PLANE_ONLY",
+    "first_metadata_attempt": "exact evaluator Python lacked optional paramiko",
+    "recovery": "reran the identical frozen contract with the host system control-plane Python 3.8 that already provides paramiko 2.6.0",
+    "first_attempt_reached_remote_connection": false,
+    "checkpoint_loaded": false,
+    "training_interrupted": false,
+    "scientific_state_modified": false
+  },
+  "live_training_snapshot": {
+    "4090A_plain": {"data_epoch": 38, "updates": 325014},
+    "5090A_plain": {"data_epoch": 8, "updates": 68424},
+    "5090B_cut": {"data_epoch": 31, "updates": 265143},
+    "5090B_cyclegan": {"data_epoch": 15, "updates": 128295},
+    "5090C_proposal": {"data_epoch": 2, "updates": 17106}
+  },
+  "scientific_boundaries": {
+    "fixed_evaluation_epochs": [100, 125, 150, 175, 200],
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "new_experiment_created": false,
+    "training_protocol_changed": false,
+    "healthy_training_interrupted": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}

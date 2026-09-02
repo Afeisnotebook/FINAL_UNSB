@@ -109,3 +109,6 @@ authorize compute.
 33. `DEC-20260902-DURABLE-UNIFIED-EVALUATION-SUCCESSOR.md`：4090A新增持久化首波统一
     评估继任器，在固定checkpoint全部验签且AM-TNC释放GPU后自动完成单容器评估、cohort
     锁定与事后裁决。控制状态不含性能值，不改变训练，也不等于候选集或confirmation冻结。
+34. `DEC-20260902-PAPER-DURABLE-MATCHED-ALGORITHM-EVALUATION.md`：AM-TNC不能误用首波
+    5090A plain，故单独绑定4090A plain；ST-CGR只绑定5090A plain并等待首波cohort锁定。
+    两条e200后评估/裁决链均已持久化，固定五个epoch且不能以指标控制训练或选择checkpoint。

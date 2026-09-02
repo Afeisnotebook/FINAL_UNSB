@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-02T22:59:00+08:00",
+  "captured_at": "2026-09-02T23:26:47+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -80,6 +80,26 @@
     "health_status": "HEALTHY",
     "first_wave_complete_is_not_algorithm_freeze": true,
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
+  },
+  "algorithm_posthoc_delivery": {
+    "status": "AMTNC_AND_STCGR_MATCHED_EVALUATION_SUCCESSORS_ARMED",
+    "control_commit": "9d197df0b4b6b96aca5bcbb74b6dfd73bc72a3c1",
+    "amtnc": {
+      "pid": 2215253,
+      "status": "waiting_for_4090a_plain_and_amtnc_exports",
+      "matched_plain": "4090A/plain",
+      "separate_output_required": true
+    },
+    "stcgr": {
+      "pid": 2215255,
+      "status": "waiting_for_5090a_candidate_import_and_first_wave_cohort",
+      "matched_plain": "5090A/plain",
+      "candidate_metadata_import": "complete_verified"
+    },
+    "health_watcher_pid": 2215392,
+    "health_status": "HEALTHY",
+    "cross_non_equivalent_runtime_delta": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_STATUS_20260902T225900.json",
