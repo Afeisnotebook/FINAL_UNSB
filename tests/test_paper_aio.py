@@ -12,7 +12,11 @@ from research.paper_aio.evaluate import (
     replicate_stochasticity,
     select_discovery,
 )
-from research.paper_aio.gates import external_gate_status, scientific_core
+from research.paper_aio.gates import (
+    external_gate_status,
+    run_evaluation_repeat_gate,
+    scientific_core,
+)
 from research.paper_aio.protocol import (
     EXPECTED_MANIFEST_SHA256,
     FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
@@ -21,6 +25,7 @@ from research.paper_aio.protocol import (
     lane_spec,
     load_protocol,
     steps_per_epoch,
+    protocol_fingerprint,
     validate_protocol,
 )
 from research.paper_aio.runtime import manifest_report, option_args
@@ -130,6 +135,30 @@ def test_external_lanes_fail_closed(tmp_path: Path) -> None:
     ddsb = external_gate_status(tmp_path, "ddsb")
     assert lane_spec("cut").backend == "internal"
     assert ddsb["fallback_lane"] == "cyclegan"
+
+
+def test_repeat_gate_keeps_training_and_evaluation_fingerprints_distinct(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    payload = {
+        "evaluation_input_sha256": "input",
+        "value": 1,
+    }
+    monkeypatch.setattr(
+        "research.paper_aio.evaluate.evaluate_model",
+        lambda **_kwargs: payload,
+    )
+    result = run_evaluation_repeat_gate(
+        output_root=tmp_path,
+        model=object(),
+        spec=lane_spec("plain"),
+        rows=[],
+        data_root=tmp_path,
+        protocol_hash="frozen-evaluation-bundle",
+    )
+    assert result["status"] == "PASS"
+    assert result["protocol_fingerprint"] == protocol_fingerprint()
+    assert result["evaluation_bundle_fingerprint"] == "frozen-evaluation-bundle"
 
 
 def _metric(value: float) -> dict:

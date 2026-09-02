@@ -527,7 +527,12 @@ def run_evaluation_repeat_gate(
         "first_result_sha256": left,
         "second_result_sha256": right,
         "evaluation_input_sha256": first["evaluation_input_sha256"],
-        "protocol_fingerprint": protocol_hash,
+        # The evaluator bundle can remain frozen while engineering-only gate
+        # code changes.  Authorization is bound to the current training
+        # protocol; keep the two identities explicit instead of overloading
+        # one field and incorrectly declaring a fresh receipt stale.
+        "protocol_fingerprint": protocol_fingerprint(),
+        "evaluation_bundle_fingerprint": protocol_hash,
         "split": "discovery",
         "confirmation20_opened": False,
     }
