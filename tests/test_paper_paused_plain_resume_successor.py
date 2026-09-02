@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -113,3 +114,34 @@ def test_plain_authorization_must_remain_sealed(tmp_path: Path) -> None:
             training_output=tmp_path,
             required_protocol_fingerprint="p" * 64,
         )
+
+
+def test_contract_freezes_exact_resume_without_metrics(tmp_path: Path, monkeypatch) -> None:
+    script = tmp_path / "successor.py"
+    script.write_text("frozen", encoding="utf-8")
+    monkeypatch.setattr(successor, "__file__", str(script))
+    args = SimpleNamespace(
+        control_repo=tmp_path / "control", training_repo=tmp_path / "training",
+        training_output=tmp_path / "run", python=tmp_path / "python",
+        manifest=tmp_path / "manifest.csv", data_root=tmp_path / "data",
+        train_view=tmp_path / "view", predecessor_state=tmp_path / "candidate.json",
+        candidate_id="G4-STCGR", plain_source_host_label="5090A",
+        required_resume_epoch=9, required_full_state_sha256="f" * 64,
+        required_scientific_state_sha256="s" * 64, gpu=0,
+        poll_seconds=60, timeout_hours=960.0,
+    )
+    contract = successor.proposed_contract(
+        args, control_head="c" * 40, training_head="t" * 40,
+        protocol_fingerprint="p" * 64,
+    )
+    assert contract["required_resume_epoch"] == 9
+    assert contract["cross_host_checkpoint_resume"] is False
+    assert contract["training_configuration_changed"] is False
+    assert contract["performance_values_read"] is False
+    assert contract["confirmation20_opened"] is False
+    path = tmp_path / "contract.json"
+    successor.freeze_contract(path, contract)
+    successor.freeze_contract(path, contract)
+    changed = {**contract, "required_resume_epoch": 10}
+    with pytest.raises(RuntimeError, match="contract changed"):
+        successor.freeze_contract(path, changed)

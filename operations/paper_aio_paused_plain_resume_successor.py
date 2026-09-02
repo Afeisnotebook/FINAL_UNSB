@@ -32,6 +32,7 @@ except ImportError:  # pragma: no cover - deployment is POSIX
 
 
 STATE_SCHEMA = "final-unsb-paper-paused-plain-resume-successor-v1"
+CONTRACT_SCHEMA = "final-unsb-paper-paused-plain-resume-contract-v1"
 BLOCKED_PREFIXES = ("BLOCKED", "FAIL", "FATAL")
 
 
@@ -173,7 +174,7 @@ def matching_plain_train_pids(training_output: Path) -> list[int]:
 
 
 def state_payload(args: argparse.Namespace, *, status: str, **extra: Any) -> dict[str, Any]:
-    return {
+    value = {
         "schema": STATE_SCHEMA,
         "status": status,
         "pid": os.getpid(),
@@ -188,6 +189,58 @@ def state_payload(args: argparse.Namespace, *, status: str, **extra: Any) -> dic
         "confirmation20_opened": False,
         **extra,
     }
+    contract_path = (
+        args.successor_output.resolve() / "operations"
+        / "PAUSED_PLAIN_RESUME_SUCCESSOR_CONTRACT.json"
+    )
+    if contract_path.is_file():
+        value["contract"] = str(contract_path)
+        value["contract_sha256"] = file_sha256(contract_path)
+    return value
+
+
+def proposed_contract(
+    args: argparse.Namespace, *, control_head: str,
+    training_head: str, protocol_fingerprint: str,
+) -> dict[str, Any]:
+    return {
+        "schema": CONTRACT_SCHEMA,
+        "status": "FROZEN_METRIC_BLIND_SUCCESSOR",
+        "control_repo": str(args.control_repo.resolve()),
+        "control_git_commit": control_head,
+        "control_script": str(Path(__file__).resolve()),
+        "control_script_sha256": file_sha256(Path(__file__).resolve()),
+        "training_repo": str(args.training_repo.resolve()),
+        "training_git_commit": training_head,
+        "training_output": str(args.training_output.resolve()),
+        "python": str(args.python.resolve()),
+        "manifest": str(args.manifest.resolve()),
+        "data_root": str(args.data_root.resolve()),
+        "train_view": str(args.train_view.resolve()),
+        "predecessor_state": str(args.predecessor_state.resolve()),
+        "candidate_id": args.candidate_id,
+        "plain_source_host_label": args.plain_source_host_label,
+        "protocol_fingerprint": protocol_fingerprint,
+        "required_resume_epoch": int(args.required_resume_epoch),
+        "required_full_state_sha256": args.required_full_state_sha256,
+        "required_scientific_state_sha256": args.required_scientific_state_sha256,
+        "gpu": int(args.gpu),
+        "poll_seconds": int(args.poll_seconds),
+        "timeout_hours": float(args.timeout_hours),
+        "cross_host_checkpoint_resume": False,
+        "training_configuration_changed": False,
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+
+
+def freeze_contract(path: Path, proposed: dict[str, Any]) -> None:
+    if path.is_file():
+        if read_json(path) != proposed:
+            raise RuntimeError("paused-plain resume successor contract changed")
+    else:
+        atomic_json(path, proposed)
 
 
 def ensure_export_successor(args: argparse.Namespace) -> int:
@@ -242,6 +295,15 @@ def run(args: argparse.Namespace) -> int:
     ).strip()
     if fingerprint != args.required_protocol_fingerprint:
         raise RuntimeError("frozen plain protocol fingerprint changed")
+    operations = args.successor_output.resolve() / "operations"
+    operations.mkdir(parents=True, exist_ok=True)
+    freeze_contract(
+        operations / "PAUSED_PLAIN_RESUME_SUCCESSOR_CONTRACT.json",
+        proposed_contract(
+            args, control_head=control_head, training_head=training_head,
+            protocol_fingerprint=fingerprint,
+        ),
+    )
     validate_plain_authorization(
         training_output=args.training_output,
         required_protocol_fingerprint=args.required_protocol_fingerprint,
@@ -255,7 +317,6 @@ def run(args: argparse.Namespace) -> int:
         required_protocol_fingerprint=args.required_protocol_fingerprint,
     )
 
-    operations = args.successor_output.resolve() / "operations"
     state_path = operations / "PAUSED_PLAIN_RESUME_SUCCESSOR_STATE.json"
     lock_path = operations / "PAUSED_PLAIN_RESUME_SUCCESSOR.lock"
     operations.mkdir(parents=True, exist_ok=True)
