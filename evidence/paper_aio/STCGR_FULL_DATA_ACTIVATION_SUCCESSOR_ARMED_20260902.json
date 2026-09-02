@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-paper-stcgr-activation-successor-deployment-v1",
+  "date": "2026-09-02",
+  "status": "ARMED_WAITING_FOR_COMPLETE_SMALL25_ARTIFACTS",
+  "host_label": "5090A",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "successor_pid": 298747,
+  "orchestration_commit": "1d17065a66cebc30cef638fb4458e67054e97b28",
+  "candidate_worktree": "/root/autodl-tmp/FINAL_UNSB_PAPER_CANDIDATE_656670c",
+  "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+  "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+  "candidate_output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+  "preflight": {
+    "status": "PASS",
+    "free_disk_gib": 186.94420623779297,
+    "effective_minimum_free_gib": 48.0,
+    "content_hashes_verified": true
+  },
+  "parent": {
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed",
+    "git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "readiness_mode": "authorized_running",
+    "complete_e200_required_before_matched_adjudication": true
+  },
+  "automatic_stages_after_positive_e200_receipt": [
+    "cross-code candidate runtime gate",
+    "candidate evidence lock",
+    "fresh full-data candidate authorization",
+    "exactly one full-data candidate epoch as a capacity/makespan probe"
+  ],
+  "automatic_stop": "E1_CAPACITY_PROBE_COMPLETE_AWAITING_MAKESPAN_DECISION",
+  "negative_or_incomplete_receipt_behavior": "FAIL_CLOSED_NO_FULL_TRAINING",
+  "artifact_payloads_read_by_scheduler": false,
+  "intermediate_paired_metric_control": false,
+  "candidate_continued_beyond_e1": false,
+  "confirmation20_opened": false
+}

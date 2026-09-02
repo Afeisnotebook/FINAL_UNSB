@@ -94,6 +94,16 @@
       "contract_sha256": "e1ee39b7753554f516ce57ef028c058faade84259528212035ca75aec8682a71",
       "evidence": "evidence/remote_route1_offload/STCGR_E200_RECEIPT_SUCCESSOR_ARMED_20260902.json"
     },
+    "active_new_candidate_full_data_activation_successor": {
+      "status": "ARMED_WAITING_FOR_COMPLETE_SMALL25_ARTIFACTS",
+      "pid": 298747,
+      "orchestration_commit": "1d17065a66cebc30cef638fb4458e67054e97b28",
+      "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+      "parent_readiness_mode": "authorized_running",
+      "automatic_stop_after_candidate_e1": true,
+      "evidence": "evidence/paper_aio/STCGR_FULL_DATA_ACTIVATION_SUCCESSOR_ARMED_20260902.json"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
@@ -101,7 +111,7 @@
     "next_manual_decision_window": "2026-09-02T17:00:00+08:00/2026-09-02T18:30:00+08:00"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
+  "development_head_at_state_write": "1d17065a66cebc30cef638fb4458e67054e97b28",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",
