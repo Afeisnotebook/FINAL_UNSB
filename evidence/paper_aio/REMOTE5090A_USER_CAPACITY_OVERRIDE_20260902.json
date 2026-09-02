@@ -1,0 +1,27 @@
+{
+  "schema": "final-unsb-paper-user-capacity-override-deployment-v1",
+  "captured_at": "2026-09-02T14:12:00+08:00",
+  "host_label": "5090A",
+  "status": "USER_CAPACITY_OVERRIDE_ACTIVE_PREFLIGHT_PASS",
+  "policy": {
+    "mode": "USER_CAPACITY_OVERRIDE",
+    "protocol_minimum_free_gib_superseded_for_this_host": 200,
+    "estimated_worst_case_incremental_write_gib": 24.0,
+    "safety_multiplier": 2.0,
+    "effective_minimum_free_gib": 48.0,
+    "observed_free_gib": 188.2189178466797,
+    "headroom_above_effective_minimum_gib": 140.2189178466797,
+    "override_receipt_sha256": "6511a774f3431dc205e42797f9ec9f14b398c920e1c9f1d489dc8ed4d278c1dc",
+    "deletion_authorized": false
+  },
+  "preflight": {
+    "status": "PASS",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "content_hashes_verified": true,
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "actual_capacity_risk": "NONE_AT_OBSERVED_FREE_SPACE_UNDER_2X_WORST_CASE_WRITE",
+  "historical_assets_deleted": false,
+  "confirmation20_opened": false
+}

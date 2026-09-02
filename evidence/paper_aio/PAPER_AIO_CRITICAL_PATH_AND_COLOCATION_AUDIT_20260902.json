@@ -1,0 +1,194 @@
+{
+  "schema": "final-unsb-paper-critical-path-audit-v1",
+  "captured_at": "2026-09-02T14:12:02+08:00",
+  "status": "AUDITED_AND_RESCHEDULED",
+  "north_star": [
+    "full-data e200 paper baselines",
+    "at least one long-causal-evidence-derived new algorithm at full-data e200",
+    "strict same-runtime plain comparisons for Proposal and later candidates",
+    "external unpaired opponents under their locked protocols",
+    "unified deterministic paper evaluation and adjudication"
+  ],
+  "scientific_boundaries": {
+    "confirmation20_opened": false,
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_host_matched_delta_merged": false,
+    "guessed_ddsb_started": false,
+    "batch_or_optimizer_or_epoch_definition_changed": false
+  },
+  "running_tasks": [
+    {
+      "id": "P4090",
+      "host": "4090A",
+      "task": "full plain UNSB e200",
+      "status": "CHILD_RUNNING_HEALTHY",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "latest_complete_data_epoch": 12,
+      "latest_complete_updates": 102636,
+      "normal_epoch_seconds": 1266.82315325737,
+      "estimated_remaining_hours": 66.16
+    },
+    {
+      "id": "CUT5090B",
+      "host": "5090B",
+      "task": "full CUT e200",
+      "status": "CHILD_RUNNING_HEALTHY_COLOCATED",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8",
+      "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "latest_complete_data_epoch": 11,
+      "latest_complete_updates": 94083
+    },
+    {
+      "id": "CYCLE5090B",
+      "host": "5090B",
+      "task": "full CycleGAN e200",
+      "status": "CHILD_RUNNING_HEALTHY_COLOCATED",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8",
+      "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "latest_complete_data_epoch": 1,
+      "latest_complete_updates": 8553,
+      "estimated_joint_critical_remaining_hours": 131.59
+    },
+    {
+      "id": "STCGR5090A",
+      "host": "5090A",
+      "task": "ST-CGR small25 e200",
+      "status": "CANDIDATE_EXECUTOR_RUNNING_HEALTHY",
+      "executor_pid": 287002,
+      "receipt_successor_pid": 288206,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_ROUTE1_CANDIDATES_5090",
+      "training_commit": "0637880f8e93742a0551a30c555d02a6323f583e",
+      "latest_complete_data_epoch": 109,
+      "latest_complete_updates": 16350,
+      "post_gate_epoch_seconds": 92.30912923812866,
+      "estimated_terminal_receipt_window": "2026-09-02T17:00:00+08:00/2026-09-02T18:30:00+08:00"
+    }
+  ],
+  "waiting_or_armed_tasks": [
+    {
+      "id": "PROPOSAL4090",
+      "host": "4090A",
+      "task": "full Proposal-only e200",
+      "status": "AUTHORIZED_WAITING_FOR_PLAIN_E200",
+      "successor_pid": 2089059,
+      "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "reason_not_colocated": "plain epoch slowed about 70 percent during the Proposal gate; starting the full companion would delay the high-fanout matched control",
+      "estimated_duration_after_start_days": [6.5, 8.0]
+    },
+    {
+      "id": "PLAIN5090A",
+      "host": "5090A",
+      "task": "same-host full plain e200 for the new-algorithm cohort",
+      "status": "AUTHORIZED_WAITING_FOR_METRIC_BLIND_STCGR_E200_TRIGGER",
+      "trigger_supervisor_pid": 296778,
+      "export_successor_pid": 296821,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed",
+      "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "trigger_payload_read": false,
+      "reason_not_colocated_now": "temporary gate co-residence doubled ST-CGR epoch time and reduced plain to 2.114 updates per second, so immediate dual training did not improve the combined completion path"
+    },
+    {
+      "id": "STCGR_ADJUDICATION",
+      "host": "CPU_or_local_GTX1660",
+      "task": "posthoc e200 strict adjudication and full candidate lock",
+      "status": "WAITING_FOR_CANONICAL_E200_RECEIPT",
+      "dependency": "STCGR5090A"
+    },
+    {
+      "id": "UNIFIED_EVALUATION",
+      "host": "unified deterministic evaluation cohort",
+      "task": "source export plus e100/e125/e150/e175/e200 evaluation and paper aggregation",
+      "status": "WAITING_FOR_MILESTONE_CHECKPOINTS",
+      "input_reference_status": "COMPLETE_REPEAT_EXACT",
+      "input_metric_sha256": "dec1ce92623b5980deddad5e38f2cc091c08e1c1a513af6470c8fd097835ff8b"
+    },
+    {
+      "id": "DDSB",
+      "host": "unassigned",
+      "task": "authoritative formula-source-implementation reproduction",
+      "status": "BLOCKED_SOURCE_OR_FORMULA_LOCK_MISSING",
+      "scientific_failure": false,
+      "guessed_long_run_authorized": false
+    }
+  ],
+  "completed_nonblocking_tasks": [
+    "existing checkpoint terminal spectral audit; terminal singular drift not confirmed",
+    "target-blind fixed-checkpoint diagnostics",
+    "DDSB public-source gate",
+    "unified evaluation schema and deterministic repeat gate",
+    "Input discovery80 deterministic reference",
+    "ST-CGR derivation, invariants, resume and candidate engineering gates"
+  ],
+  "dependency_dag": {
+    "critical_paths": [
+      "P4090 -> PROPOSAL4090 -> source export -> unified evaluation -> Proposal paper adjudication",
+      "STCGR5090A -> canonical receipt -> posthoc strict adjudication -> candidate lock/runtime gate -> PLAIN5090A and candidate full e200 -> unified evaluation -> new-algorithm paper adjudication",
+      "CUT5090B and CYCLE5090B -> source exports -> unified evaluation -> external-baseline table"
+    ],
+    "independent_parallel_nodes": [
+      "P4090",
+      "CUT5090B",
+      "CYCLE5090B",
+      "STCGR5090A",
+      "completed target-blind CPU work"
+    ],
+    "result_dependent_nodes": [
+      "ST-CGR candidate freeze and any full candidate launch",
+      "e200 paper scientific claims",
+      "confirmation20 unlock",
+      "DDSB long run until source/formula lock exists"
+    ]
+  },
+  "scheduling_changes": [
+    "kept 4090A Proposal sequential and retained successor PID 2089059",
+    "started and retained CycleGAN beside CUT after an e1 capacity/makespan gate",
+    "terminated obsolete CUT-to-CycleGAN successor PID 7414 to prevent duplicate launch",
+    "activated USER_CAPACITY_OVERRIDE on 5090A with a 48 GiB effective floor",
+    "completed 5090A plain materialization, resume, runtime, repeated-evaluation and authorization gates",
+    "armed metric-blind ST-CGR-e200-to-5090A-plain supervisor PID 296778",
+    "armed 5090A plain source exporter PID 296821",
+    "terminated stale 4090 G1-02 e80 watcher PID 1391511; its lane had permanently paused at e70"
+  ],
+  "device_queues": {
+    "4090A": [
+      "full plain e200",
+      "full Proposal-only e200",
+      "plain and Proposal checkpoint export/unified evaluation staging"
+    ],
+    "5090B": [
+      "full CUT and CycleGAN e200 co-resident",
+      "CUT and CycleGAN checkpoint export/unified evaluation staging",
+      "DDSB only if the authoritative source/formula gate later passes"
+    ],
+    "5090A": [
+      "ST-CGR small25 e200 and canonical receipt",
+      "same-host full plain e200",
+      "strictly frozen new candidate full e200 after candidate authorization"
+    ],
+    "local_GTX1660_CPU": [
+      "ST-CGR terminal receipt adjudication and candidate engineering checks",
+      "incoming checkpoint deterministic evaluation and compact evidence",
+      "paper schema/table validation"
+    ]
+  },
+  "next_human_decision": {
+    "time_window": "2026-09-02T17:00:00+08:00/2026-09-02T18:30:00+08:00",
+    "event": "ST-CGR canonical e200 receipt available",
+    "decision": "freeze ST-CGR only if the preregistered small25 long-horizon gate passes; otherwise follow the existing evidence-derived candidate DAG without inventing a filler experiment"
+  },
+  "idle_resource_explanation": {
+    "local_GTX1660": "no GPU long train is currently evidence-authorized: terminal audit and Input evaluation are complete, DDSB is source-blocked, and ST-CGR posthoc adjudication awaits e200; the device is reserved for the next incoming evaluation/gate rather than an unlicensed experiment"
+  }
+}

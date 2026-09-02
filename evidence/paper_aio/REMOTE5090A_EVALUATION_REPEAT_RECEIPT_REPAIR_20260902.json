@@ -1,0 +1,21 @@
+{
+  "schema": "final-unsb-paper-evaluation-repeat-gate-v1",
+  "status": "PASS",
+  "lane_id": "plain",
+  "first_result_sha256": "8af521592f75115f8577267de20a555422ddce9cb6f1e9797122d23d5564d128",
+  "second_result_sha256": "8af521592f75115f8577267de20a555422ddce9cb6f1e9797122d23d5564d128",
+  "evaluation_input_sha256": "a210e1cc40711419dc06a1217946caaa456cda714667a80731f20900be2f66b6",
+  "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "split": "discovery",
+  "receipt_semantic_repair": {
+    "status": "AUDITED_FIELD_DISAMBIGUATION",
+    "source_gate_executed_at_training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "source_gate_result_was_exact": true,
+    "original_overloaded_protocol_field": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "repair_implementation_commit": "909a2c3",
+    "performance_values_read": false,
+    "scientific_state_changed": false
+  },
+  "confirmation20_opened": false
+}

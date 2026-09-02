@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-paper-colocation-decision-v1",
+  "captured_at": "2026-09-02T14:12:02+08:00",
+  "host_label": "5090B",
+  "status": "KEEP_CUT_AND_CYCLEGAN_COLOCATED",
+  "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "runs": {
+    "cut": {
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "latest_complete_data_epoch": 11,
+      "isolated_epoch_seconds": 1053.756267786026,
+      "colocated_epoch_seconds": 1579.479956150055
+    },
+    "cyclegan": {
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "latest_complete_data_epoch": 1,
+      "colocated_epoch_seconds": 2380.4493947029114,
+      "full_state_saved": true
+    }
+  },
+  "capacity_gate": {
+    "peak_observed_gpu_memory_mib_approx": 3477,
+    "gpu_memory_total_mib": 32607,
+    "gpu_utilization_percent_observed_range": [69, 100],
+    "cpu_idle_percent_observed": 91,
+    "io_wait_percent_observed": 0,
+    "oom": false,
+    "nan": false,
+    "checkpoint_or_save_failure": false
+  },
+  "makespan_estimate": {
+    "cut_colocation_slowdown_ratio": 1.498904447295569,
+    "cycle_isolated_epoch_seconds_inferred_with_same_contention_ratio": 1588.1261804232345,
+    "sequential_remaining_hours": 143.5514363045016,
+    "colocated_remaining_hours": 131.58595265163316,
+    "estimated_wall_clock_saved_hours": 11.965483652868443,
+    "estimate_is_inference": true
+  },
+  "superseded_successor": {
+    "old_pid": 7414,
+    "old_pid_verified_absent": true,
+    "replacement": "running CycleGAN supervisor PID 11845",
+    "duplicate_future_launch_possible": false
+  },
+  "scientific_configuration_changed": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

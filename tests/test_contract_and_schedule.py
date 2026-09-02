@@ -49,7 +49,7 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert project["status"] == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION"
     assert project["paper_full_frozen"]["updates_per_lane"] == 8553 * 200
     assert paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
-    assert state["phase"] == "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING"
+    assert state["phase"] == "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING"
     authorization = project["authorization_required"]
     assert authorization["status"] == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
     assert "confirmation20 access" in authorization["excludes"]
