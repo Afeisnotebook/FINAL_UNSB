@@ -190,7 +190,7 @@ def create_runtime_twin_receipt(
     protocol = load_protocol()
     steps = int(protocol["resource_policy"]["runtime_twin_updates"])
     twin_root = Path(output_root) / "runtime_twin" / host_label
-    train_lane(
+    run = train_lane(
         lane_id="plain", output_root=twin_root, train_view=train_view,
         data_root=data_root, manifest_path=manifest_path, gpu=gpu,
         resume=(twin_root / "lanes" / "plain" / "full_state_latest.pt").is_file(),
@@ -213,6 +213,11 @@ def create_runtime_twin_receipt(
         "protocol_fingerprint": protocol_fingerprint(manifest_path),
         "manifest_sha256": file_sha256(manifest_path),
         "environment": environment_record(),
+        "wall_seconds": run.get("wall_seconds_this_call"),
+        "updates_per_second": (
+            None if not run.get("wall_seconds_this_call")
+            else float(steps) / float(run["wall_seconds_this_call"])
+        ),
         "confirmation20_opened": False,
     }
     if peer_receipt is not None:
@@ -273,6 +278,7 @@ def run_resume_gate(
         "resumed_core_sha256": right,
         "total_updates": total,
         "split_updates": split,
+        "protocol_fingerprint": protocol_fingerprint(manifest_path),
         "confirmation20_opened": False,
     }
     write_json(Path(output_root) / "gates" / f"RESUME_GATE_{lane_id}.json", result)
@@ -325,6 +331,7 @@ def run_zero_intervention_gate(
         "updates": int(updates),
         "plain_transition_sha256": hashes["plain"],
         "proposal_zero_transition_sha256": hashes["proposal_zero"],
+        "protocol_fingerprint": protocol_fingerprint(manifest_path),
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }
@@ -342,10 +349,14 @@ def authorize_lane(
     output_root = Path(output_root)
     preflight_path = output_root / "gates" / "PREFLIGHT.json"
     resume_path = output_root / "gates" / f"RESUME_GATE_{lane_id}.json"
-    if not preflight_path.is_file() or not resume_path.is_file():
-        raise RuntimeError(f"{lane_id}: preflight and lane resume receipts are required")
+    evaluation_path = output_root / "gates" / f"EVALUATION_REPEAT_{lane_id}.json"
+    if not preflight_path.is_file() or not resume_path.is_file() or not evaluation_path.is_file():
+        raise RuntimeError(
+            f"{lane_id}: preflight, lane resume and repeated-evaluation receipts are required"
+        )
     preflight = _read_json(preflight_path)
     resume = _read_json(resume_path)
+    evaluation = _read_json(evaluation_path)
     failures = []
     if preflight.get("status") != "PASS" or preflight.get("node_role") != "training":
         failures.append("training preflight did not pass")
@@ -353,11 +364,21 @@ def authorize_lane(
         failures.append("full data content hashes were not verified")
     if resume.get("status") != "PASS" or resume.get("lane_id") != lane_id:
         failures.append("lane-specific exact resume did not pass")
+    if resume.get("protocol_fingerprint") != protocol_fingerprint():
+        failures.append("lane-specific resume receipt is stale")
+    if evaluation.get("status") != "PASS" or evaluation.get("lane_id") != lane_id:
+        failures.append("lane-specific repeated evaluation did not pass")
+    if evaluation.get("protocol_fingerprint") != protocol_fingerprint():
+        failures.append("lane-specific repeated evaluation receipt is stale")
     if preflight.get("protocol_fingerprint") != protocol_fingerprint():
         failures.append("protocol fingerprint changed after preflight")
     if lane_id == "proposal":
         zero_path = output_root / "gates" / "ZERO_INTERVENTION_PROPOSAL.json"
-        if not zero_path.is_file() or _read_json(zero_path).get("status") != "PASS":
+        zero = _read_json(zero_path) if zero_path.is_file() else {}
+        if (
+            zero.get("status") != "PASS"
+            or zero.get("protocol_fingerprint") != protocol_fingerprint()
+        ):
             failures.append("Proposal zero-intervention identity did not pass")
         if matched_plain_mode == "same_runtime_output_root":
             comparison = {"mode": matched_plain_mode, "runtime_receipt": None}
@@ -383,6 +404,7 @@ def authorize_lane(
         "protocol_fingerprint": protocol_fingerprint(),
         "preflight_sha256": file_sha256(preflight_path),
         "resume_gate_sha256": file_sha256(resume_path),
+        "evaluation_repeat_gate_sha256": file_sha256(evaluation_path),
         "comparison": comparison,
         "failures": failures,
         "paired_metric_control": False,
@@ -439,6 +461,7 @@ def run_evaluation_repeat_gate(
         "first_result_sha256": left,
         "second_result_sha256": right,
         "evaluation_input_sha256": first["evaluation_input_sha256"],
+        "protocol_fingerprint": protocol_hash,
         "split": "discovery",
         "confirmation20_opened": False,
     }
