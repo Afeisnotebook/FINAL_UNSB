@@ -22,6 +22,11 @@ from operations.paper_aio_unified_evaluation_successor import (
     release_decision,
     validate_import_lane,
 )
+from operations.paper_aio_incremental_audit_relay import (
+    IncrementalImportNotReady,
+    incremental_import_lane_path,
+    validate_incremental_import_lane,
+)
 from research.paper_aio.protocol import file_sha256, protocol_fingerprint
 
 
@@ -33,6 +38,8 @@ AUDIT_EPOCHS = (100, 150, 200)
 STCGR = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
 SOURCE_RELATIVES = (
     "operations/paper_aio_local_terminal_audit_successor.py",
+    "operations/paper_aio_incremental_audit_relay.py",
+    "operations/paper_aio_export_relay.py",
     "operations/paper_aio_unified_evaluation_successor.py",
     "research/paper_aio/run.py",
     "research/paper_aio/terminal_audit.py",
@@ -213,19 +220,27 @@ def _verify_control(contract: dict[str, Any]) -> None:
 
 def _ready_rows(contract: dict[str, Any], probe: dict[str, Any]) -> dict[int, dict[str, Any]]:
     import_root = Path(contract["import_root"])
-    if not imports_ready(
-        import_root, {probe["import_lane"]: probe["host_label"]},
-    ):
-        return {}
-    path = import_lane_path(
-        import_root, probe["import_lane"], probe["host_label"],
-    )
-    if not path.is_file():
-        return {}
-    rows = validate_import_lane(
-        path, import_root=import_root, lane_id=probe["import_lane"],
-        host_label=probe["host_label"],
-    )
+    if imports_ready(import_root, {probe["import_lane"]: probe["host_label"]}):
+        path = import_lane_path(
+            import_root, probe["import_lane"], probe["host_label"],
+        )
+        rows = validate_import_lane(
+            path, import_root=import_root, lane_id=probe["import_lane"],
+            host_label=probe["host_label"],
+        )
+    else:
+        path = incremental_import_lane_path(
+            import_root, probe["import_lane"], probe["host_label"],
+        )
+        if not path.is_file():
+            return {}
+        try:
+            rows = validate_incremental_import_lane(
+                path, import_root=import_root, lane_id=probe["import_lane"],
+                host_label=probe["host_label"],
+            )
+        except IncrementalImportNotReady:
+            return {}
     return {int(row["epoch"]): row for row in rows if int(row["epoch"]) in AUDIT_EPOCHS}
 
 

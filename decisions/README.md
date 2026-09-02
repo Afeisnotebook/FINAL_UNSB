@@ -134,3 +134,7 @@ authorize compute.
 41. `DEC-20260903-STCGR-TO-PLAIN-DURABLE-RESUME.md`：5090A新增metric-blind接力，
     只在ST-CGR完整e200后复验暂停于e9的plain checkpoint、授权、代码和协议身份，再从
     原宿主原状态恢复plain；防止长程任务完成后再次等待人工上线。
+42. `DEC-20260903-INCREMENTAL-TERMINAL-AUDIT-PIPELINE.md`：现有source exporter只有
+    e200后才发布五个checkpoint，导致本可并行的e100/e150 target-blind审计被串行推迟。
+    新增固定e100/e150/e200增量source-bound export/relay；每个部分导入仍需checkpoint、
+    sidecar、source receipt和relay-set哈希闭环，不改变训练、主表或matched-delta门。

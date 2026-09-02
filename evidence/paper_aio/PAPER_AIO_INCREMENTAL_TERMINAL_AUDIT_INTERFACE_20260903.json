@@ -1,0 +1,39 @@
+{
+  "schema": "final-unsb-paper-incremental-terminal-audit-interface-v1",
+  "captured_at": "2026-09-03T04:10:00+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "problem": "terminal target-blind audits were serialized behind the complete e200 export set",
+  "fixed_epochs": [100, 150, 200],
+  "components": {
+    "source_exporter": "operations/paper_aio_incremental_audit_export.py",
+    "local_relay": "operations/paper_aio_incremental_audit_relay.py",
+    "terminal_successor": "operations/paper_aio_local_terminal_audit_successor.py"
+  },
+  "identity_chain": [
+    "immutable milestone checkpoint and sidecar",
+    "source-bound export receipt",
+    "incremental source export set",
+    "SHA256-verified local checkpoint, sidecar and receipt",
+    "incremental lane import receipt",
+    "incremental relay-set receipt",
+    "fixed target-blind terminal audit receipt"
+  ],
+  "partial_publish_race_policy": "WAIT_UNTIL_LANE_AND_RELAY_SET_HASH_BINDING_MATCH",
+  "fallback": "existing complete e200 exporter and relay remain authoritative for unified paper evaluation",
+  "verification": {
+    "targeted_tests": "16 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "training_configuration_changed": false,
+    "source_checkpoint_mutation": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "main_table_uses_e200": true,
+    "matched_runtime_relation_changed": false
+  }
+}
