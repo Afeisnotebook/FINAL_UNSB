@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T04:11:11+08:00",
+  "captured_at": "2026-09-03T04:19:57+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -75,7 +75,8 @@
     },
     "auxiliary_watcher_pids": {
       "5090B_matched_plain_successor": 39139,
-      "4090A_5090B_matched_plain_relay": 2237500
+      "4090A_5090B_matched_plain_relay": 2237500,
+      "local_incremental_terminal_audit": 15672
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -122,7 +123,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
   },
   "local_evaluation_node": {
-    "status": "preflight_pass_terminal_audit_ready_waiting_for_fixed_imports",
+    "status": "preflight_pass_incremental_terminal_audit_pipeline_healthy_waiting_fixed_e100_e150_e200_imports",
     "mirror_pid": null,
     "mirror_extracted_file_count": 137997,
     "manifest_content_hashes_verified": true,
@@ -132,9 +133,14 @@
     "frozen_successor_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
     "checkpoint_relays_status": "six_source_bound_relays_waiting_after_successful_first_connection",
     "checkpoint_relay_pids": [19200, 17176, 19784, 16252, 19496, 19236],
+    "incremental_source_exporter_pids": [2274259, 2274260, 351230, 29411],
+    "incremental_checkpoint_relay_pids": [6292, 12656, 19904, 14528],
     "terminal_audit_successor_status": "preflight_ready_waiting_for_fixed_imports_or_gpu",
-    "terminal_audit_successor_pid": 1780,
+    "terminal_audit_successor_pid": 13536,
+    "retired_terminal_audit_successor_pid": 1780,
     "terminal_audit_fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
+    "incremental_health_watcher_pid": 15672,
+    "incremental_health_status": "healthy_after_second_poll_zero_alerts",
     "role": "evaluate fixed exported checkpoints and run target-blind full-data terminal audits without occupying a training GPU",
     "training_authorized": false,
     "performance_values_read": false,
@@ -143,7 +149,8 @@
       "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
-      "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json"
+      "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json",
+      "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json"
     ]
   },
   "algorithm_posthoc_delivery": {
@@ -189,7 +196,7 @@
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_TERMINAL_AUDIT_DEPLOYED_20260903.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

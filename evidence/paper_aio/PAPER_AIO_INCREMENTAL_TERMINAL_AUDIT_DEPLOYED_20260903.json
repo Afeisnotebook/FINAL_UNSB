@@ -1,0 +1,109 @@
+{
+  "schema": "final-unsb-paper-incremental-terminal-audit-deployment-v1",
+  "captured_at": "2026-09-03T04:19:57+08:00",
+  "status": "DEPLOYED_HEALTHY_AFTER_SECOND_POLL_WAITING_FIXED_E100_E150_E200",
+  "purpose": "remove the unnecessary e200 serialization tail from target-blind terminal audits without changing training or paper evaluation",
+  "fixed_epochs": [100, 150, 200],
+  "fixed_probes": [
+    "4090A_plain",
+    "4090A_amtnc",
+    "5090A_stcgr",
+    "5090C_proposal"
+  ],
+  "control": {
+    "incremental_pipeline_commit": "0b74339e919aaeed3b4866de42a880f2d2135732",
+    "local_health_commit": "76ba1197432b684552f4f95b02dd57fceffb85d2",
+    "decision": "decisions/DEC-20260903-INCREMENTAL-TERMINAL-AUDIT-PIPELINE.md",
+    "source_exporter": "operations/paper_aio_incremental_audit_export.py",
+    "verified_relay": "operations/paper_aio_incremental_audit_relay.py",
+    "terminal_successor": "operations/paper_aio_local_terminal_audit_successor.py"
+  },
+  "source_exporters": {
+    "4090A_plain": {
+      "pid": 2274259,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "available_epochs": [],
+      "source_output": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "control_worktree": "/home/yc/FINAL_UNSB_INCREMENTAL_0b74339"
+    },
+    "4090A_amtnc": {
+      "pid": 2274260,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "available_epochs": [],
+      "source_output": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "control_worktree": "/home/yc/FINAL_UNSB_INCREMENTAL_0b74339"
+    },
+    "5090A_stcgr": {
+      "pid": 351230,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "available_epochs": [],
+      "source_output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+      "control_worktree": "/root/autodl-tmp/FINAL_UNSB_INCREMENTAL_0b74339"
+    },
+    "5090C_proposal": {
+      "pid": 29411,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "available_epochs": [],
+      "source_output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+      "control_worktree": "/root/autodl-tmp/FINAL_UNSB_INCREMENTAL_0b74339"
+    }
+  },
+  "verified_local_relays": {
+    "destination": "E:\\UNSB_Expl\\paper_eval_node\\checkpoint_imports",
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_0b74339",
+    "4090A_plain": {"pid": 6292, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT", "available_epochs": []},
+    "4090A_amtnc": {"pid": 12656, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT", "available_epochs": []},
+    "5090A_stcgr": {"pid": 19904, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT", "available_epochs": []},
+    "5090C_proposal": {"pid": 14528, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT", "available_epochs": []},
+    "all_alive": true,
+    "all_completed_first_source_connection": true,
+    "sha256_verification_required": true,
+    "source_lane_set_membership_required": true
+  },
+  "terminal_audit_successor": {
+    "retired_pid": 1780,
+    "retired_completed_probe_count": 0,
+    "pid": 13536,
+    "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "completed_probes": [],
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_0b74339",
+    "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_incremental_0b74339",
+    "accepts_verified_incremental_imports": true,
+    "legacy_complete_import_fallback_preserved": true,
+    "gpu_lock_preserved": true,
+    "parent_state_hash_guard_preserved": true
+  },
+  "local_health_watch": {
+    "pid": 15672,
+    "status_after_second_poll": "HEALTHY",
+    "alert_count": 0,
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_HEALTH_76ba119",
+    "output": "E:\\UNSB_Expl\\paper_eval_node\\incremental_health_76ba119",
+    "watched_process_count": 5,
+    "all_pid_alive": true,
+    "all_state_files_fresh": true,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "free_disk_gib": 125.7365,
+    "estimated_remaining_write_gib": 16,
+    "minimum_headroom_gib": 50
+  },
+  "observed_training_non_interference": {
+    "4090A_plain_latest_data_epoch": 52,
+    "4090A_plain_latest_updates": 444756,
+    "4090A_plain_latest_epoch_seconds": 1262.6742405891418,
+    "5090A_stcgr_latest_data_epoch": 3,
+    "5090A_stcgr_latest_updates": 25659,
+    "5090B_cut_latest_data_epoch": 42,
+    "5090B_cyclegan_latest_data_epoch": 23,
+    "training_process_stopped_or_restarted_by_deployment": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "checkpoint_selection": false,
+    "training_configuration_changed": false,
+    "matched_delta_computed_early": false,
+    "confirmation20_opened": false
+  }
+}
