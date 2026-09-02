@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T02:45:12+08:00",
+  "state_snapshot_time": "2026-09-03T03:16:59+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -43,8 +43,8 @@
       },
       "5090A_stcgr_full": {
         "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
-        "latest_completed_data_epoch": 2,
-        "latest_completed_updates": 17106,
+        "latest_completed_data_epoch": 3,
+        "latest_completed_updates": 25659,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -58,7 +58,9 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "DEFERRED_5090A_PLAIN_PAUSED_RECOVERABLY_AT_E9",
         "absolute_trajectory_is_not_matched_gain": true,
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json"
+        "latest_epoch_wall_seconds": 4955.223417758942,
+        "projected_completion_from_latest_epoch": "2026-09-14T10:26:38+08:00",
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PRIORITY_LIVE_CONFIRMATION_20260903T031659.json"
       },
       "5090A_plain_resume_after_stcgr": {
         "status": "DURABLE_WAITING_FOR_STCGR_COMPLETE_E200",

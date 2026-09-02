@@ -1,0 +1,66 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-priority-live-confirmation-v1",
+  "captured_at": "2026-09-03T03:16:59+08:00",
+  "status": "REQUEST_ALREADY_SATISFIED_STCGR_RUNNING_MATCHED_PLAIN_NOT_RUNNING",
+  "scope": {
+    "host": "5090A",
+    "other_hosts_queried": false,
+    "other_hosts_touched": false,
+    "training_processes_stopped": false,
+    "training_processes_started": false
+  },
+  "stcgr": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+    "latest_completed_data_epoch": 3,
+    "latest_completed_updates": 25659,
+    "target_data_epoch": 200,
+    "target_updates": 1710600,
+    "continuation_pid": 336340,
+    "export_successor_pid": 336344,
+    "supervisor_pid": 336345,
+    "trainer_pid": 336346,
+    "health_watcher_pid": 337510,
+    "supervisor_consecutive_failures": 0,
+    "latest_epoch_wall_seconds": 4955.223417758942,
+    "projected_completion_from_latest_epoch": "2026-09-14T10:26:38+08:00",
+    "gpu_memory_mib": 2186,
+    "gpu_utilization_percent_at_snapshot": 17,
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c"
+  },
+  "matched_plain": {
+    "status": "PAUSED_RECOVERABLY_AT_E9_NOT_RUNNING",
+    "latest_completed_data_epoch": 9,
+    "latest_completed_updates": 76977,
+    "trainer_pid": null,
+    "supervisor_pid": null,
+    "automatic_restart_disabled": true,
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611"
+  },
+  "post_stcgr_plain_successor": {
+    "status": "WAITING_FOR_STCGR_COMPLETE_E200",
+    "pid": 342540,
+    "health_watcher_pid": 342597,
+    "current_gpu_use": false,
+    "blocks_stcgr": false,
+    "retained_reason": "it can restore the same-host matched control after ST-CGR reaches e200 without delaying or sharing resources with the active candidate"
+  },
+  "adjudication": {
+    "requested_priority_is_already_active": true,
+    "canceling_a_nonexistent_plain_trainer_would_be_incorrect": true,
+    "interrupting_stcgr_for_rescheduling_would_be_harmful": true,
+    "scheduler_mutation_required": false,
+    "matched_rigor_did_not_block_candidate_training": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_configuration_changed": false,
+    "absolute_trajectory_is_not_matched_gain": true
+  }
+}

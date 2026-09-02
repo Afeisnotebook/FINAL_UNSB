@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T02:19:07+08:00",
+  "captured_at": "2026-09-03T03:16:59+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -21,19 +21,20 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 2,
+      "completed_full_data_epoch": 3,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 4992.375672578812,
-      "current_single_epoch_projected_completion": "2026-09-14",
-      "projection_note": "rough projection from the first completed post-e1 resumed epoch; retain uncertainty until more epochs complete",
+      "latest_resumed_epoch_seconds": 4955.223417758942,
+      "current_single_epoch_projected_completion": "2026-09-14T10:26:38+08:00",
+      "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain": "5090A/plain paused recoverably at e9",
       "matched_delta_status": "deferred_until_plain_resumes_and_completes_e200",
-      "scientific_role": "new evidence-derived stratified bridge-time estimator"
+      "scientific_role": "new evidence-derived stratified bridge-time estimator",
+      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PRIORITY_LIVE_CONFIRMATION_20260903T031659.json"
     },
     "amtnc": {
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
