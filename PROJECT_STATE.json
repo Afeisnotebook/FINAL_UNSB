@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T18:30:20+08:00",
-  "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
+  "state_snapshot_time": "2026-09-02T20:18:09+08:00",
+  "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
-    "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
+    "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
-    "available_hosts": ["4090A", "5090A", "5090B", "local GTX1660"],
-    "recommended_but_not_provided_hosts": ["additional 4090B", "additional 4090C"],
+    "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
+    "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 24, "latest_observed_updates": 205272, "successor": "proposal", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 20, "latest_observed_updates": 171060, "successor": null},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E7_CONFIRMED", "latest_observed_data_epoch": 7, "latest_observed_updates": 59871, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 29, "latest_observed_updates": 248037, "successor": "amtnc", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 24, "latest_observed_updates": 205272, "successor": null},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E10_CONFIRMED", "latest_observed_data_epoch": 10, "latest_observed_updates": 85530, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
-        "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_GATES_RUNNING",
+        "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
         "latest_observed_updates": 30000,
         "target_data_epoch": 200,
@@ -25,14 +25,26 @@
       },
       "5090A_plain": {
         "status": "CHILD_RUNNING_AFTER_METRIC_BLIND_STCGR_E200_TRIGGER",
-        "latest_observed_data_epoch": 1,
-        "latest_observed_updates": 8553,
+        "latest_observed_data_epoch": 3,
+        "latest_observed_updates": 25659,
         "trigger_supervisor_pid": 296778,
         "supervisor_pid": 305489,
         "trainer_pid": 305490,
         "export_successor_pid": 296821,
         "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
         "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+      },
+      "5090C_proposal": {
+        "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+        "supervisor_pid": 9729,
+        "trainer_pid": 9734,
+        "export_successor_pid": 9730,
+        "import_relay_pid": 2182279,
+        "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+        "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+        "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+        "matched_plain": "5090A_plain",
+        "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT"
       }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
@@ -77,14 +89,15 @@
       ]
     },
     "unified_export_relays": {
-      "status": "THREE_DURABLE_FAIL_CLOSED_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
+      "status": "FOUR_DURABLE_FAIL_CLOSED_METRIC_BLIND_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
       "destination_host": "4090A",
       "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
       "control_commit": "ce608998be4efadc24056a905e20d98349f4a10e",
       "relay_pids": {
         "5090A_plain_v2": 2164861,
         "5090A_stcgr_v2": 2164862,
-        "5090B_external_v2": 2164945
+        "5090B_external_v2": 2164945,
+        "5090C_proposal_v2": 2182279
       },
       "password_persisted": false,
       "performance_values_read": false,
@@ -111,10 +124,10 @@
       "evidence": "evidence/paper_aio/STCGR_PORTABLE_EVALUATION_AUTHORITY_20260902.json"
     },
     "durable_source_export_successors": {
-      "status": "FOUR_FIRST_WAVE_SUCCESSORS_PLUS_5090A_CONTROL_SUCCESSOR_WAITING",
+      "status": "FIRST_WAVE_PLUS_5090C_PROPOSAL_AND_4090A_AMTNC_SUCCESSORS_WAITING",
       "control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468",
       "control_protocol_fingerprint": "3f339224de364e7caf7a426782da1f361cf7b1e2afec0a62942dc52cfbbe4ef5",
-      "lanes": ["plain", "proposal", "cut", "cyclegan"],
+      "lanes": ["plain", "proposal", "cut", "cyclegan", "amtnc"],
       "epochs": [100, 125, 150, 175, 200],
       "performance_values_read": false,
       "checkpoint_copy_performed": false,
@@ -138,8 +151,8 @@
       "evidence": "evidence/remote_route1_offload/STCGR_SMALL25_E200_TERMINAL_20260902.json"
     },
     "active_new_candidate_full_data_activation_successor": {
-      "status": "RUNTIME_LOCK_AUTHORIZATION_PASS_E1_CAPACITY_PROBE_RUNNING",
-      "pid": 298747,
+      "status": "RUNTIME_LOCK_AUTHORIZATION_PASS_E1_CAPACITY_PROBE_COMPLETE",
+      "pid": null,
       "orchestration_commit": "1d17065a66cebc30cef638fb4458e67054e97b28",
       "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
       "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
@@ -147,10 +160,12 @@
       "automatic_stop_after_candidate_e1": true,
       "full_data_preflight_status": "PASS",
       "frozen_source_hashes_status": "PASS_8_OF_8",
+      "full_data_e1_updates": 8553,
+      "full_data_e1_epoch_seconds": 9609.62650346756,
       "evidence": "evidence/paper_aio/STCGR_FULL_DATA_RUNTIME_GATE_PASS_20260902.json"
     },
     "active_new_candidate_full_data_continuation": {
-      "status": "WAIT_ACTIVATION_THEN_WAIT_PARENT_E200",
+      "status": "E1_COMPLETE_WAIT_PARENT_E200",
       "pid": 308472,
       "mode": "after_parent",
       "control_commit": "3cfff2fcffe57447943f204a423843ba6f9c0e72",
@@ -164,15 +179,25 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_REALTIME_SCHEDULING_AUDIT_20260902.json"
     },
+    "full_data_method_portfolio": {
+      "status": "PROPOSAL_RUNNING_AMTNC_AND_STCGR_DURABLY_QUEUED",
+      "proposal": "running_5090C_matched_to_5090A_plain",
+      "amtnc": "queued_after_4090A_plain",
+      "stcgr": "e1_complete_queued_after_5090A_plain",
+      "hjcgr": "deferred_not_falsified",
+      "portfolio": "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+      "decision": "decisions/DEC-20260902-5090C-GLOBAL-PORTFOLIO-RESCHEDULE.md",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
-    "critical_path_audit": "evidence/paper_aio/PAPER_AIO_REALTIME_SCHEDULING_AUDIT_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LIVE_STATUS_20260902_1800.json",
-    "next_manual_decision_window": "after_full_e200_exports_and_unified_discovery_evaluation_before_confirmation20"
+    "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_GLOBAL_RESCHEDULE_20260902.json",
+    "next_manual_decision_window": "2026-09-11_before_5090C_rental_cutoff_extend_one_day_minimum_two_days_safe"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "ce608998be4efadc24056a905e20d98349f4a10e",
+  "development_head_at_state_write": "85eb306ca960cf03aa63e9d46370cdb2c854ed98",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

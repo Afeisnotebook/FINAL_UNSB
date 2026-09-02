@@ -89,3 +89,7 @@ authorize compute.
 27. `DEC-20260902-PAPER-AIO-DURABLE-SOURCE-EXPORT.md`：plain、Proposal、CUT、CycleGAN
     各自拥有独立GPU-free export继任器；只在本lane密封e200后签收五个固定checkpoint，
     不读取性能、不复制权重，也不干扰原训练继任链。
+28. `DEC-20260902-5090C-GLOBAL-PORTFOLIO-RESCHEDULE.md`：5090C与5090A通过严格runtime
+    twin后直接运行Proposal，4090A在plain后改跑独立几何路线AM-TNC；ST-CGR继续等待
+    5090A matched plain。该重排并行得到至少三条自研全量轨迹，HJCGR仅因成本与跨runtime
+    风险延期，未被写成机制证伪。

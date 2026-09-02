@@ -1,0 +1,188 @@
+{
+  "schema": "final-unsb-paper-5090c-global-reschedule-v1",
+  "captured_at": "2026-09-02T20:18:09+08:00",
+  "status": "RESCHEDULED_RUNNING_AND_DURABLY_ARMED",
+  "decision": "run Proposal-only on 5090C and replace the 4090A Proposal successor with AM-TNC",
+  "scientific_boundaries": {
+    "seed": 2026,
+    "batch_size": 1,
+    "train_images_per_side": 8553,
+    "target_data_epochs": 200,
+    "target_updates": 1710600,
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "healthy_training_interrupted": false
+  },
+  "before": {
+    "4090A": ["plain e200 running", "Proposal e200 waiting", "Proposal export waiting"],
+    "5090A": ["plain e200 running", "ST-CGR e1 probe then e200 continuation waiting"],
+    "5090B": ["CUT e200 running", "CycleGAN e200 running"],
+    "5090C": ["new host, no scientific task"],
+    "algorithm_critical_path": "4090A plain -> Proposal; AM-TNC had no full-data slot"
+  },
+  "after": {
+    "4090A": ["plain e200 running", "AM-TNC e200 durable successor", "AM-TNC source export successor"],
+    "5090A": ["plain e200 running", "ST-CGR exact e1 complete and e2-e200 waiting behind plain"],
+    "5090B": ["CUT e200 running", "CycleGAN e200 running"],
+    "5090C": ["Proposal e200 running", "Proposal source export successor"],
+    "algorithm_critical_path": "Proposal and the independent AM-TNC path run in parallel; ST-CGR remains a third full-data path"
+  },
+  "live_snapshot": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 29,
+      "updates": 248037,
+      "epoch_seconds": 1261.2177889347076,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+    },
+    "5090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 3,
+      "updates": 25659,
+      "last_coresident_epoch_seconds": 4159.100169420242,
+      "supervisor_pid": 305489,
+      "trainer_pid": 305490,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed",
+      "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+    },
+    "5090A_stcgr": {
+      "status": "WAIT_PARENT",
+      "full_data_epoch": 1,
+      "updates": 8553,
+      "coresident_epoch_seconds": 9609.62650346756,
+      "continuation_pid": 308472,
+      "candidate_run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+      "candidate_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "candidate_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 24,
+      "updates": 205272,
+      "epoch_seconds": 1672.6606166362762,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 10,
+      "updates": 85530,
+      "epoch_seconds": 2367.852222442627,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+      "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "gpu_memory_mib": 2146,
+      "disk_free_gib": 231
+    },
+    "local_gtx1660": {
+      "status": "READY_FOR_INCOMING_EVALUATION",
+      "gpu_memory_mib": 733,
+      "gpu_utilization_percent": 5,
+      "reason_no_long_train": "no additional evidence-authorized full-data task fits the device or advances the critical path"
+    }
+  },
+  "5090c_runtime_and_gates": {
+    "environment": {
+      "python": "3.11.16",
+      "torch": "2.8.0+cu128",
+      "cudnn": 91002,
+      "gpu": "NVIDIA GeForce RTX 5090"
+    },
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "preflight": "PASS",
+    "runtime_twin": {
+      "status": "PASS_EXACT_RUNTIME_COHORT",
+      "peer_host": "5090A",
+      "updates": 2000,
+      "wall_seconds": 499.806676864624,
+      "updates_per_second": 4.001547183295659,
+      "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+      "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+      "receipt_sha256": "fb6efa78d053092a24bd65deb284b71fb12a99c5bbe67e8692eb18a9e6230b72"
+    },
+    "proposal_zero_intervention": "PASS_EXACT_10_UPDATE_IDENTITY",
+    "proposal_resume": {
+      "status": "PASS",
+      "continuous_and_resumed_core_sha256": "1787e6f013630480fa67f79bc59867364927701243f41efa1601d1be5facc0f1",
+      "wall_seconds": 1096,
+      "continuous_1000_update_seconds": 543.3926310539246,
+      "receipt_sha256": "2c1b2903189de8d72c882f5955738f9a28e9852d270bc2de4e5419b6b7c11ad6"
+    },
+    "proposal_repeat_evaluation": {
+      "status": "PASS_EXACT",
+      "result_sha256": "59041cc07f8761ba8b95ae7a8a5b1f71a8187bfb535467fe6d85c8d39b543253",
+      "receipt_sha256": "2a104bd14da3f5729c278ce4dc2c77fc940af05ef0f7d1c5c973c3421cdb3d69"
+    },
+    "legacy_receipt_identity_migration": {
+      "reason": "the legacy runner stored the evaluation bundle fingerprint in the training protocol field",
+      "control_commit": "85eb306ca960cf03aa63e9d46370cdb2c854ed98",
+      "checkpoint_loaded": false,
+      "performance_values_read": false,
+      "scientific_source_modified": false
+    },
+    "proposal_authorization": {
+      "status": "PASS",
+      "matched_plain_mode": "exact_cross_4090_cohort",
+      "matched_plain_host": "5090A",
+      "receipt_sha256": "cc0f71bbb2bd7f427c49efadb810e6c35e015be4d49a91f1b72c59c106f2e88f"
+    }
+  },
+  "successor_rewrite": {
+    "canceled_after_5090c_health_confirmed": [
+      {"pid": 2089059, "role": "4090A plain-to-Proposal successor"},
+      {"pid": 2101681, "role": "4090A Proposal export successor"}
+    ],
+    "preserved": [2072054, 2072055, 2101680, 2164861, 2164862, 2164945],
+    "new": {
+      "4090A_plain_to_amtnc_successor_pid": 2182585,
+      "4090A_amtnc_export_successor_pid": 2182586,
+      "5090C_proposal_import_relay_pid": 2182279
+    },
+    "control_commits": {
+      "amtnc_successor": "22a144656edebf9ad16a99a3b88d675eb5616268",
+      "source_import_relay": "ce608998be4efadc24056a905e20d98349f4a10e"
+    },
+    "durability_verified_by_ssh_disconnect_and_ppid_one": true,
+    "duplicate_future_proposal_launch_possible": false
+  },
+  "projected_completion_at_measured_rates": {
+    "4090A_plain": "2026-09-05T08:15:00+08:00",
+    "5090B_cut": "2026-09-06T06:05:00+08:00",
+    "5090B_cyclegan": "2026-09-08T01:20:00+08:00",
+    "4090A_amtnc_window": "2026-09-11/2026-09-12",
+    "5090A_plain_provisional": "2026-09-12",
+    "5090C_proposal_provisional": "2026-09-13T15:00:00+08:00",
+    "5090A_stcgr_provisional": "2026-09-24",
+    "paper_core_result_window": "2026-09-11/2026-09-14",
+    "layered_two_algorithm_result_window": "2026-09-13/2026-09-14",
+    "three_algorithm_result_window": "around 2026-09-24",
+    "5090c_rental_implication": "the isolated Proposal gate projects about 10.76 training days; plan a one-day minimum and two-day safe extension"
+  },
+  "rejected_assignments": {
+    "5090c_amtnc": "would leave Proposal on the 4090 serial chain and places the more expensive geometry lane on the slower measured Proposal host",
+    "5090c_hjcgr": "estimated full-data duration exceeds the rental window and prior host-separated terminal sign is inconsistent",
+    "5090c_external_only": "CUT and CycleGAN are already running; this would not add an independent in-house algorithm result",
+    "5090c_ddsb": "authoritative source-formula implementation lock is incomplete",
+    "dual_training_on_5090c": "memory fits but prior co-residence evidence predicts a worse algorithm terminal makespan"
+  },
+  "next_manual_decision": {
+    "when": "2026-09-11 before the 5090C rental cutoff",
+    "decision": "extend 5090C by at least one day, preferably two, using its observed completed-epoch rate; do not change the algorithm",
+    "paired_results_required": false
+  }
+}

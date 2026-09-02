@@ -49,7 +49,13 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert project["status"] == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION"
     assert project["paper_full_frozen"]["updates_per_lane"] == 8553 * 200
     assert paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
-    assert state["phase"] == "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING"
+    assert state["phase"] == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
+    portfolio = common.load_json("configs/FULL_DATA_METHOD_PORTFOLIO.json")
+    assert portfolio["methods"]["proposal"]["status"] == "running"
+    assert portfolio["methods"]["amtnc"]["status"] == "queued"
+    assert portfolio["methods"]["stcgr"]["status"] == "queued"
+    assert portfolio["methods"]["hjcgr"]["status"] == "deferred"
+    assert portfolio["methods"]["hjcgr"]["mechanism_falsified"] is False
     authorization = project["authorization_required"]
     assert authorization["status"] == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
     assert "confirmation20 access" in authorization["excludes"]

@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-full-data-method-portfolio-v1",
+  "captured_at": "2026-09-02T20:18:09+08:00",
+  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
+  "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
+  "methods": {
+    "proposal": {
+      "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "status": "running",
+      "host": "5090C",
+      "matched_plain": "5090A/plain",
+      "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
+      "scientific_role": "most portable conditional-variance-reduction result"
+    },
+    "stcgr": {
+      "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "status": "queued",
+      "host": "5090A",
+      "completed_full_data_epoch": 1,
+      "resume_after": "5090A/plain COMPLETE_E200",
+      "scientific_role": "new evidence-derived stratified bridge-time estimator"
+    },
+    "amtnc": {
+      "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+      "status": "queued",
+      "host": "4090A",
+      "resume_after": "4090A/plain COMPLETE_E200",
+      "scientific_role": "independent Adam-metric optimization geometry",
+      "small25_status": "positive_but_fragile_not_falsified"
+    },
+    "hjcgr": {
+      "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+      "status": "deferred",
+      "reason": "full-data cost exceeds the new-card rental window and cross-runtime small25 terminal sign was inconsistent",
+      "scientific_role": "HJ structural field plus conditional variance reduction",
+      "mechanism_falsified": false,
+      "closed_current_implementation": false
+    }
+  },
+  "controls_and_external": {
+    "plain_4090A": "running",
+    "plain_5090A": "running",
+    "cut_5090B": "running",
+    "cyclegan_5090B": "running",
+    "ddsb": "reproduction_incomplete_authority_gate_not_scientific_failure"
+  },
+  "frontier_not_shrunk_to": ["proposal", "stcgr"],
+  "paired_metric_control": false,
+  "cross_non_equivalent_runtime_delta": false,
+  "confirmation20_opened": false
+}
