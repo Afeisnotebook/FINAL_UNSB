@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-02",
-  "state_snapshot_time": "2026-09-02T17:11:00+08:00",
+  "state_snapshot_time": "2026-09-02T17:31:00+08:00",
   "phase": "PAPER_AIO_FIRST_WAVE_STCGR_AND_CRITICAL_PATH_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_RUNNING_CONFIRMATION_LOCKED",
@@ -38,9 +38,9 @@
     "ddsb_status": "REPRODUCTION_INCOMPLETE_SOURCE_OR_FORMULA_LOCK_MISSING",
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
-    "active_new_candidate_full_data_authorized": false,
+    "active_new_candidate_full_data_authorized": true,
     "candidate_full_data_gate_interface": {
-      "status": "RUNNING_CROSS_CODE_RUNTIME_GATE_WITH_CONCURRENT_PARENT",
+      "status": "PASS_CROSS_CODE_RUNTIME_LOCK_AND_AUTHORIZATION_E1_PROBE_RUNNING",
       "candidate_code_protocol_fingerprint": "0616221e08d01cd13f2428002d6c48de2f1ed954a5478f2acdb7ff9329cf5782",
       "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
       "requires_positive_small25_e200_receipt": true,
@@ -49,6 +49,10 @@
       "parent_e200_still_required_before_matched_adjudication": true,
       "evidence_lock_authorizes_training": false,
       "requires_separate_current_commit_authorization": true,
+      "separate_current_commit_authorization_passed": true,
+      "runtime_gate_sha256": "6fe4deca6f884e8ccac1726b0ae87abf9a7e23b34d68680d4439390fb9caf689",
+      "candidate_lock_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+      "candidate_authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3",
       "evidence": [
         "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json",
         "evidence/paper_aio/PAPER_COMMON_CRN_AND_DYNAMIC_ADJUDICATION_20260902.json",
@@ -98,7 +102,7 @@
       "evidence": "evidence/remote_route1_offload/STCGR_SMALL25_E200_TERMINAL_20260902.json"
     },
     "active_new_candidate_full_data_activation_successor": {
-      "status": "RUNNING_RUNTIME_GATE",
+      "status": "RUNTIME_LOCK_AUTHORIZATION_PASS_E1_CAPACITY_PROBE_RUNNING",
       "pid": 298747,
       "orchestration_commit": "1d17065a66cebc30cef638fb4458e67054e97b28",
       "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
@@ -107,7 +111,7 @@
       "automatic_stop_after_candidate_e1": true,
       "full_data_preflight_status": "PASS",
       "frozen_source_hashes_status": "PASS_8_OF_8",
-      "evidence": "evidence/paper_aio/STCGR_FULL_DATA_ACTIVATION_SUCCESSOR_ARMED_20260902.json"
+      "evidence": "evidence/paper_aio/STCGR_FULL_DATA_RUNTIME_GATE_PASS_20260902.json"
     },
     "active_new_candidate_full_data_continuation": {
       "status": "WAIT_ACTIVATION_THEN_WAIT_PARENT_E200",
