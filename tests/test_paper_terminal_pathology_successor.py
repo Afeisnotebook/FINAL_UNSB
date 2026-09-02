@@ -1,4 +1,7 @@
 import json
+import subprocess
+import sys
+from pathlib import Path
 
 from operations.paper_aio_terminal_pathology_successor import (
     AUDIT_EPOCHS,
@@ -40,3 +43,20 @@ def test_terminal_pathology_release_rejects_information_boundary_violation(tmp_p
     value["performance_values_read"] = True
     _write(state, value)
     assert audit_release(state) == "BLOCKED"
+
+
+def test_terminal_pathology_successor_supports_direct_script_entrypoint():
+    root = Path(__file__).resolve().parents[1]
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(root / "operations" / "paper_aio_terminal_pathology_successor.py"),
+            "--help",
+        ],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "--audit-successor-state" in result.stdout
