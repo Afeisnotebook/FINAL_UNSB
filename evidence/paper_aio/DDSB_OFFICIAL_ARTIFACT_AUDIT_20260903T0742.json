@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-ddsb-official-artifact-audit-v1",
+  "captured_at": "2026-09-03T07:42:00+08:00",
+  "status": "OFFICIAL_ARTIFACTS_HASHED_FORMULA_IMPLEMENTATION_LOCK_STILL_INCOMPLETE",
+  "publication": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "doi": "10.52202/085713-0086",
+    "abstract_url": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "paper_url": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Paper-Conference.pdf",
+    "supplement_url": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Supplemental-Conference.zip"
+  },
+  "artifact_hashes": {
+    "paper_pdf_sha256": "e9a36187b591b99fd0ae738b1b81d989ed787c42ee4f4840f72a36907865ba7e",
+    "supplement_zip_sha256": "53c52078190b08fe622daa0c311ffb2ee94106d98ce3957e5e6be4dc04286344",
+    "supplement_member": "3415Supp.pdf",
+    "supplement_pdf_sha256": "973b31bfb58a808a4ab97bab6b0c18a0700e8d44a512df216b36b1775a9c0a9a"
+  },
+  "specified_by_official_artifacts": {
+    "method_terms": ["EROT", "DOT", "DTC"],
+    "bridge_steps": 5,
+    "tau": 0.01,
+    "dot_lambda": 0.01,
+    "batch_size": 1,
+    "training_epochs": 400,
+    "initial_learning_rate": 0.0002,
+    "learning_rate_schedule": "linear decay to zero",
+    "training_resolution": 512,
+    "input_normalization": "[-1,1]",
+    "generator_family": "five-encoder/five-decoder instance-normalized U-Net with AdaIN and sinusoidal timestep embedding; image and sampled noise concatenated at input",
+    "degradation_model_family": "three 64-channel convolution layers with ReLU",
+    "entropy_estimator_family": "MINE",
+    "endpoint_divergence_family": "adversarial reverse-KL with a Markovian discriminator",
+    "dtc_time_weight": "cosine schedule"
+  },
+  "supplement_scope": {
+    "sections": ["theoretical analysis", "connection to physical degradation", "additional visual results"],
+    "new_implementation_details_beyond_main_paper": false,
+    "source_archive_or_environment_included": false,
+    "optimizer_or_update_algorithm_included": false
+  },
+  "not_uniquely_specified_after_full_official_artifact_read": [
+    "U-Net kernel, stride, padding, skip, channel schedule and exact AdaIN placement/modulation graph",
+    "MINE network, joint/product sampling, objective stabilization and update ownership",
+    "Markovian discriminator graph and exact adversarial reverse-KL estimator",
+    "optimizer family, beta values, weight decay and scheduler ownership for every network",
+    "generator, degradation model, MINE and discriminator update ordering and update ratios",
+    "stop-gradient boundaries through terminal trajectory states and the degradation model",
+    "sum versus mean and normalization of all-step DOT/DTC terms",
+    "complete relative coefficients joining EROT, DOT, DTC, entropy and adversarial terms",
+    "image-pool, augmentation, initialization, RNG and full-state resume semantics",
+    "how the published single-task 400-epoch/512 protocol is adapted to the frozen 200-epoch/128 All-in-One exposure without changing method identity"
+  ],
+  "reproducibility_adjudication": {
+    "author_maintained_source_found": false,
+    "faithful_official_reproduction_currently_unique": false,
+    "guessed_implementation_authorized": false,
+    "gpu_lane_started": false,
+    "status_for_paper": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "reopen_condition": "authoritative source/checkpoint or an author-specified implementation record closes every material ambiguity"
+  },
+  "scope": {
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_gate": "evidence/paper_aio/DDSB_SOURCE_GATE_20260902.json",
+  "prior_recheck": "evidence/paper_aio/DDSB_SOURCE_RECHECK_20260903T061111.json",
+  "decision": "decisions/DEC-20260902-PAPER-AIO-DDSB-SOURCE-GATE.md"
+}
