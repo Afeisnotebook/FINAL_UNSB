@@ -1,0 +1,99 @@
+{
+  "schema": "final-unsb-paper-four-host-health-snapshot-v1",
+  "captured_at": "2026-09-03T03:45:24+08:00",
+  "status": "ALL_FOUR_REMOTE_TRAINING_HOSTS_HEALTHY_LOCAL_AUDIT_NODE_READY",
+  "lanes": {
+    "4090A_plain": {
+      "observed_at": "2026-09-03T03:21:55+08:00",
+      "status": "CHILD_RUNNING",
+      "data_epoch": 49,
+      "updates": 419097,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 1274.6884033679962,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "gpu_memory_mib": 1663,
+      "gpu_utilization_percent_at_snapshot": 49,
+      "current_epoch_linear_projection": "2026-09-05T09:13:22+08:00",
+      "next_lane": "amtnc"
+    },
+    "5090A_stcgr": {
+      "observed_at": "2026-09-03T03:16:59+08:00",
+      "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+      "data_epoch": 3,
+      "updates": 25659,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 4955.223417758942,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "gpu_memory_mib": 2186,
+      "gpu_utilization_percent_at_snapshot": 17,
+      "current_epoch_linear_projection": "2026-09-14T10:26:38+08:00",
+      "matched_plain": "same-host plain paused recoverably at e9"
+    },
+    "5090B_cut": {
+      "observed_at": "2026-09-03T03:21:56+08:00",
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 40,
+      "updates": 342120,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 1681.1202051639557,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "current_epoch_linear_projection": "2026-09-06T06:28:23+08:00",
+      "next_lane": "fresh_e0_exact_runtime_gated_matched_plain"
+    },
+    "5090B_cyclegan": {
+      "observed_at": "2026-09-03T03:21:56+08:00",
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 21,
+      "updates": 179613,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 2293.640852212906,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "combined_gpu_memory_mib_with_cut": 3479,
+      "combined_gpu_utilization_percent_at_snapshot": 94,
+      "current_epoch_linear_projection": "2026-09-07T21:48:06+08:00"
+    },
+    "5090C_proposal": {
+      "observed_at": "2026-09-03T03:45:24+08:00",
+      "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+      "data_epoch": 5,
+      "updates": 42765,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 4752.122806787491,
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "health_watcher_pid": 13587,
+      "gpu_memory_mib": 2146,
+      "gpu_utilization_percent_at_snapshot": 35,
+      "current_epoch_linear_projection": "2026-09-13T21:09:48+08:00",
+      "matched_plain": "5090A plain exact runtime cohort, currently paused recoverably at e9"
+    }
+  },
+  "local_audit_node": {
+    "status": "PREFLIGHT_PASS_WAITING_FOR_FIXED_CHECKPOINT_IMPORTS",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "content_hashes_verified": true,
+    "terminal_audit_successor_pid": 1780,
+    "checkpoint_relay_count": 6,
+    "all_relay_processes_alive": true
+  },
+  "projection_policy": {
+    "method": "latest_complete_epoch_linear_wall_clock_estimate",
+    "scientific_control": false,
+    "early_stop_control": false,
+    "performance_values_used": false,
+    "uncertainty_note": "co-residency and host load may change future epoch duration"
+  },
+  "scientific_boundaries": {
+    "training_configuration_changed": false,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}

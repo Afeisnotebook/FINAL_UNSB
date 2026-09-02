@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T03:41:10+08:00",
+  "captured_at": "2026-09-03T03:45:24+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -9,9 +9,10 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 4,
+      "completed_full_data_epoch": 5,
       "first_epoch_seconds": 4696.602091550827,
-      "projected_completion": "2026-09-13T17:07:19+08:00",
+      "latest_epoch_seconds": 4752.122806787491,
+      "projected_completion": "2026-09-13T21:09:48+08:00",
       "matched_plain": "5090A/plain",
       "runtime_relation": "PASS_EXACT_RUNTIME_COHORT",
       "evaluation_relation_registry": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
@@ -185,6 +186,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

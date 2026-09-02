@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T03:41:10+08:00",
+  "state_snapshot_time": "2026-09-03T03:45:24+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -9,6 +9,7 @@
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_HEALTH_SNAPSHOT_20260903T034524.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
@@ -95,11 +96,12 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 4,
-        "latest_observed_updates": 34212,
+        "latest_observed_data_epoch": 5,
+        "latest_observed_updates": 42765,
         "first_epoch_seconds": 4696.602091550827,
+        "latest_epoch_seconds": 4752.122806787491,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
-        "projected_completion": "2026-09-13T17:07:19+08:00"
+        "projected_completion": "2026-09-13T21:09:48+08:00"
       },
       "5090B_matched_plain_successor": {
         "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_GATES",
