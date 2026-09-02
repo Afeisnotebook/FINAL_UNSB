@@ -1,0 +1,106 @@
+{
+  "schema": "final-unsb-paper-live-status-v1",
+  "captured_at": "2026-09-02T22:59:00+08:00",
+  "status": "ALL_LONG_RUNS_AND_DURABLE_CONTROLLERS_HEALTHY",
+  "hosts": {
+    "4090A": {
+      "plain": {
+        "status": "running",
+        "data_epoch": 37,
+        "updates": 316461,
+        "supervisor_pid": 2072054,
+        "trainer_pid": 2072055
+      },
+      "amtnc": {
+        "status": "waiting_for_plain_e200",
+        "successor_pid": 2182585,
+        "exporter_pid": 2182586
+      },
+      "unified_evaluation": {
+        "status": "waiting_for_fixed_imports_or_gpu_release",
+        "successor_pid": 2209120,
+        "health_watcher_pid": 2209213,
+        "completed_evaluations": 0
+      },
+      "main_health_watcher_pid": 2200307,
+      "disk_free_gib": 386.47203063964844,
+      "required_disk_gib": 64.0,
+      "alert_count": 0
+    },
+    "5090A": {
+      "plain": {
+        "status": "running",
+        "data_epoch": 7,
+        "updates": 59871,
+        "supervisor_pid": 305489,
+        "trainer_pid": 305490
+      },
+      "stcgr": {
+        "status": "e1_complete_waiting_for_matched_plain_e200",
+        "continuation_pid": 308472
+      },
+      "health_watcher_pid": 327875,
+      "disk_free_gib": 184.53734970092773,
+      "required_disk_gib": 48.0,
+      "user_capacity_override": true,
+      "alert_count": 0
+    },
+    "5090B": {
+      "cut": {
+        "status": "running_colocated",
+        "data_epoch": 30,
+        "updates": 256590,
+        "supervisor_pid": 3739,
+        "trainer_pid": 5771
+      },
+      "cyclegan": {
+        "status": "running_colocated",
+        "data_epoch": 14,
+        "updates": 119742,
+        "supervisor_pid": 11845,
+        "trainer_pid": 11846
+      },
+      "health_watcher_pid": 30355,
+      "disk_free_gib": 231.5048065185547,
+      "required_disk_gib": 24.0,
+      "alert_count": 0
+    },
+    "5090C": {
+      "proposal": {
+        "status": "running_exact_5090a_runtime_cohort",
+        "data_epoch": 2,
+        "updates": 17106,
+        "supervisor_pid": 9729,
+        "trainer_pid": 9734,
+        "exporter_pid": 9730,
+        "matched_plain": "5090A/plain"
+      },
+      "health_watcher_pid": 13587,
+      "disk_free_gib": 230.3041763305664,
+      "required_disk_gib": 16.0,
+      "alert_count": 0
+    }
+  },
+  "durability": {
+    "four_primary_host_watchers_healthy": true,
+    "unified_evaluation_watcher_healthy": true,
+    "all_waiting_successors_alive": true,
+    "source_exporters_alive": true,
+    "verified_import_relays_alive": true,
+    "automatic_scientific_mutation": false
+  },
+  "scientific_boundaries": {
+    "paired_performance_read_for_control": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "training_protocol_changed": false,
+    "healthy_training_interrupted": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  },
+  "next_manual_decision": {
+    "time": "2026-09-11 before 5090C rental cutoff",
+    "action": "extend 5090C by at least one day, with two days as the safe margin, unless measured Proposal throughput materially improves without a protocol change",
+    "paired_metric_required": false
+  }
+}
