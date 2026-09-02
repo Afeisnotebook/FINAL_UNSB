@@ -12,9 +12,12 @@
 - 保留HJCGR、Proposal-only、AM-TNC及后续新算法的多算法前沿；
 - 维持confirmation20封存、禁止paired在线控制、禁止跨宿主delta。
 
-当前在线分配为：4090A运行plain并自动后继Proposal；新5090B运行CUT并自动后继
-CycleGAN；旧5090A运行证据门已通过的ST-CGR small25/e200；本地负责合同、代码和只读
-审计。DDSB因没有权威公开实现保持`reproduction_incomplete`，不得跑猜测版。
+当前在线分配为：4090A运行full plain并后继AM-TNC；5090C运行Proposal；5090B同卡
+运行CUT与CycleGAN，并在CUT完成后为Proposal建立fresh-e0 exact-runtime matched plain；
+5090A按用户时间优先授权把plain完整暂停在e9，直接从完整e1状态运行full-data ST-CGR。
+本地负责合同、代码和只读审计。DDSB因没有权威公开实现保持
+`reproduction_incomplete`，不得跑猜测版。此覆盖只改变调度次序；ST-CGR在5090A plain
+补齐前只能报告绝对轨迹，不能宣称matched收益。
 
 接手者应在本文件后优先阅读`PAPER_AIO_RESEARCH_CONTRACT_CN.md`、
 `ACTIVE_PAPER_AIO_PLAN_CN.md`与`configs/PAPER_AIO_UNPAIRED_V1.json`。下述2026-09-01

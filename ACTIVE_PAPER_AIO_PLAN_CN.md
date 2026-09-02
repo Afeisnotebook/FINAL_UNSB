@@ -1,7 +1,7 @@
 # ACTIVE：FINAL_UNSB 全量论文实验与下一阶段算法重构
 
-状态：`FIRST_WAVE_RUNNING / STCGR_SMALL25_RUNNING / CONFIRMATION_LOCKED`  
-日期：2026-09-02
+状态：`FIRST_WAVE_RUNNING / THREE_ALGORITHM_PATHS_RUNNING / CONFIRMATION_LOCKED`
+日期：2026-09-03
 
 ## 当前不可误读的事实
 
@@ -10,36 +10,36 @@
 - 当前阶段不是把这三个旧结果重跑一次，而是获得全量论文对照，并继续从长期因果证据
   生成更好的算法。
 - terminal low-variance/singular-drift假设未通过跨算法/跨域门，所以没有加入终端修复。
-- time-stratum梯度异方差及Proposal/HJCGR父状态审计支持ST-CGR；其固定状态门已通过，
-  当前运行small25 e200，尚未获全量授权。
+- time-stratum梯度异方差及Proposal/HJCGR父状态审计支持ST-CGR；small25 e200、全量
+  candidate lock、跨代码runtime和独立authorization均已通过，当前运行full-data e200。
 
 ## 当前在线任务
 
 | 宿主 | 当前任务 | 冻结身份 | 自动后继 |
 |---|---|---|---|
-| 4090A | full plain e200 | commit `31f2fb8` / paper fp `68f53a8e...` | plain完整后重新验门并跑Proposal |
-| 5090B | full CUT e200 | 同一paper commit/fp，独立baseline | CUT完整后重新验门并跑CycleGAN |
-| 5090A | ST-CGR small25 e200 | candidate commit `0637880` | 只在完整e200后裁决，不看中间paired指标 |
-| 本地1660 | 合同、代码、只读审计 | 不与远端训练混用 | 准备候选全量冻结接口 |
+| 4090A | full plain e200 | 当前live commit/fp见`PROJECT_STATE.json` | plain后运行AM-TNC |
+| 5090A | full ST-CGR e200 | candidate `656670c` / fp `2fbdd6f...` | e200后source-bound export；plain稍后精确恢复 |
+| 5090B | full CUT + CycleGAN e200同卡 | 各自冻结外部基线协议 | CUT后先exact twin，再fresh-e0 matched plain |
+| 5090C | full Proposal e200 | commit `e4a5eed` / fp `e5704e...` | source-bound export |
+| 本地1660 | 合同、代码、只读审计 | 不与远端训练混用 | 准备统一评估和只读runtime关系证据 |
 
 进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
-这些心跳不是科学结论。三条训练均由持久监督器执行，plain→Proposal和CUT→CycleGAN另有fail-closed
-后继等待器。ST-CGR也已部署source-bound终点receipt后继：只在完整e200轨迹出现后发布
-正式receipt，状态为`WAITING_FOR_COMPLETE_E200_TRAJECTORY`；它不会自动授权全量。
+这些心跳不是科学结论。所有训练均由持久监督器执行。5090A plain停在e9完整状态且不会
+自动重启；5090B的plain继任器只在CUT完成和精确runtime门通过后启动。ST-CGR与Proposal
+均有独立source-bound exporter；任何relay或关系候选都不能自动改Git registry或授权结论。
 
 ## 最近硬门
 
-1. ST-CGR完成small25 e200后，只按e150/e175/e200、e200、六域、SSIM/LPIPS、绝对
-   轨迹和成本裁决；若通过，生成独立full candidate lock，不修改在飞paper协议。
-   该lock还必须通过跨代码e0/2000-step、zero-intervention、resume与重复评估门，且只有
-   随后的独立authorization能启动全量；任何一门失败都保持未授权。
-   新候选虽具有独立训练协议指纹，但评估使用固定`68f53a8e...` CRN bundle身份；只有
-   late三点逐图CRN完全一致才允许与同宿主parent plain计算delta。
+1. ST-CGR已通过small25 e200和全量双阶段授权，必须自然运行到full-data e200；只按
+   e150/e175/e200、e200、六域、SSIM/LPIPS、绝对轨迹和成本裁决。它虽具有独立训练协议
+   指纹，但评估使用固定`68f53a8e...` CRN bundle；只有late三点逐图CRN完全一致且
+   matched plain身份合法时才允许计算delta。
 2. plain/CUT必须自然到e200；中间discovery值不触发早停、算法修改或资源调度。
 3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。
-4. plain完成后在同一4090执行Proposal专属resume/identity/eval门；CUT完成后在同一
-   5090执行CycleGAN门。
-5. 额外4090只有在用户提供实际宿主后才进入runtime-twin或新算法全量分配。
+4. 4090A plain完成后执行AM-TNC；5090B的CUT/CycleGAN保持连续，CUT完成后才运行已冻结
+   的Proposal matched-plain继任器。
+5. 5090B的runtime receipt必须先被只读转运、验证并生成review-only关系候选；只有人工
+   审阅和Git提交才能把它加入comparison registry。
 
 ## 第一波完成后的顺序
 

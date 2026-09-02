@@ -74,19 +74,20 @@ def relation_candidates(registry: dict[str, Any], lane_id: str) -> list[dict[str
     return []
 
 
-def materialize_exact_runtime_relation(
+def exact_runtime_relation_payload(
     *, lane_id: str, method_source_host_label: str,
     plain_source_host_label: str, method_runtime_receipt: Path,
     plain_runtime_receipt: Path, method_authorization_receipt: Path,
-    destination: Path,
 ) -> dict[str, Any]:
-    """Build a metric-blind relation candidate from primary gate receipts."""
+    """Validate primary gate receipts and return a metric-blind relation."""
     method_path = Path(method_runtime_receipt).resolve()
     plain_path = Path(plain_runtime_receipt).resolve()
     authorization_path = Path(method_authorization_receipt).resolve()
     method = _read(method_path)
     plain = _read(plain_path)
     authorization = _read(authorization_path)
+    if any(_contains_performance_field(value) for value in (method, plain, authorization)):
+        raise RuntimeError("runtime relation primary receipts contain performance fields")
     runtime_schema = "final-unsb-paper-runtime-twin-receipt-v1"
     if (
         method.get("schema") != runtime_schema
@@ -129,7 +130,7 @@ def materialize_exact_runtime_relation(
         or authorization.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("method authorization is not bound to its runtime receipt")
-    result = {
+    return {
         "status": "PASS_EXACT_RUNTIME_RELATION",
         "method_lane": lane_id,
         "method_source_host_label": method_source_host_label,
@@ -148,6 +149,23 @@ def materialize_exact_runtime_relation(
         "paired_metric_control": False,
         "confirmation20_opened": False,
     }
+
+
+def materialize_exact_runtime_relation(
+    *, lane_id: str, method_source_host_label: str,
+    plain_source_host_label: str, method_runtime_receipt: Path,
+    plain_runtime_receipt: Path, method_authorization_receipt: Path,
+    destination: Path,
+) -> dict[str, Any]:
+    """Build a metric-blind relation candidate from primary gate receipts."""
+    result = exact_runtime_relation_payload(
+        lane_id=lane_id,
+        method_source_host_label=method_source_host_label,
+        plain_source_host_label=plain_source_host_label,
+        method_runtime_receipt=method_runtime_receipt,
+        plain_runtime_receipt=plain_runtime_receipt,
+        method_authorization_receipt=method_authorization_receipt,
+    )
     destination = Path(destination).resolve()
     if destination.exists():
         raise RuntimeError(f"runtime relation candidate already exists: {destination}")

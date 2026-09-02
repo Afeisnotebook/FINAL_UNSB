@@ -37,15 +37,20 @@
 
 ## 3. 宿主与比较边界
 
-- 4090A：full plain；完成后同一 output root、同一 runtime、同一 e0 启动 Proposal。
-- 5090B：CUT；完成后启动 CycleGAN。二者是独立外部基线，不与4090做 matched delta。
-- 5090A：当前只运行 ST-CGR 的 small25/e200 证据门后轨迹；其结果仍为宿主分离证据。
+- 4090A：full plain；完成后执行独立优化几何方向AM-TNC。
+- 5090C：运行Proposal；它与任何plain的matched关系必须由精确2000-update runtime twin
+  和独立Git registry关系共同证明。
+- 5090B：CUT与CycleGAN同卡独立运行；CUT完成后，已武装的继任器先运行严格runtime
+  twin，再从fresh e0启动Proposal的候选matched plain。外部基线不参与UNSB matched
+  delta。
+- 5090A：按用户时间优先授权，plain完整暂停于e9，当前从完整e1状态运行full-data
+  ST-CGR；plain补齐前ST-CGR只有绝对轨迹，不构成matched收益。
 - 本地 GTX1660：代码门、只读审计和不影响远端吞吐的研究工作。
 - 计划建议的另外两张4090在用户提供实际连接前只是假设资源，禁止写成在线或已分配。
 
-method-minus-plain 只能在相同 runtime cohort 中计算。checkpoint 不跨宿主续接，5090
-结果不能减4090 plain。所有最终模型复制到一个固定4090评估容器做统一推理，但复制模型
-不等于合并训练轨迹。
+method-minus-plain 只能在相同 runtime cohort 中计算；同宿主相同身份可直接成立，跨宿主
+则必须有精确2000-update twin及Git中明确的metric-blind关系。checkpoint不跨宿主续接。
+所有最终模型复制到一个固定4090评估容器做统一推理，但复制模型不等于合并训练轨迹。
 
 统一评估必须先由source host为e100/e125/e150/e175/e200 checkpoint生成同时绑定文件hash、
 scientific-state hash、lane语义、训练commit/fingerprint与宿主标签的export receipt；复制后

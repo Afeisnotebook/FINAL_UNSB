@@ -128,3 +128,6 @@ authorize compute.
 39. `DEC-20260903-MULTI-CONTROL-RUNTIME-RELATION.md`：统一评估器兼容同一方法的多条
     精确plain关系，并按实际method/plain宿主唯一匹配；新增由三份原始gate receipt
     物化关系候选的fail-closed接口，但在5090B真实receipt出现前不修改当前registry。
+40. `DEC-20260903-DURABLE-RUNTIME-RELATION-SUCCESSOR.md`：4090A持久等待5090B未来的
+    2000-update exact runtime receipt，验明Proposal授权和三份原始回执后只生成
+    review-only关系候选；不会自动改registry、启动任务或授权跨宿主delta。

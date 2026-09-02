@@ -39,12 +39,15 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
 - **Executors** run only committed, per-host matched protocols and may not use
   paired targets as training/controller inputs. Checkpoints never continue
   across hosts and a method is compared only with its same-host plain.
-- **4090A** runs full plain and then same-runtime Proposal after fail-closed
-  gates. **5090B** runs CUT and then CycleGAN. **5090A** currently runs the
-  target-blind-gated ST-CGR small25 e200 trajectory; it is a separate runtime.
-- Full paper science remains pinned to commit `31f2fb8...` and protocol
-  fingerprint `68f53a8e...`; newer commits may orchestrate but must not mutate
-  those live scientific checkouts.
+- **4090A** runs full plain and then the independently valuable AM-TNC path.
+  **5090C** runs Proposal. **5090A** has paused its recoverable plain at e9 by
+  explicit user time-priority and now runs the authorized full-data ST-CGR from
+  its exact e1 state. **5090B** co-runs CUT and CycleGAN, then executes a
+  fresh-e0 exact-runtime plain gate for Proposal after CUT releases capacity.
+- Every live scientific checkout remains pinned to the per-lane commit and
+  protocol fingerprint recorded in `PROJECT_STATE.json`.  Newer commits may
+  orchestrate, relay and evaluate, but must not mutate those live transitions.
+  The common evaluation bundle identity remains `68f53a8e...`.
 
 ## Drift firewall
 

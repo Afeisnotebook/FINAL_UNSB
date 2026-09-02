@@ -170,6 +170,19 @@ def test_relation_materializer_requires_primary_exact_receipts(tmp_path: Path) -
             destination=tmp_path / "broken.json",
         )
 
+    contaminated = _runtime("5090B_MATCHED_PLAIN")
+    contaminated["psnr"] = 20.0
+    _write(plain_path, contaminated)
+    with pytest.raises(RuntimeError, match="performance fields"):
+        materialize_exact_runtime_relation(
+            lane_id="proposal", method_source_host_label="5090C",
+            plain_source_host_label="5090B_MATCHED_PLAIN",
+            method_runtime_receipt=method_path,
+            plain_runtime_receipt=plain_path,
+            method_authorization_receipt=authorization_path,
+            destination=tmp_path / "contaminated.json",
+        )
+
 
 def test_runtime_relation_cli_requires_explicit_primary_receipts() -> None:
     args = parser().parse_args([
