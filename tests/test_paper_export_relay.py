@@ -4,7 +4,9 @@ from types import SimpleNamespace
 import pytest
 
 from operations.paper_aio_export_relay import (
+    SourceExportNotReady,
     UNIFIED_EPOCHS,
+    _download_verified,
     _contract,
     _remote_path,
     validate_export_receipt,
@@ -114,3 +116,21 @@ def test_contract_never_persists_password(tmp_path, monkeypatch) -> None:
     assert contract["relay_id"] == "external5090B"
     assert contract["password_env"] == "FINAL_UNSB_PAPER_RELAY_5090B_PASSWORD"
     assert "secret-value" not in encoded
+
+
+def test_download_missing_remote_is_waiting_not_local_io(monkeypatch, tmp_path) -> None:
+    class MissingSftp:
+        def stat(self, path):
+            raise FileNotFoundError(2, "missing", path)
+
+    with pytest.raises(SourceExportNotReady):
+        _download_verified(
+            MissingSftp(), "/not-ready/e100.pt", tmp_path / "e100.pt", "a" * 64,
+        )
+
+
+def test_existing_destination_hash_mismatch_fails_closed(tmp_path) -> None:
+    destination = tmp_path / "e100.pt"
+    destination.write_bytes(b"wrong")
+    with pytest.raises(RuntimeError, match="existing imported file hash differs"):
+        _download_verified(object(), "/remote/e100.pt", destination, "a" * 64)

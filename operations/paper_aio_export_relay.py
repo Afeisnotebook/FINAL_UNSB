@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import socket
 import sys
 import time
@@ -34,6 +35,14 @@ try:
     import fcntl as _fcntl
 except ImportError:  # Windows coordinator.
     _fcntl = None
+
+
+class SourceExportNotReady(Exception):
+    """The remote source has not published its terminal export yet."""
+
+
+class TransientRelayNetwork(Exception):
+    """The pinned remote endpoint is temporarily unavailable."""
 
 
 def file_sha256(path: Path) -> str:
@@ -180,18 +189,32 @@ def _connect(contract: dict[str, Any]):
     client.set_missing_host_key_policy(
         PinnedHostKeyPolicy(contract["expected_host_key_sha256"])
     )
-    client.connect(
-        hostname=contract["source_host"], port=int(contract["source_port"]),
-        username=contract["source_user"], password=password,
-        look_for_keys=False, allow_agent=False, timeout=30,
-        banner_timeout=30, auth_timeout=30,
-    )
+    try:
+        client.connect(
+            hostname=contract["source_host"], port=int(contract["source_port"]),
+            username=contract["source_user"], password=password,
+            look_for_keys=False, allow_agent=False, timeout=30,
+            banner_timeout=30, auth_timeout=30,
+        )
+    except paramiko.AuthenticationException as error:
+        client.close()
+        raise RuntimeError("paper relay SSH authentication failed") from error
+    except (paramiko.SSHException, EOFError, OSError, socket.error) as error:
+        client.close()
+        raise TransientRelayNetwork("paper relay SSH connection unavailable") from error
     return client
 
 
 def _sftp_read(sftp, path: str) -> bytes:
-    with sftp.open(path, "rb") as handle:
-        return handle.read()
+    try:
+        with sftp.open(path, "rb") as handle:
+            return handle.read()
+    except OSError as error:
+        if getattr(error, "errno", None) == 2:
+            raise SourceExportNotReady(path) from error
+        raise TransientRelayNetwork(f"remote read failed: {path}") from error
+    except (EOFError, socket.error) as error:
+        raise TransientRelayNetwork(f"remote read failed: {path}") from error
 
 
 def _download_verified(sftp, remote: str, destination: Path, expected: str) -> str:
@@ -202,9 +225,40 @@ def _download_verified(sftp, remote: str, destination: Path, expected: str) -> s
         if actual != expected:
             raise RuntimeError(f"existing imported file hash differs: {destination}")
         return actual
+    try:
+        remote_size = int(sftp.stat(remote).st_size)
+    except OSError as error:
+        if getattr(error, "errno", None) == 2:
+            raise SourceExportNotReady(remote) from error
+        raise TransientRelayNetwork(f"remote stat failed: {remote}") from error
+    required_free = remote_size + 2 * 1024 ** 3
+    available = shutil.disk_usage(destination.parent).free
+    if available < required_free:
+        raise RuntimeError(
+            f"insufficient destination capacity for {destination}: "
+            f"required {required_free} bytes, available {available} bytes"
+        )
     temporary = destination.with_name(destination.name + f".{os.getpid()}.part")
     try:
-        sftp.get(remote, str(temporary))
+        try:
+            source = sftp.open(remote, "rb")
+        except OSError as error:
+            if getattr(error, "errno", None) == 2:
+                raise SourceExportNotReady(remote) from error
+            raise TransientRelayNetwork(f"remote open failed: {remote}") from error
+        with source, temporary.open("wb") as local:
+            while True:
+                try:
+                    block = source.read(1024 * 1024)
+                except (EOFError, OSError, socket.error) as error:
+                    raise TransientRelayNetwork(
+                        f"remote checkpoint read failed: {remote}"
+                    ) from error
+                if not block:
+                    break
+                local.write(block)
+        if temporary.stat().st_size != remote_size:
+            raise TransientRelayNetwork(f"remote checkpoint size changed: {remote}")
         actual = file_sha256(temporary)
         if actual != expected:
             raise RuntimeError(f"downloaded file hash differs: {remote}")
@@ -373,12 +427,22 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             try:
                 client = _connect(contract)
                 try:
-                    with client.open_sftp() as sftp:
+                    try:
+                        sftp_handle = client.open_sftp()
+                    except Exception as error:
+                        if error.__class__.__module__.startswith("paramiko") or isinstance(
+                            error, (EOFError, OSError, socket.error)
+                        ):
+                            raise TransientRelayNetwork(
+                                "paper relay SFTP channel unavailable"
+                            ) from error
+                        raise
+                    with sftp_handle as sftp:
                         for lane_id in contract["lanes"]:
                             complete[lane_id] = _import_lane(sftp, contract, lane_id)
                 finally:
                     client.close()
-            except (FileNotFoundError, EOFError, OSError, socket.error) as error:
+            except (SourceExportNotReady, TransientRelayNetwork) as error:
                 _write_json(state_path, {
                     "schema": STATE_SCHEMA,
                     "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
@@ -394,6 +458,23 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     "paired_metric_control": False,
                     "confirmation20_opened": False,
                 })
+            except Exception as error:
+                _write_json(state_path, {
+                    "schema": STATE_SCHEMA,
+                    "status": "FAIL_CLOSED_INTEGRITY_CAPACITY_OR_LOCAL_IO",
+                    "pid": os.getpid(),
+                    "relay_id": relay_id,
+                    "source_host_label": contract["source_host_label"],
+                    "lanes": contract["lanes"],
+                    "contract": str(contract_path),
+                    "contract_sha256": file_sha256(contract_path),
+                    "error_type": type(error).__name__,
+                    "error": str(error),
+                    "performance_values_read": False,
+                    "paired_metric_control": False,
+                    "confirmation20_opened": False,
+                })
+                raise
             else:
                 result = {
                     "schema": IMPORT_SET_SCHEMA,
