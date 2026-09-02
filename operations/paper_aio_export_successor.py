@@ -12,9 +12,19 @@ import json
 import os
 import re
 import subprocess
+import sys
 import time
 from pathlib import Path
 from typing import Any
+
+# This executable is launched by absolute path from immutable control
+# worktrees.  Without this bootstrap Python exposes only ``operations/`` on
+# sys.path, making the public script depend on a caller-supplied PYTHONPATH.
+# Keep the control-plane executable self-contained; this does not participate
+# in a model transition or alter the scientific paper protocol fingerprint.
+_BOOTSTRAP_ROOT = Path(__file__).resolve().parents[1]
+if str(_BOOTSTRAP_ROOT) not in sys.path:
+    sys.path.insert(0, str(_BOOTSTRAP_ROOT))
 
 from research.paper_aio.protocol import ROOT, file_sha256, protocol_fingerprint
 from research.paper_aio.unified import UNIFIED_EPOCHS, export_checkpoint_receipt

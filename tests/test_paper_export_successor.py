@@ -1,9 +1,15 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 from operations.paper_aio_export_successor import source_state_decision
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _write(path: Path, value: dict) -> None:
@@ -50,3 +56,23 @@ def test_export_successor_propagates_supervisor_engineering_block(tmp_path: Path
     result = source_state_decision(tmp_path, "proposal")
     assert result["status"] == "BLOCKED_SOURCE_LANE_ENGINEERING_FAILURE"
 
+
+def test_export_successor_direct_script_bootstraps_repository_imports(
+    tmp_path: Path,
+) -> None:
+    env = dict(os.environ)
+    env.pop("PYTHONPATH", None)
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "operations" / "paper_aio_export_successor.py"),
+            "--help",
+        ],
+        cwd=tmp_path,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "--source-output" in result.stdout
