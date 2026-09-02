@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T03:16:59+08:00",
+  "state_snapshot_time": "2026-09-03T03:41:10+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -12,9 +12,9 @@
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 46, "latest_observed_updates": 393438, "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 37, "latest_observed_updates": 316461, "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_E19_CONFIRMED", "latest_observed_data_epoch": 19, "latest_observed_updates": 162507, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 49, "latest_observed_updates": 419097, "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 40, "latest_observed_updates": 342120, "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 21, "latest_observed_updates": 179613, "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -294,17 +294,27 @@
       "evidence": "evidence/paper_aio/PAPER_COMPLEXITY_INTERFACE_20260902.json"
     },
     "local_evaluation_node": {
-      "status": "DATA_MIRROR_RUNNING_AUDIT_ONLY_PREFLIGHT_SUCCESSOR_WAITING",
-      "mirror_pid": 15608,
+      "status": "PREFLIGHT_PASS_TERMINAL_AUDIT_READY_WAITING_FOR_FIXED_IMPORTS",
+      "mirror_pid": null,
       "mirror_source": "4090A:/home/yc/dataset",
       "mirror_source_io_class": "idle",
       "mirror_source_nice": 19,
+      "mirror_status": "MIRROR_COMPLETE_FULL_CONTENT_HASH_VERIFIED",
+      "mirror_extracted_file_count": 137997,
+      "mirror_archive_bytes": 26302668800,
+      "temporary_archive_status": "RETAINED_LOCAL_TOOL_SAFETY_POLICY_NO_SCIENTIFIC_BLOCK",
+      "local_free_disk_gib": 125.751122,
       "destination": "E:\\UNSB_Expl\\paper_eval_node",
       "mirror_control_commit": "d170d4da3e3400d34ba3eec97200662d948262e0",
-      "preflight_successor_pid": 19348,
+      "preflight_successor_pid": null,
       "preflight_successor_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_EVAL_6275469",
       "preflight_successor_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
-      "preflight_successor_state": "WAITING_FOR_MIRROR",
+      "preflight_successor_state": "LOCAL_AUDIT_NODE_PREFLIGHT_PASS",
+      "preflight_sha256": "e1d4167f622a07db838925aa6cd847d2cab41d9a30b01602865f84227b2e9d8f",
+      "view_summary_sha256": "4b5eb9ff289bff6f36e82c7db0a46c8e69f1cb131830deee41d74d9e7418e66a",
+      "manifest_sha256_verified": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+      "manifest_counts_verified": {"train": 8553, "discovery": 480, "confirmation": 120},
+      "view_counts_verified": {"trainA": 8553, "trainB": 8553, "discoveryA": 480, "discoveryB": 480, "confirmationA": 120, "confirmationB": 120},
       "checkpoint_relays_status": "SIX_SOURCE_BOUND_RELAYS_WAITING_AFTER_SUCCESSFUL_FIRST_CONNECTION",
       "checkpoint_relay_frozen_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
       "checkpoint_relay_pids": {
@@ -315,7 +325,7 @@
         "5090B_matched_plain": 19496,
         "5090C_proposal": 19236
       },
-      "terminal_audit_successor_status": "DURABLE_WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "terminal_audit_successor_status": "PREFLIGHT_READY_WAITING_FOR_FIXED_IMPORTS_OR_GPU",
       "terminal_audit_successor_pid": 1780,
       "terminal_audit_successor_commit": "3913b7c34d21993c3947fc495a68118e0788cc05",
       "terminal_audit_fixed_epochs": [100, 150, 200],
@@ -329,7 +339,8 @@
       "evidence": [
         "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json",
         "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json",
-        "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json"
+        "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
+        "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json"
       ],
       "decision": "decisions/DEC-20260903-LOCAL-EVALUATION-NODE.md"
     },

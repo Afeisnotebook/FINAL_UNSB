@@ -1,0 +1,81 @@
+{
+  "schema": "final-unsb-paper-local-evaluation-node-preflight-pass-v1",
+  "captured_at": "2026-09-03T03:41:10+08:00",
+  "status": "LOCAL_AUDIT_NODE_PREFLIGHT_PASS_TERMINAL_AUDIT_RELEASED",
+  "mirror": {
+    "source": "4090A:/home/yc/dataset",
+    "destination": "E:\\UNSB_Expl\\paper_eval_node\\dataset",
+    "source_io_class": "idle",
+    "source_nice": 19,
+    "archive_bytes": 26302668800,
+    "extracted_file_count": 137997,
+    "mirror_state_sha256": "3a100ddeafaa22e33021dc52839358a62c117727b1e3a03e9b4acc75cf672318",
+    "source_mutated": false
+  },
+  "preflight": {
+    "status": "PASS",
+    "node_role": "audit_only",
+    "host_label": "local1060_audit",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "manifest_counts": {
+      "train": 8553,
+      "discovery": 480,
+      "confirmation": 120
+    },
+    "domain_count": 6,
+    "content_hashes_verified": true,
+    "view_counts": {
+      "trainA": 8553,
+      "trainB": 8553,
+      "discoveryA": 480,
+      "discoveryB": 480,
+      "confirmationA": 120,
+      "confirmationB": 120
+    },
+    "view_hardlinks": 18306,
+    "preflight_sha256": "e1d4167f622a07db838925aa6cd847d2cab41d9a30b01602865f84227b2e9d8f",
+    "view_summary_sha256": "4b5eb9ff289bff6f36e82c7db0a46c8e69f1cb131830deee41d74d9e7418e66a",
+    "protocol_fingerprint": "283c2b42cb7a04163e8e7dec257c5d0c2213c864be1126c97f76a7700ea85e27",
+    "successor_contract_sha256": "a191bd880f0b1fac10cfd4aa0223439d1ff160b50baab6e0e50d919dc81b82fb",
+    "stderr_bytes": 0
+  },
+  "terminal_audit_successor": {
+    "pid": 1780,
+    "process_alive": true,
+    "preflight_release": "READY",
+    "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "fixed_epochs": [100, 150, 200],
+    "fixed_probes": [
+      "4090A_plain",
+      "5090C_proposal",
+      "4090A_amtnc",
+      "5090A_stcgr"
+    ]
+  },
+  "checkpoint_relays": {
+    "status": "SIX_SOURCE_BOUND_RELAYS_ALIVE_WAITING_FOR_FIXED_EXPORTS",
+    "pids": {
+      "4090A_algorithms": 19200,
+      "5090A_plain": 17176,
+      "5090A_stcgr": 19784,
+      "5090B_external": 16252,
+      "5090B_matched_plain": 19496,
+      "5090C_proposal": 19236
+    }
+  },
+  "temporary_archive": {
+    "status": "RETAINED_AFTER_LOCAL_TOOL_SAFETY_POLICY_REJECTED_DELETION",
+    "bytes": 26302668800,
+    "local_free_disk_gib": 125.751122,
+    "scientific_block": false,
+    "dataset_or_checkpoint_deleted": false,
+    "recovery_action_required": false
+  },
+  "scientific_boundaries": {
+    "training_authorized_on_local_node": false,
+    "checkpoint_evaluation_started": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

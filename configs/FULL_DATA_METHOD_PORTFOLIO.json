@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T03:16:59+08:00",
+  "captured_at": "2026-09-03T03:41:10+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -119,13 +119,17 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
   },
   "local_evaluation_node": {
-    "status": "data_mirror_running_audit_only_preflight_successor_waiting",
-    "mirror_pid": 15608,
-    "preflight_successor_pid": 19348,
+    "status": "preflight_pass_terminal_audit_ready_waiting_for_fixed_imports",
+    "mirror_pid": null,
+    "mirror_extracted_file_count": 137997,
+    "manifest_content_hashes_verified": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "preflight_successor_pid": null,
+    "preflight_successor_state": "local_audit_node_preflight_pass",
     "frozen_successor_commit": "6275469c0dca938a23cd1b6ee8c8c1158cb4e0b1",
     "checkpoint_relays_status": "six_source_bound_relays_waiting_after_successful_first_connection",
     "checkpoint_relay_pids": [19200, 17176, 19784, 16252, 19496, 19236],
-    "terminal_audit_successor_status": "durable_waiting_for_preflight_imports_or_gpu",
+    "terminal_audit_successor_status": "preflight_ready_waiting_for_fixed_imports_or_gpu",
     "terminal_audit_successor_pid": 1780,
     "terminal_audit_fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
     "role": "evaluate fixed exported checkpoints and run target-blind full-data terminal audits without occupying a training GPU",
@@ -135,7 +139,8 @@
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_CHECKPOINT_RELAYS_DEPLOYED_20260903.json",
-      "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json"
+      "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_SUCCESSOR_DEPLOYED_20260903.json",
+      "evidence/paper_aio/PAPER_AIO_LOCAL_EVALUATION_NODE_PREFLIGHT_PASS_20260903.json"
     ]
   },
   "algorithm_posthoc_delivery": {
