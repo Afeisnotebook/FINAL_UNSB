@@ -1,0 +1,91 @@
+{
+  "schema": "final-unsb-paper-aio-new-resource-launch-v1",
+  "recorded_at": "2026-09-02T10:19:32+08:00",
+  "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "paper_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "resource": {
+    "host_label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_memory_mib": 32607,
+    "lane": "cut",
+    "comparison_mode": "standalone_fixed_protocol",
+    "cross_host_matched_delta_authorized": false
+  },
+  "environment": {
+    "python": "3.11.16",
+    "torch": "2.8.0+cu128",
+    "torch_cuda": "12.8",
+    "torchvision": "0.23.0+cu128",
+    "cudnn": 91002,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false,
+    "environment_ready": true,
+    "setup_repair": "pin setuptools 80.9.0 and build visdom 0.2.4 without isolated build after the fresh-image setuptools 83 incompatibility"
+  },
+  "data": {
+    "transfer_zip_sha256": "6ad651e0bfaf81d5ca8033522f64cf6dbe50c05c804d52f5d7aebdb3623bac01",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "train_per_side": 8553,
+    "discovery_per_side": 480,
+    "confirmation_per_side": 120,
+    "content_hashes_verified": true,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "preflight": {
+    "status": "PASS",
+    "free_disk_gib": 229.88581085205078,
+    "minimum_free_disk_gib": 200,
+    "view_counts": {
+      "trainA": 8553,
+      "trainB": 8553,
+      "discoveryA": 480,
+      "discoveryB": 480,
+      "confirmationA": 120,
+      "confirmationB": 120
+    }
+  },
+  "resume_gate": {
+    "status": "PASS",
+    "total_updates": 1000,
+    "split_updates": 500,
+    "continuous_core_sha256": "1d730404a6707bcedea694873760578382b3e99aaec19daadaf19ecb80d036a4",
+    "resumed_core_sha256": "1d730404a6707bcedea694873760578382b3e99aaec19daadaf19ecb80d036a4",
+    "continuous_wall_seconds": 121.33912968635559,
+    "resume_second_half_wall_seconds": 54.78811454772949,
+    "conservative_observed_updates_per_second": 8.24
+  },
+  "evaluation_repeat_gate": {
+    "status": "PASS",
+    "first_result_sha256": "0fd748a19c0d11e15e5f50b07714881e4fe7c8eff5fe119ae1eec5793b9f0523",
+    "second_result_sha256": "0fd748a19c0d11e15e5f50b07714881e4fe7c8eff5fe119ae1eec5793b9f0523",
+    "evaluation_input_sha256": "a210e1cc40711419dc06a1217946caaa456cda714667a80731f20900be2f66b6"
+  },
+  "authorization": {
+    "status": "PASS",
+    "issued_at": "2026-09-02T10:19:05+08:00",
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "supervisor": {
+    "status": "CHILD_RUNNING",
+    "consecutive_failures": 0,
+    "exact_resume": true,
+    "target_updates": 1710600,
+    "target_data_epochs": 200
+  },
+  "concurrent_frontier": {
+    "4090A_plain": "CHILD_RUNNING",
+    "5090B_cut": "CHILD_RUNNING",
+    "old_5090": "AUDIT_ONLY_DISK_BELOW_200_GIB",
+    "proposal": "WAITING_FOR_SAME_RUNTIME_4090_PLAIN_OR_AN_EXACT_EQUIVALENT_4090_COHORT"
+  },
+  "scientific_boundaries": {
+    "paired_training_control": false,
+    "intermediate_metric_algorithm_changes": false,
+    "confirmation20_opened": false,
+    "cross_4090_5090_delta_merge": false,
+    "cut_is_algorithm_winner": false
+  }
+}
