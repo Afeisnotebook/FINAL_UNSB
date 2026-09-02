@@ -144,3 +144,6 @@ authorize compute.
 44. `DEC-20260903-RUNTIME-RELATION-REGISTRY-REVIEW.md`：增加候选到Git registry之间的
     metric-blind确定性审核器，验证关系类型、两端宿主、2000-step、proof chain、全部哈希和
     唯一性；只输出review proposal，不自动修改Git或授权delta。
+45. `DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md`：纠正终端谱审计把单步netG
+    Jacobian误作完整rollout Jacobian的缺口；新增lane-blind CRN方向的NFE5幂迭代、
+    endpoint运输方向定义和严格输出验收，并在本地1060真实模型上通过容量smoke。

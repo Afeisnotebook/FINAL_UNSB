@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-paper-terminal-rollout-jvp-gate-v1",
+  "captured_at": "2026-09-03T06:34:15+08:00",
+  "status": "PASS_IMPLEMENTATION_AND_REAL_GPU_CAPACITY_SMOKE_REDEPLOY_REQUIRED",
+  "defect": {
+    "old_measure": "local Jacobian of one netG call",
+    "required_measure": "Jacobian of the complete numerical X_t-to-final-endpoint NFE5 rollout",
+    "old_initial_direction": "checkpoint RNG dependent",
+    "required_initial_direction": "lane-blind common-random-number direction"
+  },
+  "implemented": {
+    "keeps_local_jacobian": true,
+    "adds_full_rollout_jacobian": true,
+    "includes_endpoint_mediated_state_transitions": true,
+    "jvp_power_iterations": 2,
+    "initial_direction": "same sample/time CRN bridge-noise tensor",
+    "finite_difference_uses_same_direction": true,
+    "endpoint_direction_definition": "endpoint_minus_bridge_state",
+    "training_code_changed": false
+  },
+  "unit_tests": {
+    "isotropic_local_scale_recovered": true,
+    "endpoint_mediated_rollout_derivative_recovered": true,
+    "jvp_matches_finite_difference": true,
+    "differentiable_and_production_numerical_rollout_match": true,
+    "local_only_audit_rejected_by_successor": true
+  },
+  "real_gpu_smoke": {
+    "host": "local GTX1660",
+    "checkpoint_role": "engineering-only existing plain step-1 full state",
+    "checkpoint": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_PAPER_AUDIT_SMOKE_V2\\lanes\\plain\\full_state_latest.pt",
+    "output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_PAPER_TERMINAL_ROLLOUT_JVP_SMOKE\\TERMINAL_AUDIT.jsonl",
+    "started_at": "2026-09-03T06:18:33+08:00",
+    "completed_at": "2026-09-03T06:31:30+08:00",
+    "approx_wall_seconds": 777,
+    "audit_replicates": 2,
+    "gradient_replicates": 1,
+    "domains": 6,
+    "bridge_positions": 30,
+    "complete_rollout_jvp_fields": 30,
+    "observed_total_gpu_memory_peak_mib": 5924,
+    "gpu_total_memory_mib": 6144,
+    "oom": false,
+    "nan_or_nonfinite": false,
+    "parent_model_state_hash_unchanged": true,
+    "parent_rng_hash_unchanged": true
+  },
+  "formal_audit_contract": {
+    "epochs": [100, 150, 200],
+    "probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
+    "audit_replicates": 32,
+    "gradient_replicates": 4,
+    "samples_per_domain": 1,
+    "old_local_only_receipts_accepted": false
+  },
+  "scientific_boundary": {
+    "engineering_smoke_is_not_terminal_pathology_evidence": true,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_selection_performed": false,
+    "confirmation20_opened": false
+  },
+  "decision": "deploy a new source-hash-bound local terminal-audit successor before the first fixed e100 import"
+}

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import subprocess
 import time
@@ -35,6 +36,9 @@ CONTRACT_SCHEMA = "final-unsb-paper-local-terminal-audit-successor-contract-v1"
 RECEIPT_SCHEMA = "final-unsb-paper-local-terminal-audit-receipt-v1"
 AUDIT_SCHEMA = "final-unsb-paper-terminal-spectrum-audit-v1"
 AUDIT_EPOCHS = (100, 150, 200)
+AUDIT_REPLICATES = 32
+AUDIT_SAMPLES_PER_DOMAIN = 1
+AUDIT_GRADIENT_REPLICATES = 4
 STCGR = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
 SOURCE_RELATIVES = (
     "operations/paper_aio_local_terminal_audit_successor.py",
@@ -96,14 +100,17 @@ def _write_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + f".{os.getpid()}.tmp")
     temporary.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
+        json.dumps(value, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
     )
     temporary.replace(path)
 
 
 def _git(repo: Path, *args: str) -> str:
     return subprocess.check_output(
-        ["git", *args], cwd=repo, text=True,
+        ["git", *args],
+        cwd=repo,
+        text=True,
     ).strip()
 
 
@@ -112,20 +119,101 @@ def _audit_result(path: Path) -> dict[str, Any]:
         raise RuntimeError(f"terminal audit output missing: {path}")
     lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line]
     if len(lines) != 1:
-        raise RuntimeError(f"terminal audit output must contain exactly one row: {path}")
+        raise RuntimeError(
+            f"terminal audit output must contain exactly one row: {path}"
+        )
     value = json.loads(lines[0])
     if (
         value.get("schema") != AUDIT_SCHEMA
         or value.get("status") != "TARGET_BLIND_AUDIT_COMPLETE"
+        or value.get("replicates") != AUDIT_REPLICATES
+        or value.get("samples_per_domain") != AUDIT_SAMPLES_PER_DOMAIN
         or value.get("parent_state_sha256_before")
         != value.get("parent_state_sha256_after")
-        or value.get("parent_rng_sha256_before")
-        != value.get("parent_rng_sha256_after")
+        or value.get("parent_rng_sha256_before") != value.get("parent_rng_sha256_after")
         or value.get("paired_labels_attached") is not False
         or value.get("terminal_pathology_confirmed") is not False
         or value.get("confirmation20_opened") is not False
     ):
         raise RuntimeError(f"terminal audit boundary failed: {path}")
+    records = value.get("records")
+    if not isinstance(records, list) or len(records) != 6:
+        raise RuntimeError(f"terminal audit lacks six-domain records: {path}")
+    domains = set()
+    scalar_fields = (
+        "local_jacobian_top_singular_proxy",
+        "rollout_jacobian_top_singular_proxy",
+        "perturbation_gain_to_final_output",
+        "endpoint_direction_cosine_to_mean",
+    )
+    for record in records:
+        if not isinstance(record, dict) or not isinstance(record.get("domain"), str):
+            raise RuntimeError(f"terminal audit domain record is invalid: {path}")
+        domains.add(record["domain"])
+        steps = record.get("steps")
+        if not isinstance(steps, list) or [
+            row.get("time_index") for row in steps
+        ] != list(range(5)):
+            raise RuntimeError(f"terminal audit bridge-time coverage failed: {path}")
+        for row in steps:
+            if (
+                row.get("endpoint_direction_definition")
+                != "endpoint_minus_bridge_state"
+                or row.get("jvp_initial_direction")
+                != "lane_blind_crn_bridge_noise_same_sample_time"
+            ):
+                raise RuntimeError(f"terminal audit direction contract failed: {path}")
+            for field in scalar_fields:
+                number = row.get(field)
+                if (
+                    not isinstance(number, (int, float))
+                    or not math.isfinite(float(number))
+                    or (field != "endpoint_direction_cosine_to_mean" and number < 0)
+                ):
+                    raise RuntimeError(f"terminal audit invalid {field}: {path}")
+            for spectrum_name in ("increment_spectrum", "endpoint_spectrum"):
+                spectrum = row.get(spectrum_name)
+                eigenvalues = (
+                    spectrum.get("eigenvalues") if isinstance(spectrum, dict) else None
+                )
+                if (
+                    not isinstance(eigenvalues, list)
+                    or len(eigenvalues) != AUDIT_REPLICATES
+                    or any(
+                        not isinstance(number, (int, float))
+                        or not math.isfinite(float(number))
+                        or number < 0
+                        for number in eigenvalues
+                    )
+                ):
+                    raise RuntimeError(
+                        f"terminal audit invalid {spectrum_name}: {path}"
+                    )
+        for field in ("nfe4_to_nfe5_output_rms_mean", "nfe4_to_nfe5_output_rms_std"):
+            number = record.get(field)
+            if (
+                not isinstance(number, (int, float))
+                or not math.isfinite(float(number))
+                or number < 0
+            ):
+                raise RuntimeError(f"terminal audit invalid {field}: {path}")
+    if len(domains) != 6:
+        raise RuntimeError(f"terminal audit domain identities are not unique: {path}")
+    gradient = value.get("gradient_stratum_audit")
+    strata = gradient.get("strata") if isinstance(gradient, dict) else None
+    if (
+        not isinstance(gradient, dict)
+        or gradient.get("status")
+        != "TARGET_BLIND_NATIVE_OBJECTIVE_GRADIENT_AUDIT_COMPLETE"
+        or not isinstance(strata, list)
+        or [row.get("time_index") for row in strata] != list(range(5))
+        or any(row.get("replicates") != AUDIT_GRADIENT_REPLICATES for row in strata)
+    ):
+        raise RuntimeError(f"terminal audit gradient-stratum coverage failed: {path}")
+    if not str(value.get("rollout_jacobian_definition", "")).startswith(
+        "full numerical frozen NFE5 map"
+    ):
+        raise RuntimeError(f"terminal audit lacks full-rollout Jacobian: {path}")
     return value
 
 
@@ -166,7 +254,9 @@ def _acquire_lock(handle) -> bool:
 def _contract(args: argparse.Namespace) -> dict[str, Any]:
     repo = args.repo.resolve()
     commit = _git(repo, "rev-parse", "HEAD")
-    if commit != args.required_control_git_commit or _git(repo, "status", "--porcelain"):
+    if commit != args.required_control_git_commit or _git(
+        repo, "status", "--porcelain"
+    ):
         raise RuntimeError("local terminal audit control checkout is not frozen")
     authority = args.candidate_authority.resolve()
     if not authority.is_file():
@@ -205,9 +295,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
 
 def _verify_control(contract: dict[str, Any]) -> None:
     repo = Path(contract["repo"])
-    if (
-        _git(repo, "rev-parse", "HEAD") != contract["control_git_commit"]
-        or _git(repo, "status", "--porcelain")
+    if _git(repo, "rev-parse", "HEAD") != contract["control_git_commit"] or _git(
+        repo, "status", "--porcelain"
     ):
         raise RuntimeError("local terminal audit control checkout moved")
     for relative, expected in contract["control_source_sha256"].items():
@@ -218,25 +307,35 @@ def _verify_control(contract: dict[str, Any]) -> None:
         raise RuntimeError("ST-CGR portable evaluation authority changed")
 
 
-def _ready_rows(contract: dict[str, Any], probe: dict[str, Any]) -> dict[int, dict[str, Any]]:
+def _ready_rows(
+    contract: dict[str, Any], probe: dict[str, Any]
+) -> dict[int, dict[str, Any]]:
     import_root = Path(contract["import_root"])
     if imports_ready(import_root, {probe["import_lane"]: probe["host_label"]}):
         path = import_lane_path(
-            import_root, probe["import_lane"], probe["host_label"],
+            import_root,
+            probe["import_lane"],
+            probe["host_label"],
         )
         rows = validate_import_lane(
-            path, import_root=import_root, lane_id=probe["import_lane"],
+            path,
+            import_root=import_root,
+            lane_id=probe["import_lane"],
             host_label=probe["host_label"],
         )
     else:
         path = incremental_import_lane_path(
-            import_root, probe["import_lane"], probe["host_label"],
+            import_root,
+            probe["import_lane"],
+            probe["host_label"],
         )
         if not path.is_file():
             return {}
         try:
             rows = validate_incremental_import_lane(
-                path, import_root=import_root, lane_id=probe["import_lane"],
+                path,
+                import_root=import_root,
+                lane_id=probe["import_lane"],
                 host_label=probe["host_label"],
             )
         except IncrementalImportNotReady:
@@ -265,7 +364,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     while len(complete) < len(PROBES) * len(AUDIT_EPOCHS):
         _verify_control(contract)
         release = release_decision(
-            Path(contract["preflight_state"]), contract["preflight_required_status"],
+            Path(contract["preflight_state"]),
+            contract["preflight_required_status"],
         )
         if release == "BLOCKED":
             raise RuntimeError("local audit-only preflight failed")
@@ -322,41 +422,63 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                             made_progress = True
                             continue
                         command = [
-                            contract["python"], "-m", "research.paper_aio.run",
-                            "--stage", "terminal-audit",
-                            "--lane", probe["cli_lane"],
-                            "--checkpoint", str(row["checkpoint"]),
-                            "--output", str(audit_root),
-                            "--manifest", contract["manifest"],
-                            "--data-root", contract["data_root"],
-                            "--train-view", contract["train_view"],
-                            "--gpu", str(contract["gpu"]),
+                            contract["python"],
+                            "-m",
+                            "research.paper_aio.run",
+                            "--stage",
+                            "terminal-audit",
+                            "--lane",
+                            probe["cli_lane"],
+                            "--checkpoint",
+                            str(row["checkpoint"]),
+                            "--output",
+                            str(audit_root),
+                            "--manifest",
+                            contract["manifest"],
+                            "--data-root",
+                            contract["data_root"],
+                            "--train-view",
+                            contract["train_view"],
+                            "--gpu",
+                            str(contract["gpu"]),
                         ]
                         if probe["candidate_id"] is not None:
-                            command.extend([
-                                "--candidate-id", probe["candidate_id"],
-                                "--candidate-authority", contract["candidate_authority"],
-                            ])
-                        _write_json(state_path, {
-                            "schema": STATE_SCHEMA,
-                            "status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
-                            "pid": os.getpid(),
-                            "current_probe": probe["probe_id"],
-                            "current_epoch": epoch,
-                            "completed": sorted(complete),
-                            "performance_values_read": False,
-                            "paired_metric_control": False,
-                            "confirmation20_opened": False,
-                        })
+                            command.extend(
+                                [
+                                    "--candidate-id",
+                                    probe["candidate_id"],
+                                    "--candidate-authority",
+                                    contract["candidate_authority"],
+                                ]
+                            )
+                        _write_json(
+                            state_path,
+                            {
+                                "schema": STATE_SCHEMA,
+                                "status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
+                                "pid": os.getpid(),
+                                "current_probe": probe["probe_id"],
+                                "current_epoch": epoch,
+                                "completed": sorted(complete),
+                                "performance_values_read": False,
+                                "paired_metric_control": False,
+                                "confirmation20_opened": False,
+                            },
+                        )
                         process = subprocess.run(
-                            command, cwd=contract["repo"], text=True,
-                            capture_output=True, check=False,
+                            command,
+                            cwd=contract["repo"],
+                            text=True,
+                            capture_output=True,
+                            check=False,
                         )
                         (audit_root / "STDOUT.log").write_text(
-                            process.stdout, encoding="utf-8",
+                            process.stdout,
+                            encoding="utf-8",
                         )
                         (audit_root / "STDERR.log").write_text(
-                            process.stderr, encoding="utf-8",
+                            process.stderr,
+                            encoding="utf-8",
                         )
                         if process.returncode:
                             raise RuntimeError(
@@ -386,18 +508,21 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             break
         if time.time() - started > contract["timeout_hours"] * 3600:
             raise TimeoutError("local terminal audit successor timed out")
-        _write_json(state_path, {
-            "schema": STATE_SCHEMA,
-            "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
-            "pid": os.getpid(),
-            "preflight_release": release,
-            "completed": sorted(complete),
-            "elapsed_seconds": time.time() - started,
-            "made_progress_last_poll": made_progress,
-            "performance_values_read": False,
-            "paired_metric_control": False,
-            "confirmation20_opened": False,
-        })
+        _write_json(
+            state_path,
+            {
+                "schema": STATE_SCHEMA,
+                "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+                "pid": os.getpid(),
+                "preflight_release": release,
+                "completed": sorted(complete),
+                "elapsed_seconds": time.time() - started,
+                "made_progress_last_poll": made_progress,
+                "performance_values_read": False,
+                "paired_metric_control": False,
+                "confirmation20_opened": False,
+            },
+        )
         time.sleep(contract["poll_seconds"])
 
     result = {

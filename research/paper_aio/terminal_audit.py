@@ -21,11 +21,13 @@ from research.local_route1.runtime import (
 )
 
 from .evaluate import read_image
-from .protocol import LaneSpec, load_protocol
+from .protocol import LaneSpec
 
 
 def _gram_spectrum(samples: list[torch.Tensor]) -> dict:
-    matrix = torch.stack([value.detach().double().cpu().reshape(-1) for value in samples])
+    matrix = torch.stack(
+        [value.detach().double().cpu().reshape(-1) for value in samples]
+    )
     matrix = matrix - matrix.mean(dim=0, keepdim=True)
     gram = matrix @ matrix.T / max(1, matrix.shape[1])
     eigenvalues = torch.linalg.eigvalsh(gram).clamp_min(0).flip(0)
@@ -59,12 +61,15 @@ def rollout_trace(net_g, source: torch.Tensor, bundle: dict, *, tau: float) -> d
             alpha = delta / denominator
             variance = delta * (1.0 - alpha)
             state = (
-                (1.0 - alpha) * state + alpha * endpoint.detach()
+                (1.0 - alpha) * state
+                + alpha * endpoint.detach()
                 + math.sqrt(variance * tau) * bundle["noise"][step].to(source.device)
             )
         increments.append(state - previous)
         states.append(state)
-        time_index = torch.full((source.shape[0],), step, dtype=torch.long, device=source.device)
+        time_index = torch.full(
+            (source.shape[0],), step, dtype=torch.long, device=source.device
+        )
         endpoint = net_g(state, time_index, bundle["z"][step].to(source.device))
         endpoints.append(endpoint)
     return {"states": states, "increments": increments, "endpoints": endpoints}
@@ -72,7 +77,12 @@ def rollout_trace(net_g, source: torch.Tensor, bundle: dict, *, tau: float) -> d
 
 @torch.no_grad()
 def rollout_from_state(
-    net_g, state: torch.Tensor, bundle: dict, *, start_step: int, tau: float,
+    net_g,
+    state: torch.Tensor,
+    bundle: dict,
+    *,
+    start_step: int,
+    tau: float,
 ) -> torch.Tensor:
     """Propagate a state perturbation through the remaining frozen operators."""
     times = bridge_times(5)
@@ -84,11 +94,52 @@ def rollout_from_state(
             alpha = delta / denominator
             variance = delta * (1.0 - alpha)
             state = (
-                (1.0 - alpha) * state + alpha * endpoint.detach()
+                (1.0 - alpha) * state
+                + alpha * endpoint.detach()
                 + math.sqrt(variance * tau) * bundle["noise"][step].to(state.device)
             )
         time_index = torch.full(
-            (state.shape[0],), step, dtype=torch.long, device=state.device,
+            (state.shape[0],),
+            step,
+            dtype=torch.long,
+            device=state.device,
+        )
+        endpoint = net_g(state, time_index, bundle["z"][step].to(state.device))
+    return endpoint
+
+
+def _differentiable_rollout_from_state(
+    net_g,
+    state: torch.Tensor,
+    bundle: dict,
+    *,
+    start_step: int,
+    tau: float,
+) -> torch.Tensor:
+    """Return the numerical rollout map with its full state Jacobian intact.
+
+    Production inference uses ``detach`` because it never differentiates the
+    rollout.  The detach does not alter its numerical values, but retaining it
+    here would incorrectly discard endpoint-mediated sensitivity in the audit.
+    """
+    times = bridge_times(len(bundle["z"]))
+    endpoint = None
+    for step in range(int(start_step), len(bundle["z"])):
+        if step > int(start_step):
+            delta = float(times[step] - times[step - 1])
+            denominator = float(times[-1] - times[step - 1])
+            alpha = delta / denominator
+            variance = delta * (1.0 - alpha)
+            state = (
+                (1.0 - alpha) * state
+                + alpha * endpoint
+                + math.sqrt(variance * tau) * bundle["noise"][step].to(state.device)
+            )
+        time_index = torch.full(
+            (state.shape[0],),
+            step,
+            dtype=torch.long,
+            device=state.device,
         )
         endpoint = net_g(state, time_index, bundle["z"][step].to(state.device))
     return endpoint
@@ -96,54 +147,134 @@ def rollout_from_state(
 
 @torch.no_grad()
 def perturbation_gain_to_final(
-    net_g, state: torch.Tensor, bundle: dict, *, start_step: int, tau: float,
+    net_g,
+    state: torch.Tensor,
+    bundle: dict,
+    *,
+    start_step: int,
+    tau: float,
     epsilon: float = 1e-3,
+    direction: torch.Tensor | None = None,
 ) -> float:
-    generator = torch.Generator(device="cpu")
-    generator.manual_seed(91_000 + int(start_step))
-    direction = torch.randn(state.shape, generator=generator, dtype=torch.float32)
+    if direction is None:
+        generator = torch.Generator(device="cpu")
+        generator.manual_seed(91_000 + int(start_step))
+        direction = torch.randn(state.shape, generator=generator, dtype=torch.float32)
+    else:
+        direction = direction.detach().to(dtype=torch.float32, device="cpu")
     direction = direction.to(state.device)
     direction = direction / direction.norm().clamp_min(1e-12)
     baseline = rollout_from_state(
-        net_g, state, bundle, start_step=start_step, tau=tau,
+        net_g,
+        state,
+        bundle,
+        start_step=start_step,
+        tau=tau,
     )
     perturbed = rollout_from_state(
-        net_g, state + float(epsilon) * direction, bundle,
-        start_step=start_step, tau=tau,
+        net_g,
+        state + float(epsilon) * direction,
+        bundle,
+        start_step=start_step,
+        tau=tau,
     )
     return float((perturbed - baseline).norm().cpu() / float(epsilon))
 
 
-def _jvp_gain(net_g, state: torch.Tensor, time_index: int, z: torch.Tensor, *, iterations: int = 2) -> float:
-    """Estimate the local top singular value with target-blind JVP power steps."""
+def _top_singular_jvp(
+    function,
+    state: torch.Tensor,
+    initial_direction: torch.Tensor,
+    *,
+    iterations: int = 2,
+) -> float:
+    """Estimate a map's top singular value from a fixed lane-blind direction."""
     x = state.detach().requires_grad_(True)
-    t = torch.full((x.shape[0],), int(time_index), dtype=torch.long, device=x.device)
-    z = z.detach().to(x.device)
-    vector = torch.randn_like(x)
+    vector = initial_direction.detach().to(device=x.device, dtype=x.dtype)
     vector = vector / vector.norm().clamp_min(1e-12)
     sigma = 0.0
     for _ in range(int(iterations)):
         _, jv = torch.autograd.functional.jvp(
-            lambda value: net_g(value, t, z), x, vector,
-            create_graph=False, strict=False,
+            function,
+            x,
+            vector,
+            create_graph=False,
+            strict=False,
         )
         sigma = float(jv.norm().detach())
         if sigma <= 0:
             return 0.0
-        output = net_g(x, t, z)
+        output = function(x)
         jt = torch.autograd.grad(
-            output, x, grad_outputs=jv.detach(), retain_graph=False,
-            create_graph=False, allow_unused=False,
+            output,
+            x,
+            grad_outputs=jv.detach(),
+            retain_graph=False,
+            create_graph=False,
+            allow_unused=False,
         )[0]
         vector = jt.detach() / jt.detach().norm().clamp_min(1e-12)
     return sigma
+
+
+def _local_jvp_gain(
+    net_g,
+    state: torch.Tensor,
+    time_index: int,
+    z: torch.Tensor,
+    initial_direction: torch.Tensor,
+    *,
+    iterations: int = 2,
+) -> float:
+    """Estimate the current generator call's local top singular value."""
+    t = torch.full(
+        (state.shape[0],),
+        int(time_index),
+        dtype=torch.long,
+        device=state.device,
+    )
+    z = z.detach().to(state.device)
+    return _top_singular_jvp(
+        lambda value: net_g(value, t, z),
+        state,
+        initial_direction,
+        iterations=iterations,
+    )
+
+
+def _rollout_jvp_gain(
+    net_g,
+    state: torch.Tensor,
+    bundle: dict,
+    *,
+    start_step: int,
+    tau: float,
+    initial_direction: torch.Tensor,
+    iterations: int = 2,
+) -> float:
+    """Estimate the complete X_t-to-final-endpoint rollout singular value."""
+    return _top_singular_jvp(
+        lambda value: _differentiable_rollout_from_state(
+            net_g,
+            value,
+            bundle,
+            start_step=start_step,
+            tau=tau,
+        ),
+        state,
+        initial_direction,
+        iterations=iterations,
+    )
 
 
 def _gradient_tuple(loss, parameters, *, retain_graph: bool):
     if not torch.is_tensor(loss) or not loss.requires_grad:
         return tuple(torch.zeros_like(parameter) for parameter in parameters)
     values = torch.autograd.grad(
-        loss, parameters, retain_graph=retain_graph, create_graph=False,
+        loss,
+        parameters,
+        retain_graph=retain_graph,
+        create_graph=False,
         allow_unused=True,
     )
     return tuple(
@@ -188,7 +319,11 @@ def _adam_preconditioned_norm(parameters, gradients, optimizers) -> float:
 
 
 def gradient_stratum_statistics(
-    model, primary, secondary, *, replicates: int = 4,
+    model,
+    primary,
+    secondary,
+    *,
+    replicates: int = 4,
 ) -> dict:
     """Measure forced-time native G/F gradients without an optimizer step.
 
@@ -213,9 +348,12 @@ def gradient_stratum_statistics(
     strata = []
     try:
         for time_index in range(int(model.opt.num_timesteps)):
-            model._sample_training_time_idx = (
-                lambda total, value=time_index: torch.full(
-                    (1,), value, dtype=torch.long, device=model.device,
+            model._sample_training_time_idx = lambda total, value=time_index: (
+                torch.full(
+                    (1,),
+                    value,
+                    dtype=torch.long,
+                    device=model.device,
                 )
             )
             flattened = []
@@ -230,13 +368,17 @@ def gradient_stratum_statistics(
                 model.set_requires_grad(model.netE, False)
                 loss = model.compute_G_loss()
                 if replicate == 0:
-                    gan = _gradient_tuple(model.loss_G_GAN, parameters, retain_graph=True)
+                    gan = _gradient_tuple(
+                        model.loss_G_GAN, parameters, retain_graph=True
+                    )
                     sb = _gradient_tuple(
                         float(model.opt.lambda_SB) * model.loss_SB,
-                        parameters, retain_graph=True,
+                        parameters,
+                        retain_graph=True,
                     )
                     residual_loss = (
-                        loss - model.loss_G_GAN
+                        loss
+                        - model.loss_G_GAN
                         - float(model.opt.lambda_SB) * model.loss_SB
                     )
                     nce = _gradient_tuple(residual_loss, parameters, retain_graph=True)
@@ -247,27 +389,33 @@ def gradient_stratum_statistics(
                     }
                     del gan, sb, nce
                 gradients = _gradient_tuple(loss, parameters, retain_graph=False)
-                flattened.append(torch.cat([
-                    value.float().cpu().reshape(-1) for value in gradients
-                ]))
-                metric_norms.append(_adam_preconditioned_norm(
-                    parameters, gradients, [model.optimizer_G, model.optimizer_F],
-                ))
+                flattened.append(
+                    torch.cat([value.float().cpu().reshape(-1) for value in gradients])
+                )
+                metric_norms.append(
+                    _adam_preconditioned_norm(
+                        parameters,
+                        gradients,
+                        [model.optimizer_G, model.optimizer_F],
+                    )
+                )
                 del gradients, loss
             stacked = torch.stack(flattened).double()
             mean = stacked.mean(dim=0)
             second_moment = stacked.square().sum(dim=1).mean()
             variance_trace = (second_moment - mean.square().sum()).clamp_min(0)
-            strata.append({
-                "time_index": time_index,
-                "replicates": int(replicates),
-                "gradient_mean_norm": float(mean.norm()),
-                "gradient_variance_trace": float(variance_trace),
-                "gradient_second_moment": float(second_moment),
-                "adam_preconditioned_norm_mean": float(np.mean(metric_norms)),
-                "adam_preconditioned_norm_std": float(np.std(metric_norms)),
-                "loss_component_gradient_cosines_first_batch": component_cosines,
-            })
+            strata.append(
+                {
+                    "time_index": time_index,
+                    "replicates": int(replicates),
+                    "gradient_mean_norm": float(mean.norm()),
+                    "gradient_variance_trace": float(variance_trace),
+                    "gradient_second_moment": float(second_moment),
+                    "adam_preconditioned_norm_mean": float(np.mean(metric_norms)),
+                    "adam_preconditioned_norm_std": float(np.std(metric_norms)),
+                    "loss_component_gradient_cosines_first_batch": component_cosines,
+                }
+            )
             del stacked, flattened, mean
     finally:
         model._sample_training_time_idx = original_sampler
@@ -287,9 +435,17 @@ def gradient_stratum_statistics(
 
 
 def audit_model(
-    *, model, spec: LaneSpec, rows: list[dict], data_root: Path,
-    protocol_hash: str, checkpoint_label: str, replicates: int = 32,
-    samples_per_domain: int = 1, primary=None, secondary=None,
+    *,
+    model,
+    spec: LaneSpec,
+    rows: list[dict],
+    data_root: Path,
+    protocol_hash: str,
+    checkpoint_label: str,
+    replicates: int = 32,
+    samples_per_domain: int = 1,
+    primary=None,
+    secondary=None,
     gradient_replicates: int = 4,
 ) -> dict:
     if spec.family != "unsb":
@@ -298,12 +454,14 @@ def audit_model(
     saved_rng_hash = full_state_hash(saved_rng)
     saved_model = cpu_clone(model_state(model))
     before = full_state_hash(saved_model)
-    modes = {
-        name: getattr(model, "net" + name).training for name in model.model_names
-    }
+    modes = {name: getattr(model, "net" + name).training for name in model.model_names}
     selected = []
     for domain in sorted({row["domain"] for row in rows}):
-        candidates = [row for row in rows if row["domain"] == domain and row["split"] == "discovery"]
+        candidates = [
+            row
+            for row in rows
+            if row["domain"] == domain and row["split"] == "discovery"
+        ]
         candidates.sort(key=lambda row: int(row["order"]))
         selected.extend(candidates[: int(samples_per_domain)])
     records = []
@@ -315,48 +473,98 @@ def audit_model(
             traces = []
             for replicate in range(int(replicates)):
                 bundle = build_rollout_bundle(
-                    protocol_hash=protocol_hash, domain=row["domain"], stem=row["stem"],
-                    replicate=replicate, latent_dim=4 * int(model.opt.ngf), height=128,
-                    width=128, num_timesteps=5,
+                    protocol_hash=protocol_hash,
+                    domain=row["domain"],
+                    stem=row["stem"],
+                    replicate=replicate,
+                    latent_dim=4 * int(model.opt.ngf),
+                    height=128,
+                    width=128,
+                    num_timesteps=5,
                 )
-                traces.append(rollout_trace(model.netG, source, bundle, tau=float(model.opt.tau)))
+                traces.append(
+                    rollout_trace(model.netG, source, bundle, tau=float(model.opt.tau))
+                )
             steps = []
             for step in range(5):
                 increments = [trace["increments"][step] for trace in traces]
                 endpoints = [trace["endpoints"][step] for trace in traces]
+                transport_directions = [
+                    trace["endpoints"][step] - trace["states"][step] for trace in traces
+                ]
                 reference_bundle = build_rollout_bundle(
-                    protocol_hash=protocol_hash, domain=row["domain"], stem=row["stem"],
-                    replicate=0, latent_dim=4 * int(model.opt.ngf), height=128,
-                    width=128, num_timesteps=5,
+                    protocol_hash=protocol_hash,
+                    domain=row["domain"],
+                    stem=row["stem"],
+                    replicate=0,
+                    latent_dim=4 * int(model.opt.ngf),
+                    height=128,
+                    width=128,
+                    num_timesteps=5,
                 )
-                jvp = _jvp_gain(
-                    model.netG, traces[0]["states"][step], step,
+                probe_direction = reference_bundle["noise"][step]
+                local_jvp = _local_jvp_gain(
+                    model.netG,
+                    traces[0]["states"][step],
+                    step,
                     reference_bundle["z"][step],
+                    probe_direction,
+                )
+                rollout_jvp = _rollout_jvp_gain(
+                    model.netG,
+                    traces[0]["states"][step],
+                    reference_bundle,
+                    start_step=step,
+                    tau=float(model.opt.tau),
+                    initial_direction=probe_direction,
                 )
                 propagated_gain = perturbation_gain_to_final(
-                    model.netG, traces[0]["states"][step], reference_bundle,
-                    start_step=step, tau=float(model.opt.tau),
+                    model.netG,
+                    traces[0]["states"][step],
+                    reference_bundle,
+                    start_step=step,
+                    tau=float(model.opt.tau),
+                    direction=probe_direction,
                 )
-                steps.append({
-                    "time_index": step,
-                    "increment_spectrum": _gram_spectrum(increments),
-                    "endpoint_spectrum": _gram_spectrum(endpoints),
-                    "endpoint_direction_cosine_to_mean": _cosine_to_mean(endpoints),
-                    "local_jacobian_top_singular_proxy": jvp,
-                    "perturbation_gain_to_final_output": propagated_gain,
-                })
+                steps.append(
+                    {
+                        "time_index": step,
+                        "increment_spectrum": _gram_spectrum(increments),
+                        "endpoint_spectrum": _gram_spectrum(endpoints),
+                        "endpoint_direction_cosine_to_mean": _cosine_to_mean(
+                            transport_directions,
+                        ),
+                        "endpoint_direction_definition": "endpoint_minus_bridge_state",
+                        "local_jacobian_top_singular_proxy": local_jvp,
+                        "rollout_jacobian_top_singular_proxy": rollout_jvp,
+                        "jvp_initial_direction": "lane_blind_crn_bridge_noise_same_sample_time",
+                        "perturbation_gain_to_final_output": propagated_gain,
+                    }
+                )
             nfe45 = [
-                float((trace["endpoints"][4] - trace["endpoints"][3]).square().mean().sqrt().cpu())
+                float(
+                    (trace["endpoints"][4] - trace["endpoints"][3])
+                    .square()
+                    .mean()
+                    .sqrt()
+                    .cpu()
+                )
                 for trace in traces
             ]
-            records.append({
-                "domain": row["domain"], "stem": row["stem"],
-                "steps": steps,
-                "nfe4_to_nfe5_output_rms_mean": float(np.mean(nfe45)),
-                "nfe4_to_nfe5_output_rms_std": float(np.std(nfe45)),
-            })
+            records.append(
+                {
+                    "domain": row["domain"],
+                    "stem": row["stem"],
+                    "steps": steps,
+                    "nfe4_to_nfe5_output_rms_mean": float(np.mean(nfe45)),
+                    "nfe4_to_nfe5_output_rms_std": float(np.std(nfe45)),
+                }
+            )
         gradient_audit = gradient_stratum_statistics(
-            model, primary, secondary, replicates=gradient_replicates,
+            model,
+            primary,
+            secondary,
+            replicates=gradient_replicates,
         )
     finally:
         load_model_state(model, saved_model)
@@ -378,6 +586,10 @@ def audit_model(
         "samples_per_domain": int(samples_per_domain),
         "records": records,
         "gradient_stratum_audit": gradient_audit,
+        "rollout_jacobian_definition": (
+            "full numerical frozen NFE5 map from X_t to final endpoint; "
+            "includes endpoint-mediated subsequent bridge-state transitions"
+        ),
         "parent_state_sha256_before": before,
         "parent_state_sha256_after": after,
         "parent_rng_sha256_before": saved_rng_hash,
