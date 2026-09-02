@@ -192,6 +192,29 @@ and normalized runtime environment. It creates a candidate only; a later Git
 decision must still append it to the registry. Missing or duplicate host-pair
 relations fail closed.
 
+When the standard Proposal relation and the cross-code ST-CGR relation are both
+available, prepare the exact Git review payload without editing the tracked
+registry:
+
+```text
+python -m operations.paper_aio_relation_registry_review \
+  --registry configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json \
+  --candidate PROPOSAL_RELATION.json --expected-candidate-sha256 SHA256 \
+  --candidate STCGR_RELATION.json --expected-candidate-sha256 SHA256 \
+  --required-lane proposal \
+  --required-lane G4-01-STRATIFIED-TIME-CONDITIONAL-GF \
+  --method-host proposal=5090C \
+  --method-host G4-01-STRATIFIED-TIME-CONDITIONAL-GF=5090A \
+  --plain-source-host 5090B_MATCHED_PLAIN --output REVIEW_OUTPUT
+```
+
+The review command revalidates type-specific proof fields, all primary hashes,
+the 2000-update identity, the exact method/plain host pairs, absence of metric
+fields and uniqueness against the current registry. It emits a deterministic
+proposed registry and a compact receipt. It never edits Git or authorizes a
+comparison; Codex must inspect and apply the proposed object as an explicit
+registry commit.
+
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
 deferred and engineering-blocked lanes, and remains

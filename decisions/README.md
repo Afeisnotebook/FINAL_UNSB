@@ -138,3 +138,9 @@ authorize compute.
     e200后才发布五个checkpoint，导致本可并行的e100/e150 target-blind审计被串行推迟。
     新增固定e100/e150/e200增量source-bound export/relay；每个部分导入仍需checkpoint、
     sidecar、source receipt和relay-set哈希闭环，不改变训练、主表或matched-delta门。
+43. `DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md`：5090A plain取消后，旧统一评估
+    与最终交付waiter虽健康但无法完成；新的部署contract显式冻结lane来源，并只从三个
+    晚期点的已审核runtime relation推导matched plain。待5090B关系入Git后安全替换旧链。
+44. `DEC-20260903-RUNTIME-RELATION-REGISTRY-REVIEW.md`：增加候选到Git registry之间的
+    metric-blind确定性审核器，验证关系类型、两端宿主、2000-step、proof chain、全部哈希和
+    唯一性；只输出review proposal，不自动修改Git或授权delta。
