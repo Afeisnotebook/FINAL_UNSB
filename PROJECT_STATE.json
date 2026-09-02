@@ -38,16 +38,19 @@
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
     "active_new_candidate_full_data_authorized": false,
     "candidate_full_data_gate_interface": {
-      "status": "IMPLEMENTED_FAIL_CLOSED_NOT_YET_EXECUTED",
+      "status": "IMPLEMENTED_FAIL_CLOSED_WITH_CONCURRENT_PARENT_MODE_NOT_YET_EXECUTED",
       "candidate_code_protocol_fingerprint": "0616221e08d01cd13f2428002d6c48de2f1ed954a5478f2acdb7ff9329cf5782",
       "frozen_evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
       "requires_positive_small25_e200_receipt": true,
       "requires_same_host_cross_code_runtime_gate": true,
+      "permits_authorized_running_parent": true,
+      "parent_e200_still_required_before_matched_adjudication": true,
       "evidence_lock_authorizes_training": false,
       "requires_separate_current_commit_authorization": true,
       "evidence": [
         "evidence/paper_aio/PAPER_CANDIDATE_CROSS_CODE_GATE_20260902.json",
-        "evidence/paper_aio/PAPER_COMMON_CRN_AND_DYNAMIC_ADJUDICATION_20260902.json"
+        "evidence/paper_aio/PAPER_COMMON_CRN_AND_DYNAMIC_ADJUDICATION_20260902.json",
+        "evidence/paper_aio/PAPER_CANDIDATE_CONCURRENT_PARENT_GATE_20260902.json"
       ]
     },
     "unified_evaluation_interface": {
@@ -97,9 +100,9 @@
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_CRITICAL_PATH_AND_COLOCATION_AUDIT_20260902.json",
     "next_manual_decision_window": "2026-09-02T17:00:00+08:00/2026-09-02T18:30:00+08:00"
   },
-  "active_code_commit": "909a2c34fe0c8e1c3897f52fbbe71bdca07d9bda",
-  "development_head_at_state_write": "909a2c34fe0c8e1c3897f52fbbe71bdca07d9bda",
-  "active_protocol_fingerprint": "161f7eac0a1d7cb43e42d6bc3958a6cbb4d87bf195dbd9fcfc0401861f3da2de",
+  "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
+  "development_head_at_state_write": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
+  "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",
     "goal_audit_status": "RELATED_ROUTE1_TERMINAL_ARTIFACTS_PROVEN_FINAL_GIT_COMMIT_REQUIRED",

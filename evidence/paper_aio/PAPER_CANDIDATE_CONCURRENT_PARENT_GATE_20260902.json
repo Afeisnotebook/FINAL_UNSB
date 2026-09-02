@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-paper-candidate-concurrent-parent-gate-v1",
+  "date": "2026-09-02",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_EXECUTED",
+  "problem": "candidate runtime and authorization previously required the matched same-host plain to finish e200 before candidate training could begin, adding a scheduling-only 60-70 hour serial dependency",
+  "scientific_separation": {
+    "training_readiness": [
+      "positive source-bound small25 e200 candidate receipt",
+      "same-host parent plain preflight and authorization",
+      "healthy durable parent plain exact-resume supervisor",
+      "exact parent e0 and 2000-update runtime receipt",
+      "candidate e0, native transition, zero-intervention, resume and evaluation-repeat gates"
+    ],
+    "matched_adjudication_readiness": [
+      "parent plain COMPLETE_E200 at 1710600 updates",
+      "candidate COMPLETE_E200 at 1710600 updates",
+      "unified deterministic evaluation cohort",
+      "fixed e150/e175/e200 sustained adjudication"
+    ]
+  },
+  "new_explicit_mode": "authorized_running",
+  "default_mode": "complete_e200",
+  "fail_closed_checks": [
+    "parent training worktree commit and protocol remain pinned",
+    "parent e0 commit and protocol match",
+    "parent supervisor status is CHILD_RUNNING, WAITING_TO_EXACT_RESUME or COMPLETE_E200",
+    "parent supervisor command is plain with exact resume",
+    "paired metric control and confirmation access remain false",
+    "candidate lock and fresh authorization record the readiness mode",
+    "a completed parent is always revalidated with the stronger complete-e200 proof"
+  ],
+  "expected_wall_clock_effect": "permits same-host plain and an eligible full candidate to overlap after candidate e1 capacity testing, removing up to one full parent-training duration from the new-algorithm path",
+  "scientific_configuration_changed": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "cross_host_matched_delta": false,
+  "confirmation20_opened": false
+}
