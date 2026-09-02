@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 
 import pytest
 
@@ -17,6 +18,13 @@ def _args(tmp_path):
         python=tmp_path / "python",
         host_label="5090B_MATCHED",
         peer_runtime_receipt=tmp_path / "peer.json",
+        co_resident_supervisor_state=None,
+        co_resident_heartbeat=None,
+        co_resident_lane_id=None,
+        capacity_probe_epochs=0,
+        plain_isolated_epoch_seconds=None,
+        co_resident_isolated_epoch_seconds=None,
+        minimum_makespan_saving_seconds=3600,
     )
 
 
@@ -51,7 +59,8 @@ def test_runtime_receipt_must_be_exact_and_confirmation_closed():
         "confirmation20_opened": False,
     }
     successor.validate_runtime_receipt(
-        receipt, host_label="5090B_MATCHED",
+        receipt,
+        host_label="5090B_MATCHED",
         required_protocol_fingerprint="frozen",
     )
     for key, value in (
@@ -63,6 +72,124 @@ def test_runtime_receipt_must_be_exact_and_confirmation_closed():
         broken = {**receipt, key: value}
         with pytest.raises(RuntimeError, match="did not pass exactly"):
             successor.validate_runtime_receipt(
-                broken, host_label="5090B_MATCHED",
+                broken,
+                host_label="5090B_MATCHED",
                 required_protocol_fingerprint="frozen",
             )
+
+
+def test_capacity_contract_is_all_or_none_and_requires_clean_probe(tmp_path):
+    args = _args(tmp_path)
+    assert successor.capacity_contract(args) is None
+    args.co_resident_lane_id = "cyclegan"
+    with pytest.raises(RuntimeError, match="requires all inputs"):
+        successor.capacity_contract(args)
+    args.co_resident_supervisor_state = tmp_path / "cycle_state.json"
+    args.co_resident_heartbeat = tmp_path / "cycle_heartbeat.json"
+    args.plain_isolated_epoch_seconds = 2410.47
+    args.co_resident_isolated_epoch_seconds = 1588.13
+    args.capacity_probe_epochs = 1
+    with pytest.raises(RuntimeError, match="at least two probe epochs"):
+        successor.capacity_contract(args)
+    args.capacity_probe_epochs = 2
+    value = successor.capacity_contract(args)
+    assert value["capacity_probe_epochs"] == 2
+
+
+def test_current_5090b_projection_prefers_start_after_cut():
+    value = successor.project_colocation_makespan(
+        target_epochs=200,
+        plain_completed_epochs=2,
+        plain_colocated_epoch_seconds=2410.47 * 1.5,
+        plain_isolated_epoch_seconds=2410.47,
+        co_resident_completed_epochs=136.14,
+        co_resident_colocated_epoch_seconds=2334.91,
+        co_resident_isolated_epoch_seconds=1588.13,
+    )
+    assert value["continue_now_saving_seconds"] > 10 * 3600
+    assert value["continue_now_seconds"] < value["wait_for_release_seconds"]
+
+
+def test_projection_waits_when_contention_exceeds_release_cost():
+    value = successor.project_colocation_makespan(
+        target_epochs=200,
+        plain_completed_epochs=2,
+        plain_colocated_epoch_seconds=20000,
+        plain_isolated_epoch_seconds=2000,
+        co_resident_completed_epochs=190,
+        co_resident_colocated_epoch_seconds=3000,
+        co_resident_isolated_epoch_seconds=1000,
+    )
+    assert value["continue_now_saving_seconds"] < 0
+
+
+def test_capacity_gate_uses_only_training_heartbeats_and_preserves_resume(
+    tmp_path,
+    monkeypatch,
+):
+    args = _args(tmp_path)
+    companion_state = tmp_path / "cycle_state.json"
+    companion_heartbeat = tmp_path / "cycle_heartbeat.json"
+    companion_state.write_text(
+        json.dumps({"status": "CHILD_RUNNING"}), encoding="utf-8"
+    )
+    companion_heartbeat.write_text(
+        json.dumps(
+            {
+                "lane_id": "cyclegan",
+                "data_epoch": 136,
+                "epoch_wall_seconds": 2335.0,
+                "paired_controller_access": False,
+                "confirmation20_opened": False,
+            }
+        ),
+        encoding="utf-8",
+    )
+    contract = {
+        "co_resident_supervisor_state": companion_state,
+        "co_resident_heartbeat": companion_heartbeat,
+        "co_resident_lane_id": "cyclegan",
+        "plain_isolated_epoch_seconds": 2410.47,
+        "co_resident_isolated_epoch_seconds": 1588.13,
+        "capacity_probe_epochs": 2,
+        "minimum_makespan_saving_seconds": 3600.0,
+    }
+
+    def fake_run_logged(command, *, cwd, log):
+        assert "--engineering-stop-after-updates" in command
+        heartbeat = args.training_output / "lanes" / "plain" / "HEARTBEAT.json"
+        heartbeat.parent.mkdir(parents=True)
+        heartbeat.write_text(
+            json.dumps(
+                {
+                    "lane_id": "plain",
+                    "updates": 17106,
+                    "data_epoch": 2,
+                    "epoch_wall_seconds": 3615.0,
+                    "paired_controller_access": False,
+                    "confirmation20_opened": False,
+                }
+            ),
+            encoding="utf-8",
+        )
+        return 0
+
+    monkeypatch.setattr(successor, "run_logged", fake_run_logged)
+    value = successor.run_capacity_gate(
+        args,
+        repo=tmp_path,
+        output=args.training_output,
+        python=tmp_path / "python",
+        protocol={
+            "training": {
+                "steps_per_data_epoch": 8553,
+                "target_data_epochs": 200,
+                "target_updates": 1710600,
+            }
+        },
+        log=tmp_path / "probe.log",
+        contract=contract,
+    )
+    assert value["decision"] == "CONTINUE_PLAIN_NOW"
+    assert value["probe_full_state_preserved_for_exact_resume"] is True
+    assert value["performance_values_read"] is False

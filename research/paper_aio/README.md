@@ -24,6 +24,20 @@ exact cross-4090 twin receipt with
 The 5090 is always a separate runtime and its values are never subtracted from
 a 4090 plain trajectory.
 
+A fresh cross-host plain may be scheduled into a slot released by one member
+of a co-resident pair.  In that case
+`operations.paper_aio_cross_host_plain_successor` can run an exact two-epoch
+engineering pause before committing to the remaining 198 epochs.  The second
+epoch excludes the e1 milestone evaluation and supplies a clean observed
+co-resident training time.  The successor compares projected completion when
+continuing immediately versus waiting for the remaining companion, using only
+training heartbeats and preregistered isolated-time references.  If the
+minimum wall-clock saving is not met, the new plain remains safely paused at
+its full-state e2 checkpoint and resumes only after the companion releases the
+GPU.  The immutable `CORESIDENT_MAKESPAN_CAPACITY_GATE.json` records the
+decision; no paired metric, checkpoint quality, or algorithm setting enters
+the gate.
+
 The frozen scientific protocol retains its original conservative 200 GiB
 disk default. A task-specific user capacity waiver is supplied as a separate,
 hashed operational receipt with `--capacity-override-receipt` and a bound

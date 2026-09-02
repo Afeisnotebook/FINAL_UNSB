@@ -38,3 +38,20 @@ metric文件。它不会自行创建runtime relation或触发论文delta。
 
 辅助watcher随后把successor状态新鲜度窗口从600秒校正为3600秒：PID仍每分钟检查，
 但同步执行2000-update gate时不会因状态文件暂时不刷新而误报。该重绑不重启successor。
+
+## 共驻触发的墙钟复核与后继补强
+
+05:42的无指标刷新得到CUT e45、CycleGAN e25，最近完整epoch分别为1674.17秒和
+2334.91秒。按CUT剩余155个epoch计算，其预计在约72.08小时后释放一个计算槽；届时
+CycleGAN预计还剩约63.86个epoch。使用已经测得的5090 plain隔离时间
+2325.01--2495.93秒，以及CUT共驻/隔离比1.499--1.589推导CycleGAN隔离时间，逐一配对
+计算得到：CUT结束后立即让plain与CycleGAN共驻，plain终点尚需142.95--154.01小时；
+等待CycleGAN先结束再启动plain则需155.24--166.30小时。相同假设配对下，立即启动
+预计节省10.72--13.85小时。因此仍以CUT完成作为触发点，而不改成等待两个外部基线。
+
+静态估计不能代替未来真实共驻吞吐。后继因此增加一个metric-blind两epoch容量门：
+完整runtime门通过后先把plain精确运行到e2，使用没有里程碑评估开销的第二个epoch和
+当时CycleGAN heartbeat重新计算两种makespan。只有预计至少节省一小时才立即接续；
+否则plain保持在可精确恢复的e2 full-state，等待CycleGAN释放GPU后再由同一supervisor
+接管。容量门写入不可变回执，只读取data epoch和wall time，不读取paired指标，不改变
+batch、优化器、数据顺序、训练目标或200-epoch终点。
