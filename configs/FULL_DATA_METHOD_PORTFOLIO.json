@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T05:12:57+08:00",
+  "captured_at": "2026-09-03T05:36:40+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -9,7 +9,7 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 6,
+      "completed_full_data_epoch": 7,
       "first_epoch_seconds": 4696.602091550827,
       "latest_epoch_seconds": 4752.122806787491,
       "projected_completion": "2026-09-13T21:09:48+08:00",
@@ -127,8 +127,8 @@
     "health_status": "HEALTHY",
     "first_wave_complete_is_not_algorithm_freeze": true,
     "replacement_status": "code_ready_waiting_for_5090B_runtime_receipt_relation_candidates_and_git_review",
-    "registry_review_interface_commit": "729717a16f31d30e31178ed97b2e52fa2f39d653",
-    "registry_review_status": "implemented_tested_waiting_real_candidates",
+    "registry_review_interface_commit": "1acfca69af1a9643e9b45e2f018f37e53ebe23a9",
+    "registry_review_status": "implemented_tested_successor_state_bound_waiting_real_candidates",
     "replacement_lane_sources": {
       "plain": "5090B_MATCHED_PLAIN",
       "proposal": "5090C",
@@ -215,8 +215,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_DELIVERY_HANDOFF_20260903T051257.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false
