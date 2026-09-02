@@ -1,0 +1,118 @@
+{
+  "schema": "final-unsb-paper-5090c-proposal-e1-calibration-v1",
+  "captured_at": "2026-09-02T21:30:50+08:00",
+  "status": "PROPOSAL_E1_COMPLETE_SCHEDULE_CONFIRMED",
+  "supersedes_fields": {
+    "source": "evidence/paper_aio/PAPER_AIO_ISOLATED_THROUGHPUT_RECALIBRATION_20260902.json",
+    "fields": [
+      "live_snapshot.5090C_proposal",
+      "recalibrated_completion_windows.5090C_proposal_provisional_from_1000_update_gate",
+      "next_triggers.automatic"
+    ]
+  },
+  "proposal_e1": {
+    "host": "5090C",
+    "lane_id": "proposal",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+    "scientific_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "data_epoch": 1,
+    "updates": 8553,
+    "epoch_wall_seconds": 4696.602091550827,
+    "updates_per_second": 1.8211038178828949,
+    "scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
+    "supervisor_pid": 9729,
+    "trainer_pid": 9734,
+    "export_successor_pid": 9730,
+    "import_relay_pid": 2182279,
+    "gpu_memory_mib": 2146,
+    "gpu_utilization_percent_at_capture": 49,
+    "disk_free_gib": 231,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "runtime_relation": {
+    "matched_plain": "5090A/plain",
+    "status": "PASS_EXACT_RUNTIME_COHORT",
+    "updates": 2000,
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "cross_non_equivalent_runtime_delta_allowed": false
+  },
+  "throughput_adjudication": {
+    "prior_1000_update_projection_epoch_seconds": 4647.0,
+    "observed_epoch_seconds": 4696.602091550827,
+    "relative_difference_percent": 1.067400291390726,
+    "remaining_epochs": 199,
+    "remaining_wall_seconds_at_constant_rate": 934623.8162186146,
+    "remaining_wall_days_at_constant_rate": 10.817405280308039,
+    "projected_e200": "2026-09-13T17:07:19+08:00",
+    "nominal_ten_day_rental_sufficient": false,
+    "minimum_extension": "1 day",
+    "safe_extension": "2 days",
+    "schedule_change_required": false
+  },
+  "5090a_plain_isolation_recalibration": {
+    "data_epoch": 5,
+    "updates": 42765,
+    "isolated_epoch_seconds": [2495.9294855594635, 2325.0121850967407],
+    "isolated_mean_epoch_seconds": 2410.470835328102,
+    "isolated_mean_updates_per_second": 3.5482694395826635,
+    "coresident_plain_mean_epoch_seconds": 4223.343457142512,
+    "measured_coresident_slowdown_ratio": 1.7520823713130096,
+    "projected_plain_e200": "2026-09-08T08:04:52+08:00",
+    "stcgr_isolated_epoch_seconds_bracket": [4961.136890951276, 5484.688768522972],
+    "stcgr_remaining_days_bracket_after_plain": [11.426692607630832, 12.632558621945272],
+    "projected_stcgr_e200_window": "2026-09-19/2026-09-21",
+    "projection_is_not_scientific_result": true
+  },
+  "synchronized_other_lanes": {
+    "4090A_plain": {
+      "data_epoch": 33,
+      "updates": 282249,
+      "epoch_wall_seconds": 1262.9642443656921,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "successor": "AM-TNC"
+    },
+    "5090B_cut": {
+      "data_epoch": 27,
+      "updates": 230931,
+      "epoch_wall_seconds": 1671.6167035102844,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 12,
+      "updates": 102636,
+      "epoch_wall_seconds": 2358.341827392578,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846
+    }
+  },
+  "current_schedule": {
+    "4090A": ["plain e200 running", "AM-TNC e200 durable successor", "source-bound export"],
+    "5090A": ["plain e200 running isolated", "ST-CGR resumes from exact e1 after plain", "source-bound export"],
+    "5090B": ["CUT and CycleGAN e200 running colocated", "source-bound exports"],
+    "5090C": ["Proposal e200 running isolated", "source-bound export"],
+    "local_gtx1660": ["wait for fixed checkpoint imports", "read-only unified metrics/complexity/spectral audits"],
+    "adjudication": "RETAIN_CURRENT_SCHEDULE"
+  },
+  "completion_windows": {
+    "4090A_plain": "2026-09-05",
+    "5090B_cut": "2026-09-06",
+    "5090B_cyclegan": "2026-09-08",
+    "5090A_plain": "2026-09-08",
+    "4090A_amtnc": "2026-09-11/2026-09-12",
+    "5090C_proposal": "2026-09-13T17:07:19+08:00",
+    "5090A_stcgr": "2026-09-19/2026-09-21"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "training_configuration_changed": false,
+    "healthy_training_interrupted": false,
+    "confirmation20_opened": false
+  }
+}

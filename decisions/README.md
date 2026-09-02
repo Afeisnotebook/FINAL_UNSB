@@ -100,3 +100,6 @@ authorize compute.
     plain完整epoch把matched control与ST-CGR关键路径显著提前；5090C Proposal仍保留
     独立卡位并等待首个完整epoch校准。该决策只覆盖旧完成日期，不覆盖算法、训练协议或
     科学裁决。
+31. `DEC-20260902-5090C-PROPOSAL-E1-THROUGHPUT.md`：5090C Proposal首个8,553-update
+    完整epoch以4,696.60秒通过，确认约9月13日完成以及至少续租1天、稳妥续租2天；
+    5090A第二个隔离plain epoch同时确认禁止共驻的关键路径判断。该证据不读取paired性能。
