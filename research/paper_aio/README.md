@@ -177,3 +177,22 @@ deferred and engineering-blocked lanes, and remains
 `FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING` until every evidence-authorized
 new algorithm has received its own disposition. Confirmation is still locked
 at that point.
+
+The complete fixed sequence can be armed before any checkpoint is available:
+
+```text
+python -m operations.paper_aio_unified_evaluation_successor \
+  --repo-root CONTROL_CHECKOUT --output-root OUTPUT \
+  --import-root VERIFIED_IMPORT_ROOT --data-root DATA \
+  --train-view MATERIALIZED_VIEW --manifest FULL_DATA_MANIFEST.csv \
+  --lane-source plain=5090A --lane-source proposal=5090C \
+  --lane-source cut=5090B --lane-source cyclegan=5090B \
+  --gpu-release-state AMTNC_SUPERVISOR.json \
+  --gpu-release-status COMPLETE_E200 --gpu-lock EVALUATION.lock
+```
+
+This successor remains metric-blind while waiting and while deciding what to
+run. It resumes only from hash-validated fixed receipts, uses a GPU lock, and
+emits a monitor-recognizable terminal status after unified lock and posthoc
+adjudication. It automates first-wave delivery only; later candidate cohorts
+still require their separately authorized disposition path.

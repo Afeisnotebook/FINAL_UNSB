@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-unified-evaluation-successor-deployment-v1",
+  "captured_at": "2026-09-02T22:53:55+08:00",
+  "status": "DEPLOYED_WAITING_METRIC_BLIND",
+  "purpose": "remove the remaining manual handoff between verified fixed-checkpoint imports, one-container evaluation, cohort locking, and first-wave posthoc adjudication",
+  "implementation": {
+    "feature_commit": "6f4cc9eea071fc6de4ac7293777a5515ea6a9896",
+    "deployed_commit": "03a59489e575ce8adcdf7576eef3a819ce12809e",
+    "script": "operations/paper_aio_unified_evaluation_successor.py",
+    "script_sha256": "b44bc782ebb809fa697642cddaece9abfe92ab1d8e96fc9edc1b26ba41e89a12",
+    "tests": {
+      "local_targeted": "20 passed",
+      "remote_4090a_targeted": "20 passed",
+      "ruff": "pass",
+      "py_compile": "pass",
+      "remote_full_suite_collection": "not_claimed: 7 unrelated legacy relay modules require optional paramiko, which is absent from the exact evaluator environment"
+    }
+  },
+  "deployment": {
+    "host": "4090A",
+    "pid": 2209120,
+    "ppid": 1,
+    "control_checkout": "/home/yc/FINAL_UNSB_EVAL_03a5948",
+    "output_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948",
+    "state_path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948/operations/UNIFIED_EVALUATION_SUCCESSOR_STATE.json",
+    "log_path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_03a5948.log",
+    "contract_sha256": "080e0ca55da7422d0409731b4f9cfaa1857862adfb30c55029ba221ce1c6bc72",
+    "paper_protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "current_state": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+    "imports_ready": false,
+    "gpu_release_decision": "WAIT",
+    "completed_evaluations": 0,
+    "paired_performance_generated": false,
+    "import_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+    "gpu_release_state": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/gates/SUPERVISOR_amtnc.json",
+    "required_gpu_release_status": "COMPLETE_E200",
+    "gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "lane_sources": {
+      "plain": "5090A",
+      "proposal": "5090C",
+      "cut": "5090B",
+      "cyclegan": "5090B"
+    },
+    "fixed_epochs": [100, 125, 150, 175, 200]
+  },
+  "health_watch": {
+    "status": "HEALTHY",
+    "pid": 2209213,
+    "ppid": 1,
+    "output_root": "/home/yc/runs/FINAL_UNSB_HEALTH_EVAL_03a5948",
+    "contract_sha256": "9b4a2f9e7d478dc306a284ab4ee8263cca997f19d5c743f82f8cd9946b4889d8",
+    "alert_count": 0,
+    "disk_free_gib": 386.47203063964844,
+    "estimated_remaining_write_gib": 2.0,
+    "minimum_headroom_gib": 16.0,
+    "required_disk_gib": 18.0
+  },
+  "fixed_sequence": [
+    "wait for all source-bound imported e100/e125/e150/e175/e200 artifacts",
+    "wait for 4090A AM-TNC COMPLETE_E200 before acquiring the evaluation GPU",
+    "validate every export receipt, copied checkpoint, sidecar, source host, and SHA256",
+    "evaluate deterministic Input and all four fixed first-wave lanes in the single frozen evaluator",
+    "lock the complete first-wave cohort",
+    "run posthoc adjudication without using its values to alter any training"
+  ],
+  "resume_policy": {
+    "existing_receipts_are_hash_validated": true,
+    "metric_values_are_not_parsed_for_control": true,
+    "partial_fixed_evaluation_set_may_resume": true,
+    "terminal_status": "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION"
+  },
+  "retired_trial": {
+    "pid": 2208232,
+    "control_commit": "6f4cc9eea071fc6de4ac7293777a5515ea6a9896",
+    "output_preserved": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_6f4cc9e",
+    "state_at_retirement": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+    "reason": "terminal status was made explicit so the existing health watcher can recognize successful completion",
+    "checkpoint_loaded": false,
+    "metric_generated": false,
+    "scientific_state_modified": false
+  },
+  "scope_boundary": {
+    "closes_first_wave_manual_handoff": true,
+    "freezes_final_algorithm_set": false,
+    "adjudicates_future_candidate_full_data_runs": false,
+    "paired_performance_available_to_scheduler": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "training_protocol_changed": false,
+    "healthy_training_interrupted": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}

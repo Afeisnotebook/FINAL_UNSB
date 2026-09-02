@@ -106,3 +106,6 @@ authorize compute.
 32. `DEC-20260902-PAPER-DURABLE-HEALTH-WATCH.md`：四宿主新增独立、PPID 1、每分钟刷新
     的metric-blind健康监控，覆盖训练heartbeat、successor、exporter、relay和真实磁盘需求；
     只产生可恢复告警，不自动修改训练。5090B控制仓对象缺失事故由完整bundle恢复并留痕。
+33. `DEC-20260902-DURABLE-UNIFIED-EVALUATION-SUCCESSOR.md`：4090A新增持久化首波统一
+    评估继任器，在固定checkpoint全部验签且AM-TNC释放GPU后自动完成单容器评估、cohort
+    锁定与事后裁决。控制状态不含性能值，不改变训练，也不等于候选集或confirmation冻结。

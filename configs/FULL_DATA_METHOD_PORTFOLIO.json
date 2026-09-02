@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-02T21:59:01+08:00",
+  "captured_at": "2026-09-02T22:53:55+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -61,6 +61,25 @@
       "5090C": 13587
     },
     "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json"
+  },
+  "post_training_delivery": {
+    "status": "DURABLE_FIRST_WAVE_UNIFIED_EVALUATOR_WAITING_METRIC_BLIND",
+    "host": "4090A",
+    "pid": 2209120,
+    "ppid": 1,
+    "control_commit": "03a59489e575ce8adcdf7576eef3a819ce12809e",
+    "protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
+    "release_after": "4090A_AMTNC_COMPLETE_E200",
+    "lane_sources": {
+      "plain": "5090A",
+      "proposal": "5090C",
+      "cut": "5090B",
+      "cyclegan": "5090B"
+    },
+    "health_watcher_pid": 2209213,
+    "health_status": "HEALTHY",
+    "first_wave_complete_is_not_algorithm_freeze": true,
+    "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "paired_metric_control": false,
