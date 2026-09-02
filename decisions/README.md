@@ -151,3 +151,6 @@ authorize compute.
     验签四条固定probe的12个target-blind审计，以e100→e150诊断预测e150→e200变化；
     固定阈值、同一统一评估器和跨方法/域支持共同决定是否只授权后续数学推导，绝不自动
     启动终端模块或控制在飞训练。
+47. `DEC-20260903-DURABLE-RELATION-REGISTRY-REVIEW.md`：Proposal与ST-CGR关系候选生成后
+    的机械Git审核不再依赖人工上线；持久successor等待两份精确完成状态并自动生成review
+    proposal，但继续禁止修改tracked registry、授权delta或启动评估，保留Codex显式准入。

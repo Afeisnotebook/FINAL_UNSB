@@ -260,6 +260,12 @@ registry. It emits a deterministic proposed registry and a compact receipt. It
 never edits Git or authorizes a comparison; Codex must inspect and apply the
 proposed object as an explicit registry commit.
 
+`paper_aio_relation_registry_review_successor` can be armed before either
+candidate exists. It waits for both immutable completion states, derives their
+advertised paths and hashes only after exact release, and runs the same review
+command. Its terminal artifact is still only a Git review proposal: it cannot
+edit the tracked registry, authorize a comparison, or start evaluation.
+
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
 deferred and engineering-blocked lanes, and remains

@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-paper-durable-relation-registry-review-interface-v1",
+  "captured_at": "2026-09-03T07:28:00+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_DEPLOYED",
+  "upstreams": {
+    "proposal_relation_state": "COMPLETE_REVIEW_ONLY_RUNTIME_RELATION_CANDIDATE",
+    "stcgr_relation_state": "COMPLETE_REVIEW_ONLY_CANDIDATE_CONTROL_RELATION",
+    "plain_source_host": "5090B_MATCHED_PLAIN",
+    "proposal_method_host": "5090C",
+    "stcgr_method_host": "5090A"
+  },
+  "output": [
+    "PROPOSED_RUNTIME_RELATION_REGISTRY.json",
+    "RUNTIME_RELATION_REGISTRY_REVIEW.json",
+    "REGISTRY_REVIEW_SUCCESSOR_STATE.json"
+  ],
+  "fail_closed_checks": [
+    "frozen clean control commit and source hashes",
+    "frozen base registry hash",
+    "exact type-specific terminal successor states",
+    "lane and method/plain source hosts",
+    "exact runtime equivalence",
+    "candidate absolute paths and SHA256",
+    "absence of all performance fields",
+    "candidate and successor-state proof validation"
+  ],
+  "authority_boundary": {
+    "tracked_registry_edited": false,
+    "comparison_authorized": false,
+    "evaluation_auto_started": false,
+    "explicit_codex_git_admission_required": true,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "targeted_tests_passed": 8,
+    "full_suite_passed": 527,
+    "changed_files_ruff": "pass",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "implementation": "operations/paper_aio_relation_registry_review_successor.py",
+  "decision": "decisions/DEC-20260903-DURABLE-RELATION-REGISTRY-REVIEW.md"
+}
