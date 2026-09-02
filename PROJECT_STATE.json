@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T05:36:40+08:00",
+  "state_snapshot_time": "2026-09-03T05:58:10+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -113,23 +113,28 @@
         "projected_completion": "2026-09-13T21:09:48+08:00"
       },
       "5090B_matched_plain_successor": {
-        "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_GATES",
-        "successor_pid": 38294,
-        "health_watcher_pid": 39139,
+        "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_AND_DYNAMIC_CAPACITY_GATES",
+        "successor_pid": 61721,
+        "health_watcher_pid": 61725,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "source_export_relay_pid": 2236741,
         "source_export_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
         "source_export_relay_health_watcher_pid": 2237500,
         "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
         "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
-        "control_commit": "899add38670369fb94a98af348c2e48e38a06753",
+        "control_commit": "865303f422d44bcec1a5781466fa34daf711e451",
+        "retired_successor_pid": 38294,
+        "retired_health_watcher_pid": 39139,
+        "co_resident_capacity_gate_configured": true,
+        "capacity_probe_epochs": 2,
+        "minimum_makespan_saving_seconds": 3600,
         "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
         "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
         "fresh_e0": true,
         "cross_host_checkpoint_resume": false,
         "proposal_relation_status": "AWAITING_EXACT_RUNTIME_GATE_AND_EXPLICIT_REGISTRY_RELATION",
         "stcgr_relation_status": "NOT_AUTHORIZED_BY_THIS_SUCCESSOR",
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json"
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DYNAMIC_CAPACITY_SUCCESSOR_20260903.json"
       }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
@@ -548,7 +553,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DYNAMIC_CAPACITY_SUCCESSOR_20260903.json",
     "delivery_handoff_repair": {
       "status": "DYNAMIC_SOURCE_CONTRACT_AND_STATE_BOUND_REGISTRY_REVIEW_IMPLEMENTED_AWAITING_REAL_5090B_RELATIONS",
       "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",

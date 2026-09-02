@@ -1,0 +1,94 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-plain-dynamic-capacity-successor-v1",
+  "captured_at": "2026-09-03T05:58:10+08:00",
+  "status": "DEPLOYED_HEALTHY_AFTER_SECOND_HEARTBEAT_WAITING_FOR_CUT_E200",
+  "reason": "retain the earlier matched-plain trigger while requiring a real co-resident makespan measurement before the remaining long run",
+  "metric_blind_projection_at_refresh": {
+    "cut_data_epoch": 45,
+    "cut_remaining_epochs": 155,
+    "cut_colocated_epoch_seconds": 1674.170303106308,
+    "cut_release_hours": 72.08233249485492,
+    "cut_release_estimate": "2026-09-06T05:47:48+08:00",
+    "cyclegan_data_epoch_at_refresh": 25,
+    "cyclegan_colocated_epoch_seconds": 2334.9063205718994,
+    "projected_cyclegan_remaining_epochs_at_cut_release": 63.86218059578593,
+    "plain_isolated_epoch_seconds_bracket": [
+      2325.0121850967407,
+      2495.9294855594635
+    ],
+    "contention_ratio_bracket": [
+      1.498904447295569,
+      1.5887642657858545
+    ],
+    "continue_after_cut_hours_from_capacity_decision_bracket": [
+      142.95384696890326,
+      154.01219443292354
+    ],
+    "wait_for_cyclegan_hours_from_capacity_decision_bracket": [
+      155.23795646981134,
+      166.2963039338316
+    ],
+    "paired_assumption_wall_clock_saving_hours_bracket": [
+      10.72116719841249,
+      13.84705138366596
+    ],
+    "projection_uses_training_time_only": true
+  },
+  "capacity_gate": {
+    "trigger": "CUT supervisor COMPLETE_E200 followed by all exact runtime gates",
+    "probe_epochs": 2,
+    "why_two_epochs": "the second epoch excludes the fixed e1 milestone evaluation overhead",
+    "minimum_continue_now_saving_seconds": 3600,
+    "continue_condition": "projected continue-now completion is at least one hour earlier than waiting for CycleGAN release",
+    "wait_condition": "otherwise preserve the exact e2 full state and wait for CycleGAN COMPLETE_E200",
+    "immutable_receipt": "operations/CORESIDENT_MAKESPAN_CAPACITY_GATE.json",
+    "paired_metrics_read": false,
+    "checkpoint_quality_read": false,
+    "scientific_configuration_changed": false
+  },
+  "replacement": {
+    "old_successor_pid": 38294,
+    "old_health_watcher_pid": 39139,
+    "old_processes_verified_absent": true,
+    "new_successor_pid": 61721,
+    "new_health_watcher_pid": 61725,
+    "successor_state": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/operations/CROSS_HOST_PLAIN_SUCCESSOR_STATE.json",
+    "successor_status": "WAITING_FOR_PREDECESSOR_E200",
+    "capacity_gate_configured": true,
+    "health_status_after_second_poll": "HEALTHY_ZERO_ALERTS",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "control_checkout": "/root/autodl-tmp/FINAL_UNSB_CONTROL_5090B_865303f",
+    "control_git_commit": "865303f422d44bcec1a5781466fa34daf711e451",
+    "control_checkout_clean": true,
+    "control_script_sha256": "9fee9e08f7b3ae2a19a315ee84800a8505826d6b443e0386d2bcaf3312982d12",
+    "scientific_training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "remote_targeted_tests": "7 passed"
+  },
+  "unchanged_active_training": {
+    "cut": "CHILD_RUNNING",
+    "cyclegan": "CHILD_RUNNING",
+    "gpu_memory_used_mib_snapshot": 3479,
+    "disk_free_gib_rounded": 231,
+    "active_training_interrupted": false,
+    "checkpoint_deleted_or_rewritten": false
+  },
+  "verification": {
+    "local_full_pytest": "509 passed",
+    "ruff": "pass",
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "scientific_boundaries": {
+    "seed": 2026,
+    "batch_size": 1,
+    "target_data_epochs": 200,
+    "target_updates": 1710600,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-5090B-ENDPOINT-AND-MATCHED-PLAIN-SUCCESSOR.md"
+}
