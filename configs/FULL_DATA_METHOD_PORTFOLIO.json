@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T07:13:43+08:00",
+  "captured_at": "2026-09-03T07:18:31+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -9,10 +9,10 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 7,
+      "completed_full_data_epoch": 8,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4752.122806787491,
-      "projected_completion": "2026-09-13T21:09:48+08:00",
+      "latest_epoch_seconds": 4722.979921340942,
+      "projected_completion": "2026-09-13T19:12:03+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -32,7 +32,7 @@
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
       "latest_resumed_epoch_seconds": 5311.135596752167,
-      "current_single_epoch_projected_completion": "2026-09-15T06:32:27+08:00",
+      "current_single_epoch_projected_completion": "2026-09-15T06:59:42+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
@@ -235,8 +235,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DYNAMIC_CAPACITY_SUCCESSOR_20260903.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T071831.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T071831.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

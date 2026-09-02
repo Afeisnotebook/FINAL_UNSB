@@ -1,0 +1,130 @@
+{
+  "schema": "final-unsb-paper-five-node-health-refresh-v1",
+  "captured_at": "2026-09-03T07:18:31+08:00",
+  "status": "ALL_ACTIVE_TRAINING_AND_LOCAL_DELIVERY_CHAINS_HEALTHY_SCHEDULE_RETAINED",
+  "nodes": {
+    "4090A": {
+      "lane": "plain",
+      "status": "CHILD_RUNNING",
+      "data_epoch": 60,
+      "updates": 513180,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 1276.5404675006866,
+      "projected_e200_from_latest_epoch": "2026-09-05T08:57:07+08:00",
+      "trainer_pid": 2072055,
+      "health_watcher_pid": 2200307,
+      "health": "HEALTHY_ZERO_ALERTS",
+      "gpu_utilization_percent_snapshot": 52,
+      "gpu_memory_used_mib_snapshot": 1663,
+      "disk_free_gib_rounded": 388,
+      "successor": "amtnc_e200"
+    },
+    "5090A": {
+      "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "status": "CHILD_RUNNING_ONLY_GPU_TRAINING_LANE",
+      "data_epoch": 5,
+      "updates": 42765,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 5311.135596752167,
+      "projected_e200_from_latest_epoch": "2026-09-15T06:59:42+08:00",
+      "continuation_pid": 336340,
+      "export_successor_pid": 336344,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "incremental_exporter_pid": 351230,
+      "health_watcher_pid": 352017,
+      "health": "HEALTHY_ZERO_ALERTS",
+      "gpu_utilization_percent_snapshot": 33,
+      "gpu_memory_used_mib_snapshot": 2186,
+      "disk_free_gib_rounded": 185,
+      "user_capacity_override": true,
+      "plain": "PAUSED_AT_E9_NO_LIVE_OR_AUTOMATIC_RESUME_PROCESS"
+    },
+    "5090B": {
+      "status": "CUT_AND_CYCLEGAN_CHILDREN_RUNNING_COLOCATED",
+      "cut": {
+        "data_epoch": 48,
+        "updates": 410544,
+        "latest_epoch_seconds": 1656.4028849601746,
+        "projected_e200_from_latest_epoch": "2026-09-06T05:14:44+08:00",
+        "trainer_pid": 5771
+      },
+      "cyclegan": {
+        "data_epoch": 27,
+        "updates": 230931,
+        "latest_epoch_seconds": 2340.923592567444,
+        "projected_e200_from_latest_epoch": "2026-09-07T23:48:11+08:00",
+        "supervisor_pid": 11845,
+        "trainer_pid": 11846
+      },
+      "health_watcher_pid": 30355,
+      "health": "HEALTHY_ZERO_ALERTS",
+      "gpu_utilization_percent_snapshot": 68,
+      "gpu_memory_used_mib_snapshot": 3479,
+      "disk_free_gib_rounded": 231,
+      "matched_plain_successor_pid": 61721,
+      "matched_plain_successor_health_watcher_pid": 61725,
+      "matched_plain_successor_status": "WAITING_FOR_PREDECESSOR_E200"
+    },
+    "5090C": {
+      "lane": "proposal",
+      "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+      "data_epoch": 8,
+      "updates": 68424,
+      "target_updates": 1710600,
+      "latest_epoch_seconds": 4722.979921340942,
+      "projected_e200_from_latest_epoch": "2026-09-13T19:12:03+08:00",
+      "supervisor_pid": 9729,
+      "export_successor_pid": 9730,
+      "trainer_pid": 9734,
+      "incremental_exporter_pid": 29411,
+      "health_watcher_pid": 13587,
+      "health": "HEALTHY_ZERO_ALERTS",
+      "gpu_utilization_percent_snapshot": 42,
+      "gpu_memory_used_mib_snapshot": 2146,
+      "disk_free_gib_rounded": 231
+    },
+    "local_GTX1660": {
+      "terminal_audit_successor_pid": 15436,
+      "terminal_audit_health_watcher_pid": 20780,
+      "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "terminal_audit_completed_cells": [],
+      "terminal_pathology_successor_pid": 21384,
+      "terminal_pathology_health_watcher_pid": 18712,
+      "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+      "health": "BOTH_CHAINS_HEALTHY_ZERO_ALERTS",
+      "all_checkpoint_and_incremental_relay_pids_alive": true,
+      "performance_values_read": false
+    }
+  },
+  "schedule": {
+    "changed_running_training": false,
+    "4090A": ["plain_e200", "amtnc_e200", "unified_read_only_evaluation"],
+    "5090A": ["stcgr_e200", "source_bound_export"],
+    "5090B": ["cut_and_cyclegan_e200", "matched_plain_exact_gate_and_capacity_decision"],
+    "5090C": ["proposal_e200", "source_bound_export"],
+    "local_GTX1660": ["fixed_target_blind_terminal_audits", "posthoc_unified_evaluation_and_pathology_adjudication"],
+    "reason": "all lanes advanced since the preceding refresh and all durable health states report zero alerts"
+  },
+  "next_triggers": {
+    "first_e100_target_blind_import": "4090A plain, roughly 2026-09-03T21:29+08:00 from latest isolated throughput",
+    "matched_control_runtime_gate": "5090B CUT e200, roughly 2026-09-06T05:15+08:00",
+    "5090C_rental_action": "current Proposal projection is 2026-09-13T19:12+08:00; preserve at least two days of lease margin",
+    "manual_scientific_decision": "review 5090B exact runtime relation candidates before editing the matched-relation registry"
+  },
+  "stale_state_boundary": {
+    "5090A_old_plain_resume_state_files_exist": true,
+    "old_plain_resume_pids_alive": false,
+    "old_state_files_are_not_live_authority": true,
+    "automatic_plain_resume_authorized": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "scientific_training_configuration_changed": false
+  }
+}
