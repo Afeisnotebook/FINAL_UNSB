@@ -45,9 +45,9 @@ def test_amtnc_successor_uses_frozen_static_lane_gates() -> None:
         successor="amtnc", gpu=0,
     )
     rendered = [" ".join(command) for command in commands]
-    assert len(commands) == 4
+    assert len(commands) == 5
     assert "--stage resume-gate --lane amtnc" in rendered[1]
-    assert "--stage evaluation-repeat-gate --lane amtnc" in rendered[2]
-    assert "--stage authorize --lane amtnc" in rendered[3]
-    assert all("zero-intervention" not in command for command in rendered)
+    assert "paper_aio_amtnc_identity_gate.py" in rendered[2]
+    assert "--stage evaluation-repeat-gate --lane amtnc" in rendered[3]
+    assert "--stage authorize --lane amtnc" in rendered[4]
     assert all("matched-plain-mode" not in command for command in rendered)

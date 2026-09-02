@@ -66,6 +66,15 @@ def gate_commands(
             python, "-m", "research.paper_aio.run",
             "--stage", "zero-intervention-gate", *common,
         ])
+    elif successor == "amtnc":
+        commands.append([
+            python,
+            str(Path(__file__).with_name("paper_aio_amtnc_identity_gate.py")),
+            "--output", str(output),
+            "--manifest", str(manifest),
+            "--train-view", str(train_view),
+            "--gpu", str(gpu),
+        ])
     checkpoint = (
         output / "resume_gate" / successor / "continuous" / "lanes"
         / successor / "full_state_latest.pt"
