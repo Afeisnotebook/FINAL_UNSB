@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T01:07:12+08:00",
+  "captured_at": "2026-09-03T01:16:27+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -69,7 +69,8 @@
       "5090C": 13587
     },
     "auxiliary_watcher_pids": {
-      "5090B_matched_plain_successor": 38339
+      "5090B_matched_plain_successor": 38339,
+      "4090A_5090B_matched_plain_relay": 2237500
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -88,6 +89,9 @@
     "source_host_label": "5090B_MATCHED_PLAIN",
     "proposal_relation_status": "not_yet_authorized_await_runtime_gate",
     "stcgr_relation_status": "not_authorized_by_this_successor",
+    "source_export_relay_pid": 2236741,
+    "source_export_relay_status": "waiting_metric_blind",
+    "source_export_relay_health_watcher_pid": 2237500,
     "projected_e200_window": "2026-09-12/2026-09-13",
     "evidence": "evidence/paper_aio/PAPER_AIO_5090B_ENDPOINT_AND_MATCHED_PLAIN_SUCCESSOR_20260903.json"
   },

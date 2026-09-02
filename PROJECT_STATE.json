@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T01:07:12+08:00",
+  "state_snapshot_time": "2026-09-03T01:16:27+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -81,6 +81,9 @@
         "successor_pid": 38294,
         "health_watcher_pid": 38339,
         "health_status": "HEALTHY_ZERO_ALERTS",
+        "source_export_relay_pid": 2236741,
+        "source_export_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+        "source_export_relay_health_watcher_pid": 2237500,
         "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
         "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
         "control_commit": "899add38670369fb94a98af348c2e48e38a06753",
@@ -247,7 +250,8 @@
         "5090A_plain_v2": 2164861,
         "5090A_stcgr_v2": 2164862,
         "5090B_external_v2": 2164945,
-        "5090C_proposal_v2": 2182279
+        "5090C_proposal_v2": 2182279,
+        "5090B_matched_plain_v2": 2236741
       },
       "password_persisted": false,
       "performance_values_read": false,

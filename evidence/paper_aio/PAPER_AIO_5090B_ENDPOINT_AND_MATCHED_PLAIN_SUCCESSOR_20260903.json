@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-5090b-endpoint-and-matched-plain-successor-v1",
-  "captured_at": "2026-09-03T01:07:12+08:00",
+  "captured_at": "2026-09-03T01:16:27+08:00",
   "status": "EXISTING_5090B_IDENTIFIED_MATCHED_PLAIN_SUCCESSOR_ARMED",
   "endpoint_identity": {
     "logical_host": "5090B",
@@ -63,6 +63,33 @@
     "estimated_remaining_write_gib": 8.0,
     "minimum_headroom_gib": 16.0
   },
+  "source_bound_relay": {
+    "destination_host": "4090A",
+    "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+    "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/exports",
+    "source_host_label": "5090B_MATCHED_PLAIN",
+    "lane": "plain",
+    "failed_attempt": {
+      "relay_id": "5090B_matched_plain_v1",
+      "pid": 2236267,
+      "status": "FAIL_CLOSED_BEFORE_COPY",
+      "reason": "selected conda Python did not contain paramiko",
+      "checkpoint_copy_performed": false
+    },
+    "active_relay_id": "5090B_matched_plain_v2",
+    "active_pid": 2236741,
+    "active_ppid": 1,
+    "active_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+    "contract_sha256": "717090a4c4a7c8c13968fc27ef1f8c92211106a76abc7343bb4e8d8f4ef6e017",
+    "control_commit": "ce608998be4efadc24056a905e20d98349f4a10e",
+    "control_script_sha256": "290344423ca6f52752e82d94d355584610da0de55787feae92e1b5992a8f2928",
+    "health_watcher_pid": 2237500,
+    "health_watcher_status": "HEALTHY",
+    "health_alert_count": 0,
+    "performance_values_read": false,
+    "checkpoint_copy_performed": false,
+    "credential_persisted_in_contract_or_state": false
+  },
   "scientific_boundary": {
     "existing_training_interrupted": false,
     "training_configuration_changed": false,
@@ -72,7 +99,8 @@
     "confirmation20_opened": false,
     "proposal_delta_authorized_before_new_relation": false,
     "stcgr_cross_host_delta_authorized": false,
-    "runtime_twin_failure_means_mechanism_falsified": false
+    "runtime_twin_failure_means_mechanism_falsified": false,
+    "source_relay_creates_runtime_relation": false
   },
   "next_actions": [
     "observe CUT COMPLETE_E200 without reading performance",

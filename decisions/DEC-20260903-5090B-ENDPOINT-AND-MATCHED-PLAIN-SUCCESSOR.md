@@ -30,3 +30,8 @@ runtime-relation并提供严格matched control，但在relation提交前不能�
 得到明确终止时间，若实际租期早于9月13日，必须在CUT结束前后按租期做一次人工容量
 确认，不能让该外部条件被误写为算法或工程失败。
 
+4090A同时部署了独立的source-bound relay，提前等待未来5090B plain的固定
+e100/e125/e150/e175/e200 exports。首次用错不含`paramiko`的conda解释器，relay在
+复制前fail closed；保留该回执后改用已承载现有5090B relay的系统Python，v2现为
+健康等待状态。该relay只复制带哈希的checkpoint、sidecar和export receipt，不读取
+metric文件。它不会自行创建runtime relation或触发论文delta。
