@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-paper-portable-candidate-evaluation-authority-evidence-v1",
+  "captured_at": "2026-09-02T18:50:15.2145631+08:00",
+  "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_IMPORTED_CANDIDATE_CHECKPOINT",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "problem_closed": "The previous unified evaluator required a candidate lock containing absolute source-host paths. A correctly relayed checkpoint would therefore fail on the common 4090 evaluator even when its bytes and scientific state were valid.",
+  "authority": {
+    "path": "configs/PAPER_STCGR_EVALUATION_AUTHORITY.json",
+    "sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+    "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+    "candidate_fingerprint": "df0c9629e83ae05cd66f2dd1e6013fb1ba80170104fc25d0abc5617e5d91ec7a",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "training_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "candidate_lock_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+    "implementation_sha256": "d04be8d3484e999307c161083a46a6b7075f79f3d26a15dfb569c0b383df1349",
+    "runtime_gate_sha256": "6fe4deca6f884e8ccac1726b0ae87abf9a7e23b34d68680d4439390fb9caf689",
+    "authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3"
+  },
+  "source_validation": {
+    "source_file_count": 8,
+    "all_current_source_hashes_match_frozen_implementation": true,
+    "exported_lane_must_equal_authority_lane": true,
+    "checkpoint_training_commit_must_equal_authority": true,
+    "checkpoint_training_protocol_must_equal_authority": true,
+    "authority_with_psnr_ssim_lpips_ranking_or_plain_collapse_field_rejected": true,
+    "authority_sha256_written_into_unified_metric_and_receipt": true,
+    "complexity_profile_accepts_same_portable_authority": true
+  },
+  "evaluation_control_source": {
+    "research/paper_aio/unified.py": "bedb13665583629833966814d0271f7a1ea56944ce46acee0152f0aa093fc396",
+    "research/paper_aio/run.py": "3c6f322f85278874d61fd067254e78dc84112819b626376b1987a7ab45197f75",
+    "research/paper_aio/complexity.py": "0dc662657d0e1e503a043ac7c3ca0811ed2ed7a748434f727c807f43caefb82a",
+    "evaluator_protocol_fingerprint": "ec4f8be5a7456b54205bf93c184e4b02aaf7ce752316cba3cc695f68715a358f"
+  },
+  "boundaries": {
+    "authority_contains_performance_values": false,
+    "authority_can_start_or_resume_training": false,
+    "source_host_absolute_path_required": false,
+    "paired_metric_control": false,
+    "cross_host_matched_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-paper-portable-candidate-evaluation-authority-v1",
+  "status": "FROZEN_EVALUATION_ONLY_AUTHORITY",
+  "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+  "candidate_fingerprint": "df0c9629e83ae05cd66f2dd1e6013fb1ba80170104fc25d0abc5617e5d91ec7a",
+  "lane": {
+    "id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "backend": "internal",
+    "family": "unsb",
+    "model": "route1_stcgr",
+    "role": "evidence-locked full-data paper candidate",
+    "method": {
+      "route1_stcgr_enable": true
+    },
+    "first_wave": false
+  },
+  "training_identity": {
+    "git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "source_evidence": {
+    "candidate_lock_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+    "implementation_sha256": "d04be8d3484e999307c161083a46a6b7075f79f3d26a15dfb569c0b383df1349",
+    "small25_terminal_receipt_sha256": "f28939e92dd980476631ec94426d22c9cce80b661d3a6e67b975621bdc796c11",
+    "small25_trajectory_sha256": "f97dbb6928a6d4e7c8dd1e57ac44c6077bfc23a4d049972bcda1c0f1df73ade8",
+    "runtime_gate_sha256": "6fe4deca6f884e8ccac1726b0ae87abf9a7e23b34d68680d4439390fb9caf689",
+    "authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3"
+  },
+  "source_files": [
+    {"path": "src/models/sb_model.py", "sha256": "58ab0068a0acf165618b688a63950aa518b3e96e45c2a00bae05379778858bdd"},
+    {"path": "src/models/route1/pcrsmg.py", "sha256": "8498d78a1679f71a157bd0e717fd0fe2314a06293dc13c20409631bc4cd2f625"},
+    {"path": "src/models/route1/pcrsmg_ablation.py", "sha256": "c21d63b1e29c359b24e3b1bc7e864a1090161d6023c1ef7f5a6e38eb1c7c4ea1"},
+    {"path": "src/models/route1/stratified_time.py", "sha256": "a71461d39371a24f84a3316219c6d6827e87f0944cee88cc8099e55643c28703"},
+    {"path": "src/models/route1_stcgr_model.py", "sha256": "9bf70e984ce48865e1b6513d6281959ea04520fb8adb39a119e9d60c148c8022"},
+    {"path": "research/local_route1/stratified_time_audit.py", "sha256": "57cd03a1ed2e8320fc1af27c7105db83cd119022431de98b68831d94d68a9943"},
+    {"path": "research/local_route1/generation1_gates.py", "sha256": "ea483ab2af52e4019ccd6759aa024a4a10e43c8e94af8fb8f3f1b63fcffb93c1"},
+    {"path": "evidence/local_route1/STCGR_FIXED_STATE_GATE_PASS_20260902.json", "sha256": "de1d0bddc6aa509cb8c87be01c0ada6c72878d318141172a9f9463b653392493"}
+  ],
+  "evaluation_only": true,
+  "authorizes_training": false,
+  "performance_metric_values_included": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

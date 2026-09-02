@@ -22,6 +22,7 @@ from research.paper_aio.unified import (
     UNIFIED_EPOCHS,
     UNIFIED_RECEIPT_SCHEMA,
     _expected_evaluation,
+    candidate_spec_from_portable_authority,
     export_checkpoint_receipt,
     lock_unified_evaluation_cohort,
 )
@@ -31,6 +32,41 @@ def _write(path: Path, value: dict) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, sort_keys=True), encoding="utf-8")
     return path
+
+
+def test_portable_candidate_authority_binds_metric_free_source_identity(
+    tmp_path: Path,
+) -> None:
+    authority_path = (
+        Path(__file__).resolve().parents[1]
+        / "configs" / "PAPER_STCGR_EVALUATION_AUTHORITY.json"
+    )
+    authority = json.loads(authority_path.read_text(encoding="utf-8"))
+    spec, digest = candidate_spec_from_portable_authority(
+        authority_path=authority_path,
+        candidate_id=authority["candidate_id"],
+        exported_lane=authority["lane"],
+        training_git_commit=authority["training_identity"]["git_commit"],
+        training_protocol_fingerprint=(
+            authority["training_identity"]["protocol_fingerprint"]
+        ),
+    )
+    assert spec.to_dict() == authority["lane"]
+    assert digest == file_sha256(authority_path)
+
+    contaminated = dict(authority)
+    contaminated["macro_psnr"] = 1.0
+    contaminated_path = _write(tmp_path / "contaminated.json", contaminated)
+    with pytest.raises(RuntimeError, match="authority is invalid"):
+        candidate_spec_from_portable_authority(
+            authority_path=contaminated_path,
+            candidate_id=authority["candidate_id"],
+            exported_lane=authority["lane"],
+            training_git_commit=authority["training_identity"]["git_commit"],
+            training_protocol_fingerprint=(
+                authority["training_identity"]["protocol_fingerprint"]
+            ),
+        )
 
 
 def test_checkpoint_export_is_source_and_scientific_state_bound(tmp_path: Path) -> None:

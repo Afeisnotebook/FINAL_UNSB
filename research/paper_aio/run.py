@@ -41,6 +41,7 @@ from .runtime import (
 )
 from .terminal_audit import append_audit, audit_model
 from .unified import (
+    candidate_spec_from_portable_authority,
     evaluate_input_reference,
     evaluate_imported_checkpoint,
     export_checkpoint_receipt,
@@ -97,6 +98,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--candidate-derivation-card", type=Path)
     value.add_argument("--candidate-implementation", type=Path)
     value.add_argument("--candidate-runtime-gate", type=Path)
+    value.add_argument("--candidate-authority", type=Path)
     value.add_argument("--parent-output", type=Path)
     value.add_argument("--parent-runtime-receipt", type=Path)
     value.add_argument("--parent-e0", type=Path)
@@ -143,13 +145,25 @@ def _materialize(args) -> dict:
 def _load_checkpoint_model(args):
     if not args.lane or not args.checkpoint:
         raise SystemExit("stage requires --lane and --checkpoint")
+    payload = torch.load(args.checkpoint.resolve(), map_location="cpu", weights_only=False)
     if args.lane == "candidate":
         if not args.candidate_id:
             raise SystemExit("candidate checkpoint stage requires --candidate-id")
-        spec, _ = load_candidate_spec(args.output.resolve(), args.candidate_id)
+        if args.candidate_authority is not None:
+            metadata = payload.get("metadata") or {}
+            spec, _ = candidate_spec_from_portable_authority(
+                authority_path=args.candidate_authority.resolve(),
+                candidate_id=args.candidate_id,
+                exported_lane=payload.get("lane"),
+                training_git_commit=str(metadata.get("git_commit", "")),
+                training_protocol_fingerprint=str(
+                    metadata.get("protocol_fingerprint", "")
+                ),
+            )
+        else:
+            spec, _ = load_candidate_spec(args.output.resolve(), args.candidate_id)
     else:
         spec = lane_spec(args.lane)
-    payload = torch.load(args.checkpoint.resolve(), map_location="cpu", weights_only=False)
     model, primary, secondary, rows = prepare_lane(
         output_root=args.output.resolve(), train_view=args.train_view.resolve(),
         manifest_path=args.manifest.resolve(), spec=spec, gpu=args.gpu,
@@ -274,6 +288,10 @@ def main(argv: list[str] | None = None) -> int:
             checkpoint=args.checkpoint.resolve(),
             checkpoint_metadata=payload["metadata"],
             destination=args.receipt_output.resolve(),
+            candidate_authority=(
+                args.candidate_authority.resolve()
+                if args.candidate_authority is not None else None
+            ),
         )
     elif args.stage == "candidate-lock":
         required = {
@@ -378,6 +396,8 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit("unified-evaluate requires " + ", ".join(missing))
         if args.lane == "candidate" and not args.candidate_id:
             raise SystemExit("candidate unified-evaluate requires --candidate-id")
+        if args.lane == "candidate" and args.candidate_authority is None:
+            raise SystemExit("candidate unified-evaluate requires --candidate-authority")
         result = evaluate_imported_checkpoint(
             output_root=args.output,
             export_receipt=args.source_receipt,
@@ -387,6 +407,10 @@ def main(argv: list[str] | None = None) -> int:
             manifest_path=args.manifest.resolve(),
             gpu=args.gpu,
             candidate_id=args.candidate_id if args.lane == "candidate" else None,
+            candidate_authority=(
+                args.candidate_authority.resolve()
+                if args.candidate_authority is not None else None
+            ),
         )
     elif args.stage == "unified-lock":
         result = lock_unified_evaluation_cohort(args.output)

@@ -126,7 +126,7 @@ def _time_calls(
 def profile_model(
     *, model, spec: LaneSpec, rows: list[dict], primary, secondary,
     data_root: Path, checkpoint: Path, checkpoint_metadata: dict[str, Any],
-    destination: Path,
+    destination: Path, candidate_authority: Path | None = None,
 ) -> dict[str, Any]:
     """Profile a disposable loaded model without reading a paired target."""
     destination = Path(destination).resolve()
@@ -221,6 +221,10 @@ def profile_model(
         "checkpoint_sha256": source_hash_before,
         "checkpoint_unchanged": True,
         "checkpoint_metadata": dict(checkpoint_metadata),
+        "portable_candidate_authority_sha256": (
+            file_sha256(Path(candidate_authority).resolve())
+            if candidate_authority is not None else None
+        ),
         "environment": environment_record(),
         "image_shape": [1, 3, 128, 128],
         "batch_size": int(protocol["training"]["batch_size"]),

@@ -101,6 +101,15 @@
       "flops_claimed": false,
       "evidence": "evidence/paper_aio/PAPER_COMPLEXITY_INTERFACE_20260902.json"
     },
+    "stcgr_portable_evaluation_authority": {
+      "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_IMPORTED_CANDIDATE_CHECKPOINT",
+      "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+      "contains_performance_values": false,
+      "authorizes_training": false,
+      "source_host_absolute_path_required": false,
+      "evidence": "evidence/paper_aio/STCGR_PORTABLE_EVALUATION_AUTHORITY_20260902.json"
+    },
     "durable_source_export_successors": {
       "status": "FOUR_FIRST_WAVE_SUCCESSORS_PLUS_5090A_CONTROL_SUCCESSOR_WAITING",
       "control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468",

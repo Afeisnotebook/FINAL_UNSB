@@ -63,6 +63,12 @@ and cannot mutate a source checkpoint.  `--relay-id` distinguishes multiple
 run roots on one physical source host without changing the source-host label
 recorded in the scientific receipts.
 
+Candidate checkpoints are evaluated with `--candidate-authority`.  The
+portable authority contains only the frozen lane identity, training
+commit/protocol and source hashes; it deliberately excludes performance
+values and cannot authorize training.  This removes source-host absolute paths
+from unified evaluation without weakening candidate-code verification.
+
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.
 

@@ -10,7 +10,6 @@ import torch
 
 from research.local_route1.runtime import full_state_hash, seed_everything, write_json
 
-from .candidate_runtime import load_candidate_spec
 from .evaluate import evaluate_input_baseline, evaluate_model
 from .gates import environment_record
 from .protocol import (
@@ -20,6 +19,7 @@ from .protocol import (
     LaneSpec,
     REQUIRED_FIRST_WAVE_TRAINED,
     REQUIRED_PAPER_TABLE,
+    ROOT,
     file_sha256,
     lane_spec,
     load_protocol,
@@ -33,6 +33,9 @@ EXPORT_SCHEMA = "final-unsb-paper-checkpoint-export-v1"
 UNIFIED_RECEIPT_SCHEMA = "final-unsb-paper-unified-evaluation-receipt-v1"
 INPUT_RECEIPT_SCHEMA = "final-unsb-paper-unified-input-evaluation-v1"
 UNIFIED_COHORT_SCHEMA = "final-unsb-paper-unified-evaluation-cohort-v1"
+PORTABLE_CANDIDATE_AUTHORITY_SCHEMA = (
+    "final-unsb-paper-portable-candidate-evaluation-authority-v1"
+)
 UNIFIED_EPOCHS = (100, 125, 150, 175, 200)
 # Backward-compatible public name for the four trained first-wave lanes.
 REQUIRED_FIRST_WAVE = REQUIRED_FIRST_WAVE_TRAINED
@@ -118,25 +121,107 @@ def export_checkpoint_receipt(
     return result
 
 
+def _contains_performance_field(value: Any) -> bool:
+    forbidden = ("psnr", "ssim", "lpips", "ranking", "plain_collapse")
+    if isinstance(value, dict):
+        return any(
+            any(token in str(key).lower() for token in forbidden)
+            or _contains_performance_field(item)
+            for key, item in value.items()
+        )
+    if isinstance(value, list):
+        return any(_contains_performance_field(item) for item in value)
+    return False
+
+
+def candidate_spec_from_portable_authority(
+    *, authority_path: Path, candidate_id: str, exported_lane: dict[str, Any],
+    training_git_commit: str, training_protocol_fingerprint: str,
+) -> tuple[LaneSpec, str]:
+    """Validate metric-free candidate semantics without source-host paths."""
+    authority_path = Path(authority_path).resolve()
+    authority = _read_json(authority_path)
+    lane = authority.get("lane")
+    training = authority.get("training_identity") or {}
+    if (
+        authority.get("schema") != PORTABLE_CANDIDATE_AUTHORITY_SCHEMA
+        or authority.get("status") != "FROZEN_EVALUATION_ONLY_AUTHORITY"
+        or authority.get("candidate_id") != candidate_id
+        or lane != exported_lane
+        or training.get("git_commit") != training_git_commit
+        or training.get("protocol_fingerprint") != training_protocol_fingerprint
+        or authority.get("evaluation_only") is not True
+        or authority.get("authorizes_training") is not False
+        or authority.get("performance_metric_values_included") is not False
+        or authority.get("paired_metric_control") is not False
+        or authority.get("confirmation20_opened") is not False
+        or _contains_performance_field(authority)
+    ):
+        raise RuntimeError("portable candidate evaluation authority is invalid")
+    if not isinstance(lane, dict) or any(
+        key not in lane for key in (
+            "id", "backend", "family", "model", "role", "method", "first_wave",
+        )
+    ):
+        raise RuntimeError("portable candidate authority lacks lane semantics")
+    if (
+        lane["id"] != candidate_id
+        or lane["backend"] != "internal"
+        or lane["family"] != "unsb"
+        or lane["first_wave"] is not False
+        or not isinstance(lane["method"], dict)
+    ):
+        raise RuntimeError("portable candidate lane semantics are unsafe")
+    rows = authority.get("source_files")
+    if not isinstance(rows, list) or not rows:
+        raise RuntimeError("portable candidate authority lacks source hashes")
+    for row in rows:
+        if not isinstance(row, dict) or not row.get("path") or not row.get("sha256"):
+            raise RuntimeError("portable candidate source record is invalid")
+        source = (ROOT / str(row["path"])).resolve()
+        try:
+            source.relative_to(ROOT.resolve())
+        except ValueError as error:
+            raise RuntimeError("portable candidate source escapes repository") from error
+        if not source.is_file() or file_sha256(source) != row["sha256"]:
+            raise RuntimeError(f"portable candidate source changed: {row['path']}")
+    spec = LaneSpec(
+        id=str(lane["id"]), backend=str(lane["backend"]),
+        family=str(lane["family"]), model=str(lane["model"]),
+        role=str(lane["role"]), method=dict(lane["method"]),
+        first_wave=bool(lane["first_wave"]),
+    )
+    return spec, file_sha256(authority_path)
+
+
 def _spec_from_export(
-    *, output_root: Path, lane: dict[str, Any], candidate_id: str | None,
-) -> LaneSpec:
+    *, lane: dict[str, Any], candidate_id: str | None,
+    candidate_authority: Path | None, training_git_commit: str,
+    training_protocol_fingerprint: str,
+) -> tuple[LaneSpec, str | None]:
     lane_id = str(lane.get("id", ""))
     if candidate_id is None:
         spec = lane_spec(lane_id)
+        authority_sha256 = None
     else:
         if lane_id != candidate_id:
             raise RuntimeError("candidate export lane id differs from --candidate-id")
-        spec, _ = load_candidate_spec(output_root, candidate_id)
+        if candidate_authority is None:
+            raise RuntimeError("candidate unified evaluation requires portable authority")
+        spec, authority_sha256 = candidate_spec_from_portable_authority(
+            authority_path=candidate_authority, candidate_id=candidate_id,
+            exported_lane=lane, training_git_commit=training_git_commit,
+            training_protocol_fingerprint=training_protocol_fingerprint,
+        )
     if lane != spec.to_dict():
         raise RuntimeError("imported checkpoint lane semantics differ from current evaluator")
-    return spec
+    return spec, authority_sha256
 
 
 def evaluate_imported_checkpoint(
     *, output_root: Path, export_receipt: Path, copied_checkpoint: Path,
     train_view: Path, data_root: Path, manifest_path: Path, gpu: int,
-    candidate_id: str | None = None,
+    candidate_id: str | None = None, candidate_authority: Path | None = None,
 ) -> dict[str, Any]:
     """Evaluate a copied model read-only inside one common runtime."""
     output_root = Path(output_root).resolve()
@@ -157,8 +242,13 @@ def evaluate_imported_checkpoint(
         raise RuntimeError("copied unified checkpoint differs from source export")
     lane_id = str(export["lane_id"])
     epoch = int(export["epoch"])
-    spec = _spec_from_export(
-        output_root=output_root, lane=export["lane"], candidate_id=candidate_id,
+    spec, authority_sha256 = _spec_from_export(
+        lane=export["lane"], candidate_id=candidate_id,
+        candidate_authority=candidate_authority,
+        training_git_commit=str(export.get("training_git_commit", "")),
+        training_protocol_fingerprint=str(
+            export.get("training_protocol_fingerprint", "")
+        ),
     )
     payload = torch.load(checkpoint, map_location="cpu", weights_only=False)
     if (
@@ -199,6 +289,7 @@ def evaluate_imported_checkpoint(
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
         "source_host_label": export["source_host_label"],
+        "portable_candidate_authority_sha256": authority_sha256,
         "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
         "cross_host_training_delta_merged": False,
@@ -221,6 +312,7 @@ def evaluate_imported_checkpoint(
         "source_export_receipt": str(export_path),
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
+        "portable_candidate_authority_sha256": authority_sha256,
         "metric": str(metric_path.resolve()),
         "metric_sha256": file_sha256(metric_path),
         "evaluation_schema": EVALUATION_SCHEMA,
