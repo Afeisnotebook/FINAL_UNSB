@@ -1,4 +1,5 @@
 import json
+import os
 from argparse import Namespace
 from pathlib import Path
 from types import SimpleNamespace
@@ -12,6 +13,7 @@ from operations.paper_aio_health_watch import (
     freeze_contract,
     parse_watch,
     proposed_contract,
+    process_alive,
 )
 
 
@@ -33,6 +35,10 @@ def test_parse_watch_requires_safe_absolute_state(tmp_path: Path) -> None:
         parse_watch(f"bad/name|123|{tmp_path / 'x'}|3600|60")
     with pytest.raises(ValueError):
         parse_watch(f"plain|0|{tmp_path / 'x'}|0|60")
+
+
+def test_process_alive_supports_the_current_platform() -> None:
+    assert process_alive(os.getpid()) is True
 
 
 def test_watch_is_healthy_without_copying_losses(tmp_path: Path) -> None:
