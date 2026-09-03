@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-only-live-audit-v1",
+  "captured_at": "2026-09-03T09:24:36+08:00",
+  "status": "STCGR_HEALTHY_ONLY_GPU_TRAINING_LANE_PLAIN_AUTOMATION_CONFIRMED_ABSENT",
+  "host": {
+    "label": "5090A",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_utilization_percent_snapshot": 50,
+    "gpu_memory_used_mib_snapshot": 2186,
+    "gpu_memory_total_mib": 32607,
+    "disk_free_gib": 184.2931,
+    "user_capacity_override": true
+  },
+  "stcgr": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+    "latest_completed_data_epoch": 7,
+    "latest_completed_updates": 59871,
+    "target_data_epoch": 200,
+    "target_updates": 1710600,
+    "latest_epoch_wall_seconds": 5247.204705238342,
+    "rough_projected_completion_from_latest_epoch": "2026-09-15T02:43:07+08:00",
+    "continuation_pid": 336340,
+    "export_successor_pid": 336344,
+    "supervisor_pid": 336345,
+    "trainer_pid": 336346,
+    "incremental_audit_exporter_pid": 351230,
+    "health_watcher_pid": 352017,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "plain": {
+    "status": "PAUSED_RECOVERABLY_NO_AUTOMATIC_RESUME",
+    "latest_completed_data_epoch": 9,
+    "latest_completed_updates": 76977,
+    "trainer_or_supervisor_process_present": false,
+    "retired_resume_successor_pid": 342540,
+    "retired_resume_health_watcher_pid": 342597,
+    "retired_source_exporter_pid": 296821,
+    "retired_combined_health_watcher_pid": 337510,
+    "all_retired_processes_confirmed_absent": true,
+    "checkpoint_deleted": false,
+    "future_resume_requires_new_explicit_decision": true
+  },
+  "monitoring": {
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "all_expected_stcgr_processes_alive": true,
+    "estimated_remaining_write_gib": 24,
+    "minimum_headroom_gib": 24,
+    "user_capacity_override": true
+  },
+  "scope": {
+    "other_hosts_queried": false,
+    "other_hosts_touched": false,
+    "stcgr_restarted_or_migrated": false,
+    "scientific_configuration_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "scientific_consequence": {
+    "absolute_stcgr_e200_trajectory_authorized": true,
+    "matched_stcgr_delta_currently_authorized": false,
+    "future_matched_control_requires_separate_legal_runtime_relation_and_complete_plain_e200": true
+  },
+  "supersedes_live_progress_only": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T065116.json",
+  "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
+}
