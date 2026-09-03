@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-e13-recovery-closure-v1",
+  "captured_at": "2026-09-03T19:39:54+08:00",
+  "status": "EXACT_E12_RESUME_PROVEN_BY_COMPLETE_E13_AND_CONTINUED_E14_PROGRESS",
+  "run": {
+    "host_label": "5090A",
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "training_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "supervisor_pid": 336345,
+    "trainer_pid": 431032,
+    "trainer_pid_unchanged_since_exact_resume": true,
+    "supervisor_consecutive_failures": 1
+  },
+  "e13": {
+    "updates": 111189,
+    "physical_epoch_completed": 13,
+    "epoch_wall_seconds": 4974.037229537964,
+    "checkpoint": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/lanes/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/full_state_latest.pt",
+    "checkpoint_sha256_computed": "99a88372012e472ac00c0a2b3fdbac9e87dd3f229f8804ae198664e7234f4d89",
+    "checkpoint_sha256_sidecar": "99a88372012e472ac00c0a2b3fdbac9e87dd3f229f8804ae198664e7234f4d89",
+    "checkpoint_hash_exact": true,
+    "scientific_state_sha256_sidecar": "708944ceaed16941c1e0e2c27b900e132958fbaaf118b8c3dbf07f3a11f6e4c1",
+    "scientific_state_sha256_heartbeat": "708944ceaed16941c1e0e2c27b900e132958fbaaf118b8c3dbf07f3a11f6e4c1",
+    "scientific_state_hash_exact": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "sampling_measure": "official_image_proportional_unpaired",
+    "batch_size": 1
+  },
+  "continued_progress": {
+    "supervisor_status": "CHILD_RUNNING",
+    "trainer_state": "R",
+    "next_epoch_started": true,
+    "progress_sentinel_pid": 436478,
+    "progress_sentinel_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_sentinel_checkpoint_step": 111189,
+    "progress_sentinel_heartbeat_age_seconds": 132.95194911956787,
+    "thirty_second_rchar_delta": 50946049,
+    "thirty_second_read_bytes_delta": 2056192,
+    "thirty_second_cpu_ticks_delta": 11587,
+    "progress_sentinel_alert_count": 0
+  },
+  "plain_priority_boundary": {
+    "plain_training_process_running": false,
+    "plain_resume_process_running": false,
+    "plain_auto_resume_authorized": false,
+    "stcgr_remains_only_5090A_gpu_lane": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "matched_gain_claimed": false
+  },
+  "closes_operational_event": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
+  "decision": "decisions/DEC-20260903-STCGR-E13-RECOVERY-CLOSED.md"
+}

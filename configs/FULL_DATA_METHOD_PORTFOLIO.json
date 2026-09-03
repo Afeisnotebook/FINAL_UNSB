@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T19:19:10+08:00",
+  "captured_at": "2026-09-03T19:39:54+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -47,15 +47,15 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 12,
+      "completed_full_data_epoch": 13,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 431032,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 4841.4935734272,
-      "current_single_epoch_projected_completion": "2026-09-14T05:45:00+08:00",
+      "latest_resumed_epoch_seconds": 4974.037229537964,
+      "current_single_epoch_projected_completion": "2026-09-14T14:00:00+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
@@ -66,7 +66,8 @@
       "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
       "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200",
       "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
-      "operational_recovery_status": "EXACT_E12_RESUME_NORMAL_GPU_AND_INPUT_PROGRESS_RESTORED",
+      "operational_recovery_status": "EXACT_E12_RESUME_PROVEN_BY_HASH_VERIFIED_E13_AND_CONTINUED_E14_PROGRESS",
+      "operational_recovery_closure": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_E13_RECOVERY_CLOSURE_20260903T193954.json",
       "latest_user_priority_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json"
     },
     "amtnc": {
@@ -164,7 +165,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json",
       "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json",
       "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json",
-      "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json"
+      "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json",
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_E13_RECOVERY_CLOSURE_20260903T193954.json"
     ]
   },
   "ddsb_source_watch": {
