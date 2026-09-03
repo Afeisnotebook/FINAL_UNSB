@@ -1,0 +1,105 @@
+{
+  "schema": "final-unsb-paper-triple-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-04T06:53:00+08:00",
+  "decision": "ACCEPT_PLAIN_E125_STCGR_E20_AND_CUT_E100_FIXED_MILESTONES_KEEP_SCHEDULE",
+  "milestones": {
+    "4090A_plain_e125": {
+      "step": 1069125,
+      "checkpoint_bytes": 201480798,
+      "checkpoint_sha256_from_sidecar": "1d4858a99463e51673d8ebd13d2af2488c967bde736275072df93f8ca1629259",
+      "checkpoint_sha256_recomputed": "1d4858a99463e51673d8ebd13d2af2488c967bde736275072df93f8ca1629259",
+      "scientific_state_sha256": "e635a56d670f6c864bee2fa1119c48a358a4ff33a994f7ad70235736169edaac",
+      "metric_artifact_bytes": 138396,
+      "metric_artifact_sha256": "1540aa61902a147d99127e3ec01d37092486d51d96d3b6475a3c544bcd79409a",
+      "metric_content_parsed": false,
+      "live_after_milestone": {
+        "data_epoch": 127,
+        "updates": 1086231,
+        "epoch_seconds": 1277.5642046928406,
+        "full_state_sha256": "573ef408c986f718fbf8725b3ac45812d215150fbda470b7cbe3d08b4075b65b"
+      }
+    },
+    "5090A_stcgr_e20": {
+      "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "step": 171060,
+      "checkpoint_bytes": 201482347,
+      "checkpoint_sha256_from_sidecar": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
+      "checkpoint_sha256_recomputed": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
+      "scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
+      "metric_artifact_bytes": 134854,
+      "metric_artifact_sha256": "c491bc928292b2f5f1dff2f8ae226e410a30a0d9ee45b5ebea11b9cc39a2c92d",
+      "metric_content_parsed": false,
+      "live_status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "epoch_seconds": 5228.054005622864,
+      "latest_full_state_sha256": "dcecf3e8100b79acd383f43d8b1719f45cad2f9e5d81179a07118c5d362d4c6a",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut_e100": {
+      "step": 855300,
+      "checkpoint_bytes": 176651577,
+      "checkpoint_sha256_from_sidecar": "a44fc0eed917bcab7e2399bd86f2f9ff111f79f3cc588ab7b110aaf3968da9fe",
+      "checkpoint_sha256_recomputed": "a44fc0eed917bcab7e2399bd86f2f9ff111f79f3cc588ab7b110aaf3968da9fe",
+      "scientific_state_sha256": "e88798820a10428beaf02f3ce4f89204146f7bd7ea2ac90a6a2a0aed55fce8f8",
+      "metric_artifact_bytes": 138446,
+      "metric_artifact_sha256": "04a27308d46d3805b31b0111195062ca905526cd06755fd45e4632c826258e24",
+      "metric_content_parsed": false,
+      "live_after_milestone": {
+        "data_epoch": 101,
+        "updates": 863853,
+        "epoch_seconds": 1682.8183062076569,
+        "full_state_sha256": "0377c1fa7fc7bd6f987310d4ae3eeaa5f9b9ac56aa4092022b123b9a21ba7228"
+      },
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    }
+  },
+  "identity": {
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "4090A_plain_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "5090B_cut_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "5090B_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "5090A_stcgr_training_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "5090A_stcgr_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "remaining_live_nodes": {
+    "5090B_cyclegan": {
+      "data_epoch": 64,
+      "updates": 547392,
+      "epoch_seconds": 2321.2741186618805,
+      "full_state_sha256": "c65a9af4856da06fb3e3a4dbae38a4c6011d5657e54a7e6931400a3ab4ccf6c8",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 26,
+      "updates": 222378,
+      "epoch_seconds": 4757.2232530117035,
+      "full_state_sha256": "d481070e67721b73d27b3409f105a4f936a9c21fecf90c263d8f8dfa3825fef6",
+      "health_alert_count": 0
+    },
+    "local_GTX1660_CPU": {
+      "status": "HEALTHY_WAITING_FOR_FROZEN_IMPORTS",
+      "health_alert_count": 0,
+      "relay_audit_pathology_and_ddsb_watch_pids_alive": true
+    }
+  },
+  "control_plane": {
+    "5090B_guard_health_status": "HEALTHY",
+    "5090B_guard_alert_count": 0,
+    "5090B_all_future_successor_and_watcher_pids_alive": true,
+    "4090A_plain_to_amtnc_successor_and_watchers_alive": true,
+    "schedule_changed": false,
+    "new_trainer_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
