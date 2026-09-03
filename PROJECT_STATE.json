@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T15:28:00+08:00",
+  "state_snapshot_time": "2026-09-03T15:33:20+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -277,6 +277,12 @@
       "dclgan_target_export_successor_pid": 99821,
       "dclgan_target_health_watcher_pid": 99966,
       "dclgan_target_contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
+      "dclgan_long_wait_successor_audit": "PASS_KEEP_DEPLOYED_CHAIN_NO_RESTART",
+      "dclgan_target_source_hashes_match": true,
+      "dclgan_target_source_hash_count": 5,
+      "dclgan_lane_started": false,
+      "dclgan_future_boundary_hardening_commit": "c11968e",
+      "dclgan_long_wait_audit_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
       "dclgan_unified_import_relay_pid": 2491699,
       "dclgan_unified_evaluation_successor_pid": 2491700,
       "dclgan_unified_delivery_health_watcher_pid": 2491724,
@@ -292,7 +298,8 @@
       "host_assigned": "5090B",
       "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
       "evidence": "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json",
-      "decision": "decisions/DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md"
+      "decision": "decisions/DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md",
+      "long_wait_audit_decision": "decisions/DEC-20260903-DCLGAN-LONG-WAIT-SUCCESSOR-AUDIT.md"
     },
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",

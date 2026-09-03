@@ -224,3 +224,6 @@ authorize compute.
 68. `DEC-20260903-5090B-MATCHED-PLAIN-SUCCESSOR-SOURCE-LINEAGE.md`：把等待CUT e200的
     matched-plain控制链升级为v2，冻结control/scientific双仓、源码、manifest和peer receipt；
     修复真实共驻合同序列化门后部署新PID，CUT/CycleGAN保持连续运行且未启动新训练。
+69. `DEC-20260903-DCLGAN-LONG-WAIT-SUCCESSOR-AUDIT.md`：审计最长级联DCLGAN后继的
+    不可变合同、5项源码hash、官方上游、manifest、export和health链；当前部署严格且健康，
+    无需重启，并补充matched-plain v2终态兼容及未来performance-read fail-closed测试。

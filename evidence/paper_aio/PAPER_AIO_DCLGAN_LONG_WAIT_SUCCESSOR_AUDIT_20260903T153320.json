@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-dclgan-long-wait-successor-audit-v1",
+  "captured_at": "2026-09-03T15:33:20+08:00",
+  "host_label": "5090B",
+  "decision": "PASS_KEEP_DEPLOYED_CHAIN_NO_RESTART",
+  "dependency": {
+    "predecessor_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/operations/CROSS_HOST_PLAIN_SUCCESSOR_STATE.json",
+    "observed_predecessor_schema": "final-unsb-paper-cross-host-plain-successor-v2",
+    "observed_predecessor_status": "WAITING_FOR_PREDECESSOR_E200",
+    "required_terminal_status": "COMPLETE_PLAIN_E200",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "target_successor": {
+    "pid": 99704,
+    "ppid": 1,
+    "status": "WAITING_FOR_PREDECESSOR",
+    "target_host_label": "5090B",
+    "contract_schema": "final-unsb-paper-dclgan-target-successor-contract-v1",
+    "contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
+    "adapter_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "source_hash_count": 5,
+    "all_source_hashes_match": true,
+    "adapter_checkout_clean": true
+  },
+  "source_and_data": {
+    "official_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "official_upstream_checkout_clean": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "manifest_and_upstream_revalidated_before_training_by_target_gate": true
+  },
+  "export_and_health": {
+    "export_successor_pid": 99821,
+    "export_successor_ppid": 1,
+    "export_status": "WAITING_FOR_COMPLETE_E200",
+    "health_watcher_pid": 99966,
+    "health_watcher_ppid": 1,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "free_disk_gib": 230.28998947143555
+  },
+  "training_state": {
+    "dclgan_lane_started": false,
+    "processes_started_or_stopped_by_audit": false,
+    "running_cut_or_cyclegan_touched": false
+  },
+  "future_interface_hardening": {
+    "commit": "c11968e",
+    "full_tests": "592 passed",
+    "explicit_v2_terminal_compatibility_test": true,
+    "future_predecessor_performance_values_read_true_fails_closed": true,
+    "active_chain_restart_required": false,
+    "reason": "the sole active predecessor is source-bound, metric-blind and exposes all three boundary fields as false"
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "host_bound_gate_still_required": true,
+    "e200_fixed_training_still_required": true
+  }
+}

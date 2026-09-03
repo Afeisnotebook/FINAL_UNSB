@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T15:28:00+08:00",
+  "captured_at": "2026-09-03T15:33:20+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -132,7 +132,8 @@
       "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T144737.json",
       "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json",
-      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json"
+      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json",
+      "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json"
     ]
   },
   "ddsb_source_watch": {
@@ -170,6 +171,12 @@
     "target_export_successor_pid": 99821,
     "target_health_watcher_pid": 99966,
     "target_contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
+    "long_wait_successor_audit": "pass_keep_deployed_chain_no_restart",
+    "target_source_hashes_match": true,
+    "target_source_hash_count": 5,
+    "lane_started": false,
+    "future_boundary_hardening_commit": "c11968e",
+    "long_wait_audit_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
     "unified_import_relay_pid": 2491699,
     "unified_evaluation_successor_pid": 2491700,
     "unified_delivery_health_watcher_pid": 2491724,
@@ -185,6 +192,7 @@
     "host_assigned": "5090B",
     "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
     "decision": "decisions/DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md",
+    "long_wait_audit_decision": "decisions/DEC-20260903-DCLGAN-LONG-WAIT-SUCCESSOR-AUDIT.md",
     "evidence": "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json"
   },
   "new_endpoint_identity_audit": {
