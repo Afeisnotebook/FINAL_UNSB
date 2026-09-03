@@ -10,6 +10,7 @@ import pytest
 import torch
 
 from operations import paper_aio_dclgan_adapter as adapter
+from operations import paper_aio_dclgan_gate_supervisor as gate_supervisor
 from research.local_route1.runtime import full_state_hash
 from research.paper_aio.evaluate import _prediction
 
@@ -170,6 +171,8 @@ def test_dclgan_long_authorization_requires_complete_1000_update_gpu_gate(
     })
     monkeypatch.setattr(adapter, "adapter_fingerprint", lambda **_kwargs: "fp")
     monkeypatch.setattr(adapter, "git_commit", lambda: commit)
+    runtime_host = {"hostname": "test", "gpu_index": 0, "gpu_uuid": "gpu"}
+    monkeypatch.setattr(adapter, "runtime_host_identity", lambda _gpu: runtime_host)
     monkeypatch.setattr(adapter, "file_sha256", lambda _path: "h" * 64)
     monkeypatch.setattr(
         shutil, "disk_usage",
@@ -210,7 +213,9 @@ def test_dclgan_long_authorization_requires_complete_1000_update_gpu_gate(
         "run": {
             "status": "ENGINEERING_PAUSE", "final_updates": 1_000,
             "updates_per_second": 2.0,
-            "metadata": {"adapter_fingerprint": "fp"},
+            "metadata": {
+                "adapter_fingerprint": "fp", "runtime_host": runtime_host,
+            },
             "runtime": {
                 "cuda_available": True, "peak_allocated_bytes": 1024,
             },
@@ -236,3 +241,23 @@ def test_dclgan_long_authorization_requires_complete_1000_update_gpu_gate(
             upstream_root=tmp_path, manifest_path=tmp_path / "manifest.csv",
             output_root=tmp_path,
         )
+
+
+def test_dclgan_supervisor_has_fixed_metric_blind_recoverable_stages(
+    tmp_path: Path,
+) -> None:
+    args = SimpleNamespace(
+        repo=tmp_path / "repo", upstream_root=tmp_path / "source",
+        manifest=tmp_path / "manifest.csv", train_view=tmp_path / "view",
+        data_root=tmp_path / "data", output=tmp_path / "output", gpu=0,
+    )
+    stages = gate_supervisor._stage_commands(args, Path("python"))
+    assert [stage for stage, _command in stages] == [
+        "preflight", "confirmation_lock", "exact_resume_1000_500",
+        "capacity_train_1000", "evaluation_repeat", "authorize",
+    ]
+    train = dict(stages)["capacity_train_1000"]
+    assert "--resume" in train
+    exact = dict(stages)["exact_resume_1000_500"]
+    assert exact[exact.index("--gate-total-updates") + 1] == "1000"
+    assert exact[exact.index("--gate-split-updates") + 1] == "500"

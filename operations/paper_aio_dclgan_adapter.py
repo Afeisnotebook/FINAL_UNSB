@@ -13,6 +13,7 @@ import argparse
 import copy
 import json
 import math
+import platform
 import shutil
 import subprocess
 import sys
@@ -251,6 +252,25 @@ def dclgan_lane_spec() -> LaneSpec:
     )
 
 
+def runtime_host_identity(gpu: int) -> dict[str, Any]:
+    identity = {
+        "hostname": platform.node(),
+        "torch": torch.__version__,
+        "torch_cuda": torch.version.cuda,
+        "cuda_available": torch.cuda.is_available(),
+        "gpu_index": int(gpu),
+        "gpu_name": None,
+        "gpu_uuid": None,
+    }
+    if int(gpu) >= 0:
+        if not torch.cuda.is_available():
+            raise RuntimeError("DCLGAN GPU runtime requested but CUDA is unavailable")
+        properties = torch.cuda.get_device_properties(int(gpu))
+        identity["gpu_name"] = properties.name
+        identity["gpu_uuid"] = str(properties.uuid)
+    return identity
+
+
 def annotated_manifest_rows(manifest_path: Path) -> list[dict[str, Any]]:
     """Add stable per-domain/per-split order without opening any image."""
     if file_sha256(manifest_path) != EXPECTED_MANIFEST_SHA256:
@@ -444,6 +464,7 @@ def build_model(opt, ddi_batch: dict[str, Any]):
 
 def _identity(
     *, upstream_receipt: dict[str, Any], manifest_path: Path, train_view: Path,
+    gpu: int,
 ) -> dict[str, Any]:
     return {
         "schema": ADAPTER_RECEIPT_SCHEMA,
@@ -456,6 +477,7 @@ def _identity(
         "upstream_commit": upstream_receipt["commit"],
         "adapter_git_commit": git_commit(),
         "train_view": str(Path(train_view).resolve()),
+        "runtime_host": runtime_host_identity(gpu),
         "steps_per_data_epoch": 8553,
         "target_updates": 1710600,
         "sampling_measure": "official_image_proportional_unpaired",
@@ -479,7 +501,7 @@ def create_e0(
     verify_manifest_and_view(manifest_path, train_view)
     identity = _identity(
         upstream_receipt=upstream_receipt, manifest_path=manifest_path,
-        train_view=train_view,
+        train_view=train_view, gpu=gpu,
     )
     path = Path(output_root).resolve() / "shared_e0" / LANE_ID / "e0.pt"
     if path.is_file():
@@ -618,6 +640,7 @@ def train(
             )
             or authorization.get("upstream_commit")
             != upstream_receipt["commit"]
+            or authorization.get("runtime_host") != runtime_host_identity(gpu)
             or authorization.get("confirmation20_opened") is not False
         ):
             raise RuntimeError("DCLGAN long-training authorization is invalid")
@@ -631,7 +654,7 @@ def train(
     )
     metadata = _identity(
         upstream_receipt=upstream_receipt, manifest_path=manifest_path,
-        train_view=train_view,
+        train_view=train_view, gpu=gpu,
     )
     model, stream = prepare(
         upstream_root=upstream_root, manifest_path=manifest_path,
@@ -646,6 +669,7 @@ def train(
                 for key in (
                     "lane_id", "seed", "manifest_sha256", "adapter_fingerprint",
                     "upstream_commit", "adapter_git_commit", "train_view",
+                    "runtime_host",
                 )
             },
         )
@@ -742,16 +766,26 @@ def exact_resume_gate(
     root = Path(output_root).resolve() / "gates" / "DCLGAN_EXACT_RESUME"
     continuous = root / "continuous"
     resumed = root / "resumed"
+    continuous_latest = continuous / "lanes" / LANE_ID / "full_state_latest.pt"
     train(
         upstream_root=upstream_root, manifest_path=manifest_path,
-        train_view=train_view, output_root=continuous, gpu=gpu, resume=False,
+        train_view=train_view, output_root=continuous, gpu=gpu,
+        resume=continuous_latest.is_file(),
         stop_after_updates=total_updates,
     )
-    train(
-        upstream_root=upstream_root, manifest_path=manifest_path,
-        train_view=train_view, output_root=resumed, gpu=gpu, resume=False,
-        stop_after_updates=split_updates,
-    )
+    resumed_latest = resumed / "lanes" / LANE_ID / "full_state_latest.pt"
+    resumed_step = 0
+    if resumed_latest.is_file():
+        resumed_sidecar_path = Path(str(resumed_latest) + ".json")
+        resumed_step = int(json.loads(
+            resumed_sidecar_path.read_text(encoding="utf-8")
+        )["step"])
+    if resumed_step < split_updates:
+        train(
+            upstream_root=upstream_root, manifest_path=manifest_path,
+            train_view=train_view, output_root=resumed, gpu=gpu,
+            resume=resumed_latest.is_file(), stop_after_updates=split_updates,
+        )
     train(
         upstream_root=upstream_root, manifest_path=manifest_path,
         train_view=train_view, output_root=resumed, gpu=gpu, resume=True,
@@ -811,7 +845,7 @@ def _load_evaluation_runtime(
     verify_manifest_and_view(manifest_path, train_view)
     expected = _identity(
         upstream_receipt=upstream_receipt, manifest_path=manifest_path,
-        train_view=train_view,
+        train_view=train_view, gpu=gpu,
     )
     seed_everything(2026)
     opt = build_options(
@@ -1110,10 +1144,12 @@ def authorize_long_training(
     ):
         failures.append("confirmation20 lock is absent or stale")
     runtime = run.get("runtime", {})
+    run_runtime_host = run.get("metadata", {}).get("runtime_host")
     if (
         run.get("status") != "ENGINEERING_PAUSE"
         or int(run.get("final_updates", -1)) != 1_000
         or run.get("metadata", {}).get("adapter_fingerprint") != expected_fingerprint
+        or run_runtime_host != runtime_host_identity(int(runtime.get("gpu_index", -1)))
         or runtime.get("cuda_available") is not True
         or not isinstance(runtime.get("peak_allocated_bytes"), int)
         or not math.isfinite(float(run.get("updates_per_second", float("nan"))))
@@ -1147,6 +1183,7 @@ def authorize_long_training(
         },
         "checkpoint_sha256": file_sha256(paths["checkpoint"]),
         "gpu_runtime": runtime,
+        "runtime_host": run_runtime_host,
         "updates_per_second": run.get("updates_per_second"),
         "disk": {
             "free_gib": free_gib,
