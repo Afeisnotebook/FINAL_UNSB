@@ -1,0 +1,112 @@
+{
+  "schema": "final-unsb-paper-five-node-codex-goal-heartbeat-v1",
+  "captured_at": "2026-09-03T14:22:00+08:00",
+  "git": {
+    "head_before_this_receipt": "db18e5219c2b5d5e96470c9d394a6851a620692a",
+    "origin_main_before_this_receipt": "db18e5219c2b5d5e96470c9d394a6851a620692a",
+    "worktree_clean_before_this_receipt": true
+  },
+  "remote_training": {
+    "4090A_plain": {
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "completed_data_epoch": 80,
+      "completed_updates": 684240,
+      "latest_epoch_wall_seconds": 1277.1940495967865,
+      "projected_e200_from_latest_epoch": "2026-09-05T08:56:23+08:00",
+      "free_disk_gib_rounded_down": 387,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090A_stcgr": {
+      "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+      "status": "CHILD_RUNNING_STCGR_ONLY",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "completed_data_epoch": 10,
+      "completed_updates": 85530,
+      "latest_epoch_wall_seconds": 5008.1308157444,
+      "projected_e200_from_latest_epoch": "2026-09-14T14:41:04+08:00",
+      "free_disk_gib_rounded_down": 185,
+      "user_capacity_override_active": true,
+      "estimated_remaining_write_gib": 24,
+      "plain_process_or_automatic_resume_alive": false,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090B_cut": {
+      "endpoint_port": 44804,
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 64,
+      "completed_updates": 547392,
+      "latest_epoch_wall_seconds": 1567.6590814590454,
+      "projected_e200_from_latest_epoch": "2026-09-06T01:35:21+08:00"
+    },
+    "5090B_cyclegan": {
+      "endpoint_port": 44804,
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 38,
+      "completed_updates": 325014,
+      "latest_epoch_wall_seconds": 2290.199515104294,
+      "projected_e200_from_latest_epoch": "2026-09-07T21:25:32+08:00",
+      "free_disk_gib_rounded_down": 231,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090C_proposal": {
+      "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "completed_data_epoch": 13,
+      "completed_updates": 111189,
+      "latest_epoch_wall_seconds": 4851.213077306747,
+      "projected_e200_from_latest_epoch": "2026-09-14T02:21:36+08:00",
+      "free_disk_gib_rounded_down": 230,
+      "health": "HEALTHY_ZERO_ALERTS"
+    }
+  },
+  "physical_identity": {
+    "endpoint_44804_is_registered_host": "5090B",
+    "endpoint_44804_is_new_physical_gpu": false,
+    "identity_basis": "exact_gpu_uuid_match",
+    "duplicate_lane_started": false
+  },
+  "local_control_plane": {
+    "full_export_relay_pids": [19200, 17176, 19784, 16252, 19496, 19236],
+    "incremental_relay_pids": [6292, 12656, 19904, 14528],
+    "terminal_audit_successor_pid": 20888,
+    "terminal_pathology_successor_pid": 16968,
+    "combined_health_watcher_pid": 13536,
+    "ddsb_source_watch_pid": 20388,
+    "ddsb_source_health_pid": 10780,
+    "all_expected_processes_alive": true
+  },
+  "codex_goal_control": {
+    "previous_automation_id": "final-unsb-route1-result-watch",
+    "previous_automation_status": "NOT_FOUND",
+    "new_automation_id": "final-unsb-goal",
+    "new_automation_name": "FINAL_UNSB论文Goal持续监控",
+    "new_automation_status": "ACTIVE",
+    "cadence": "hourly",
+    "target": "current_thread",
+    "prompt_scope": "five_node_full_data_multi_algorithm_paper_delivery",
+    "goal_status": "ACTIVE"
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "healthy_training_interrupted": false,
+    "new_ungrounded_experiment_started": false
+  },
+  "decision": "KEEP_LIVE_SCHEDULE_CREATE_CURRENT_CODEX_GOAL_HEARTBEAT"
+}

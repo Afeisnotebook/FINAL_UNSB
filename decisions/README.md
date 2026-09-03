@@ -205,3 +205,6 @@ authorize compute.
 62. `DEC-20260903-5090A-STCGR-ONLY-RECONFIRMATION.md`：再次实时确认5090A只运行ST-CGR；
     plain停在e9且trainer、export waiter及两条历史resume successor均无存活PID。保留完整
     checkpoint但禁止旧状态文件自动恢复，并明确没有e200 matched control时只报告绝对轨迹。
+63. `DEC-20260903-CODEX-GOAL-HEARTBEAT-CONTINUITY.md`：五节点与本地控制链实时健康；
+    44804仍是已登记5090B。发现旧Codex heartbeat已不存在后，新建并启用当前论文Goal
+    heartbeat `final-unsb-goal`，持续监管多算法e200、runtime关系、统一评估和Git终局。
