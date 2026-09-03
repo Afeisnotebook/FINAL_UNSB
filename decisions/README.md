@@ -235,3 +235,7 @@ authorize compute.
     生成和审批链；机器只能生成不具授权力的draft，只有已提交Git的human/Codex review
     decision才能物化仍需提交的freeze receipt，distribution随后复验portfolio、review和
     freeze三层文件/Git身份。该门仍不授权confirmation20。
+72. `DEC-20260903-ONE-SESSION-CONFIRMATION20-GATE.md`：补齐distribution cohort和最终
+    confirmation20控制链；DCLGAN接入冻结后KID/FID，全部lane必须先形成同runtime cohort，
+    再经独立Git审批、原子claim和同session故障恢复打开一次。完成后session永久关闭；当前
+    仅提交接口和测试，未授权、未claim、未读取confirmation。

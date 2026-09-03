@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-03T16:28:00+08:00",
-  "status": "CORE_RUNNING_DCLGAN_ADDENDUM_AND_TWO_STAGE_FREEZE_CODE_READY",
+  "captured_at": "2026-09-03T17:15:00+08:00",
+  "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
     {
@@ -63,10 +63,12 @@
     },
     {
       "id": "confirmation20",
-      "status": "sealed",
+      "status": "sealed_one_recoverable_session_interface_implemented_not_authorized",
       "critical_path": false,
-      "gate": "all algorithms, baselines, evaluation protocol and claims explicitly frozen",
-      "open_count_allowed": 1
+      "gate": "committed full freeze plus complete one-runtime distribution cohort plus separate committed human/Codex review and authorization",
+      "open_count_allowed": 1,
+      "same_session_failure_recovery_allowed": true,
+      "post_completion_reopen_allowed": false
     }
   ],
   "known_completion_risks": [
@@ -80,6 +82,7 @@
     "best_checkpoint_selection": false,
     "confirmation20_opened": false,
     "cross_non_equivalent_runtime_delta": false,
-    "dclgan_blocks_core_delivery": false
+    "dclgan_blocks_core_delivery": false,
+    "confirmation_authorized": false
   }
 }

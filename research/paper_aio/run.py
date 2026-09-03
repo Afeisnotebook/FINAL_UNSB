@@ -19,7 +19,14 @@ from .candidate_runtime import (
     train_candidate,
 )
 from .complexity import profile_model
-from .distribution import profile_distribution
+from .confirmation import (
+    claim_confirmation_session,
+    create_confirmation_review_draft,
+    evaluate_confirmation_lane,
+    lock_confirmation_cohort,
+    materialize_confirmation_authorization,
+)
+from .distribution import lock_distribution_cohort, profile_distribution
 from .evaluate import evaluate_live_model
 from .freeze import create_review_draft, materialize_freeze_receipt
 from .gates import (
@@ -67,7 +74,10 @@ def parser() -> argparse.ArgumentParser:
             "candidate-lock",
             "candidate-runtime-gate",
             "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
-            "complexity", "distribution", "freeze-draft", "freeze-materialize",
+            "complexity", "distribution", "distribution-lock",
+            "freeze-draft", "freeze-materialize",
+            "confirmation-draft", "confirmation-authorize",
+            "confirmation-claim", "confirmation-evaluate", "confirmation-lock",
             "runtime-relation",
         ],
     )
@@ -121,8 +131,13 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--source-host-label")
     value.add_argument("--copied-checkpoint", type=Path)
     value.add_argument("--freeze-receipt", type=Path)
+    value.add_argument("--distribution-receipt", type=Path, action="append", default=[])
     value.add_argument("--portfolio", type=Path)
     value.add_argument("--review-decision", type=Path)
+    value.add_argument("--distribution-cohort", type=Path)
+    value.add_argument("--confirmation-authorization", type=Path)
+    value.add_argument("--confirmation-session", type=Path)
+    value.add_argument("--confirmation-result", type=Path, action="append", default=[])
     value.add_argument("--paper-claim", action="append", default=[])
     value.add_argument("--method-runtime-receipt", type=Path)
     value.add_argument("--plain-runtime-receipt", type=Path)
@@ -350,6 +365,114 @@ def main(argv: list[str] | None = None) -> int:
         result = materialize_freeze_receipt(
             portfolio=args.portfolio.resolve(),
             review_decision=args.review_decision.resolve(),
+            destination=args.receipt_output.resolve(),
+        )
+    elif args.stage == "distribution-lock":
+        if (
+            args.freeze_receipt is None
+            or args.receipt_output is None
+            or not args.distribution_receipt
+        ):
+            raise SystemExit(
+                "distribution-lock requires --freeze-receipt, --receipt-output "
+                "and repeated --distribution-receipt"
+            )
+        result = lock_distribution_cohort(
+            freeze_receipt=args.freeze_receipt.resolve(),
+            receipts=[path.resolve() for path in args.distribution_receipt],
+            destination=args.receipt_output.resolve(),
+        )
+    elif args.stage == "confirmation-draft":
+        if (
+            args.freeze_receipt is None
+            or args.distribution_cohort is None
+            or args.receipt_output is None
+        ):
+            raise SystemExit(
+                "confirmation-draft requires --freeze-receipt, "
+                "--distribution-cohort and --receipt-output"
+            )
+        result = create_confirmation_review_draft(
+            freeze_receipt=args.freeze_receipt.resolve(),
+            distribution_cohort=args.distribution_cohort.resolve(),
+            destination=args.receipt_output.resolve(),
+        )
+    elif args.stage == "confirmation-authorize":
+        if (
+            args.freeze_receipt is None
+            or args.distribution_cohort is None
+            or args.review_decision is None
+            or args.receipt_output is None
+        ):
+            raise SystemExit(
+                "confirmation-authorize requires --freeze-receipt, "
+                "--distribution-cohort, --review-decision and --receipt-output"
+            )
+        result = materialize_confirmation_authorization(
+            freeze_receipt=args.freeze_receipt.resolve(),
+            distribution_cohort=args.distribution_cohort.resolve(),
+            review_decision=args.review_decision.resolve(),
+            destination=args.receipt_output.resolve(),
+        )
+    elif args.stage == "confirmation-claim":
+        if args.confirmation_authorization is None:
+            raise SystemExit(
+                "confirmation-claim requires --confirmation-authorization"
+            )
+        result = claim_confirmation_session(
+            authorization=args.confirmation_authorization.resolve(),
+            output_root=args.output.resolve(),
+        )
+    elif args.stage == "confirmation-evaluate":
+        if (
+            args.lane is None
+            or args.confirmation_authorization is None
+            or args.confirmation_session is None
+            or args.receipt_output is None
+        ):
+            raise SystemExit(
+                "confirmation-evaluate requires --lane, "
+                "--confirmation-authorization, --confirmation-session and "
+                "--receipt-output"
+            )
+        if args.lane == "input":
+            result = evaluate_confirmation_lane(
+                model=None, spec=None,
+                rows=_annotated_rows(args.manifest.resolve()),
+                data_root=args.data_root.resolve(),
+                authorization=args.confirmation_authorization.resolve(),
+                session_receipt=args.confirmation_session.resolve(),
+                destination=args.receipt_output.resolve(), checkpoint=None,
+                checkpoint_step=None, checkpoint_metadata=None, gpu=args.gpu,
+            )
+        else:
+            model, spec, rows, payload, primary, secondary = _load_checkpoint_model(args)
+            result = evaluate_confirmation_lane(
+                model=model, spec=spec, rows=rows,
+                data_root=args.data_root.resolve(),
+                authorization=args.confirmation_authorization.resolve(),
+                session_receipt=args.confirmation_session.resolve(),
+                destination=args.receipt_output.resolve(),
+                checkpoint=args.checkpoint.resolve(),
+                checkpoint_step=int(payload.get("step", -1)),
+                checkpoint_metadata=payload.get("metadata"), gpu=args.gpu,
+            )
+    elif args.stage == "confirmation-lock":
+        if (
+            args.confirmation_authorization is None
+            or args.confirmation_session is None
+            or args.receipt_output is None
+            or not args.confirmation_result
+        ):
+            raise SystemExit(
+                "confirmation-lock requires --confirmation-authorization, "
+                "--confirmation-session, --receipt-output and repeated "
+                "--confirmation-result"
+            )
+        result = lock_confirmation_cohort(
+            authorization=args.confirmation_authorization.resolve(),
+            session_receipt=args.confirmation_session.resolve(),
+            results=[path.resolve() for path in args.confirmation_result],
             destination=args.receipt_output.resolve(),
         )
     elif args.stage == "runtime-relation":

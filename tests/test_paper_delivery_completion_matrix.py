@@ -25,11 +25,15 @@ def test_delivery_matrix_keeps_dclgan_nonblocking_and_confirmation_sealed() -> N
     assert extensions["dclgan"]["implementation"].endswith(
         "paper_aio_dclgan_portfolio_addendum_successor.py"
     )
-    assert extensions["confirmation20"]["status"] == "sealed"
+    assert extensions["confirmation20"]["status"].startswith("sealed_")
+    assert extensions["confirmation20"]["open_count_allowed"] == 1
+    assert extensions["confirmation20"]["same_session_failure_recovery_allowed"] is True
+    assert extensions["confirmation20"]["post_completion_reopen_allowed"] is False
     assert value["scientific_boundaries"] == {
         "intermediate_performance_controls_training_or_scheduling": False,
         "best_checkpoint_selection": False,
         "confirmation20_opened": False,
         "cross_non_equivalent_runtime_delta": False,
         "dclgan_blocks_core_delivery": False,
+        "confirmation_authorized": False,
     }

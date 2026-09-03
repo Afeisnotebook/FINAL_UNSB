@@ -39,6 +39,7 @@ from .protocol import (
 
 
 SCHEMA = "final-unsb-paper-post-freeze-distribution-metrics-v1"
+DISTRIBUTION_COHORT_SCHEMA = "final-unsb-paper-distribution-cohort-v1"
 FREEZE_SCHEMA = "final-unsb-paper-algorithm-and-baseline-freeze-v1"
 FREEZE_STATUS = "FROZEN_FULL_DATA_ALGORITHM_BASELINE_AND_CLAIM_SET"
 MODE = "clean"
@@ -166,6 +167,104 @@ def committed_freeze_identity(
     ):
         raise RuntimeError("freeze review decision is not the committed approval")
     return value, commit
+
+
+def lock_distribution_cohort(
+    *, freeze_receipt: Path, receipts: list[Path], destination: Path,
+) -> dict[str, Any]:
+    """Lock one-runtime discovery80 KID/FID evidence for every frozen lane."""
+    freeze, freeze_commit = committed_freeze_identity(
+        freeze_receipt, lane_id="input",
+    )
+    paths = [Path(path).resolve() for path in receipts]
+    if not paths or len(paths) != len(set(paths)):
+        raise RuntimeError("distribution cohort requires unique receipt paths")
+    rows: dict[str, dict[str, Any]] = {}
+    common_environment = None
+    common_clean_fid = None
+    common_input = None
+    freeze_path = Path(freeze_receipt).resolve()
+    freeze_sha256 = file_sha256(freeze_path)
+    for path in paths:
+        if not path.is_file():
+            raise RuntimeError(f"distribution receipt is missing: {path}")
+        value = _read_json(path)
+        lane = str(value.get("lane_id", ""))
+        if not lane or lane in rows:
+            raise RuntimeError("distribution receipt lane set is duplicated or empty")
+        if (
+            value.get("schema") != SCHEMA
+            or value.get("status")
+            != "PASS_POST_FREEZE_DISCOVERY80_DISTRIBUTION_EVALUATION"
+            or int(value.get("primary_epoch", -1)) != 200
+            or int(value.get("count_per_domain", -1)) != 80
+            or int(value.get("domain_count", -1)) != 6
+            or value.get("protocol_fingerprint") != protocol_fingerprint()
+            or value.get("evaluation_bundle_fingerprint")
+            != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
+            or Path(value.get("freeze_receipt", "")).resolve() != freeze_path
+            or value.get("freeze_receipt_sha256") != freeze_sha256
+            or value.get("freeze_receipt_object_sha256") != object_sha256(freeze)
+            or value.get("freeze_git_commit") != freeze_commit
+            or value.get("checkpoint_unchanged") is not True
+            or value.get("generated_images_retained") is not False
+            or value.get("target_path_read_for_post_freeze_evaluation") is not True
+            or value.get("metric_values_used_for_training_or_scheduling") is not False
+            or value.get("best_checkpoint_selection") is not False
+            or value.get("confirmation_authorized") is not False
+            or value.get("confirmation20_opened") is not False
+            or not isinstance(value.get("metrics"), dict)
+        ):
+            raise RuntimeError(f"invalid post-freeze distribution receipt: {path}")
+        environment = value.get("environment")
+        clean_fid = value.get("clean_fid")
+        evaluation_input = value.get("evaluation_input_sha256")
+        if common_environment is None:
+            common_environment = environment
+            common_clean_fid = clean_fid
+            common_input = evaluation_input
+        elif (
+            environment != common_environment
+            or clean_fid != common_clean_fid
+            or evaluation_input != common_input
+        ):
+            raise RuntimeError("distribution receipts were not produced in one runtime")
+        rows[lane] = {
+            "lane_id": lane,
+            "receipt": str(path),
+            "receipt_sha256": file_sha256(path),
+            "receipt_object_sha256": object_sha256(value),
+        }
+    expected = set(freeze["distribution_lanes"])
+    if set(rows) != expected:
+        raise RuntimeError(
+            "distribution cohort does not exactly cover the frozen lane set: "
+            f"{sorted(rows)} != {sorted(expected)}"
+        )
+    result = {
+        "schema": DISTRIBUTION_COHORT_SCHEMA,
+        "status": "PASS_COMPLETE_FROZEN_DISTRIBUTION_COHORT",
+        "freeze_receipt": str(freeze_path),
+        "freeze_receipt_sha256": freeze_sha256,
+        "freeze_git_commit": freeze_commit,
+        "lanes": sorted(rows),
+        "receipts": [rows[lane] for lane in sorted(rows)],
+        "evaluation_input_sha256": common_input,
+        "environment": common_environment,
+        "clean_fid": common_clean_fid,
+        "all_lanes_one_runtime": True,
+        "metric_values_used_for_training_or_scheduling": False,
+        "best_checkpoint_selection": False,
+        "confirmation_authorized": False,
+        "confirmation20_opened": False,
+    }
+    destination = Path(destination).resolve()
+    if destination.is_file():
+        if object_sha256(_read_json(destination)) != object_sha256(result):
+            raise RuntimeError("distribution cohort lock already exists and differs")
+    else:
+        write_json(destination, result)
+    return result
 
 
 def _stable_seed(*parts: object) -> int:

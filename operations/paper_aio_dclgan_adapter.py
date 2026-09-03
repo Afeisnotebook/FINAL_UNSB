@@ -978,6 +978,88 @@ def evaluate_checkpoint(
     return receipt
 
 
+def profile_checkpoint_distribution(
+    *, upstream_root: Path, manifest_path: Path, train_view: Path,
+    data_root: Path, output_root: Path, checkpoint: Path, gpu: int,
+    freeze_receipt: Path, destination: Path,
+) -> dict[str, Any]:
+    """Run the common post-freeze KID/FID path on the source-bound e200 model."""
+    from research.paper_aio.distribution import profile_distribution
+
+    checkpoint = Path(checkpoint).resolve()
+    checkpoint_sha256_before = file_sha256(checkpoint)
+    rows = annotated_manifest_rows(manifest_path)
+    model, stream, payload = _load_evaluation_runtime(
+        upstream_root=upstream_root, manifest_path=manifest_path,
+        train_view=train_view, output_root=output_root,
+        checkpoint=checkpoint, gpu=gpu,
+    )
+    if int(payload.get("step", -1)) != 1_710_600:
+        raise RuntimeError("DCLGAN distribution evaluation requires fixed e200")
+    state_before = full_state_hash(capture_full_state(
+        model=model, stream=stream, step=int(payload["step"]),
+        metadata=payload["metadata"],
+    ))
+    result = profile_distribution(
+        model=model, spec=dclgan_lane_spec(), rows=rows,
+        data_root=Path(data_root).resolve(), destination=Path(destination).resolve(),
+        freeze_receipt=Path(freeze_receipt).resolve(), checkpoint=checkpoint,
+        checkpoint_step=int(payload["step"]),
+        checkpoint_metadata=payload["metadata"], gpu=gpu,
+    )
+    state_after = full_state_hash(capture_full_state(
+        model=model, stream=stream, step=int(payload["step"]),
+        metadata=payload["metadata"],
+    ))
+    checkpoint_sha256_after = file_sha256(checkpoint)
+    if (
+        state_before != state_after
+        or checkpoint_sha256_before != checkpoint_sha256_after
+        or result.get("lane_id") != LANE_ID
+        or int(result.get("primary_epoch", -1)) != 200
+        or result.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("DCLGAN distribution profiling violated fixed-state policy")
+    return result
+
+
+def evaluate_checkpoint_confirmation(
+    *, upstream_root: Path, manifest_path: Path, train_view: Path,
+    data_root: Path, output_root: Path, checkpoint: Path, gpu: int,
+    authorization: Path, session_receipt: Path, destination: Path,
+) -> dict[str, Any]:
+    """Evaluate DCLGAN inside an already-claimed one-time confirmation session."""
+    from research.paper_aio.confirmation import evaluate_confirmation_lane
+
+    checkpoint = Path(checkpoint).resolve()
+    rows = annotated_manifest_rows(manifest_path)
+    model, stream, payload = _load_evaluation_runtime(
+        upstream_root=upstream_root, manifest_path=manifest_path,
+        train_view=train_view, output_root=output_root,
+        checkpoint=checkpoint, gpu=gpu,
+    )
+    if int(payload.get("step", -1)) != 1_710_600:
+        raise RuntimeError("DCLGAN confirmation evaluation requires fixed e200")
+    state_before = full_state_hash(capture_full_state(
+        model=model, stream=stream, step=int(payload["step"]),
+        metadata=payload["metadata"],
+    ))
+    result = evaluate_confirmation_lane(
+        model=model, spec=dclgan_lane_spec(), rows=rows,
+        data_root=Path(data_root).resolve(), authorization=authorization,
+        session_receipt=session_receipt, destination=destination,
+        checkpoint=checkpoint, checkpoint_step=int(payload["step"]),
+        checkpoint_metadata=payload["metadata"], gpu=gpu,
+    )
+    state_after = full_state_hash(capture_full_state(
+        model=model, stream=stream, step=int(payload["step"]),
+        metadata=payload["metadata"],
+    ))
+    if state_before != state_after:
+        raise RuntimeError("DCLGAN confirmation evaluation changed scientific state")
+    return result
+
+
 def evaluation_repeat_gate(
     *, upstream_root: Path, manifest_path: Path, train_view: Path,
     data_root: Path, output_root: Path, checkpoint: Path, gpu: int,
@@ -1237,6 +1319,7 @@ def build_parser() -> argparse.ArgumentParser:
         choices=(
             "preflight", "train", "exact-resume-gate", "evaluate",
             "evaluation-repeat-gate", "confirmation-lock-gate", "authorize",
+            "distribution", "confirmation-evaluate",
         ),
         required=True,
     )
@@ -1253,6 +1336,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--gate-split-updates", type=int, default=2)
     parser.add_argument("--count-per-domain", type=int, choices=(70, 80), default=70)
     parser.add_argument("--include-lpips", action="store_true")
+    parser.add_argument("--freeze-receipt", type=Path)
+    parser.add_argument("--receipt-output", type=Path)
+    parser.add_argument("--confirmation-authorization", type=Path)
+    parser.add_argument("--confirmation-session", type=Path)
     return parser
 
 
@@ -1295,6 +1382,33 @@ def main(argv: list[str] | None = None) -> int:
                 **common, data_root=args.data_root, checkpoint=checkpoint,
                 gpu=args.gpu, count_per_domain=args.count_per_domain,
                 include_lpips=args.include_lpips,
+            )
+        elif args.stage == "distribution":
+            if args.freeze_receipt is None or args.receipt_output is None:
+                raise RuntimeError(
+                    "DCLGAN distribution requires --freeze-receipt and --receipt-output"
+                )
+            result = profile_checkpoint_distribution(
+                **common, data_root=args.data_root, checkpoint=checkpoint,
+                gpu=args.gpu, freeze_receipt=args.freeze_receipt,
+                destination=args.receipt_output,
+            )
+        elif args.stage == "confirmation-evaluate":
+            if (
+                args.confirmation_authorization is None
+                or args.confirmation_session is None
+                or args.receipt_output is None
+            ):
+                raise RuntimeError(
+                    "DCLGAN confirmation-evaluate requires "
+                    "--confirmation-authorization, --confirmation-session and "
+                    "--receipt-output"
+                )
+            result = evaluate_checkpoint_confirmation(
+                **common, data_root=args.data_root, checkpoint=checkpoint,
+                gpu=args.gpu, authorization=args.confirmation_authorization,
+                session_receipt=args.confirmation_session,
+                destination=args.receipt_output,
             )
         else:
             result = evaluation_repeat_gate(

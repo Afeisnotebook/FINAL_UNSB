@@ -189,3 +189,96 @@ def test_distribution_cli_is_explicitly_post_freeze():
     ])
     assert args.stage == "distribution"
     assert str(args.freeze_receipt).endswith("FREEZE.json")
+
+
+def test_distribution_lock_cli_requires_explicit_receipt_set():
+    args = parser().parse_args([
+        "--stage", "distribution-lock", "--freeze-receipt", "FREEZE.json",
+        "--distribution-receipt", "input.json",
+        "--distribution-receipt", "plain.json",
+        "--receipt-output", "DISTRIBUTION_COHORT.json",
+    ])
+    assert args.stage == "distribution-lock"
+    assert [path.name for path in args.distribution_receipt] == [
+        "input.json", "plain.json",
+    ]
+
+
+def test_distribution_cohort_requires_exact_frozen_lanes_and_one_runtime(
+    tmp_path, monkeypatch,
+):
+    freeze_path = tmp_path / "FREEZE.json"
+    freeze_path.write_text("{}", encoding="utf-8")
+    freeze = {"distribution_lanes": ["input", "plain"]}
+    monkeypatch.setattr(
+        distribution, "committed_freeze_identity",
+        lambda _path, lane_id: (freeze, "f" * 40),
+    )
+    monkeypatch.setattr(distribution, "protocol_fingerprint", lambda: "protocol")
+    environment = {"torch": "fixed", "gpu": "one"}
+    clean_fid = {"version": "fixed", "feature_model_state_sha256": "m" * 64}
+
+    def receipt(lane):
+        value = {
+            "schema": distribution.SCHEMA,
+            "status": "PASS_POST_FREEZE_DISCOVERY80_DISTRIBUTION_EVALUATION",
+            "lane_id": lane,
+            "primary_epoch": 200,
+            "count_per_domain": 80,
+            "domain_count": 6,
+            "protocol_fingerprint": "protocol",
+            "evaluation_bundle_fingerprint": (
+                distribution.FROZEN_EVALUATION_BUNDLE_FINGERPRINT
+            ),
+            "evaluation_input_sha256": "i" * 64,
+            "freeze_receipt": str(freeze_path.resolve()),
+            "freeze_receipt_sha256": distribution.file_sha256(freeze_path),
+            "freeze_receipt_object_sha256": distribution.object_sha256(freeze),
+            "freeze_git_commit": "f" * 40,
+            "checkpoint_unchanged": True,
+            "generated_images_retained": False,
+            "target_path_read_for_post_freeze_evaluation": True,
+            "metric_values_used_for_training_or_scheduling": False,
+            "best_checkpoint_selection": False,
+            "confirmation_authorized": False,
+            "confirmation20_opened": False,
+            "metrics": {"summary": {}},
+            "environment": environment,
+            "clean_fid": clean_fid,
+        }
+        path = tmp_path / f"{lane}.json"
+        path.write_text(json.dumps(value), encoding="utf-8")
+        return path
+
+    input_path = receipt("input")
+    plain_path = receipt("plain")
+    result = distribution.lock_distribution_cohort(
+        freeze_receipt=freeze_path, receipts=[input_path, plain_path],
+        destination=tmp_path / "COHORT.json",
+    )
+    assert result["lanes"] == ["input", "plain"]
+    assert result["all_lanes_one_runtime"] is True
+    assert result["confirmation_authorized"] is False
+
+    changed = json.loads(plain_path.read_text())
+    changed["environment"] = {"gpu": "different"}
+    plain_path.write_text(json.dumps(changed), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="one runtime"):
+        distribution.lock_distribution_cohort(
+            freeze_receipt=freeze_path, receipts=[input_path, plain_path],
+            destination=tmp_path / "OTHER.json",
+        )
+
+
+def test_distribution_cohort_rejects_empty_receipt_set(tmp_path, monkeypatch):
+    freeze_path = tmp_path / "FREEZE.json"
+    freeze_path.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(
+        distribution, "committed_freeze_identity",
+        lambda _path, lane_id: ({"distribution_lanes": ["input", "plain"]}, "f" * 40),
+    )
+    with pytest.raises(RuntimeError, match="unique receipt paths"):
+        distribution.lock_distribution_cohort(
+            freeze_receipt=freeze_path, receipts=[],
+            destination=tmp_path / "COHORT.json",
+        )

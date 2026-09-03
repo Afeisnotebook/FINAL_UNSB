@@ -231,7 +231,8 @@ def evaluation_crn_identity(result: dict) -> list[tuple[str, str, int, int, str]
 def validate_evaluation_result(
     result: dict, *, lane_id: str, family: str, count_per_domain: int,
     replicates: int, nfe_values: list[int], include_lpips: bool,
-    input_reference: bool = False,
+    input_reference: bool = False, expected_split: str = "discovery",
+    confirmation20_opened: bool = False,
 ) -> dict[str, Any]:
     """Recompute a complete paper metric result from its per-image evidence.
 
@@ -258,7 +259,7 @@ def validate_evaluation_result(
     expected_header = {
         "schema": EVALUATION_SCHEMA,
         "lane_id": lane_id,
-        "split": "discovery",
+        "split": expected_split,
         "count_per_domain": count_per_domain,
         "replicates": replicates,
         "nfe_values": nfe_values,
@@ -269,7 +270,7 @@ def validate_evaluation_result(
         "metric_semantics_sha256": object_sha256(METRIC_SEMANTICS),
         "lpips_requested": bool(include_lpips),
         "lpips_available": True if include_lpips else None,
-        "confirmation20_opened": False,
+        "confirmation20_opened": bool(confirmation20_opened),
     }
     for key, expected in expected_header.items():
         if result.get(key) != expected:

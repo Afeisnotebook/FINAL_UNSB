@@ -169,8 +169,145 @@ def test_dclgan_cli_exposes_only_frozen_engineering_stages() -> None:
     assert set(choices) == {
         "preflight", "train", "exact-resume-gate", "evaluate",
         "evaluation-repeat-gate", "confirmation-lock-gate", "authorize",
+        "distribution", "confirmation-evaluate",
     }
     assert adapter.ENGINEERING_MAX_UPDATES == 1_000
+
+
+def test_dclgan_distribution_requires_explicit_freeze_arguments() -> None:
+    args = adapter.build_parser().parse_args([
+        "--stage", "distribution", "--upstream-root", "upstream",
+        "--manifest", "manifest.csv", "--train-view", "view",
+        "--data-root", "data", "--output", "output",
+        "--freeze-receipt", "FREEZE.json",
+        "--receipt-output", "dclgan_distribution.json",
+    ])
+    assert args.stage == "distribution"
+    assert args.freeze_receipt == Path("FREEZE.json")
+    assert args.receipt_output == Path("dclgan_distribution.json")
+
+
+def test_dclgan_confirmation_cli_requires_shared_session_identity() -> None:
+    args = adapter.build_parser().parse_args([
+        "--stage", "confirmation-evaluate", "--upstream-root", "upstream",
+        "--manifest", "manifest.csv", "--train-view", "view",
+        "--data-root", "data", "--output", "output",
+        "--confirmation-authorization", "AUTH.json",
+        "--confirmation-session", "SESSION.json",
+        "--receipt-output", "dclgan_confirmation.json",
+    ])
+    assert args.confirmation_authorization == Path("AUTH.json")
+    assert args.confirmation_session == Path("SESSION.json")
+
+
+def test_dclgan_distribution_uses_common_read_only_e200_profiler(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from research.paper_aio import distribution
+
+    checkpoint = tmp_path / "e200.pt"
+    checkpoint.write_bytes(b"fixed e200")
+    model, stream = object(), object()
+    payload = {
+        "step": 1_710_600,
+        "metadata": {"confirmation20_opened": False},
+    }
+    monkeypatch.setattr(adapter, "annotated_manifest_rows", lambda _path: [{"row": 1}])
+    monkeypatch.setattr(
+        adapter, "_load_evaluation_runtime",
+        lambda **_kwargs: (model, stream, payload),
+    )
+    monkeypatch.setattr(adapter, "capture_full_state", lambda **_kwargs: {"fixed": True})
+    monkeypatch.setattr(adapter, "full_state_hash", lambda _value: "state")
+    observed = {}
+
+    def profile_distribution(**kwargs):
+        observed.update(kwargs)
+        return {
+            "lane_id": "dclgan", "primary_epoch": 200,
+            "confirmation20_opened": False,
+        }
+
+    monkeypatch.setattr(distribution, "profile_distribution", profile_distribution)
+    result = adapter.profile_checkpoint_distribution(
+        upstream_root=tmp_path / "upstream", manifest_path=tmp_path / "manifest.csv",
+        train_view=tmp_path / "view", data_root=tmp_path / "data",
+        output_root=tmp_path / "output", checkpoint=checkpoint, gpu=0,
+        freeze_receipt=tmp_path / "FREEZE.json",
+        destination=tmp_path / "distribution.json",
+    )
+    assert result["lane_id"] == "dclgan"
+    assert observed["model"] is model
+    assert observed["checkpoint_step"] == 1_710_600
+    assert observed["spec"].id == "dclgan"
+
+
+def test_dclgan_distribution_rejects_nonterminal_checkpoint(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "e199.pt"
+    checkpoint.write_bytes(b"not terminal")
+    monkeypatch.setattr(adapter, "annotated_manifest_rows", lambda _path: [])
+    monkeypatch.setattr(
+        adapter, "_load_evaluation_runtime",
+        lambda **_kwargs: (object(), object(), {
+            "step": 1_710_599, "metadata": {"confirmation20_opened": False},
+        }),
+    )
+    with pytest.raises(RuntimeError, match="fixed e200"):
+        adapter.profile_checkpoint_distribution(
+            upstream_root=tmp_path / "upstream",
+            manifest_path=tmp_path / "manifest.csv", train_view=tmp_path / "view",
+            data_root=tmp_path / "data", output_root=tmp_path / "output",
+            checkpoint=checkpoint, gpu=0,
+            freeze_receipt=tmp_path / "FREEZE.json",
+            destination=tmp_path / "distribution.json",
+        )
+
+
+def test_dclgan_confirmation_uses_shared_authorized_evaluator(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from research.paper_aio import confirmation
+
+    checkpoint = tmp_path / "e200.pt"
+    checkpoint.write_bytes(b"fixed e200")
+    model, stream = object(), object()
+    payload = {
+        "step": 1_710_600,
+        "metadata": {
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+    }
+    monkeypatch.setattr(adapter, "annotated_manifest_rows", lambda _path: [{"row": 1}])
+    monkeypatch.setattr(
+        adapter, "_load_evaluation_runtime",
+        lambda **_kwargs: (model, stream, payload),
+    )
+    monkeypatch.setattr(adapter, "capture_full_state", lambda **_kwargs: {"fixed": True})
+    monkeypatch.setattr(adapter, "full_state_hash", lambda _value: "state")
+    observed = {}
+
+    def evaluate_confirmation_lane(**kwargs):
+        observed.update(kwargs)
+        return {"lane_id": "dclgan", "confirmation20_opened": True}
+
+    monkeypatch.setattr(
+        confirmation, "evaluate_confirmation_lane", evaluate_confirmation_lane,
+    )
+    result = adapter.evaluate_checkpoint_confirmation(
+        upstream_root=tmp_path / "upstream", manifest_path=tmp_path / "manifest.csv",
+        train_view=tmp_path / "view", data_root=tmp_path / "data",
+        output_root=tmp_path / "output", checkpoint=checkpoint, gpu=0,
+        authorization=tmp_path / "AUTH.json",
+        session_receipt=tmp_path / "SESSION.json",
+        destination=tmp_path / "dclgan_confirmation.json",
+    )
+    assert result["confirmation20_opened"] is True
+    assert observed["model"] is model
+    assert observed["spec"].id == "dclgan"
+    assert observed["checkpoint_step"] == 1_710_600
 
 
 def test_dclgan_long_authorization_requires_complete_1000_update_gpu_gate(

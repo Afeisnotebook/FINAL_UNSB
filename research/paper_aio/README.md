@@ -408,6 +408,42 @@ evaluation accepts it. The evaluator rehashes the external source portfolio,
 the committed review decision and the committed freeze receipt. Neither step
 authorizes or opens confirmation20.
 
+After every frozen lane has a post-freeze discovery80 KID/FID receipt, lock the
+single-runtime distribution cohort with repeated `--distribution-receipt`
+arguments. DCLGAN uses the same profiler through its source-bound adapter's
+`distribution` stage.
+
+```bash
+python -m research.paper_aio.run --stage distribution-lock \
+  --freeze-receipt configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json \
+  --distribution-receipt /absolute/distribution/input.json \
+  --distribution-receipt /absolute/distribution/plain.json \
+  --receipt-output /absolute/DISTRIBUTION_COHORT.json
+```
+
+Confirmation has a second, independent two-stage review. The draft below is
+non-authorizing:
+
+```bash
+python -m research.paper_aio.run --stage confirmation-draft \
+  --freeze-receipt configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json \
+  --distribution-cohort /absolute/DISTRIBUTION_COHORT.json \
+  --receipt-output /absolute/CONFIRMATION_REVIEW_DRAFT.json
+```
+
+Only a separately authored and committed
+`final-unsb-paper-confirmation20-review-decision-v1` can materialize an
+authorization. That authorization must itself be reviewed and committed. The
+subsequent `confirmation-claim`, `confirmation-evaluate`, and
+`confirmation-lock` stages accept only that committed identity. Claiming is an
+atomic one-session operation: an interrupted evaluator can recover the same
+session, while another session is rejected; after the exact frozen lane set is
+locked complete, further access is rejected. Confirmation uses only fixed e200
+checkpoints, primary NFE (5 for UNSB and 1 for external methods), five fixed
+UNSB rollout bundles, and PSNR/SSIM/LPIPS on 20 identities per domain. It cannot
+revise methods, claims, checkpoints, or training. No review approval,
+authorization, or session is created automatically.
+
 ## Physical host identity gate
 
 Before treating an SSH endpoint as additional compute, run:
