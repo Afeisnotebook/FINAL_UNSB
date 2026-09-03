@@ -33,6 +33,11 @@ def test_controlled_exposure_is_explicit_and_frozen() -> None:
     assert protocol["resolution"] == 128
     assert protocol["schedule"] == "100_constant_plus_100_linear_decay"
     assert len(protocol["required_disclosure"]) == 3
+    defaults = _gate()["dclgan"]["official_source_defaults"]
+    assert defaults["generator_discriminator_learning_rate"] == 2e-4
+    assert defaults["generator_discriminator_adam_betas"] == [0.5, 0.999]
+    assert defaults["feature_optimizer_learning_rate"] == 1e-3
+    assert defaults["feature_optimizer_adam_betas"] == [0.9, 0.999]
 
 
 def test_resume_and_confirmation_gates_cannot_be_omitted() -> None:

@@ -37,8 +37,11 @@
       "generator": "resnet_9blocks",
       "discriminator": "basic_70x70_patchgan",
       "gan_mode": "hinge",
-      "learning_rate": 0.0002,
-      "adam_betas": [0.5, 0.999],
+      "generator_discriminator_learning_rate": 0.0002,
+      "generator_discriminator_adam_betas": [0.5, 0.999],
+      "feature_optimizer_learning_rate": 0.001,
+      "feature_optimizer_adam_betas": [0.9, 0.999],
+      "feature_optimizer_source_semantics": "torch.optim.Adam_without_explicit_lr_or_betas_in_data_dependent_initialize",
       "lambda_gan": 1.0,
       "lambda_nce": 2.0,
       "lambda_identity": 1.0,
@@ -63,7 +66,7 @@
       "preprocess": "resize_and_crop_load128_crop128_no_flip",
       "schedule": "100_constant_plus_100_linear_decay",
       "unpaired_sampling": "official_image_proportional_A_permutation_and_independent_uniform_B_no_domain_label",
-      "loss_and_optimizer_semantics": "retain_official_DCLGAN_values_above",
+      "loss_and_optimizer_semantics": "retain_official_DCLGAN_values_above_including_distinct_default_Adam_settings_for_F1_F2",
       "required_disclosure": [
         "official_default_exposure_is_400_epochs_but_common_paper_protocol_caps_all_external_baselines_at_200_epochs",
         "official_default_spatial_augmentation_is_replaced_by_the_shared_128px_no_flip_protocol",
@@ -87,6 +90,9 @@
     },
     "known_source_issues": [
       "explicit_--DCL_mode_DCL_is_rejected_because_choices_is_a_string; the_default_value_works",
+      "model_option_setter_reads_ambient_sys_argv_instead_of_the_supplied_cmd_line; adapter_must_isolate_ambient_argv_without_patching_upstream",
+      "upstream_parallelize_crashes_for_documented_cpu_mode; adapter_skips_DataParallel_only_when_gpu_ids_is_empty",
+      "feature_optimizer_uses_Adam_defaults_lr_1e-3_betas_0.9_0.999_unlike_G_D",
       "upstream_checkpointing_saves_network_weights_only",
       "upstream_resume_does_not_restore_optimizers_schedulers_sampler_or_rng"
     ],

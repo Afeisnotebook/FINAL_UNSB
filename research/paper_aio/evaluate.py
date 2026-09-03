@@ -112,6 +112,12 @@ def _prediction(model, spec: LaneSpec, source: torch.Tensor, bundle: dict, *, nf
         )
     if spec.id == "cyclegan":
         return model.netG_A(source)
+    if spec.id == "dclgan":
+        # The author implementation names the degraded-A -> clean-B
+        # generator G_A.  DCLGAN is deterministic at inference, like the
+        # CycleGAN/CUT controls, and therefore has the same fixed NFE=1 paper
+        # interface.
+        return model.netG_A(source)
     if spec.id == "cut":
         return model.netG(source)
     raise RuntimeError(f"no evaluation adapter for {spec.id}")
