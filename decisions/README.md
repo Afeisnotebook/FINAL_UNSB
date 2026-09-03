@@ -202,3 +202,6 @@ authorize compute.
     DCLGAN checkpoint在4090A统一Linux/PyTorch环境中真实恢复并执行两次target-blind CPU
     前向；checkpoint、完整科学状态和输出均逐字节稳定，提前排除长训结束后的跨运行时加载
     故障。该门不产生性能结果、不占训练GPU，也不改变5090B资源顺序。
+62. `DEC-20260903-5090A-STCGR-ONLY-RECONFIRMATION.md`：再次实时确认5090A只运行ST-CGR；
+    plain停在e9且trainer、export waiter及两条历史resume successor均无存活PID。保留完整
+    checkpoint但禁止旧状态文件自动恢复，并明确没有e200 matched control时只报告绝对轨迹。

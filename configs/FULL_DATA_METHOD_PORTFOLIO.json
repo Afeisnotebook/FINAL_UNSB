@@ -54,7 +54,7 @@
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
       "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "scientific_role": "new evidence-derived stratified bridge-time estimator",
-      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T101104.json",
+      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_RECONFIRMATION_20260903T141347.json",
       "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
       "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
       "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"

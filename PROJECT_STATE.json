@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T13:44:00+08:00",
+  "state_snapshot_time": "2026-09-03T14:13:47+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -26,6 +26,7 @@
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
     "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_5090C_LIVE_GLOBAL_RESCHEDULE_20260903T1344.json",
+    "latest_5090a_stcgr_only_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_RECONFIRMATION_20260903T141347.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional_physical_5090_distinct_from_registered_5090B"],
     "new_endpoint_identity_audit": {
@@ -124,7 +125,7 @@
         "latest_epoch_wall_seconds": 5008.1308157444,
         "projected_completion_from_latest_epoch": "2026-09-14T14:02:56+08:00",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
-        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090C_LIVE_GLOBAL_RESCHEDULE_20260903T1344.json",
+        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_RECONFIRMATION_20260903T141347.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
         "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
         "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"

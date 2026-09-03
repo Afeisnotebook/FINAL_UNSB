@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-only-reconfirmation-v1",
+  "captured_at": "2026-09-03T14:13:47+08:00",
+  "host_label": "5090A",
+  "decision": "KEEP_STCGR_RUNNING_AND_KEEP_5090A_MATCHED_PLAIN_CANCELED",
+  "user_priority": "time_critical_stcgr_full_data_result",
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5090",
+    "memory_used_mib": 2186,
+    "memory_total_mib": 32607,
+    "utilization_percent": 54,
+    "power_watts": 181.13
+  },
+  "stcgr": {
+    "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+    "continuation_pid": 336340,
+    "supervisor_pid": 336345,
+    "trainer_pid": 336346,
+    "export_successor_pid": 336344,
+    "health_watcher_pid": 352017,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "completed_data_epoch": 10,
+    "completed_updates": 85530,
+    "target_updates": 1710600,
+    "latest_epoch_wall_seconds": 5008.1308157444,
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "5090a_plain": {
+    "status": "PAUSED_AT_E9_NO_RUNNING_OR_AUTOMATIC_RESUME_PROCESS",
+    "completed_data_epoch": 9,
+    "completed_updates": 76977,
+    "trainer_pid": null,
+    "supervisor_pid": null,
+    "automatic_resume_authorized": false,
+    "retired_resume_successor_pids": [342166, 342540],
+    "retired_export_successor_pid": 296821,
+    "all_listed_retired_pids_confirmed_dead": true,
+    "full_state_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed/lanes/plain/full_state_latest.pt",
+    "full_state_size_bytes": 201489115,
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "checkpoint_preserved_for_forensic_recovery_only": true,
+    "stale_waiting_state_files_have_no_live_owner": true
+  },
+  "scientific_boundary": {
+    "stcgr_training_may_finish_without_5090a_plain_e200": true,
+    "stcgr_absolute_trajectory_is_not_matched_gain": true,
+    "future_cross_host_delta_requires_separately_reviewed_exact_runtime_relation": true,
+    "paired_metric_control": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "other_hosts_modified": false,
+    "training_configuration_changed": false
+  }
+}
