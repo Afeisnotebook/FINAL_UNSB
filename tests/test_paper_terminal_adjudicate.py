@@ -44,6 +44,10 @@ def _audit_value(lane_id: str, epoch: int, mechanisms: dict):
                 "top_eigenvalue": spectral_value,
                 "trace": spectral_value,
                 "effective_rank": spectral_value,
+                "effective_rank_definition": "participation_ratio_trace_squared_over_frobenius_squared",
+                "normalization": "unbiased_sample_covariance_nonzero_spectrum_n_minus_1",
+                "sample_count": AUDIT_REPLICATES,
+                "flattened_dimension": 49152,
                 "eigenvalues": [spectral_value] * AUDIT_REPLICATES,
             }
             steps.append(

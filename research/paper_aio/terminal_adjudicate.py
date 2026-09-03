@@ -64,6 +64,20 @@ def _audit_summary(audit: dict[str, Any]) -> dict[str, dict[str, Any]]:
     summaries = {}
     for record in audit["records"]:
         by_time = {int(row["time_index"]): row for row in record["steps"]}
+        for row in by_time.values():
+            for field in ("increment_spectrum", "endpoint_spectrum"):
+                spectrum = row[field]
+                if (
+                    spectrum.get("normalization")
+                    != "unbiased_sample_covariance_nonzero_spectrum_n_minus_1"
+                    or spectrum.get("effective_rank_definition")
+                    != "participation_ratio_trace_squared_over_frobenius_squared"
+                    or int(spectrum.get("sample_count", -1)) != int(audit["replicates"])
+                    or int(spectrum.get("flattened_dimension", -1)) <= 0
+                ):
+                    raise RuntimeError(
+                        "terminal audit does not contain the preregistered covariance spectrum"
+                    )
         terminal = by_time[4]
         late = [by_time[3], by_time[4]]
         summaries[str(record["domain"])] = {

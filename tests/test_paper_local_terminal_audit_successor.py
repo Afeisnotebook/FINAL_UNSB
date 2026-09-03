@@ -16,6 +16,10 @@ def _valid_result():
         "top_eigenvalue": 1.0,
         "trace": 1.0,
         "effective_rank": 1.0,
+        "effective_rank_definition": "participation_ratio_trace_squared_over_frobenius_squared",
+        "normalization": "unbiased_sample_covariance_nonzero_spectrum_n_minus_1",
+        "sample_count": AUDIT_REPLICATES,
+        "flattened_dimension": 49152,
         "eigenvalues": [1.0] * AUDIT_REPLICATES,
     }
     step = {

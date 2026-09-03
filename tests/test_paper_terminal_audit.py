@@ -5,10 +5,30 @@ import torch
 from production.metrics import bridge_times
 from research.paper_aio.terminal_audit import (
     _differentiable_rollout_from_state,
+    _gram_spectrum,
     _local_jvp_gain,
     _rollout_jvp_gain,
     perturbation_gain_to_final,
 )
+
+
+def test_gram_spectrum_is_unbiased_sample_covariance_not_feature_normalized():
+    result = _gram_spectrum([
+        torch.tensor([0.0]),
+        torch.tensor([2.0]),
+        torch.tensor([4.0]),
+    ])
+    assert math.isclose(result["top_eigenvalue"], 4.0, rel_tol=1e-12)
+    assert math.isclose(result["trace"], 4.0, rel_tol=1e-12)
+    assert math.isclose(result["effective_rank"], 1.0, rel_tol=1e-12)
+    assert result["normalization"] == (
+        "unbiased_sample_covariance_nonzero_spectrum_n_minus_1"
+    )
+    assert result["effective_rank_definition"] == (
+        "participation_ratio_trace_squared_over_frobenius_squared"
+    )
+    assert result["sample_count"] == 3
+    assert result["flattened_dimension"] == 1
 
 
 class _ScaledEndpoint(torch.nn.Module):

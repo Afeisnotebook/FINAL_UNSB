@@ -25,11 +25,24 @@ from .protocol import LaneSpec
 
 
 def _gram_spectrum(samples: list[torch.Tensor]) -> dict:
+    """Return the nonzero spectrum of the unbiased sample covariance.
+
+    For flattened samples ``X`` with rows centred across stochastic rollouts,
+    ``X.T @ X / (n - 1)`` is the feature-space sample covariance. Forming that
+    matrix is prohibitive for images, so we use ``X @ X.T / (n - 1)``; the two
+    matrices have exactly the same nonzero eigenvalues. Dividing by the feature
+    dimension instead would describe a per-coordinate Gram matrix, not the
+    covariance spectrum named by the paper protocol.
+    """
+    if not samples:
+        raise ValueError("covariance spectrum requires at least one sample")
     matrix = torch.stack(
         [value.detach().double().cpu().reshape(-1) for value in samples]
     )
     matrix = matrix - matrix.mean(dim=0, keepdim=True)
-    gram = matrix @ matrix.T / max(1, matrix.shape[1])
+    sample_count = int(matrix.shape[0])
+    flattened_dimension = int(matrix.shape[1])
+    gram = matrix @ matrix.T / max(1, sample_count - 1)
     eigenvalues = torch.linalg.eigvalsh(gram).clamp_min(0).flip(0)
     total = float(eigenvalues.sum())
     squared = float(eigenvalues.square().sum())
@@ -37,6 +50,10 @@ def _gram_spectrum(samples: list[torch.Tensor]) -> dict:
         "top_eigenvalue": float(eigenvalues[0]) if eigenvalues.numel() else 0.0,
         "trace": total,
         "effective_rank": (total * total / squared) if squared > 0 else 0.0,
+        "effective_rank_definition": "participation_ratio_trace_squared_over_frobenius_squared",
+        "normalization": "unbiased_sample_covariance_nonzero_spectrum_n_minus_1",
+        "sample_count": sample_count,
+        "flattened_dimension": flattened_dimension,
         "eigenvalues": [float(value) for value in eigenvalues],
     }
 
