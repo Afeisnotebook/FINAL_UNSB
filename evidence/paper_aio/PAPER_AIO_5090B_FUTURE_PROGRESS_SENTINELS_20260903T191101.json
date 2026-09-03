@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-5090b-future-progress-sentinels-v1",
+  "captured_at": "2026-09-03T19:11:01+08:00",
+  "status": "MATCHED_PLAIN_AND_DCLGAN_FUTURE_TRAINER_PROGRESS_WATCHES_ARMED",
+  "host_label": "5090B",
+  "source": {
+    "commit": "0f7b319962b74d555d733800060488249e341e4c",
+    "bundle": "/root/autodl-tmp/FINAL_UNSB_PROGRESS_WATCH_0f7b319.bundle",
+    "bundle_sha256": "3b7ed7722abf3b8e612310f5a8cd91c914424f401de1aac211fa942541b36d1a",
+    "script_sha256": "bf68385bceeaf1536e11230679b02fb2c27ddb8c0176fbe6ea885d669f012ac5",
+    "schema": "final-unsb-paper-live-progress-watch-v4"
+  },
+  "matched_plain": {
+    "predecessor_successor_pid": 115562,
+    "predecessor_successor_status": "WAITING_FOR_PREDECESSOR_E200",
+    "watch_pid": 140048,
+    "watch_ppid_after_ssh_disconnect": 1,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090B_MATCHED_PLAIN_0f7b319",
+    "descendant_depth": 3,
+    "trainer_command_fragment": "research.paper_aio.run",
+    "state": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+    "expected_transition": "automatically diagnose the unique plain trainer after gates and supervisor launch",
+    "launches_training": false
+  },
+  "dclgan": {
+    "target_successor_pid": 99704,
+    "target_successor_status": "WAITING_FOR_MATCHED_PLAIN_COMPLETE_E200",
+    "watch_pid": 140049,
+    "watch_ppid_after_ssh_disconnect": 1,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090B_DCLGAN_0f7b319",
+    "descendant_depth": 3,
+    "trainer_command_fragment": "paper_aio_dclgan_adapter.py",
+    "state": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+    "expected_transition": "automatically diagnose the unique DCLGAN adapter trainer after its source and target gates",
+    "launches_training": false
+  },
+  "invariants": {
+    "existing_training_pids_changed": false,
+    "successor_order_changed": false,
+    "training_configuration_changed": false,
+    "signals_processes": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "ambiguous_or_missing_trainer_fails_closed": true
+  },
+  "live_non_interference_probe": {
+    "cut_supervisor_pid": 3739,
+    "cut_trainer_pid": 5771,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 11846,
+    "gpu_utilization_percent": 97,
+    "gpu_memory_mib": 3479,
+    "gpu_power_watts": 228.73
+  },
+  "decision": "decisions/DEC-20260903-5090B-FUTURE-LANE-PROGRESS-WATCH.md"
+}

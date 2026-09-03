@@ -125,6 +125,18 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json",
       "decision": "decisions/DEC-20260903-5090B-LIVE-PROGRESS-SENTINELS.md"
     },
+    "5090b_future_lane_progress_sentinels": {
+      "status": "MATCHED_PLAIN_AND_DCLGAN_WATCHES_ARMED_WAITING_FOR_TRAINERS",
+      "matched_plain_watch_pid": 140048,
+      "dclgan_watch_pid": 140049,
+      "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
+      "existing_training_processes_changed": false,
+      "successor_order_changed": false,
+      "paired_metric_control": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json",
+      "decision": "decisions/DEC-20260903-5090B-FUTURE-LANE-PROGRESS-WATCH.md"
+    },
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 90, "latest_observed_updates": 769770, "latest_epoch_seconds": 1264.63321018219, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 74, "latest_observed_updates": 632922, "latest_epoch_seconds": 1513.2630474567413, "projected_completion": "2026-09-06T02:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039},

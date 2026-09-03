@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T19:03:35+08:00",
+  "captured_at": "2026-09-03T19:11:01+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -134,7 +134,9 @@
       "4090A_registry_review_successor": 2349694,
       "5090A_stcgr_live_progress_sentinel": 436478,
       "5090B_cut_live_progress_sentinel": 139039,
-      "5090B_cyclegan_live_progress_sentinel": 138626
+      "5090B_cyclegan_live_progress_sentinel": 138626,
+      "5090B_future_matched_plain_progress_sentinel": 140048,
+      "5090B_future_dclgan_progress_sentinel": 140049
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -157,7 +159,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PROGRESS_SENTINEL_DEPLOYED_20260903T184318.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json",
-      "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json"
+      "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json",
+      "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json"
     ]
   },
   "ddsb_source_watch": {
