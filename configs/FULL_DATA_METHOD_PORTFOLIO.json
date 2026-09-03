@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T09:55:46+08:00",
+  "captured_at": "2026-09-03T10:11:04+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -54,7 +54,7 @@
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
       "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "scientific_role": "new evidence-derived stratified bridge-time estimator",
-      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T092436.json",
+      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T101104.json",
       "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json"
     },
     "amtnc": {
