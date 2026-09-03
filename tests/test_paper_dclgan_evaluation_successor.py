@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -167,3 +168,30 @@ def test_dclgan_result_is_absolute_fixed_e200_not_matched_delta(tmp_path: Path) 
     assert result["terminal"]["epoch"] == 200
     assert result["best_checkpoint_selection"] is False
     assert result["confirmation20_opened"] is False
+
+
+def test_frozen_adapter_git_identity_is_not_inherited_from_control_checkout(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    adapter_repo = tmp_path / "adapter"
+    source = adapter_repo / "operations" / "paper_aio_dclgan_adapter.py"
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        "from pathlib import Path\n"
+        "ROOT = Path(__file__).resolve().parents[1]\n"
+        "git_commit = lambda: 'ambient-control-commit'\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(evaluator, "git", lambda repo, *args: "frozen-adapter-commit")
+    name = "_final_unsb_frozen_dclgan_adapter"
+    previous = sys.modules.pop(name, None)
+    try:
+        module = evaluator.load_frozen_adapter(adapter_repo)
+        assert module.git_commit() == "frozen-adapter-commit"
+        assert module._final_unsb_adapter_git_identity_source == str(
+            adapter_repo.resolve()
+        )
+    finally:
+        sys.modules.pop(name, None)
+        if previous is not None:
+            sys.modules[name] = previous

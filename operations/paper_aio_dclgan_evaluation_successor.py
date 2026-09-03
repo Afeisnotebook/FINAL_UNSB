@@ -186,6 +186,17 @@ def load_frozen_adapter(adapter_repo: Path):
     specification.loader.exec_module(module)
     if Path(module.ROOT).resolve() != adapter_repo:
         raise RuntimeError("frozen DCLGAN adapter resolved a different repository")
+    # The frozen adapter imports ``git_commit`` from its own paper protocol.
+    # When it is loaded into a newer evaluation-control process, that protocol
+    # module may already be cached from the control checkout.  Without this
+    # explicit source binding, the adapter then reports the control commit and
+    # rejects a checkpoint whose metadata correctly names the frozen adapter
+    # commit.  Bind only the identity helper to the checkout that supplied the
+    # already hash-verified adapter source; model and evaluation semantics are
+    # unchanged.
+    adapter_commit = git(adapter_repo, "rev-parse", "HEAD")
+    module.git_commit = lambda commit=adapter_commit: commit
+    module._final_unsb_adapter_git_identity_source = str(adapter_repo)
     return module
 
 

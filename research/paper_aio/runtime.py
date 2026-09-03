@@ -415,7 +415,7 @@ def optimizer_step(model, spec: LaneSpec, primary: SerializableDataStream, secon
     first = primary.next()
     if spec.family == "unsb":
         model.set_input(first, secondary.next())
-    elif spec.id in ("cyclegan", "cut"):
+    elif spec.id in ("cyclegan", "cut", "dclgan"):
         model.set_input(first)
     else:
         raise RuntimeError(f"no optimizer adapter for {spec.id}")

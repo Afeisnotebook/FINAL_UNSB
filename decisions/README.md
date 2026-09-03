@@ -227,3 +227,7 @@ authorize compute.
 69. `DEC-20260903-DCLGAN-LONG-WAIT-SUCCESSOR-AUDIT.md`：审计最长级联DCLGAN后继的
     不可变合同、5项源码hash、官方上游、manifest、export和health链；当前部署严格且健康，
     无需重启，并补充matched-plain v2终态兼容及未来performance-read fail-closed测试。
+70. `DEC-20260903-DCLGAN-NONBLOCKING-PAPER-ADDENDUM.md`：修复DCLGAN固定e200结果不会进入
+    最终论文组合的交付缺口；新增非阻塞addendum，在核心组合不等待DCLGAN的前提下补齐
+    DCLGAN轨迹、e200复杂度和增强组合。真实部署等待未来dynamic core output路径冻结，
+    不绑定已被5090A plain取消所取代的旧交付链。

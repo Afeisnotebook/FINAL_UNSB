@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-paper-delivery-completion-matrix-v1",
+  "captured_at": "2026-09-03T16:05:00+08:00",
+  "status": "CORE_RUNNING_DCLGAN_NONBLOCKING_ADDENDUM_CODE_READY",
+  "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
+  "core_completion_path": [
+    {
+      "id": "full_training",
+      "status": "running",
+      "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
+      "proof": "source-bound e200 export sets"
+    },
+    {
+      "id": "legal_matched_control",
+      "status": "queued_after_5090B_cut",
+      "requires": ["5090B exact 2000-update runtime twin", "fresh-e0 5090B matched plain e200", "reviewed Git runtime relations"],
+      "proof": "runtime receipt plus committed relation registry",
+      "paired_metrics_used_for_release": false
+    },
+    {
+      "id": "dynamic_unified_evaluation",
+      "status": "code_ready_waiting_for_relation_admission",
+      "requires": ["five fixed epochs", "discovery80 at e200", "five e200 CRN bundles", "LPIPS", "read-only checkpoint rehash"],
+      "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json"
+    },
+    {
+      "id": "algorithm_dispositions",
+      "status": "durable_waiters_exist_but_stcgr_legacy_control_requires_dynamic_replacement",
+      "requires": ["AM-TNC matched 4090A plain", "ST-CGR reviewed legal plain relation", "e150/e175/e200"],
+      "proof": "hash-bound algorithm disposition receipts"
+    },
+    {
+      "id": "core_final_portfolio",
+      "status": "code_ready_dynamic_successor_not_yet_deployed",
+      "requires": ["first-wave result", "AM-TNC disposition", "ST-CGR disposition", "six fixed complexity profiles"],
+      "proof": "PAPER_ALGORITHM_PORTFOLIO.json",
+      "blocks_confirmation": true
+    }
+  ],
+  "nonblocking_extensions": [
+    {
+      "id": "dclgan",
+      "status": "training_queued_evaluation_waiter_deployed_portfolio_addendum_code_ready",
+      "critical_path": false,
+      "reason": "DCLGAN waits behind 5090B matched plain and must not delay the earlier core portfolio",
+      "outputs": ["DCLGAN_PAPER_RESULT.json", "complexity/dclgan.json", "PAPER_EXTERNAL_BASELINE_ADDENDUM.json", "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"],
+      "deployment_gate": "deploy after the future dynamic core final-delivery output path is frozen",
+      "implementation": "operations/paper_aio_dclgan_portfolio_addendum_successor.py"
+    },
+    {
+      "id": "distribution_metrics",
+      "status": "implemented_not_scheduled_pre_freeze",
+      "critical_path": false,
+      "gate": "explicit committed algorithm-and-baseline freeze",
+      "metrics": ["macro-domain KID", "pooled FID"]
+    },
+    {
+      "id": "higher_resolution_inference",
+      "status": "supplementary_not_implemented",
+      "critical_path": false,
+      "gate": "algorithm and baseline freeze",
+      "scope": "fixed e200 checkpoint inference only; no retraining or selection"
+    },
+    {
+      "id": "confirmation20",
+      "status": "sealed",
+      "critical_path": false,
+      "gate": "all algorithms, baselines, evaluation protocol and claims explicitly frozen",
+      "open_count_allowed": 1
+    }
+  ],
+  "known_completion_risks": [
+    "5090A plain cancellation requires the reviewed 5090B control relation before Proposal or ST-CGR matched deltas",
+    "future dynamic unified and final-delivery successors cannot be deployed before the real 5090B runtime receipt is admitted",
+    "DCLGAN capacity must extend beyond the 5090B matched-plain chain",
+    "5090C and 5090A lease horizons must cover their projected e200 plus export"
+  ],
+  "scientific_boundaries": {
+    "intermediate_performance_controls_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "dclgan_blocks_core_delivery": false
+  }
+}
