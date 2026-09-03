@@ -3,6 +3,21 @@
   "captured_at": "2026-09-03T08:30:47+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
+  "protocol_implementation_audit": {
+    "captured_at": "2026-09-03T08:54:41+08:00",
+    "status": "CURRENT_FROZEN_LEGACY_OFFSET_ACCEPTED_FUTURE_FRESH_E0_FIXED",
+    "current_unsb_family_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary_and_secondary",
+    "current_cut_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary",
+    "current_cyclegan_policy": "no_data_DDI_no_stream_offset",
+    "full_e200_endpoint_substitution_fraction_per_affected_stream": 5.846486612884368e-7,
+    "current_training_restart_required": false,
+    "future_fix_commit": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
+    "future_protocol_fingerprint": "4cb394ea4b41cb546c38448173e96ee76be72f88eb602f4247bd200288cf9564",
+    "future_and_legacy_runtime_cohorts_interchangeable": false,
+    "cyclegan_paper_label": "CycleGAN (official-loss, controlled shared backbone)",
+    "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
+    "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
+  },
   "methods": {
     "proposal": {
       "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",

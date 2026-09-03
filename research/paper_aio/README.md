@@ -86,6 +86,29 @@ from unified evaluation without weakening candidate-code verification.
 Git contains protocol, code, compact receipts and decisions only. Views,
 checkpoints and full logs stay outside the repository.
 
+## Initialization-batch exposure policy
+
+For a newly created e0, the runner saves sampler state immediately before
+data-dependent initialization while keeping model and global RNG state after
+initialization. Restoring e0 therefore regenerates the identical DDI batch as
+optimizer update one, matching the reference CUT/UNSB loop. The e0 metadata
+must contain
+`reuse_data_dependent_initialization_batch_for_first_optimizer_update`.
+
+Paper runs frozen before commit `f973c68` use the audited legacy policy in
+which the affected stream begins optimization at position two. Those runs are
+not restarted: the complete e200 sequence differs at one endpoint sample per
+affected stream, and exact comparisons remain confined to peers with the same
+policy. A new-policy e0 always requires a new output root and a new exact
+runtime relation; it must never be inserted into a legacy-offset cohort.
+
+CUT in the current paper runner is formula/update-equivalent to pinned
+upstream commit `b3ac297708dfb6f7589d04662277e53c0d579c27`. CycleGAN is an
+official-loss controlled-backbone baseline: its losses, image pool, update
+order and schedule follow upstream, while its generator/discriminator use the
+shared antialiased Xavier CUT/UNSB backbone. Reports must label that boundary
+instead of calling it a verbatim official CycleGAN reproduction.
+
 ## Evidence-locked new candidates
 
 A route-1 candidate is not another static lane name.  After a complete

@@ -12,6 +12,9 @@
 - terminal low-variance/singular-drift假设未通过跨算法/跨域门，所以没有加入终端修复。
 - time-stratum梯度异方差及Proposal/HJCGR父状态审计支持ST-CGR；small25 e200、全量
   candidate lock、跨代码runtime和独立authorization均已通过，当前运行full-data e200。
+- 当前冻结e0存在已审核的一sample stream相位偏移：UNSB family的A/B及CUT的A受影响，
+  CycleGAN不受影响。同legacy cohort比较不因此失效，当前长训不重启；未来fresh e0已在
+  `f973c68`修复并形成必须重新验twin的新cohort。
 
 ## 当前在线任务
 
@@ -43,6 +46,8 @@
    的Proposal matched-plain继任器。
 5. 5090B的runtime receipt必须先被只读转运、验证并生成review-only关系候选；只有人工
    审阅和Git提交才能把它加入comparison registry。
+6. 现有全部后继保持冻结旧checkout，不得自动采用`f973c68`的新e0策略；论文外部基线
+   将CUT的一sample暴露偏移与CycleGAN的“官方损失、受控共享骨干”边界写入脚注。
 
 ## 第一波完成后的顺序
 

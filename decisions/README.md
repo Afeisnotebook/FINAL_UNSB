@@ -154,3 +154,7 @@ authorize compute.
 47. `DEC-20260903-DURABLE-RELATION-REGISTRY-REVIEW.md`：Proposal与ST-CGR关系候选生成后
     的机械Git审核不再依赖人工上线；持久successor等待两份精确完成状态并自动生成review
     proposal，但继续禁止修改tracked registry、授权delta或启动评估，保留Codex显式准入。
+48. `DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md`：当前冻结e0在DDI后保存sampler，
+    使UNSB/CUT的训练暴露错开一个stream位置；现有同cohort比较继续有效且不重启，论文
+    必须披露有界偏差。未来fresh e0从DDI前保存sampler并形成不可与legacy混用的新cohort；
+    同时把CycleGAN准确标为官方损失、受控共享骨干，而非逐字官方实现。

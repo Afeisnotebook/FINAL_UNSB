@@ -30,7 +30,22 @@
 - 外部 CycleGAN/CUT 保持各自官方损失和 `100 constant + 100 linear decay`；
 - 不增大 batch、不梯度累积、不用中间指标改算法、不选择最佳 checkpoint。
 
-当前 full-paper 科学 checkout 固定为 commit
+### 2.1 当前冻结轨迹的初始化暴露边界
+
+2026-09-03源码与远端full-state审核确认：当前冻结checkout在DDI后才保存sampler，故
+UNSB family的A/B stream和CUT的A stream从位置2开始optimizer update；CycleGAN不从数据
+执行DDI，没有该偏移。每条受影响stream在完整1,710,600 updates中只发生一个端点sample
+替换，但每个记录epoch不再能严格称为一份完整permutation。当前健康轨迹不重启；相同
+legacy偏移且通过runtime证明的UNSB cohort内部仍可matched，外部基线只报告绝对结果并在
+论文披露偏差。
+
+commit `f973c68ed71d5e2ad481f90a4012b4a4978127f0`已为未来fresh e0改为保存DDI前
+sampler state、DDI后模型/RNG。新策略的协议指纹为
+`4cb394ea4b41cb546c38448173e96ee76be72f88eb602f4247bd200288cf9564`；它必须使用新
+output root，未经新exact twin不得与当前legacy-offset cohort混合。所有已武装的当前后继
+继续使用各自冻结checkout，不能因控制仓更新而静默换策略。
+
+当前在飞full-paper科学checkout固定为commit
 `31f2fb8badaf8293a2ed2744963035575df7d7a6`，协议指纹为
 `68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41`。
 任何新编排代码只能等待、验门和精确恢复，不能改变正在跑的转移。
@@ -93,7 +108,9 @@ evaluator fingerprint复算并锁成`UNIFIED_EVALUATION_COHORT`后，第一波�
 ## 6. 外部基线真实性
 
 - CUT已绑定官方上游语义并通过full-state门；
-- CycleGAN使用仓库内官方损失适配器并在CUT后重新执行宿主门；
+- CycleGAN使用官方损失、image pool、G→D更新顺序和官方`100 constant + 100 linear
+  decay`日程，但使用项目共享的CUT/UNSB antialiased、Xavier初始化骨干。论文必须标为
+  `CycleGAN (official-loss, controlled shared backbone)`，不能称为逐字官方复现；
 - DDSB是直接当代比较，但截至2026-09-02未找到作者公开源码。正文/补充不足以唯一恢复
   全部网络、更新顺序、stop-gradient和full-state语义，因此状态固定为
   `reproduction_incomplete`，不得用猜测实现冒充DDSB结果；

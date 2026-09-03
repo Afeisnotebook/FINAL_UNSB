@@ -9,6 +9,22 @@
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
+    "initialization_exposure_and_external_baseline_audit": {
+      "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
+      "current_unsb_family_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary_and_secondary",
+      "current_cut_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary",
+      "current_cyclegan_policy": "no_data_DDI_no_stream_offset",
+      "endpoint_sample_substitutions_per_affected_stream_at_e200": 1,
+      "substitution_fraction_per_affected_stream": 5.846486612884368e-7,
+      "current_training_restart_required": false,
+      "current_matched_cohorts_invalidated": false,
+      "future_fix_commit": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
+      "future_protocol_fingerprint": "4cb394ea4b41cb546c38448173e96ee76be72f88eb602f4247bd200288cf9564",
+      "future_and_legacy_runtime_cohorts_interchangeable": false,
+      "cyclegan_semantics": "official_loss_controlled_shared_antialiased_xavier_backbone_not_verbatim_official_backbone",
+      "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
+      "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
+    },
     "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
@@ -603,7 +619,7 @@
     "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
+  "development_head_at_state_write": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

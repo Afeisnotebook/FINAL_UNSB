@@ -1,0 +1,82 @@
+{
+  "schema": "final-unsb-paper-initialization-exposure-and-external-baseline-audit-v1",
+  "captured_at": "2026-09-03T08:54:41+08:00",
+  "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
+  "finding": {
+    "legacy_policy": "sampler_state_saved_after_data_dependent_initialization",
+    "effect": "first optimizer update consumes stream position 2 rather than reusing position 1",
+    "updates_per_full_lane": 1710600,
+    "endpoint_sample_substitutions_per_affected_stream": 1,
+    "substitution_fraction": 5.846486612884368e-7,
+    "substitution_percent": 0.00005846486612884368,
+    "optimizer_update_count_changed": false,
+    "algorithm_update_semantics_changed": false,
+    "strict_single_permutation_per_recorded_epoch": false
+  },
+  "remote_e0_sampler_states": {
+    "4090A_plain": {"primary": {"epoch": 1, "cursor": 1}, "secondary": {"epoch": 1, "cursor": 1}},
+    "5090A_parent_plain": {"primary": {"epoch": 1, "cursor": 1}, "secondary": {"epoch": 1, "cursor": 1}},
+    "5090A_stcgr": {"primary": {"epoch": 1, "cursor": 1}, "secondary": {"epoch": 1, "cursor": 1}},
+    "5090C_proposal": {"primary": {"epoch": 1, "cursor": 1}, "secondary": {"epoch": 1, "cursor": 1}},
+    "5090B_cut": {"primary": {"epoch": 1, "cursor": 1}, "secondary": {"epoch": 0, "cursor": 0}},
+    "5090B_cyclegan": {"primary": {"epoch": 0, "cursor": 0}, "secondary": {"epoch": 0, "cursor": 0}}
+  },
+  "live_full_state_consistency": {
+    "4090A_plain": {"completed_epoch": 65, "step": 555945, "primary": {"epoch": 66, "cursor": 1}, "secondary": {"epoch": 66, "cursor": 1}, "scheduler_last_epoch": 65, "lr": 0.0001},
+    "5090A_stcgr": {"completed_epoch": 6, "step": 51318, "primary": {"epoch": 7, "cursor": 1}, "secondary": {"epoch": 7, "cursor": 1}, "scheduler_last_epoch": 6, "lr": 0.0001},
+    "5090B_cut": {"completed_epoch": 52, "step": 444756, "primary": {"epoch": 53, "cursor": 1}, "scheduler_last_epoch": 52, "lr": 0.0002},
+    "5090B_cyclegan": {"completed_epoch": 30, "step": 256590, "primary": {"epoch": 30, "cursor": 8553}, "scheduler_last_epoch": 30, "lr": 0.0002},
+    "5090C_proposal": {"completed_epoch": 9, "step": 76977, "primary": {"epoch": 10, "cursor": 1}, "secondary": {"epoch": 10, "cursor": 1}, "scheduler_last_epoch": 9, "lr": 0.0001}
+  },
+  "existing_engineering_gates": {
+    "4090A_plain_and_proposal_resume_1000_equals_500_plus_resume": true,
+    "4090A_evaluation_repeat_exact": true,
+    "5090B_cut_resume_and_evaluation_repeat_exact": true,
+    "5090B_cyclegan_resume_and_evaluation_repeat_exact": true,
+    "5090C_proposal_resume_and_evaluation_repeat_exact": true,
+    "5090C_to_5090A_plain_2000_update_runtime_twin_exact": true
+  },
+  "future_fix": {
+    "git_commit": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
+    "policy": "reuse_data_dependent_initialization_batch_for_first_optimizer_update",
+    "protocol_fingerprint": "4cb394ea4b41cb546c38448173e96ee76be72f88eb602f4247bd200288cf9564",
+    "sampler_snapshot": "before_DDI",
+    "model_and_global_rng_snapshot": "after_DDI",
+    "future_output_root_required": true,
+    "compatible_with_legacy_offset_cohort_without_new_exact_twin": false,
+    "targeted_tests_passed": 16
+  },
+  "external_baseline_semantics": {
+    "cut": {
+      "upstream_commit": "b3ac297708dfb6f7589d04662277e53c0d579c27",
+      "formula_and_update_order_equivalent": true,
+      "initialization_batch_reused_by_upstream": true,
+      "current_live_exposure_policy": "legacy_one_primary_stream_position_offset"
+    },
+    "cyclegan": {
+      "official_loss_and_update_order": true,
+      "official_image_pool": true,
+      "official_100_constant_100_linear_decay_schedule": true,
+      "verbatim_official_backbone": false,
+      "controlled_shared_backbone": "CUT_UNSB_antialiased_xavier",
+      "required_paper_label": "CycleGAN (official-loss, controlled shared backbone)",
+      "current_live_exposure_policy": "no_stream_offset"
+    }
+  },
+  "adjudication": {
+    "restart_current_training": false,
+    "change_current_scheduler_or_lane_queue": false,
+    "current_within_cohort_matched_comparisons_remain_eligible_after_e200_control": true,
+    "future_fixed_and_current_legacy_cohorts_may_be_merged": false,
+    "current_external_results_require_protocol_footnote": true,
+    "reason": "bounded one-sample exposure-index deviation is shared inside current matched UNSB cohorts; restarting healthy million-update trajectories would cost the critical path without repairing an algorithmic or resume defect"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false,
+    "new_experiment_started": false
+  }
+}
