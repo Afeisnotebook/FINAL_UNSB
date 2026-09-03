@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T18:25:15+08:00",
+  "state_snapshot_time": "2026-09-03T18:43:18+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -171,6 +171,9 @@
         "telemetry_adjudication": "E13_LIVE_PROCESS_STALL_CONFIRMED_CHILD_ONLY_TERMINATED_EXACT_E12_RESUME_RESTORED_GPU_AND_INPUT_PROGRESS",
         "supervisor_consecutive_failures": 1,
         "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
+        "live_progress_sentinel_pid": 435350,
+        "live_progress_sentinel_status": "HEALTHY_WITHIN_EPOCH_BOUND_ZERO_ALERTS",
+        "live_progress_sentinel_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PROGRESS_SENTINEL_DEPLOYED_20260903T184318.json",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
         "latest_live_audit": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",

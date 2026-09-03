@@ -17,3 +17,9 @@ milestone 阶段和进程证据后，只终止卡死 child，再由既有 superv
 单元测试覆盖 child 重启时钟、过期但仍推进、纯计算无 I/O 停滞、近期 heartbeat 以及
 Linux stat 解析。部署到 5090A 后应使用 7200 秒阈值、30 秒采样与 60 秒轮询，且不得
 替换或重启现有 ST-CGR supervisor/trainer。
+
+实现 commit `88e68d6` 的全量测试为 `637 passed`。服务器直连 GitHub 首次因 TLS 中断
+失败，因此使用校验通过的完整历史 Git bundle 建立固定 checkout；这没有触碰训练仓。
+哨兵 PID `435350`、PPID 1。首个真实 30 秒探针识别当前 trainer PID `431032`，用新 child
+年龄把旧 e12 heartbeat 的 9406 秒折算为 1712 秒有效年龄，期间读取字符增加约 45.9 MB、
+实际块读取增加约 26.4 MB，状态为 `HEALTHY_WITHIN_EPOCH_BOUND`、零告警。

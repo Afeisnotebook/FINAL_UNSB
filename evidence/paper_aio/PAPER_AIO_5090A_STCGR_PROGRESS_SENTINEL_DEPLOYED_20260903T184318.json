@@ -1,0 +1,55 @@
+{
+  "schema": "final-unsb-paper-live-progress-sentinel-deployment-v1",
+  "captured_at": "2026-09-03T18:43:18+08:00",
+  "status": "DEPLOYED_HEALTHY_DIAGNOSTIC_ONLY",
+  "host_label": "5090A",
+  "source": {
+    "git_commit": "88e68d606cc91eb9b10e0e7e9ea3613fb36dd832",
+    "checkout": "/root/autodl-tmp/FINAL_UNSB_PROGRESS_WATCH_88e68d6_BUNDLE",
+    "script": "operations/paper_aio_progress_watch.py",
+    "script_sha256": "d66ce2d3dbe1f5df411a1d1c0d8323ba262dc0b10a851c4fb3d76398e7e48579",
+    "transfer": "verified complete-history Git bundle after remote GitHub TLS clone failed"
+  },
+  "process": {
+    "pid": 435350,
+    "ppid": 1,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090A_88e68d6",
+    "supervisor_pid_watched": 336345,
+    "dynamic_trainer_pid_observed": 431032,
+    "stall_seconds": 7200,
+    "sample_seconds": 30,
+    "poll_seconds": 60,
+    "timeout_hours": 600
+  },
+  "first_probe": {
+    "status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "alert_count": 0,
+    "heartbeat_age_seconds": 9406.283808708191,
+    "effective_progress_age_seconds": 1711.9500000476837,
+    "checkpoint_step": 102636,
+    "io_delta_rchar": 45926305,
+    "io_delta_read_bytes": 26353664,
+    "cpu_ticks_delta": 11850,
+    "interpretation": "the old e12 heartbeat is correctly discounted by the exact-resume child start, while the resumed child demonstrates real input progress"
+  },
+  "non_interference": {
+    "signals_processes": false,
+    "launches_training": false,
+    "changes_checkpoint": false,
+    "stcgr_supervisor_unchanged": true,
+    "stcgr_trainer_unchanged": true,
+    "plain_5090a_started": false,
+    "other_hosts_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "verification": {
+    "unit_tests": "5 passed",
+    "full_repository_tests": "637 passed"
+  },
+  "decision": "decisions/DEC-20260903-STCGR-LIVE-PROGRESS-SENTINEL.md"
+}
