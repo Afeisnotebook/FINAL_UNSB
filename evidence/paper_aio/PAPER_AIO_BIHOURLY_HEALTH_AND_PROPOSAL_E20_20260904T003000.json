@@ -1,0 +1,127 @@
+{
+  "schema": "final-unsb-paper-bihourly-health-and-proposal-e20-v1",
+  "captured_at": "2026-09-04T00:30:00+08:00",
+  "decision": "ACCEPT_PROPOSAL_E20_FIXED_MILESTONE_AND_KEEP_ALL_SCHEDULES_UNCHANGED",
+  "milestone_event": {
+    "host": "5090C",
+    "lane": "proposal",
+    "physical_epoch_completed": 20,
+    "step": 171060,
+    "target_steps": 1710600,
+    "checkpoint_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/lanes/proposal/milestones/e020.pt",
+    "checkpoint_bytes": 201481515,
+    "checkpoint_sha256_from_sidecar": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
+    "checkpoint_sha256_recomputed": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
+    "scientific_state_sha256": "1ae883eef28c9758fc2c1e2407c948959d1fac185f71244bd7049e50e36b5c53",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "metric_artifact": {
+      "path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/lanes/proposal/metrics/e020.json",
+      "bytes": 134815,
+      "sha256": "cf5a868eaeb575c880e25fa4d80ee10e59527c7f33e064587cdcc4ac73ba7678",
+      "content_parsed": false,
+      "performance_values_read": false
+    },
+    "source_export": {
+      "incremental_exporter_pid": 29411,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "available_epochs": [],
+      "interpretation": "expected_e20_remains_source_side_because_target_blind_terminal_audit_release_is_fixed_to_e100_e150_e200"
+    },
+    "continued_after_milestone": {
+      "status": "CHILD_RUNNING",
+      "latest_completed_data_epoch": 21,
+      "latest_completed_updates": 179613,
+      "latest_epoch_seconds": 4662.0057735443115,
+      "latest_full_state_sha256": "49bdf4125d29de2a19b3ff8a9025efb4dfdb401c6891372bf54444a205b4d800",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "health_watcher_pid": 13587,
+      "progress_watcher_pid": 89015,
+      "health_status": "HEALTHY",
+      "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "alert_count": 0
+    }
+  },
+  "other_hosts": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 109,
+      "updates": 932277,
+      "epoch_seconds": 1275.1538722515106,
+      "full_state_sha256": "8cc5c2f3a29c8916c9b58a300beb2c95d484184129ecc9c5dd94c7c6b80c915b",
+      "successor_and_watchers_alive": true
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "data_epoch": 16,
+      "updates": 136848,
+      "epoch_seconds": 5252.522402048111,
+      "full_state_sha256": "a10222e6593e59064764a675c6ffcc856285dd0075cc6068066c78a73b633481",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 87,
+      "updates": 744111,
+      "epoch_seconds": 1657.0343952178955,
+      "full_state_sha256": "f556623417d924eb4078fc8b53dba3d833e75623860d0f4feede9539985e8530",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 54,
+      "updates": 461862,
+      "epoch_seconds": 2333.545645236969,
+      "full_state_sha256": "0da8b566a89fa403552edb915c23d879086d1c8f4e0290c3a25670fdc1448012",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_control": {
+      "guard_health_pid": 159190,
+      "guard_health_status": "HEALTHY",
+      "guard_alert_count": 0,
+      "all_future_successor_and_watcher_pids_alive": true,
+      "free_disk_gib": 230
+    },
+    "local_GTX1660_CPU": {
+      "status": "HEALTHY_WAITING_FOR_FROZEN_IMPORTS",
+      "health_alert_count": 0,
+      "relay_pids_alive": true,
+      "terminal_audit_and_pathology_control_chains_alive": true,
+      "ddsb_authoritative_source_watch_alive": true
+    }
+  },
+  "projected_completions_from_latest_completed_epoch": {
+    "calculation_anchor": "2026-09-04T00:30:00+08:00",
+    "4090A_plain": "2026-09-05T08:43:59+08:00",
+    "5090A_stcgr": "2026-09-15T04:57:44+08:00",
+    "5090B_cut": "2026-09-06T04:30:45+08:00",
+    "5090B_cyclegan": "2026-09-07T23:08:18+08:00",
+    "5090C_proposal": "2026-09-13T16:18:19+08:00",
+    "5090A_declared_lease_headroom_hours": 19.0378,
+    "5090C_declared_lease_headroom_hours": 31.6947,
+    "projection_policy": "rough_single_latest_epoch_not_a_scientific_control_signal"
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "git_update_reason": "fixed_proposal_e20_milestone_crossed"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  },
+  "decision_record": "decisions/DEC-20260904-PROPOSAL-E20-FIXED-MILESTONE.md"
+}

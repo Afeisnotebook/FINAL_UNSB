@@ -259,3 +259,5 @@ authorize compute.
     用source-bound外层guard收养原supervisor并提供同宿主exact-resume恢复；两条guard零重启、
     health零告警。全宿主本地监控完备后，Codex Goal改为每两小时轻量巡检，异常和固定里程碑
     仍升级为完整审计。
+79. `DEC-20260904-PROPOSAL-E20-FIXED-MILESTONE.md`：验收5090C Proposal全量e20完整checkpoint
+    与固定评估文件的hash闭环；未读取性能值，训练继续到e21，所有宿主健康且调度不变。
