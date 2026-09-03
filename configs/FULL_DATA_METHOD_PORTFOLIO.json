@@ -1,8 +1,14 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T17:57:26+08:00",
+  "captured_at": "2026-09-03T18:25:15+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
+  "paper_baseline_portfolio": {
+    "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS",
+    "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
+    "decision": "decisions/DEC-20260903-PAPER-BASELINE-PORTFOLIO.md",
+    "current_gpu_queue_changed": false
+  },
   "protocol_implementation_audit": {
     "captured_at": "2026-09-03T08:54:41+08:00",
     "status": "CURRENT_FROZEN_LEGACY_OFFSET_ACCEPTED_FUTURE_FRESH_E0_FIXED",

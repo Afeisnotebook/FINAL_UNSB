@@ -1,0 +1,137 @@
+{
+  "schema": "final-unsb-paper-baseline-portfolio-v1",
+  "captured_at": "2026-09-03T18:25:15+08:00",
+  "status": "CORE_MAIN_TABLE_RUNNING_EXTENSIONS_FAIL_CLOSED_OR_NONBLOCKING",
+  "purpose": "Freeze which results are direct six-domain All-in-One comparisons, which are contextual subset results, and which are paired ceilings before any performance values are used.",
+  "core_controlled_main_table": [
+    {
+      "id": "input",
+      "role": "no-restoration lower reference",
+      "training_status": "not_applicable",
+      "result_status": "evaluation_interface_ready"
+    },
+    {
+      "id": "cyclegan",
+      "paper_label": "CycleGAN (official-loss, controlled shared backbone)",
+      "role": "general unpaired translation baseline",
+      "training_status": "running_5090B",
+      "comparison_rule": "fixed e200 absolute result; not a matched delta against UNSB"
+    },
+    {
+      "id": "cut",
+      "paper_label": "CUT (official-loss, controlled exposure reproduction)",
+      "role": "contrastive unpaired translation baseline",
+      "training_status": "running_5090B",
+      "comparison_rule": "fixed e200 absolute result; not a matched delta against UNSB"
+    },
+    {
+      "id": "plain_unsb",
+      "role": "canonical method-family control",
+      "training_status": "running_4090A",
+      "comparison_rule": "matched control only for methods whose runtime relation is admitted"
+    },
+    {
+      "id": "proposal_only",
+      "role": "conditional G/F variance-reduction algorithm",
+      "training_status": "running_5090C",
+      "comparison_rule": "delta withheld until a reviewed legal matched-plain relation exists"
+    },
+    {
+      "id": "stcgr",
+      "role": "stratified bridge-time conditional estimator",
+      "training_status": "running_5090A",
+      "comparison_rule": "absolute trajectory now; delta withheld until a reviewed legal matched-plain relation exists"
+    },
+    {
+      "id": "amtnc",
+      "role": "independent Adam-metric optimization geometry",
+      "training_status": "durably_queued_after_4090A_plain",
+      "comparison_rule": "same-host matched 4090A plain"
+    }
+  ],
+  "direct_external_extensions": [
+    {
+      "id": "ddsb",
+      "role": "contemporary degradation-aware Schrodinger-bridge comparator",
+      "status": "reproduction_incomplete_fail_closed",
+      "main_table_number_allowed": false,
+      "release_gate": "authoritative public source plus formula, optimizer-order, full-state resume and evaluation lock",
+      "paper_page": "https://papers.neurips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+      "interpretation": "missing reproduction is not a negative DDSB result"
+    },
+    {
+      "id": "dclgan",
+      "paper_label": "DCLGAN (official-source, controlled exposure reproduction)",
+      "role": "general unpaired dual-contrastive comparator",
+      "status": "source_bound_full_state_gate_passed_durably_queued_5090B",
+      "critical_path": false,
+      "source": "https://github.com/JunlinHan/DCLGAN",
+      "source_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d"
+    },
+    {
+      "id": "negcut",
+      "role": "hard-negative contrastive unpaired comparator",
+      "status": "deferred_engineering_and_license_not_falsified",
+      "main_table_number_allowed": false,
+      "source": "https://github.com/WeilunWang/NEGCUT",
+      "source_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9"
+    }
+  ],
+  "domain_specific_context": [
+    {
+      "id": "dehazesb",
+      "paper_label": "DehazeSB",
+      "role": "unpaired Schrodinger-bridge dehazing comparator",
+      "status": "author_source_identified_not_engineering_gated_not_scheduled",
+      "source": "https://github.com/ywxjm/DehazeSB",
+      "source_commit": "d1632dcc38d507a0a3ef6c95a62377b830353cd2",
+      "venue_claim_from_author_readme": "ICCV 2025",
+      "reporting_rule": "eligible only for an applicable dehazing-domain table after a source-bound protocol gate; never impute missing domains or place a partial-domain macro in the six-domain main table"
+    },
+    {
+      "id": "other_domain_specific_sb",
+      "role": "deraining or other single-degradation Schrodinger-bridge context",
+      "status": "citation_candidates_not_source_audited",
+      "reporting_rule": "do not name, train or report a number until paper identity, author source and dataset applicability are locked"
+    }
+  ],
+  "paired_ceiling_block": [
+    {
+      "id": "restorevar",
+      "paper_label": "RestoreVAR",
+      "role": "paired All-in-One restoration ceiling, not an unpaired competitor",
+      "status": "author_source_identified_inference_not_gated_not_scheduled",
+      "source": "https://github.com/sudraj2002/RestoreVAR",
+      "source_commit": "4ffe8880ab5af5bc4469848bceba7ecbbe0aadf5",
+      "openreview_forum": "https://openreview.net/forum?id=yvXtCn2zfz",
+      "venue_claim_from_author_readme": "ICLR 2026",
+      "reporting_rule": "separate ceiling block with paired/pretrained disclosure; no delta against unpaired methods"
+    },
+    {
+      "id": "promptir",
+      "paper_label": "PromptIR",
+      "role": "paired prompt-based All-in-One restoration ceiling, not an unpaired competitor",
+      "status": "author_source_identified_inference_not_gated_not_scheduled",
+      "source": "https://github.com/va1shn9v/PromptIR",
+      "source_commit": "106159ab809101f2e25b6714195cd6fa9a938d36",
+      "venue_claim_from_author_readme": "NeurIPS 2023",
+      "reporting_rule": "separate ceiling block on compatible overlapping domains with paired/pretrained disclosure; no delta against unpaired methods"
+    }
+  ],
+  "priority_and_scheduling": {
+    "current_gpu_queue_changed": false,
+    "next_external_training_result": "dclgan_after_5090B_matched_plain",
+    "domain_specific_training_preempts_core": false,
+    "paired_ceiling_inference_preempts_core": false,
+    "reason": "The running and durably queued core paths already fill the evidence gaps needed for the controlled main table; contextual or ceiling methods require separate applicability gates and must not displace full-data algorithms."
+  },
+  "hard_reporting_rules": {
+    "main_table_checkpoint": "e200_only",
+    "best_checkpoint_selection": false,
+    "missing_baseline_number_fabricated": false,
+    "partial_domain_result_used_as_six_domain_macro": false,
+    "paired_method_called_unpaired_competitor": false,
+    "external_baseline_called_matched_without_runtime_identity": false,
+    "confirmation20_opened": false
+  }
+}

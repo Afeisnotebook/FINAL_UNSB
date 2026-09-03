@@ -39,6 +39,14 @@
   ],
   "nonblocking_extensions": [
     {
+      "id": "baseline_taxonomy",
+      "status": "frozen_before_performance_results",
+      "critical_path": false,
+      "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
+      "scope": "separate six-domain direct comparisons, domain-specific context and paired ceilings",
+      "current_gpu_queue_changed": false
+    },
+    {
       "id": "dclgan",
       "status": "training_queued_evaluation_waiter_deployed_portfolio_addendum_code_ready",
       "critical_path": false,

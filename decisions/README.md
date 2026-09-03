@@ -239,3 +239,6 @@ authorize compute.
     confirmation20控制链；DCLGAN接入冻结后KID/FID，全部lane必须先形成同runtime cohort，
     再经独立Git审批、原子claim和同session故障恢复打开一次。完成后session永久关闭；当前
     仅提交接口和测试，未授权、未claim、未读取confirmation。
+73. `DEC-20260903-PAPER-BASELINE-PORTFOLIO.md`：在性能结果出现前冻结论文比较分层；核心
+    六域无配对表、DehazeSB等分域上下文以及RestoreVAR/PromptIR paired ceiling不得混表，
+    DDSB缺权威实现继续fail-closed，且本裁决不改变当前GPU队列。

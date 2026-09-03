@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T18:15:50+08:00",
+  "state_snapshot_time": "2026-09-03T18:25:15+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -9,6 +9,15 @@
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
+    "paper_baseline_portfolio": {
+      "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS",
+      "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
+      "decision": "decisions/DEC-20260903-PAPER-BASELINE-PORTFOLIO.md",
+      "core_table_scope": "six_domain_unpaired_direct_comparisons",
+      "domain_specific_and_paired_ceiling_separated": true,
+      "current_gpu_queue_changed": false,
+      "performance_values_read": false
+    },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
       "current_unsb_family_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary_and_secondary",
