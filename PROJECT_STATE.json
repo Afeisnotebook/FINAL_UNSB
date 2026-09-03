@@ -725,6 +725,16 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_LEASE_CRITICAL_PATH_REFRESH_20260903T143200.json"
     },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
+    "future_dynamic_control_integration_rehearsal": {
+      "status": "PASS_REAL_REGISTRY_SHAPE_TO_FUTURE_5090B_FINAL_DELIVERY",
+      "proposal_multi_relation_preserves_existing_relation": true,
+      "stcgr_cross_code_relation_reaches_final_late_three_gate": true,
+      "production_registry_modified": false,
+      "matched_delta_authorized": false,
+      "full_repository_tests_passed": 588,
+      "evidence": "evidence/paper_aio/PAPER_AIO_FUTURE_DYNAMIC_CONTROL_INTEGRATION_20260903T144212.json",
+      "decision": "decisions/DEC-20260903-FUTURE-DYNAMIC-CONTROL-INTEGRATION.md"
+    },
     "delivery_handoff_repair": {
       "status": "DYNAMIC_SOURCE_V3_HASH_CLOSURE_READY_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
       "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v3",

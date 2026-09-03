@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-future-dynamic-control-integration-v1",
+  "captured_at": "2026-09-03T14:42:12+08:00",
+  "base_commit": "18a3aeba3092e45a06efbae13c4485de50a8fd9e",
+  "test": "tests/test_paper_future_dynamic_control_integration.py",
+  "status": "PASS_FUTURE_5090B_CONTROL_REACHES_FINAL_DELIVERY_FOR_PROPOSAL_AND_STCGR",
+  "rehearsed_registry_transition": {
+    "current_proposal_relation_shape": "single_relation_dict_to_5090A",
+    "future_proposal_relation_shape": "preserved_old_relation_plus_reviewed_5090B_MATCHED_PLAIN_relation",
+    "future_stcgr_relation_shape": "reviewed_cross_code_candidate_to_parent_plus_parent_to_plain_relation",
+    "production_registry_modified": false
+  },
+  "validated_interfaces": [
+    "operations.paper_aio_relation_registry_review.validate_registry",
+    "operations.paper_aio_relation_registry_review.propose_registry",
+    "research.paper_aio.runtime_relation.runtime_pair_status",
+    "operations.paper_aio_final_delivery_successor._validated_control_relation"
+  ],
+  "results": {
+    "targeted_tests_passed": 1,
+    "full_repository_tests_passed": 588,
+    "git_diff_check_passed": true
+  },
+  "authorization_boundary": {
+    "real_5090b_runtime_receipt_required": true,
+    "real_relation_review_required": true,
+    "matched_delta_authorized": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "training_or_successor_changed": false
+  },
+  "decision": "KEEP_5090A_STCGR_ONLY_SCHEDULE_AND_FAIL_CLOSED_UNTIL_REAL_5090B_RELATIONS_EXIST"
+}
