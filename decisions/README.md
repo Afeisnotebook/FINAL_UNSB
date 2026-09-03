@@ -176,3 +176,7 @@ authorize compute.
 54. `DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md`：新增GPU UUID主键的宿主身份注册表与
     fail-closed接入门；三个AutoDL容器machine-id相同，不能单独作物理身份。`:44804`远端
     实跑返回已登记5090B并拒绝5090D长训身份，现有训练进程保持不变。
+55. `DEC-20260903-STCGR-INDEPENDENT-OPERATOR-AUDIT.md`：在full-data长训早期独立复核
+    ST-CGR公式、MRO执行、随机量来源、恢复证明和e7 live state。确认条件pre-Adam G/F
+    梯度无偏与相对iid双视图的PSD方差下降，但不扩大为Adam、完整game或PSNR保证；冻结
+    源码无需修改，5090A不重启并继续e200。

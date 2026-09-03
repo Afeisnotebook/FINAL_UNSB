@@ -1,0 +1,160 @@
+{
+  "schema": "final-unsb-paper-stcgr-independent-operator-semantic-audit-v1",
+  "captured_at": "2026-09-03T10:23:00+08:00",
+  "status": "PASS_NO_CHANGE_CONTINUE_E200",
+  "purpose": "independent formula-to-MRO-to-live-state review while full-data training is still early",
+  "north_star_relevance": "prevent an invalid long run without converting route one into threshold search or frozen-candidate validation",
+  "candidate_identity": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "training_host": "5090A",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "algorithm_fingerprint": "2e835b2a63ce6214b6d52d5bd0bf8524b4bde88d81ee5a7bcec38a2c2f67bf92",
+    "remote_checkout_clean": true,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c"
+  },
+  "frozen_source_sha256": {
+    "src/models/sb_model.py": "58ab0068a0acf165618b688a63950aa518b3e96e45c2a00bae05379778858bdd",
+    "src/models/route1/pcrsmg_ablation.py": "c21d63b1e29c359b24e3b1bc7e864a1090161d6023c1ef7f5a6e38eb1c7c4ea1",
+    "src/models/route1/stratified_time.py": "a71461d39371a24f84a3316219c6d6827e87f0944cee88cc8099e55643c28703",
+    "src/models/route1_stcgr_model.py": "9bf70e984ce48865e1b6513d6281959ea04520fb8adb39a119e9d60c148c8022"
+  },
+  "conditional_estimator": {
+    "conditioning": [
+      "current post-D/E parameter and optimizer state",
+      "one official image-proportional unpaired A/B batch"
+    ],
+    "time_support": [0, 1, 2, 3, 4],
+    "joint_time_law": "P(I1=i,I2=j)=1/[T(T-1)] for i!=j",
+    "both_replica_marginals": "exact Uniform{0,...,T-1}",
+    "committed_pre_adam_gradient": "(g(I1,xi1)+g(I2,xi2))/2",
+    "mean_identity": "E[ghat|post-D/E state,batch]=T^-1 sum_t E[g_t]",
+    "iid_pair_covariance": "Sigma_bar/2 + V_mu/2",
+    "without_replacement_covariance": "Sigma_bar/2 + (T-2)V_mu/[2(T-1)]",
+    "psd_reduction_from_iid_pair": "V_mu/[2(T-1)]",
+    "self_null_condition": "V_mu=0",
+    "importance_weights_required": false
+  },
+  "operator_mapping": {
+    "dispatch_mro": [
+      "StratifiedTimeConditionalGFMixin",
+      "PCRSMGAblationMixin",
+      "SBModel"
+    ],
+    "schedule": [
+      "NATIVE_VIEW",
+      "D_COMMIT",
+      "E_COMMIT",
+      "GF_BUNDLE",
+      "GF_COMMIT"
+    ],
+    "d_steps_per_update": 1,
+    "e_steps_per_update": 1,
+    "g_steps_per_update": 1,
+    "f_steps_per_update": 1,
+    "gf_backward_weight_per_view": 0.5,
+    "first_gf_time_draw": "native torch.randint(T) CPU draw",
+    "second_gf_time_draw": "torch.randint(T-1) followed by exact exclusion bijection",
+    "zero_intervention_dispatch": "route1_stcgr_enable=false reaches SBModel.optimize_parameters without ST-CGR or Proposal method state"
+  },
+  "non_time_randomness_review": {
+    "rollout_bridge_noise": "fresh CUDA torch.randn_like calls in each forward",
+    "rollout_endpoint_latents": "fresh CUDA torch.randn calls in each forward",
+    "terminal_forward_latents": "fresh CUDA torch.randn calls in each forward",
+    "patchnce_latents": "fresh CUDA torch.randn calls in each compute_G_loss",
+    "patchnce_patch_ids": "fresh NumPy permutation calls in each compute_G_loss",
+    "flip_randomness": "disabled by no_flip=true and flip_equivariance=false",
+    "dropout": "disabled by no_dropout=true",
+    "normalization": "InstanceNorm with no running statistics",
+    "shared_writable_stochastic_module_state_found": false,
+    "intentionally_shared": [
+      "official unpaired batch",
+      "post-D/E parameters",
+      "pre-G/F optimizer state"
+    ]
+  },
+  "live_e7_state": {
+    "checkpoint": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/lanes/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/full_state_latest.pt",
+    "checkpoint_sha256_before_and_after_read": "65678779c529ecb6f049f9a39d859419681a757611fc168c43e18b9155718d9c",
+    "sidecar_sha256": "c5a636a6c356409bbf1db1cc4fd7ebb09c0572f7d39238ab2bfabfd304659a79",
+    "scientific_state_sha256": "0373877676346ec1c17641e2a750e30f3bd0853a56c0d150852d312baac44775",
+    "physical_epoch_completed": 7,
+    "updates": 59871,
+    "proposal_update_index": 59871,
+    "proposal_gf_bundle_count": 59871,
+    "stcgr_bundle_count": 59871,
+    "first_counts": [12167, 11789, 11769, 12039, 12107],
+    "second_counts": [11893, 11952, 12162, 11968, 11896],
+    "pair_counts": [
+      [0, 3052, 3088, 2997, 3030],
+      [2956, 0, 2951, 2936, 2946],
+      [2896, 2898, 0, 3004, 2971],
+      [3061, 2947, 3082, 0, 2949],
+      [2980, 3055, 3041, 3031, 0]
+    ],
+    "row_sums_equal_first_counts": true,
+    "column_sums_equal_second_counts": true,
+    "diagonal_pair_count": 0,
+    "all_twenty_ordered_off_diagonal_cells_observed": true,
+    "ordered_pair_chi_square_df19_descriptive": 22.004960665430673,
+    "ordered_pair_uniformity_p_value_descriptive": 0.28400944282863233,
+    "first_marginal_chi_square_df4_descriptive": 11.308713734529237,
+    "first_marginal_p_value_descriptive": 0.023305053369476643,
+    "second_marginal_chi_square_df4_descriptive": 4.051109886255449,
+    "second_marginal_p_value_descriptive": 0.39913306709647844,
+    "statistical_diagnostic_used_for_training_or_routing": false,
+    "checkpoint_modified_by_audit": false
+  },
+  "existing_runtime_proofs_reverified": {
+    "runtime_gate_receipt": "evidence/paper_aio/STCGR_FULL_DATA_RUNTIME_GATE_PASS_20260902.json",
+    "e0_scientific_core_exact": true,
+    "plain_2000_transition_exact": true,
+    "zero_intervention_identity_exact": true,
+    "candidate_resume_exact": true,
+    "candidate_evaluation_repeat_exact": true
+  },
+  "new_operator_test": {
+    "path": "tests/test_route1_stcgr_operator_semantics.py",
+    "sha256": "e08dc768cd5db65692ae23191b624a213141724f7678601bfc81c8c4f00e4ca5",
+    "new_tests": 2,
+    "combined_targeted_tests_passed": 20,
+    "checks": [
+      "actual mixin MRO dispatch",
+      "native D/E view separation",
+      "post-D/E G/F state boundary",
+      "fresh non-time RNG draws",
+      "off-diagonal G/F time pair",
+      "one-half gradient accumulation",
+      "single D/E/G/F commits",
+      "disabled native dispatch and absent method state"
+    ]
+  },
+  "claim_boundaries": {
+    "proved": "conditional pre-Adam G/F gradient mean preservation and covariance reduction relative to the iid two-view Proposal estimator",
+    "not_proved": [
+      "linearity or unbiasedness of the resulting Adam parameter step",
+      "equality of the complete sequential-game transition to plain UNSB",
+      "long-horizon PSNR improvement",
+      "cross-seed stability",
+      "matched full-data gain before a legal completed plain relation"
+    ]
+  },
+  "adjudication": {
+    "semantic_defect_found": false,
+    "candidate_source_changed": false,
+    "training_restart_required": false,
+    "continue_full_data_e200": true,
+    "matched_gain_claim_currently_authorized": false,
+    "algorithm_is_unique_final_winner": false
+  },
+  "scientific_boundaries": {
+    "intermediate_paired_metric_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false,
+    "other_hosts_touched": false
+  },
+  "prior_formula_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
+  "decision": "decisions/DEC-20260903-STCGR-INDEPENDENT-OPERATOR-AUDIT.md"
+}
