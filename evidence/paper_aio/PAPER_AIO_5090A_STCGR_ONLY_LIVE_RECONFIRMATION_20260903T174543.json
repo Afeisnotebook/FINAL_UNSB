@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-only-live-reconfirmation-v1",
+  "captured_at": "2026-09-03T17:45:43+08:00",
+  "host_label": "5090A",
+  "decision": "KEEP_STCGR_RUNNING_AND_KEEP_MATCHED_PLAIN_CANCELED",
+  "stcgr": {
+    "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+    "completed_data_epoch": 12,
+    "completed_updates": 102636,
+    "target_data_epoch": 200,
+    "continuation_pid": 336340,
+    "supervisor_pid": 336345,
+    "trainer_pid": 336346,
+    "export_successor_pid": 336344,
+    "incremental_export_pid": 351230,
+    "health_watcher_pid": 352017,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "live_activity_probe": {
+    "duration_seconds": 12,
+    "trainer_state_before": "Rl",
+    "trainer_state_after": "Rl",
+    "trainer_cpu_time_advanced_seconds": 12,
+    "trainer_reported_cpu_percent": 357,
+    "trainer_gpu_memory_mib": 2176,
+    "adjudication": "ACTIVE_NOT_ZOMBIE_DO_NOT_RESTART"
+  },
+  "5090a_plain": {
+    "status": "PAUSED_AT_E9_NO_RUNNING_OR_AUTOMATIC_RESUME_PROCESS",
+    "completed_data_epoch": 9,
+    "completed_updates": 76977,
+    "matching_process_count": 0,
+    "trainer_pid": null,
+    "supervisor_pid": null,
+    "automatic_resume_authorized": false,
+    "full_state_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090A_e4a5eed/lanes/plain/full_state_latest.pt",
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "checkpoint_preserved": true
+  },
+  "capacity": {
+    "free_gib_rounded": 185,
+    "estimated_remaining_write_gib": 24,
+    "minimum_headroom_gib": 24,
+    "user_capacity_override": true,
+    "capacity_gate": "PASS"
+  },
+  "scope": {
+    "other_hosts_modified": false,
+    "training_configuration_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "scientific_interpretation": {
+    "absolute_e200_trajectory_remains_valid": true,
+    "matched_gain_is_not_yet_available": true,
+    "future_matched_delta_requires_a_separately_reviewed_legal_plain_e200_relation": true
+  }
+}
