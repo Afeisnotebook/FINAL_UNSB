@@ -1,6 +1,10 @@
+from argparse import Namespace
+
 from operations.paper_aio_progress_watch import (
+    SCHEMA,
     classify_probe,
     effective_progress_age,
+    frozen_contract,
     parse_process_stat,
     process_start_unix,
 )
@@ -63,3 +67,17 @@ def test_linux_process_stat_parser_and_start_time() -> None:
     assert process_start_unix(
         200, now=2000.0, uptime_seconds=1000.0, clock_ticks=100,
     ) == 1002.0
+
+
+def test_progress_watch_contract_schema_is_restartable_v2(tmp_path) -> None:
+    assert SCHEMA == "final-unsb-paper-live-progress-watch-v2"
+    args = Namespace(
+        host_label="host", supervisor_pid=42,
+        heartbeat=tmp_path / "heartbeat.json",
+        checkpoint_sidecar=tmp_path / "latest.pt.json",
+        stall_seconds=7200, sample_seconds=30, poll_seconds=60,
+    )
+    first = frozen_contract(args)
+    second = frozen_contract(args)
+    assert first == second
+    assert "pid" not in first and "watch_pid" not in first

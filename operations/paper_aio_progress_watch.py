@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "final-unsb-paper-live-progress-watch-v1"
+SCHEMA = "final-unsb-paper-live-progress-watch-v2"
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -114,21 +114,11 @@ def arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
-    args = arguments()
-    if args.stall_seconds < 600:
-        raise SystemExit("stall threshold must be at least 600 seconds")
-    if args.sample_seconds < 5 or args.sample_seconds > 120:
-        raise SystemExit("sample interval must be in [5,120] seconds")
-    if args.poll_seconds < 30 or args.poll_seconds > 600:
-        raise SystemExit("poll interval must be in [30,600] seconds")
-    output = args.output.resolve()
-    state_path = output / "PROGRESS_WATCH_STATE.json"
-    contract_path = output / "PROGRESS_WATCH_CONTRACT.json"
-    contract = {
+def frozen_contract(args: argparse.Namespace) -> dict[str, Any]:
+    """Return process-independent identity so the watcher is restartable."""
+    return {
         "schema": SCHEMA,
         "status": "FROZEN_DIAGNOSTIC_ONLY",
-        "pid": os.getpid(),
         "host_label": args.host_label,
         "supervisor_pid": args.supervisor_pid,
         "heartbeat": str(args.heartbeat.resolve()),
@@ -142,6 +132,20 @@ def main() -> int:
         "paired_metric_control": False,
         "confirmation20_opened": False,
     }
+
+
+def main() -> int:
+    args = arguments()
+    if args.stall_seconds < 600:
+        raise SystemExit("stall threshold must be at least 600 seconds")
+    if args.sample_seconds < 5 or args.sample_seconds > 120:
+        raise SystemExit("sample interval must be in [5,120] seconds")
+    if args.poll_seconds < 30 or args.poll_seconds > 600:
+        raise SystemExit("poll interval must be in [30,600] seconds")
+    output = args.output.resolve()
+    state_path = output / "PROGRESS_WATCH_STATE.json"
+    contract_path = output / "PROGRESS_WATCH_CONTRACT.json"
+    contract = frozen_contract(args)
     if contract_path.is_file() and read_json(contract_path) != contract:
         raise SystemExit("progress-watch contract changed")
     if not contract_path.is_file():
@@ -153,6 +157,7 @@ def main() -> int:
         now = time.time()
         base = {
             **contract,
+            "watch_pid": os.getpid(),
             "observed_at": now,
             "alert_count": alert_count,
         }
@@ -218,6 +223,7 @@ def main() -> int:
         time.sleep(args.poll_seconds)
     atomic_json(state_path, {
         **contract,
+        "watch_pid": os.getpid(),
         "status": "TIMEOUT",
         "alert": True,
         "alert_count": alert_count + 1,
