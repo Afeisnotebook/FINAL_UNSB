@@ -6,6 +6,7 @@ from operations.paper_aio_progress_watch import (
     effective_progress_age,
     frozen_contract,
     parse_process_stat,
+    process_descendants,
     process_start_unix,
     trainer_children,
 )
@@ -70,13 +71,14 @@ def test_linux_process_stat_parser_and_start_time() -> None:
     ) == 1002.0
 
 
-def test_progress_watch_contract_schema_is_restartable_v3(tmp_path) -> None:
-    assert SCHEMA == "final-unsb-paper-live-progress-watch-v3"
+def test_progress_watch_contract_schema_is_restartable_v4(tmp_path) -> None:
+    assert SCHEMA == "final-unsb-paper-live-progress-watch-v4"
     args = Namespace(
         host_label="host", supervisor_pid=42,
         heartbeat=tmp_path / "heartbeat.json",
         checkpoint_sidecar=tmp_path / "latest.pt.json",
         trainer_command_fragment="--lane cut",
+        descendant_depth=3,
         stall_seconds=7200, sample_seconds=30, poll_seconds=60,
     )
     first = frozen_contract(args)
@@ -84,6 +86,7 @@ def test_progress_watch_contract_schema_is_restartable_v3(tmp_path) -> None:
     assert first == second
     assert "pid" not in first and "watch_pid" not in first
     assert first["trainer_command_fragment"] == "--lane cut"
+    assert first["descendant_depth"] == 3
 
 
 def test_trainer_child_filter_tolerates_supervisor_helper(tmp_path) -> None:
@@ -103,3 +106,19 @@ def test_trainer_child_filter_fails_closed_on_ambiguous_match(tmp_path) -> None:
         child_root.mkdir()
         (child_root / "cmdline").write_bytes(b"python\0--lane\0cut\0")
     assert trainer_children([20, 21], "--lane cut", tmp_path) == [20, 21]
+
+
+def _children_file(proc_root, pid: int, children: str) -> None:
+    task = proc_root / str(pid) / "task" / str(pid)
+    task.mkdir(parents=True)
+    (task / "children").write_text(children, encoding="utf-8")
+
+
+def test_process_descendants_obeys_frozen_depth(tmp_path) -> None:
+    _children_file(tmp_path, 1, "2 3")
+    _children_file(tmp_path, 2, "4")
+    _children_file(tmp_path, 3, "")
+    _children_file(tmp_path, 4, "5")
+    assert process_descendants(1, 1, tmp_path) == [2, 3]
+    assert process_descendants(1, 2, tmp_path) == [2, 3, 4]
+    assert process_descendants(1, 3, tmp_path) == [2, 3, 4, 5]

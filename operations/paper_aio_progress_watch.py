@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "final-unsb-paper-live-progress-watch-v3"
+SCHEMA = "final-unsb-paper-live-progress-watch-v4"
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -37,6 +37,28 @@ def supervisor_children(supervisor_pid: int, proc_root: Path = Path("/proc")) ->
     if not path.is_file():
         return []
     return [int(value) for value in path.read_text(encoding="utf-8").split()]
+
+
+def process_descendants(
+    root_pid: int, max_depth: int, proc_root: Path = Path("/proc"),
+) -> list[int]:
+    """Return descendants up to a frozen depth, without including the root."""
+    frontier = [int(root_pid)]
+    descendants: list[int] = []
+    seen = {int(root_pid)}
+    for _ in range(int(max_depth)):
+        next_frontier: list[int] = []
+        for parent in frontier:
+            for child in supervisor_children(parent, proc_root):
+                if child in seen:
+                    continue
+                seen.add(child)
+                descendants.append(child)
+                next_frontier.append(child)
+        frontier = next_frontier
+        if not frontier:
+            break
+    return descendants
 
 
 def process_command(pid: int, proc_root: Path = Path("/proc")) -> str:
@@ -136,6 +158,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--heartbeat", type=Path, required=True)
     parser.add_argument("--checkpoint-sidecar", type=Path, required=True)
     parser.add_argument("--trainer-command-fragment")
+    parser.add_argument("--descendant-depth", type=int, default=1)
     parser.add_argument("--stall-seconds", type=int, default=7200)
     parser.add_argument("--sample-seconds", type=int, default=30)
     parser.add_argument("--poll-seconds", type=int, default=60)
@@ -153,6 +176,7 @@ def frozen_contract(args: argparse.Namespace) -> dict[str, Any]:
         "heartbeat": str(args.heartbeat.resolve()),
         "checkpoint_sidecar": str(args.checkpoint_sidecar.resolve()),
         "trainer_command_fragment": args.trainer_command_fragment,
+        "descendant_depth": args.descendant_depth,
         "stall_seconds": args.stall_seconds,
         "sample_seconds": args.sample_seconds,
         "poll_seconds": args.poll_seconds,
@@ -172,6 +196,8 @@ def main() -> int:
         raise SystemExit("sample interval must be in [5,120] seconds")
     if args.poll_seconds < 30 or args.poll_seconds > 600:
         raise SystemExit("poll interval must be in [30,600] seconds")
+    if args.descendant_depth < 1 or args.descendant_depth > 8:
+        raise SystemExit("descendant depth must be in [1,8]")
     output = args.output.resolve()
     state_path = output / "PROGRESS_WATCH_STATE.json"
     contract_path = output / "PROGRESS_WATCH_CONTRACT.json"
@@ -191,7 +217,9 @@ def main() -> int:
             "observed_at": now,
             "alert_count": alert_count,
         }
-        children = supervisor_children(args.supervisor_pid)
+        children = process_descendants(
+            args.supervisor_pid, args.descendant_depth,
+        )
         candidates = trainer_children(children, args.trainer_command_fragment)
         if len(candidates) != 1 or not args.heartbeat.is_file():
             atomic_json(state_path, {
