@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T20:10:54+08:00",
+  "state_snapshot_time": "2026-09-03T20:15:34+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -155,6 +155,17 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json",
       "decision": "decisions/DEC-20260903-CURRENT-AND-FUTURE-PROGRESS-COVERAGE.md"
+    },
+    "progress_aware_supervisor_failure_budget": {
+      "status": "IMPLEMENTED_TESTED_NOT_FORCED_INTO_HEALTHY_LIVE_PROCESSES",
+      "implementation_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
+      "progress_resets_prior_failure_streak": true,
+      "same_checkpoint_repeated_failure_still_blocks": true,
+      "maximum_consecutive_failures": 3,
+      "current_live_supervisors_restarted": false,
+      "full_test_result": "645 passed",
+      "evidence": "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json",
+      "decision": "decisions/DEC-20260903-PROGRESS-AWARE-SUPERVISOR-FAILURE-BUDGET.md"
     },
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 94, "latest_observed_updates": 803982, "latest_epoch_seconds": 1262.1947557926178, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},

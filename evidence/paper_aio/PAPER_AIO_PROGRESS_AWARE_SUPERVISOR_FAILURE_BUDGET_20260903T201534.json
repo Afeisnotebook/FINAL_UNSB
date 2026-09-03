@@ -1,0 +1,44 @@
+{
+  "schema": "final-unsb-paper-progress-aware-supervisor-failure-budget-v1",
+  "captured_at": "2026-09-03T20:15:34+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_FORCED_INTO_HEALTHY_LIVE_PROCESSES",
+  "finding": {
+    "old_behavior": "lifetime child failures accumulated as consecutive failures",
+    "risk": "three unrelated multi-day infrastructure exits could block a progressing lane",
+    "observed_scientific_failure": false,
+    "observed_current_training_stop": false
+  },
+  "implementation": {
+    "commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
+    "source": "operations/paper_aio_supervisor.py",
+    "checkpoint_progress_source": "atomic full_state_latest.pt.json",
+    "progress_resets_prior_streak": true,
+    "current_terminating_failure_count_after_progress": 1,
+    "same_checkpoint_failures_still_accumulate": true,
+    "maximum_consecutive_failures_unchanged": 3,
+    "invalid_or_cross_lane_sidecar_credits_progress": false,
+    "child_training_command_changed": false,
+    "scientific_protocol_changed": false
+  },
+  "verification": {
+    "targeted_test_result": "5 passed",
+    "full_repository_test_result": "645 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "live_deployment_boundary": {
+    "healthy_trainer_restarted": false,
+    "healthy_supervisor_restarted": false,
+    "current_loaded_supervisors_claim_new_semantics": false,
+    "future_launches_and_reviewed_recoveries_use_new_semantics": true,
+    "current_live_protection": "existing health watchers plus progress sentinels plus active Codex Goal"
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_schedule_changed": false
+  },
+  "decision": "USE_PROGRESS_AWARE_RETRY_ACCOUNTING_FOR_FUTURE_SUPERVISORS_WITHOUT_INTERRUPTING_HEALTHY_LIVE_LANES"
+}

@@ -245,3 +245,7 @@ authorize compute.
 74. `DEC-20260903-STCGR-LIVE-PROGRESS-SENTINEL.md`：针对5090A曾出现的“PID存活但I/O与
     GPU无进展”停滞，新增只诊断的动态child进度哨兵；不发送signal、不读指标、不改训练，
     让每小时Goal能在普通六小时health阈值前获得明确工程告警。
+75. `DEC-20260903-PROGRESS-AWARE-SUPERVISOR-FAILURE-BUDGET.md`：修复多日训练中彼此独立的
+    工程退出被错误累计为连续失败的问题；只有产生更晚完整checkpoint才重置旧失败串，同一
+    checkpoint连续失败仍在三次后fail-closed。当前健康trainer/supervisor不重启，新语义用于
+    后续lane与未来经审查的恢复。

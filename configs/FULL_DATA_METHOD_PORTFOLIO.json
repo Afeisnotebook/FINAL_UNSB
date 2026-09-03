@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T20:10:54+08:00",
+  "captured_at": "2026-09-03T20:15:34+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -106,6 +106,8 @@
   "operational_monitoring": {
     "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
+    "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
+    "progress_aware_supervisor_live_processes_restarted": false,
     "codex_goal_heartbeat": {
       "status": "active",
       "automation_id": "final-unsb-goal",
@@ -173,7 +175,8 @@
       "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json",
       "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json",
       "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json",
-      "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json"
+      "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
+      "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json"
     ]
   },
   "ddsb_source_watch": {
