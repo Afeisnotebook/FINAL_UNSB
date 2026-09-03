@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-dclgan-source-bound-adapter-local-gate-start-v1",
+  "captured_at": "2026-09-03T12:11:41+08:00",
+  "status": "ADAPTER_FROZEN_FORMAL_LOCAL_1000_GATE_RUNNING_REMOTE_TRAINING_NOT_AUTHORIZED",
+  "adapter": {
+    "git_commit": "f03b3ffbfc00cd2b3f740057fb9a391b1ab05add",
+    "checkout": "E:\\UNSB_Expl\\FINAL_UNSB_DCLGAN_GATE_F03B3FF",
+    "checkout_clean": true,
+    "fingerprint": "a60948b1d3b70eb820eaff1ba8d079496ae52b633343e41fd50c3467a316c92d",
+    "upstream_repository": "https://github.com/JunlinHan/DCLGAN.git",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "upstream_source_hashes_verified": true,
+    "upstream_vendored": false,
+    "deterministic_reflection_pad_modules": 50,
+    "deterministic_pad_forward_bit_exact": true,
+    "deterministic_pad_cuda_backward_repeatable": true
+  },
+  "formal_local_gate": {
+    "output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_F03B3FF",
+    "supervisor_pid": 12832,
+    "child_pid_at_capture": 22500,
+    "health_watcher_pid": 20752,
+    "supervisor_status": "CHILD_RUNNING",
+    "stage": "exact_resume_1000_500",
+    "attempt": 1,
+    "host_gpu_uuid": "GPU-22b92065-0a2b-ff50-f2c5-9c9ee65e6b53",
+    "host_gpu_name": "NVIDIA GeForce GTX 1660",
+    "preflight_status": "PASS_SOURCE_AND_CONTROLLED_DATA_PREFLIGHT",
+    "preflight_receipt_sha256": "448b724fb9b44a7e2126df60d947f9778ae4efa62fa773f9d829be151c7f44cd",
+    "confirmation_lock_status": "PASS_CONFIRMATION20_UNADDRESSABLE",
+    "confirmation_lock_receipt_sha256": "7148b6f456d6d69c0be32474093e0de0f32e1dfbda3626e6ffa2340ac61a76ea",
+    "training_file_content_hashes_verified": 17106,
+    "health_status": "HEALTHY",
+    "disk_free_gib_at_capture": 121.848,
+    "estimated_remaining_write_gib": 10.0,
+    "minimum_headroom_gib": 10.0
+  },
+  "diagnostic_gates": {
+    "short_cuda_exact_resume": "PASS_NOT_AUTHORIZATION",
+    "discovery70_repeated_evaluation": "PASS_EXACT_NOT_AUTHORIZATION"
+  },
+  "remote_liveness_at_capture": {
+    "4090A_plain": {"status": "HEALTHY", "data_epoch": 74, "updates": 632922},
+    "5090A_stcgr": {"status": "HEALTHY", "data_epoch": 9, "updates": 76977},
+    "5090B_cut": {"status": "HEALTHY", "data_epoch": 59, "updates": 504627},
+    "5090B_cyclegan": {"status": "HEALTHY", "data_epoch": 35, "updates": 299355},
+    "5090C_proposal": {"status": "HEALTHY", "data_epoch": 12, "updates": 102636}
+  },
+  "remote_training_authorized": false,
+  "target_host_assigned": null,
+  "target_host_must_repeat_full_gate": true,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "existing_remote_training_interrupted": false,
+  "negcut_status": "DEFERRED_ENGINEERING_NOT_MECHANISM_FALSIFIED"
+}

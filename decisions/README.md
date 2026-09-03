@@ -187,3 +187,6 @@ authorize compute.
     实测吞吐保留5090C Proposal、5090A ST-CGR、4090A plain→AM-TNC及5090B外部基线→
     matched plain；同时锁定DCLGAN/NEGCUT作者源码。DCLGAN先进入full-state adapter工程，
     NEGCUT因明确工程与许可门暂缓但未证伪；没有打断或新增GPU长训。
+58. `DEC-20260903-DCLGAN-SOURCE-BOUND-ADAPTER-LOCAL1000-GATE.md`：DCLGAN官方源码绑定适配器
+    已冻结，覆盖完整训练状态、严格恢复、只读重复评估和confirmation锁；短GPU门通过后，
+    在本地1660启动完整1000/500正式门。该门不读取性能、不授权远端训练，目标GPU仍须重跑。

@@ -70,10 +70,11 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
 - 汇总plain、Proposal、CUT、CycleGAN固定e200主表；
 - 对通过small25门的新算法安排自己的全量e200，而不是把Proposal当唯一方法；
 - 有可靠源码和资源时补DDSB或第二优先级DCLGAN/NEGCUT；
-- DCLGAN与NEGCUT作者源码已锁定；DCLGAN完成128px batch1 CPU单步门，先进入source-bound
-  full-state adapter工程；NEGCUT因官方代码device路径、动态N/F恢复和未明确仓库许可而暂缓，
-  不代表机制证伪。DCLGAN在exact resume、重复评估、confirmation锁和GPU吞吐门通过前不得
-  占用训练卡；
+- DCLGAN与NEGCUT作者源码已锁定。DCLGAN的source-bound full-state adapter已冻结在
+  `f03b3ff`：短CUDA exact-resume和discovery70重复评估已通过，正式本地1000-update门正在
+  运行；这些只证明工程路径，不授权远端e200。目标训练宿主仍须从同一冻结commit重跑完整
+  门禁后才能启动。NEGCUT因官方代码device路径、动态N/F恢复和未明确仓库许可而暂缓，
+  不代表机制证伪；
 - 统一4090评估容器完成e200 discovery80、5 bundles、NFE1–5、LPIPS/KID/FID；
 - 在统一评估前分别为四条source lane的e100/e125/e150/e175/e200生成checkpoint export
   receipt；复制后只读复算，四lane×五epoch完整同容器门通过才形成第一波结果锁；

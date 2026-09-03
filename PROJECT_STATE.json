@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T10:54:19+08:00",
+  "state_snapshot_time": "2026-09-03T12:11:41+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -25,7 +25,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional_physical_5090_distinct_from_registered_5090B"],
     "new_endpoint_identity_audit": {
@@ -219,17 +219,24 @@
       "decision": "decisions/DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md"
     },
     "external_dclgan_negcut_source_gate": {
-      "status": "DCLGAN_SOURCE_LOCKED_ENGINEERING_ADAPTER_REQUIRED_NEGCUT_DEFERRED_ENGINEERING_NOT_FALSIFIED",
+      "status": "DCLGAN_SOURCE_BOUND_ADAPTER_FROZEN_FORMAL_LOCAL_1000_GATE_RUNNING_NEGCUT_DEFERRED_ENGINEERING_NOT_FALSIFIED",
       "selected_next_external_engineering_target": "dclgan",
       "dclgan_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
       "dclgan_cpu_smoke": "PASS_128PX_BATCH1_ONE_UPDATE_TORCH_2_6",
+      "dclgan_adapter_commit": "f03b3ffbfc00cd2b3f740057fb9a391b1ab05add",
+      "dclgan_adapter_fingerprint": "a60948b1d3b70eb820eaff1ba8d079496ae52b633343e41fd50c3467a316c92d",
+      "dclgan_local_gate_status": "CHILD_RUNNING_EXACT_RESUME_1000_500",
+      "dclgan_local_gate_supervisor_pid": 12832,
+      "dclgan_local_gate_health_watcher_pid": 20752,
+      "dclgan_short_cuda_exact_resume": "PASS_DIAGNOSTIC_ONLY",
+      "dclgan_short_discovery70_repeat": "PASS_DIAGNOSTIC_ONLY",
       "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
       "negcut_cpu_smoke": "FAIL_KNOWN_UPSTREAM_DEVICE_SELECTION_BUG",
       "training_authorized": false,
       "host_assigned": null,
       "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
-      "evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
-      "decision": "decisions/DEC-20260903-GLOBAL-RESCHEDULE-AND-EXTERNAL-SOURCE-GATE.md"
+      "evidence": "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json",
+      "decision": "decisions/DEC-20260903-DCLGAN-SOURCE-BOUND-ADAPTER-LOCAL1000-GATE.md"
     },
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
