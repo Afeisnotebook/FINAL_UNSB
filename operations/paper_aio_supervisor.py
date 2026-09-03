@@ -81,6 +81,32 @@ def child_command(args: argparse.Namespace, output: Path) -> list[str]:
     return command
 
 
+def checkpoint_step(output: Path, identity: str) -> int | None:
+    """Read only a complete atomic sidecar when accounting retry progress."""
+    sidecar = Path(output) / "lanes" / identity / "full_state_latest.pt.json"
+    if not sidecar.is_file():
+        return None
+    try:
+        value = json.loads(sidecar.read_text(encoding="utf-8"))
+        step = int(value.get("step", -1))
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return None
+    if value.get("lane_id") != identity or step < 0:
+        return None
+    return step
+
+
+def failure_count_after_run(
+    prior_failures: int, *, checkpoint_before: int | None,
+    checkpoint_after: int | None,
+) -> tuple[int, bool]:
+    """Reset an old failure streak only after durable checkpoint progress."""
+    progressed = checkpoint_after is not None and (
+        checkpoint_before is None or checkpoint_after > checkpoint_before
+    )
+    return (1 if progressed else int(prior_failures) + 1), progressed
+
+
 def main() -> int:
     args = arguments()
     repo = args.repo.resolve()
@@ -95,6 +121,7 @@ def main() -> int:
     failures = 0
     while True:
         started = time.time()
+        checkpoint_before = checkpoint_step(output, identity)
         atomic_json(heartbeat, {
             "schema": "final-unsb-paper-supervisor-v1",
             "status": "CHILD_RUNNING",
@@ -129,7 +156,11 @@ def main() -> int:
                 "confirmation20_opened": False,
             })
             return 0
-        failures += 1
+        checkpoint_after = checkpoint_step(output, identity)
+        failures, progressed_since_launch = failure_count_after_run(
+            failures, checkpoint_before=checkpoint_before,
+            checkpoint_after=checkpoint_after,
+        )
         if failures >= int(args.maximum_consecutive_failures):
             atomic_json(heartbeat, {
                 "schema": "final-unsb-paper-supervisor-v1",
@@ -138,6 +169,9 @@ def main() -> int:
                 "lane_kind": lane_kind,
                 "child_returncode": completed.returncode,
                 "consecutive_failures": failures,
+                "checkpoint_step_before": checkpoint_before,
+                "checkpoint_step_after": checkpoint_after,
+                "progressed_since_launch": progressed_since_launch,
                 "last_run_state": state,
                 "confirmation20_opened": False,
             })
@@ -149,6 +183,9 @@ def main() -> int:
             "lane_kind": lane_kind,
             "child_returncode": completed.returncode,
             "consecutive_failures": failures,
+            "checkpoint_step_before": checkpoint_before,
+            "checkpoint_step_after": checkpoint_after,
+            "progressed_since_launch": progressed_since_launch,
             "restart_delay_seconds": int(args.restart_delay_seconds),
             "confirmation20_opened": False,
         })

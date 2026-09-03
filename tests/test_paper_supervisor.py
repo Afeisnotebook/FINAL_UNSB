@@ -7,7 +7,9 @@ import pytest
 
 from operations.paper_aio_supervisor import (
     authorization_path,
+    checkpoint_step,
     child_command,
+    failure_count_after_run,
     lane_identity,
 )
 
@@ -41,3 +43,35 @@ def test_candidate_paper_supervisor_fails_closed_without_safe_id() -> None:
         lane_identity("candidate", None)
     with pytest.raises(ValueError, match="only valid"):
         lane_identity("plain", "unexpected")
+
+
+def test_supervisor_failure_streak_resets_only_after_checkpoint_progress(
+    tmp_path: Path,
+) -> None:
+    lane = tmp_path / "lanes" / "plain"
+    lane.mkdir(parents=True)
+    assert checkpoint_step(tmp_path, "plain") is None
+
+    sidecar = lane / "full_state_latest.pt.json"
+    sidecar.write_text('{"lane_id":"plain","step":8553}\n', encoding="utf-8")
+    assert checkpoint_step(tmp_path, "plain") == 8553
+    assert failure_count_after_run(
+        2, checkpoint_before=8553, checkpoint_after=17106,
+    ) == (1, True)
+
+    assert failure_count_after_run(
+        1, checkpoint_before=17106, checkpoint_after=17106,
+    ) == (2, False)
+    assert failure_count_after_run(
+        2, checkpoint_before=17106, checkpoint_after=17106,
+    ) == (3, False)
+
+
+def test_supervisor_does_not_credit_invalid_or_cross_lane_sidecar(tmp_path: Path) -> None:
+    lane = tmp_path / "lanes" / "plain"
+    lane.mkdir(parents=True)
+    sidecar = lane / "full_state_latest.pt.json"
+    sidecar.write_text('{"lane_id":"proposal","step":8553}\n', encoding="utf-8")
+    assert checkpoint_step(tmp_path, "plain") is None
+    sidecar.write_text('{not-json}\n', encoding="utf-8")
+    assert checkpoint_step(tmp_path, "plain") is None
