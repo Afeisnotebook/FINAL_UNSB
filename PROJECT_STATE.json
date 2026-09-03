@@ -639,6 +639,8 @@
       "terminal_audit_process_recovery": "frozen_command_auto_restart_fail_closed_max_20_launches",
       "terminal_audit_fixed_epochs": [100, 150, 200],
       "terminal_audit_fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
+      "latest_e100_prearrival_readiness": "evidence/paper_aio/PAPER_AIO_LOCAL_E100_INGESTION_READINESS_20260903T194338.json",
+      "e100_prearrival_status": "READY_WAITING_FOR_4090A_PLAIN_E100_SOURCE_EXPORT",
       "terminal_audit_rollout_jacobian": "full_numerical_Xt_to_NFE5_endpoint_with_lane_blind_crn_power_iteration",
       "terminal_audit_spectrum_normalization": "unbiased_sample_covariance_nonzero_spectrum_n_minus_1",
       "terminal_audit_effective_rank_definition": "participation_ratio_trace_squared_over_frobenius_squared",

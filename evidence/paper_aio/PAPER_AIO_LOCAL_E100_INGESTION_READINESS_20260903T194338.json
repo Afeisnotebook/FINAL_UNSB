@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-local-e100-ingestion-readiness-v1",
+  "captured_at": "2026-09-03T19:43:38+08:00",
+  "status": "READY_WAITING_FOR_4090A_PLAIN_E100_SOURCE_EXPORT",
+  "source_expectation": {
+    "host_label": "4090A",
+    "lane_id": "plain",
+    "latest_remote_data_epoch_observed_before_gate": 94,
+    "next_required_epoch": 100,
+    "required_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "required_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "required_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "available_epochs_before_e100": [],
+    "empty_available_epochs_is_expected": true
+  },
+  "incremental_relays": {
+    "4090A_plain": {"pid": 6292, "alive": true, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"},
+    "4090A_amtnc": {"pid": 12656, "alive": true, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"},
+    "5090A_stcgr": {"pid": 19904, "alive": true, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"},
+    "5090C_proposal": {"pid": 14528, "alive": true, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"}
+  },
+  "terminal_audit": {
+    "control_supervisor_pid": 6196,
+    "control_supervisor_status": "MONITORING_EXISTING_CHILD",
+    "control_supervisor_restart_count": 0,
+    "child_pid": 20244,
+    "child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU"
+  },
+  "terminal_pathology": {
+    "control_supervisor_pid": 23476,
+    "control_supervisor_status": "MONITORING_EXISTING_CHILD",
+    "control_supervisor_restart_count": 0,
+    "child_pid": 9400,
+    "child_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS"
+  },
+  "combined_health": {
+    "watcher_pid": 21052,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "free_disk_gib": 119.14704132080078,
+    "estimated_remaining_write_gib": 16.0,
+    "minimum_headroom_gib": 50.0,
+    "required_gib": 66.0,
+    "disk_health": "HEALTHY"
+  },
+  "invariants": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "process_recovery_required": false,
+    "scientific_schedule_changed": false
+  }
+}
