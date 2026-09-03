@@ -179,6 +179,13 @@ def _audit_result(path: Path) -> dict[str, Any]:
                 if (
                     not isinstance(eigenvalues, list)
                     or len(eigenvalues) != AUDIT_REPLICATES
+                    or spectrum.get("normalization")
+                    != "unbiased_sample_covariance_nonzero_spectrum_n_minus_1"
+                    or spectrum.get("effective_rank_definition")
+                    != "participation_ratio_trace_squared_over_frobenius_squared"
+                    or spectrum.get("sample_count") != AUDIT_REPLICATES
+                    or not isinstance(spectrum.get("flattened_dimension"), int)
+                    or spectrum["flattened_dimension"] <= 0
                     or any(
                         not isinstance(number, (int, float))
                         or not math.isfinite(float(number))
@@ -205,11 +212,48 @@ def _audit_result(path: Path) -> dict[str, Any]:
         not isinstance(gradient, dict)
         or gradient.get("status")
         != "TARGET_BLIND_NATIVE_OBJECTIVE_GRADIENT_AUDIT_COMPLETE"
+        or gradient.get("cross_time_common_sampler_state") is not True
+        or gradient.get("cross_time_common_rng_state") is not True
+        or gradient.get("forward_mode") != "training_for_every_replicate"
+        or gradient.get("parent_requires_grad_flags_restored") is not True
         or not isinstance(strata, list)
         or [row.get("time_index") for row in strata] != list(range(5))
         or any(row.get("replicates") != AUDIT_GRADIENT_REPLICATES for row in strata)
     ):
         raise RuntimeError(f"terminal audit gradient-stratum coverage failed: {path}")
+    gradient_scalars = (
+        "gradient_mean_norm",
+        "gradient_variance_trace",
+        "gradient_second_moment",
+        "adam_preconditioned_norm_mean",
+        "adam_preconditioned_norm_std",
+    )
+    for row in strata:
+        if (
+            row.get("gradient_variance_normalization")
+            != "unbiased_sample_covariance_trace_n_minus_1"
+            or row.get("adam_preconditioned_norm_std_normalization")
+            != "sample_std_n_minus_1"
+            or any(
+                not isinstance(row.get(field), (int, float))
+                or not math.isfinite(float(row[field]))
+                or float(row[field]) < 0
+                for field in gradient_scalars
+            )
+        ):
+            raise RuntimeError(f"terminal audit gradient statistics failed: {path}")
+        cosines = row.get("loss_component_gradient_cosines_first_batch")
+        if (
+            not isinstance(cosines, dict)
+            or set(cosines) != {"gan_sb", "gan_nce", "sb_nce"}
+            or any(
+                not isinstance(number, (int, float))
+                or not math.isfinite(float(number))
+                or abs(float(number)) > 1.000001
+                for number in cosines.values()
+            )
+        ):
+            raise RuntimeError(f"terminal audit gradient cosines failed: {path}")
     if not str(value.get("rollout_jacobian_definition", "")).startswith(
         "full numerical frozen NFE5 map"
     ):

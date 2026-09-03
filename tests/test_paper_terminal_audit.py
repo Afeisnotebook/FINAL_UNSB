@@ -1,13 +1,16 @@
 import math
+from types import SimpleNamespace
 
 import torch
 
 from production.metrics import bridge_times
+from research.local_route1.runtime import capture_rng, full_state_hash, model_state
 from research.paper_aio.terminal_audit import (
     _differentiable_rollout_from_state,
     _gram_spectrum,
     _local_jvp_gain,
     _rollout_jvp_gain,
+    gradient_stratum_statistics,
     perturbation_gain_to_final,
 )
 
@@ -29,6 +32,147 @@ def test_gram_spectrum_is_unbiased_sample_covariance_not_feature_normalized():
     )
     assert result["sample_count"] == 3
     assert result["flattened_dimension"] == 1
+
+
+class _SerializableScalarStream:
+    def __init__(self):
+        self.index = 0
+
+    def next(self):
+        self.index += 1
+        return torch.tensor([[float(self.index)]])
+
+    def state_dict(self):
+        return {"index": self.index}
+
+    def load_state_dict(self, state):
+        self.index = int(state["index"])
+
+
+class _GradientAuditModel:
+    def __init__(self):
+        self.device = torch.device("cpu")
+        self.opt = SimpleNamespace(num_timesteps=2, lambda_SB=1.0)
+        self.netG = torch.nn.Linear(1, 1, bias=False)
+        self.netF = torch.nn.Linear(1, 1, bias=False)
+        self.netD = torch.nn.Linear(1, 1, bias=False)
+        self.netE = torch.nn.Linear(1, 1, bias=False)
+        self.model_names = ["G", "F", "D", "E"]
+        self.optimizer_G = torch.optim.Adam(self.netG.parameters(), lr=1e-3)
+        self.optimizer_F = torch.optim.Adam(self.netF.parameters(), lr=1e-3)
+        self.optimizer_D = torch.optim.Adam(self.netD.parameters(), lr=1e-3)
+        self.optimizer_E = torch.optim.Adam(self.netE.parameters(), lr=1e-3)
+        self.optimizers = [
+            self.optimizer_G,
+            self.optimizer_F,
+            self.optimizer_D,
+            self.optimizer_E,
+        ]
+        self.schedulers = []
+        self.audit_log = []
+
+    def _sample_training_time_idx(self, total):
+        return torch.randint(int(total), size=[1])
+
+    def set_input(self, primary, secondary):
+        self.primary = primary
+        self.secondary = secondary
+
+    def forward(self):
+        self.time_idx = self._sample_training_time_idx(self.opt.num_timesteps)
+        self.random_value = torch.rand(())
+        self.audit_log.append({
+            "time": int(self.time_idx.item()),
+            "sample": float(self.primary.item()),
+            "random": float(self.random_value.item()),
+            "training": bool(self.netG.training),
+        })
+
+    def compute_G_loss(self):
+        value = self.netG(
+            self.primary
+            + self.secondary
+            + self.random_value
+            + self.time_idx.float().reshape(1, 1)
+        )
+        feature = self.netF(value)
+        self.loss_G_GAN = feature.square().mean()
+        self.loss_SB = value.square().mean()
+        self.loss_NCE = feature.mean()
+        return self.loss_G_GAN + self.loss_SB + self.loss_NCE
+
+    @staticmethod
+    def set_requires_grad(network, value):
+        for parameter in network.parameters():
+            parameter.requires_grad_(bool(value))
+
+    def get_extra_training_state(self):
+        return {}
+
+    def load_extra_training_state(self, state):
+        assert state == {}
+
+
+def test_gradient_strata_use_cross_time_crn_training_mode_and_restore_state():
+    torch.manual_seed(991)
+    model = _GradientAuditModel()
+    primary = _SerializableScalarStream()
+    secondary = _SerializableScalarStream()
+    model.netG.eval()
+    model.netF.train()
+    model.netD.eval()
+    model.netE.train()
+    next(model.netE.parameters()).requires_grad_(False)
+    modes_before = {
+        name: getattr(model, "net" + name).training for name in model.model_names
+    }
+    flags_before = [
+        parameter.requires_grad
+        for name in model.model_names
+        for parameter in getattr(model, "net" + name).parameters()
+    ]
+    state_before = full_state_hash(model_state(model))
+    rng_before = full_state_hash(capture_rng())
+
+    result = gradient_stratum_statistics(
+        model,
+        primary,
+        secondary,
+        replicates=2,
+    )
+
+    assert result["cross_time_common_sampler_state"] is True
+    assert result["cross_time_common_rng_state"] is True
+    assert result["forward_mode"] == "training_for_every_replicate"
+    assert all(row["training"] for row in model.audit_log)
+    by_time = {
+        time: [row for row in model.audit_log if row["time"] == time]
+        for time in range(2)
+    }
+    assert [row["sample"] for row in by_time[0]] == [
+        row["sample"] for row in by_time[1]
+    ]
+    assert [row["random"] for row in by_time[0]] == [
+        row["random"] for row in by_time[1]
+    ]
+    assert all(
+        row["gradient_variance_normalization"]
+        == "unbiased_sample_covariance_trace_n_minus_1"
+        for row in result["strata"]
+    )
+    assert primary.state_dict() == {"index": 0}
+    assert secondary.state_dict() == {"index": 0}
+    assert "_sample_training_time_idx" not in model.__dict__
+    assert {
+        name: getattr(model, "net" + name).training for name in model.model_names
+    } == modes_before
+    assert [
+        parameter.requires_grad
+        for name in model.model_names
+        for parameter in getattr(model, "net" + name).parameters()
+    ] == flags_before
+    assert full_state_hash(model_state(model)) == state_before
+    assert full_state_hash(capture_rng()) == rng_before
 
 
 class _ScaledEndpoint(torch.nn.Module):

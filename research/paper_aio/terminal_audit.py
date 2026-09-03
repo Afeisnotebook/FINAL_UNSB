@@ -350,11 +350,19 @@ def gradient_stratum_statistics(
     """
     if primary is None or secondary is None:
         return {"status": "NOT_REQUESTED_NO_TRAIN_STREAMS", "strata": []}
+    if int(replicates) < 2:
+        raise ValueError("gradient stratum covariance requires at least two replicates")
     saved_model = cpu_clone(model_state(model))
     saved_rng = capture_rng()
     primary_state = cpu_clone(primary.state_dict())
     secondary_state = cpu_clone(secondary.state_dict())
-    original_sampler = model._sample_training_time_idx
+    sampler_was_instance_attribute = "_sample_training_time_idx" in model.__dict__
+    original_instance_sampler = model.__dict__.get("_sample_training_time_idx")
+    original_requires_grad = [
+        (parameter, bool(parameter.requires_grad))
+        for name in model.model_names
+        for parameter in getattr(model, "net" + name).parameters()
+    ]
     modes = {name: getattr(model, "net" + name).training for name in model.model_names}
     parameters = [
         parameter
@@ -365,6 +373,12 @@ def gradient_stratum_statistics(
     strata = []
     try:
         for time_index in range(int(model.opt.num_timesteps)):
+            # Every time stratum sees the same sequence of training images and
+            # stochastic draws.  Only the forced bridge coordinate differs.
+            load_model_state(model, saved_model)
+            primary.load_state_dict(primary_state)
+            secondary.load_state_dict(secondary_state)
+            restore_rng(saved_rng)
             model._sample_training_time_idx = lambda total, value=time_index: (
                 torch.full(
                     (1,),
@@ -378,9 +392,9 @@ def gradient_stratum_statistics(
             component_cosines = None
             for replicate in range(int(replicates)):
                 model.set_input(primary.next(), secondary.next())
-                model.forward()
                 for name in model.model_names:
                     getattr(model, "net" + name).train(True)
+                model.forward()
                 model.set_requires_grad(model.netD, False)
                 model.set_requires_grad(model.netE, False)
                 loss = model.compute_G_loss()
@@ -420,33 +434,47 @@ def gradient_stratum_statistics(
             stacked = torch.stack(flattened).double()
             mean = stacked.mean(dim=0)
             second_moment = stacked.square().sum(dim=1).mean()
-            variance_trace = (second_moment - mean.square().sum()).clamp_min(0)
+            centered = stacked - mean
+            variance_trace = centered.square().sum() / float(int(replicates) - 1)
             strata.append(
                 {
                     "time_index": time_index,
                     "replicates": int(replicates),
                     "gradient_mean_norm": float(mean.norm()),
                     "gradient_variance_trace": float(variance_trace),
+                    "gradient_variance_normalization": "unbiased_sample_covariance_trace_n_minus_1",
                     "gradient_second_moment": float(second_moment),
                     "adam_preconditioned_norm_mean": float(np.mean(metric_norms)),
-                    "adam_preconditioned_norm_std": float(np.std(metric_norms)),
+                    "adam_preconditioned_norm_std": float(
+                        np.std(metric_norms, ddof=1)
+                    ),
+                    "adam_preconditioned_norm_std_normalization": "sample_std_n_minus_1",
                     "loss_component_gradient_cosines_first_batch": component_cosines,
                 }
             )
-            del stacked, flattened, mean
+            del stacked, flattened, mean, centered
     finally:
-        model._sample_training_time_idx = original_sampler
+        if sampler_was_instance_attribute:
+            model.__dict__["_sample_training_time_idx"] = original_instance_sampler
+        else:
+            model.__dict__.pop("_sample_training_time_idx", None)
         load_model_state(model, saved_model)
         primary.load_state_dict(primary_state)
         secondary.load_state_dict(secondary_state)
         restore_rng(saved_rng)
         for name, was_training in modes.items():
             getattr(model, "net" + name).train(was_training)
+        for parameter, requires_grad in original_requires_grad:
+            parameter.requires_grad_(requires_grad)
         for optimizer in model.optimizers:
             optimizer.zero_grad(set_to_none=True)
     return {
         "status": "TARGET_BLIND_NATIVE_OBJECTIVE_GRADIENT_AUDIT_COMPLETE",
-        "definition": "forced-time native G/F objective gradient; no optimizer transition",
+        "definition": "forced-time native G/F objective gradient with cross-time common batches and RNG; no optimizer transition",
+        "cross_time_common_sampler_state": True,
+        "cross_time_common_rng_state": True,
+        "forward_mode": "training_for_every_replicate",
+        "parent_requires_grad_flags_restored": True,
         "strata": strata,
     }
 
