@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T17:47:50+08:00",
+  "captured_at": "2026-09-03T17:57:26+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -112,7 +112,7 @@
       "local_terminal_audit_successor": 20244,
       "local_terminal_pathology_control_supervisor": 23476,
       "local_terminal_pathology_successor": 9400,
-      "local_terminal_combined_health": 6776,
+      "local_terminal_combined_health": 21052,
       "local_ddsb_source_watch": 20388,
       "local_ddsb_source_health": 10780,
       "local_dclgan_portable_gate_supervisor_terminal": 16956,
@@ -331,14 +331,14 @@
     "terminal_audit_authority_write": "same_directory_fsync_atomic_replace_reject_preexisting_torn_row",
     "terminal_audit_process_recovery": "frozen_command_auto_restart_fail_closed_max_20_launches",
     "terminal_audit_definition": "full_numerical_Xt_to_NFE5_endpoint_rollout_jacobian_lane_blind_crn_plus_unbiased_sample_covariance_nonzero_spectrum_and_cross_time_common_batch_sampler_rng_train_mode_gradient_strata",
-    "incremental_health_watcher_pid": 6776,
-    "incremental_health_status": "healthy_zero_alerts_auto_recovery_chain_and_four_relays",
-    "retired_incremental_health_watcher_pid": 22700,
-    "earlier_retired_incremental_health_watcher_pids": [13536, 13852, 15672, 20780, 5200, 20860],
+    "incremental_health_watcher_pid": 21052,
+    "incremental_health_status": "healthy_zero_alerts_long_cell_aware_auto_recovery_chain_and_four_relays",
+    "retired_incremental_health_watcher_pid": 6776,
+    "earlier_retired_incremental_health_watcher_pids": [13536, 13852, 15672, 20780, 5200, 20860, 22700],
     "terminal_pathology_successor_status": "healthy_waiting_target_blind_release_then_auto_unified_evaluation_and_posthoc_adjudication",
     "terminal_pathology_control_supervisor_pid": 23476,
     "terminal_pathology_successor_pid": 9400,
-    "terminal_pathology_health_watcher_pid": 6776,
+    "terminal_pathology_health_watcher_pid": 21052,
     "retired_terminal_pathology_successor_pid": 11452,
     "earlier_retired_terminal_pathology_successor_pids": [2732, 21384, 16968, 22408, 17116],
     "retired_terminal_pathology_health_watcher_pid": 22700,
@@ -364,7 +364,8 @@
       "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
       "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRASH_ATOMIC_DEPLOYED_20260903T172200.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
-      "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json"
+      "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json",
+      "evidence/paper_aio/PAPER_AIO_LOCAL_LONG_CELL_HEALTH_WATCH_REPAIR_20260903T175726.json"
     ]
   },
   "algorithm_posthoc_delivery": {

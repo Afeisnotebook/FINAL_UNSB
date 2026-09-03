@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T17:47:50+08:00",
+  "state_snapshot_time": "2026-09-03T17:57:26+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -601,16 +601,16 @@
         "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
         "decision": "decisions/DEC-20260903-FIRST-E100-RELAY-READINESS.md"
       },
-      "incremental_health_watcher_pid": 6776,
-      "incremental_health_watcher_status": "HEALTHY_ZERO_ALERTS_AUTO_RECOVERY_CHAIN_AND_FOUR_RELAYS",
-      "retired_incremental_health_watcher_pid": 22700,
-      "earlier_retired_incremental_health_watcher_pids": [13536, 13852, 15672, 20780, 5200, 20860],
+      "incremental_health_watcher_pid": 21052,
+      "incremental_health_watcher_status": "HEALTHY_ZERO_ALERTS_LONG_CELL_AWARE_AUTO_RECOVERY_CHAIN_AND_FOUR_RELAYS",
+      "retired_incremental_health_watcher_pid": 6776,
+      "earlier_retired_incremental_health_watcher_pids": [13536, 13852, 15672, 20780, 5200, 20860, 22700],
       "incremental_health_watcher_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
-      "incremental_health_watcher_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_8d422dc_final",
+      "incremental_health_watcher_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_8d422dc_final_v2",
       "terminal_pathology_successor_status": "HEALTHY_WAITING_EXACT_12_CELL_TARGET_BLIND_RELEASE_THEN_AUTO_UNIFIED_EVALUATION_AND_POSTHOC_ADJUDICATION",
       "terminal_pathology_control_supervisor_pid": 23476,
       "terminal_pathology_successor_pid": 9400,
-      "terminal_pathology_health_watcher_pid": 6776,
+      "terminal_pathology_health_watcher_pid": 21052,
       "retired_terminal_pathology_successor_pid": 11452,
       "earlier_retired_terminal_pathology_successor_pids": [2732, 21384, 16968, 22408, 17116],
       "retired_terminal_pathology_health_watcher_pid": 22700,
@@ -639,7 +639,8 @@
         "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
         "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRASH_ATOMIC_DEPLOYED_20260903T172200.json",
         "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
-        "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json"
+        "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json",
+        "evidence/paper_aio/PAPER_AIO_LOCAL_LONG_CELL_HEALTH_WATCH_REPAIR_20260903T175726.json"
       ],
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
     },
@@ -825,7 +826,7 @@
         "5090C": 13587,
         "4090A_stcgr_control_relation": 2289036
       },
-      "local_combined_health_watcher_pid": 6776,
+      "local_combined_health_watcher_pid": 21052,
       "all_remote_watchers_ppid_one": true,
       "all_states_refreshed_after_initial_poll": true,
       "alert_count": 0,

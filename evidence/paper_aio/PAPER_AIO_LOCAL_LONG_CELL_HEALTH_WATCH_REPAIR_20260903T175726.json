@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-local-long-cell-health-watch-repair-v1",
+  "captured_at": "2026-09-03T17:57:26+08:00",
+  "status": "DEPLOYED_TWO_HEARTBEATS_HEALTHY_OLD_WATCHER_RETIRED",
+  "finding": {
+    "component": "local terminal-audit and terminal-pathology child state monitoring",
+    "previous_max_stale_seconds": 600,
+    "problem": "each child writes RUNNING before a synchronous long GPU subprocess and may not update its state again until the cell completes",
+    "risk": "a healthy multi-hour fixed audit could be reported as unhealthy after ten minutes even though the crash-recovery supervisor continues to monitor the live child",
+    "training_or_scientific_state_at_risk": false
+  },
+  "repair": {
+    "control_repo": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_CONTROL_8D422DC",
+    "control_git_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "control_source_changed": false,
+    "new_health_watcher_pid": 21052,
+    "new_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_8d422dc_final_v2",
+    "relay_max_stale_seconds": 600,
+    "control_supervisor_max_stale_seconds": 600,
+    "terminal_audit_child_max_stale_seconds": 86400,
+    "terminal_pathology_child_max_stale_seconds": 86400,
+    "timeout_hours": 720,
+    "health_watcher_status": "HEALTHY",
+    "health_alert_count": 0,
+    "consecutive_healthy_heartbeats_observed": 2
+  },
+  "cutover": {
+    "retired_health_watcher_pid": 6776,
+    "retired_pid_dead": true,
+    "historical_output_preserved": true,
+    "files_deleted": false,
+    "terminal_audit_supervisor_pid": 6196,
+    "terminal_audit_child_pid": 20244,
+    "terminal_pathology_supervisor_pid": 23476,
+    "terminal_pathology_child_pid": 9400,
+    "checkpoint_relay_pids": [6292, 12656, 19904, 14528],
+    "all_non_watcher_processes_alive_after_cutover": true
+  },
+  "scientific_boundary": {
+    "remote_training_process_changed": false,
+    "local_audit_process_restarted": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}
