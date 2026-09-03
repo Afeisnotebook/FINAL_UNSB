@@ -1,18 +1,26 @@
 import json
+from io import BytesIO
 from types import SimpleNamespace
 
 import pytest
+import torch
 
+from operations.paper_aio_incremental_audit_export import (
+    available_exports,
+    export_set,
+)
 from operations.paper_aio_incremental_audit_relay import (
     AUDIT_EPOCHS,
     IncrementalImportNotReady,
     _contract,
+    _import_available,
     incremental_import_lane_path,
     validate_incremental_import_lane,
     validate_source_set,
 )
 from operations.paper_aio_local_terminal_audit_successor import _ready_rows
-from research.paper_aio.protocol import file_sha256
+from research.local_route1.runtime import full_state_hash
+from research.paper_aio.protocol import FULL_STATE_SCHEMA, file_sha256, lane_spec
 
 
 def _source_set(epochs=(100,)) -> dict:
@@ -186,3 +194,108 @@ def test_incremental_relay_contract_never_persists_password(tmp_path) -> None:
     contract = _contract(args)
     assert contract["password_persisted"] is False
     assert "secret-value" not in json.dumps(contract)
+
+
+class _FixtureSftp:
+    def __init__(self, files: dict[str, bytes]):
+        self.files = files
+
+    def open(self, path: str, mode: str = "rb"):
+        if path not in self.files:
+            raise FileNotFoundError(2, "missing", path)
+        return BytesIO(self.files[path])
+
+    def stat(self, path: str):
+        if path not in self.files:
+            raise FileNotFoundError(2, "missing", path)
+        return SimpleNamespace(st_size=len(self.files[path]))
+
+
+def test_first_e100_export_relay_and_terminal_readiness_integration(tmp_path) -> None:
+    """Exercise the same partial-set shape used by tonight's first real e100."""
+    source_output = tmp_path / "source_output"
+    milestone = source_output / "lanes" / "plain" / "milestones"
+    milestone.mkdir(parents=True)
+    checkpoint = milestone / "e100.pt"
+    payload = {
+        "schema": FULL_STATE_SCHEMA,
+        "lane": lane_spec("plain").to_dict(),
+        "step": 855300,
+        "target_steps": 1710600,
+        "model": {"networks": {"G": {"weight": torch.tensor([1.0])}}},
+        "rng": {"python": (3, (), None)},
+        "samplers": {"primary": {}, "secondary": {}},
+        "metadata": {
+            "git_commit": "a" * 40,
+            "protocol_fingerprint": "b" * 64,
+            "manifest_sha256": "c" * 64,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+    }
+    torch.save(payload, checkpoint)
+    sidecar = milestone / "e100.pt.json"
+    sidecar.write_text(json.dumps({
+        "schema": FULL_STATE_SCHEMA,
+        "lane_id": "plain",
+        "step": 855300,
+        "physical_epoch_completed": 100,
+        "full_state_sha256": file_sha256(checkpoint),
+        "scientific_state_sha256": full_state_hash(payload),
+    }) + "\n", encoding="utf-8")
+
+    export_contract = {
+        "source_output": str(source_output),
+        "destination": str(tmp_path / "source_exports"),
+        "lane_id": "plain",
+        "source_host_label": "4090A",
+        "required_training_git_commit": "a" * 40,
+        "required_training_protocol_fingerprint": "b" * 64,
+        "required_manifest_sha256": "c" * 64,
+        "audit_epochs": list(AUDIT_EPOCHS),
+    }
+    rows = available_exports(export_contract)
+    assert [row["epoch"] for row in rows] == [100]
+
+    local_receipt = tmp_path / "source_exports" / "plain" / "e100.export.json"
+    receipt = json.loads(local_receipt.read_text(encoding="utf-8"))
+    receipt["source_checkpoint"] = "/source/plain/e100.pt"
+    receipt["source_sidecar"] = "/source/plain/e100.pt.json"
+    receipt_bytes = (json.dumps(receipt) + "\n").encode()
+    rows[0]["receipt"] = "/exports/plain/e100.export.json"
+    import hashlib
+    rows[0]["receipt_sha256"] = hashlib.sha256(receipt_bytes).hexdigest()
+    source_set_bytes = (
+        json.dumps(export_set(export_contract, rows)) + "\n"
+    ).encode()
+    sftp = _FixtureSftp({
+        "/exports/plain/INCREMENTAL_AUDIT_EXPORT_SET.json": source_set_bytes,
+        "/exports/plain/e100.export.json": receipt_bytes,
+        "/source/plain/e100.pt": checkpoint.read_bytes(),
+        "/source/plain/e100.pt.json": sidecar.read_bytes(),
+    })
+    import_root = tmp_path / "imports"
+    relay_contract = {
+        "lane_id": "plain",
+        "relay_id": "incremental_4090A_plain",
+        "source_host_label": "4090A",
+        "remote_export_root": "/exports",
+        "destination_root": str(import_root),
+        "required_training_git_commit": "a" * 40,
+        "required_training_protocol_fingerprint": "b" * 64,
+        "required_manifest_sha256": "c" * 64,
+    }
+    result = _import_available(sftp, relay_contract)
+    assert result["status"] == "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"
+    assert result["available_epochs"] == [100]
+    lane_path = incremental_import_lane_path(import_root, "plain", "4090A")
+    imported = validate_incremental_import_lane(
+        lane_path, import_root=import_root, lane_id="plain", host_label="4090A",
+    )
+    assert [row["epoch"] for row in imported] == [100]
+    ready = _ready_rows(
+        {"import_root": str(import_root)},
+        {"import_lane": "plain", "host_label": "4090A"},
+    )
+    assert list(ready) == [100]
+    assert ready[100]["checkpoint_sha256"] == file_sha256(checkpoint)

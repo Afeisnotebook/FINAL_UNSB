@@ -503,6 +503,17 @@
       "terminal_audit_parent_state_restoration": "model_rng_sampler_modes_requires_grad_exact",
       "terminal_audit_real_gpu_smoke_seconds": 777,
       "terminal_audit_real_gpu_peak_memory_mib": 5924,
+      "first_e100_relay_readiness": {
+        "status": "PASS_END_TO_END_PARTIAL_E100_RELEASE_READY",
+        "source_lane": "4090A_plain",
+        "source_epoch_at_audit": 82,
+        "projected_e100_arrival": "2026-09-03T21:00:00+08:00_rough",
+        "deployed_contracts_aligned": true,
+        "local_gpu_lock_probe": "PASS",
+        "integration_test": "PASS",
+        "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
+        "decision": "decisions/DEC-20260903-FIRST-E100-RELAY-READINESS.md"
+      },
       "incremental_health_watcher_pid": 13536,
       "incremental_health_watcher_status": "HEALTHY_ZERO_ALERTS_TIME_CRN_CHAIN_AND_FOUR_RELAYS",
       "retired_incremental_health_watcher_pid": 13852,
@@ -536,7 +547,8 @@
         "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json",
         "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_AUTO_SUCCESSOR_DEPLOYED_20260903.json",
         "evidence/paper_aio/PAPER_AIO_TERMINAL_COVARIANCE_REPAIR_DEPLOYED_20260903T080951.json",
-        "evidence/paper_aio/PAPER_AIO_TERMINAL_TIME_CRN_REPAIR_DEPLOYED_20260903T082017.json"
+        "evidence/paper_aio/PAPER_AIO_TERMINAL_TIME_CRN_REPAIR_DEPLOYED_20260903T082017.json",
+        "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json"
       ],
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
     },

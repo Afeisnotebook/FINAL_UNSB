@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-first-e100-relay-readiness-v1",
+  "captured_at": "2026-09-03T14:54:19+08:00",
+  "base_commit": "5c244907d1fdbf5a65573822fc2622114aff2506",
+  "probe": "4090A_plain_e100",
+  "current_source_epoch": 82,
+  "projected_e100_arrival": "2026-09-03T21:00:00+08:00_rough",
+  "current_source_set": {
+    "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "available_epochs": [],
+    "empty_before_e100_is_expected": true,
+    "remote_export_contract_sha256": "d2d436a83f4fc44dbbaa3fb023e6d7b034dfc6145ed964138b71583aefd537ed",
+    "remote_export_set_sha256": "55d5af369b4d5d1e67e175ad13da825b0d7b18bab44b44d49688d2530f06be2f",
+    "latest_existing_milestone_pair": "e080.pt_and_e080.pt.json"
+  },
+  "deployed_contract_hashes": {
+    "local_incremental_relay_sha256": "219ba9a6a647fec19f08ad6c620531120d8f00fdaeb3aee5e7f551b00f4a52a3",
+    "local_terminal_audit_successor_sha256": "cea0cda7d4df350b3c49062255c238eee2c67c8bb933cc4f887456246842c85c",
+    "local_audit_preflight_state_sha256": "223dd40319821fc15c07705d8be781093308ee63c2b3e82ab4f8ab5e1a7943d0"
+  },
+  "contract_alignment": {
+    "lane": true,
+    "source_host": true,
+    "training_commit": true,
+    "training_protocol_fingerprint": true,
+    "manifest_sha256": true,
+    "fixed_epochs_100_150_200": true,
+    "remote_export_root": true,
+    "local_import_root": true,
+    "audit_preflight_status": "LOCAL_AUDIT_NODE_PREFLIGHT_PASS",
+    "confirmation20_locked": true
+  },
+  "gpu_lock_probe": {
+    "path": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock",
+    "nonblocking_acquire_passed": true,
+    "lock_released_after_probe": true
+  },
+  "integration_test": {
+    "path": "tests/test_paper_incremental_audit_relay.py::test_first_e100_export_relay_and_terminal_readiness_integration",
+    "targeted_file_tests_passed": 12,
+    "proves_partial_e100_release_without_e150_or_e200": true,
+    "full_repository_tests_passed": 589
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "training_or_successor_changed": false,
+    "checkpoint_loaded_from_live_training": false
+  },
+  "decision": "READY_WAIT_FOR_IMMUTABLE_4090A_PLAIN_E100_NO_SCHEDULE_CHANGE"
+}

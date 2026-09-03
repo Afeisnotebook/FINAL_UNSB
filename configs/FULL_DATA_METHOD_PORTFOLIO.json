@@ -287,6 +287,8 @@
     "incremental_source_exporter_pids": [2274259, 2274260, 351230, 29411],
     "incremental_checkpoint_relay_pids": [6292, 12656, 19904, 14528],
     "terminal_audit_successor_status": "preflight_ready_waiting_for_fixed_imports_or_gpu_full_rollout_jvp_required",
+    "first_e100_relay_readiness": "pass_end_to_end_partial_e100_release_ready",
+    "first_e100_relay_readiness_evidence": "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
     "terminal_audit_successor_pid": 20888,
     "retired_terminal_audit_successor_pid": 5100,
     "earlier_retired_terminal_audit_successor_pids": [1780, 13536, 15436],
@@ -321,7 +323,8 @@
       "evidence/paper_aio/PAPER_AIO_TERMINAL_ROLLOUT_JVP_SUCCESSOR_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_AUTO_SUCCESSOR_DEPLOYED_20260903.json",
       "evidence/paper_aio/PAPER_AIO_TERMINAL_COVARIANCE_REPAIR_DEPLOYED_20260903T080951.json",
-      "evidence/paper_aio/PAPER_AIO_TERMINAL_TIME_CRN_REPAIR_DEPLOYED_20260903T082017.json"
+      "evidence/paper_aio/PAPER_AIO_TERMINAL_TIME_CRN_REPAIR_DEPLOYED_20260903T082017.json",
+      "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json"
     ]
   },
   "algorithm_posthoc_delivery": {

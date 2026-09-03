@@ -215,3 +215,6 @@ authorize compute.
     单relation形态闭环演练未来5090B control接入；证明Proposal可保留旧关系并增加新关系，
     ST-CGR cross-code关系也能通过晚三点最终交付门。该测试不写production registry、不读
     性能且不预授权delta，真实5090B e200回执与人工review仍是必要条件。
+66. `DEC-20260903-FIRST-E100-RELAY-READINESS.md`：在4090A plain首个e100里程碑到达前，
+    逐字段验明远端增量export、本地relay、terminal-audit successor和GTX1660锁完全衔接；
+    新增partial `[100]`端到端fixture，证明无需等待e150/e200即可启动target-blind审计。
