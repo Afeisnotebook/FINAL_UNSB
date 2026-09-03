@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T07:54:00+08:00",
+  "captured_at": "2026-09-03T07:58:21+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -149,7 +149,8 @@
       "cyclegan": "5090B"
     },
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json",
-    "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
+    "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json",
+    "latest_control_chain_audit": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json"
   },
   "local_evaluation_node": {
     "status": "preflight_pass_full_rollout_jvp_terminal_audit_pipeline_healthy_waiting_fixed_e100_e150_e200_imports",

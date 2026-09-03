@@ -1,0 +1,136 @@
+{
+  "schema": "final-unsb-paper-matched-control-chain-live-audit-v1",
+  "captured_at": "2026-09-03T07:58:21+08:00",
+  "status": "PASS_HEALTHY_FAIL_CLOSED_CONTROL_CHAIN_NO_TRAINING_CHANGE",
+  "live_training": {
+    "4090A_plain": {
+      "data_epoch": 62,
+      "updates": 530286,
+      "latest_epoch_seconds": 1268.565179824829,
+      "projected_e200": "2026-09-05T08:36:22+08:00",
+      "trainer_pid": 2072055,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090A_stcgr": {
+      "data_epoch": 6,
+      "updates": 51318,
+      "latest_epoch_seconds": 5257.7810254096985,
+      "projected_e200": "2026-09-15T03:00:45+08:00",
+      "trainer_pid": 336346,
+      "health": "HEALTHY_ZERO_ALERTS",
+      "only_gpu_training_lane_on_host": true,
+      "paused_plain_trainer_or_auto_resume_present": false
+    },
+    "5090B_cut": {
+      "data_epoch": 50,
+      "updates": 427650,
+      "latest_epoch_seconds": 1679.2528958320618,
+      "projected_e200": "2026-09-06T05:58:13+08:00",
+      "trainer_pid": 5771,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 28,
+      "updates": 239484,
+      "latest_epoch_seconds": 2326.4229683876038,
+      "projected_e200": "2026-09-07T23:07:36+08:00",
+      "trainer_pid": 11846,
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090C_proposal": {
+      "data_epoch": 8,
+      "updates": 68424,
+      "latest_epoch_seconds": 4722.979921340942,
+      "projected_e200": "2026-09-13T19:30:29+08:00",
+      "trainer_pid": 9734,
+      "health": "HEALTHY_ZERO_ALERTS"
+    }
+  },
+  "future_control": {
+    "plain_lane": "5090B_MATCHED_PLAIN/plain",
+    "predecessor": "5090B CUT complete e200",
+    "successor_pid": 61721,
+    "health_watcher_pid": 61725,
+    "status": "WAITING_FOR_PREDECESSOR_E200",
+    "fresh_e0": true,
+    "cross_host_checkpoint_resume": false,
+    "runtime_twin_updates": 2000,
+    "capacity_gate_epochs": 2,
+    "capacity_gate_uses_makespan_not_utilization": true,
+    "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "proposal_relation": {
+    "method_host": "5090C",
+    "plain_host": "5090B_MATCHED_PLAIN",
+    "successor_pid": 2243220,
+    "status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+    "required_proof": "direct equality of 2000-update e0 core, step core, protocol, manifest and normalized runtime",
+    "transitive_assumption_used": false,
+    "registry_edited": false,
+    "comparison_authorized": false
+  },
+  "stcgr_relation": {
+    "method_host": "5090A",
+    "plain_host": "5090B_MATCHED_PLAIN",
+    "successor_pid": 2289024,
+    "status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+    "required_proof": "candidate-to-parent exact zero-intervention/native-plain gate plus direct parent-to-new-plain 2000-update equality",
+    "transitive_assumption_used": false,
+    "registry_edited": false,
+    "comparison_authorized": false
+  },
+  "registry_review": {
+    "successor_pid": 2349420,
+    "health_watcher_pid": 2349694,
+    "status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+    "method_relations_required": [
+      "proposal:5090C->5090B_MATCHED_PLAIN",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF:5090A->5090B_MATCHED_PLAIN"
+    ],
+    "tracked_registry_edited_automatically": false,
+    "explicit_git_admission_required": true,
+    "comparison_authorized_before_admission": false
+  },
+  "local_target_blind_delivery": {
+    "terminal_audit_successor_pid": 15436,
+    "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "preflight_release": "READY",
+    "fixed_epochs": [100, 150, 200],
+    "terminal_pathology_successor_pid": 21384,
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "health_watchers": [20780, 18712],
+    "health": "HEALTHY_ZERO_ALERTS"
+  },
+  "verification": {
+    "runtime_relation_and_delivery_tests_passed": 33,
+    "tests": [
+      "test_paper_runtime_relation",
+      "test_paper_runtime_relation_successor",
+      "test_paper_candidate_control_relation_successor",
+      "test_paper_relation_registry_review",
+      "test_paper_relation_registry_review_successor",
+      "test_paper_unified",
+      "test_paper_final_delivery_successor",
+      "test_contract_and_schedule"
+    ],
+    "all_expected_processes_alive": true,
+    "all_health_alert_counts_zero": true,
+    "other_training_restarted_or_changed": false
+  },
+  "adjudication": {
+    "continue_all_current_training": true,
+    "resume_5090A_plain": false,
+    "current_absolute_stcgr_trajectory_authorized": true,
+    "current_matched_stcgr_delta_authorized": false,
+    "current_matched_proposal_delta_authorized": false,
+    "next_relation_decision": "after the 5090B 2000-update exact runtime receipt, review and explicitly admit or reject both generated relations in Git"
+  },
+  "boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
