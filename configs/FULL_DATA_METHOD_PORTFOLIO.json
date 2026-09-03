@@ -84,7 +84,7 @@
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "source_bound_adapter_frozen_short_gpu_gates_pass_formal_local_1000_gate_running_remote_training_not_authorized",
+    "dclgan": "portable_source_bound_adapter_local_formal_gate_pass_5090B_target_gate_and_e200_durably_queued_after_matched_plain",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "operational_monitoring": {
@@ -104,8 +104,11 @@
       "local_terminal_combined_health": 13536,
       "local_ddsb_source_watch": 20388,
       "local_ddsb_source_health": 10780,
-      "local_dclgan_gate_supervisor": 12832,
-      "local_dclgan_gate_health": 20752,
+      "local_dclgan_portable_gate_supervisor_terminal": 16956,
+      "local_dclgan_portable_gate_health_terminal": 21144,
+      "5090B_dclgan_target_successor": 99704,
+      "5090B_dclgan_export_successor": 99821,
+      "5090B_dclgan_health": 99966,
       "4090A_stcgr_control_relation": 2289036,
       "4090A_registry_review_successor": 2349694
     },
@@ -116,7 +119,8 @@
       "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json",
       "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
       "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
-      "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json"
+      "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json",
+      "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json"
     ]
   },
   "ddsb_source_watch": {
@@ -132,24 +136,36 @@
     "evidence": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json"
   },
   "external_second_priority_source_gate": {
-    "status": "dclgan_source_bound_adapter_frozen_formal_local_1000_gate_running",
+    "status": "dclgan_portable_local_formal_gate_pass_5090B_target_gate_and_e200_durably_queued",
     "selected_target": "dclgan",
     "dclgan_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
     "dclgan_cpu_smoke": "pass",
-    "adapter_commit": "f03b3ffbfc00cd2b3f740057fb9a391b1ab05add",
-    "adapter_fingerprint": "a60948b1d3b70eb820eaff1ba8d079496ae52b633343e41fd50c3467a316c92d",
-    "local_gate_status": "exact_resume_1000_500_running",
-    "local_gate_supervisor_pid": 12832,
-    "local_gate_health_watcher_pid": 20752,
+    "adapter_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "source_hash_mode": "portable_text_lf_v1",
+    "superseded_raw_hash_commit": "f03b3ffbfc00cd2b3f740057fb9a391b1ab05add",
+    "superseded_raw_hash_gate_disposition": "local_pass_not_portable_not_scientific_failure",
+    "local_gate_status": "complete_host_bound_gpu_gate_authorized",
+    "local_gate_exact_resume": true,
+    "local_gate_updates_per_second": 2.421236817998634,
+    "local_gate_supervisor_pid_terminal": 16956,
+    "local_gate_health_watcher_pid_terminal": 21144,
     "short_cuda_exact_resume_gate": "pass_diagnostic_not_remote_authorization",
     "short_discovery70_repeat_gate": "pass_diagnostic_not_remote_authorization",
+    "target_host": "5090B",
+    "target_status": "healthy_waiting_for_matched_plain_e200_then_complete_target_gate",
+    "target_successor_pid": 99704,
+    "target_export_successor_pid": 99821,
+    "target_health_watcher_pid": 99966,
+    "target_contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
     "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
     "negcut_status": "deferred_engineering_not_mechanism_falsified",
-    "training_authorized": false,
-    "host_assigned": null,
+    "local_training_authorized": true,
+    "target_training_authorized": false,
+    "host_assigned": "5090B",
     "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
-    "decision": "decisions/DEC-20260903-DCLGAN-SOURCE-BOUND-ADAPTER-LOCAL1000-GATE.md",
-    "evidence": "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json"
+    "decision": "decisions/DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md",
+    "evidence": "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json"
   },
   "new_endpoint_identity_audit": {
     "status": "DUPLICATE_ENDPOINT_OF_REGISTERED_5090B_NO_NEW_GPU_CAPACITY",

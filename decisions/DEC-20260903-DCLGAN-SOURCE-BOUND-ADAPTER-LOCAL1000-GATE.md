@@ -2,6 +2,11 @@
 
 Date: 2026-09-03
 
+Superseded for cross-platform authorization by
+`DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md`: this commit's raw-byte
+source hashes were CRLF-sensitive.  Its completed local gate remains provenance,
+not a portable authorization and not a scientific failure.
+
 DCLGAN is the next external-baseline engineering target, not a substitute for
 Proposal, ST-CGR or AM-TNC.  The adapter is frozen at commit
 `f03b3ffbfc00cd2b3f740057fb9a391b1ab05add` and binds the author repository at

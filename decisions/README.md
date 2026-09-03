@@ -190,3 +190,7 @@ authorize compute.
 58. `DEC-20260903-DCLGAN-SOURCE-BOUND-ADAPTER-LOCAL1000-GATE.md`：DCLGAN官方源码绑定适配器
     已冻结，覆盖完整训练状态、严格恢复、只读重复评估和confirmation锁；短GPU门通过后，
     在本地1660启动完整1000/500正式门。该门不读取性能、不授权远端训练，目标GPU仍须重跑。
+59. `DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md`：修复Git换行策略导致的
+    raw-byte源码锁跨平台失效，以LF归一化hash在Windows/Linux得到同一fingerprint；新版
+    本地正式门全部通过，5090B已部署target-gate→e200及导出的持久链并等待matched plain。
+    旧门只因source-lock表示被取代，不构成DCLGAN机制失败或训练失败。

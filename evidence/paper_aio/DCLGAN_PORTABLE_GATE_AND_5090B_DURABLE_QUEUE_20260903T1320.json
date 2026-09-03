@@ -1,0 +1,114 @@
+{
+  "schema": "final-unsb-dclgan-portable-gate-and-durable-queue-v1",
+  "captured_at": "2026-09-03T13:20:00+08:00",
+  "status": "PORTABLE_LOCAL_GATE_PASS_TARGET_5090B_DURABLY_QUEUED_NOT_YET_RUNNING",
+  "source_lock_correction": {
+    "superseded_commit": "f03b3ffbfc00cd2b3f740057fb9a391b1ab05add",
+    "superseded_fingerprint": "a60948b1d3b70eb820eaff1ba8d079496ae52b633343e41fd50c3467a316c92d",
+    "superseded_local_gate_status": "PASS_BUT_RAW_BYTE_SOURCE_LOCK_NOT_CROSS_PLATFORM",
+    "failure_scope": "Linux_preflight_rejected_CRLF_sensitive_README_hash_before_training",
+    "scientific_failure": false,
+    "portable_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "hash_mode": "portable_text_lf_v1",
+    "portable_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "upstream_repository": "https://github.com/JunlinHan/DCLGAN.git",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "normalized_source_hashes": {
+      "README.md": "684c1538d850a743e0a0bbc6bdf08e1036fc1cc22af1fbb831f613c495f8b0e9",
+      "models/dcl_model.py": "3857d4390bb4d484a324b8f45f292422eb93d0ae712188dbe3e814492e5f826e",
+      "models/networks.py": "d36e99fcff24c1e29366faab7f261b9a546fb99ab491f47d44cb8c80ce772caa",
+      "data/unaligned_dataset.py": "9dff3567f87001dc3e0534cab308304112834642c6c52f08095b41d9a7e006d5",
+      "train.py": "8603426c57ba0c938e7350b219bfa5a5f840238293896d01b1a0855cb24cbac3",
+      "LICENSE.md": "723e474850cbe0e809b3e7d367910f8d7124a99b1ff03368d1f0d20ee0331bcc"
+    }
+  },
+  "local_portable_gate": {
+    "host": "LOCAL_GTX1660",
+    "output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "status": "COMPLETE_HOST_BOUND_GPU_GATE_AUTHORIZED",
+    "supervisor_pid_terminal": 16956,
+    "health_watcher_pid_terminal": 21144,
+    "health_status": "ALL_TERMINAL_ZERO_ALERTS",
+    "wall_seconds": 1654.1220231056213,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "training_content_hash_files": 17106,
+    "exact_resume": {
+      "continuous_updates": 1000,
+      "split_updates": 500,
+      "continuous_scientific_state_sha256": "ea53400965b3abfd497d90f900d06bf176a2927c424d78740da0bf8dd45a4d10",
+      "resumed_scientific_state_sha256": "ea53400965b3abfd497d90f900d06bf176a2927c424d78740da0bf8dd45a4d10",
+      "exact": true
+    },
+    "capacity_run": {
+      "updates": 1000,
+      "updates_per_second": 2.421236817998634,
+      "checkpoint_sha256": "92a97592987562f5b325a2b0e046cac89a20c4b66f2b21fa02ceb4bb77c4363e",
+      "peak_allocated_bytes": 2035233280,
+      "peak_reserved_bytes": 2157969408,
+      "free_disk_gib": 119.25674438476562,
+      "estimated_remaining_e200_write_gib": 10.730703452136368
+    },
+    "evaluation_repeat": {
+      "selected_images": 420,
+      "content_hash_files": 840,
+      "first_result_sha256": "399bff18c2bb56400c9dbb82f7b53a727b407f562db984e76fbf380ca8e95edc",
+      "second_result_sha256": "399bff18c2bb56400c9dbb82f7b53a727b407f562db984e76fbf380ca8e95edc",
+      "state_before_middle_after": "ea53400965b3abfd497d90f900d06bf176a2927c424d78740da0bf8dd45a4d10",
+      "exact_and_read_only": true
+    },
+    "receipt_sha256": {
+      "supervisor": "3c6a2dac7ebb7561140cf45e73d51e83580ce2af6850ce653d1dc1185a4e8f67",
+      "preflight": "167d04f005a08b67033e0433052f389f35a3dbd8ca050d44067995901315e98d",
+      "confirmation_lock": "bb60059704cdf7ccbc9c12ca7140bc999ca390aed5d808b266de21952f975775",
+      "exact_resume": "604ea28f65e54dc375aa1c856ac8be9fcc1ade9e0cc076a4b51322776326a90e",
+      "evaluation_repeat": "195832732bd521d5d8832ec9fdc60876119ffaae39db26d6bc731bd291ed7122",
+      "authorization": "e46406a091c5e128d888cdbdd54f9afb1f09c53053aab82022a14477f96a9dd9",
+      "capacity_run": "bb180972479d1d5ff0adb49b43e009b61074fcbae206b825d4084572671e3f2f"
+    }
+  },
+  "linux_portability_preflight": {
+    "host": "5090B",
+    "status": "PASS_SOURCE_AND_CONTROLLED_DATA_PREFLIGHT",
+    "receipt_sha256": "2a2e2c211ec20fde4491927adcb3c7d2da9adf2e2f0e64e0f55c912f60257b13",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "content_hash_files": 17106,
+    "training_authorized": false,
+    "role": "cross_platform_source_and_data_proof_only"
+  },
+  "target_5090b_queue": {
+    "status": "HEALTHY_WAITING_FOR_MATCHED_PLAIN_E200",
+    "repo": "/root/autodl-tmp/FINAL_UNSB_DCLGAN_QUEUE_E45973A",
+    "upstream_root": "/root/autodl-tmp/vendor/DCLGAN_f7a7b8e_bundle",
+    "upstream_bundle_sha256": "25c448e9decf96685c27c0419e115fb794d54290df4b4d7db95f78f5aefec5ee",
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_DCLGAN_5090B_E45973A",
+    "successor_pid": 99704,
+    "export_successor_pid": 99821,
+    "health_watcher_pid": 99966,
+    "required_predecessor": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/operations/CROSS_HOST_PLAIN_SUCCESSOR_STATE.json",
+    "required_predecessor_status": "COMPLETE_PLAIN_E200",
+    "contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
+    "target_gate_required_before_e200": true,
+    "lane_started": false,
+    "free_disk_gib": 230.64623260498047,
+    "estimated_write_plus_headroom_gib": 40.0,
+    "health_alerts": 0
+  },
+  "remote_liveness": {
+    "4090A_plain": {"status": "CHILD_RUNNING", "data_epoch": 78, "updates": 667134, "epoch_seconds": 1263.0441069602966},
+    "5090A_stcgr": {"status": "CHILD_RUNNING", "data_epoch": 9, "updates": 76977, "epoch_seconds": 5177.808950662613},
+    "5090B_cut": {"status": "CHILD_RUNNING", "data_epoch": 61, "updates": 521733, "epoch_seconds": 1662.4036028385162},
+    "5090B_cyclegan": {"status": "CHILD_RUNNING", "data_epoch": 37, "updates": 316461, "epoch_seconds": 2344.0513257980347},
+    "5090C_proposal": {"status": "CHILD_RUNNING", "data_epoch": 12, "updates": 102636, "epoch_seconds": 4870.995954990387}
+  },
+  "scheduling_decision": {
+    "dclgan_role": "second_priority_external_baseline",
+    "does_not_replace_internal_algorithm_frontier": true,
+    "current_5090b_training_interrupted": false,
+    "next_action": "target_successor_repeats_complete_gate_then_runs_e200_only_after_matched_plain_e200",
+    "negcut_status": "DEFERRED_ENGINEERING_NOT_MECHANISM_FALSIFIED"
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "cross_non_equivalent_runtime_delta": false
+}
