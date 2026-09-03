@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T09:49:40+08:00",
+  "state_snapshot_time": "2026-09-03T09:55:46+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -25,7 +25,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional_physical_5090_distinct_from_registered_5090B"],
     "new_endpoint_identity_audit": {
@@ -39,6 +39,15 @@
       "credentials_recorded_in_git": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
       "decision": "decisions/DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md"
+    },
+    "post_duplicate_endpoint_continuity_audit": {
+      "status": "ALL_REAL_HOST_CHAINS_HEALTHY_CURRENT_QUEUE_RETAINED",
+      "all_control_timeouts_cover_projected_completion": true,
+      "health_alerts": 0,
+      "early_amtnc_colocation_started": false,
+      "new_unlicensed_experiment_started": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
+      "decision": "decisions/DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md"
     },
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 68, "latest_observed_updates": 581604, "latest_epoch_seconds": 1263.8423297405243, "projected_completion": "2026-09-05T08:10:19+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},

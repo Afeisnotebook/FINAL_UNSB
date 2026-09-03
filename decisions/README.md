@@ -170,3 +170,6 @@ authorize compute.
 52. `DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md`：用户提供的44804端点经hostname、
     machine-id、仓库/manifest、run inode、PID和heartbeat共同证明是现有5090B，不是新增
     物理GPU；保持CUT/CycleGAN及matched-plain后继不变，禁止误开第三lane或重复登记算力。
+53. `DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md`：在真实四宿主上复核全部训练、
+    后继、exporter、health watcher、磁盘与480–720小时控制窗口；当前队列覆盖e200且0告警，
+    4090A不以新容量探针推迟只剩约46小时的高扇出plain control。

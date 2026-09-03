@@ -1,0 +1,110 @@
+{
+  "schema": "final-unsb-paper-four-host-continuity-audit-v1",
+  "captured_at": "2026-09-03T09:55:46+08:00",
+  "status": "ALL_REAL_HOST_CHAINS_HEALTHY_CURRENT_QUEUE_RETAINED",
+  "repository_head_at_capture": "165e6acb73a0ac106529388cc14759b856663888",
+  "capacity_fact": {
+    "provided_44804_endpoint_is": "existing_5090B",
+    "physical_gpu_count_increased": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json"
+  },
+  "live_roots": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "epoch": 68,
+      "updates": 581604,
+      "epoch_seconds": 1263.8423297405243,
+      "projected_e200": "2026-09-05T08:10:19+08:00",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "successor": "amtnc",
+      "successor_pid": 2182585,
+      "export_successor_pid": 2101680,
+      "health_watcher_pid": 2200307
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
+      "epoch": 7,
+      "updates": 59871,
+      "epoch_seconds": 5247.204705238342,
+      "projected_e200": "2026-09-15T03:08:23+08:00",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "export_successor_pid": 336344,
+      "incremental_exporter_pid": 351230,
+      "health_watcher_pid": 352017
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "epoch": 54,
+      "updates": 461862,
+      "epoch_seconds": 1672.1804161071777,
+      "projected_e200": "2026-09-06T05:38:51+08:00",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "epoch": 31,
+      "updates": 265143,
+      "epoch_seconds": 2312.697573661804,
+      "projected_e200": "2026-09-07T22:23:58+08:00",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "epoch": 10,
+      "updates": 85530,
+      "epoch_seconds": 4771.436885356903,
+      "projected_e200": "2026-09-13T21:39:25+08:00",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "incremental_exporter_pid": 29411,
+      "health_watcher_pid": 13587
+    }
+  },
+  "continuity_windows": {
+    "4090A_health_timeout_hours": 600,
+    "5090A_stcgr_timeout_hours": 600,
+    "5090B_external_timeout_hours": 480,
+    "5090B_matched_plain_successor_timeout_hours": 720,
+    "5090C_proposal_timeout_hours": 480,
+    "all_cover_current_projected_completion": true,
+    "supervisor_exact_resume_maximum_consecutive_failures": 3
+  },
+  "disk": {
+    "4090A_free_gib": 387.0914,
+    "4090A_required_gib": 64,
+    "5090A_free_gib": 184.2931,
+    "5090A_required_gib": 48,
+    "5090B_free_gib": 230.9673,
+    "5090B_required_external_gib": 24,
+    "5090B_required_matched_plain_gib": 24,
+    "5090C_free_gib": 229.915,
+    "5090C_required_gib": 16,
+    "risk": false
+  },
+  "schedule": {
+    "status": "RETAINED",
+    "start_amtnc_beside_4090a_plain": false,
+    "reason": "plain_is_high_fanout_control_with_46_34_hours_remaining_and_existing_same_backbone_colocation_evidence_showed_large_slowdown",
+    "start_third_lane_on_5090b": false,
+    "reason_5090b": "two_live_lanes_plus_matched_plain_successor_already_occupy_the_real_host_DAG",
+    "new_unlicensed_experiment_started": false
+  },
+  "external_risk": {
+    "kind": "cloud_lease_horizon_not_machine_verifiable",
+    "5090C_minimum_available_through": "2026-09-15T00:00:00+08:00",
+    "5090A_minimum_available_through": "2026-09-16T00:00:00+08:00",
+    "5090B_minimum_available_through": "2026-09-14T00:00:00+08:00"
+  },
+  "health_alerts": 0,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "decision": "decisions/DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md"
+}

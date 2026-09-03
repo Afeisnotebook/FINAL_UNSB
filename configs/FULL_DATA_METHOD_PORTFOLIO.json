@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T09:49:40+08:00",
+  "captured_at": "2026-09-03T09:55:46+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -116,6 +116,15 @@
     "existing_queue_changed": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
     "decision": "decisions/DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md"
+  },
+  "post_duplicate_endpoint_continuity_audit": {
+    "status": "ALL_REAL_HOST_CHAINS_HEALTHY_CURRENT_QUEUE_RETAINED",
+    "all_control_timeouts_cover_projected_completion": true,
+    "health_alerts": 0,
+    "early_amtnc_colocation_started": false,
+    "new_unlicensed_experiment_started": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
+    "decision": "decisions/DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md"
   },
   "future_matched_plain_successor": {
     "status": "WAITING_FOR_5090B_CUT_E200_WITH_DYNAMIC_CORESIDENT_CAPACITY_GATE",
@@ -286,8 +295,8 @@
     "scientific_protocol_change": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false
