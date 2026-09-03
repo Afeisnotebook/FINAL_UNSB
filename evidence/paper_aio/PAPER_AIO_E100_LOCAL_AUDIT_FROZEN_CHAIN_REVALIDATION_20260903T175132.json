@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-e100-local-audit-frozen-chain-revalidation-v1",
+  "captured_at": "2026-09-03T17:51:32+08:00",
+  "status": "PASS_READY_FOR_AUTOMATIC_FIXED_E100_RELEASE",
+  "next_release": {
+    "probe_id": "4090A_plain",
+    "data_epoch": 100,
+    "projected_arrival_window": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00",
+    "manual_action_expected": false
+  },
+  "frozen_control": {
+    "repo": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_CONTROL_8D422DC",
+    "git_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "worktree_clean": true,
+    "terminal_audit_source_hashes_exact": true,
+    "candidate_authority_sha256_exact": true,
+    "control_supervisor_source_sha256_exact": true,
+    "child_command_sha256_exact": true
+  },
+  "fixed_design": {
+    "epochs": [100, 150, 200],
+    "probes": [
+      "4090A_plain",
+      "5090C_proposal",
+      "4090A_amtnc",
+      "5090A_stcgr"
+    ],
+    "cell_count": 12,
+    "epochs_exact": true,
+    "probes_exact": true
+  },
+  "release_gates": {
+    "preflight_required_status": "LOCAL_AUDIT_NODE_PREFLIGHT_PASS",
+    "preflight_observed_status": "LOCAL_AUDIT_NODE_PREFLIGHT_PASS",
+    "preflight_exact": true,
+    "gpu_lock": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock",
+    "gpu_lock_nonblocking_available": true,
+    "terminal_audit_supervisor_pid": 6196,
+    "terminal_audit_child_pid": 20244,
+    "terminal_audit_child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "health_watcher_pid": 6776,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0
+  },
+  "relay": {
+    "remote_4090a_incremental_export_pid": 2274259,
+    "remote_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "local_4090a_relay_pid": 6292,
+    "local_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_fixed_epochs": [],
+    "empty_before_e100_is_expected": true
+  },
+  "scientific_boundary": {
+    "checkpoint_loaded_during_revalidation": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_or_module_auto_started": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}

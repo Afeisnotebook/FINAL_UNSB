@@ -42,7 +42,8 @@
       "duplicate_gpu_consumer_present": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
+      "frozen_chain_revalidation_evidence": "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json"
     },
     "durable_successor_readiness": {
       "status": "AUTHORIZED_SUCCESSOR_CHAINS_HEALTHY_AND_FROZEN",
@@ -637,7 +638,8 @@
         "evidence/paper_aio/PAPER_AIO_TERMINAL_TIME_CRN_REPAIR_DEPLOYED_20260903T082017.json",
         "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
         "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRASH_ATOMIC_DEPLOYED_20260903T172200.json",
-        "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json"
+        "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
+        "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json"
       ],
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
     },
