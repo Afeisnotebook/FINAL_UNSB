@@ -47,6 +47,7 @@ def main() -> int:
     state = load("PROJECT_STATE.json")
     probes = load("configs/LOCAL_ROUTE1_PROBES.json")
     paper = load("configs/PAPER_AIO_UNPAIRED_V1.json")
+    baseline = load("configs/PAPER_BASELINE_PORTFOLIO.json")
     lanes = load("configs/FOUR_LANES.json")
     data = load("DATA_CONTRACT.json")
     budget = load("COMPUTE_BUDGET.json")
@@ -122,6 +123,46 @@ def main() -> int:
           "former four-lane server plan is suspended")
     check(budget["status"] == "SUSPENDED_SERVER_BUDGET_NOT_CURRENT",
           "server compute budget is suspended")
+
+    core_baselines = {row["id"]: row for row in baseline["core_controlled_main_table"]}
+    check(
+        set(core_baselines) == {
+            "input", "cyclegan", "cut", "plain_unsb", "proposal_only",
+            "stcgr", "amtnc",
+        }
+        and "not a matched delta" in core_baselines["cut"]["comparison_rule"]
+        and "withheld" in core_baselines["proposal_only"]["comparison_rule"]
+        and "withheld" in core_baselines["stcgr"]["comparison_rule"],
+        "six-domain direct baseline table is frozen without illegal deltas",
+    )
+    direct_extensions = {
+        row["id"]: row for row in baseline["direct_external_extensions"]
+    }
+    check(
+        direct_extensions["ddsb"]["status"]
+        == "reproduction_incomplete_fail_closed"
+        and direct_extensions["ddsb"]["main_table_number_allowed"] is False
+        and direct_extensions["negcut"]["status"]
+        == "deferred_engineering_and_license_not_falsified",
+        "missing or deferred external baselines cannot become fabricated failures",
+    )
+    domain_context = {
+        row["id"]: row for row in baseline["domain_specific_context"]
+    }
+    paired_ceilings = {row["id"]: row for row in baseline["paired_ceiling_block"]}
+    hard_reporting = baseline["hard_reporting_rules"]
+    check(
+        "never impute missing domains" in domain_context["dehazesb"]["reporting_rule"]
+        and set(paired_ceilings) == {"restorevar", "promptir"}
+        and all(
+            "not an unpaired competitor" in row["role"]
+            and "no delta" in row["reporting_rule"]
+            for row in paired_ceilings.values()
+        )
+        and hard_reporting["partial_domain_result_used_as_six_domain_macro"] is False
+        and hard_reporting["paired_method_called_unpaired_competitor"] is False,
+        "domain-specific context and paired ceilings are isolated from the unpaired macro",
+    )
 
     # The suspended plan remains internally coherent provenance, but it is not
     # compared with active project state and cannot authorize execution.

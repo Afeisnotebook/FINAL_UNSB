@@ -89,3 +89,37 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert "cross-host method-minus-plain comparisons" in authorization["excludes"]
     assert "paired metric training or scheduling control" in authorization["excludes"]
     assert state["paper_aio_20260902"]["confirmation20_opened"] is False
+
+
+def test_paper_baseline_tiers_cannot_silently_mix_protocols():
+    baseline = common.load_json("configs/PAPER_BASELINE_PORTFOLIO.json")
+    core = {row["id"]: row for row in baseline["core_controlled_main_table"]}
+    assert set(core) == {
+        "input", "cyclegan", "cut", "plain_unsb", "proposal_only", "stcgr", "amtnc"
+    }
+    assert core["cyclegan"]["paper_label"] == (
+        "CycleGAN (official-loss, controlled shared backbone)"
+    )
+    assert "not a matched delta" in core["cut"]["comparison_rule"]
+    assert "withheld" in core["proposal_only"]["comparison_rule"]
+    assert "withheld" in core["stcgr"]["comparison_rule"]
+
+    external = {row["id"]: row for row in baseline["direct_external_extensions"]}
+    assert external["ddsb"]["status"] == "reproduction_incomplete_fail_closed"
+    assert external["ddsb"]["main_table_number_allowed"] is False
+    assert external["negcut"]["status"] == "deferred_engineering_and_license_not_falsified"
+
+    contextual = {row["id"]: row for row in baseline["domain_specific_context"]}
+    assert "never impute missing domains" in contextual["dehazesb"]["reporting_rule"]
+    ceilings = {row["id"]: row for row in baseline["paired_ceiling_block"]}
+    assert set(ceilings) == {"restorevar", "promptir"}
+    assert all("not an unpaired competitor" in row["role"] for row in ceilings.values())
+    assert all("no delta" in row["reporting_rule"] for row in ceilings.values())
+
+    hard = baseline["hard_reporting_rules"]
+    assert hard["main_table_checkpoint"] == "e200_only"
+    assert hard["best_checkpoint_selection"] is False
+    assert hard["partial_domain_result_used_as_six_domain_macro"] is False
+    assert hard["paired_method_called_unpaired_competitor"] is False
+    assert hard["confirmation20_opened"] is False
+    assert baseline["priority_and_scheduling"]["current_gpu_queue_changed"] is False
