@@ -1,0 +1,56 @@
+{
+  "schema": "final-unsb-paper-live-progress-sentinel-v2-deployment-v1",
+  "captured_at": "2026-09-03T18:50:05+08:00",
+  "status": "V2_DEPLOYED_RESTART_PROVEN_V1_RETIRED",
+  "host_label": "5090A",
+  "source": {
+    "git_commit": "9677175d73e40b6297d7351cc105e4bb1d858855",
+    "checkout": "/root/autodl-tmp/FINAL_UNSB_PROGRESS_WATCH_9677175_BUNDLE",
+    "script_sha256": "390e148cb0a6f57e7d30fa918aaff27b2d9f62ad4f0c4804402413eb9cf38c75",
+    "bundle_sha256": "1e45d9016befc09f7b3ebb59ba6a336d8c49f6043ae3f4301f5a690fe9651f13"
+  },
+  "restart_proof": {
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090A_9677175",
+    "initial_v2_pid": 436173,
+    "initial_v2_state": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "initial_v2_process_terminated_for_test": true,
+    "same_contract_same_output_restart_succeeded": true,
+    "replacement_v2_pid": 436478,
+    "replacement_v2_ppid": 1,
+    "replacement_v2_state": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "replacement_alert_count": 0,
+    "immutable_contract_contains_process_pid": false,
+    "dynamic_state_watch_pid": 436478
+  },
+  "replacement_probe": {
+    "trainer_pid": 431032,
+    "checkpoint_step": 102636,
+    "effective_progress_age_seconds": 2141.460000038147,
+    "io_delta_rchar": 45221097,
+    "io_delta_read_bytes": 23216128,
+    "cpu_ticks_delta": 11627
+  },
+  "retirement": {
+    "v1_pid": 435350,
+    "v1_status": "RETIRED_AFTER_V2_RESTART_PROOF",
+    "duplicate_active_watchers_remaining": false
+  },
+  "training_non_interference": {
+    "stcgr_supervisor_pid": 336345,
+    "stcgr_trainer_pid": 431032,
+    "both_unchanged": true,
+    "gpu_utilization_snapshot_percent": 39,
+    "gpu_memory_used_mib": 2186,
+    "gpu_power_watts": 172.69,
+    "plain_5090a_started": false
+  },
+  "scientific_boundaries": {
+    "signals_training_processes": false,
+    "launches_training": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-STCGR-LIVE-PROGRESS-SENTINEL.md"
+}

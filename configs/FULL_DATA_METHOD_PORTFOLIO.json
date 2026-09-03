@@ -131,7 +131,7 @@
       "5090B_dclgan_health": 99966,
       "4090A_stcgr_control_relation": 2289036,
       "4090A_registry_review_successor": 2349694,
-      "5090A_stcgr_live_progress_sentinel": 435350
+      "5090A_stcgr_live_progress_sentinel": 436478
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -151,7 +151,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T174543.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
-      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PROGRESS_SENTINEL_DEPLOYED_20260903T184318.json"
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_PROGRESS_SENTINEL_DEPLOYED_20260903T184318.json",
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json"
     ]
   },
   "ddsb_source_watch": {
