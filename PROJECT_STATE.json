@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T20:35:38+08:00",
+  "state_snapshot_time": "2026-09-03T21:22:13+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -38,10 +38,13 @@
     },
     "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
     "e100_target_blind_pipeline_readiness": {
-      "status": "READY_WAITING_FOR_FIXED_E100_NO_DUPLICATE_CONSUMER",
+      "status": "FIRST_FIXED_E100_EXPORTED_IMPORTED_AND_TARGET_BLIND_AUDITED",
       "source_lane": "4090A_plain",
-      "source_completed_data_epoch": 96,
-      "projected_e100_window": "2026-09-03T21:15:00+08:00/2026-09-03T21:30:00+08:00",
+      "source_completed_data_epoch": 100,
+      "source_completed_updates": 855300,
+      "source_e100_checkpoint_sha256": "9a0b6e95a059c0e04c8dda3c3bd4126aedd39873c9f00cbac64318e83c41ea97",
+      "source_e100_scientific_state_sha256": "101fad83e946ddcc11dbabb3986fa95544efc50f890af74a8bfec2b2ac2daba5",
+      "source_e100_export_set_sha256": "fa5450dce8c9ecaeabc8f7312f3b13c21ebefff6e51ff81a8e154c144e67b546",
       "remote_incremental_export_pid": 2274259,
       "remote_incremental_export_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
       "remote_terminal_export_pid": 2101680,
@@ -52,6 +55,9 @@
       "local_terminal_pathology_supervisor_pid": 23476,
       "local_terminal_pathology_pid": 9400,
       "fixed_target_blind_cells": 12,
+      "completed_target_blind_cells": ["4090A_plain:e100"],
+      "first_audit_receipt_sha256": "286af7c1eb4375f7374e5a9fd58387689225741de7f4b9851e5965cef5d95d9a",
+      "first_audit_sha256": "42814cae6d6e5801a0063cf62979b3305f077883f7c638e7314c6d570f63f1ba",
       "shared_gpu_lock_gate": "PASS_OS_LEVEL_EXCLUSIVE_LOCK_AND_RECOVERY",
       "duplicate_gpu_consumer_present": false,
       "performance_values_read": false,
@@ -61,6 +67,7 @@
       "end_to_end_export_chain_evidence": "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json",
       "milestone_atomicity_audit_status": "PASS_FAIL_CLOSED_PARTIAL_AND_CORRUPT_MILESTONES",
       "milestone_atomicity_audit_evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
+      "first_real_e100_audit_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E100_TARGET_BLIND_AUDIT_20260903T212213.json",
       "latest_full_test_result": "643 passed"
     },
     "durable_successor_readiness": {
@@ -169,7 +176,7 @@
       "decision": "decisions/DEC-20260903-PROGRESS-AWARE-SUPERVISOR-FAILURE-BUDGET.md"
     },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 94, "latest_observed_updates": 803982, "latest_epoch_seconds": 1262.1947557926178, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "4090A_plain": {"status": "CHILD_RUNNING_AFTER_VERIFIED_E100_AUDIT_RELEASE", "latest_observed_data_epoch": 100, "latest_observed_updates": 855300, "latest_epoch_seconds": 1308.5024161338806, "latest_milestone_checkpoint_sha256": "9a0b6e95a059c0e04c8dda3c3bd4126aedd39873c9f00cbac64318e83c41ea97", "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e150": "2026-09-04T14:30:00+08:00_rough", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 78, "latest_observed_updates": 667134, "latest_epoch_seconds": 1574.9413805007935, "projected_completion": "2026-09-06T00:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039},
       "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 48, "latest_observed_updates": 410544, "latest_epoch_seconds": 2373.0529997348785, "projected_completion": "2026-09-08T01:05:00+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
@@ -655,8 +662,8 @@
         "5090A_stcgr": 19904,
         "5090C_proposal": 14528
       },
-      "incremental_checkpoint_relays_status": "FOUR_ALIVE_PARTIAL_VERIFIED_IMPORTS_WAITING_FOR_FIXED_MILESTONES",
-      "terminal_audit_successor_status": "PREFLIGHT_READY_WAITING_FOR_FIXED_IMPORTS_OR_GPU_FULL_ROLLOUT_JVP_REQUIRED",
+      "incremental_checkpoint_relays_status": "FOUR_ALIVE_4090A_PLAIN_E100_VERIFIED_IMPORTED_OTHERS_WAITING_FIXED_MILESTONES",
+      "terminal_audit_successor_status": "FIRST_CELL_4090A_PLAIN_E100_COMPLETE_WAITING_REMAINING_FIXED_IMPORTS",
       "terminal_audit_control_supervisor_pid": 6196,
       "terminal_audit_successor_pid": 20244,
       "retired_terminal_audit_successor_pid": 20712,
@@ -669,6 +676,9 @@
       "terminal_audit_process_recovery": "frozen_command_auto_restart_fail_closed_max_20_launches",
       "terminal_audit_fixed_epochs": [100, 150, 200],
       "terminal_audit_fixed_probes": ["4090A_plain", "5090C_proposal", "4090A_amtnc", "5090A_stcgr"],
+      "terminal_audit_completed_cells": ["4090A_plain:e100"],
+      "terminal_audit_first_receipt_sha256": "286af7c1eb4375f7374e5a9fd58387689225741de7f4b9851e5965cef5d95d9a",
+      "terminal_audit_first_result_sha256": "42814cae6d6e5801a0063cf62979b3305f077883f7c638e7314c6d570f63f1ba",
       "latest_e100_prearrival_readiness": "evidence/paper_aio/PAPER_AIO_LOCAL_E100_INGESTION_READINESS_20260903T194338.json",
       "e100_prearrival_status": "READY_WAITING_FOR_4090A_PLAIN_E100_SOURCE_EXPORT",
       "terminal_audit_rollout_jacobian": "full_numerical_Xt_to_NFE5_endpoint_with_lane_blind_crn_power_iteration",
@@ -707,9 +717,10 @@
       "terminal_pathology_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_supervised_8d422dc",
       "terminal_pathology_paired_files_parsed": false,
       "terminal_pathology_algorithm_auto_start": false,
+      "first_e100_target_blind_observation": "terminal_time_gradient_variance_largest_but_no_late_domain_finite_gain_above_one_not_adjudicative",
       "training_non_interference_probe": "4090A_plain_e47_1266.3245_seconds_vs_prior_e46_1265.0016_seconds",
       "training_authorized": false,
-      "checkpoint_evaluation_started": false,
+      "checkpoint_evaluation_started": true,
       "performance_values_read": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
@@ -728,6 +739,7 @@
         "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRASH_ATOMIC_DEPLOYED_20260903T172200.json",
         "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
         "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json",
+        "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E100_TARGET_BLIND_AUDIT_20260903T212213.json",
         "evidence/paper_aio/PAPER_AIO_LOCAL_LONG_CELL_HEALTH_WATCH_REPAIR_20260903T175726.json"
       ],
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"

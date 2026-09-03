@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T20:35:38+08:00",
+  "captured_at": "2026-09-03T21:22:13+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -109,6 +109,22 @@
     "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
     "progress_aware_supervisor_live_processes_restarted": false,
     "progress_aware_supervisor_future_5090B_matched_plain_deployed": true,
+    "first_full_data_target_blind_audit": {
+      "status": "PASS_4090A_PLAIN_E100_END_TO_END",
+      "completed_cell": "4090A_plain:e100",
+      "source_updates": 855300,
+      "checkpoint_sha256": "9a0b6e95a059c0e04c8dda3c3bd4126aedd39873c9f00cbac64318e83c41ea97",
+      "audit_sha256": "42814cae6d6e5801a0063cf62979b3305f077883f7c638e7314c6d570f63f1ba",
+      "parent_state_and_rng_unchanged": true,
+      "terminal_gradient_variance_is_largest_stratum": true,
+      "late_finite_gain_above_one_domains": 0,
+      "terminal_pathology_confirmed": false,
+      "remaining_cells": 11,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E100_TARGET_BLIND_AUDIT_20260903T212213.json",
+      "decision": "decisions/DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md"
+    },
     "codex_goal_heartbeat": {
       "status": "active",
       "automation_id": "final-unsb-goal",
@@ -179,7 +195,8 @@
       "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
       "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json",
-      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json"
+      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json",
+      "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E100_TARGET_BLIND_AUDIT_20260903T212213.json"
     ]
   },
   "ddsb_source_watch": {

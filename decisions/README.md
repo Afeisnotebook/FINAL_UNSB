@@ -252,3 +252,6 @@ authorize compute.
 76. `DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md`：把等待CUT e200的
     5090B matched-plain后继升级为源码绑定的progress-aware版本；退出SSH后successor、health
     和progress watcher均归属PID 1且零告警，未启动重复plain，也未改变CUT/CycleGAN/DCLGAN。
+77. `DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md`：4090A plain的首个全量e100
+    checkpoint完成远端原子导出、本地哈希导入和1060终端审计；time-index 4梯度方差为
+    五层最高，但六域late finite gain均小于1，故只记录异方差信号，不提前确认终端病理或改算法。

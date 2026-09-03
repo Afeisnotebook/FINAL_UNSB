@@ -1,0 +1,94 @@
+{
+  "schema": "final-unsb-paper-aio-compact-audit-evidence-v1",
+  "captured_at": "2026-09-03T21:22:13+08:00",
+  "status": "PASS_FIRST_REAL_FULL_DATA_E100_TARGET_BLIND_AUDIT_END_TO_END",
+  "probe_id": "4090A_plain",
+  "source": {
+    "host_label": "4090A",
+    "lane_id": "plain",
+    "epoch": 100,
+    "updates": 855300,
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "training_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "checkpoint_sha256": "9a0b6e95a059c0e04c8dda3c3bd4126aedd39873c9f00cbac64318e83c41ea97",
+    "sidecar_sha256": "32a31593739598e54adbd8095e3f398b0d5976e2a9a4fd500273869ed9c5ddc6",
+    "scientific_state_sha256": "101fad83e946ddcc11dbabb3986fa95544efc50f890af74a8bfec2b2ac2daba5",
+    "export_receipt_sha256": "c2a451418cf80f3617cec7a3e9ca18b7efd617f9a91bc152280e11854b2c0984",
+    "incremental_export_set_sha256": "fa5450dce8c9ecaeabc8f7312f3b13c21ebefff6e51ff81a8e154c144e67b546",
+    "training_continued_after_milestone": true
+  },
+  "verified_local_import": {
+    "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [100],
+    "lane_import_receipt_sha256": "50240abfa12ed4225194b03fd1b71e87537cf8bb46fc1644b04025ccc4ce88c9",
+    "checkpoint_sha256_matches_source": true,
+    "sidecar_sha256_matches_source": true,
+    "export_receipt_sha256_matches_source": true,
+    "source_checkpoint_mutation": false
+  },
+  "audit": {
+    "status": "PASS_FIXED_TARGET_BLIND_TERMINAL_AUDIT",
+    "control_git_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "child_pid": 19728,
+    "started_at": "2026-09-03T21:06:19+08:00",
+    "completed_at": "2026-09-03T21:22:11+08:00",
+    "receipt_sha256": "286af7c1eb4375f7374e5a9fd58387689225741de7f4b9851e5965cef5d95d9a",
+    "audit_sha256": "42814cae6d6e5801a0063cf62979b3305f077883f7c638e7314c6d570f63f1ba",
+    "replicates": 32,
+    "samples_per_domain": 1,
+    "domains": 6,
+    "parent_state_and_rng_unchanged": true,
+    "successor_completed_cells": ["4090A_plain:e100"],
+    "successor_status_after_cell": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU"
+  },
+  "target_blind_summary": {
+    "terminal_time_index": 4,
+    "terminal_increment_trace_by_domain": {
+      "FoggyCityscapes": 39.203001648557475,
+      "LowLightTrafficData": 55.25943387196085,
+      "RSCityscapes": 42.173105027022345,
+      "RainCityscapes": 38.3580408606349,
+      "RainDS-syn": 47.983760839964006,
+      "SnowTrafficData": 37.9593358069401
+    },
+    "terminal_increment_effective_rank_by_domain": {
+      "FoggyCityscapes": 30.95785070551047,
+      "LowLightTrafficData": 21.536320575992494,
+      "RSCityscapes": 30.858185514225173,
+      "RainCityscapes": 30.969744748589658,
+      "RainDS-syn": 30.806365652917286,
+      "SnowTrafficData": 30.94151097780995
+    },
+    "late_time_indices": [3, 4],
+    "late_finite_perturbation_gain_max_by_domain": {
+      "FoggyCityscapes": 0.6048760414123535,
+      "LowLightTrafficData": 0.7699342370033264,
+      "RSCityscapes": 0.4996376633644104,
+      "RainCityscapes": 0.40303072333335876,
+      "RainDS-syn": 0.6316179633140564,
+      "SnowTrafficData": 0.4684158265590668
+    },
+    "late_finite_perturbation_gain_exceeds_one_domains": 0,
+    "gradient_variance_trace_by_time_index": [
+      268.3821158722672,
+      169.19569711011692,
+      286.5687364813337,
+      139.22866577807338,
+      661.262967859133
+    ],
+    "terminal_gradient_variance_is_largest_stratum": true,
+    "terminal_to_next_largest_gradient_variance_ratio": 2.3075195709710847,
+    "paired_labels_attached": false,
+    "terminal_pathology_confirmed": false
+  },
+  "adjudication": {
+    "current_conclusion": "E100 establishes a target-blind heteroscedastic terminal-gradient observation but does not establish terminal singular-drift pathology.",
+    "why_not_confirmed": "The preregistered decision requires lead-lag evidence across e100/e150/e200 and support in at least two methods and three domains; only one method-epoch cell exists.",
+    "algorithm_or_schedule_changed": false,
+    "paired_metric_control": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md"
+}
