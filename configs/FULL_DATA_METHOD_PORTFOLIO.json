@@ -373,12 +373,16 @@
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "lease_horizon_action": {
-    "status": "EXTERNAL_CAPACITY_CONFIRMATION_REQUIRED",
+    "status": "external_capacity_action_required_for_5090c_and_post_control_dclgan",
     "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
+    "5090C_action_deadline": "2026-09-11T00:00:00+08:00",
+    "5090C_conditional_shortfall_hours": 30.16,
     "5090A_minimum_availability_through": "2026-09-16T00:00:00+08:00",
-    "5090B_minimum_availability_through": "2026-09-14T00:00:00+08:00",
+    "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
+    "5090B_dclgan_provisional_capacity_through": "2026-09-22T00:00:00+08:00",
+    "5090B_dclgan_recalibrate_after_target_gate": true,
     "scientific_protocol_change": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_LEASE_CRITICAL_PATH_REFRESH_20260903T143200.json"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_AND_CODEX_GOAL_HEARTBEAT_20260903T142200.json",
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_AND_CODEX_GOAL_HEARTBEAT_20260903T142200.json",

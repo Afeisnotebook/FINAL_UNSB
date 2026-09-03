@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-lease-critical-path-refresh-v1",
+  "captured_at": "2026-09-03T14:32:00+08:00",
+  "source_live_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_AND_CODEX_GOAL_HEARTBEAT_20260903T142200.json",
+  "current_health": "ALL_ACTIVE_TRAINS_AND_CONTROL_CHAINS_HEALTHY",
+  "lease_risks": {
+    "5090C": {
+      "lane": "proposal",
+      "observed_process_start_approx": "2026-09-02T20:11:42+08:00",
+      "user_stated_rental_days": 10,
+      "conditional_lease_end_if_counted_from_process_start": "2026-09-12T20:11:42+08:00",
+      "projected_e200": "2026-09-14T02:21:36+08:00",
+      "conditional_shortfall_hours": 30.16,
+      "minimum_safe_availability_through": "2026-09-15T00:00:00+08:00",
+      "action_deadline": "2026-09-11T00:00:00+08:00",
+      "action": "CONFIRM_OR_EXTEND_RENTAL"
+    },
+    "5090A": {
+      "lane": "stcgr",
+      "projected_e200": "2026-09-14T14:41:04+08:00",
+      "minimum_safe_availability_through": "2026-09-16T00:00:00+08:00",
+      "action": "CONFIRM_RENTAL_COVERAGE"
+    },
+    "5090B_core_control": {
+      "lanes": ["cut", "cyclegan", "matched_plain"],
+      "minimum_safe_availability_through": "2026-09-14T00:00:00+08:00",
+      "action": "CONFIRM_RENTAL_COVERAGE"
+    },
+    "5090B_dclgan_extension": {
+      "lane": "dclgan",
+      "dependency": "matched_plain_e200_then_target_gate",
+      "known_local_gate_updates_per_second": 2.421236817998634,
+      "known_local_full_run_days_at_same_throughput": 8.176,
+      "target_5090_throughput_status": "UNKNOWN_UNTIL_FROZEN_TARGET_GATE",
+      "provisional_capacity_reservation_through": "2026-09-22T00:00:00+08:00",
+      "reservation_is_scientific_result": false,
+      "action": "RESERVE_CAPACITY_THEN_RECALIBRATE_AFTER_TARGET_GATE"
+    }
+  },
+  "engineering_boundary": {
+    "healthy_training_interrupted": false,
+    "queue_changed": false,
+    "checkpoint_deleted": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false
+  },
+  "decision": "KEEP_SCHEDULE_ESCALATE_EXTERNAL_CAPACITY_HORIZONS"
+}

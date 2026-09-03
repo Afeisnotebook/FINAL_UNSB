@@ -208,3 +208,6 @@ authorize compute.
 63. `DEC-20260903-CODEX-GOAL-HEARTBEAT-CONTINUITY.md`：五节点与本地控制链实时健康；
     44804仍是已登记5090B。发现旧Codex heartbeat已不存在后，新建并启用当前论文Goal
     heartbeat `final-unsb-goal`，持续监管多算法e200、runtime关系、统一评估和Git终局。
+64. `DEC-20260903-LEASE-CRITICAL-PATH-REFRESH.md`：进程健康但云租期仍是外部关键路径；
+    5090C十天租期可能比Proposal e200早约30小时结束，要求9月11日前确认覆盖至9月15日；
+    5090B的9月14日边界只覆盖control，DCLGAN需先预留至9月22日再按目标门实测收敛。

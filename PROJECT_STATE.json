@@ -712,6 +712,18 @@
       "supersedes_missing_automation_id": "final-unsb-route1-result-watch",
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_AND_CODEX_GOAL_HEARTBEAT_20260903T142200.json"
     },
+    "lease_horizon_action": {
+      "status": "EXTERNAL_CAPACITY_ACTION_REQUIRED_FOR_5090C_AND_POST_CONTROL_DCLGAN",
+      "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
+      "5090C_action_deadline": "2026-09-11T00:00:00+08:00",
+      "5090C_conditional_shortfall_hours": 30.16,
+      "5090A_minimum_availability_through": "2026-09-16T00:00:00+08:00",
+      "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
+      "5090B_dclgan_provisional_capacity_through": "2026-09-22T00:00:00+08:00",
+      "5090B_dclgan_recalibrate_after_target_gate": true,
+      "scientific_protocol_change": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_LEASE_CRITICAL_PATH_REFRESH_20260903T143200.json"
+    },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "delivery_handoff_repair": {
       "status": "DYNAMIC_SOURCE_V3_HASH_CLOSURE_READY_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
