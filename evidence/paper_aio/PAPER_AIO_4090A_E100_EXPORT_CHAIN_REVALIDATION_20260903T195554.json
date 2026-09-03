@@ -1,0 +1,86 @@
+{
+  "schema": "final-unsb-paper-4090a-e100-export-chain-revalidation-v1",
+  "captured_at": "2026-09-03T19:55:54+08:00",
+  "status": "READY_END_TO_END_WAITING_FOR_FIXED_E100",
+  "source_training": {
+    "host_label": "4090A",
+    "lane_id": "plain",
+    "supervisor_pid": 2072054,
+    "trainer_pid": 2072055,
+    "completed_data_epoch": 96,
+    "completed_updates": 821088,
+    "latest_epoch_wall_seconds": 1265.292038679123,
+    "next_fixed_audit_epoch": 100,
+    "projected_e100_window": "2026-09-03T21:15:00+08:00/2026-09-03T21:30:00+08:00",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "remote_publishers": {
+    "incremental_audit_export": {
+      "pid": 2274259,
+      "alive": true,
+      "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "required_epochs": [100, 150, 200],
+      "available_epochs": [],
+      "empty_before_e100_is_expected": true,
+      "control_git_commit": "0b74339e919aaeed3b4866de42a880f2d2135732",
+      "control_source_sha256": "4bc4b47ba26a5174ccb535115038b106e4638824082c705fd8dc6de3e8085ff9",
+      "set_sha256": "55d5af369b4d5d1e67e175ad13da825b0d7b18bab44b44d49688d2530f06be2f"
+    },
+    "terminal_export": {
+      "pid": 2101680,
+      "alive": true,
+      "status": "WAITING_FOR_COMPLETE_E200",
+      "required_epochs": [100, 125, 150, 175, 200]
+    },
+    "free_disk_gib": 387,
+    "source_checkpoint_mutation": false
+  },
+  "local_consumers": {
+    "incremental_relay": {
+      "pid": 6292,
+      "alive": true,
+      "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+      "available_epochs": []
+    },
+    "terminal_audit": {
+      "control_supervisor_pid": 6196,
+      "child_pid": 20244,
+      "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "restart_count": 0
+    },
+    "terminal_pathology": {
+      "control_supervisor_pid": 23476,
+      "child_pid": 9400,
+      "status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+      "restart_count": 0
+    },
+    "combined_health_watcher_pid": 21052,
+    "combined_health_status": "HEALTHY",
+    "alert_count": 0,
+    "free_disk_gib": 119.14688491821289,
+    "estimated_remaining_write_gib": 16.0,
+    "required_disk_gib": 66.0
+  },
+  "binding_checks": {
+    "training_commit_exact": true,
+    "protocol_fingerprint_exact": true,
+    "manifest_sha256_exact": true,
+    "fixed_epochs_exact": true,
+    "publisher_process_unique": true,
+    "relay_process_unique": true,
+    "source_checkpoint_mutation": false,
+    "duplicate_gpu_consumer_present": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false,
+    "scheduler_changed": false,
+    "recovery_required": false
+  },
+  "decision": "KEEP_ALL_HEALTHY_PROCESSES_RUNNING_AND_ALLOW_FIXED_E100_TO_FLOW_AUTOMATICALLY"
+}
