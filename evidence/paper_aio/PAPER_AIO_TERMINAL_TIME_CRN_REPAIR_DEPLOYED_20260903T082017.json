@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-terminal-time-crn-repair-deployment-v1",
+  "captured_at": "2026-09-03T08:20:17+08:00",
+  "status": "DEPLOYED_HEALTHY_WAITING_FIXED_E100_E150_E200_IMPORTS",
+  "scope": "local target-blind terminal audit only; no training process or scientific configuration changed",
+  "control_commit": "2fbbd897f9c9f4d4d47a58881d0337a506e9b0c5",
+  "defects_retired": [
+    "the first gradient replicate could execute in eval mode while later replicates executed in train mode",
+    "time strata consumed different batches and RNG streams, confounding time-stratum effects with data and stochastic variation",
+    "gradient variance trace used population normalization while being interpreted as a sample covariance statistic",
+    "temporary sampler-method replacement and parameter requires_grad state were not restored with exact Python-state semantics"
+  ],
+  "repair": {
+    "cross_time_common_random_numbers": true,
+    "cross_time_common_sampler_state": true,
+    "network_mode_before_every_forward": "train",
+    "minimum_replicates": 2,
+    "gradient_covariance_normalization": "unbiased_sample_covariance_n_minus_1",
+    "sample_standard_deviation_normalization": "n_minus_1",
+    "sampler_method_restoration": "exact_instance_or_class_semantics",
+    "requires_grad_flags_restored": true,
+    "result_validator_rejects_legacy_or_ambiguous_spectrum_and_gradient_records": true
+  },
+  "verification": {
+    "relevant_tests_passed": 23,
+    "realistic_fake_model_test": "PASS_COMMON_BATCH_RNG_TRAIN_MODE_AND_FULL_PARENT_STATE_RESTORATION",
+    "legacy_result_fail_closed_tests": "PASS",
+    "old_chain_completed_audit_cells": 0
+  },
+  "replacement_chain": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_TERMINAL_2FBBD89",
+    "audit": {
+      "pid": 20888,
+      "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_time_crn_2fbbd89",
+      "contract_sha256": "cea0cda7d4df350b3c49062255c238eee2c67c8bb933cc4f887456246842c85c"
+    },
+    "pathology": {
+      "pid": 16968,
+      "status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_time_crn_2fbbd89",
+      "contract_sha256": "31f2b71c5744ae343491d5ab7d95f46337e25ddf971907974063d7a4ce4f3212"
+    },
+    "health": {
+      "pid": 13536,
+      "process_identity_note": "Windows reused a PID previously belonging to a retired audit; creation time, command, contract and output identify this as the new health watcher",
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_time_crn_2fbbd89",
+      "contract_sha256": "9ed5d0c7082405c11fa15a9e8e7516bef645af37c098f8db0a0f17c554da2b21"
+    }
+  },
+  "retired_replaced_chain": {
+    "audit_pid": 5100,
+    "pathology_pid": 2732,
+    "health_pid": 13852,
+    "completed_audit_cells": [],
+    "outputs_preserved": true
+  },
+  "live_relay_watch": {
+    "4090A_plain_pid": 6292,
+    "4090A_amtnc_pid": 12656,
+    "5090A_stcgr_pid": 19904,
+    "5090C_proposal_pid": 14528,
+    "all_alive": true
+  },
+  "scientific_boundaries": {
+    "training_changed": false,
+    "training_interrupted": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_or_module_auto_started": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}
