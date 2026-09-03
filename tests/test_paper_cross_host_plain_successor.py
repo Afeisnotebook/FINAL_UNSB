@@ -239,6 +239,7 @@ def test_cross_host_successor_freezes_control_manifest_and_peer_receipt(
     scientific = tmp_path / "scientific"
     _frozen_repo(control, {
         "operations/paper_aio_cross_host_plain_successor.py": "controller\n",
+        "operations/paper_aio_supervisor.py": "supervisor\n",
     })
     scientific_commit = _frozen_repo(scientific, {"training.py": "frozen\n"})
     monkeypatch.setattr(
@@ -263,7 +264,25 @@ def test_cross_host_successor_freezes_control_manifest_and_peer_receipt(
     assert contract["peer_host_label"] == "5090A"
     assert contract["fresh_e0_required"] is True
     assert contract["cross_host_checkpoint_resume"] is False
+    assert contract["supervisor_script"] == str(
+        control / "operations" / "paper_aio_supervisor.py"
+    )
+    assert contract["supervisor_script_sha256"] == successor.file_sha256(
+        control / "operations" / "paper_aio_supervisor.py"
+    )
 
     args.peer_runtime_receipt.write_text("{}\n", encoding="utf-8")
     with pytest.raises(RuntimeError, match="peer runtime receipt changed"):
         successor.verify_frozen_contract(contract)
+
+
+def test_cross_host_successor_control_paths_isolate_replacement_contract_and_lock(
+    tmp_path: Path,
+) -> None:
+    original = successor.control_paths(tmp_path, None)
+    replacement = successor.control_paths(tmp_path, "progress-aware-a89874f")
+    assert original[1] == replacement[1]
+    assert original[0] != replacement[0]
+    assert original[2] != replacement[2]
+    with pytest.raises(RuntimeError, match="unsafe"):
+        successor.control_paths(tmp_path, "../escape")

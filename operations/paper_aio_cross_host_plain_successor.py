@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -31,7 +32,9 @@ CONTRACT_SCHEMA = "final-unsb-paper-cross-host-plain-successor-contract-v2"
 STATE_SCHEMA = "final-unsb-paper-cross-host-plain-successor-v2"
 CONTROL_SOURCE_RELATIVES = (
     "operations/paper_aio_cross_host_plain_successor.py",
+    "operations/paper_aio_supervisor.py",
 )
+_SAFE_INSTANCE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
 
 
 def atomic_json(path: Path, payload: dict) -> None:
@@ -65,6 +68,20 @@ def immutable_json(path: Path, payload: dict) -> None:
             raise RuntimeError(f"immutable capacity receipt changed: {path}")
         return
     atomic_json(path, payload)
+
+
+def control_paths(output: Path, instance_id: str | None) -> tuple[Path, Path, Path]:
+    suffix = ""
+    if instance_id is not None:
+        if not _SAFE_INSTANCE.fullmatch(str(instance_id)):
+            raise RuntimeError("unsafe cross-host successor control instance")
+        suffix = f"_{instance_id}"
+    operations = Path(output) / "operations"
+    return (
+        operations / f"CROSS_HOST_PLAIN_SUCCESSOR_CONTRACT{suffix}.json",
+        operations / "CROSS_HOST_PLAIN_SUCCESSOR_STATE.json",
+        operations / f"CROSS_HOST_PLAIN_SUCCESSOR{suffix}.lock",
+    )
 
 
 def predecessor_decision(status: str | None, *, timed_out: bool) -> str:
@@ -294,6 +311,7 @@ def arguments(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--plain-isolated-epoch-seconds", type=float)
     parser.add_argument("--co-resident-isolated-epoch-seconds", type=float)
     parser.add_argument("--minimum-makespan-saving-seconds", type=float, default=3600)
+    parser.add_argument("--control-instance-id")
     return parser.parse_args(argv)
 
 
@@ -340,6 +358,12 @@ def frozen_contract(
         or peer.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("peer runtime receipt is invalid")
+    instance_id = getattr(args, "control_instance_id", None)
+    if instance_id is not None and not _SAFE_INSTANCE.fullmatch(str(instance_id)):
+        raise RuntimeError("unsafe cross-host successor control instance")
+    supervisor_script = control_repo / "operations" / "paper_aio_supervisor.py"
+    if not supervisor_script.is_file():
+        raise RuntimeError("cross-host successor lacks frozen operational supervisor")
     return {
         "schema": CONTRACT_SCHEMA,
         "status": "FROZEN_WAITING",
@@ -349,6 +373,9 @@ def frozen_contract(
             relative: file_sha256(control_repo / relative)
             for relative in CONTROL_SOURCE_RELATIVES
         },
+        "control_instance_id": instance_id,
+        "supervisor_script": str(supervisor_script),
+        "supervisor_script_sha256": file_sha256(supervisor_script),
         "training_repo": str(training_repo),
         "training_git_commit": training_head,
         "training_output": str(args.training_output.resolve()),
@@ -390,6 +417,12 @@ def verify_frozen_contract(contract: dict) -> None:
     for relative, expected in contract["control_source_sha256"].items():
         if file_sha256(control_repo / relative) != expected:
             raise RuntimeError(f"cross-host successor source changed: {relative}")
+    supervisor_script = Path(contract["supervisor_script"])
+    if (
+        supervisor_script != control_repo / "operations" / "paper_aio_supervisor.py"
+        or file_sha256(supervisor_script) != contract["supervisor_script_sha256"]
+    ):
+        raise RuntimeError("cross-host successor operational supervisor changed")
     if file_sha256(Path(contract["manifest"])) != contract["manifest_sha256"]:
         raise RuntimeError("cross-host successor manifest changed")
     if (
@@ -593,9 +626,9 @@ def main(argv: list[str] | None = None) -> int:
     if not python.is_file():
         raise RuntimeError(f"frozen Python runtime is missing: {python}")
     operations = output / "operations"
-    state_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR_STATE.json"
-    contract_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR_CONTRACT.json"
-    lock_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR.lock"
+    contract_path, state_path, lock_path = control_paths(
+        output, args.control_instance_id,
+    )
     log = output / "logs" / "CROSS_HOST_PLAIN_SUCCESSOR.log"
     operations.mkdir(parents=True, exist_ok=True)
     contract = frozen_contract(args, colocation=colocation)
@@ -767,7 +800,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         supervisor_command = [
             str(python),
-            str(repo / "operations" / "paper_aio_supervisor.py"),
+            str(contract["supervisor_script"]),
             "--repo",
             str(repo),
             "--output",
