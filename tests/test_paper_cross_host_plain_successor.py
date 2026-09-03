@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -10,6 +12,7 @@ from operations import paper_aio_cross_host_plain_successor as successor
 
 def _args(tmp_path):
     return argparse.Namespace(
+        training_repo=tmp_path / "training",
         training_output=tmp_path / "output",
         manifest=tmp_path / "manifest.csv",
         data_root=tmp_path / "data",
@@ -25,6 +28,12 @@ def _args(tmp_path):
         plain_isolated_epoch_seconds=None,
         co_resident_isolated_epoch_seconds=None,
         minimum_makespan_saving_seconds=3600,
+        required_training_git_commit="a" * 40,
+        required_protocol_fingerprint="b" * 64,
+        source_host_label="5090B_MATCHED_PLAIN",
+        predecessor_state=tmp_path / "cut.json",
+        poll_seconds=60,
+        timeout_hours=720,
     )
 
 
@@ -193,3 +202,61 @@ def test_capacity_gate_uses_only_training_heartbeats_and_preserves_resume(
     assert value["decision"] == "CONTINUE_PLAIN_NOW"
     assert value["probe_full_state_preserved_for_exact_resume"] is True
     assert value["performance_values_read"] is False
+
+
+def _git(repo: Path, *args: str) -> None:
+    subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+
+
+def _frozen_repo(path: Path, files: dict[str, str]) -> str:
+    path.mkdir(parents=True)
+    _git(path, "init")
+    for relative, content in files.items():
+        target = path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
+    _git(path, "add", ".")
+    _git(
+        path, "-c", "user.email=test@example.com", "-c", "user.name=test",
+        "commit", "-m", "fixture",
+    )
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=path, text=True,
+    ).strip()
+
+
+def test_cross_host_successor_freezes_control_manifest_and_peer_receipt(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    control = tmp_path / "control"
+    scientific = tmp_path / "scientific"
+    _frozen_repo(control, {
+        "operations/paper_aio_cross_host_plain_successor.py": "controller\n",
+    })
+    scientific_commit = _frozen_repo(scientific, {"training.py": "frozen\n"})
+    monkeypatch.setattr(
+        successor, "__file__",
+        str(control / "operations/paper_aio_cross_host_plain_successor.py"),
+    )
+    args = _args(tmp_path)
+    args.training_repo = scientific
+    args.required_training_git_commit = scientific_commit
+    args.manifest.write_text("manifest\n", encoding="utf-8")
+    args.peer_runtime_receipt.write_text(json.dumps({
+        "schema": "final-unsb-paper-runtime-twin-receipt-v1",
+        "status": "LOCAL_TWIN_COMPLETE",
+        "host_label": "5090A",
+        "updates": 2000,
+        "protocol_fingerprint": args.required_protocol_fingerprint,
+        "manifest_sha256": successor.file_sha256(args.manifest),
+        "confirmation20_opened": False,
+    }) + "\n", encoding="utf-8")
+    contract = successor.frozen_contract(args, colocation=None)
+    successor.verify_frozen_contract(contract)
+    assert contract["peer_host_label"] == "5090A"
+    assert contract["fresh_e0_required"] is True
+    assert contract["cross_host_checkpoint_resume"] is False
+
+    args.peer_runtime_receipt.write_text("{}\n", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="peer runtime receipt changed"):
+        successor.verify_frozen_contract(contract)

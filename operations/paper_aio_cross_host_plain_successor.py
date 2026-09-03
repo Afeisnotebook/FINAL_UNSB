@@ -27,6 +27,11 @@ except ImportError:  # pragma: no cover - deployment is POSIX; tests import on W
 
 BLOCKED_PREFIXES = ("BLOCKED", "FAIL")
 TERMINAL_SUPERVISOR_STATES = {"COMPLETE_E200"}
+CONTRACT_SCHEMA = "final-unsb-paper-cross-host-plain-successor-contract-v2"
+STATE_SCHEMA = "final-unsb-paper-cross-host-plain-successor-v2"
+CONTROL_SOURCE_RELATIVES = (
+    "operations/paper_aio_cross_host_plain_successor.py",
+)
 
 
 def atomic_json(path: Path, payload: dict) -> None:
@@ -300,6 +305,92 @@ def git_identity(repo: Path) -> tuple[str, bool]:
     return head, dirty
 
 
+def frozen_contract(
+    args: argparse.Namespace, *, colocation: dict | None,
+) -> dict:
+    control_repo = Path(__file__).resolve().parents[1]
+    training_repo = args.training_repo.resolve()
+    control_head, control_dirty = git_identity(control_repo)
+    training_head, training_dirty = git_identity(training_repo)
+    if control_dirty:
+        raise RuntimeError("cross-host successor control checkout is not frozen")
+    if training_head != args.required_training_git_commit or training_dirty:
+        raise RuntimeError("frozen plain training checkout identity changed")
+    peer_path = args.peer_runtime_receipt.resolve()
+    manifest = args.manifest.resolve()
+    if not peer_path.is_file() or not manifest.is_file():
+        raise RuntimeError("cross-host successor lacks peer receipt or manifest")
+    peer = read_json(peer_path)
+    manifest_sha256 = file_sha256(manifest)
+    if (
+        peer.get("schema") != "final-unsb-paper-runtime-twin-receipt-v1"
+        or peer.get("status") != "LOCAL_TWIN_COMPLETE"
+        or peer.get("updates") != 2000
+        or peer.get("protocol_fingerprint")
+        != args.required_protocol_fingerprint
+        or peer.get("manifest_sha256") != manifest_sha256
+        or peer.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("peer runtime receipt is invalid")
+    return {
+        "schema": CONTRACT_SCHEMA,
+        "status": "FROZEN_WAITING",
+        "control_repo": str(control_repo),
+        "control_git_commit": control_head,
+        "control_source_sha256": {
+            relative: file_sha256(control_repo / relative)
+            for relative in CONTROL_SOURCE_RELATIVES
+        },
+        "training_repo": str(training_repo),
+        "training_git_commit": training_head,
+        "training_output": str(args.training_output.resolve()),
+        "python": str(args.python.resolve()),
+        "manifest": str(manifest),
+        "manifest_sha256": manifest_sha256,
+        "data_root": str(args.data_root.resolve()),
+        "train_view": str(args.train_view.resolve()),
+        "predecessor_state": str(args.predecessor_state.resolve()),
+        "peer_runtime_receipt": str(peer_path),
+        "peer_runtime_receipt_sha256": file_sha256(peer_path),
+        "peer_host_label": str(peer.get("host_label", "")),
+        "host_label": str(args.host_label),
+        "source_host_label": str(args.source_host_label),
+        "required_protocol_fingerprint": str(
+            args.required_protocol_fingerprint
+        ),
+        "gpu": int(args.gpu),
+        "poll_seconds": int(args.poll_seconds),
+        "timeout_hours": float(args.timeout_hours),
+        "co_resident_capacity_gate": colocation,
+        "fresh_e0_required": True,
+        "cross_host_checkpoint_resume": False,
+        "performance_values_available_to_scheduler": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+
+
+def verify_frozen_contract(contract: dict) -> None:
+    control_repo = Path(contract["control_repo"])
+    training_repo = Path(contract["training_repo"])
+    control_head, control_dirty = git_identity(control_repo)
+    training_head, training_dirty = git_identity(training_repo)
+    if control_head != contract["control_git_commit"] or control_dirty:
+        raise RuntimeError("cross-host successor control checkout moved")
+    if training_head != contract["training_git_commit"] or training_dirty:
+        raise RuntimeError("cross-host successor training checkout moved")
+    for relative, expected in contract["control_source_sha256"].items():
+        if file_sha256(control_repo / relative) != expected:
+            raise RuntimeError(f"cross-host successor source changed: {relative}")
+    if file_sha256(Path(contract["manifest"])) != contract["manifest_sha256"]:
+        raise RuntimeError("cross-host successor manifest changed")
+    if (
+        file_sha256(Path(contract["peer_runtime_receipt"]))
+        != contract["peer_runtime_receipt_sha256"]
+    ):
+        raise RuntimeError("cross-host successor peer runtime receipt changed")
+
+
 def run_logged(command: list[str], *, cwd: Path, log: Path) -> int:
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("a", encoding="utf-8") as handle:
@@ -316,7 +407,7 @@ def run_logged(command: list[str], *, cwd: Path, log: Path) -> int:
 
 def state_payload(args: argparse.Namespace, *, status: str, **extra) -> dict:
     return {
-        "schema": "final-unsb-paper-cross-host-plain-successor-v1",
+        "schema": STATE_SCHEMA,
         "status": status,
         "pid": os.getpid(),
         "predecessor_state": str(args.predecessor_state.resolve()),
@@ -493,29 +584,36 @@ def main(argv: list[str] | None = None) -> int:
     python = args.python.resolve()
     if not python.is_file():
         raise RuntimeError(f"frozen Python runtime is missing: {python}")
-    head, dirty = git_identity(repo)
-    if head != args.required_training_git_commit or dirty:
-        raise RuntimeError("frozen plain training checkout identity changed")
-    peer = read_json(args.peer_runtime_receipt.resolve())
-    if (
-        peer.get("schema") != "final-unsb-paper-runtime-twin-receipt-v1"
-        or peer.get("updates") != 2000
-        or peer.get("protocol_fingerprint") != args.required_protocol_fingerprint
-        or peer.get("confirmation20_opened") is not False
-    ):
-        raise RuntimeError("peer runtime receipt is invalid")
-
     operations = output / "operations"
     state_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR_STATE.json"
+    contract_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR_CONTRACT.json"
     lock_path = operations / "CROSS_HOST_PLAIN_SUCCESSOR.lock"
     log = output / "logs" / "CROSS_HOST_PLAIN_SUCCESSOR.log"
     operations.mkdir(parents=True, exist_ok=True)
+    contract = frozen_contract(args, colocation=colocation)
+    immutable_json(contract_path, contract)
     with lock_path.open("w", encoding="utf-8") as lock:
         if fcntl is None:
             raise RuntimeError("cross-host plain successor requires POSIX file locking")
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         started = time.time()
         while True:
+            try:
+                verify_frozen_contract(contract)
+            except Exception as error:
+                atomic_json(
+                    state_path,
+                    state_payload(
+                        args,
+                        status="BLOCKED_FROZEN_CONTRACT_DRIFT",
+                        control_git_commit=contract["control_git_commit"],
+                        peer_runtime_receipt_sha256=contract[
+                            "peer_runtime_receipt_sha256"
+                        ],
+                        failure_type=type(error).__name__,
+                    ),
+                )
+                return 2
             predecessor = (
                 read_json(args.predecessor_state.resolve())
                 if args.predecessor_state.is_file()
@@ -544,11 +642,10 @@ def main(argv: list[str] | None = None) -> int:
                 return 3
             time.sleep(args.poll_seconds)
 
-        head, dirty = git_identity(repo)
-        if head != args.required_training_git_commit or dirty:
-            raise RuntimeError("frozen checkout moved while successor was waiting")
+        verify_frozen_contract(contract)
         commands = gate_commands(args)
         for index, command in enumerate(commands, start=1):
+            verify_frozen_contract(contract)
             atomic_json(
                 state_path,
                 state_payload(
@@ -583,6 +680,7 @@ def main(argv: list[str] | None = None) -> int:
 
         capacity_gate = None
         if colocation is not None:
+            verify_frozen_contract(contract)
             atomic_json(
                 state_path,
                 state_payload(
@@ -626,6 +724,7 @@ def main(argv: list[str] | None = None) -> int:
                     capacity_gate=capacity_gate,
                     started=started,
                 )
+                verify_frozen_contract(contract)
 
         export_log = output / "logs" / "EXPORT_SUCCESSOR_plain.log"
         export_handle = export_log.open("a", encoding="utf-8")
