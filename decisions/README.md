@@ -255,3 +255,7 @@ authorize compute.
 77. `DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md`：4090A plain的首个全量e100
     checkpoint完成远端原子导出、本地哈希导入和1060终端审计；time-index 4梯度方差为
     五层最高，但六域late finite gain均小于1，故只记录异方差信号，不提前确认终端病理或改算法。
+78. `DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md`：在不重启CUT/CycleGAN的前提下，
+    用source-bound外层guard收养原supervisor并提供同宿主exact-resume恢复；两条guard零重启、
+    health零告警。全宿主本地监控完备后，Codex Goal改为每两小时轻量巡检，异常和固定里程碑
+    仍升级为完整审计。

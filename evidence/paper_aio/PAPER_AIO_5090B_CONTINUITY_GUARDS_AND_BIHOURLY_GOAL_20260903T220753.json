@@ -1,0 +1,131 @@
+{
+  "schema": "final-unsb-paper-5090b-continuity-guards-and-bihourly-goal-v1",
+  "captured_at": "2026-09-03T22:07:53+08:00",
+  "decision": "KEEP_ALL_SCIENTIFIC_TRAINERS_RUNNING_ADD_NONINTRUSIVE_5090B_RECOVERY_AND_REDUCE_CODEX_POLLING_TO_TWO_HOURS",
+  "5090B": {
+    "training_repo": "/root/autodl-tmp/FINAL_UNSB_PAPER_AIO_31f2fb8",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "training_supervisor_source_sha256": "00b70335cfb4ebc7b828a8d1a3e890cd840774f91b8f26834422c81ecaf985e3",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "control_repo": "/root/autodl-tmp/FINAL_UNSB_TRAINING_GUARD_605ccc5",
+    "control_git_commit": "605ccc564751ad10c49957b3b2eeea3d41c3b1c0",
+    "control_source_sha256": "ae9e9c1486cf5b5cf0382b458cd04c2f659b4065a3ef77278224f178fdf48697",
+    "source_transfer": {
+      "mode": "complete_git_bundle_after_remote_github_clone_failed_closed",
+      "bundle_sha256": "2a56d9c2a17f2594009e3023ba7ef2855692680cc10855ebcfc09dbffab0ffab",
+      "checkout_clean": true,
+      "targeted_tests": "11 passed"
+    },
+    "guard_output": "/root/autodl-tmp/runs/FINAL_UNSB_TRAINING_GUARD_5090B_605ccc5",
+    "cut": {
+      "original_supervisor_pid": 3739,
+      "original_trainer_pid": 5771,
+      "guard_pid": 159133,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "total_restarts": 0,
+      "consecutive_no_progress_restarts": 0,
+      "latest_observed_data_epoch": 82,
+      "latest_observed_updates": 701346,
+      "latest_epoch_seconds": 1588.7710857391357,
+      "latest_full_state_sha256": "57745271c4ebfd1e5e97d4be9508349382cb64b85e7fc4ca423ced3c49091bcb",
+      "original_process_start_time_unchanged": "2026-09-02T09:52:33+08:00_supervisor_2026-09-02T10:19:04+08:00_trainer"
+    },
+    "cyclegan": {
+      "original_supervisor_pid": 11845,
+      "original_trainer_pid": 11846,
+      "guard_pid": 159134,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "total_restarts": 0,
+      "consecutive_no_progress_restarts": 0,
+      "latest_observed_data_epoch": 50,
+      "latest_observed_updates": 427650,
+      "latest_epoch_seconds": 2258.1587040424347,
+      "latest_full_state_sha256": "f8e6c49246cce4acc6d8abb26771994f23af338e11e26c3c6f370c6235e47c76",
+      "original_process_start_time_unchanged": "2026-09-02T13:20:34+08:00"
+    },
+    "guard_health": {
+      "pid": 159190,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "second_poll_verified": true,
+      "guards_reparented_to_pid1": true,
+      "stderr_bytes": 0,
+      "recovery_log_created": false
+    },
+    "future_chain_pids_alive": {
+      "matched_plain_successor": 148465,
+      "matched_plain_health": 148593,
+      "matched_plain_progress": 148594,
+      "dclgan_successor": 99704,
+      "dclgan_export": 99821,
+      "dclgan_health": 99966,
+      "dclgan_progress": 140049
+    },
+    "free_disk_gib": 230.0392
+  },
+  "cross_host_lightweight_health": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "data_epoch": 102,
+      "updates": 872406,
+      "full_state_sha256": "17df91741ddae22aeec863884d023a2e657910059e8f2077208233aae428451a"
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "supervisor_pid": 336345,
+      "trainer_pid": 431032,
+      "data_epoch": 14,
+      "updates": 119742,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "data_epoch": 19,
+      "updates": 162507,
+      "full_state_sha256": "b172d87acf99cedfae818b246caacd7e816d50a31705add1183bd21af8c76701"
+    },
+    "local_GTX1660_CPU": {
+      "status": "HEALTHY_WAITING_FOR_FROZEN_IMPORTS",
+      "terminal_audit_supervisor_pid": 6196,
+      "terminal_audit_child_pid": 20244,
+      "terminal_pathology_supervisor_pid": 23476,
+      "terminal_pathology_child_pid": 9400,
+      "combined_health_pid": 21052,
+      "health_alert_count": 0
+    }
+  },
+  "codex_goal_heartbeat": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "old_cadence": "hourly",
+    "new_cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "normal_wake_policy": "metric_blind_lightweight_health_only_no_redundant_evidence",
+    "escalation_events": [
+      "engineering_fault",
+      "e100_e150_e175_e200_milestone",
+      "successor_transition",
+      "runtime_relation_review",
+      "lease_risk"
+    ]
+  },
+  "actions": {
+    "scientific_training_restarted": false,
+    "scientific_training_interrupted": false,
+    "new_scientific_lane_started": false,
+    "future_lane_order_changed": false,
+    "only_control_plane_added": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  },
+  "decision_record": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
+}
