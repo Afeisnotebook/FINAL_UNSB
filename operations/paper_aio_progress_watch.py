@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "final-unsb-paper-live-progress-watch-v2"
+SCHEMA = "final-unsb-paper-live-progress-watch-v3"
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -37,6 +37,34 @@ def supervisor_children(supervisor_pid: int, proc_root: Path = Path("/proc")) ->
     if not path.is_file():
         return []
     return [int(value) for value in path.read_text(encoding="utf-8").split()]
+
+
+def process_command(pid: int, proc_root: Path = Path("/proc")) -> str:
+    """Return a stable, human-readable command line for child selection."""
+    raw = (proc_root / str(int(pid)) / "cmdline").read_bytes()
+    return raw.replace(b"\0", b" ").decode("utf-8", errors="replace").strip()
+
+
+def trainer_children(
+    children: list[int], command_fragment: str | None,
+    proc_root: Path = Path("/proc"),
+) -> list[int]:
+    """Select the unique trainer while tolerating a supervisor helper child.
+
+    Some legacy supervisors retain their bootstrap shell as a second direct
+    child.  The optional frozen command fragment lets the diagnostic watcher
+    identify the trainer without relying on a mutable PID.
+    """
+    if command_fragment is None:
+        return list(children)
+    matches: list[int] = []
+    for child in children:
+        try:
+            if command_fragment in process_command(child, proc_root):
+                matches.append(child)
+        except (FileNotFoundError, ProcessLookupError):
+            continue
+    return matches
 
 
 def parse_process_stat(raw: str) -> dict[str, int | str]:
@@ -107,6 +135,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--supervisor-pid", type=int, required=True)
     parser.add_argument("--heartbeat", type=Path, required=True)
     parser.add_argument("--checkpoint-sidecar", type=Path, required=True)
+    parser.add_argument("--trainer-command-fragment")
     parser.add_argument("--stall-seconds", type=int, default=7200)
     parser.add_argument("--sample-seconds", type=int, default=30)
     parser.add_argument("--poll-seconds", type=int, default=60)
@@ -123,6 +152,7 @@ def frozen_contract(args: argparse.Namespace) -> dict[str, Any]:
         "supervisor_pid": args.supervisor_pid,
         "heartbeat": str(args.heartbeat.resolve()),
         "checkpoint_sidecar": str(args.checkpoint_sidecar.resolve()),
+        "trainer_command_fragment": args.trainer_command_fragment,
         "stall_seconds": args.stall_seconds,
         "sample_seconds": args.sample_seconds,
         "poll_seconds": args.poll_seconds,
@@ -162,16 +192,18 @@ def main() -> int:
             "alert_count": alert_count,
         }
         children = supervisor_children(args.supervisor_pid)
-        if len(children) != 1 or not args.heartbeat.is_file():
+        candidates = trainer_children(children, args.trainer_command_fragment)
+        if len(candidates) != 1 or not args.heartbeat.is_file():
             atomic_json(state_path, {
                 **base,
-                "status": "WAITING_FOR_EXACTLY_ONE_SUPERVISOR_CHILD_AND_HEARTBEAT",
+                "status": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
                 "children": children,
+                "trainer_candidates": candidates,
                 "alert": False,
             })
             time.sleep(args.poll_seconds)
             continue
-        child = children[0]
+        child = candidates[0]
         try:
             before = process_snapshot(child)
             uptime = float(Path("/proc/uptime").read_text(encoding="utf-8").split()[0])
