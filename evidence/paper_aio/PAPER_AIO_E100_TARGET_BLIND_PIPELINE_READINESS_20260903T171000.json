@@ -1,0 +1,115 @@
+{
+  "schema": "final-unsb-paper-e100-target-blind-pipeline-readiness-v1",
+  "captured_at": "2026-09-03T17:10:00+08:00",
+  "status": "READY_WAITING_FOR_FIXED_E100_NO_DUPLICATE_CONSUMER",
+  "scope": "4090A plain e100 source export through local target-blind terminal audit and posthoc pathology release",
+  "source_training": {
+    "host_label": "4090A",
+    "lane_id": "plain",
+    "status": "CHILD_RUNNING",
+    "completed_data_epoch": 88,
+    "completed_updates": 752664,
+    "epoch_wall_seconds": 1264.63321018219,
+    "trainer_pid": 2072055,
+    "supervisor_pid": 2072054,
+    "paired_controller_access": false,
+    "confirmation20_opened": false,
+    "projected_e100_window": "2026-09-03T21:00:00+08:00/2026-09-03T21:30:00+08:00"
+  },
+  "remote_incremental_export": {
+    "pid": 2274259,
+    "pid_alive": true,
+    "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "available_epochs": [],
+    "required_epochs": [100, 150, 200],
+    "contract_sha256": "d2d436a83f4fc44dbbaa3fb023e6d7b034dfc6145ed964138b71583aefd537ed",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "checkpoint_copy_performed": false,
+    "performance_values_available_to_scheduler": false
+  },
+  "local_incremental_relay": {
+    "pid": 6292,
+    "pid_alive": true,
+    "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [],
+    "required_epochs": [100, 150, 200],
+    "contract_sha256": "219ba9a6a647fec19f08ad6c620531120d8f00fdaeb3aee5e7f551b00f4a52a3",
+    "source_host_key_pinned": true,
+    "source_commit_protocol_manifest_pinned": true,
+    "password_persisted": false,
+    "source_checkpoint_mutation": false
+  },
+  "local_terminal_audit": {
+    "pid": 20888,
+    "pid_alive": true,
+    "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "preflight_release": "READY",
+    "control_git_commit": "2fbbd897f9c9f4d4d47a58881d0337a506e9b0c5",
+    "contract_sha256": "cea0cda7d4df350b3c49062255c238eee2c67c8bb933cc4f887456246842c85c",
+    "control_source_hashes_reverified": true,
+    "candidate_authority_hash_reverified": true,
+    "fixed_probes": [
+      "4090A_plain",
+      "5090C_proposal",
+      "4090A_amtnc",
+      "5090A_stcgr"
+    ],
+    "fixed_epochs": [100, 150, 200],
+    "fixed_cell_count": 12,
+    "completed_cells": [],
+    "performance_values_available_to_scheduler": false
+  },
+  "shared_gpu_lock_gate": {
+    "path": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock",
+    "file_exists": true,
+    "file_size_bytes": 0,
+    "file_existence_is_not_lock_ownership": true,
+    "first_acquire": true,
+    "concurrent_acquire_while_held": false,
+    "acquire_after_owner_close": true,
+    "adjudication": "PASS_OS_LEVEL_EXCLUSIVE_LOCK_AND_RECOVERY"
+  },
+  "duplicate_consumer_audit": {
+    "active_terminal_audit_processes": [20888],
+    "active_terminal_pathology_processes": [16968],
+    "stale_rollout_jvp_state_pid": 15436,
+    "stale_rollout_jvp_process_alive": false,
+    "stale_rollout_jvp_health_pid": 20780,
+    "stale_rollout_jvp_health_process_alive": false,
+    "duplicate_gpu_consumer_present": false,
+    "process_interruption_performed": false
+  },
+  "posthoc_pathology": {
+    "pid": 16968,
+    "pid_alive": true,
+    "status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "audit_release": "WAIT",
+    "release_requires_exact_complete_cell_set": true,
+    "metric_binding_exists": false,
+    "paired_files_parsed": false,
+    "algorithm_or_module_auto_started": false
+  },
+  "local_health": {
+    "watcher_pid": 13536,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "free_disk_gib": 119.195,
+    "required_gib": 66.0
+  },
+  "scheduling": {
+    "changed": false,
+    "reason": "the complete e100 dependency chain is live, source-bound, mutually exclusive on the local GPU, and has no duplicate active consumer",
+    "healthy_training_interrupted": false,
+    "next_automatic_action": "export, relay, and audit 4090A plain e100 when the fixed checkpoint appears"
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  }
+}
