@@ -158,3 +158,6 @@ authorize compute.
     使UNSB/CUT的训练暴露错开一个stream位置；现有同cohort比较继续有效且不重启，论文
     必须披露有界偏差。未来fresh e0从DDI前保存sampler并形成不可与legacy混用的新cohort；
     同时把CycleGAN准确标为官方损失、受控共享骨干，而非逐字官方实现。
+49. `DEC-20260903-LIVE-CRITICAL-PATH-AND-LEASE-HORIZON.md`：五节点训练、监督、导出和
+    交付链全部健康，不做无故重启或改协议；按实测吞吐明确5090C Proposal与5090A
+    ST-CGR的e200日期，并把云端租期识别为supervisor无法自行修复的唯一当前外部风险。

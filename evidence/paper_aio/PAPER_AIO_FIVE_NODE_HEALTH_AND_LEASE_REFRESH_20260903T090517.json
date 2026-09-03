@@ -1,0 +1,149 @@
+{
+  "schema": "final-unsb-paper-five-node-health-and-lease-refresh-v1",
+  "captured_at": "2026-09-03T09:05:17+08:00",
+  "status": "ALL_ACTIVE_TRAINING_AND_DELIVERY_CHAINS_HEALTHY_LEASE_EXTENSION_ACTION_REQUIRED",
+  "repository_head_at_capture": "3f474d85a27343fe9efacb3df5f5dd99918d3fff",
+  "training": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "health_watcher_pid": 2200307,
+      "completed_data_epoch": 65,
+      "completed_updates": 555945,
+      "latest_epoch_seconds": 1269.773883342743,
+      "projected_e200_from_latest_epoch": "2026-09-05T08:42:16+08:00",
+      "gpu_sample_percent": 49,
+      "gpu_memory_sample_mib": 1663,
+      "free_disk_gib": 387.0915,
+      "health_alert_count": 0
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_STCGR_ONLY",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "export_successor_pid": 336344,
+      "incremental_export_pid": 351230,
+      "health_watcher_pid": 352017,
+      "completed_data_epoch": 6,
+      "completed_updates": 51318,
+      "latest_epoch_seconds": 5257.7810254096985,
+      "projected_e200_from_latest_epoch": "2026-09-15T04:25:27+08:00",
+      "gpu_sample_percent": 33,
+      "gpu_memory_sample_mib": 2186,
+      "free_disk_gib": 184.2931,
+      "user_capacity_override": true,
+      "health_alert_count": 0,
+      "paused_plain_epoch": 9,
+      "plain_trainer_or_auto_resume_process_present": false
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 52,
+      "completed_updates": 444756,
+      "latest_epoch_seconds": 1674.105578660965,
+      "projected_e200_from_latest_epoch": "2026-09-06T05:54:45+08:00",
+      "health_alert_count": 0
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 30,
+      "completed_updates": 256590,
+      "latest_epoch_seconds": 2334.0212857723236,
+      "projected_e200_from_latest_epoch": "2026-09-07T23:18:21+08:00",
+      "health_alert_count": 0
+    },
+    "5090B_shared_capacity": {
+      "health_watcher_pid": 30355,
+      "gpu_sample_percent": 51,
+      "gpu_memory_sample_mib": 3479,
+      "free_disk_gib": 230.9678
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "incremental_export_pid": 29411,
+      "health_watcher_pid": 13587,
+      "completed_data_epoch": 9,
+      "completed_updates": 76977,
+      "latest_epoch_seconds": 4725.948939323425,
+      "projected_e200_from_latest_epoch": "2026-09-13T19:49:33+08:00",
+      "remaining_training_hours_projection": 250.738,
+      "gpu_sample_percent": 54,
+      "gpu_memory_sample_mib": 2146,
+      "free_disk_gib": 230.1027,
+      "health_alert_count": 0
+    },
+    "local_GTX1660": {
+      "status": "IDLE_GPU_WITH_HEALTHY_TARGET_BLIND_SUCCESSORS_WAITING_FIXED_IMPORTS",
+      "gpu_sample_percent": 0,
+      "gpu_memory_sample_mib": 500,
+      "free_disk_gib": 125.5439,
+      "incremental_relay_pids": [6292, 12656, 19904, 14528],
+      "terminal_audit_successor_pid": 20888,
+      "terminal_pathology_successor_pid": 16968,
+      "combined_health_watcher_pid": 13536,
+      "health_alert_count": 0,
+      "reason_gpu_idle": "authorized terminal audits require fixed e100/e150/e200 imports"
+    }
+  },
+  "durable_queue": {
+    "4090A_after_plain": {"lane": "amtnc", "successor_pid": 2182585, "status": "WAITING_FOR_PREDECESSOR_E200"},
+    "5090B_after_cut": {"lane": "fresh_e0_matched_plain", "successor_pid": 61721, "health_watcher_pid": 61725, "status": "WAITING_FOR_PREDECESSOR_E200", "exact_runtime_and_dynamic_colocation_gates_required": true},
+    "proposal_control_relation": {"successor_pid": 2243220, "status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT", "comparison_authorized": false},
+    "stcgr_control_relation": {"successor_pid": 2289024, "health_watcher_pid": 2289036, "status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT", "comparison_authorized": false},
+    "relation_registry_review": {"successor_pid": 2349420, "health_watcher_pid": 2349694, "status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES", "registry_edited": false}
+  },
+  "lease_horizon": {
+    "5090C": {
+      "user_reported_planned_rental_days": 10,
+      "authoritative_expiry_known": false,
+      "projected_e200": "2026-09-13T19:49:33+08:00",
+      "minimum_recommended_availability_through": "2026-09-15T00:00:00+08:00",
+      "action": "verify expiry and extend by at least 2 days, preferably 3, if ten days began near 2026-09-02"
+    },
+    "5090A": {
+      "authoritative_expiry_known": false,
+      "projected_stcgr_e200": "2026-09-15T04:25:27+08:00",
+      "minimum_recommended_availability_through": "2026-09-16T00:00:00+08:00",
+      "action": "verify rental horizon covers sealed e200 and source-bound export"
+    },
+    "5090B": {
+      "authoritative_expiry_known": false,
+      "external_lanes_projected_complete_by": "2026-09-07T23:18:21+08:00",
+      "matched_plain_projected_window": "2026-09-12/2026-09-13",
+      "minimum_recommended_availability_through": "2026-09-14T00:00:00+08:00",
+      "action": "verify rental horizon covers exact gate, matched plain e200 and export"
+    }
+  },
+  "critical_path": {
+    "earliest_plain_e200": "4090A around 2026-09-05T08:42:16+08:00",
+    "external_baseline_set": "CUT around 2026-09-06 and CycleGAN around 2026-09-07",
+    "portable_algorithm_absolute_e200": "Proposal around 2026-09-13",
+    "new_evidence_derived_algorithm_absolute_e200": "ST-CGR around 2026-09-15",
+    "matched_algorithm_results_require": "5090B matched plain e200 plus reviewed Proposal/ST-CGR runtime relations and unified evaluation",
+    "current_process_timeout_horizons_cover_projections": true
+  },
+  "adjudication": {
+    "engineering_fault_recovery_executed": false,
+    "reason": "all active and waiting chains are healthy; no in-scope fault exists",
+    "training_or_queue_changed": false,
+    "lease_extension_is_external_user_action": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false,
+    "new_unlicensed_experiment_started": false
+  }
+}

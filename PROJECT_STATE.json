@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T08:30:47+08:00",
+  "state_snapshot_time": "2026-09-03T09:05:17+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -25,11 +25,11 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 64, "latest_observed_updates": 547392, "latest_epoch_seconds": 1269.6241328716278, "projected_completion": "2026-09-05T08:27:35+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 65, "latest_observed_updates": 555945, "latest_epoch_seconds": 1269.773883342743, "projected_completion": "2026-09-05T08:42:16+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 51, "latest_observed_updates": 436203, "latest_epoch_seconds": 1650.469468832016, "projected_completion": "2026-09-06T04:48:26+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
       "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 29, "latest_observed_updates": 248037, "latest_epoch_seconds": 2296.838471889496, "projected_completion": "2026-09-07T21:35:45+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
@@ -80,7 +80,7 @@
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
         "latest_epoch_wall_seconds": 5257.7810254096985,
-        "projected_completion_from_latest_epoch": "2026-09-15T03:49:56+08:00",
+        "projected_completion_from_latest_epoch": "2026-09-15T04:25:27+08:00",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
         "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T065116.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json"
@@ -127,7 +127,7 @@
         "first_epoch_seconds": 4696.602091550827,
         "latest_epoch_seconds": 4725.948939323425,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
-        "projected_completion": "2026-09-13T19:14:02+08:00",
+        "projected_completion": "2026-09-13T19:49:33+08:00",
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
       },
       "5090B_matched_plain_successor": {
@@ -576,7 +576,7 @@
       "decision": "decisions/DEC-20260903-DURABLE-RUNTIME-RELATION-SUCCESSOR.md"
     },
     "durable_health_watch": {
-      "status": "FOUR_TRAINING_HOSTS_AND_LOCAL_TARGET_BLIND_CHAIN_HEALTHY_METRIC_BLIND",
+      "status": "FOUR_TRAINING_HOSTS_AND_LOCAL_TARGET_BLIND_CHAIN_HEALTHY_METRIC_BLIND_LEASE_HORIZON_FLAGGED",
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
         "4090A": 2200307,
@@ -590,14 +590,14 @@
       "all_states_refreshed_after_initial_poll": true,
       "alert_count": 0,
       "automatic_training_mutation": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json",
       "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
     },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json",
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json",
     "delivery_handoff_repair": {
       "status": "DYNAMIC_SOURCE_CONTRACT_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
@@ -616,7 +616,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
       "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
     },
-    "next_manual_decision_window": "review both Proposal and ST-CGR review-only relation candidates after the 5090B exact-runtime receipt around 2026-09-06; also confirm 5090B and 5090C rental end dates before projected e200"
+    "next_manual_decision_window": "confirm now that 5090C is available through at least 2026-09-15, 5090A through 2026-09-16 and 5090B through 2026-09-14; then review Proposal/ST-CGR relation candidates after the 5090B exact-runtime receipt around 2026-09-06"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
   "development_head_at_state_write": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
