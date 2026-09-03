@@ -173,3 +173,6 @@ authorize compute.
 53. `DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md`：在真实四宿主上复核全部训练、
     后继、exporter、health watcher、磁盘与480–720小时控制窗口；当前队列覆盖e200且0告警，
     4090A不以新容量探针推迟只剩约46小时的高扇出plain control。
+54. `DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md`：新增GPU UUID主键的宿主身份注册表与
+    fail-closed接入门；三个AutoDL容器machine-id相同，不能单独作物理身份。`:44804`远端
+    实跑返回已登记5090B并拒绝5090D长训身份，现有训练进程保持不变。

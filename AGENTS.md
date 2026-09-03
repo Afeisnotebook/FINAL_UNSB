@@ -75,6 +75,11 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
 - Do not infer that the two recommended extra 4090s exist until the user
   actually supplies them. Available resources may only run preregistered lanes
   or evidence-gated candidates.
+- An SSH endpoint is not a compute-host identity. Before onboarding any new
+  endpoint, run `operations/paper_aio_host_identity_gate.py` against
+  `configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json`. NVIDIA GPU UUID is the
+  primary key; AutoDL machine-id is shared across containers and is not unique.
+  Duplicate endpoint and label-collision outcomes forbid a new long train.
 - `confirmation` remains inaccessible until a committed candidate-freeze
   decision exists and all paper algorithms/baselines/claims are frozen.
 - A semantic implementation defect restarts the affected trajectory from e0.

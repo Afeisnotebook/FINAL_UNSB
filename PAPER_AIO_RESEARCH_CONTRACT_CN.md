@@ -135,6 +135,11 @@ contract v3。first-wave完成状态需绑定cohort、`PAPER_RESULTS.json`和`AL
 监督器。前序lane到`COMPLETE_E200`后，后继必须重新通过磁盘、数据、resume、重复评估
 和方法专属身份门；失败时写明阻断，不得静默跳过。
 
+任何新SSH端点在环境配置或算力登记前必须先运行物理GPU身份门。以NVIDIA GPU UUID为
+主键；hostname、machine-id和数据盘身份只作辅助证据，因为AutoDL不同容器可能共享相同
+machine-id。duplicate endpoint或label collision禁止新增长训；new physical candidate仍不
+等于runtime或算法授权通过。
+
 每条首波lane另有GPU-free checkpoint-export继任器；它与训练后继彼此独立，只在密封
 e200后校验训练commit/protocol并签收五个固定milestone，不读取性能、不复制checkpoint、
 不触发任何算法或算力路由。

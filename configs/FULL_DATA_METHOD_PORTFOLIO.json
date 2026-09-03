@@ -126,6 +126,17 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
     "decision": "decisions/DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md"
   },
+  "physical_gpu_identity_gate": {
+    "status": "IMPLEMENTED_TESTED_AND_DUPLICATE_ENDPOINT_REJECTED",
+    "implementation_commit": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",
+    "registry": "configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json",
+    "primary_identity_key": "gpu_uuid",
+    "autodl_machine_id_is_not_unique": true,
+    "provided_endpoint_outcome": "DUPLICATE_ENDPOINT_OF_REGISTERED_HOST_5090B",
+    "new_training_started": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PHYSICAL_GPU_IDENTITY_GATE_20260903T100247.json",
+    "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
+  },
   "future_matched_plain_successor": {
     "status": "WAITING_FOR_5090B_CUT_E200_WITH_DYNAMIC_CORESIDENT_CAPACITY_GATE",
     "pid": 61721,

@@ -19,7 +19,7 @@
 `reproduction_incomplete`，不得跑猜测版。此覆盖只改变调度次序；ST-CGR在5090A plain
 补齐前只能报告绝对轨迹，不能宣称matched收益。
 
-2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经hostname、machine-id、
+2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经GPU UUID、hostname、
 run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是第五张GPU。不得把它
 登记为新宿主或在CUT/CycleGAN之外误开第三条训练；详见
 `decisions/DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md`。

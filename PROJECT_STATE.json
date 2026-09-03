@@ -49,6 +49,17 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
       "decision": "decisions/DEC-20260903-POST-DUPLICATE-ENDPOINT-CONTINUITY.md"
     },
+    "physical_gpu_identity_gate": {
+      "status": "IMPLEMENTED_TESTED_AND_DUPLICATE_ENDPOINT_REJECTED",
+      "implementation_commit": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",
+      "registry": "configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json",
+      "primary_identity_key": "gpu_uuid",
+      "autodl_machine_id_is_not_unique": true,
+      "provided_endpoint_outcome": "DUPLICATE_ENDPOINT_OF_REGISTERED_HOST_5090B",
+      "new_training_started": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PHYSICAL_GPU_IDENTITY_GATE_20260903T100247.json",
+      "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
+    },
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 68, "latest_observed_updates": 581604, "latest_epoch_seconds": 1263.8423297405243, "projected_completion": "2026-09-05T08:10:19+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 54, "latest_observed_updates": 461862, "latest_epoch_seconds": 1672.1804161071777, "projected_completion": "2026-09-06T05:38:51+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
@@ -648,7 +659,7 @@
     "next_manual_decision_window": "confirm now that 5090C is available through at least 2026-09-15, 5090A through 2026-09-16 and 5090B through 2026-09-14; then review Proposal/ST-CGR relation candidates after the 5090B exact-runtime receipt around 2026-09-06"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "19061e17c0d706f2711115d684a80c805ae0132b",
+  "development_head_at_state_write": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

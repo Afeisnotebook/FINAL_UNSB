@@ -5,7 +5,8 @@
 
 资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与正在运行
 CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此
-改变；真正新增宿主必须先通过不同hostname/machine-id、空闲GPU和独立可写状态门。
+改变；真正新增宿主必须先通过GPU UUID主键的host-identity gate、空闲GPU和独立可写状态
+门。AutoDL多个容器的machine-id相同，不能单独用于判定宿主唯一性。
 
 ## 当前不可误读的事实
 

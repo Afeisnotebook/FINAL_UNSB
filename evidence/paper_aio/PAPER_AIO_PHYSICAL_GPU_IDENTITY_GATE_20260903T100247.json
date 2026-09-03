@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-paper-physical-gpu-identity-gate-deployment-v1",
+  "captured_at": "2026-09-03T10:02:47+08:00",
+  "status": "IMPLEMENTED_TESTED_AND_DUPLICATE_ENDPOINT_REJECTED",
+  "implementation_commit": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",
+  "registry": {
+    "path": "configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json",
+    "sha256": "aef83971c66eef03db2566f3b9d8160b8570083a5f2d0e8a2961fa04ac0850c3",
+    "primary_identity_key": "gpu_uuid",
+    "registered_host_count": 5,
+    "autodl_machine_id_is_shared_and_not_unique": true
+  },
+  "gate": {
+    "path": "operations/paper_aio_host_identity_gate.py",
+    "sha256": "2fdaec586d4498a116cf20773748c9b1fd882c4fca33297cc1abda1b4ccdb562",
+    "duplicate_endpoint_fail_closed": true,
+    "label_collision_fail_closed": true,
+    "new_physical_candidate_still_requires_all_scientific_gates": true
+  },
+  "registered_gpu_uuids": {
+    "4090A": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "5090A": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+    "5090B": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "5090C": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "local_GTX1660": "GPU-22b92065-0a2b-ff50-f2c5-9c9ee65e6b53"
+  },
+  "remote_proof": {
+    "endpoint": "connect.weste.seetacloud.com:44804",
+    "requested_label": "5090D",
+    "bundle_sha256": "4ff318def0cc8aee94e296a17409869dbe5e25b05f07a03da3695b3773d2402d",
+    "checkout": "/root/autodl-tmp/FINAL_UNSB_HOST_IDENTITY_c62b5a9",
+    "checkout_commit": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",
+    "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_HOST_IDENTITY_44804/IDENTITY_GATE.json",
+    "receipt_sha256": "dc3b1587fa6d32e16bc301fc6323299a083bc75d19ff159d8b8301ef4714a7ea",
+    "outcome": "DUPLICATE_ENDPOINT_OF_REGISTERED_HOST",
+    "registered_label": "5090B",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "long_training_launch_allowed_by_identity_gate": false
+  },
+  "post_gate_process_proof": {
+    "cut_supervisor_pid": 3739,
+    "cut_trainer_pid": 5771,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 11846,
+    "matched_plain_successor_pid": 61721,
+    "matched_plain_health_watcher_pid": 61725,
+    "all_alive": true,
+    "new_training_process_started": false
+  },
+  "verification": {
+    "unit_tests": "PASS_5",
+    "targeted_suite": "PASS_12",
+    "full_suite": "PASS_545",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "credentials_recorded": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
+}

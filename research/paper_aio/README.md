@@ -381,3 +381,22 @@ supplementary, and FID is labeled as a 480-image small-sample estimate.  The
 receipt records the Clean-FID and Inception identities, RNG-isolated KID seeds,
 checkpoint hash, CRN identity and image quantization.  It never opens
 confirmation20 or selects a lane/checkpoint.
+
+## Physical host identity gate
+
+Before treating an SSH endpoint as additional compute, run:
+
+```bash
+python operations/paper_aio_host_identity_gate.py \
+  --registry configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json \
+  --requested-label 5090D \
+  --output /absolute/run/root/HOST_IDENTITY_GATE.json \
+  --repo /absolute/frozen/repo \
+  --data-root /absolute/data/root \
+  --require-new
+```
+
+The NVIDIA GPU UUID is the physical identity key. A duplicate endpoint or an
+existing label attached to a different UUID exits nonzero after writing a
+receipt. A new UUID only passes this identity gate; it does not bypass runtime,
+data, exact-resume, evaluation, or candidate-authorization gates.
