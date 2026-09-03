@@ -164,3 +164,6 @@ authorize compute.
 50. `DEC-20260903-DYNAMIC-DELIVERY-HASH-CLOSURE.md`：修复取消5090A plain后future
     replacement delivery只看完成状态、未把全部结果/disposition重新绑定到路径与SHA的
     延迟故障窗口；v3交付在profiling前后均复验固定产物，并重新核验跨宿主2000-step core。
+51. `DEC-20260903-UNIFIED-EVALUATION-METRIC-INTEGRITY.md`：统一评估改为从逐图证据重算
+    NFE/replicate/逐域/宏指标，跨lane精确核对sample与CRN身份，并以评估前后checkpoint
+    SHA256证明只读；LPIPS 0.1.4 Alex v0.1不可用时fail closed，不再静默生成空结果。

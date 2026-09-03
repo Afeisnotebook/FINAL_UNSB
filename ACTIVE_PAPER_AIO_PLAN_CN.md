@@ -65,6 +65,8 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
 - 统一4090评估容器完成e200 discovery80、5 bundles、NFE1–5、LPIPS/KID/FID；
 - 在统一评估前分别为四条source lane的e100/e125/e150/e175/e200生成checkpoint export
   receipt；复制后只读复算，四lane×五epoch完整同容器门通过才形成第一波结果锁；
+- 结果锁必须从逐图证据重算全部指标，验证跨lane精确sample/CRN身份，并以评估前后
+  checkpoint SHA256证明只读；LPIPS依赖失败时禁止降级为空指标；
 - 冻结算法集合与论文主张，之后只打开一次confirmation20；
 - 仅对全量seed2026严格通过的plain和最终论文算法考虑seed2027/2028。
 

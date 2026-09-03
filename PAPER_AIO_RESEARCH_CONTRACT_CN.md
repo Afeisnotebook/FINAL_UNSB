@@ -84,6 +84,13 @@ contract v3。first-wave完成状态需绑定cohort、`PAPER_RESULTS.json`和`AL
 - e1–e200固定discovery70与CRN单rollout，PSNR/SSIM；晚期增加LPIPS；
 - UNSB家族e100/e150/e200固定报告NFE1–5，不据此选择最佳NFE；
 - e200补全discovery80并运行5个固定rollout bundle；
+- 指标语义固定为RGB float `[0,1]` PSNR、7×7均匀窗channel-wise SSIM，以及
+  `lpips==0.1.4` AlexNet v0.1；需要LPIPS的里程碑若模型或权重不可用必须fail closed，
+  不得静默写入空值；
+- 每份统一评估结果必须从逐图记录重算NFE、replicate、逐域和六域宏平均，验证完整
+  domain×image×replicate×NFE笛卡尔积；跨lane必须精确共享sample identity与CRN identity；
+- 每个训练checkpoint在统一评估前后必须重新计算文件SHA256且保持一致，单独的
+  `training_checkpoint_read_only=true`声明不足以通过；
 - CRN bundle seed身份固定为首波paper指纹`68f53a8e...`，与之后新增候选导致的训练
   源码指纹变化解耦；候选和parent plain只有逐图stem/order/replicate/NFE/bundle hash
   全部一致时才允许计算delta；

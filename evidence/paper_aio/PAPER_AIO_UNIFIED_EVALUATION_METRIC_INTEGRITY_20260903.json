@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-unified-evaluation-metric-integrity-v1",
+  "recorded_at": "2026-09-03T09:43:15+08:00",
+  "implementation_commit": "bc29b379722a8fd7b3c3a4facbff121b890cbd25",
+  "status": "PASS_CPU_VERIFIED_AWAITING_FUTURE_REPLACEMENT_EVALUATOR_DEPLOYMENT",
+  "findings": [
+    "lpips_initialization_failure_was_silently_serialized_as_null",
+    "cohort_lock_did_not_recompute_aggregates_from_per_image_evidence",
+    "cohort_lock_did_not_require_exact_cross_lane_sample_and_crn_identity",
+    "checkpoint_read_only_was_asserted_without_post_evaluation_file_rehash"
+  ],
+  "implemented_gates": {
+    "metric_semantics_schema": "final-unsb-rgb-metric-semantics-v1",
+    "lpips": "fail_closed_lpips_0_1_4_alex_version_0_1",
+    "per_image_cartesian_grid_complete": true,
+    "all_aggregates_recomputed": true,
+    "finite_metric_ranges_checked": true,
+    "frozen_primary_nfe_required": true,
+    "exact_sample_identity_all_lanes": true,
+    "exact_crn_identity_all_lanes": true,
+    "checkpoint_pre_post_sha256_equal": true
+  },
+  "verification": {
+    "compileall": "PASS",
+    "pytest": "PASS_540",
+    "git_diff_check": "PASS"
+  },
+  "live_training_mutation": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "cross_non_equivalent_runtime_delta_merged": false,
+  "confirmation20_opened": false,
+  "deployment_boundary": "future_dynamic_replacement_evaluator_only_after_runtime_relation_git_admission"
+}

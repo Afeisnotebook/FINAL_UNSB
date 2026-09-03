@@ -183,18 +183,24 @@
       ]
     },
     "unified_evaluation_interface": {
-      "status": "IMPLEMENTED_CPU_VERIFIED_AND_CROSS_HOST_IMPORT_RELAYS_ARMED_AWAITING_E200_CHECKPOINTS",
+      "status": "IMPLEMENTED_CPU_VERIFIED_METRIC_INTEGRITY_HARDENED_AND_CROSS_HOST_IMPORT_RELAYS_ARMED_AWAITING_E200_CHECKPOINTS",
       "source_export_epochs": [100, 125, 150, 175, 200],
       "required_first_wave_lanes": ["input", "plain", "proposal", "cut", "cyclegan"],
       "input_reference": "evaluation_only_discovery80_psnr_ssim_lpips",
       "first_wave_complete_is_not_claim_freeze": true,
       "algorithm_set_pre_freeze_status": "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING",
       "training_checkpoint_read_only": true,
+      "training_checkpoint_read_only_verified_by_pre_post_sha256": true,
+      "per_image_metric_recomputation_required": true,
+      "exact_cross_lane_sample_and_crn_identity_required": true,
+      "lpips_failure_policy": "FAIL_CLOSED_LPIPS_0_1_4_ALEX_V0_1",
+      "metric_semantics_schema": "final-unsb-rgb-metric-semantics-v1",
       "cross_host_training_delta_merged": false,
       "evidence": [
         "evidence/paper_aio/PAPER_UNIFIED_EVALUATION_COHORT_INTERFACE_20260902.json",
         "evidence/paper_aio/PAPER_INPUT_REFERENCE_INTERFACE_20260902.json",
-        "evidence/paper_aio/PAPER_RESULT_DISPOSITION_BOUNDARY_20260902.json"
+        "evidence/paper_aio/PAPER_RESULT_DISPOSITION_BOUNDARY_20260902.json",
+        "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_METRIC_INTEGRITY_20260903.json"
       ]
     },
     "unified_evaluation_successor": {
@@ -621,7 +627,7 @@
     "next_manual_decision_window": "confirm now that 5090C is available through at least 2026-09-15, 5090A through 2026-09-16 and 5090B through 2026-09-14; then review Proposal/ST-CGR relation candidates after the 5090B exact-runtime receipt around 2026-09-06"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
+  "development_head_at_state_write": "bc29b379722a8fd7b3c3a4facbff121b890cbd25",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",
