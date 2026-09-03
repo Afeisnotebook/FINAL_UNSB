@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T17:10:00+08:00",
+  "state_snapshot_time": "2026-09-03T17:15:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -41,6 +41,18 @@
       "performance_values_read": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_E100_TARGET_BLIND_PIPELINE_READINESS_20260903T171000.json"
+    },
+    "durable_successor_readiness": {
+      "status": "AUTHORIZED_SUCCESSOR_CHAINS_HEALTHY_AND_FROZEN",
+      "4090A_chain": "plain_e200_to_amtnc_e200",
+      "4090A_successor_pid": 2518921,
+      "5090B_chain": "cut_e200_to_fresh_runtime_matched_plain_e200_to_dclgan_e200",
+      "5090B_matched_plain_successor_pid": 115562,
+      "5090B_dclgan_successor_pid": 99704,
+      "duplicate_training_started": false,
+      "paired_metric_read_for_scheduling": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSOR_READINESS_20260903T171500.json"
     },
     "latest_5090a_stcgr_only_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_RECONFIRMATION_20260903T141347.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],

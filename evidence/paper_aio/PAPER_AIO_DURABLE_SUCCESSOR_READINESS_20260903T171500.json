@@ -1,0 +1,130 @@
+{
+  "schema": "final-unsb-paper-durable-successor-readiness-v1",
+  "captured_at": "2026-09-03T17:15:00+08:00",
+  "status": "AUTHORIZED_SUCCESSOR_CHAINS_HEALTHY_AND_FROZEN",
+  "scope": [
+    "4090A plain to AM-TNC",
+    "5090B CUT to fresh runtime-matched plain to DCLGAN"
+  ],
+  "host_4090A": {
+    "predecessor": {
+      "lane_id": "plain",
+      "status": "CHILD_RUNNING",
+      "completed_data_epoch": 89,
+      "completed_updates": 761217,
+      "epoch_wall_seconds": 1264.63321018219,
+      "trainer_pid": 2072055,
+      "supervisor_pid": 2072054
+    },
+    "successor": {
+      "lane_id": "amtnc",
+      "controller_pid": 2518921,
+      "controller_pid_alive": true,
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "predecessor_required_status": "COMPLETE_E200",
+      "control_git_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
+      "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "contract_sha256": "698546636284f3c0ecbed5f67c76fb80ccbe7692973ca995569ca467f409193b",
+      "control_source_sha256": "f0c5bed2e60538cb191f58254d6307994bd4c0702eca79d970177489be3dd557",
+      "export_successor_pid": 2182586,
+      "incremental_export_pid": 2274260,
+      "health_watcher_pid": 2519397,
+      "health_status": "HEALTHY",
+      "health_alert_count": 0,
+      "waiting_timeout": "UNBOUNDED_CONTROLLER_WITH_600_HOUR_HEALTH_WATCH",
+      "initial_state_expected_before_trigger": false,
+      "recovery": "health alert followed by exact frozen-controller restart; scientific full-state resume remains authoritative",
+      "performance_values_available_to_scheduler": false
+    },
+    "disk": {
+      "free_gib": 386.0945,
+      "required_gib": 64.0,
+      "status": "HEALTHY"
+    }
+  },
+  "host_5090B": {
+    "predecessors": {
+      "cut": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "completed_data_epoch": 70,
+        "completed_updates": 598710,
+        "epoch_wall_seconds": 1587.2777314186096,
+        "trainer_pid": 5771,
+        "supervisor_pid": 3739
+      },
+      "cyclegan": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "completed_data_epoch": 43,
+        "completed_updates": 367779,
+        "epoch_wall_seconds": 2413.1950466632843,
+        "trainer_pid": 11846,
+        "supervisor_pid": 11845
+      }
+    },
+    "matched_plain_successor": {
+      "controller_pid": 115562,
+      "controller_pid_alive": true,
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "predecessor_lane": "cut",
+      "predecessor_required_status": "COMPLETE_E200",
+      "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "contract_sha256": "854c9c6f6e7bdfc995b7e64976ae0b38d54c07eb2f90c99d38e06c758f2add50",
+      "timeout_hours": 720.0,
+      "fresh_e0_required": true,
+      "cross_host_checkpoint_resume": false,
+      "exact_2000_update_runtime_twin_required": true,
+      "co_resident_capacity_probe_epochs": 2,
+      "co_resident_decision_metric": "projected_makespan_only",
+      "single_instance_posix_lock": true,
+      "health_watcher_pid": 115614,
+      "health_status": "HEALTHY",
+      "health_alert_count": 0
+    },
+    "dclgan_successor": {
+      "controller_pid": 99704,
+      "controller_pid_alive": true,
+      "status": "WAITING_FOR_PREDECESSOR",
+      "required_predecessor": "5090B matched plain",
+      "required_predecessor_status": "COMPLETE_PLAIN_E200",
+      "git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+      "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+      "contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
+      "timeout_hours": 720.0,
+      "authoritative_source_gate_before_long_train": true,
+      "single_instance_lock": true,
+      "export_successor_pid": 99821,
+      "health_watcher_pid": 99966,
+      "health_status": "HEALTHY",
+      "health_alert_count": 0
+    },
+    "disk": {
+      "free_gib": 230.2899,
+      "matched_plain_required_gib": 24.0,
+      "dclgan_required_gib": 40.0,
+      "status": "HEALTHY"
+    }
+  },
+  "control_audit": {
+    "active_amtnc_successor_count": 1,
+    "active_matched_plain_successor_count": 1,
+    "active_dclgan_target_successor_count": 1,
+    "duplicate_training_started": false,
+    "predecessor_checkpoint_used_for_cross_host_resume": false,
+    "paired_metric_read_for_scheduling": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "targeted_successor_tests": {
+      "passed": 40,
+      "failed": 0
+    }
+  },
+  "scheduling": {
+    "changed": false,
+    "healthy_training_interrupted": false,
+    "new_experiment_started": false,
+    "reason": "both authorized successor DAGs are live, source-bound, sufficiently timed, and fail closed; no evidence supports queue mutation"
+  }
+}
