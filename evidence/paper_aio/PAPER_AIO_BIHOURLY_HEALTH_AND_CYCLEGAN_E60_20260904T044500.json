@@ -1,0 +1,101 @@
+{
+  "schema": "final-unsb-paper-bihourly-health-and-cyclegan-e60-v1",
+  "captured_at": "2026-09-04T04:45:00+08:00",
+  "decision": "ACCEPT_CYCLEGAN_E60_FIXED_MILESTONE_AND_KEEP_ALL_SCHEDULES_UNCHANGED",
+  "milestone_event": {
+    "host": "5090B",
+    "lane": "cyclegan",
+    "physical_epoch_completed": 60,
+    "step": 513180,
+    "target_steps": 1710600,
+    "checkpoint_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/lanes/cyclegan/milestones/e060.pt",
+    "checkpoint_bytes": 359430067,
+    "checkpoint_sha256_from_sidecar": "abb97b1753e6984b777a94e0c730e24b511b5227f994cfc0ed18e0c13a2198ca",
+    "checkpoint_sha256_recomputed": "abb97b1753e6984b777a94e0c730e24b511b5227f994cfc0ed18e0c13a2198ca",
+    "scientific_state_sha256": "e5f276c5b3d60a5ad9d5634cb0afac2d485e4d735e99ea343b9a23717c21a6ff",
+    "latest_full_state_sha256": "15165e908b903567cc5b8b18799890992772b0ef848585f2aa827b883a6abd80",
+    "latest_and_milestone_scientific_state_equal": true,
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "metric_artifact": {
+      "path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/lanes/cyclegan/metrics/e060.json",
+      "bytes": 131999,
+      "sha256": "0ad301aa721a8fdf53a3bf9188e99cd0d5d16d65b0baa19400b7729c9eb20dd2",
+      "content_parsed": false,
+      "performance_values_read": false
+    },
+    "continuity": {
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "continuity_guard_pid": 159134,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "guard_total_restarts": 0,
+      "guard_consecutive_no_progress_restarts": 0,
+      "guard_health_pid": 159190,
+      "guard_health_status": "HEALTHY",
+      "guard_alert_count": 0
+    }
+  },
+  "other_nodes": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 121,
+      "updates": 1034913,
+      "epoch_seconds": 1280.6397731304169,
+      "full_state_sha256": "022651e478036bf2c381d900316de34f317cb91cb1932e8db3285818af86e519"
+    },
+    "5090A_stcgr": {
+      "status": "HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "data_epoch": 19,
+      "updates": 162507,
+      "epoch_seconds": 5212.096511602402,
+      "full_state_sha256": "aca1f8bf840c946ab01f588aae02fdf04eeaa3b06ff4f2147179217b4a6f40b7",
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "data_epoch": 96,
+      "updates": 821088,
+      "epoch_seconds": 1683.9086954593658,
+      "full_state_sha256": "74a0b56db4d02a8f25b58846afb790c1e448453c4dae7d93f2500654037149e3",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 24,
+      "updates": 205272,
+      "epoch_seconds": 4773.916985988617,
+      "full_state_sha256": "11e405d94bc0535f4cc72ca0ca13e0d9b5fe577a932c5448fab7a5aac3b43aa7"
+    },
+    "local_GTX1660_CPU": {
+      "status": "HEALTHY_WAITING_FOR_FROZEN_IMPORTS",
+      "health_alert_count": 0,
+      "relay_audit_pathology_and_ddsb_watch_pids_alive": true
+    }
+  },
+  "future_5090B_chain": {
+    "matched_plain_successor_and_watchers_alive": true,
+    "dclgan_successor_export_and_watchers_alive": true,
+    "order_changed": false,
+    "new_trainer_started": false
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "git_update_reason": "fixed_cyclegan_e60_milestone_crossed"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
