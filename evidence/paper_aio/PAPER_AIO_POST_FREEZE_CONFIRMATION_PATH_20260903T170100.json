@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-post-freeze-confirmation-path-evidence-v1",
-  "captured_at": "2026-09-03T17:30:00+08:00",
+  "captured_at": "2026-09-03T17:01:00+08:00",
   "status": "CODE_READY_TESTED_COMMITTED_PUSHED_SEALED_NOT_AUTHORIZED",
   "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
   "source_identities": {

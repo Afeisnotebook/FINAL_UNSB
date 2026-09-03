@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T17:30:00+08:00",
+  "captured_at": "2026-09-03T17:00:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -24,10 +24,10 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 14,
+      "completed_full_data_epoch": 15,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4832.451939821243,
-      "projected_completion": "2026-09-14T00:24:00+08:00",
+      "latest_epoch_seconds": 4822.111870765686,
+      "projected_completion": "2026-09-14T00:45:00+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -40,21 +40,21 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 11,
+      "completed_full_data_epoch": 12,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 4832.882235050201,
-      "current_single_epoch_projected_completion": "2026-09-14T04:28:00+08:00",
+      "latest_resumed_epoch_seconds": 4841.4935734272,
+      "current_single_epoch_projected_completion": "2026-09-14T05:45:00+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
       "matched_delta_status": "unavailable_until_5090B_e200_and_reviewed_registry_relation",
       "scientific_role": "new evidence-derived stratified bridge-time estimator",
-      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
+      "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
       "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
       "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
       "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"
@@ -134,7 +134,8 @@
       "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json",
       "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json",
       "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
-      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json"
+      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
+      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json"
     ]
   },
   "ddsb_source_watch": {
@@ -416,8 +417,8 @@
     "scientific_protocol_change": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_LEASE_CRITICAL_PATH_REFRESH_20260903T143200.json"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
@@ -439,7 +440,7 @@
     "dclgan_distribution_and_confirmation_adapter_available": true,
     "confirmation_authorized": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_CONFIRMATION_PATH_20260903T173000.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_CONFIRMATION_PATH_20260903T170100.json",
     "decision": "decisions/DEC-20260903-ONE-SESSION-CONFIRMATION20-GATE.md"
   },
   "paired_metric_control": false,
