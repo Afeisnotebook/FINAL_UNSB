@@ -261,3 +261,9 @@ def test_dclgan_supervisor_has_fixed_metric_blind_recoverable_stages(
     exact = dict(stages)["exact_resume_1000_500"]
     assert exact[exact.index("--gate-total-updates") + 1] == "1000"
     assert exact[exact.index("--gate-split-updates") + 1] == "500"
+
+
+def test_dclgan_gate_terminal_status_is_not_local_host_specific() -> None:
+    source = Path(gate_supervisor.__file__).read_text(encoding="utf-8")
+    assert "COMPLETE_HOST_BOUND_GPU_GATE_AUTHORIZED" in source
+    assert "COMPLETE_LOCAL_GPU_GATE_AUTHORIZED" not in source

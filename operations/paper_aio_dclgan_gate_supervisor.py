@@ -181,7 +181,7 @@ def main() -> int:
                 time.sleep(args.retry_seconds)
         _write(state_path, {
             "schema": "final-unsb-paper-dclgan-gate-supervisor-v1",
-            "status": "COMPLETE_LOCAL_GPU_GATE_AUTHORIZED",
+            "status": "COMPLETE_HOST_BOUND_GPU_GATE_AUTHORIZED",
             "pid": os.getpid(),
             "required_git_commit": args.required_git_commit,
             "output": str(args.output),
