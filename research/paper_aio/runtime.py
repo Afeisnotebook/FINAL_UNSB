@@ -46,6 +46,9 @@ from .protocol import (
 
 
 SRC = ROOT / "src"
+SAMPLER_INITIALIZATION_POLICY = (
+    "reuse_data_dependent_initialization_batch_for_first_optimizer_update"
+)
 
 
 def install_import_paths() -> None:
@@ -238,6 +241,7 @@ def create_e0(
         "manifest_sha256": file_sha256(manifest_path),
         "protocol_fingerprint": protocol_fingerprint(manifest_path),
         "git_commit": git_commit(),
+        "sampler_initialization_policy": SAMPLER_INITIALIZATION_POLICY,
     }
     if path.is_file():
         payload = torch.load(path, map_location="cpu", weights_only=False)
@@ -250,13 +254,27 @@ def create_e0(
         seed=seed, gpu=gpu,
     )
     primary, secondary = build_streams(opt, seed=seed)
+    # The reference CUT/UNSB training loops initialize lazy modules from the
+    # first loader batch and then optimize that same batch.  An e0 checkpoint
+    # cannot retain the materialized batch itself, so retain the sampler state
+    # from immediately before data-dependent initialization.  Restoring e0
+    # then deterministically materializes the identical batch for update one.
+    #
+    # Capturing this after `_build_model` silently shifts every optimizer
+    # exposure by one sample (positions 2..N+1 instead of 1..N).  The model and
+    # global RNG below intentionally remain post-initialization, matching the
+    # reference loop between lazy initialization and the first optimizer step.
+    training_sampler_state = {
+        "primary": copy.deepcopy(primary.state_dict()),
+        "secondary": copy.deepcopy(secondary.state_dict()),
+    }
     model = _build_model(opt, initializer, primary, secondary)
     payload = {
         "schema": E0_SCHEMA,
         "metadata": identity,
         "model": model_state(model),
         "rng": capture_rng(),
-        "samplers": {"primary": primary.state_dict(), "secondary": secondary.state_dict()},
+        "samplers": training_sampler_state,
         "steps_per_epoch": steps_per_epoch(protocol),
         "target_steps": int(protocol["training"]["target_updates"]),
     }
@@ -385,6 +403,9 @@ def lane_metadata(
         "target_updates": int(protocol["training"]["target_updates"]),
         "batch_size": 1,
         "sampling_measure": "official_image_proportional_unpaired",
+        "sampler_initialization_policy": e0["metadata"].get(
+            "sampler_initialization_policy", "legacy_post_initialization_offset"
+        ),
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }

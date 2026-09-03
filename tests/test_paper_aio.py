@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import torch
@@ -28,7 +29,13 @@ from research.paper_aio.protocol import (
     protocol_fingerprint,
     validate_protocol,
 )
-from research.paper_aio.runtime import manifest_report, option_args
+from research.paper_aio import runtime
+from research.paper_aio.runtime import (
+    SAMPLER_INITIALIZATION_POLICY,
+    manifest_report,
+    option_args,
+)
+from src.models.networks import get_scheduler
 from src.util.image_pool import ImagePool
 
 
@@ -58,6 +65,118 @@ def test_main_sampler_never_enables_macro_marginal(tmp_path: Path) -> None:
         "route1_ablation_enable": True,
         "pcrsmg_ablation_role": "proposal_only",
     }
+
+
+@pytest.mark.parametrize("lane_id", ["plain", "cut", "cyclegan"])
+def test_e0_preserves_pre_initialization_sampler_state_for_update_one(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, lane_id: str,
+) -> None:
+    class Stream:
+        def __init__(self, label: str):
+            self.label = label
+            self.cursor = 0
+
+        def next(self):
+            value = {"sample": self.cursor, "stream": self.label}
+            self.cursor += 1
+            return value
+
+        def state_dict(self):
+            return {"label": self.label, "cursor": self.cursor}
+
+    primary = Stream("primary")
+    secondary = Stream("secondary")
+    initialized_from = {}
+
+    def fake_build_model(_opt, spec, first, second):
+        if spec.family == "unsb":
+            initialized_from["primary"] = first.next()
+            initialized_from["secondary"] = second.next()
+        elif spec.id == "cut":
+            initialized_from["primary"] = first.next()
+        return object()
+
+    protocol = load_protocol()
+    protocol["project_id"] = "test"
+    protocol["training"]["steps_per_data_epoch"] = 4
+    protocol["training"]["target_updates"] = 8
+    monkeypatch.setattr(runtime, "load_protocol", lambda: protocol)
+    monkeypatch.setattr(runtime, "protocol_fingerprint", lambda _path: "f" * 64)
+    monkeypatch.setattr(runtime, "git_commit", lambda: "c" * 40)
+    monkeypatch.setattr(runtime, "seed_everything", lambda _seed: None)
+    monkeypatch.setattr(runtime, "build_options", lambda *args, **kwargs: object())
+    monkeypatch.setattr(runtime, "build_streams", lambda *args, **kwargs: (
+        primary, secondary,
+    ))
+    monkeypatch.setattr(runtime, "_build_model", fake_build_model)
+    monkeypatch.setattr(runtime, "model_state", lambda _model: {
+        "networks": {}, "optimizers": [], "schedulers": [], "method": {},
+    })
+    monkeypatch.setattr(runtime, "capture_rng", lambda: {"post_ddi": True})
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_text("header\n", encoding="utf-8")
+
+    payload = runtime.create_e0(
+        output_root=tmp_path,
+        train_view=tmp_path,
+        manifest_path=manifest,
+        spec=lane_spec(lane_id),
+        gpu=-1,
+    )
+
+    assert payload["metadata"]["sampler_initialization_policy"] == (
+        SAMPLER_INITIALIZATION_POLICY
+    )
+    assert payload["samplers"]["primary"]["cursor"] == 0
+    assert payload["samplers"]["secondary"]["cursor"] == 0
+    if lane_id in ("plain", "cut"):
+        assert initialized_from["primary"]["sample"] == 0
+    if lane_id == "plain":
+        assert initialized_from["secondary"]["sample"] == 0
+
+
+def test_external_linear_schedule_is_100_constant_then_100_decay_epochs() -> None:
+    parameter = torch.nn.Parameter(torch.tensor(0.0))
+    optimizer = torch.optim.Adam([parameter], lr=2e-4, betas=(0.5, 0.999))
+    options = SimpleNamespace(
+        lr_policy="linear", epoch_count=1, n_epochs=100,
+        n_epochs_decay=100,
+    )
+    scheduler = get_scheduler(optimizer, options)
+    update_epoch_lrs = []
+    for _epoch in range(1, 201):
+        update_epoch_lrs.append(optimizer.param_groups[0]["lr"])
+        optimizer.step()
+        scheduler.step()
+
+    assert update_epoch_lrs[:100] == pytest.approx([2e-4] * 100)
+    assert update_epoch_lrs[100] == pytest.approx(2e-4 * 100 / 101)
+    assert update_epoch_lrs[-1] == pytest.approx(2e-4 / 101)
+    assert optimizer.param_groups[0]["lr"] == pytest.approx(0.0)
+
+
+def test_serializable_stream_replays_the_initialization_batch_exactly() -> None:
+    class Dataset:
+        current_epoch = 0
+
+        def __len__(self):
+            return 4
+
+        def __getitem__(self, index):
+            return {
+                "index": torch.tensor(index),
+                "augmentation": torch.rand(3),
+            }
+
+    stream = runtime.SerializableDataStream(Dataset(), seed=2127, label="primary")
+    pre_initialization = stream.state_dict()
+    initialization_batch = stream.next()
+    stream.load_state_dict(pre_initialization)
+    first_optimizer_batch = stream.next()
+
+    assert initialization_batch.keys() == first_optimizer_batch.keys()
+    for key in initialization_batch:
+        assert torch.equal(initialization_batch[key], first_optimizer_batch[key])
 
 
 def test_discovery_selector_cannot_address_confirmation() -> None:
