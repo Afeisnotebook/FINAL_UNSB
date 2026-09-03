@@ -175,6 +175,7 @@
         "live_progress_sentinel_status": "V2_RESTART_PROVEN_HEALTHY_WITHIN_EPOCH_BOUND_ZERO_ALERTS",
         "retired_live_progress_sentinel_v1_pid": 435350,
         "live_progress_sentinel_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json",
+        "latest_user_priority_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
         "latest_live_audit": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",

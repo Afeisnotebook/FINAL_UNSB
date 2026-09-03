@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-5090a-stcgr-direct-priority-reconfirmation-v1",
+  "captured_at": "2026-09-03T18:53:43+08:00",
+  "status": "ALREADY_IN_REQUESTED_CONFIGURATION_STCGR_RUNNING_PLAIN_NOT_RUNNING_OR_QUEUED",
+  "scope": {
+    "host": "5090A",
+    "other_hosts_queried": false,
+    "other_hosts_touched": false,
+    "training_process_interrupted": false
+  },
+  "plain": {
+    "latest_preserved_data_epoch": 9,
+    "latest_preserved_updates": 76977,
+    "trainer_running": false,
+    "supervisor_running": false,
+    "automatic_resume_authorized": false,
+    "retired_resume_successor_pid": 342540,
+    "retired_resume_health_watcher_pid": 342597,
+    "retired_processes_confirmed_absent": true,
+    "checkpoint_preserved": true,
+    "reason_no_new_kill_was_sent": "the requested cancellation had already been completed and re-killing unrelated processes would create risk"
+  },
+  "stcgr": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "status": "RUNNING_DIRECTLY_AS_ONLY_5090A_GPU_TRAINING_LANE",
+    "latest_completed_data_epoch": 12,
+    "latest_completed_updates": 102636,
+    "target_data_epoch": 200,
+    "supervisor_pid": 336345,
+    "trainer_pid": 431032,
+    "health_watcher_pid": 352017,
+    "progress_sentinel_pid": 436478,
+    "gpu_utilization_percent": 49,
+    "gpu_memory_mib": 2186,
+    "gpu_power_watts": 181.81,
+    "five_second_io_probe": {
+      "rchar_delta": 8379320,
+      "syscr_delta": 2064,
+      "read_bytes_delta": 3571712
+    },
+    "progress_sentinel_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_sentinel_alert_count": 0,
+    "training_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+  },
+  "scheduling_decision": {
+    "5090A_priority": "STCGR_ONLY_UNTIL_E200",
+    "matched_plain_is_not_a_predecessor": true,
+    "matched_plain_must_not_auto_start_on_5090A": true,
+    "existing_stcgr_process_tree_retained_without_restart": true,
+    "new_process_action_required": false
+  },
+  "scientific_concession": {
+    "standalone_absolute_e200_validation_authorized": true,
+    "matched_delta_available_from_this_host_now": false,
+    "result_must_not_be_reported_as_matched_gain_without_a_later_legal_control": true,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "supersedes_live_status_only": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+  "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
+}
