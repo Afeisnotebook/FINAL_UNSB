@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T16:13:38+08:00",
+  "captured_at": "2026-09-03T16:40:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -418,6 +418,17 @@
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
+  "paper_freeze_control_plane": {
+    "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
+    "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
+    "machine_draft_can_authorize": false,
+    "committed_human_codex_review_required": true,
+    "committed_freeze_receipt_required": true,
+    "source_portfolio_hash_reverified": true,
+    "confirmation_authorized": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TWO_STAGE_FREEZE_GATE_20260903T164000.json",
+    "decision": "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
+  },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

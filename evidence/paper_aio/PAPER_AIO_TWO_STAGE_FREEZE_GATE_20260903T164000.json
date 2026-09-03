@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-paper-two-stage-freeze-gate-evidence-v1",
+  "captured_at": "2026-09-03T16:40:00+08:00",
+  "status": "IMPLEMENTED_TESTED_COMMITTED_AND_PUSHED_NOT_YET_ACTIVATED",
+  "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
+  "implementation": {
+    "freeze_module": "research/paper_aio/freeze.py",
+    "freeze_module_sha256": "ce17b89e258282d194af4c5fa2f6e0bf9b333973d519df62bee56d1d97731907",
+    "distribution_module": "research/paper_aio/distribution.py",
+    "distribution_module_sha256": "4d4ea290f3580f021ee3a8dce1bf46c9d7acb26e72c70fddb41fab6eeabf7330",
+    "test_module": "tests/test_paper_freeze.py",
+    "test_module_sha256": "e4b9b77b1fea53333594baf9bfcc432fbbcd74c190d60c2aa91fc3e5cce6e3d8"
+  },
+  "review_chain": [
+    "non_authorizing_machine review draft",
+    "explicit human/Codex review decision committed to Git",
+    "materialized freeze receipt committed to Git",
+    "distribution evaluator rehashes portfolio, review decision and freeze receipt"
+  ],
+  "tests": {
+    "targeted": "28 passed",
+    "full_pytest": "603 passed",
+    "contract_validation": "ALL CONTRACT CHECKS PASSED",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "activation_state": {
+    "portfolio_complete": false,
+    "review_decision_authored": false,
+    "freeze_receipt_materialized": false,
+    "distribution_started": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  },
+  "scientific_non_interference": {
+    "training_changed": false,
+    "running_process_changed": false,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false
+  },
+  "decision": "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
+}
