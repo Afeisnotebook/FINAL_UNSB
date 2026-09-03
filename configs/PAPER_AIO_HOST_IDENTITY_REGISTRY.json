@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-host-identity-registry-v1",
+  "captured_at": "2026-09-03T10:00:00+08:00",
+  "primary_identity_key": "gpu_uuid",
+  "machine_id_is_not_unique_on_autodl": true,
+  "hosts": {
+    "4090A": {
+      "hostname": "Machine",
+      "machine_id": "0512766be54344ccb758fb4d31c1f078",
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_memory_total_mib": 24564,
+      "driver_version": "535.183.01"
+    },
+    "5090A": {
+      "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+      "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+      "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+      "gpu_name": "NVIDIA GeForce RTX 5090",
+      "gpu_memory_total_mib": 32607,
+      "driver_version": "595.71.05"
+    },
+    "5090B": {
+      "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+      "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "gpu_name": "NVIDIA GeForce RTX 5090",
+      "gpu_memory_total_mib": 32607,
+      "driver_version": "595.71.05"
+    },
+    "5090C": {
+      "hostname": "autodl-container-5ymd4xkvsl-95d685bc",
+      "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+      "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+      "gpu_name": "NVIDIA GeForce RTX 5090",
+      "gpu_memory_total_mib": 32607,
+      "driver_version": "595.71.05"
+    },
+    "local_GTX1660": {
+      "hostname": "DESKTOP-56OTAME",
+      "machine_id": "7a1e09e9-56b0-447b-bf71-6663a97e81cb",
+      "gpu_uuid": "GPU-22b92065-0a2b-ff50-f2c5-9c9ee65e6b53",
+      "gpu_name": "NVIDIA GeForce GTX 1660",
+      "gpu_memory_total_mib": 6144,
+      "driver_version": "560.94"
+    }
+  },
+  "credentials_recorded": false,
+  "performance_values_recorded": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
