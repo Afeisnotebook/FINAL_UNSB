@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T20:15:34+08:00",
+  "captured_at": "2026-09-03T20:30:04+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -70,7 +70,7 @@
       "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
       "operational_recovery_status": "EXACT_E12_RESUME_PROVEN_BY_HASH_VERIFIED_E13_AND_CONTINUED_E14_PROGRESS",
       "operational_recovery_closure": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_E13_RECOVERY_CLOSURE_20260903T193954.json",
-      "latest_user_priority_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json"
+      "latest_user_priority_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json"
     },
     "amtnc": {
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -176,7 +176,8 @@
       "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json",
       "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json",
       "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
-      "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json"
+      "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json",
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json"
     ]
   },
   "ddsb_source_watch": {
