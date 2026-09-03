@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T20:30:04+08:00",
+  "captured_at": "2026-09-03T20:35:38+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -108,6 +108,7 @@
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
     "progress_aware_supervisor_live_processes_restarted": false,
+    "progress_aware_supervisor_future_5090B_matched_plain_deployed": true,
     "codex_goal_heartbeat": {
       "status": "active",
       "automation_id": "final-unsb-goal",
@@ -121,7 +122,7 @@
       "5090C": 13587
     },
     "auxiliary_watcher_pids": {
-      "5090B_matched_plain_successor": 115614,
+      "5090B_matched_plain_successor": 148593,
       "4090A_5090B_matched_plain_relay": 2237500,
       "local_terminal_audit_control_supervisor": 6196,
       "local_terminal_audit_successor": 20244,
@@ -140,7 +141,7 @@
       "5090A_stcgr_live_progress_sentinel": 436478,
       "5090B_cut_live_progress_sentinel": 139039,
       "5090B_cyclegan_live_progress_sentinel": 138626,
-      "5090B_future_matched_plain_progress_sentinel": 140048,
+      "5090B_future_matched_plain_progress_sentinel": 148594,
       "5090B_future_dclgan_progress_sentinel": 140049,
       "4090A_plain_live_progress_sentinel": 2613987,
       "4090A_future_amtnc_progress_sentinel": 2613988,
@@ -177,7 +178,8 @@
       "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json",
       "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
       "evidence/paper_aio/PAPER_AIO_PROGRESS_AWARE_SUPERVISOR_FAILURE_BUDGET_20260903T201534.json",
-      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json"
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json",
+      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json"
     ]
   },
   "ddsb_source_watch": {
@@ -278,8 +280,9 @@
   },
   "future_matched_plain_successor": {
     "status": "WAITING_FOR_5090B_CUT_E200_WITH_DYNAMIC_CORESIDENT_CAPACITY_GATE",
-    "pid": 115562,
-    "health_watcher_pid": 115614,
+    "pid": 148465,
+    "health_watcher_pid": 148593,
+    "progress_watcher_pid": 148594,
     "retired_pid": 38294,
     "retired_health_watcher_pid": 39139,
     "retired_v1_pid": 61721,
@@ -292,10 +295,13 @@
     "capacity_probe_epochs": 2,
     "minimum_makespan_saving_seconds": 3600,
     "capacity_gate_policy": "continue beside CycleGAN only when observed e2 projection saves at least one hour; otherwise exact-pause and wait",
-    "control_commit": "a9c63cff5b5f23baf6ed8548b01abcc51e0f7be8",
+    "control_commit": "810bf3e5f9af0b7e767bc7b0da8cff326433a2c8",
     "control_contract_schema": "final-unsb-paper-cross-host-plain-successor-contract-v2",
-    "control_contract_sha256": "854c9c6f6e7bdfc995b7e64976ae0b38d54c07eb2f90c99d38e06c758f2add50",
-    "control_source_sha256": "ff31531860abc7db4dac716573b6e185795d2d6221a223ccbd4defe45083ffed",
+    "control_contract_sha256": "c77304063ad4b89e4807db7f476126721fa2e197ca776d5bd6d327329b04ad8f",
+    "control_source_sha256": "92bcc7dd07c6cfc05f2b786a70598242e9dadc8789d024b73fce8842d0f68583",
+    "supervisor_source_sha256": "f8be2bd14a1ddba9051f65eaca58e832e59e2e93db0c27893dff5536beb365e5",
+    "control_instance_id": "progress-aware-a89874f",
+    "processes_detached_to_pid1": true,
     "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
     "long_training_fail_closed_until_exact_pass": true,
     "source_host_label": "5090B_MATCHED_PLAIN",
@@ -309,7 +315,7 @@
     "source_export_relay_status": "waiting_metric_blind",
     "source_export_relay_health_watcher_pid": 2237500,
     "projected_e200_window": "2026-09-12/2026-09-13",
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json"
   },
   "post_training_delivery": {
     "status": "LEGACY_WAITER_HEALTHY_BUT_SUPERSEDED_AS_COMPLETION_PATH_BY_5090A_PLAIN_CANCELLATION",

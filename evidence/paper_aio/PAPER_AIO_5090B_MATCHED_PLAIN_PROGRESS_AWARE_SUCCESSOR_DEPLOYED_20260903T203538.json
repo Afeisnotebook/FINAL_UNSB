@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-aio-operational-evidence-v1",
+  "captured_at": "2026-09-03T20:35:38+08:00",
+  "host_label": "5090B",
+  "scope": "future matched-plain control chain only; active CUT, CycleGAN and queued DCLGAN science were not changed",
+  "status": "PROGRESS_AWARE_SUCCESSOR_DEPLOYED_HEALTHY_DETACHED_WAITING_FOR_CUT_E200",
+  "reason": "Use the reviewed progress-aware supervisor failure budget for the future multi-day matched plain without restarting any healthy current trainer.",
+  "deployment": {
+    "successor_pid": 148465,
+    "health_watcher_pid": 148593,
+    "progress_watcher_pid": 148594,
+    "all_parent_pids_after_ssh_exit": 1,
+    "state": "WAITING_FOR_PREDECESSOR_E200",
+    "predecessor_status": "CHILD_RUNNING",
+    "plain_trainer_started": false,
+    "duplicate_plain_trainer_count": 0,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "control_instance_id": "progress-aware-a89874f",
+    "control_contract": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/operations/CROSS_HOST_PLAIN_SUCCESSOR_CONTRACT_progress-aware-a89874f.json",
+    "control_contract_sha256": "c77304063ad4b89e4807db7f476126721fa2e197ca776d5bd6d327329b04ad8f"
+  },
+  "source_lineage": {
+    "control_repo": "/root/autodl-tmp/FINAL_UNSB_MATCHED_SUCCESSOR_BUNDLE_810bf3e",
+    "control_git_commit": "810bf3e5f9af0b7e767bc7b0da8cff326433a2c8",
+    "control_repo_clean": true,
+    "successor_source_sha256": "92bcc7dd07c6cfc05f2b786a70598242e9dadc8789d024b73fce8842d0f68583",
+    "supervisor_source_sha256": "f8be2bd14a1ddba9051f65eaca58e832e59e2e93db0c27893dff5536beb365e5",
+    "health_source_sha256": "b899671b0d19d33e0e676d37af6a79ea1acfba1e0582231cd7611f81f47670cd",
+    "progress_source_sha256": "bf68385bceeaf1536e11230679b02fb2c27ddb8c0176fbe6ea885d669f012ac5",
+    "transfer_bundle_sha256": "b19b33560615c6e87ac30d171f359db5da9e03e443ceec916322f84d637bea7a",
+    "scientific_repo": "/root/autodl-tmp/FINAL_UNSB_PAPER_MATCHED_5090B_e4a5eed",
+    "scientific_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "scientific_repo_clean": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+    "fresh_e0_required": true,
+    "cross_host_checkpoint_resume": false
+  },
+  "retirement": {
+    "old_successor_pid": 115562,
+    "old_health_watcher_pid": 115614,
+    "old_progress_watcher_pid": 140048,
+    "all_old_pids_confirmed_dead": true,
+    "old_waiter_had_started_training": false,
+    "state_path_preserved_for_dclgan_dependency": true
+  },
+  "recoverable_engineering_event": {
+    "event": "The first health/progress watcher launch attempt used missing nohup redirection directories.",
+    "failed_health_pid": 148555,
+    "failed_progress_pid": 148556,
+    "both_confirmed_dead": true,
+    "science_or_successor_impact": false,
+    "recovery": "Created the dedicated output directories and relaunched the source-bound watchers as PIDs 148593 and 148594."
+  },
+  "unchanged_active_or_queued_work": {
+    "cut_supervisor_pid": 3739,
+    "cut_trainer_pid": 5771,
+    "cut_latest_completed_data_epoch": 78,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 11846,
+    "cyclegan_latest_completed_data_epoch": 48,
+    "dclgan_successor_pid": 99704,
+    "dclgan_export_pid": 99821,
+    "dclgan_health_pid": 99966,
+    "dclgan_progress_pid": 140049,
+    "dclgan_observed_new_predecessor_status": "WAITING_FOR_PREDECESSOR_E200"
+  },
+  "health": {
+    "successor_health": "HEALTHY_ZERO_ALERTS",
+    "future_progress_watch": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+    "disk_free_gib": 230.22116088867188,
+    "estimated_remaining_write_gib": 8.0,
+    "minimum_headroom_gib": 16.0
+  },
+  "scientific_boundaries": {
+    "training_configuration_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
+}

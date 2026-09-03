@@ -249,3 +249,6 @@ authorize compute.
     工程退出被错误累计为连续失败的问题；只有产生更晚完整checkpoint才重置旧失败串，同一
     checkpoint连续失败仍在三次后fail-closed。当前健康trainer/supervisor不重启，新语义用于
     后续lane与未来经审查的恢复。
+76. `DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md`：把等待CUT e200的
+    5090B matched-plain后继升级为源码绑定的progress-aware版本；退出SSH后successor、health
+    和progress watcher均归属PID 1且零告警，未启动重复plain，也未改变CUT/CycleGAN/DCLGAN。
