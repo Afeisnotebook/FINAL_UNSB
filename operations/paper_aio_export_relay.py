@@ -28,6 +28,8 @@ IMPORT_LANE_SCHEMA = "final-unsb-paper-imported-lane-v1"
 IMPORT_SET_SCHEMA = "final-unsb-paper-import-set-v1"
 EXPORT_SET_SCHEMA = "final-unsb-paper-source-export-set-v1"
 EXPORT_RECEIPT_SCHEMA = "final-unsb-paper-checkpoint-export-v1"
+DCLGAN_EXPORT_SET_SCHEMA = "final-unsb-paper-dclgan-source-export-set-v1"
+DCLGAN_EXPORT_RECEIPT_SCHEMA = "final-unsb-paper-dclgan-checkpoint-export-v1"
 UNIFIED_EPOCHS = (100, 125, 150, 175, 200)
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
@@ -99,8 +101,11 @@ def _remote_path(value: str, label: str) -> str:
 def validate_export_set(
     payload: dict[str, Any], *, lane_id: str, source_host_label: str,
 ) -> list[dict[str, Any]]:
+    expected_schema = (
+        DCLGAN_EXPORT_SET_SCHEMA if lane_id == "dclgan" else EXPORT_SET_SCHEMA
+    )
     if (
-        payload.get("schema") != EXPORT_SET_SCHEMA
+        payload.get("schema") != expected_schema
         or payload.get("status") != "COMPLETE_SOURCE_BOUND_EXPORT_SET"
         or payload.get("lane_id") != lane_id
         or payload.get("source_host_label") != source_host_label
@@ -134,9 +139,17 @@ def validate_export_receipt(
     payload: dict[str, Any], *, lane_id: str, epoch: int,
     source_host_label: str,
 ) -> None:
+    expected_schema = (
+        DCLGAN_EXPORT_RECEIPT_SCHEMA
+        if lane_id == "dclgan" else EXPORT_RECEIPT_SCHEMA
+    )
+    expected_status = (
+        "ACCEPTED_SOURCE_BOUND_DCLGAN_CHECKPOINT"
+        if lane_id == "dclgan" else "ACCEPTED_SOURCE_BOUND_CHECKPOINT_EXPORT"
+    )
     if (
-        payload.get("schema") != EXPORT_RECEIPT_SCHEMA
-        or payload.get("status") != "ACCEPTED_SOURCE_BOUND_CHECKPOINT_EXPORT"
+        payload.get("schema") != expected_schema
+        or payload.get("status") != expected_status
         or payload.get("lane_id") != lane_id
         or int(payload.get("epoch", -1)) != int(epoch)
         or int(payload.get("updates", -1)) != int(epoch) * 8553
@@ -154,6 +167,11 @@ def validate_export_receipt(
             raise RuntimeError(f"checkpoint export receipt lacks {key}")
     _remote_path(payload["source_checkpoint"], "checkpoint path")
     _remote_path(payload["source_sidecar"], "sidecar path")
+    if lane_id == "dclgan" and (
+        not isinstance(payload.get("upstream_commit"), str)
+        or len(payload["upstream_commit"]) != 40
+    ):
+        raise RuntimeError("DCLGAN checkpoint export lacks upstream commit")
 
 
 def host_key_sha256(key) -> str:

@@ -57,6 +57,22 @@ def _export_set(lane: str, host: str = "hostA") -> dict:
     }
 
 
+def _dclgan_receipt(epoch: int, host: str = "5090B") -> dict:
+    value = _receipt("dclgan", epoch, host)
+    value.update({
+        "schema": "final-unsb-paper-dclgan-checkpoint-export-v1",
+        "status": "ACCEPTED_SOURCE_BOUND_DCLGAN_CHECKPOINT",
+        "upstream_commit": "1" * 40,
+    })
+    return value
+
+
+def _dclgan_export_set(host: str = "5090B") -> dict:
+    value = _export_set("dclgan", host)
+    value["schema"] = "final-unsb-paper-dclgan-source-export-set-v1"
+    return value
+
+
 def test_export_set_and_receipt_accept_exact_frozen_identity() -> None:
     rows = validate_export_set(
         _export_set("plain"), lane_id="plain", source_host_label="hostA",
@@ -66,6 +82,31 @@ def test_export_set_and_receipt_accept_exact_frozen_identity() -> None:
         _receipt("plain", 100), lane_id="plain", epoch=100,
         source_host_label="hostA",
     )
+
+
+def test_export_relay_accepts_source_bound_dclgan_profile() -> None:
+    rows = validate_export_set(
+        _dclgan_export_set(), lane_id="dclgan", source_host_label="5090B",
+    )
+    assert [row["epoch"] for row in rows] == list(UNIFIED_EPOCHS)
+    validate_export_receipt(
+        _dclgan_receipt(200), lane_id="dclgan", epoch=200,
+        source_host_label="5090B",
+    )
+
+
+def test_export_relay_rejects_generic_schema_for_dclgan() -> None:
+    with pytest.raises(RuntimeError):
+        validate_export_set(
+            _export_set("dclgan", "5090B"), lane_id="dclgan",
+            source_host_label="5090B",
+        )
+    value = _dclgan_receipt(200)
+    value.pop("upstream_commit")
+    with pytest.raises(RuntimeError, match="upstream commit"):
+        validate_export_receipt(
+            value, lane_id="dclgan", epoch=200, source_host_label="5090B",
+        )
 
 
 def test_export_set_rejects_confirmation_or_epoch_drift() -> None:
