@@ -167,3 +167,6 @@ authorize compute.
 51. `DEC-20260903-UNIFIED-EVALUATION-METRIC-INTEGRITY.md`：统一评估改为从逐图证据重算
     NFE/replicate/逐域/宏指标，跨lane精确核对sample与CRN身份，并以评估前后checkpoint
     SHA256证明只读；LPIPS 0.1.4 Alex v0.1不可用时fail closed，不再静默生成空结果。
+52. `DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md`：用户提供的44804端点经hostname、
+    machine-id、仓库/manifest、run inode、PID和heartbeat共同证明是现有5090B，不是新增
+    物理GPU；保持CUT/CycleGAN及matched-plain后继不变，禁止误开第三lane或重复登记算力。

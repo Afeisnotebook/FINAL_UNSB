@@ -3,6 +3,10 @@
 状态：`FIRST_WAVE_RUNNING / THREE_ALGORITHM_PATHS_RUNNING / CONFIRMATION_LOCKED`
 日期：2026-09-03
 
+资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与正在运行
+CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此
+改变；真正新增宿主必须先通过不同hostname/machine-id、空闲GPU和独立可写状态门。
+
 ## 当前不可误读的事实
 
 - small25路线一已经得到多算法前沿：4090上HJCGR与Proposal-only严格通过，AM-TNC为
