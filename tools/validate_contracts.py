@@ -110,7 +110,9 @@ def main() -> int:
     )
     current = state.get("paper_aio_20260902") or {}
     check(
-        state.get("phase") == "PAPER_AIO_FIRST_WAVE_AND_STCGR_SMALL25_RUNNING"
+        state.get("phase") == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
+        and current.get("status")
+        == "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED"
         and current.get("paired_metric_control") is False
         and current.get("cross_host_deltas_merged") is False
         and current.get("confirmation20_opened") is False,

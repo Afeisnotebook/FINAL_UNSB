@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T08:20:17+08:00",
+  "captured_at": "2026-09-03T08:30:47+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "methods": {
@@ -9,10 +9,10 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 8,
+      "completed_full_data_epoch": 9,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4722.979921340942,
-      "projected_completion": "2026-09-13T19:30:29+08:00",
+      "latest_epoch_seconds": 4725.948939323425,
+      "projected_completion": "2026-09-13T19:14:02+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -33,7 +33,7 @@
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
       "latest_resumed_epoch_seconds": 5257.7810254096985,
-      "current_single_epoch_projected_completion": "2026-09-15T03:00:45+08:00",
+      "current_single_epoch_projected_completion": "2026-09-15T03:49:56+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
@@ -80,8 +80,9 @@
     "auxiliary_watcher_pids": {
       "5090B_matched_plain_successor": 61725,
       "4090A_5090B_matched_plain_relay": 2237500,
-      "local_incremental_terminal_audit": 20780,
-      "local_terminal_pathology_auto_successor": 18712,
+      "local_terminal_audit_successor": 20888,
+      "local_terminal_pathology_successor": 16968,
+      "local_terminal_combined_health": 13536,
       "4090A_stcgr_control_relation": 2289036,
       "4090A_registry_review_successor": 2349694
     },
@@ -250,8 +251,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T073657.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T073657.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

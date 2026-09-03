@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T08:20:17+08:00",
+  "state_snapshot_time": "2026-09-03T08:30:47+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -9,13 +9,13 @@
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T073657.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": [],
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 62, "latest_observed_updates": 530286, "latest_epoch_seconds": 1268.565179824829, "projected_completion": "2026-09-05T08:36:22+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 50, "latest_observed_updates": 427650, "latest_epoch_seconds": 1679.2528958320618, "projected_completion": "2026-09-06T05:58:13+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 28, "latest_observed_updates": 239484, "latest_epoch_seconds": 2326.4229683876038, "projected_completion": "2026-09-07T22:46:02+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 64, "latest_observed_updates": 547392, "latest_epoch_seconds": 1269.6241328716278, "projected_completion": "2026-09-05T08:27:35+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 51, "latest_observed_updates": 436203, "latest_epoch_seconds": 1650.469468832016, "projected_completion": "2026-09-06T04:48:26+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 29, "latest_observed_updates": 248037, "latest_epoch_seconds": 2296.838471889496, "projected_completion": "2026-09-07T21:35:45+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -64,7 +64,7 @@
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
         "latest_epoch_wall_seconds": 5257.7810254096985,
-        "projected_completion_from_latest_epoch": "2026-09-15T03:00:45+08:00",
+        "projected_completion_from_latest_epoch": "2026-09-15T03:49:56+08:00",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
         "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T065116.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json"
@@ -106,12 +106,12 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 8,
-        "latest_observed_updates": 68424,
+        "latest_observed_data_epoch": 9,
+        "latest_observed_updates": 76977,
         "first_epoch_seconds": 4696.602091550827,
-        "latest_epoch_seconds": 4722.979921340942,
+        "latest_epoch_seconds": 4725.948939323425,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
-        "projected_completion": "2026-09-13T19:30:29+08:00",
+        "projected_completion": "2026-09-13T19:14:02+08:00",
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
       },
       "5090B_matched_plain_successor": {
@@ -142,7 +142,7 @@
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
     "ddsb_status": "REPRODUCTION_INCOMPLETE_OFFICIAL_PAPER_AND_SUPPLEMENT_HASHED_FORMULA_IMPLEMENTATION_LOCK_MISSING",
-    "ddsb_latest_source_recheck": "evidence/paper_aio/DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json",
+    "ddsb_latest_source_recheck": "evidence/paper_aio/DDSB_PUBLIC_SOURCE_RECHECK_20260903T0830.json",
     "terminal_singular_drift_confirmed": false,
     "active_new_candidate": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
     "active_new_candidate_full_data_authorized": true,
@@ -560,28 +560,28 @@
       "decision": "decisions/DEC-20260903-DURABLE-RUNTIME-RELATION-SUCCESSOR.md"
     },
     "durable_health_watch": {
-      "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
+      "status": "FOUR_TRAINING_HOSTS_AND_LOCAL_TARGET_BLIND_CHAIN_HEALTHY_METRIC_BLIND",
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
         "4090A": 2200307,
         "5090A": 352017,
         "5090B": 30355,
         "5090C": 13587,
-        "local_incremental_audit": 15672,
         "4090A_stcgr_control_relation": 2289036
       },
-      "all_ppid_one": true,
+      "local_combined_health_watcher_pid": 13536,
+      "all_remote_watchers_ppid_one": true,
       "all_states_refreshed_after_initial_poll": true,
       "alert_count": 0,
       "automatic_training_mutation": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
       "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
     },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_REFRESH_20260903T083047.json",
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json",
     "delivery_handoff_repair": {
       "status": "DYNAMIC_SOURCE_CONTRACT_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",

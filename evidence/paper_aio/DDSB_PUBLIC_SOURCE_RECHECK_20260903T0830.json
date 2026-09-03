@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-ddsb-public-source-recheck-v1",
+  "captured_at": "2026-09-03T08:30:00+08:00",
+  "status": "NO_AUTHORITATIVE_IMPLEMENTATION_FOUND_REPRODUCTION_INCOMPLETE",
+  "authoritative_publication": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "proceedings_url": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "paper_url": "https://papers.nips.cc/paper_files/paper/2025/file/039c30e9af8039fbd1b58da9d04f38e9-Paper-Conference.pdf",
+    "authors_lab_publication_url": "https://medai.lab.westlake.edu.cn/Publications1.htm",
+    "poster_video_url": "https://slideslive.com/39048086/degradationaware-dynamic-schrodinger-bridge-for-unpaired-image-restoration"
+  },
+  "github_repository_api_queries": [
+    {
+      "query": "\"Degradation-Aware Dynamic Schrodinger Bridge\" in:name,description,readme",
+      "total_count": 1,
+      "authoritative_method_repository_count": 0,
+      "note": "the sole hit was an unrelated NeurIPS figure aggregation"
+    },
+    {
+      "query": "DDSB unpaired image restoration in:name,description,readme",
+      "total_count": 0
+    },
+    {
+      "query": "\"Dynamic Transport with Consistency\" in:readme,description",
+      "total_count": 0
+    },
+    {
+      "query": "EROT DOT DTC Schrodinger in:readme,description",
+      "total_count": 0
+    }
+  ],
+  "adjudication": {
+    "poster_claims_future_public_source": true,
+    "public_source_link_currently_present": false,
+    "author_maintained_source_found": false,
+    "guessed_implementation_authorized": false,
+    "gpu_lane_started": false,
+    "paper_status": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "reopen_condition": "authoritative source/checkpoint or author-specified implementation record closes the material ambiguities already enumerated in DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json"
+  },
+  "scope": {
+    "training_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_official_artifact_audit": "evidence/paper_aio/DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json"
+}

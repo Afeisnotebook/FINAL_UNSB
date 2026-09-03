@@ -1,0 +1,133 @@
+{
+  "schema": "final-unsb-paper-five-node-health-refresh-v1",
+  "captured_at": "2026-09-03T08:30:47+08:00",
+  "status": "ALL_ACTIVE_TRAINING_AND_CONTROL_CHAINS_HEALTHY",
+  "repository_head_at_capture": "9d70c4221494c730a1638b8c2b7db74445b4cedb",
+  "training": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "health_watcher_pid": 2200307,
+      "completed_data_epoch": 64,
+      "completed_updates": 547392,
+      "latest_epoch_seconds": 1269.6241328716278,
+      "projected_e200_from_latest_epoch": "2026-09-05T08:27:35+08:00",
+      "gpu_sample_percent": 49,
+      "gpu_memory_sample_mib": 1663,
+      "free_disk_gib": 387.0914
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_STCGR_ONLY",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "export_successor_pid": 336344,
+      "incremental_export_pid": 351230,
+      "health_watcher_pid": 352017,
+      "completed_data_epoch": 6,
+      "completed_updates": 51318,
+      "latest_epoch_seconds": 5257.7810254096985,
+      "projected_e200_from_latest_epoch": "2026-09-15T03:49:56+08:00",
+      "gpu_sample_percent": 33,
+      "gpu_memory_sample_mib": 2186,
+      "free_disk_gib": 184.2931,
+      "user_capacity_override": true,
+      "paused_plain_data_epoch": 9,
+      "paused_plain_updates": 76977,
+      "retired_plain_processes_confirmed_absent": [296821, 342540, 342597],
+      "automatic_plain_resume_authorized": false
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 51,
+      "completed_updates": 436203,
+      "latest_epoch_seconds": 1650.469468832016,
+      "projected_e200_from_latest_epoch": "2026-09-06T04:48:26+08:00"
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 29,
+      "completed_updates": 248037,
+      "latest_epoch_seconds": 2296.838471889496,
+      "projected_e200_from_latest_epoch": "2026-09-07T21:35:45+08:00"
+    },
+    "5090B_shared_capacity": {
+      "health_watcher_pid": 30355,
+      "gpu_sample_percent": 96,
+      "gpu_memory_sample_mib": 3479,
+      "free_disk_gib": 230.9678
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "export_successor_pid": 9730,
+      "health_watcher_pid": 13587,
+      "completed_data_epoch": 9,
+      "completed_updates": 76977,
+      "latest_epoch_seconds": 4725.948939323425,
+      "projected_e200_from_latest_epoch": "2026-09-13T19:14:02+08:00",
+      "gpu_sample_percent": 53,
+      "gpu_memory_sample_mib": 2146,
+      "free_disk_gib": 230.1032
+    },
+    "local_GTX1660": {
+      "status": "IDLE_GPU_WITH_TARGET_BLIND_SUCCESSORS_WAITING_FOR_FIXED_IMPORTS",
+      "gpu_sample_percent": 0,
+      "gpu_memory_sample_mib": 507,
+      "free_disk_gib": 125.545,
+      "reason_not_filled": "all authorized terminal GPU audits require fixed e100/e150/e200 imports; DDSB remains authority-source blocked and a new hypothesis would violate the evidence-driven route-one contract"
+    }
+  },
+  "durable_queue": {
+    "4090A_after_plain": {
+      "lane": "amtnc",
+      "successor_pid": 2182585,
+      "status": "WAITING_FOR_PREDECESSOR_E200"
+    },
+    "5090B_after_cut": {
+      "lane": "fresh_e0_matched_plain",
+      "successor_pid": 61721,
+      "health_watcher_pid": 61725,
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "runtime_and_dynamic_colocation_gates_required": true
+    },
+    "proposal_control_relation": {
+      "successor_pid": 2243220,
+      "status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+      "comparison_authorized": false
+    },
+    "stcgr_control_relation": {
+      "successor_pid": 2289024,
+      "status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+      "comparison_authorized": false
+    },
+    "relation_registry_review": {
+      "successor_pid": 2349420,
+      "health_watcher_pid": 2349694,
+      "status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+      "registry_edited": false
+    }
+  },
+  "local_target_blind_chain": {
+    "audit_pid": 20888,
+    "pathology_pid": 16968,
+    "combined_health_pid": 13536,
+    "status": "HEALTHY_ZERO_ALERTS_WAITING_FIXED_IMPORTS",
+    "control_commit": "2fbbd897f9c9f4d4d47a58881d0337a506e9b0c5"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false,
+    "new_unlicensed_experiment_started": false
+  }
+}
