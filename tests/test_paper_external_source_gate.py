@@ -32,7 +32,7 @@ def test_controlled_exposure_is_explicit_and_frozen() -> None:
     assert protocol["batch_size"] == 1
     assert protocol["resolution"] == 128
     assert protocol["schedule"] == "100_constant_plus_100_linear_decay"
-    assert len(protocol["required_disclosure"]) == 3
+    assert len(protocol["required_disclosure"]) == 4
     defaults = _gate()["dclgan"]["official_source_defaults"]
     assert defaults["generator_discriminator_learning_rate"] == 2e-4
     assert defaults["generator_discriminator_adam_betas"] == [0.5, 0.999]

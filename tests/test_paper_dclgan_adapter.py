@@ -88,6 +88,38 @@ def test_dclgan_paper_prediction_uses_degraded_to_clean_generator() -> None:
     assert torch.equal(prediction, torch.tensor([3.0]))
 
 
+@pytest.mark.parametrize("padding", [0, 1, (2, 3), (1, 2, 3, 2)])
+def test_deterministic_reflection_pad_is_forward_exact(padding) -> None:
+    value = torch.randn(2, 3, 8, 9)
+    actual = adapter.DeterministicReflectionPad2d(padding)(value)
+    if isinstance(padding, int):
+        normalized = (padding, padding, padding, padding)
+    elif len(padding) == 2:
+        normalized = (padding[0], padding[1], padding[0], padding[1])
+    else:
+        normalized = padding
+    expected = torch.nn.functional.pad(value, normalized, mode="reflect")
+    assert torch.equal(actual, expected)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA gate")
+def test_deterministic_reflection_pad_has_repeatable_cuda_backward() -> None:
+    enabled = torch.are_deterministic_algorithms_enabled()
+    warn_only = torch.is_deterministic_algorithms_warn_only_enabled()
+    try:
+        torch.use_deterministic_algorithms(True)
+        source = torch.randn(1, 3, 8, 9, device="cuda")
+        gradients = []
+        for _ in range(2):
+            value = source.detach().clone().requires_grad_(True)
+            output = adapter.DeterministicReflectionPad2d((2, 3, 1, 2))(value)
+            output.square().sum().backward()
+            gradients.append(value.grad.detach().cpu())
+        assert torch.equal(gradients[0], gradients[1])
+    finally:
+        torch.use_deterministic_algorithms(enabled, warn_only=warn_only)
+
+
 def test_dclgan_full_model_optimizer_scheduler_state_roundtrip() -> None:
     class Model:
         def __init__(self):

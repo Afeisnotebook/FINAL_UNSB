@@ -58,6 +58,63 @@ EXPECTED_MANIFEST_SHA256 = (
     "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
 )
 ENGINEERING_MAX_UPDATES = 1_000
+EXPECTED_REFLECTION_PAD_MODULES = 50
+
+
+class DeterministicReflectionPad2d(torch.nn.Module):
+    """Forward-equivalent reflection padding with deterministic CUDA backward.
+
+    PyTorch 2.6 rejects ``ReflectionPad2d`` backward under deterministic CUDA
+    execution. Slicing, flipping and concatenation produce the identical
+    reflected tensor while retaining a deterministic autograd path.
+    """
+
+    def __init__(self, padding):
+        super().__init__()
+        if isinstance(padding, int):
+            values = (padding, padding, padding, padding)
+        else:
+            values = tuple(int(value) for value in padding)
+            if len(values) == 2:
+                values = (values[0], values[1], values[0], values[1])
+            if len(values) != 4:
+                raise ValueError(f"unsupported reflection padding: {padding!r}")
+        if any(value < 0 for value in values):
+            raise ValueError("reflection padding must be non-negative")
+        self.padding = values
+
+    def forward(self, value: torch.Tensor) -> torch.Tensor:
+        left, right, top, bottom = self.padding
+        if left >= value.shape[-1] or right >= value.shape[-1]:
+            raise RuntimeError("reflection width padding exceeds the input")
+        horizontal = torch.cat((
+            value[..., 1:left + 1].flip(-1) if left else value[..., :0],
+            value,
+            value[..., -right - 1:-1].flip(-1) if right else value[..., :0],
+        ), dim=-1)
+        if top >= horizontal.shape[-2] or bottom >= horizontal.shape[-2]:
+            raise RuntimeError("reflection height padding exceeds the input")
+        return torch.cat((
+            horizontal[..., 1:top + 1, :].flip(-2)
+            if top else horizontal[..., :0, :],
+            horizontal,
+            horizontal[..., -bottom - 1:-1, :].flip(-2)
+            if bottom else horizontal[..., :0, :],
+        ), dim=-2)
+
+    def extra_repr(self) -> str:
+        return f"padding={self.padding}"
+
+
+def replace_reflection_padding(module: torch.nn.Module) -> int:
+    replaced = 0
+    for name, child in list(module.named_children()):
+        if isinstance(child, torch.nn.ReflectionPad2d):
+            setattr(module, name, DeterministicReflectionPad2d(child.padding))
+            replaced += 1
+        else:
+            replaced += replace_reflection_padding(child)
+    return replaced
 
 
 def _gate() -> dict[str, Any]:
@@ -356,6 +413,16 @@ def build_model(opt, ddi_batch: dict[str, Any]):
     from models import create_model
 
     model = create_model(opt)
+    replaced = sum(
+        replace_reflection_padding(getattr(model, "net" + name))
+        for name in model.model_names
+    )
+    if replaced != EXPECTED_REFLECTION_PAD_MODULES:
+        raise RuntimeError(
+            "DCLGAN deterministic reflection-pad coverage changed: "
+            f"{replaced} != {EXPECTED_REFLECTION_PAD_MODULES}"
+        )
+    model._final_unsb_deterministic_reflection_pad_count = replaced
     model.data_dependent_initialize(ddi_batch)
     model.setup(opt)
     # Upstream's ``parallelize`` unconditionally constructs DataParallel and
@@ -395,6 +462,10 @@ def _identity(
         "sampler_initialization_policy": (
             "reuse_DDI_batch_for_first_optimizer_update"
         ),
+        "deterministic_reflection_pad_adapter": {
+            "operator": "slice_flip_concat_forward_equivalent_v1",
+            "expected_replaced_modules": EXPECTED_REFLECTION_PAD_MODULES,
+        },
         "paired_controller_access": False,
         "confirmation20_opened": False,
     }
