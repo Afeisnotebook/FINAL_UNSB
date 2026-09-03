@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-crash-atomic-deployment-v1",
+  "captured_at": "2026-09-03T17:22:00+08:00",
+  "status": "CRASH_ATOMIC_TARGET_BLIND_AUDIT_CHAIN_DEPLOYED_HEALTHY",
+  "failure_mode_closed": {
+    "previous_behavior": "the completed terminal-audit payload was appended directly to the authoritative JSONL path",
+    "risk": "process interruption during the append could leave an existing torn row that the fail-closed successor could not trust or replay",
+    "scientific_effect": "none; the risk concerned durable delivery of target-blind diagnostics only",
+    "observed_in_production": false
+  },
+  "implementation": {
+    "git_commit": "05dbdb5512466f711c7403810356bca073e5cb13",
+    "source": "research/paper_aio/terminal_audit.py",
+    "source_sha256": "f3965f9b4b6a4c211e5337b132f9622c7e9ce7b62272c0d0bd0fe9d604754fe3",
+    "write_protocol": [
+      "reject a pre-existing non-newline-terminated authority file",
+      "preserve all complete prior JSONL rows",
+      "write the new complete payload to a same-directory PID-scoped temporary file",
+      "flush and fsync the temporary file",
+      "atomically replace the authority path",
+      "remove any residual temporary file"
+    ],
+    "authoritative_partial_row_possible_after_interruption": false,
+    "preexisting_corruption_hidden_by_retry": false
+  },
+  "verification": {
+    "targeted_tests_passed": 17,
+    "targeted_tests_failed": 0,
+    "full_test_suite_passed": 621,
+    "full_test_suite_failed": 0,
+    "fault_injection_cases": [
+      "two complete rows remain valid JSONL",
+      "pre-existing torn row is rejected without mutation",
+      "injected atomic-replace failure preserves the previous authority and removes the temporary file"
+    ],
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "deployment": {
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_TERMINAL_05DBDB5",
+    "control_worktree_clean": true,
+    "terminal_audit_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_atomic_05dbdb5",
+    "terminal_audit_pid": 20712,
+    "terminal_audit_pid_alive": true,
+    "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "terminal_audit_contract_sha256": "11a9e22403cf09de12dfa2c43af751c2942de1b07f481d41a05982398f5c52f4",
+    "terminal_pathology_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_atomic_05dbdb5",
+    "terminal_pathology_pid": 11452,
+    "terminal_pathology_pid_alive": true,
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "terminal_pathology_contract_sha256": "90c52c175d08d11b9023c67f8daacef5b53f861e1a8a9bdb3a573f4c46019f16",
+    "combined_health_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_atomic_05dbdb5",
+    "combined_health_watcher_pid": 22700,
+    "combined_health_watcher_alive": true,
+    "combined_health_status": "HEALTHY",
+    "combined_health_alert_count": 0,
+    "fixed_cell_count": 12,
+    "completed_cells_before_cutover": [],
+    "preflight_release": "READY",
+    "shared_gpu_lock_unchanged": true
+  },
+  "retired_control_plane": {
+    "terminal_audit_pid": 20888,
+    "terminal_pathology_pid": 16968,
+    "combined_health_pid": 13536,
+    "all_retired_after_new_chain_became_healthy": true,
+    "old_output_preserved": true,
+    "files_deleted": false
+  },
+  "non_interference": {
+    "remote_training_process_changed": false,
+    "local_checkpoint_relay_changed": false,
+    "checkpoint_loaded_during_cutover": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_or_module_auto_started": false,
+    "confirmation20_opened": false
+  }
+}
