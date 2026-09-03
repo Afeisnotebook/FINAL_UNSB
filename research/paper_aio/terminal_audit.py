@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from pathlib import Path
 
 import numpy as np
@@ -648,6 +649,26 @@ def audit_model(
 
 
 def append_audit(path: Path, payload: dict) -> None:
+    """Append one row without exposing a torn authoritative JSONL file.
+
+    Terminal audits can run for hours. An interruption during a direct append
+    used to leave an existing but invalid file that the durable successor could
+    neither trust nor replay. Preserve all complete rows, fsync a same-directory
+    temporary file, and atomically replace the authority path. A pre-existing
+    torn row remains fail-closed instead of being silently hidden by a retry.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    previous = path.read_bytes() if path.is_file() else b""
+    if previous and not previous.endswith(b"\n"):
+        raise RuntimeError(f"refusing to append to incomplete audit JSONL: {path}")
+    row = (json.dumps(payload, ensure_ascii=False) + "\n").encode("utf-8")
+    temporary = path.with_name(f"{path.name}.{os.getpid()}.tmp")
+    try:
+        with temporary.open("wb") as handle:
+            handle.write(previous)
+            handle.write(row)
+            handle.flush()
+            os.fsync(handle.fileno())
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)

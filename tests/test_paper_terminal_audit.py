@@ -1,6 +1,9 @@
+import json
 import math
+from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import torch
 
 from production.metrics import bridge_times
@@ -10,9 +13,49 @@ from research.paper_aio.terminal_audit import (
     _gram_spectrum,
     _local_jvp_gain,
     _rollout_jvp_gain,
+    append_audit,
     gradient_stratum_statistics,
     perturbation_gain_to_final,
 )
+
+
+def test_append_audit_atomically_preserves_jsonl_rows(tmp_path):
+    path = tmp_path / "TERMINAL_AUDIT.jsonl"
+    append_audit(path, {"row": 1})
+    append_audit(path, {"row": 2})
+    assert [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()] == [
+        {"row": 1},
+        {"row": 2},
+    ]
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_append_audit_rejects_preexisting_torn_row_without_mutation(tmp_path):
+    path = tmp_path / "TERMINAL_AUDIT.jsonl"
+    path.write_bytes(b'{"row":')
+    before = path.read_bytes()
+    with pytest.raises(RuntimeError, match="incomplete audit JSONL"):
+        append_audit(path, {"row": 2})
+    assert path.read_bytes() == before
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_append_audit_replace_failure_keeps_authoritative_file(tmp_path, monkeypatch):
+    path = tmp_path / "TERMINAL_AUDIT.jsonl"
+    append_audit(path, {"row": 1})
+    before = path.read_bytes()
+    original_replace = Path.replace
+
+    def fail_authority_replace(self, target):
+        if Path(target) == path:
+            raise OSError("injected replace interruption")
+        return original_replace(self, target)
+
+    monkeypatch.setattr(Path, "replace", fail_authority_replace)
+    with pytest.raises(OSError, match="injected replace interruption"):
+        append_audit(path, {"row": 2})
+    assert path.read_bytes() == before
+    assert not list(tmp_path.glob("*.tmp"))
 
 
 def test_gram_spectrum_is_unbiased_sample_covariance_not_feature_normalized():
