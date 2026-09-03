@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T20:04:50+08:00",
+  "state_snapshot_time": "2026-09-03T20:10:54+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -58,7 +58,10 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
       "frozen_chain_revalidation_evidence": "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json",
-      "end_to_end_export_chain_evidence": "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json"
+      "end_to_end_export_chain_evidence": "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json",
+      "milestone_atomicity_audit_status": "PASS_FAIL_CLOSED_PARTIAL_AND_CORRUPT_MILESTONES",
+      "milestone_atomicity_audit_evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_MILESTONE_ATOMICITY_AUDIT_20260903T201054.json",
+      "latest_full_test_result": "643 passed"
     },
     "durable_successor_readiness": {
       "status": "AUTHORIZED_SUCCESSOR_CHAINS_HEALTHY_AND_FROZEN",

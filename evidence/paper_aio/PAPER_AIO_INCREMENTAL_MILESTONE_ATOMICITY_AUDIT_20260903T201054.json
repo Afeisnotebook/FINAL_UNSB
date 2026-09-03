@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-paper-incremental-milestone-atomicity-audit-v1",
+  "captured_at": "2026-09-03T20:10:54+08:00",
+  "status": "PASS_FAIL_CLOSED_PARTIAL_AND_CORRUPT_MILESTONES",
+  "write_path": {
+    "checkpoint": "temporary torch.save followed by os.replace",
+    "sidecar": "temporary JSON write followed by os.replace after checkpoint hash and scientific-state hash are computed",
+    "publication_order": "checkpoint atomic replacement precedes sidecar atomic replacement",
+    "milestone_rewritten_during_training": false
+  },
+  "source_exporter": {
+    "requires_checkpoint_and_sidecar_pair": true,
+    "incomplete_pair_is_not_available": true,
+    "validates_epoch_and_update_identity": true,
+    "validates_checkpoint_sha256_against_sidecar": true,
+    "loads_checkpoint_on_cpu": true,
+    "validates_scientific_state_sha256": true,
+    "writes_receipt_and_export_set_atomically": true,
+    "copies_or_mutates_source_checkpoint": false
+  },
+  "relay": {
+    "validates_export_set_and_receipt_hashes": true,
+    "downloads_checkpoint_and_sidecar_to_process_unique_temporary_files": true,
+    "validates_remote_size_and_sha256_before_atomic_replace": true,
+    "revalidates_local_receipt_checkpoint_and_sidecar_before_audit": true,
+    "pinned_host_key_and_training_identity_required": true
+  },
+  "new_regression_tests": [
+    "tests/test_paper_incremental_audit_relay.py::test_incremental_export_waits_for_complete_atomic_milestone_pair",
+    "tests/test_paper_incremental_audit_relay.py::test_incremental_export_rejects_milestone_sidecar_hash_mismatch"
+  ],
+  "verification": {
+    "targeted_test_result": "8 passed",
+    "full_repository_test_result": "643 passed",
+    "git_diff_check": "PASS"
+  },
+  "scope_boundary": {
+    "protects_against_partial_reader_visibility": true,
+    "claims_storage_transaction_across_total_host_power_loss": false,
+    "total_host_loss_recovery": "retained source milestones plus full-state exact resume",
+    "deployed_exporter_replaced": false,
+    "training_process_changed": false,
+    "checkpoint_loaded_from_live_training": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "KEEP_DEPLOYED_CHAIN_AND_TREAT_E100_INPUT_AS_FAIL_CLOSED_SOURCE_BOUND_AFTER_RELAY_VALIDATION"
+}

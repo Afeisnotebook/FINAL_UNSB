@@ -299,3 +299,76 @@ def test_first_e100_export_relay_and_terminal_readiness_integration(tmp_path) ->
     )
     assert list(ready) == [100]
     assert ready[100]["checkpoint_sha256"] == file_sha256(checkpoint)
+
+
+def test_incremental_export_waits_for_complete_atomic_milestone_pair(tmp_path) -> None:
+    """A checkpoint or sidecar observed alone must never become export-visible."""
+    source_output = tmp_path / "source_output"
+    milestone = source_output / "lanes" / "plain" / "milestones"
+    milestone.mkdir(parents=True)
+    checkpoint = milestone / "e100.pt"
+    sidecar = milestone / "e100.pt.json"
+    contract = {
+        "source_output": str(source_output),
+        "destination": str(tmp_path / "source_exports"),
+        "lane_id": "plain",
+        "source_host_label": "4090A",
+        "required_training_git_commit": "a" * 40,
+        "required_training_protocol_fingerprint": "b" * 64,
+        "required_manifest_sha256": "c" * 64,
+        "audit_epochs": list(AUDIT_EPOCHS),
+    }
+
+    checkpoint.write_bytes(b"not-yet-sidecar-bound")
+    assert available_exports(contract) == []
+    checkpoint.unlink()
+    sidecar.write_text("{}\n", encoding="utf-8")
+    assert available_exports(contract) == []
+
+
+def test_incremental_export_rejects_milestone_sidecar_hash_mismatch(tmp_path) -> None:
+    """A complete-looking but torn/corrupt pair must fail closed before publication."""
+    source_output = tmp_path / "source_output"
+    milestone = source_output / "lanes" / "plain" / "milestones"
+    milestone.mkdir(parents=True)
+    checkpoint = milestone / "e100.pt"
+    payload = {
+        "schema": FULL_STATE_SCHEMA,
+        "lane": lane_spec("plain").to_dict(),
+        "step": 855300,
+        "target_steps": 1710600,
+        "model": {"networks": {"G": {"weight": torch.tensor([1.0])}}},
+        "rng": {"python": (3, (), None)},
+        "samplers": {"primary": {}, "secondary": {}},
+        "metadata": {
+            "git_commit": "a" * 40,
+            "protocol_fingerprint": "b" * 64,
+            "manifest_sha256": "c" * 64,
+            "paired_controller_access": False,
+            "confirmation20_opened": False,
+        },
+    }
+    torch.save(payload, checkpoint)
+    sidecar = milestone / "e100.pt.json"
+    sidecar.write_text(json.dumps({
+        "schema": FULL_STATE_SCHEMA,
+        "lane_id": "plain",
+        "step": 855300,
+        "physical_epoch_completed": 100,
+        "full_state_sha256": "0" * 64,
+        "scientific_state_sha256": full_state_hash(payload),
+    }) + "\n", encoding="utf-8")
+    contract = {
+        "source_output": str(source_output),
+        "destination": str(tmp_path / "source_exports"),
+        "lane_id": "plain",
+        "source_host_label": "4090A",
+        "required_training_git_commit": "a" * 40,
+        "required_training_protocol_fingerprint": "b" * 64,
+        "required_manifest_sha256": "c" * 64,
+        "audit_epochs": list(AUDIT_EPOCHS),
+    }
+
+    with pytest.raises(RuntimeError, match="file hash mismatch"):
+        available_exports(contract)
+    assert not (tmp_path / "source_exports" / "plain" / "e100.export.json").exists()
