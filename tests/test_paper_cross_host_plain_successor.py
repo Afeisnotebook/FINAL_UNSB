@@ -103,6 +103,13 @@ def test_capacity_contract_is_all_or_none_and_requires_clean_probe(tmp_path):
     args.capacity_probe_epochs = 2
     value = successor.capacity_contract(args)
     assert value["capacity_probe_epochs"] == 2
+    assert value["co_resident_supervisor_state"] == str(
+        args.co_resident_supervisor_state.resolve()
+    )
+    assert value["co_resident_heartbeat"] == str(
+        args.co_resident_heartbeat.resolve()
+    )
+    json.dumps(value)
 
 
 def test_current_5090b_projection_prefers_start_after_cut():

@@ -79,8 +79,16 @@ def predecessor_decision(status: str | None, *, timed_out: bool) -> str:
 
 def capacity_contract(args: argparse.Namespace) -> dict | None:
     fields = {
-        "co_resident_supervisor_state": args.co_resident_supervisor_state,
-        "co_resident_heartbeat": args.co_resident_heartbeat,
+        "co_resident_supervisor_state": (
+            str(args.co_resident_supervisor_state.resolve())
+            if args.co_resident_supervisor_state is not None
+            else None
+        ),
+        "co_resident_heartbeat": (
+            str(args.co_resident_heartbeat.resolve())
+            if args.co_resident_heartbeat is not None
+            else None
+        ),
         "co_resident_lane_id": args.co_resident_lane_id,
         "plain_isolated_epoch_seconds": args.plain_isolated_epoch_seconds,
         "co_resident_isolated_epoch_seconds": (args.co_resident_isolated_epoch_seconds),
