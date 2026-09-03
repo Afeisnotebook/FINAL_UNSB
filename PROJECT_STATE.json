@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T16:40:00+08:00",
+  "state_snapshot_time": "2026-09-03T17:30:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -603,7 +603,7 @@
       "decision": "decisions/DEC-20260903-TERMINAL-ROLLOUT-JACOBIAN-AUDIT.md"
     },
     "post_freeze_distribution_interface": {
-      "status": "IMPLEMENTED_WITH_TWO_STAGE_COMMITTED_REVIEW_GATE_NOT_DEPLOYED_AWAITING_COMPLETE_PORTFOLIO",
+      "status": "IMPLEMENTED_WITH_EXACT_ALL_LANE_RUNTIME_COHORT_AND_DCLGAN_ADAPTER_NOT_DEPLOYED_AWAITING_COMPLETE_PORTFOLIO",
       "primary_metric": "six_domain_macro_kid",
       "supplementary_metrics": ["pooled_kid", "pooled_fid_small_sample"],
       "fixed_epoch": 200,
@@ -615,6 +615,9 @@
       "requires_committed_human_codex_review_decision": true,
       "source_portfolio_content_hash_reverified": true,
       "review_decision_git_identity_reverified": true,
+      "all_frozen_lanes_exactly_required": true,
+      "one_evaluator_runtime_required": true,
+      "dclgan_source_bound_adapter_available": true,
       "paper_claims_currently_frozen": false,
       "deployed": false,
       "confirmation_authorized": false,
@@ -627,6 +630,24 @@
         "decisions/DEC-20260903-POST-FREEZE-DISTRIBUTION-EVALUATION.md",
         "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
       ]
+    },
+    "confirmation20_control_plane": {
+      "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",
+      "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
+      "requires_complete_distribution_cohort": true,
+      "requires_separate_committed_human_codex_review": true,
+      "requires_committed_authorization": true,
+      "atomic_single_session_claim": true,
+      "same_session_failure_recovery": true,
+      "post_completion_reopen_allowed": false,
+      "all_frozen_lanes_required": true,
+      "fixed_epoch": 200,
+      "fixed_confirmation_per_domain": 20,
+      "model_and_rng_state_rehashed": true,
+      "confirmation_authorized": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_CONFIRMATION_PATH_20260903T173000.json",
+      "decision": "decisions/DEC-20260903-ONE-SESSION-CONFIRMATION20-GATE.md"
     },
     "stcgr_portable_evaluation_authority": {
       "status": "IMPLEMENTED_AND_CPU_VERIFIED_AWAITING_IMPORTED_CANDIDATE_CHECKPOINT",

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T16:40:00+08:00",
+  "captured_at": "2026-09-03T17:30:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -428,6 +428,19 @@
     "confirmation_authorized": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_TWO_STAGE_FREEZE_GATE_20260903T164000.json",
     "decision": "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
+  },
+  "confirmation20_control_plane": {
+    "status": "SEALED_INTERFACE_READY_NOT_AUTHORIZED",
+    "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
+    "requires_complete_same_runtime_distribution_cohort": true,
+    "requires_committed_human_codex_review_and_authorization": true,
+    "one_recoverable_logical_session": true,
+    "post_completion_reopen_allowed": false,
+    "dclgan_distribution_and_confirmation_adapter_available": true,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_CONFIRMATION_PATH_20260903T173000.json",
+    "decision": "decisions/DEC-20260903-ONE-SESSION-CONFIRMATION20-GATE.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

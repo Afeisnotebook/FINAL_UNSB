@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-post-freeze-confirmation-path-evidence-v1",
+  "captured_at": "2026-09-03T17:30:00+08:00",
+  "status": "CODE_READY_TESTED_COMMITTED_PUSHED_SEALED_NOT_AUTHORIZED",
+  "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
+  "source_identities": {
+    "confirmation_sha256": "9617718ecc95143f87860829f2492764ec5b1ebee51f26d7bb6a97a626ebd5ab",
+    "distribution_sha256": "b91862a312f9ceea2a8a5bc454b147991ca80d5ab94667d50218b9a5209b92f9",
+    "dclgan_adapter_sha256": "9bf54939a831fe5868326454ea0ea9915f3be242e991abf2d27f17c7e63a4cad",
+    "confirmation_tests_sha256": "901775dd8a913f6d0d5d6324752cc371dd7d3f9a28c2a9f39139d772ec01dd62"
+  },
+  "closed_delivery_gaps": [
+    "all frozen lanes must form a hash-bound one-runtime discovery80 KID/FID cohort",
+    "DCLGAN has a source-bound fixed-e200 post-freeze distribution adapter",
+    "confirmation authorization requires a separate committed human/Codex decision",
+    "authorization must itself be committed before an atomic session claim",
+    "one logical session can recover the same identity after failure but cannot fork",
+    "fixed e200 checkpoint, model parameters and RNG are reverified read-only",
+    "all frozen lanes and the exact confirmation120 identity must close one cohort",
+    "a completed session cannot be reopened"
+  ],
+  "fixed_confirmation_protocol": {
+    "split": "confirmation",
+    "count_per_domain": 20,
+    "domains": 6,
+    "unsb_replicates": 5,
+    "unsb_nfe": 5,
+    "external_replicates": 1,
+    "external_nfe": 1,
+    "input_nfe": 0,
+    "metrics": ["PSNR", "SSIM", "LPIPS"],
+    "epoch": 200
+  },
+  "verification": {
+    "targeted_tests": "58 passed",
+    "full_pytest": "618 passed",
+    "contract_validation": "ALL CONTRACT CHECKS PASSED",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "current_activation": {
+    "freeze_receipt_exists": false,
+    "distribution_cohort_exists": false,
+    "confirmation_review_approved": false,
+    "confirmation_authorization_exists": false,
+    "confirmation_session_claimed": false,
+    "confirmation20_opened": false
+  },
+  "scientific_non_interference": {
+    "training_process_changed": false,
+    "intermediate_performance_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "algorithm_or_claim_revision_from_confirmation_authorized": false
+  },
+  "decision": "decisions/DEC-20260903-ONE-SESSION-CONFIRMATION20-GATE.md"
+}
