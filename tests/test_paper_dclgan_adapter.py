@@ -12,6 +12,7 @@ import torch
 from operations import paper_aio_dclgan_adapter as adapter
 from operations import paper_aio_dclgan_gate_supervisor as gate_supervisor
 from research.local_route1.runtime import full_state_hash
+from research.local_route1.protocol import portable_source_sha256
 from research.paper_aio.evaluate import _prediction
 
 
@@ -59,6 +60,16 @@ def test_dclgan_adapter_fingerprint_excludes_installation_path() -> None:
     assert adapter.adapter_fingerprint(
         upstream_receipt=changed, manifest_path=manifest,
     ) != first
+
+
+def test_dclgan_source_hash_is_cross_platform_line_ending_stable(
+    tmp_path: Path,
+) -> None:
+    windows = tmp_path / "windows.txt"
+    linux = tmp_path / "linux.txt"
+    windows.write_bytes(b"first\r\nsecond\r\n")
+    linux.write_bytes(b"first\nsecond\n")
+    assert portable_source_sha256(windows) == portable_source_sha256(linux)
 
 
 def test_dclgan_confirmation_interface_fails_before_row_access(tmp_path: Path) -> None:

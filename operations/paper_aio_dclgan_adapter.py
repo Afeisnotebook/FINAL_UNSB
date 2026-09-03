@@ -40,6 +40,7 @@ from research.local_route1.runtime import (  # noqa: E402
     seed_everything,
     write_json,
 )
+from research.local_route1.protocol import portable_source_sha256  # noqa: E402
 from research.paper_aio.protocol import (  # noqa: E402
     LaneSpec,
     evaluation_bundle_fingerprint,
@@ -134,6 +135,8 @@ def verify_upstream(upstream_root: Path) -> dict[str, Any]:
     if not (upstream_root / ".git").exists():
         raise RuntimeError(f"DCLGAN upstream is not a git checkout: {upstream_root}")
     lock = _gate()["dclgan"]["source"]
+    if lock.get("hash_mode") != "portable_text_lf_v1":
+        raise RuntimeError("DCLGAN source lock does not declare a portable hash mode")
     commit = _git("rev-parse", "HEAD", cwd=upstream_root)
     if commit != lock["commit"]:
         raise RuntimeError(f"DCLGAN commit mismatch: {commit}")
@@ -153,7 +156,7 @@ def verify_upstream(upstream_root: Path) -> dict[str, Any]:
         path = upstream_root / relative
         if not path.is_file():
             raise RuntimeError(f"locked DCLGAN source missing: {relative}")
-        observed[key] = file_sha256(path)
+        observed[key] = portable_source_sha256(path)
         if observed[key] != lock[key]:
             raise RuntimeError(f"DCLGAN source hash mismatch: {relative}")
     return {
