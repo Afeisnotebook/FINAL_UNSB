@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-5090c-proposal-e18-continuity-v1",
+  "captured_at": "2026-09-03T20:04:50+08:00",
+  "status": "E18_COMPLETE_HASH_VERIFIED_AND_E19_RUNNING",
+  "host": {
+    "label": "5090C",
+    "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "gpu_utilization_percent": 55,
+    "gpu_memory_used_mib": 2146,
+    "gpu_memory_total_mib": 32607,
+    "free_disk_gib": 230
+  },
+  "training": {
+    "lane_id": "proposal",
+    "supervisor_pid": 9729,
+    "trainer_pid": 9734,
+    "completed_data_epoch": 18,
+    "completed_updates": 153954,
+    "latest_epoch_wall_seconds": 4792.141304254532,
+    "previous_epoch_wall_seconds": 4849.595539808273,
+    "recent_two_epoch_mean_seconds": 4820.868422031403,
+    "scientific_state_sha256": "54d6606a21d457e8e5fb4ab45781d75ad127a5111ce0df34405ca4133f45ceff",
+    "full_state_sha256": "b70afa20601d62c3e29e1781fda101a29968c3ecfee21835e8fd7f27200dc8ca",
+    "computed_full_state_sha256": "b70afa20601d62c3e29e1781fda101a29968c3ecfee21835e8fd7f27200dc8ca",
+    "full_state_hash_match": true,
+    "projected_e200_from_recent_two_epoch_mean": "2026-09-13T23:48:08+08:00",
+    "declared_availability_through": "2026-09-15T00:00:00+08:00",
+    "projected_headroom_hours": 24.1978
+  },
+  "durability": {
+    "export_successor_pid": 9730,
+    "export_status": "WAITING_FOR_COMPLETE_E200",
+    "incremental_export_pid": 29411,
+    "incremental_export_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "health_watcher_pid": 13587,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "progress_watch_pid": 89015,
+    "progress_status_before_e18_boundary": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_cpu_ticks_delta": 5110,
+    "progress_rchar_delta": 51441849,
+    "recovery_required": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false,
+    "checkpoint_content_changed": false,
+    "scheduler_changed": false
+  },
+  "decision": "KEEP_PROPOSAL_RUNNING_ISOLATED_ON_5090C_WITH_CURRENT_DURABLE_CHAIN"
+}

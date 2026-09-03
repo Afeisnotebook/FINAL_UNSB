@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T19:59:40+08:00",
+  "state_snapshot_time": "2026-09-03T20:04:50+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -260,13 +260,16 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 17,
-        "latest_observed_updates": 145401,
+        "latest_observed_data_epoch": 18,
+        "latest_observed_updates": 153954,
         "first_epoch_seconds": 4696.602091550827,
-        "latest_epoch_seconds": 4849.595539808273,
+        "latest_epoch_seconds": 4792.141304254532,
         "live_progress_sentinel_pid": 89015,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
-        "projected_completion": "2026-09-14T00:45:00+08:00",
+        "projected_completion": "2026-09-13T23:48:08+08:00",
+        "latest_full_state_sha256": "b70afa20601d62c3e29e1781fda101a29968c3ecfee21835e8fd7f27200dc8ca",
+        "latest_full_state_hash_verified": true,
+        "latest_live_continuity_evidence": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json",
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
       },
       "5090B_matched_plain_successor": {

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T19:59:40+08:00",
+  "captured_at": "2026-09-03T20:04:50+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,10 +31,12 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 17,
+      "completed_full_data_epoch": 18,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4849.595539808273,
-      "projected_completion": "2026-09-14T00:45:00+08:00",
+      "latest_epoch_seconds": 4792.141304254532,
+      "projected_completion": "2026-09-13T23:48:08+08:00",
+      "latest_full_state_hash_verified": true,
+      "latest_live_continuity_evidence": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -169,7 +171,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_E13_RECOVERY_CLOSURE_20260903T193954.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_E100_INGESTION_READINESS_20260903T194338.json",
       "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json",
-      "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json"
+      "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json",
+      "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E18_CONTINUITY_20260903T200450.json"
     ]
   },
   "ddsb_source_watch": {
