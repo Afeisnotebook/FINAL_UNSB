@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-current-algorithm-progress-coverage-v1",
+  "captured_at": "2026-09-03T19:19:10+08:00",
+  "status": "PLAIN_PROPOSAL_AND_FUTURE_AMTNC_PROGRESS_WATCHES_DURABLE",
+  "source": {
+    "commit": "0f7b319962b74d555d733800060488249e341e4c",
+    "bundle_sha256": "3b7ed7722abf3b8e612310f5a8cd91c914424f401de1aac211fa942541b36d1a",
+    "script_sha256": "bf68385bceeaf1536e11230679b02fb2c27ddb8c0176fbe6ea885d669f012ac5",
+    "schema": "final-unsb-paper-live-progress-watch-v4"
+  },
+  "host_4090A": {
+    "plain": {
+      "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+      "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+      "completed_data_epoch": 94,
+      "completed_updates": 803982,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "watch_pid": 2613987,
+      "watch_ppid_after_ssh_disconnect": 1,
+      "watch_output": "/home/yc/runs/FINAL_UNSB_PROGRESS_WATCH_4090A_PLAIN_0f7b319",
+      "watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "watch_alert_count": 0,
+      "thirty_second_rchar_delta": 181922371,
+      "thirty_second_cpu_ticks_delta": 8969
+    },
+    "future_amtnc": {
+      "successor_pid": 2518921,
+      "watch_pid": 2613988,
+      "watch_ppid_after_ssh_disconnect": 1,
+      "watch_output": "/home/yc/runs/FINAL_UNSB_PROGRESS_WATCH_4090A_AMTNC_0f7b319",
+      "watch_status": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+      "expected_predecessor": "plain COMPLETE_E200",
+      "launches_training": false
+    },
+    "gpu_probe": {
+      "utilization_percent": 50,
+      "memory_mib": 1663,
+      "power_watts": 151.34
+    }
+  },
+  "host_5090C": {
+    "proposal": {
+      "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+      "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "completed_data_epoch": 17,
+      "completed_updates": 145401,
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "watch_pid": 89015,
+      "watch_ppid_after_ssh_disconnect": 1,
+      "watch_output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090C_PROPOSAL_0f7b319",
+      "watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "watch_alert_count": 0,
+      "thirty_second_rchar_delta": 46295413,
+      "thirty_second_cpu_ticks_delta": 5056
+    },
+    "gpu_probe": {
+      "utilization_percent": 37,
+      "memory_mib": 2146,
+      "power_watts": 194.76
+    }
+  },
+  "invariants": {
+    "training_processes_restarted": false,
+    "training_configuration_changed": false,
+    "successor_order_changed": false,
+    "signals_processes": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-CURRENT-AND-FUTURE-PROGRESS-COVERAGE.md"
+}

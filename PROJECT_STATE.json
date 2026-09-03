@@ -137,8 +137,20 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json",
       "decision": "decisions/DEC-20260903-5090B-FUTURE-LANE-PROGRESS-WATCH.md"
     },
+    "current_algorithm_progress_coverage": {
+      "status": "PLAIN_PROPOSAL_AND_FUTURE_AMTNC_WATCHES_DEPLOYED_HEALTHY",
+      "4090A_plain_watch_pid": 2613987,
+      "4090A_future_amtnc_watch_pid": 2613988,
+      "5090C_proposal_watch_pid": 89015,
+      "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
+      "training_processes_changed": false,
+      "paired_metric_control": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json",
+      "decision": "decisions/DEC-20260903-CURRENT-AND-FUTURE-PROGRESS-COVERAGE.md"
+    },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 90, "latest_observed_updates": 769770, "latest_epoch_seconds": 1264.63321018219, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 94, "latest_observed_updates": 803982, "latest_epoch_seconds": 1262.1947557926178, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 74, "latest_observed_updates": 632922, "latest_epoch_seconds": 1513.2630474567413, "projected_completion": "2026-09-06T02:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039},
       "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 45, "latest_observed_updates": 384885, "latest_epoch_seconds": 2360.979099750519, "projected_completion": "2026-09-08T02:45:00+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
@@ -243,10 +255,11 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 16,
-        "latest_observed_updates": 136848,
+        "latest_observed_data_epoch": 17,
+        "latest_observed_updates": 145401,
         "first_epoch_seconds": 4696.602091550827,
-        "latest_epoch_seconds": 4822.111870765686,
+        "latest_epoch_seconds": 4849.595539808273,
+        "live_progress_sentinel_pid": 89015,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
         "projected_completion": "2026-09-14T00:45:00+08:00",
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T19:11:01+08:00",
+  "captured_at": "2026-09-03T19:19:10+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,9 +31,9 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 16,
+      "completed_full_data_epoch": 17,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4822.111870765686,
+      "latest_epoch_seconds": 4849.595539808273,
       "projected_completion": "2026-09-14T00:45:00+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
@@ -136,7 +136,10 @@
       "5090B_cut_live_progress_sentinel": 139039,
       "5090B_cyclegan_live_progress_sentinel": 138626,
       "5090B_future_matched_plain_progress_sentinel": 140048,
-      "5090B_future_dclgan_progress_sentinel": 140049
+      "5090B_future_dclgan_progress_sentinel": 140049,
+      "4090A_plain_live_progress_sentinel": 2613987,
+      "4090A_future_amtnc_progress_sentinel": 2613988,
+      "5090C_proposal_live_progress_sentinel": 89015
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -160,7 +163,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_DIRECT_PRIORITY_RECONFIRMED_20260903T185343.json",
       "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json",
-      "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json"
+      "evidence/paper_aio/PAPER_AIO_5090B_FUTURE_PROGRESS_SENTINELS_20260903T191101.json",
+      "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json"
     ]
   },
   "ddsb_source_watch": {
