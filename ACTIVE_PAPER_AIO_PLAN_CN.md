@@ -39,7 +39,8 @@ CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。�
 继任器已退役，未来恢复必须有新的明确决策。任何relay或关系候选都不能自动改Git registry
 或授权结论。
 
-2026-09-03 09:05的实测吞吐外推表明：5090C Proposal约在09-13晚到达e200，5090A
+2026-09-03 10:54的实测吞吐外推表明：4090A plain约在09-05早到达e200，5090B CUT/
+CycleGAN约在09-06早/09-07晚到达e200，5090C Proposal约在09-13晚到达e200，5090A
 ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09-12/09-13。
 云端到期时间不在仓库内可验证，必须分别保障5090C至09-15、5090A至09-16、5090B至
 09-14。租期检查只防止工程中断，不得改变训练配置、提前停止或选择算法。
@@ -69,6 +70,10 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
 - 汇总plain、Proposal、CUT、CycleGAN固定e200主表；
 - 对通过small25门的新算法安排自己的全量e200，而不是把Proposal当唯一方法；
 - 有可靠源码和资源时补DDSB或第二优先级DCLGAN/NEGCUT；
+- DCLGAN与NEGCUT作者源码已锁定；DCLGAN完成128px batch1 CPU单步门，先进入source-bound
+  full-state adapter工程；NEGCUT因官方代码device路径、动态N/F恢复和未明确仓库许可而暂缓，
+  不代表机制证伪。DCLGAN在exact resume、重复评估、confirmation锁和GPU吞吐门通过前不得
+  占用训练卡；
 - 统一4090评估容器完成e200 discovery80、5 bundles、NFE1–5、LPIPS/KID/FID；
 - 在统一评估前分别为四条source lane的e100/e125/e150/e175/e200生成checkpoint export
   receipt；复制后只读复算，四lane×五epoch完整同容器门通过才形成第一波结果锁；

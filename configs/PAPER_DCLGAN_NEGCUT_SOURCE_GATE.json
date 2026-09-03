@@ -1,0 +1,139 @@
+{
+  "schema": "final-unsb-paper-dclgan-negcut-source-gate-v1",
+  "captured_at": "2026-09-03T10:54:19+08:00",
+  "status": "DCLGAN_SOURCE_LOCKED_ENGINEERING_ADAPTER_REQUIRED_NEGCUT_DEFERRED_ENGINEERING_NOT_FALSIFIED",
+  "selected_next_external_engineering_target": "dclgan",
+  "training_authorized": false,
+  "host_assigned": null,
+  "selection_basis": [
+    "author_official_repository_and_paper_are_available",
+    "controlled_128px_batch1_cpu_single_step_smoke_passed_on_torch_2_6",
+    "source_semantics_are_a_direct_general_unpaired_i2i_comparator_to_cut_and_cyclegan",
+    "negcut_has_additional_device_and_dynamic_negative_generator_resume_work_before_an_equivalent_gate"
+  ],
+  "dclgan": {
+    "paper": {
+      "title": "Dual Contrastive Learning for Unsupervised Image-to-Image Translation",
+      "venue": "CVPR Workshops 2021",
+      "official_page": "https://openaccess.thecvf.com/content/CVPR2021W/NTIRE/html/Han_Dual_Contrastive_Learning_for_Unsupervised_Image-to-Image_Translation_CVPRW_2021_paper.html",
+      "official_pdf": "https://openaccess.thecvf.com/content/CVPR2021W/NTIRE/papers/Han_Dual_Contrastive_Learning_for_Unsupervised_Image-to-Image_Translation_CVPRW_2021_paper.pdf"
+    },
+    "source": {
+      "repository": "https://github.com/JunlinHan/DCLGAN.git",
+      "authority": "author_official",
+      "commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+      "commit_date": "2026-08-29T23:01:13+01:00",
+      "readme_sha256": "c365e65232c0cc5a1983c025acffdba325adcac8b91739e5e36dbb8cbd24bed7",
+      "model_sha256": "4f9641a2076cbc61686fa1aa37671bbf94c04527adc8f62fc89c0249b68127f1",
+      "networks_sha256": "450d53ac5cb05e1bfe4985f18c48e7590f23232013fb7e54935200c2f01af29b",
+      "dataset_sha256": "b53b6e73ce9ccfdb7ed5cb56af04536d65067f87cfb4e3c5968bb0b5dad9b20e",
+      "train_sha256": "68310109b10536ac5e62a808807748d4933a7028d762b7214735acaa863fb86d",
+      "license_file_sha256": "5f268a33d59be6d4dab590813980c6e7a99eecf81957e57272c85643f0196827",
+      "license_boundary": "repository_license_file_is_NVIDIA_Source_Code_License_NC_for_StyleGAN2_derived_work; do_not_vendor_or_redistribute_without_separate_review"
+    },
+    "official_source_defaults": {
+      "model": "dcl",
+      "direction": "AtoB",
+      "generator": "resnet_9blocks",
+      "discriminator": "basic_70x70_patchgan",
+      "gan_mode": "hinge",
+      "learning_rate": 0.0002,
+      "adam_betas": [0.5, 0.999],
+      "lambda_gan": 1.0,
+      "lambda_nce": 2.0,
+      "lambda_identity": 1.0,
+      "nce_identity": true,
+      "nce_layers": [4, 8, 12, 16],
+      "nce_temperature": 0.07,
+      "num_patches": 256,
+      "image_pool_size": 0,
+      "default_schedule": "200_constant_plus_200_linear_decay",
+      "default_resolution": "load286_crop256_with_flip"
+    },
+    "controlled_paper_adaptation": {
+      "paper_label": "DCLGAN (official-source, controlled exposure reproduction)",
+      "manifest": "manifests/FULL_DATA_MANIFEST.csv",
+      "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+      "training_identities_per_side": 8553,
+      "data_epochs": 200,
+      "updates": 1710600,
+      "seed": 2026,
+      "batch_size": 1,
+      "resolution": 128,
+      "preprocess": "resize_and_crop_load128_crop128_no_flip",
+      "schedule": "100_constant_plus_100_linear_decay",
+      "unpaired_sampling": "official_image_proportional_A_permutation_and_independent_uniform_B_no_domain_label",
+      "loss_and_optimizer_semantics": "retain_official_DCLGAN_values_above",
+      "required_disclosure": [
+        "official_default_exposure_is_400_epochs_but_common_paper_protocol_caps_all_external_baselines_at_200_epochs",
+        "official_default_spatial_augmentation_is_replaced_by_the_shared_128px_no_flip_protocol",
+        "deterministic_sampler_and_full_state_resume_are_engineering_adaptations_not_algorithm_changes"
+      ]
+    },
+    "cpu_smoke": {
+      "status": "PASS",
+      "torch": "2.6.0+cu124",
+      "ddi_setup_seconds": 4.571979522705078,
+      "single_update_seconds": 4.5591957569122314,
+      "finite_parameters_after_update": true,
+      "parameter_counts": {
+        "G_A": 11378179,
+        "G_B": 11378179,
+        "D_A": 2764737,
+        "D_B": 2764737,
+        "F1": 493568,
+        "F2": 493568
+      }
+    },
+    "known_source_issues": [
+      "explicit_--DCL_mode_DCL_is_rejected_because_choices_is_a_string; the_default_value_works",
+      "upstream_checkpointing_saves_network_weights_only",
+      "upstream_resume_does_not_restore_optimizers_schedulers_sampler_or_rng"
+    ],
+    "remaining_gate": [
+      "source_bound_adapter_without_vendoring_unreviewed_code",
+      "full_state_GA_GB_F1_F2_DA_DB_optimizers_schedulers_sampler_and_all_rng",
+      "continuous_1000_vs_500_plus_resume_exact_test",
+      "repeated_evaluation_exact_test",
+      "confirmation20_access_rejection",
+      "1000_update_gpu_throughput_and_capacity_receipt"
+    ]
+  },
+  "negcut": {
+    "paper": {
+      "title": "Instance-Wise Hard Negative Example Generation for Contrastive Learning in Unpaired Image-to-Image Translation",
+      "venue": "ICCV 2021",
+      "official_pdf": "https://openaccess.thecvf.com/content/ICCV2021/papers/Wang_Instance-Wise_Hard_Negative_Example_Generation_for_Contrastive_Learning_in_Unpaired_ICCV_2021_paper.pdf"
+    },
+    "source": {
+      "repository": "https://github.com/WeilunWang/NEGCUT.git",
+      "authority": "author_official",
+      "commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
+      "commit_date": "2022-03-08T11:35:02+08:00",
+      "readme_sha256": "520e17fe100563d4fc375a44b80dc0f66a9258cdfc3f4c823cdd839b142a3ffc",
+      "model_sha256": "cc416578505a2dd8aa3bd1cd349509c831578639f7d92ac2ee34db95bd8aeb90",
+      "negative_generator_sha256": "395cf4f8d6b51e1e49939510df05008c148faffe965733355510c1cd08efe863",
+      "losses_sha256": "29d3472ff5d38d1648bc0f5da92182b77388dde448874e8ad75d7d7cd08e1159",
+      "dataset_sha256": "0cb9bca121b3f375de6bebf585a8c3cb76161f6cc6974e44eea075118ce985bc",
+      "train_sha256": "f8123441602bb1e580293cbdf3c48107411cfffa271b6b3238350df17901f09b",
+      "license_boundary": "no_root_LICENSE_or_COPYING_file_at_locked_commit; do_not_vendor_or_redistribute_without_author_permission_or_separate_review"
+    },
+    "scientific_role": "learned_instance_conditioned_hard_negative_comparator_with_CUT_speed_at_inference",
+    "status": "deferred_engineering_not_mechanism_falsified",
+    "defer_reasons": [
+      "cpu_smoke_fails_because_negative_generator_uses_cuda_availability_instead_of_tensor_device",
+      "explicit_--NEGCUT_mode_NEGCUT_is_rejected_because_choices_is_a_string",
+      "dynamic_F_N_and_momentum_F_state_plus_four_optimizers_require_a_larger_exact_resume_adapter",
+      "no_explicit_repository_license_file",
+      "DCLGAN_has_the_shorter_verified_path_to_a_source_bound_controlled_exposure_run"
+    ]
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "new_gpu_training_started": false,
+    "existing_training_interrupted": false,
+    "deferred_means_falsified": false
+  }
+}

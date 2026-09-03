@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T10:47:18+08:00",
+  "captured_at": "2026-09-03T10:54:19+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -24,10 +24,10 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 10,
+      "completed_full_data_epoch": 11,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4771.436885356903,
-      "projected_completion": "2026-09-13T22:25:42+08:00",
+      "latest_epoch_seconds": 4799.0521874427795,
+      "projected_completion": "2026-09-13T22:51:19+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -48,7 +48,7 @@
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
       "latest_resumed_epoch_seconds": 5178.767746210098,
-      "current_single_epoch_projected_completion": "2026-09-14T22:48:12+08:00",
+      "current_single_epoch_projected_completion": "2026-09-14T23:06:22+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
@@ -83,7 +83,9 @@
     "plain_5090B_matched": "durably_queued_after_cut_with_exact_runtime_gate_fresh_e0",
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
-    "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure"
+    "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
+    "dclgan": "author_source_locked_cpu_smoke_pass_engineering_adapter_required_not_training_authorized",
+    "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "operational_monitoring": {
     "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
@@ -110,7 +112,8 @@
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
       "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json",
-      "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json"
+      "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
+      "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json"
     ]
   },
   "ddsb_source_watch": {
@@ -124,6 +127,19 @@
     "automatic_training_authorization": false,
     "decision": "decisions/DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md",
     "evidence": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json"
+  },
+  "external_second_priority_source_gate": {
+    "status": "dclgan_source_locked_engineering_adapter_required",
+    "selected_target": "dclgan",
+    "dclgan_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "dclgan_cpu_smoke": "pass",
+    "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
+    "negcut_status": "deferred_engineering_not_mechanism_falsified",
+    "training_authorized": false,
+    "host_assigned": null,
+    "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
+    "decision": "decisions/DEC-20260903-GLOBAL-RESCHEDULE-AND-EXTERNAL-SOURCE-GATE.md",
+    "evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json"
   },
   "new_endpoint_identity_audit": {
     "status": "DUPLICATE_ENDPOINT_OF_REGISTERED_5090B_NO_NEW_GPU_CAPACITY",
@@ -324,8 +340,8 @@
     "scientific_protocol_change": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
   "confirmation20_opened": false

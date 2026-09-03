@@ -183,3 +183,7 @@ authorize compute.
 56. `DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md`：DDSB仍无权威作者实现，继续严格标记
     `reproduction_incomplete`；新增冻结commit、每六小时轮询的来源守望器及独立健康监控。
     任何官方页或GitHub命中只触发人工源码/公式审核，不自动授权或启动训练。
+57. `DEC-20260903-GLOBAL-RESCHEDULE-AND-EXTERNAL-SOURCE-GATE.md`：基于五条实时heartbeat和
+    实测吞吐保留5090C Proposal、5090A ST-CGR、4090A plain→AM-TNC及5090B外部基线→
+    matched plain；同时锁定DCLGAN/NEGCUT作者源码。DCLGAN先进入full-state adapter工程，
+    NEGCUT因明确工程与许可门暂缓但未证伪；没有打断或新增GPU长训。

@@ -1,0 +1,117 @@
+{
+  "schema": "final-unsb-paper-global-reschedule-and-external-source-gate-v1",
+  "captured_at": "2026-09-03T10:54:19+08:00",
+  "status": "CURRENT_ASSIGNMENT_RETAINED_ALL_TRAINS_HEALTHY_EXTERNAL_NEXT_LANE_SOURCE_GATE_ADVANCED",
+  "audit_scope": "metric-blind process heartbeat capacity dependency and authoritative-source audit",
+  "live_runs": {
+    "4090A_plain": {
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "data_epoch": 71,
+      "updates": 607263,
+      "epoch_seconds": 1270.3727962970734,
+      "projected_e200": "2026-09-05T08:25:37+08:00",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "exporter_pid": 2101680,
+      "successor": "amtnc",
+      "successor_pid": 2182585
+    },
+    "5090A_stcgr": {
+      "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+      "data_epoch": 8,
+      "updates": 68424,
+      "epoch_seconds": 5178.767746210098,
+      "projected_e200": "2026-09-14T23:06:22+08:00",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "exporter_pid": 336344,
+      "health_watcher_pid": 352017,
+      "plain_e9": "paused_exactly_no_auto_resume"
+    },
+    "5090B_cut": {
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "data_epoch": 56,
+      "updates": 478968,
+      "epoch_seconds": 1702.5286211967468,
+      "projected_e200": "2026-09-06T07:00:23+08:00",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 33,
+      "updates": 282249,
+      "epoch_seconds": 2295.122321844101,
+      "projected_e200": "2026-09-07T21:22:24+08:00",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846
+    },
+    "5090C_proposal": {
+      "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+      "data_epoch": 11,
+      "updates": 94083,
+      "epoch_seconds": 4799.0521874427795,
+      "projected_e200": "2026-09-13T22:51:19+08:00",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "exporter_pid": 9730,
+      "health_watcher_pid": 13587,
+      "runtime_relation": "PASS_EXACT_2000_UPDATE_WITH_5090A_LEGACY_RUNTIME",
+      "matched_delta": "unavailable_until_a_legal_related_plain_reaches_e200"
+    }
+  },
+  "dependency_dag": {
+    "paper_core_external_path": "4090A_plain_e200_and_5090B_CUT_e200_and_5090B_CycleGAN_e200_then_unified_exports_and_evaluation",
+    "portable_algorithm_path": "5090C_Proposal_e200_then_source_export_then_5090B_matched_plain_e200_and_reviewed_runtime_relation_then_matched_evaluation",
+    "independent_geometry_path": "4090A_plain_e200_then_AMTNC_e200_then_same_host_matched_evaluation",
+    "new_estimator_path": "5090A_STCGR_e200_then_source_export_then_5090B_matched_plain_e200_and_reviewed_relation_then_matched_evaluation",
+    "external_second_wave_path": "DCLGAN_source_lock_then_full_state_adapter_then_gpu_gate_then_resource_release_then_e200",
+    "blocked_external_path": "DDSB_authoritative_source_then_formula_source_lock_then_adapter_then_gpu_gate"
+  },
+  "completion_horizons": {
+    "earliest_core_writing_set": "2026-09-08 after plain CUT CycleGAN exports and evaluation",
+    "earliest_reliable_algorithm_plus_control_set": "2026-09-12/2026-09-14 after AMTNC and Proposal plus legal controls",
+    "earliest_layered_multi_algorithm_set": "2026-09-15 after Proposal AMTNC and STCGR e200 trajectories plus controls",
+    "all_dates_are_metric_blind_throughput_projections": true
+  },
+  "reschedule_decision": {
+    "decision": "RETAIN_CURRENT_GPU_ASSIGNMENT",
+    "5090C": "continue_Proposal_e200",
+    "4090A": "continue_plain_then_durable_AMTNC",
+    "5090A": "continue_STCGR_only",
+    "5090B": "continue_CUT_plus_CycleGAN_then_dynamic_capacity_matched_plain",
+    "reason": "moving_Proposal_or_AMTNC_now_would_discard_healthy_progress_or_break_the_shortest_strict_matched_path; all_physical_GPUs_have_authorized_work_and_no_waiting_ready_lane_shortens_either_result_horizon",
+    "new_training_started": false,
+    "successor_rewritten": false,
+    "existing_training_interrupted": false
+  },
+  "5090C_alternatives": {
+    "amtnc": "rejected_for_5090C_because_it_already_has_a_shorter_same_host_matched_path_after_4090A_plain_and_would_delay_Proposal",
+    "hjcgr": "deferred_current_implementation_cost_exceeds_lease_and_small25_cross_runtime_terminal_sign_is_inconsistent_not_mechanism_falsified",
+    "dclgan": "source_gate_advanced_but_engineering_adapter_not_yet_authorized_and_starting_it_would_interrupt_Proposal",
+    "negcut": "official_source_found_but_device_resume_and_license_gates_are_longer_than_DCLGAN",
+    "ddsb": "reproduction_incomplete_until_authoritative_source"
+  },
+  "external_source_gate": {
+    "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
+    "selected_engineering_target": "dclgan",
+    "dclgan_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "dclgan_cpu_smoke": "PASS",
+    "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
+    "negcut_cpu_smoke": "FAIL_KNOWN_UPSTREAM_DEVICE_SELECTION_BUG",
+    "training_authorized": false
+  },
+  "5090C_access_hardening": {
+    "batch_key_authorized": true,
+    "private_key_or_password_recorded_in_git": false,
+    "training_state_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_formed": false
+  },
+  "supersedes_live_progress_only": "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json"
+}
