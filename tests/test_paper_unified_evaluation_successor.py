@@ -8,6 +8,7 @@ import pytest
 from operations.paper_aio_unified_evaluation_successor import (
     COMPLETE_STATUS,
     IMPORT_LANE_SCHEMA,
+    STATE_SCHEMA,
     UNIFIED_EPOCHS,
     import_lane_path,
     imports_ready,
@@ -30,6 +31,7 @@ def _write(path: Path, value: dict | str | bytes) -> Path:
 
 
 def test_lane_source_and_release_state_are_metric_blind(tmp_path: Path) -> None:
+    assert STATE_SCHEMA == "final-unsb-paper-unified-evaluation-successor-state-v2"
     assert parse_lane_source("proposal=5090C") == ("proposal", "5090C")
     with pytest.raises(ValueError):
         parse_lane_source("../proposal=5090C")

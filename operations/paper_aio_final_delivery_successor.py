@@ -41,8 +41,8 @@ from research.paper_aio.protocol import (
 from research.paper_aio.runtime_relation import runtime_pair_passed
 
 
-CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v2"
-STATE_SCHEMA = "final-unsb-paper-final-delivery-successor-state-v1"
+CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v3"
+STATE_SCHEMA = "final-unsb-paper-final-delivery-successor-state-v2"
 PORTFOLIO_SCHEMA = "final-unsb-paper-full-data-algorithm-portfolio-v1"
 COMPLEXITY_SCHEMA = "final-unsb-paper-complexity-profile-v1"
 DISPOSITION_SCHEMA = "final-unsb-paper-algorithm-disposition-v1"
@@ -50,6 +50,8 @@ COMPLETE_STATUS = "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY"
 STCGR_ID = "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
 FIRST_WAVE_LANES = ("plain", "proposal", "cut", "cyclegan")
 COMPLEXITY_LANES = ("plain", "proposal", "cut", "cyclegan", "amtnc", STCGR_ID)
+FIRST_WAVE_STATE_SCHEMA = "final-unsb-paper-unified-evaluation-successor-state-v2"
+ALGORITHM_STATE_SCHEMA = "final-unsb-paper-algorithm-evaluation-successor-state-v1"
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -67,6 +69,90 @@ def completion_decision(path: Path, required_status: str) -> str:
     if status.startswith(("BLOCKED", "FAIL", "FATAL")):
         return "BLOCKED"
     return "WAIT"
+
+
+def _artifact_binding(
+    state: dict[str, Any], *, field: str, expected_path: Path,
+) -> bool:
+    path = Path(str(state.get(field, "")))
+    expected_path = Path(expected_path).resolve()
+    digest = state.get(f"{field}_sha256")
+    return (
+        path.resolve() == expected_path
+        and expected_path.is_file()
+        and isinstance(digest, str)
+        and len(digest) == 64
+        and file_sha256(expected_path) == digest
+    )
+
+
+def first_wave_completion_decision(path: Path, output: Path) -> str:
+    """Require the completion state to bind all first-wave result artifacts.
+
+    Only paths, hashes, fixed status and safety booleans are inspected here;
+    performance payloads are not parsed and cannot affect release.
+    """
+    path = Path(path)
+    if not path.is_file():
+        return "WAIT"
+    state = _read_json(path)
+    status = str(state.get("status", ""))
+    if status.startswith(("BLOCKED", "FAIL", "FATAL")):
+        return "BLOCKED"
+    if status != FIRST_WAVE_COMPLETE_STATUS:
+        return "WAIT"
+    output = Path(output).resolve()
+    valid = (
+        state.get("schema") == FIRST_WAVE_STATE_SCHEMA
+        and state.get("cohort_status") == "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT"
+        and state.get("paper_results_status") == "FIRST_WAVE_COMPLETE"
+        and state.get("algorithm_set_status")
+        == "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING"
+        and state.get("performance_values_in_control_state") is False
+        and state.get("paired_metric_control") is False
+        and state.get("best_checkpoint_selection") is False
+        and state.get("confirmation20_opened") is False
+        and _artifact_binding(
+            state, field="cohort",
+            expected_path=output / "gates" / "UNIFIED_EVALUATION_COHORT.json",
+        )
+        and _artifact_binding(
+            state, field="paper_results",
+            expected_path=output / "PAPER_RESULTS.json",
+        )
+        and _artifact_binding(
+            state, field="algorithm_set",
+            expected_path=output / "ALGORITHM_SET.json",
+        )
+    )
+    return "READY" if valid else "BLOCKED"
+
+
+def algorithm_completion_decision(
+    path: Path, *, output: Path, method_lane: str,
+) -> str:
+    """Bind a completed algorithm successor to its immutable disposition."""
+    path = Path(path)
+    if not path.is_file():
+        return "WAIT"
+    state = _read_json(path)
+    status = str(state.get("status", ""))
+    if status.startswith(("BLOCKED", "FAIL", "FATAL")):
+        return "BLOCKED"
+    if status != ALGORITHM_COMPLETE_STATUS:
+        return "WAIT"
+    expected = Path(output).resolve() / "algorithm_dispositions" / f"{method_lane}.json"
+    valid = (
+        state.get("schema") == ALGORITHM_STATE_SCHEMA
+        and state.get("method_lane") == method_lane
+        and state.get("performance_values_in_control_state") is False
+        and state.get("metric_used_for_training_or_scheduling") is False
+        and state.get("paired_metric_control") is False
+        and state.get("best_checkpoint_selection") is False
+        and state.get("confirmation20_opened") is False
+        and _artifact_binding(state, field="disposition", expected_path=expected)
+    )
+    return "READY" if valid else "BLOCKED"
 
 
 def validate_disposition(path: Path, method_lane: str) -> dict[str, Any]:
@@ -216,12 +302,26 @@ def _validated_control_relation(
     )
     for row in trajectory:
         relation = row.get("runtime_relation") or {}
+        cross_host = method_source_host != plain_source_host
+        cross_host_proof = (
+            not cross_host
+            or (
+                int(relation.get("runtime_twin_updates", -1)) == 2000
+                and all(
+                    isinstance(relation.get(key), str)
+                    and len(relation[key]) == 64
+                    for key in ("e0_core_sha256", "step_core_sha256")
+                )
+                and relation.get("performance_values_read") is False
+            )
+        )
         if (
             row.get("crn_exact") is not True
             or not runtime_pair_passed(relation)
             or relation.get("status") not in allowed_statuses
             or relation.get("method_source_host_label") != method_source_host
             or relation.get("plain_source_host_label") != plain_source_host
+            or not cross_host_proof
         ):
             raise RuntimeError(
                 f"{lane_id} is not bound to the frozen matched plain relation"
@@ -432,14 +532,16 @@ def _verify_control(contract: dict[str, Any]) -> None:
 
 def _dependencies(contract: dict[str, Any]) -> tuple[bool, dict[str, str]]:
     states = {
-        "first_wave": completion_decision(
-            Path(contract["first_wave_state"]), FIRST_WAVE_COMPLETE_STATUS,
+        "first_wave": first_wave_completion_decision(
+            Path(contract["first_wave_state"]), Path(contract["first_wave_output"]),
         ),
-        "amtnc": completion_decision(
-            Path(contract["amtnc_state"]), ALGORITHM_COMPLETE_STATUS,
+        "amtnc": algorithm_completion_decision(
+            Path(contract["amtnc_state"]), output=Path(contract["amtnc_output"]),
+            method_lane="amtnc",
         ),
-        "stcgr": completion_decision(
-            Path(contract["stcgr_state"]), ALGORITHM_COMPLETE_STATUS,
+        "stcgr": algorithm_completion_decision(
+            Path(contract["stcgr_state"]), output=Path(contract["first_wave_output"]),
+            method_lane=STCGR_ID,
         ),
     }
     if "BLOCKED" in states.values():
@@ -566,6 +668,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 performance_values_read=True,
                 metric_values_used_for_training_or_scheduling=False,
             )
+            still_ready, final_dependencies = _dependencies(contract)
+            if not still_ready:
+                raise RuntimeError(
+                    "final delivery dependencies changed after complexity profiling: "
+                    f"{final_dependencies}"
+                )
             first_root = Path(contract["first_wave_output"])
             amtnc_root = Path(contract["amtnc_output"])
             first_results_path = first_root / "PAPER_RESULTS.json"

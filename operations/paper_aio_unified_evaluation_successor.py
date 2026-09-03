@@ -29,7 +29,7 @@ from research.paper_aio.protocol import (
 
 
 CONTRACT_SCHEMA = "final-unsb-paper-unified-evaluation-successor-contract-v1"
-STATE_SCHEMA = "final-unsb-paper-unified-evaluation-successor-state-v1"
+STATE_SCHEMA = "final-unsb-paper-unified-evaluation-successor-state-v2"
 IMPORT_LANE_SCHEMA = "final-unsb-paper-imported-lane-v1"
 IMPORT_SET_SCHEMA = "final-unsb-paper-import-set-v1"
 INPUT_RECEIPT_SCHEMA = "final-unsb-paper-unified-input-evaluation-v1"
@@ -521,6 +521,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 )
                 cohort = lock_unified_evaluation_cohort(output)
                 result = adjudicate(output)
+                cohort_path = output / "gates" / "UNIFIED_EVALUATION_COHORT.json"
+                paper_results_path = output / "PAPER_RESULTS.json"
+                algorithm_set_path = output / "ALGORITHM_SET.json"
                 final = {
                     "schema": STATE_SCHEMA,
                     "status": COMPLETE_STATUS,
@@ -532,6 +535,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     "cohort_status": cohort.get("status"),
                     "paper_results_status": result.get("results", {}).get("status"),
                     "algorithm_set_status": result.get("algorithm_set", {}).get("status"),
+                    "cohort": str(cohort_path.resolve()),
+                    "cohort_sha256": file_sha256(cohort_path),
+                    "paper_results": str(paper_results_path.resolve()),
+                    "paper_results_sha256": file_sha256(paper_results_path),
+                    "algorithm_set": str(algorithm_set_path.resolve()),
+                    "algorithm_set_sha256": file_sha256(algorithm_set_path),
                     "paired_performance_generated": True,
                     "metric_used_for_training_or_scheduling": False,
                     "performance_values_in_control_state": False,

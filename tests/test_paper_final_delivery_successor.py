@@ -46,6 +46,7 @@ def _entry(
                     "runtime_twin_updates": 2000,
                     "e0_core_sha256": "e" * 64,
                     "step_core_sha256": "s" * 64,
+                    "performance_values_read": False,
                 },
             }
             for epoch in (150, 175, 200)
@@ -100,6 +101,63 @@ def test_completion_decision_uses_only_fixed_status(tmp_path: Path) -> None:
     assert final.completion_decision(state, "DONE") == "READY"
     _write(state, {"status": "FAIL_CLOSED"})
     assert final.completion_decision(state, "DONE") == "BLOCKED"
+
+
+def test_first_wave_completion_binds_all_result_hashes_without_metric_routing(
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / "first"
+    cohort = _write(output / "gates" / "UNIFIED_EVALUATION_COHORT.json", {"x": 1})
+    paper = _write(output / "PAPER_RESULTS.json", {"macro_psnr": -999})
+    algorithms = _write(output / "ALGORITHM_SET.json", {"accepted": []})
+    state = _write(tmp_path / "first.state.json", {
+        "schema": final.FIRST_WAVE_STATE_SCHEMA,
+        "status": final.FIRST_WAVE_COMPLETE_STATUS,
+        "cohort_status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+        "paper_results_status": "FIRST_WAVE_COMPLETE",
+        "algorithm_set_status": "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING",
+        "cohort": str(cohort.resolve()), "cohort_sha256": _sha(cohort),
+        "paper_results": str(paper.resolve()), "paper_results_sha256": _sha(paper),
+        "algorithm_set": str(algorithms.resolve()),
+        "algorithm_set_sha256": _sha(algorithms),
+        "performance_values_in_control_state": False,
+        "paired_metric_control": False,
+        "best_checkpoint_selection": False,
+        "confirmation20_opened": False,
+    })
+    assert final.first_wave_completion_decision(state, output) == "READY"
+    paper.write_text("changed", encoding="utf-8")
+    assert final.first_wave_completion_decision(state, output) == "BLOCKED"
+
+
+def test_algorithm_completion_binds_the_advertised_disposition(
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / "algorithm"
+    disposition = _write(
+        output / "algorithm_dispositions" / "amtnc.json", {"status": "fixed"},
+    )
+    state = _write(tmp_path / "algorithm.state.json", {
+        "schema": final.ALGORITHM_STATE_SCHEMA,
+        "status": final.ALGORITHM_COMPLETE_STATUS,
+        "method_lane": "amtnc",
+        "disposition": str(disposition.resolve()),
+        "disposition_sha256": _sha(disposition),
+        "performance_values_in_control_state": False,
+        "metric_used_for_training_or_scheduling": False,
+        "paired_metric_control": False,
+        "best_checkpoint_selection": False,
+        "confirmation20_opened": False,
+    })
+    assert final.algorithm_completion_decision(
+        state, output=output, method_lane="amtnc",
+    ) == "READY"
+    state_value = json.loads(state.read_text(encoding="utf-8"))
+    state_value["disposition_sha256"] = "0" * 64
+    _write(state, state_value)
+    assert final.algorithm_completion_decision(
+        state, output=output, method_lane="amtnc",
+    ) == "BLOCKED"
 
 
 def test_disposition_validation_is_hash_and_boundary_bound(tmp_path: Path) -> None:
@@ -200,6 +258,44 @@ def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:
         "lanes": [
             _entry("input"), _entry("plain"),
             _entry("proposal", method_host="5090C", plain_host="5090A"),
+            _entry("cut"), _entry("cyclegan"), _entry(final.STCGR_ID),
+        ],
+    }
+    with pytest.raises(RuntimeError, match="frozen matched plain relation"):
+        final.build_portfolio(
+            first_wave_results=first, amtnc_disposition=amtnc,
+            stcgr_disposition=stcgr,
+            complexity={lane: _complexity(lane) for lane in final.COMPLEXITY_LANES},
+            source_hashes={},
+            method_portfolio={
+                "methods": {"hjcgr": {"status": "deferred"}},
+                "controls_and_external": {"ddsb": "reproduction_incomplete"},
+            },
+            first_wave_lane_sources={
+                "plain": "5090B_MATCHED_PLAIN", "proposal": "5090C",
+                "cut": "5090B", "cyclegan": "5090B",
+            },
+            stcgr_source_host="5090A",
+        )
+
+
+def test_portfolio_rejects_a_cross_host_relation_without_exact_2000_step_core(
+    tmp_path: Path,
+) -> None:
+    _, amtnc = _disposition(tmp_path, "amtnc", "PASS")
+    _, stcgr = _disposition(tmp_path, final.STCGR_ID, "PASS")
+    proposal = _entry(
+        "proposal", method_host="5090C", plain_host="5090B_MATCHED_PLAIN",
+    )
+    proposal["late_trajectory"][1]["runtime_relation"]["runtime_twin_updates"] = 1999
+    first = {
+        "schema": "final-unsb-paper-results-v1",
+        "status": "FIRST_WAVE_COMPLETE",
+        "best_checkpoint_selection": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+        "lanes": [
+            _entry("input"), _entry("plain"), proposal,
             _entry("cut"), _entry("cyclegan"), _entry(final.STCGR_ID),
         ],
     }
