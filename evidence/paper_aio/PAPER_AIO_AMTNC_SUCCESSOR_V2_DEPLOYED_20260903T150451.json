@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-amtnc-successor-v2-deployment-v1",
+  "captured_at": "2026-09-03T15:04:51+08:00",
+  "finding": "v1_pinned_scientific_checkout_but_not_separate_control_checkout_or_future_identity_gate_source",
+  "finding_is_algorithm_failure": false,
+  "code_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
+  "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "remote_control_checkout": "/home/yc/FINAL_UNSB_AMTNC_SUCCESSOR_5b4739a",
+  "run_output": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+  "successor": {
+    "predecessor": "plain",
+    "lane": "amtnc",
+    "status": "WAITING_FOR_PREDECESSOR_E200",
+    "pid": 2518921,
+    "ppid": 1,
+    "old_pid_retired": 2182585,
+    "contract_schema": "final-unsb-paper-successor-contract-v2",
+    "state_schema": "final-unsb-paper-successor-v2",
+    "contract_sha256": "698546636284f3c0ecbed5f67c76fb80ccbe7692973ca995569ca467f409193b",
+    "control_source_sha256": {
+      "operations/paper_aio_successor.py": "f0c5bed2e60538cb191f58254d6307994bd4c0702eca79d970177489be3dd557",
+      "operations/paper_aio_amtnc_identity_gate.py": "65a9688ad51aaefe71223240eb89690470d94bf00a60064128ff64b68060df3e"
+    }
+  },
+  "health": {
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "watcher_pid": 2519397,
+    "watcher_ppid": 1,
+    "old_watcher_pid_retired": 2200307,
+    "plain_supervisor_pid": 2072054,
+    "plain_trainer_pid": 2072055,
+    "plain_post_handoff_completed_epoch": 83,
+    "plain_post_handoff_completed_updates": 709899,
+    "amtnc_exporter_pid": 2182586,
+    "all_expected_relays_alive": true
+  },
+  "validation": {
+    "targeted_successor_tests_passed": 5,
+    "full_repository_tests_passed": 590,
+    "remote_python_compile_passed": true,
+    "remote_control_checkout_clean": true,
+    "remote_scientific_checkout_clean": true
+  },
+  "non_interference": {
+    "plain_training_interrupted": false,
+    "other_training_interrupted": false,
+    "plain_progressed_after_handoff": true,
+    "checkpoint_changed": false,
+    "scientific_configuration_changed": false,
+    "schedule_changed": false
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false
+  },
+  "decision": "REPLACE_WAITING_CONTROLLER_ONLY_KEEP_PLAIN_TO_AMTNC_SCHEDULE"
+}

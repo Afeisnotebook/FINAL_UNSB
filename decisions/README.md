@@ -218,3 +218,6 @@ authorize compute.
 66. `DEC-20260903-FIRST-E100-RELAY-READINESS.md`：在4090A plain首个e100里程碑到达前，
     逐字段验明远端增量export、本地relay、terminal-audit successor和GTX1660锁完全衔接；
     新增partial `[100]`端到端fixture，证明无需等待e150/e200即可启动target-blind审计。
+67. `DEC-20260903-AMTNC-SUCCESSOR-SOURCE-LINEAGE.md`：修复4090A旧AM-TNC等待器只锁
+    scientific checkout、未锁自身control checkout和未来identity gate源码的谱系缺口；v2
+    持续复验双仓commit/clean及源码SHA，替换等待器与health watcher但不触碰plain训练。

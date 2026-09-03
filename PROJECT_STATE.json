@@ -72,7 +72,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T144737.json"
     },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 82, "latest_observed_updates": 701346, "latest_epoch_seconds": 1267.9500901699066, "projected_completion": "2026-09-05T08:21:00+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 82, "latest_observed_updates": 701346, "latest_epoch_seconds": 1267.9500901699066, "projected_completion": "2026-09-05T08:21:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
       "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 65, "latest_observed_updates": 555945, "latest_epoch_seconds": 1547.8307580947876, "projected_completion": "2026-09-06T00:49:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
       "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 39, "latest_observed_updates": 333567, "latest_epoch_seconds": 2275.437306880951, "projected_completion": "2026-09-07T20:33:00+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
@@ -201,6 +201,21 @@
       }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
+    "amtnc_successor_source_lineage_hardening": {
+      "status": "V2_DEPLOYED_HEALTHY_WAITING_FOR_PLAIN_E200",
+      "control_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
+      "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "successor_pid": 2518921,
+      "health_watcher_pid": 2519397,
+      "old_successor_pid_retired": 2182585,
+      "old_health_watcher_pid_retired": 2200307,
+      "contract_sha256": "698546636284f3c0ecbed5f67c76fb80ccbe7692973ca995569ca467f409193b",
+      "plain_training_interrupted": false,
+      "plain_post_handoff_completed_epoch": 83,
+      "plain_post_handoff_completed_updates": 709899,
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json",
+      "decision": "decisions/DEC-20260903-AMTNC-SUCCESSOR-SOURCE-LINEAGE.md"
+    },
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
     "ddsb_status": "REPRODUCTION_INCOMPLETE_DURABLE_FAIL_CLOSED_SOURCE_WATCH_ACTIVE",
     "ddsb_latest_source_recheck": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
@@ -697,7 +712,7 @@
       "status": "FOUR_TRAINING_HOSTS_AND_LOCAL_TARGET_BLIND_CHAIN_HEALTHY_METRIC_BLIND_LEASE_HORIZON_FLAGGED",
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
-        "4090A": 2200307,
+        "4090A": 2519397,
         "5090A": 352017,
         "5090B": 30355,
         "5090C": 13587,

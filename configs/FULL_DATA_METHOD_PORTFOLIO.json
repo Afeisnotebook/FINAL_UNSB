@@ -65,6 +65,9 @@
       "host": "4090A",
       "projected_completion_window": "2026-09-11/2026-09-12",
       "resume_after": "4090A/plain COMPLETE_E200",
+      "successor_pid": 2518921,
+      "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
+      "successor_health_watcher_pid": 2519397,
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified"
     },
@@ -97,7 +100,7 @@
       "scope": "five_node_full_data_multi_algorithm_paper_delivery"
     },
     "watcher_pids": {
-      "4090A": 2200307,
+      "4090A": 2519397,
       "5090A": 352017,
       "5090B": 30355,
       "5090C": 13587
@@ -127,7 +130,8 @@
       "evidence/paper_aio/PAPER_AIO_GLOBAL_RESCHEDULE_AND_EXTERNAL_SOURCE_GATE_20260903T105419.json",
       "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json",
       "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json",
-      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T144737.json"
+      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T144737.json",
+      "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json"
     ]
   },
   "ddsb_source_watch": {
