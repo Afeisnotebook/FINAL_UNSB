@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T10:23:00+08:00",
+  "state_snapshot_time": "2026-09-03T10:36:09+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -25,7 +25,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_FOUR_HOST_CONTINUITY_AFTER_DUPLICATE_ENDPOINT_20260903T095546.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional_physical_5090_distinct_from_registered_5090B"],
     "new_endpoint_identity_audit": {
@@ -60,10 +60,20 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_PHYSICAL_GPU_IDENTITY_GATE_20260903T100247.json",
       "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
     },
+    "latest_metric_blind_continuity_audit": {
+      "status": "ALL_ACTIVE_TRAINS_AND_DURABLE_SUCCESSORS_HEALTHY_NO_RESCHEDULE_REQUIRED",
+      "health_alerts": 0,
+      "5090A_priority": "STCGR_ONLY",
+      "5090A_plain_auto_resume_authorized": false,
+      "other_hosts_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json"
+    },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 68, "latest_observed_updates": 581604, "latest_epoch_seconds": 1263.8423297405243, "projected_completion": "2026-09-05T08:10:19+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 54, "latest_observed_updates": 461862, "latest_epoch_seconds": 1672.1804161071777, "projected_completion": "2026-09-06T05:38:51+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 31, "latest_observed_updates": 265143, "latest_epoch_seconds": 2312.697573661804, "projected_completion": "2026-09-07T22:23:58+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 70, "latest_observed_updates": 598710, "latest_epoch_seconds": 1267.753202199936, "projected_completion": "2026-09-05T08:22:57+08:00", "successor": "amtnc", "successor_pid": 2182585, "successor_status": "WAITING_FOR_PREDECESSOR_E200", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 55, "latest_observed_updates": 470415, "latest_epoch_seconds": 1662.9119606018066, "projected_completion": "2026-09-06T05:34:51+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 32, "latest_observed_updates": 273696, "latest_epoch_seconds": 2332.6708624362946, "projected_completion": "2026-09-07T23:27:38+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -94,8 +104,8 @@
       },
       "5090A_stcgr_full": {
         "status": "CHILD_RUNNING_EXACT_RESUME_FROM_E1",
-        "latest_completed_data_epoch": 7,
-        "latest_completed_updates": 59871,
+        "latest_completed_data_epoch": 8,
+        "latest_completed_updates": 68424,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -111,10 +121,10 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 5247.204705238342,
-        "projected_completion_from_latest_epoch": "2026-09-15T03:08:23+08:00",
+        "latest_epoch_wall_seconds": 5178.767746210098,
+        "projected_completion_from_latest_epoch": "2026-09-14T22:48:12+08:00",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
-        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T101104.json",
+        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
         "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
         "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"
@@ -161,7 +171,7 @@
         "first_epoch_seconds": 4696.602091550827,
         "latest_epoch_seconds": 4771.436885356903,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
-        "projected_completion": "2026-09-13T21:39:25+08:00",
+        "projected_completion": "2026-09-13T22:25:42+08:00",
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
       },
       "5090B_matched_plain_successor": {

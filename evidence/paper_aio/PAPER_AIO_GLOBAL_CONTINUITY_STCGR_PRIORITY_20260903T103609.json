@@ -1,0 +1,146 @@
+{
+  "schema": "final-unsb-paper-global-continuity-stcgr-priority-v1",
+  "captured_at": "2026-09-03T10:36:09+08:00",
+  "status": "ALL_ACTIVE_TRAINS_AND_DURABLE_SUCCESSORS_HEALTHY_NO_RESCHEDULE_REQUIRED",
+  "audit_scope": "metric-blind process, heartbeat, capacity and successor continuity only",
+  "hosts": {
+    "4090A": {
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "gpu_utilization_percent_snapshot": 48,
+      "gpu_memory_used_mib_snapshot": 1663,
+      "disk_free_gib": 387.0914,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "plain": {
+        "status": "CHILD_RUNNING",
+        "completed_data_epoch": 70,
+        "completed_updates": 598710,
+        "latest_epoch_wall_seconds": 1267.753202199936,
+        "supervisor_pid": 2072054,
+        "trainer_pid": 2072055,
+        "exporter_pid": 2101680,
+        "rough_projected_completion": "2026-09-05T08:22:57+08:00"
+      },
+      "amtnc_successor": {
+        "status": "WAITING_FOR_PREDECESSOR_E200",
+        "pid": 2182585,
+        "exporter_pid": 2182586
+      }
+    },
+    "5090A": {
+      "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+      "gpu_utilization_percent_snapshot": 36,
+      "gpu_memory_used_mib_snapshot": 2186,
+      "disk_free_gib": 184.2931,
+      "user_capacity_override": true,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "stcgr": {
+        "status": "CHILD_RUNNING_ONLY_GPU_TRAINING_LANE",
+        "completed_data_epoch": 8,
+        "completed_updates": 68424,
+        "latest_epoch_wall_seconds": 5178.767746210098,
+        "continuation_pid": 336340,
+        "supervisor_pid": 336345,
+        "trainer_pid": 336346,
+        "exporter_pid": 336344,
+        "incremental_exporter_pid": 351230,
+        "health_watcher_pid": 352017,
+        "rough_projected_completion": "2026-09-14T22:48:12+08:00"
+      },
+      "plain": {
+        "status": "PAUSED_RECOVERABLY_AT_E9_NO_AUTOMATIC_RESUME",
+        "completed_updates": 76977,
+        "retired_processes_confirmed_absent": [342540, 342597, 296821, 337510],
+        "checkpoint_deleted": false
+      }
+    },
+    "5090B": {
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "gpu_utilization_percent_snapshot": 54,
+      "gpu_memory_used_mib_snapshot": 3479,
+      "disk_free_gib": 230.9526,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "cut": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "completed_data_epoch": 55,
+        "completed_updates": 470415,
+        "latest_epoch_wall_seconds": 1662.9119606018066,
+        "supervisor_pid": 3739,
+        "trainer_pid": 5771,
+        "exporter_pid": 9515,
+        "rough_projected_completion": "2026-09-06T05:34:51+08:00"
+      },
+      "cyclegan": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "completed_data_epoch": 32,
+        "completed_updates": 273696,
+        "latest_epoch_wall_seconds": 2332.6708624362946,
+        "supervisor_pid": 11845,
+        "trainer_pid": 11846,
+        "exporter_pid": 9516,
+        "rough_projected_completion_at_current_colocated_rate": "2026-09-07T23:27:38+08:00"
+      },
+      "matched_plain_successor": {
+        "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_AND_DYNAMIC_CAPACITY_GATES",
+        "pid": 61721,
+        "health_watcher_pid": 61725
+      }
+    },
+    "5090C": {
+      "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+      "gpu_utilization_percent_snapshot": 54,
+      "gpu_memory_used_mib_snapshot": 2146,
+      "disk_free_gib": 229.915,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "proposal": {
+        "status": "CHILD_RUNNING",
+        "completed_data_epoch": 10,
+        "completed_updates": 85530,
+        "latest_epoch_wall_seconds": 4771.436885356903,
+        "supervisor_pid": 9729,
+        "trainer_pid": 9734,
+        "exporter_pid": 9730,
+        "health_watcher_pid": 13587,
+        "rough_projected_completion": "2026-09-13T22:25:42+08:00"
+      }
+    },
+    "local_GTX1660": {
+      "gpu_uuid": "GPU-22b92065-0a2b-ff50-f2c5-9c9ee65e6b53",
+      "gpu_utilization_percent_snapshot": 0,
+      "gpu_memory_used_mib_snapshot": 503,
+      "disk_free_gib": 125.5373,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "incremental_relays": {
+        "4090A_plain_pid": 6292,
+        "4090A_amtnc_pid": 12656,
+        "5090A_stcgr_pid": 19904,
+        "5090C_proposal_pid": 14528,
+        "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"
+      },
+      "terminal_audit_successor": {
+        "pid": 20888,
+        "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU"
+      },
+      "terminal_pathology_successor": {
+        "pid": 16968,
+        "status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS"
+      },
+      "combined_health_watcher_pid": 13536
+    }
+  },
+  "scheduling_decision": {
+    "decision": "RETAIN_CURRENT_ASSIGNMENT",
+    "reason": "all active lanes and successors are healthy; restarting or colocating another task would add risk without shortening an authorized critical path",
+    "5090A_priority": "STCGR_ONLY",
+    "5090A_plain_auto_resume_authorized": false,
+    "other_hosts_changed": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_formed": false
+  },
+  "supersedes_live_progress_only": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_AUDIT_20260903T101104.json"
+}

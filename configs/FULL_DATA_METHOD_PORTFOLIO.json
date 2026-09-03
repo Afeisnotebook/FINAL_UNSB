@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T10:23:00+08:00",
+  "captured_at": "2026-09-03T10:36:09+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -27,7 +27,7 @@
       "completed_full_data_epoch": 10,
       "first_epoch_seconds": 4696.602091550827,
       "latest_epoch_seconds": 4771.436885356903,
-      "projected_completion": "2026-09-13T21:39:25+08:00",
+      "projected_completion": "2026-09-13T22:25:42+08:00",
       "matched_plain_current_registry": "5090A/plain_without_e200_control",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_exact_relation",
       "runtime_relation": "existing_5090C_to_5090A_exact_relation_preserved; future_5090B_relation_not_yet_authorized",
@@ -40,15 +40,15 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 7,
+      "completed_full_data_epoch": 8,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 336346,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 5247.204705238342,
-      "current_single_epoch_projected_completion": "2026-09-15T03:08:23+08:00",
+      "latest_resumed_epoch_seconds": 5178.767746210098,
+      "current_single_epoch_projected_completion": "2026-09-14T22:48:12+08:00",
       "projection_note": "rough projection from the latest completed resumed epoch; retain uncertainty until more epochs complete",
       "matched_plain_current_state": "5090A/plain paused recoverably at e9 without e200",
       "matched_plain_e200_plan": "5090B_MATCHED_PLAIN/plain_pending_reviewed_cross_host_cross_code_relation",
@@ -86,7 +86,7 @@
     "ddsb": "reproduction_incomplete_official_paper_and_supplement_hashed_formula_implementation_lock_missing_not_scientific_failure"
   },
   "operational_monitoring": {
-    "status": "FOUR_HOSTS_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
+    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_DURABLE_AND_METRIC_BLIND_5090A_STCGR_ONLY_WATCH",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "watcher_pids": {
       "4090A": 2200307,
@@ -106,7 +106,8 @@
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_TIME_PRIORITY_REALLOCATION_20260903.json",
-      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json"
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
+      "evidence/paper_aio/PAPER_AIO_GLOBAL_CONTINUITY_STCGR_PRIORITY_20260903T103609.json"
     ]
   },
   "new_endpoint_identity_audit": {
