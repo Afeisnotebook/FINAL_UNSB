@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T17:45:43+08:00",
+  "state_snapshot_time": "2026-09-03T17:47:50+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -99,12 +99,12 @@
       "other_hosts_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json"
     },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 88, "latest_observed_updates": 752664, "latest_epoch_seconds": 1264.63321018219, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:30:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 70, "latest_observed_updates": 598710, "latest_epoch_seconds": 1587.2777314186096, "projected_completion": "2026-09-06T02:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 42, "latest_observed_updates": 359226, "latest_epoch_seconds": 2410.760739326477, "projected_completion": "2026-09-08T02:45:00+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 90, "latest_observed_updates": 769770, "latest_epoch_seconds": 1264.63321018219, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 72, "latest_observed_updates": 615816, "latest_epoch_seconds": 1587.2777314186096, "projected_completion": "2026-09-06T02:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate"},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 43, "latest_observed_updates": 367779, "latest_epoch_seconds": 2410.760739326477, "projected_completion": "2026-09-08T02:45:00+08:00", "supervisor_pid": 11845, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -200,8 +200,8 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 15,
-        "latest_observed_updates": 128295,
+        "latest_observed_data_epoch": 16,
+        "latest_observed_updates": 136848,
         "first_epoch_seconds": 4696.602091550827,
         "latest_epoch_seconds": 4822.111870765686,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",

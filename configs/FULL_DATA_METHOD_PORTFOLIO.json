@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T17:45:43+08:00",
+  "captured_at": "2026-09-03T17:47:50+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -24,7 +24,7 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 15,
+      "completed_full_data_epoch": 16,
       "first_epoch_seconds": 4696.602091550827,
       "latest_epoch_seconds": 4822.111870765686,
       "projected_completion": "2026-09-14T00:45:00+08:00",
@@ -138,7 +138,8 @@
       "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
-      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T174543.json"
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T174543.json",
+      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json"
     ]
   },
   "ddsb_source_watch": {
