@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T19:55:54+08:00",
+  "captured_at": "2026-09-03T19:59:40+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -168,7 +168,8 @@
       "evidence/paper_aio/PAPER_AIO_CURRENT_ALGORITHM_PROGRESS_COVERAGE_20260903T191910.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_E13_RECOVERY_CLOSURE_20260903T193954.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_E100_INGESTION_READINESS_20260903T194338.json",
-      "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json"
+      "evidence/paper_aio/PAPER_AIO_4090A_E100_EXPORT_CHAIN_REVALIDATION_20260903T195554.json",
+      "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json"
     ]
   },
   "ddsb_source_watch": {

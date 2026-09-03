@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-paper-5090b-live-continuity-v1",
+  "captured_at": "2026-09-03T19:59:40+08:00",
+  "status": "TWO_TRAINS_PROGRESSING_AND_TWO_FUTURE_SUCCESSORS_HEALTHY",
+  "host": {
+    "label": "5090B",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu_utilization_percent": 82,
+    "gpu_memory_used_mib": 3479,
+    "gpu_memory_total_mib": 32607,
+    "free_disk_gib": 231
+  },
+  "active_lanes": {
+    "cut": {
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 77,
+      "completed_updates": 658581,
+      "latest_epoch_wall_seconds": 1528.6528015136719,
+      "scientific_state_sha256": "cf3fe6cd001b41f6f101e259573b52b499ebf3a16aa41de5b80ae9a5911c66ed",
+      "progress_watch_pid": 139039,
+      "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "progress_cpu_ticks_delta": 7252,
+      "progress_rchar_delta": 74472192,
+      "progress_alert_count": 0,
+      "projected_e200": "2026-09-06T00:15:00+08:00"
+    },
+    "cyclegan": {
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 47,
+      "completed_updates": 401991,
+      "latest_epoch_wall_seconds": 2378.244758605957,
+      "scientific_state_sha256": "d5c96c4bdc5984ba1028e3f5312d344c775aa0c30cc73d62b93c9d6fa3b6104c",
+      "progress_watch_pid": 138626,
+      "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "progress_cpu_ticks_delta": 17145,
+      "progress_rchar_delta": 47383482,
+      "progress_alert_count": 0,
+      "projected_e200": "2026-09-08T01:05:00+08:00"
+    }
+  },
+  "future_lanes": {
+    "matched_plain": {
+      "successor_pid": 115562,
+      "health_watcher_pid": 115614,
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "predecessor": "cut",
+      "fresh_e0_required": true,
+      "cross_host_checkpoint_resume": false,
+      "capacity_gate_configured": true,
+      "progress_watch_pid": 140048,
+      "progress_watch_status": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+      "trainer_candidates": []
+    },
+    "dclgan": {
+      "successor_pid": 99704,
+      "health_watcher_pid": 99966,
+      "status": "WAITING_FOR_PREDECESSOR",
+      "predecessor": "matched_plain_e200",
+      "required_predecessor_status": "COMPLETE_PLAIN_E200",
+      "progress_watch_pid": 140049,
+      "progress_watch_status": "WAITING_FOR_UNIQUE_TRAINER_CHILD_AND_HEARTBEAT",
+      "trainer_candidates": []
+    }
+  },
+  "continuity": {
+    "host_health_watcher_pid": 30355,
+    "host_health_status": "HEALTHY",
+    "host_health_alert_count": 0,
+    "active_trainer_count": 2,
+    "expected_active_trainer_count": 2,
+    "duplicate_future_trainer_present": false,
+    "recovery_required": false,
+    "queue_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false,
+    "best_checkpoint_selection": false
+  },
+  "decision": "KEEP_5090B_CUT_AND_CYCLEGAN_RUNNING_AND_PRESERVE_MATCHED_PLAIN_THEN_DCLGAN_SUCCESSOR_ORDER"
+}

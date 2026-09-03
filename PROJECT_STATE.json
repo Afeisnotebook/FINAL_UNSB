@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T19:55:54+08:00",
+  "state_snapshot_time": "2026-09-03T19:59:40+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -118,15 +118,15 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json"
     },
     "latest_5090b_live_progress_sentinels": {
-      "status": "CUT_AND_CYCLEGAN_HEALTHY_DURABLE_METRIC_BLIND_PROGRESS_WATCH",
+      "status": "CUT_E77_AND_CYCLEGAN_E47_HEALTHY_DURABLE_METRIC_BLIND_PROGRESS_WATCH",
       "cut_progress_sentinel_pid": 139039,
       "cyclegan_progress_sentinel_pid": 138626,
-      "cut_latest_observed_data_epoch": 74,
-      "cyclegan_latest_observed_data_epoch": 45,
+      "cut_latest_observed_data_epoch": 77,
+      "cyclegan_latest_observed_data_epoch": 47,
       "training_processes_changed": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_LIVE_PROGRESS_SENTINELS_20260903T190335.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_LIVE_CONTINUITY_20260903T195940.json",
       "decision": "decisions/DEC-20260903-5090B-LIVE-PROGRESS-SENTINELS.md"
     },
     "5090b_future_lane_progress_sentinels": {
@@ -155,8 +155,8 @@
     },
     "runs": {
       "4090A_plain": {"status": "CHILD_RUNNING", "latest_observed_data_epoch": 94, "latest_observed_updates": 803982, "latest_epoch_seconds": 1262.1947557926178, "projected_completion": "2026-09-05T08:15:00+08:00", "next_target_blind_audit_release_e100": "2026-09-03T21:00:00+08:00/2026-09-03T21:15:00+08:00", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 74, "latest_observed_updates": 632922, "latest_epoch_seconds": 1513.2630474567413, "projected_completion": "2026-09-06T02:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 45, "latest_observed_updates": 384885, "latest_epoch_seconds": 2360.979099750519, "projected_completion": "2026-09-08T02:45:00+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "old_successor_pid_7414_canceled": true},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 77, "latest_observed_updates": 658581, "latest_epoch_seconds": 1528.6528015136719, "projected_completion": "2026-09-06T00:15:00+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED", "latest_observed_data_epoch": 47, "latest_observed_updates": 401991, "latest_epoch_seconds": 2378.244758605957, "projected_completion": "2026-09-08T01:05:00+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
