@@ -180,3 +180,6 @@ authorize compute.
     ST-CGR公式、MRO执行、随机量来源、恢复证明和e7 live state。确认条件pre-Adam G/F
     梯度无偏与相对iid双视图的PSD方差下降，但不扩大为Adam、完整game或PSNR保证；冻结
     源码无需修改，5090A不重启并继续e200。
+56. `DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md`：DDSB仍无权威作者实现，继续严格标记
+    `reproduction_incomplete`；新增冻结commit、每六小时轮询的来源守望器及独立健康监控。
+    任何官方页或GitHub命中只触发人工源码/公式审核，不自动授权或启动训练。

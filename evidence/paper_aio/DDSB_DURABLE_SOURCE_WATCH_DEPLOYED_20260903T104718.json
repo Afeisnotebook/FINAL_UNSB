@@ -1,0 +1,68 @@
+{
+  "schema": "final-unsb-ddsb-durable-source-watch-deployment-v1",
+  "captured_at": "2026-09-03T10:47:18+08:00",
+  "status": "DURABLE_FAIL_CLOSED_SOURCE_WATCH_HEALTHY_WAITING_FOR_AUTHORITY",
+  "publication": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "official_page": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "author_lab_page": "https://medai.lab.westlake.edu.cn/Publications1.htm"
+  },
+  "live_recheck": {
+    "status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "official_page_response_sha256": "dbcc9d883199fe7f7d7df3be21c148306ad890e7d632f4ed4b1a6fc561bbe2a4",
+    "author_lab_page_response_sha256": "dede95ae9a06cf5347cc43ced77e818ce0123ee14a39d9a25883399fba9ac354",
+    "github_exact_title_total_count": 1,
+    "github_exact_title_relevant_candidate_count": 0,
+    "github_ddsb_unpaired_total_count": 0,
+    "github_ddsb_unpaired_relevant_candidate_count": 0,
+    "network_error_count": 0,
+    "official_repository_candidate_count": 0,
+    "unverified_repository_candidate_count": 0
+  },
+  "implementation": {
+    "git_commit": "cd74b2d",
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_DDSB_WATCH_CD74B2D",
+    "script": "operations/paper_aio_ddsb_source_watch.py",
+    "script_sha256": "2350042f32c06e1efd80586cd96bcd5dba75cc535fc243c1b2d7bc97d5c562b8",
+    "tests_added": 7,
+    "full_test_result": "554 passed",
+    "poll_seconds": 21600,
+    "timeout_hours": 720,
+    "automatic_source_acceptance": false,
+    "automatic_training_authorization": false
+  },
+  "deployment": {
+    "host": "local GTX1660 workstation CPU",
+    "source_watcher_pid": 20388,
+    "source_watcher_output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DDSB_SOURCE_WATCH_cd74b2d",
+    "source_contract_sha256_at_deployment": "8bfbd9f35ca460fad69ceeb2ecd57f53caffe6cad87b0391fb949b46362292c4",
+    "source_state_sha256_at_deployment": "fb9352ee8189d6887b7dbbc54897d48e6d841fa974afde6a571911a1a4ed2fd5",
+    "health_watcher_pid": 10780,
+    "health_watcher_output": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DDSB_SOURCE_HEALTH_cd74b2d",
+    "health_contract_sha256_at_deployment": "5d806070fc9bbdb795e6bd7d4d9578da860087989f8db8a6e4958bf9994d0f98",
+    "initial_health_status": "HEALTHY_ZERO_ALERTS",
+    "state_max_stale_seconds": 25200,
+    "disk_required_gib": 2.1,
+    "disk_free_gib_at_deployment": 125.5258
+  },
+  "review_boundary": {
+    "paper_status": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "repository_hit_is_implementation_lock": false,
+    "manual_authorship_and_formula_implementation_review_required": true,
+    "long_training_authorized": false,
+    "fallback_lane_changed": false
+  },
+  "scope": {
+    "training_process_changed": false,
+    "remote_host_touched": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_official_artifact_audit": "evidence/paper_aio/DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json",
+  "prior_public_source_recheck": "evidence/paper_aio/DDSB_PUBLIC_SOURCE_RECHECK_20260903T0830.json",
+  "decision": "decisions/DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md"
+}

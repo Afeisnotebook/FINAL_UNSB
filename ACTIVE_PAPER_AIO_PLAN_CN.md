@@ -51,7 +51,9 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
    指纹，但评估使用固定`68f53a8e...` CRN bundle；只有late三点逐图CRN完全一致且
    matched plain身份合法时才允许计算delta。
 2. plain/CUT必须自然到e200；中间discovery值不触发早停、算法修改或资源调度。
-3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。
+3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。本地
+   冻结commit的来源守望器每六小时检查官方页面和GitHub，命中只触发人工公式—源码审核，
+   不会自动放行或启动训练。
 4. 4090A plain完成后执行AM-TNC；5090B的CUT/CycleGAN保持连续，CUT完成后才运行已冻结
    的Proposal matched-plain继任器。
 5. 5090B的runtime receipt必须先被只读转运、验证并生成review-only关系候选；只有人工
