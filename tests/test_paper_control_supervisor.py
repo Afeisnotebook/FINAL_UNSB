@@ -1,4 +1,7 @@
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -7,6 +10,7 @@ import pytest
 import operations.paper_aio_control_supervisor as supervisor
 from operations.paper_aio_control_supervisor import (
     COMMAND_SCHEMA,
+    _pid_alive,
     child_state_decision,
     validate_child_command,
 )
@@ -56,6 +60,13 @@ def test_fixed_child_command_accepts_only_bound_audit_module(tmp_path):
         required_commit="abc123",
     )
     assert result["state_path"] == str((tmp_path / "state.json").resolve())
+
+
+def test_pid_liveness_distinguishes_current_and_exited_process():
+    assert _pid_alive(os.getpid())
+    child = subprocess.Popen([sys.executable, "-c", "pass"])
+    child.wait(timeout=30)
+    assert not _pid_alive(child.pid)
 
 
 def test_fixed_child_command_rejects_training_or_confirmation(tmp_path):
