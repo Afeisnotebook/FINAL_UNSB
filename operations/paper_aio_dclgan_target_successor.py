@@ -84,7 +84,11 @@ def predecessor_decision(
 ) -> str:
     if any(
         payload.get(key) is True
-        for key in ("paired_metric_control", "confirmation20_opened")
+        for key in (
+            "performance_values_read",
+            "paired_metric_control",
+            "confirmation20_opened",
+        )
     ):
         return "BLOCK"
     status = str(payload.get("status", ""))

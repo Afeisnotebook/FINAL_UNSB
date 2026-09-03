@@ -94,6 +94,24 @@ def test_dclgan_target_successor_wait_start_and_block() -> None:
     assert target_successor.predecessor_decision(
         {"status": "COMPLETE", "paired_metric_control": True}, "COMPLETE",
     ) == "BLOCK"
+    assert target_successor.predecessor_decision(
+        {"status": "COMPLETE", "performance_values_read": True}, "COMPLETE",
+    ) == "BLOCK"
+
+
+def test_dclgan_target_accepts_source_bound_matched_plain_v2_terminal_state() -> None:
+    predecessor = {
+        "schema": "final-unsb-paper-cross-host-plain-successor-v2",
+        "status": "COMPLETE_PLAIN_E200",
+        "fresh_e0_required": True,
+        "cross_host_checkpoint_resume": False,
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert target_successor.predecessor_decision(
+        predecessor, "COMPLETE_PLAIN_E200",
+    ) == "START"
 
 
 def test_dclgan_target_commands_preserve_host_bound_gate(tmp_path: Path) -> None:
