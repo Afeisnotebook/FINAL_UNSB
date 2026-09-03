@@ -1,0 +1,104 @@
+{
+  "schema": "final-unsb-paper-local-control-auto-recovery-deployment-v1",
+  "captured_at": "2026-09-03T17:40:00+08:00",
+  "status": "AUTO_RECOVERY_DEPLOYED_AND_LIVE_FAULT_INJECTION_PASS",
+  "problem_closed": {
+    "previous_state": "health watchers detected terminal-audit and pathology exits but could not restart them",
+    "risk": "fixed checkpoints remained safe, but the local evidence pipeline could wait indefinitely for manual recovery",
+    "scope": "audit-only control plane; no training process or scientific state"
+  },
+  "implementation": {
+    "initial_commit": "f19596df53b26b48ec5ee3ef6cbe3281751a1237",
+    "windows_liveness_fix_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "source": "operations/paper_aio_control_supervisor.py",
+    "source_sha256": "24f89acf580d21a60bbce4645fc34abb3aa6907265917b28b805c93c627db879",
+    "properties": [
+      "freeze control repo commit, source hash, child command hash and child state path",
+      "adopt an already-running child without duplicate launch",
+      "restart only a nonterminal nonblocked child",
+      "refuse completed, blocked, paired-controlled or confirmation-opened state",
+      "single-instance OS file lock",
+      "twenty-launch bounded recovery budget and 720-hour lifetime",
+      "no metric value access"
+    ]
+  },
+  "live_fault_injection": {
+    "performed_before_any_fixed_checkpoint_arrived": true,
+    "terminal_audit": {
+      "killed_child_pid": 2688,
+      "replacement_child_pid": 20004,
+      "automatic_restart_observed": true
+    },
+    "windows_probe_incident": {
+      "initial_probe": "os.kill(pid, 0)",
+      "observed_failure": "a dead Windows child PID was misclassified as alive",
+      "effect": "supervisor waited fail-closed and did not duplicate work",
+      "fix": "OpenProcess plus GetExitCodeProcess equals STILL_ACTIVE",
+      "dead_pid_after_fix": false,
+      "current_pid_after_fix": true
+    },
+    "post_fix_double_role_recovery": {
+      "terminal_audit_replacement_pid": 20244,
+      "terminal_pathology_replacement_pid": 9400,
+      "both_restarted_automatically": true,
+      "scientific_work_in_progress_during_injection": false
+    }
+  },
+  "final_deployment": {
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_CONTROL_8D422DC",
+    "control_worktree_clean": true,
+    "terminal_audit_supervisor": {
+      "pid": 6196,
+      "status": "MONITORING_EXISTING_CHILD",
+      "restart_count": 0,
+      "max_restarts": 20,
+      "child_pid": 20244,
+      "child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "contract_sha256": "38aeb9ed201098475aaca3788b8a493a8584685d1d98b3107a693335b35c4880"
+    },
+    "terminal_pathology_supervisor": {
+      "pid": 23476,
+      "status": "MONITORING_EXISTING_CHILD",
+      "restart_count": 0,
+      "max_restarts": 20,
+      "child_pid": 9400,
+      "child_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+      "contract_sha256": "e091769fdfae850361af9a087ba5d47c94749163094a3a22bcfff7f49e4c28f1"
+    },
+    "health_watcher": {
+      "pid": 6776,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_8d422dc_final"
+    },
+    "terminal_audit_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_supervised_8d422dc",
+    "terminal_pathology_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_supervised_8d422dc",
+    "fixed_cell_count": 12,
+    "completed_cells": []
+  },
+  "retired_local_control_pids": {
+    "direct_atomic_chain": [20712, 11452, 22700],
+    "first_supervisor_deployment": [22072, 240, 5200, 22408],
+    "fixed_supervisor_fault_test_instances": [21648, 20968, 20860],
+    "all_retired_instances_dead": true,
+    "historical_outputs_preserved": true,
+    "files_deleted": false
+  },
+  "verification": {
+    "control_supervisor_tests_passed": 9,
+    "full_test_suite_passed": 630,
+    "full_test_suite_failed": 0,
+    "real_child_restart_test_passed": true,
+    "real_existing_child_adoption_test_passed": true,
+    "single_active_authoritative_audit_chain": true
+  },
+  "non_interference": {
+    "remote_training_process_changed": false,
+    "checkpoint_relay_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_or_module_auto_started": false,
+    "confirmation20_opened": false
+  }
+}
