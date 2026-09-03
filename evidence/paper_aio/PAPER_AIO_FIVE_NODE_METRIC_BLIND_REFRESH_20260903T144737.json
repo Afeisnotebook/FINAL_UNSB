@@ -1,0 +1,127 @@
+{
+  "schema": "final-unsb-paper-five-node-metric-blind-refresh-v1",
+  "captured_at": "2026-09-03T14:47:37+08:00",
+  "git_head_at_capture": "3c7c69daa938e4b1f7922f2b409536c314f2538d",
+  "remote_training": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "completed_data_epoch": 82,
+      "completed_updates": 701346,
+      "latest_epoch_wall_seconds": 1267.9500901699066,
+      "projected_e200_from_latest_epoch": "2026-09-05T08:21:00+08:00",
+      "gpu_memory_used_mib": 1663,
+      "gpu_utilization_percent_snapshot": 48,
+      "free_disk_gib": 386.12,
+      "health_alerts": 0,
+      "successor": "amtnc"
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_STCGR_ONLY",
+      "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "completed_data_epoch": 11,
+      "completed_updates": 94083,
+      "latest_epoch_wall_seconds": 4832.882235050201,
+      "projected_e200_from_latest_epoch": "2026-09-14T04:31:00+08:00",
+      "gpu_memory_used_mib": 2186,
+      "gpu_utilization_percent_snapshot": 39,
+      "free_disk_gib": 184.11,
+      "user_capacity_override_active": true,
+      "estimated_remaining_write_gib": 24,
+      "health_alerts": 0,
+      "plain_trainer_or_automatic_resume_alive": false,
+      "paused_plain_full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+      "paused_plain_full_state_mtime": "2026-09-02T23:58:05+08:00"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 65,
+      "completed_updates": 555945,
+      "latest_epoch_wall_seconds": 1547.8307580947876,
+      "projected_e200_from_latest_epoch": "2026-09-06T00:49:00+08:00",
+      "successor": "fresh_e0_runtime_matched_plain_after_exact_and_capacity_gates"
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 39,
+      "completed_updates": 333567,
+      "latest_epoch_wall_seconds": 2275.437306880951,
+      "projected_e200_from_latest_epoch": "2026-09-07T20:33:00+08:00",
+      "combined_gpu_utilization_percent_snapshot": 98,
+      "combined_free_disk_gib": 230.65,
+      "health_alerts": 0
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "completed_data_epoch": 14,
+      "completed_updates": 119742,
+      "latest_epoch_wall_seconds": 4832.451939821243,
+      "projected_e200_from_latest_epoch": "2026-09-14T00:28:00+08:00",
+      "gpu_memory_used_mib": 2146,
+      "gpu_utilization_percent_snapshot": 54,
+      "free_disk_gib": 229.91,
+      "health_alerts": 0
+    }
+  },
+  "control_delivery_chain": {
+    "5090b_matched_plain_successor_pid": 61721,
+    "5090b_matched_plain_status": "WAITING_FOR_PREDECESSOR_E200",
+    "proposal_runtime_relation_successor_pid": 2243220,
+    "proposal_runtime_relation_status": "WAITING_FOR_EXACT_PLAIN_RUNTIME_RECEIPT",
+    "stcgr_control_relation_successor_pid": 2289024,
+    "stcgr_control_relation_status": "WAITING_FOR_VERIFIED_PLAIN_RUNTIME_RECEIPT",
+    "registry_review_successor_pid": 2349420,
+    "registry_review_status": "WAITING_FOR_BOTH_REVIEW_ONLY_RELATION_CANDIDATES",
+    "all_successor_health_alerts": 0,
+    "tracked_registry_edited": false,
+    "comparison_authorized": false
+  },
+  "local_control_plane": {
+    "gpu": "NVIDIA GeForce GTX 1660",
+    "gpu_utilization_percent_snapshot": 0,
+    "free_disk_gib": 119.2,
+    "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "terminal_audit_completed_cells": 0,
+    "first_expected_fixed_checkpoint": "4090A_plain_e100",
+    "first_expected_fixed_checkpoint_eta": "2026-09-03T21:00:00+08:00_rough",
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "ddsb_status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "ddsb_training_authorized": false,
+    "health_alerts": 0
+  },
+  "lease_risk": {
+    "5090c_proposal_projected_e200": "2026-09-14T00:28:00+08:00",
+    "minimum_safe_availability_through": "2026-09-15T00:00:00+08:00",
+    "user_action_deadline": "2026-09-11T00:00:00+08:00",
+    "current_training_continues_without_interruption": true
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "healthy_training_interrupted": false,
+    "new_experiment_started": false
+  },
+  "repository_validation": {
+    "pytest_passed": 588,
+    "json_validation_passed": true,
+    "git_diff_check_passed": true
+  },
+  "decision": "KEEP_CURRENT_SCHEDULE_ALL_CHAINS_HEALTHY_5090A_STCGR_ONLY"
+}
