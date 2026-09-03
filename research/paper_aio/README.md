@@ -382,6 +382,32 @@ receipt records the Clean-FID and Inception identities, RNG-isolated KID seeds,
 checkpoint hash, CRN identity and image quantization.  It never opens
 confirmation20 or selects a lane/checkpoint.
 
+The freeze is a two-stage review boundary, not a status field that a waiting
+process can set for itself. First generate a non-authorizing draft:
+
+```bash
+python -m research.paper_aio.run --stage freeze-draft \
+  --portfolio /absolute/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json \
+  --paper-claim "explicit claim text" \
+  --receipt-output /absolute/FREEZE_REVIEW_DRAFT.json
+```
+
+A human/Codex review must then author and commit a separate
+`final-unsb-paper-freeze-review-decision-v1` approval. Only that committed
+approval can materialize the still-uncommitted freeze receipt:
+
+```bash
+python -m research.paper_aio.run --stage freeze-materialize \
+  --portfolio /absolute/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json \
+  --review-decision decisions/PAPER_FREEZE_REVIEW.json \
+  --receipt-output configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json
+```
+
+The freeze receipt must itself be reviewed and committed before distribution
+evaluation accepts it. The evaluator rehashes the external source portfolio,
+the committed review decision and the committed freeze receipt. Neither step
+authorizes or opens confirmation20.
+
 ## Physical host identity gate
 
 Before treating an SSH endpoint as additional compute, run:

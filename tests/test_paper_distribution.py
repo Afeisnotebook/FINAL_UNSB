@@ -11,6 +11,11 @@ from research.paper_aio.run import parser
 
 
 def _freeze(tmp_path, **updates):
+    portfolio = tmp_path / "PAPER_ALGORITHM_PORTFOLIO.json"
+    portfolio.write_text("{}", encoding="utf-8")
+    review = tmp_path / "FREEZE_REVIEW.json"
+    review.write_text("{}", encoding="utf-8")
+    claims = ["frozen paper claim"]
     value = {
         "schema": distribution.FREEZE_SCHEMA,
         "status": distribution.FREEZE_STATUS,
@@ -24,6 +29,12 @@ def _freeze(tmp_path, **updates):
             distribution.FROZEN_EVALUATION_BUNDLE_FINGERPRINT
         ),
         "source_portfolio_sha256": "a" * 64,
+        "source_portfolio_path": str(portfolio.resolve()),
+        "review_decision": "FREEZE_REVIEW.json",
+        "review_decision_sha256": distribution.file_sha256(review),
+        "review_decision_git_commit": "c" * 40,
+        "paper_claims": claims,
+        "paper_claims_sha256": distribution.object_sha256(claims),
         "distribution_lanes": ["input", "plain", "proposal"],
         "best_checkpoint_selection": False,
         "paired_metric_control": False,
@@ -60,14 +71,33 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
     root.mkdir()
     path = _freeze(root)
     monkeypatch.setattr(distribution, "ROOT", root)
+    value = json.loads(path.read_text(encoding="utf-8"))
+    portfolio = root / "PAPER_ALGORITHM_PORTFOLIO.json"
+    value["source_portfolio_sha256"] = distribution.file_sha256(portfolio)
+    review = root / "FREEZE_REVIEW.json"
+    review_value = {
+        "status": "APPROVE_FULL_DATA_ALGORITHM_BASELINE_AND_CLAIM_FREEZE",
+        "human_approval_recorded": True,
+        "codex_scientific_review_recorded": True,
+        "source_portfolio_sha256": value["source_portfolio_sha256"],
+        "distribution_lanes": value["distribution_lanes"],
+        "paper_claims_sha256": value["paper_claims_sha256"],
+    }
+    review.write_text(json.dumps(review_value), encoding="utf-8")
+    value["review_decision_sha256"] = distribution.file_sha256(review)
+    path.write_text(json.dumps(value), encoding="utf-8")
 
     def clean_git(command, **kwargs):
         if command[1:3] == ["status", "--porcelain"]:
             return ""
         if command[1:3] == ["log", "-1"]:
-            return "b" * 40 + "\n"
+            return ("c" if command[-1] == "FREEZE_REVIEW.json" else "b") * 40 + "\n"
         if command[1] == "show":
-            return path.read_text(encoding="utf-8")
+            return (
+                review.read_text(encoding="utf-8")
+                if command[-1].endswith(":FREEZE_REVIEW.json")
+                else path.read_text(encoding="utf-8")
+            )
         raise AssertionError(command)
 
     monkeypatch.setattr(distribution.subprocess, "check_output", clean_git)

@@ -75,6 +75,15 @@ def validate_freeze_receipt(path: Path, *, lane_id: str) -> dict[str, Any]:
         != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
         or not isinstance(value.get("source_portfolio_sha256"), str)
         or len(value["source_portfolio_sha256"]) != 64
+        or not isinstance(value.get("source_portfolio_path"), str)
+        or not isinstance(value.get("review_decision"), str)
+        or not isinstance(value.get("review_decision_sha256"), str)
+        or len(value["review_decision_sha256"]) != 64
+        or not isinstance(value.get("review_decision_git_commit"), str)
+        or len(value["review_decision_git_commit"]) != 40
+        or not isinstance(value.get("paper_claims"), list)
+        or not value["paper_claims"]
+        or value.get("paper_claims_sha256") != object_sha256(value["paper_claims"])
         or not isinstance(lanes, list)
         or len(lanes) != len(set(lanes))
         or lane_id not in lanes
@@ -117,6 +126,45 @@ def committed_freeze_identity(
         raise RuntimeError("committed freeze receipt is not JSON") from error
     if object_sha256(committed) != object_sha256(value):
         raise RuntimeError("working freeze receipt differs from its committed Git blob")
+    portfolio = Path(value["source_portfolio_path"]).resolve()
+    if (
+        not portfolio.is_file()
+        or file_sha256(portfolio) != value["source_portfolio_sha256"]
+    ):
+        raise RuntimeError("freeze receipt source portfolio is missing or changed")
+    review = (ROOT / value["review_decision"]).resolve()
+    try:
+        review_relative = review.relative_to(ROOT.resolve()).as_posix()
+    except ValueError as error:
+        raise RuntimeError("freeze review decision escaped the repository") from error
+    if (
+        not review.is_file()
+        or file_sha256(review) != value["review_decision_sha256"]
+    ):
+        raise RuntimeError("freeze review decision is missing or changed")
+    review_commit = subprocess.check_output(
+        ["git", "log", "-1", "--format=%H", "--", review_relative],
+        cwd=ROOT, text=True,
+    ).strip()
+    if review_commit != value["review_decision_git_commit"]:
+        raise RuntimeError("freeze review decision Git identity changed")
+    review_committed_text = subprocess.check_output(
+        ["git", "show", f"{review_commit}:{review_relative}"], cwd=ROOT, text=True,
+    )
+    review_committed = json.loads(review_committed_text)
+    review_current = _read_json(review)
+    if (
+        object_sha256(review_committed) != object_sha256(review_current)
+        or review_current.get("status")
+        != "APPROVE_FULL_DATA_ALGORITHM_BASELINE_AND_CLAIM_FREEZE"
+        or review_current.get("human_approval_recorded") is not True
+        or review_current.get("codex_scientific_review_recorded") is not True
+        or review_current.get("source_portfolio_sha256")
+        != value["source_portfolio_sha256"]
+        or review_current.get("distribution_lanes") != value["distribution_lanes"]
+        or review_current.get("paper_claims_sha256") != value["paper_claims_sha256"]
+    ):
+        raise RuntimeError("freeze review decision is not the committed approval")
     return value, commit
 
 

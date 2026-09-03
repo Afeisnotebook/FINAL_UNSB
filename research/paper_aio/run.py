@@ -21,6 +21,7 @@ from .candidate_runtime import (
 from .complexity import profile_model
 from .distribution import profile_distribution
 from .evaluate import evaluate_live_model
+from .freeze import create_review_draft, materialize_freeze_receipt
 from .gates import (
     authorize_lane,
     create_runtime_twin_receipt,
@@ -66,7 +67,8 @@ def parser() -> argparse.ArgumentParser:
             "candidate-lock",
             "candidate-runtime-gate",
             "checkpoint-export", "input-evaluate", "unified-evaluate", "unified-lock",
-            "complexity", "distribution", "runtime-relation",
+            "complexity", "distribution", "freeze-draft", "freeze-materialize",
+            "runtime-relation",
         ],
     )
     value.add_argument("--lane", choices=["input", "plain", "proposal", "hjcgr", "amtnc", "cyclegan", "cut", "ddsb", "candidate"])
@@ -119,6 +121,9 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--source-host-label")
     value.add_argument("--copied-checkpoint", type=Path)
     value.add_argument("--freeze-receipt", type=Path)
+    value.add_argument("--portfolio", type=Path)
+    value.add_argument("--review-decision", type=Path)
+    value.add_argument("--paper-claim", action="append", default=[])
     value.add_argument("--method-runtime-receipt", type=Path)
     value.add_argument("--plain-runtime-receipt", type=Path)
     value.add_argument("--method-authorization-receipt", type=Path)
@@ -325,6 +330,28 @@ def main(argv: list[str] | None = None) -> int:
                 checkpoint_metadata=payload.get("metadata"),
                 gpu=args.gpu,
             )
+    elif args.stage == "freeze-draft":
+        if args.portfolio is None or args.receipt_output is None:
+            raise SystemExit("freeze-draft requires --portfolio and --receipt-output")
+        result = create_review_draft(
+            portfolio=args.portfolio.resolve(), claims=args.paper_claim,
+            destination=args.receipt_output.resolve(),
+        )
+    elif args.stage == "freeze-materialize":
+        if (
+            args.portfolio is None
+            or args.review_decision is None
+            or args.receipt_output is None
+        ):
+            raise SystemExit(
+                "freeze-materialize requires --portfolio, --review-decision and "
+                "--receipt-output"
+            )
+        result = materialize_freeze_receipt(
+            portfolio=args.portfolio.resolve(),
+            review_decision=args.review_decision.resolve(),
+            destination=args.receipt_output.resolve(),
+        )
     elif args.stage == "runtime-relation":
         required = {
             "--lane": args.lane,

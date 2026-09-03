@@ -231,3 +231,7 @@ authorize compute.
     最终论文组合的交付缺口；新增非阻塞addendum，在核心组合不等待DCLGAN的前提下补齐
     DCLGAN轨迹、e200复杂度和增强组合。真实部署等待未来dynamic core output路径冻结，
     不绑定已被5090A plain取消所取代的旧交付链。
+71. `DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md`：补齐论文结果到KID/FID之间缺失的冻结
+    生成和审批链；机器只能生成不具授权力的draft，只有已提交Git的human/Codex review
+    decision才能物化仍需提交的freeze receipt，distribution随后复验portfolio、review和
+    freeze三层文件/Git身份。该门仍不授权confirmation20。

@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-03T16:05:00+08:00",
-  "status": "CORE_RUNNING_DCLGAN_NONBLOCKING_ADDENDUM_CODE_READY",
+  "captured_at": "2026-09-03T16:28:00+08:00",
+  "status": "CORE_RUNNING_DCLGAN_ADDENDUM_AND_TWO_STAGE_FREEZE_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
     {
@@ -49,9 +49,9 @@
     },
     {
       "id": "distribution_metrics",
-      "status": "implemented_not_scheduled_pre_freeze",
+      "status": "implemented_with_two_stage_committed_freeze_gate_not_scheduled_pre_freeze",
       "critical_path": false,
-      "gate": "explicit committed algorithm-and-baseline freeze",
+      "gate": "machine draft then explicit committed human/Codex review decision then committed freeze receipt",
       "metrics": ["macro-domain KID", "pooled FID"]
     },
     {
