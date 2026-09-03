@@ -1,0 +1,148 @@
+{
+  "schema": "final-unsb-paper-5090c-live-global-reschedule-v1",
+  "captured_at": "2026-09-03T13:44:00+08:00",
+  "status": "CURRENT_ASSIGNMENT_RECONFIRMED_DCLGAN_DELIVERY_DEPENDENCY_REMOVED",
+  "decision": "retain all healthy training; keep 5090C Proposal-only; complete the already-authorized DCLGAN delivery path",
+  "scientific_boundaries": {
+    "seed": 2026,
+    "batch_size": 1,
+    "train_images_per_side": 8553,
+    "target_data_epochs": 200,
+    "target_updates": 1710600,
+    "performance_values_read_for_scheduling": false,
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_formed": false,
+    "healthy_training_interrupted": false
+  },
+  "live_training": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING",
+      "epoch": 79,
+      "updates": 675687,
+      "epoch_seconds": 1265.9058935642242,
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "projected_e200": "2026-09-05T08:16:46+08:00",
+      "successor": "amtnc",
+      "successor_pid": 2182585
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_ONLY_GPU_TRAINING_LANE",
+      "epoch": 10,
+      "updates": 85530,
+      "epoch_seconds": 5008.1308157444,
+      "continuation_pid": 336340,
+      "supervisor_pid": 336345,
+      "trainer_pid": 336346,
+      "projected_e200": "2026-09-14T14:02:56+08:00",
+      "commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "epoch": 62,
+      "updates": 530286,
+      "epoch_seconds": 1656.378692150116,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "projected_e200": "2026-09-06T05:13:32+08:00"
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED",
+      "epoch": 37,
+      "updates": 316461,
+      "epoch_seconds": 2344.0513257980347,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "projected_e200": "2026-09-07T23:51:52+08:00"
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING",
+      "epoch": 13,
+      "updates": 111189,
+      "epoch_seconds": 4851.213077306747,
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "exporter_pid": 9730,
+      "projected_e200": "2026-09-14T01:43:28+08:00",
+      "commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+    }
+  },
+  "runtime_relations": {
+    "5090C_to_5090A": {
+      "status": "PASS_EXACT_RUNTIME_COHORT",
+      "updates": 2000,
+      "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+      "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+      "receipt_sha256": "fb6efa78d053092a24bd65deb284b71fb12a99c5bbe67e8692eb18a9e6230b72",
+      "usable_e200_plain": false,
+      "reason": "5090A plain is recoverably paused at e9 by explicit user priority"
+    },
+    "future_5090B_control": {
+      "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_AND_DYNAMIC_CAPACITY_GATES",
+      "successor_pid": 61721,
+      "capacity_probe_epochs": 2,
+      "estimated_e200_window": "2026-09-12/2026-09-13",
+      "proposal_relation_authorized": false,
+      "stcgr_relation_authorized": false,
+      "review_only_successors_armed": true
+    }
+  },
+  "two_delivery_horizons": {
+    "core_training_trajectories_available": "2026-09-08",
+    "first_same_host_matched_in_house_algorithm_expected": "2026-09-11/2026-09-12",
+    "proposal_with_reviewed_control_expected": "around 2026-09-14",
+    "layered_multi_algorithm_set_expected": "around 2026-09-15"
+  },
+  "5090c_assignment_adjudication": {
+    "selected": "proposal",
+    "why": "shortest remaining path to the most portable evidence-backed in-house algorithm while AM-TNC already has a same-host slot",
+    "rejected": {
+      "amtnc": "would duplicate a faster existing 4090A path and strand Proposal",
+      "hjcgr": "cannot close full e200 inside the current rental horizon and host-separated small25 terminal sign is inconsistent",
+      "dclgan_or_negcut": "external coverage cannot replace the missing portable in-house result; DCLGAN already has a gate-bound queue and NEGCUT is not gate-ready",
+      "ddsb": "authoritative source/formula lock incomplete",
+      "second_colocated_lane": "would delay the Proposal critical path; no gate-ready second algorithm can still close inside the lease"
+    },
+    "sunk_cost_used_as_decision_variable": false
+  },
+  "dclgan_delivery_deployment": {
+    "implementation_commit": "b6bf3a4e8fed1b2d1d24855c7cf6237e3a210251",
+    "control_checkout": "/home/yc/FINAL_UNSB_DCL_EVAL_B6BF3A4",
+    "adapter_checkout": "/home/yc/FINAL_UNSB_DCL_ADAPTER_E45973A",
+    "upstream_checkout": "/home/yc/vendor/DCLGAN_f7a7b8e",
+    "adapter_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_source_sha256": "d84353e5da247a37723c506886f53c9fda8c248ef7cac025832773cd2ed2f4b7",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "common_runtime_import_smoke": "pass_torch_2.5.1_cu121_cuda_available",
+    "relay_pid": 2491699,
+    "relay_contract_sha256": "fb8889930a574d1ff7128c6c54c7b752954cf686218960317d1cd9bc7586b374",
+    "relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+    "evaluator_pid": 2491700,
+    "evaluation_contract_sha256": "4b217d13835d330126fb2b5c8e5685850a6fbab3f93cda9d87a095a7a49e5ab4",
+    "evaluation_status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "reference_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+    "health_pid": 2491724,
+    "health_status_after_second_heartbeat": "HEALTHY_ZERO_ALERTS",
+    "gpu_occupied_while_waiting": false,
+    "performance_values_read": false
+  },
+  "portfolio": {
+    "proposal": "running",
+    "stcgr": "running",
+    "amtnc": "queued",
+    "hjcgr": "deferred_not_falsified",
+    "dclgan": "external_target_queued_delivery_armed",
+    "ddsb": "reproduction_incomplete_not_falsified"
+  },
+  "lease_risk": {
+    "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
+    "action_time": "2026-09-11",
+    "action": "extend if the booked ten-day horizon ends before the minimum availability time",
+    "scientific_protocol_change_authorized": false
+  }
+}

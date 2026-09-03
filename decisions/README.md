@@ -194,3 +194,7 @@ authorize compute.
     raw-byte源码锁跨平台失效，以LF归一化hash在Windows/Linux得到同一fingerprint；新版
     本地正式门全部通过，5090B已部署target-gate→e200及导出的持久链并等待matched plain。
     旧门只因source-lock表示被取代，不构成DCLGAN机制失败或训练失败。
+60. `DEC-20260903-5090C-LIVE-GLOBAL-RESCHEDULE.md`：按e79/e10/e62/e37/e13实时吞吐重新
+    求解四卡排程，确认5090C继续独占Proposal而非换跑或共驻；保留4090A AM-TNC与5090A
+    ST-CGR两条独立数学前沿，并部署DCLGAN的持久导入、统一评估和健康链，避免长训结束后
+    形成不可交付结果。
