@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-dclgan-common-runtime-checkpoint-load-smoke-v1",
+  "captured_at": "2026-09-03T14:05:27+08:00",
+  "status": "PASS_CROSS_RUNTIME_CHECKPOINT_LOAD_AND_TARGET_BLIND_INFERENCE",
+  "purpose": "eliminate post-e200 checkpoint/runtime incompatibility risk before the queued DCLGAN long run completes",
+  "source": {
+    "formal_gate_run": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "source_runtime": "Windows_torch_2.6.0_cu124_GTX1660",
+    "checkpoint_updates": 1000,
+    "checkpoint_bytes": 351616913,
+    "checkpoint_sha256": "92a97592987562f5b325a2b0e046cac89a20c4b66f2b21fa02ceb4bb77c4363e",
+    "sidecar_sha256": "60a0e08987d7adaa25a51a115332d9b257292cebd88969e99bb6ebccddae6ae7"
+  },
+  "target": {
+    "host": "4090A",
+    "runtime": "Linux_torch_2.5.1_cu121",
+    "device_used": "cpu",
+    "gpu_training_interrupted": false,
+    "run_dir": "/home/yc/runs/FINAL_UNSB_DCLGAN_CROSS_RUNTIME_SMOKE_B6BF3A4",
+    "receipt": "/home/yc/runs/FINAL_UNSB_DCLGAN_CROSS_RUNTIME_SMOKE_B6BF3A4/DCLGAN_CROSS_RUNTIME_LOAD_SMOKE.json",
+    "receipt_sha256": "8bbcb9e80db4252e363776008c684a5433b9b9e8a79de858bda68b8fcac5e972"
+  },
+  "frozen_identity": {
+    "evaluation_control_commit": "b6bf3a4e8fed1b2d1d24855c7cf6237e3a210251",
+    "adapter_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "read_only_inference": {
+    "sample": {"domain": "FoggyCityscapes", "stem": "0004", "order": 0},
+    "target_image_loaded": false,
+    "first_output_sha256": "d10b26414de83510173267991fcf968ff5307cc19dd1ec22f69abdb963ccdfb4",
+    "second_output_sha256": "d10b26414de83510173267991fcf968ff5307cc19dd1ec22f69abdb963ccdfb4",
+    "repeat_output_exact": true,
+    "scientific_state_sha256_before": "ea53400965b3abfd497d90f900d06bf176a2927c424d78740da0bf8dd45a4d10",
+    "scientific_state_sha256_after": "ea53400965b3abfd497d90f900d06bf176a2927c424d78740da0bf8dd45a4d10",
+    "checkpoint_sha256_after": "92a97592987562f5b325a2b0e046cac89a20c4b66f2b21fa02ceb4bb77c4363e"
+  },
+  "scientific_boundaries": {
+    "performance_values_generated": false,
+    "performance_values_used_for_scheduling": false,
+    "paired_target_opened": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "dclgan_long_training_started_by_this_gate": false
+  }
+}

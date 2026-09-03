@@ -164,6 +164,8 @@
     "unified_delivery_status": "healthy_waiting_for_dclgan_export_and_dynamic_first_wave_cohort",
     "unified_delivery_control_commit": "b6bf3a4e8fed1b2d1d24855c7cf6237e3a210251",
     "unified_reference_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+    "common_runtime_checkpoint_load_smoke": "pass_cross_runtime_read_only_target_blind_cpu_inference",
+    "common_runtime_checkpoint_load_smoke_evidence": "evidence/paper_aio/DCLGAN_COMMON_RUNTIME_CHECKPOINT_LOAD_SMOKE_20260903T1405.json",
     "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
     "negcut_status": "deferred_engineering_not_mechanism_falsified",
     "local_training_authorized": true,

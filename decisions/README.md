@@ -198,3 +198,7 @@ authorize compute.
     求解四卡排程，确认5090C继续独占Proposal而非换跑或共驻；保留4090A AM-TNC与5090A
     ST-CGR两条独立数学前沿，并部署DCLGAN的持久导入、统一评估和健康链，避免长训结束后
     形成不可交付结果。
+61. `DEC-20260903-DCLGAN-COMMON-RUNTIME-LOAD-SMOKE.md`：把本地正式1000-update
+    DCLGAN checkpoint在4090A统一Linux/PyTorch环境中真实恢复并执行两次target-blind CPU
+    前向；checkpoint、完整科学状态和输出均逐字节稳定，提前排除长训结束后的跨运行时加载
+    故障。该门不产生性能结果、不占训练GPU，也不改变5090B资源顺序。
