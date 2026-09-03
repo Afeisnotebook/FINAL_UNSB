@@ -208,9 +208,9 @@
         "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
       },
       "5090A_stcgr_full": {
-        "status": "CHILD_RUNNING_EXACT_E12_RESUME_PROVEN_BY_E13",
-        "latest_completed_data_epoch": 13,
-        "latest_completed_updates": 111189,
+        "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+        "latest_completed_data_epoch": 14,
+        "latest_completed_updates": 119742,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -226,8 +226,8 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 4974.037229537964,
-        "projected_completion_from_latest_epoch": "2026-09-14T14:00:00+08:00",
+        "latest_epoch_wall_seconds": 5019.199222564697,
+        "projected_completion_from_latest_epoch": "2026-09-14T16:30:00+08:00",
         "gpu_zero_utilization_probe_observed": true,
         "trainer_cpu_time_advanced_during_probe": true,
         "telemetry_adjudication": "PRIOR_STALL_CLOSED_EXACT_E12_RESUME_COMPLETED_HASH_VERIFIED_E13_AND_ENTERED_E14",
@@ -240,7 +240,7 @@
         "live_progress_sentinel_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json",
         "latest_user_priority_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
-        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json",
+        "latest_live_audit": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_USER_REALLOCATION_VERIFIED_20260903T213232.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
         "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
         "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"

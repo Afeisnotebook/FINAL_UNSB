@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-paper-aio-live-schedule-verification-v1",
+  "captured_at": "2026-09-03T21:32:32+08:00",
+  "host_label": "5090A",
+  "requested_schedule": "STCGR_ONLY; keep matched plain paused and do not touch other active hosts",
+  "decision": "REQUEST_ALREADY_SATISFIED_NO_DISRUPTIVE_RESCHEDULE_REQUIRED",
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5090",
+    "memory_used_mib": 2186,
+    "memory_total_mib": 32607,
+    "utilization_percent_at_probe": 45,
+    "active_compute_processes": [
+      {
+        "pid": 431032,
+        "role": "ST-CGR full-data trainer",
+        "memory_used_mib": 2176
+      }
+    ],
+    "plain_training_process_found": false,
+    "plain_automatic_resume_process_found": false
+  },
+  "stcgr": {
+    "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND",
+    "continuation_pid": 336340,
+    "supervisor_pid": 336345,
+    "trainer_pid": 431032,
+    "export_successor_pid": 336344,
+    "incremental_export_pid": 351230,
+    "health_watcher_pid": 352017,
+    "progress_watcher_pid": 436478,
+    "completed_data_epoch": 14,
+    "completed_updates": 119742,
+    "target_updates": 1710600,
+    "latest_epoch_wall_seconds": 5019.199222564697,
+    "full_state_sha256": "3b350e250980f564b4e16bd4826278b9b4a1aeaf2475827334598dd92306d3bb",
+    "scientific_state_sha256": "7e2154d1ea51fdb878c9f86eeafa9e878ca3a8b8867ba40b0d5383a2619592d2",
+    "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "health_alert_count": 0,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "matched_plain": {
+    "status": "PAUSED_EXACTLY_AT_E9",
+    "completed_updates": 76977,
+    "full_state_sha256": "9758471e2ad9a90810196fc1b66206e23b4d77eb94bf5a0cf9c63879c26362b0",
+    "scientific_state_sha256": "0cb986c082807f88a27e1733b6a31373e986cb6a349df9068c58255c24ad8611",
+    "exact_resume_preserved": true,
+    "automatic_resume_authorized": false
+  },
+  "capacity": {
+    "free_gib": 184.0638084411621,
+    "estimated_remaining_write_gib": 24.0,
+    "minimum_headroom_gib": 24.0,
+    "user_capacity_override": true,
+    "status": "HEALTHY"
+  },
+  "scope": {
+    "other_active_training_changed": false,
+    "training_hyperparameters_changed": false,
+    "checkpoint_deleted": false,
+    "cross_host_resume": false
+  },
+  "supersedes_live_progress_only": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T203004.json"
+}
