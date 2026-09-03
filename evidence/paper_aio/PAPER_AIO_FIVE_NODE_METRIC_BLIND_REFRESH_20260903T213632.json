@@ -1,0 +1,129 @@
+{
+  "schema": "final-unsb-paper-five-node-metric-blind-refresh-v1",
+  "captured_at": "2026-09-03T21:36:32+08:00",
+  "decision": "KEEP_CURRENT_SCHEDULE_ALL_ACTIVE_AND_FUTURE_CHAINS_HEALTHY",
+  "hosts": {
+    "4090A": {
+      "lane": "plain",
+      "status": "CHILD_RUNNING",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "data_epoch": 101,
+      "updates": 863853,
+      "epoch_seconds": 1274.877266407013,
+      "full_state_sha256": "9bc294de58addfee4b72e814ee9ecf6b321f46cb94c0146e4da155593c2ec0e0",
+      "scientific_state_sha256": "38fc79c9352212b1ca275d2f9cd1828c6983678dbae7afe65862eb28d54390b0",
+      "future_lane": "amtnc",
+      "future_successor_pid": 2518921,
+      "health_watcher_pid": 2519397,
+      "progress_watcher_pid": 2613987,
+      "free_disk_gib": 386
+    },
+    "5090A": {
+      "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "supervisor_pid": 336345,
+      "trainer_pid": 431032,
+      "data_epoch": 14,
+      "updates": 119742,
+      "epoch_seconds": 5019.199222564697,
+      "full_state_sha256": "3b350e250980f564b4e16bd4826278b9b4a1aeaf2475827334598dd92306d3bb",
+      "scientific_state_sha256": "7e2154d1ea51fdb878c9f86eeafa9e878ca3a8b8867ba40b0d5383a2619592d2",
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_TRAINER_NO_AUTOMATIC_RESUME",
+      "health_watcher_pid": 352017,
+      "progress_watcher_pid": 436478,
+      "free_disk_gib": 184,
+      "user_capacity_override": true
+    },
+    "5090B": {
+      "cut": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "supervisor_pid": 3739,
+        "trainer_pid": 5771,
+        "data_epoch": 80,
+        "updates": 684240,
+        "epoch_seconds": 1603.6093237400055,
+        "full_state_sha256": "1be3e7935e50a8825af545f4d971be3fd1e520e53f385a5ef6491f3efda30f43",
+        "scientific_state_sha256": "ebb0fe0695ad84a9a3cc8646b14872e85cf488b71fed01fed9b3f6e17e9222cf"
+      },
+      "cyclegan": {
+        "status": "CHILD_RUNNING_COLOCATED",
+        "supervisor_pid": 11845,
+        "trainer_pid": 11846,
+        "data_epoch": 49,
+        "updates": 419097,
+        "epoch_seconds": 2261.6048424243927,
+        "full_state_sha256": "f981a974648a9f9b8640b921ef3a07ed65f27735dbd897a6efda3a4086b11942",
+        "scientific_state_sha256": "3acaf5668f771abbc659e24e6837dd81d68eed3e4531f5fe91e9275a513ec241"
+      },
+      "host_health": "HEALTHY_ZERO_ALERTS",
+      "host_health_watcher_pid": 30355,
+      "matched_plain_successor": {
+        "status": "WAITING_FOR_PREDECESSOR_E200",
+        "pid": 148465,
+        "health_watcher_pid": 148593,
+        "progress_watcher_pid": 148594,
+        "predecessor": "cut:e200",
+        "runtime_and_capacity_gates_fail_closed": true,
+        "trainer_candidates": [],
+        "duplicate_trainer_found": false
+      },
+      "dclgan_successor": {
+        "status": "WAITING_FOR_MATCHED_PLAIN_E200",
+        "pid": 99704,
+        "export_pid": 99821,
+        "health_watcher_pid": 99966,
+        "progress_watcher_pid": 140049,
+        "trainer_candidates": [],
+        "duplicate_trainer_found": false
+      },
+      "free_disk_gib": 230
+    },
+    "5090C": {
+      "lane": "proposal",
+      "status": "CHILD_RUNNING_EXACT_5090A_RUNTIME_COHORT",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "data_epoch": 19,
+      "updates": 162507,
+      "epoch_seconds": 4805.633912324905,
+      "full_state_sha256": "b172d87acf99cedfae818b246caacd7e816d50a31705add1183bd21af8c76701",
+      "scientific_state_sha256": "60d33b3e8bab21f38f10b9aa8f78288aa27e7ed5148a7754963bb9d230bd2a63",
+      "health_watcher_pid": 13587,
+      "progress_watcher_pid": 89015,
+      "free_disk_gib": 229
+    },
+    "local_GTX1660": {
+      "status": "HEALTHY_WAITING_FOR_FROZEN_AUDIT_CELLS",
+      "completed_target_blind_cells": ["4090A_plain:e100"],
+      "terminal_audit_successor_pid": 20244,
+      "terminal_pathology_successor_pid": 9400,
+      "combined_health_watcher_pid": 21052,
+      "ddsb_source_watch_pid": 20388,
+      "ddsb_status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+      "free_disk_gib": 118.84
+    }
+  },
+  "critical_path": {
+    "4090A_plain_rough_completion": "2026-09-05T08:40:00+08:00",
+    "5090B_cut_rough_completion": "2026-09-06T03:00:00+08:00",
+    "5090B_cyclegan_rough_completion": "2026-09-07T20:30:00+08:00",
+    "5090B_matched_plain_conservative_completion_retained": "2026-09-13T14:55:00+08:00",
+    "5090C_proposal_rough_completion": "2026-09-14T00:30:00+08:00",
+    "5090A_stcgr_rough_completion": "2026-09-14T16:30:00+08:00"
+  },
+  "actions": {
+    "training_restarted": false,
+    "healthy_training_interrupted": false,
+    "queue_changed": false,
+    "reason": "All live trainers advanced and every current or future control chain was healthy; changing the schedule would add risk without shortening an evidenced critical path.",
+    "goal_heartbeat_status": "ACTIVE_HOURLY"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
