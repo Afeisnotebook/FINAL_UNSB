@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-paper-aio-operational-recovery-v1",
+  "recorded_at": "2026-09-03T18:15:50+08:00",
+  "host_label": "5090A",
+  "scope": "ST-CGR only; no other host or running lane changed",
+  "decision": "EXACT_RESUME_STCGR_FROM_E12_AFTER_CONFIRMED_LIVE_PROCESS_STALL",
+  "lane": {
+    "candidate_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "completed_data_epoch_before_recovery": 12,
+    "completed_updates_before_recovery": 102636
+  },
+  "stall_evidence": {
+    "e12_checkpoint_written_at": "2026-09-03T16:05:20+08:00",
+    "latest_completed_epoch_wall_seconds": 4841.4935734272,
+    "largest_recent_completed_epoch_wall_seconds": 5311.135596752167,
+    "heartbeat_age_seconds_at_first_audit": 7253,
+    "gpu_samples": 8,
+    "gpu_sample_interval_seconds": 2,
+    "gpu_utilization_percent_all_samples": 0,
+    "process_cpu_time_advanced_over_12_seconds": true,
+    "process_io_counters_unchanged_over_15_seconds": true,
+    "process_state": "R",
+    "adjudication": "the child was alive but no longer making normal GPU or input-stream progress"
+  },
+  "recovery": {
+    "checkpoint_sha256": "361a3dace6d8287412900ec37d287f547ce8098f1b993bdd6b1adab78aae08bc",
+    "old_trainer_pid": 336346,
+    "signal": "SIGTERM_TO_TRAINER_CHILD_ONLY",
+    "supervisor_pid": 336345,
+    "supervisor_restart_delay_seconds": 30,
+    "new_trainer_pid": 431032,
+    "supervisor_status_after_restart": "CHILD_RUNNING",
+    "supervisor_consecutive_failures_after_restart": 1,
+    "resume_source": "full_state_latest.pt at exactly e12",
+    "configuration_changed": false,
+    "scientific_state_changed_outside_checkpoint_resume": false
+  },
+  "post_recovery_capacity_probe": {
+    "trainer_elapsed_seconds": 88,
+    "trainer_cpu_seconds": 332,
+    "gpu_utilization_percent_samples": [47, 37, 14, 48, 49, 56, 49, 29],
+    "gpu_memory_mib": 2184,
+    "rchar_delta_over_probe": 20817090,
+    "read_bytes_delta_over_probe": 20193280,
+    "status": "NORMAL_GPU_AND_INPUT_STREAM_PROGRESS_RESTORED"
+  },
+  "plain_5090a": {
+    "status": "PAUSED_AT_E9_EXACT_STATE_PRESERVED",
+    "automatic_resume_authorized": false,
+    "plain_training_process_present_after_recovery": false
+  },
+  "scientific_boundaries": {
+    "paired_metric_read": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selected": false,
+    "cross_runtime_delta_formed": false
+  },
+  "next_check": "Verify e13 completion from the unchanged e12 scientific state; if the same no-progress signature recurs, treat it as a reproducible implementation/runtime fault rather than silently consuming wall time."
+}

@@ -45,7 +45,7 @@
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
-      "trainer_pid": 336346,
+      "trainer_pid": 431032,
       "export_successor_pid": 336344,
       "latest_resumed_epoch_seconds": 4841.4935734272,
       "current_single_epoch_projected_completion": "2026-09-14T05:45:00+08:00",
@@ -57,7 +57,9 @@
       "live_priority_evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
       "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
       "independent_operator_semantic_audit": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
-      "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200"
+      "semantic_audit_status": "PASS_NO_CHANGE_CONTINUE_E200",
+      "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
+      "operational_recovery_status": "EXACT_E12_RESUME_NORMAL_GPU_AND_INPUT_PROGRESS_RESTORED"
     },
     "amtnc": {
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -139,7 +141,8 @@
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T154323.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
       "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T174543.json",
-      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json"
+      "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T174750.json",
+      "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json"
     ]
   },
   "ddsb_source_watch": {

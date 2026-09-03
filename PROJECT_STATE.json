@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-03",
-  "state_snapshot_time": "2026-09-03T17:57:26+08:00",
+  "state_snapshot_time": "2026-09-03T18:15:50+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -57,7 +57,7 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSOR_READINESS_20260903T171500.json"
     },
-    "latest_5090a_stcgr_only_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_LIVE_RECONFIRMATION_20260903T174543.json",
+    "latest_5090a_stcgr_only_reconfirmation": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
     "available_hosts": ["4090A", "5090A", "5090B", "5090C", "local GTX1660"],
     "recommended_but_not_provided_hosts": ["additional_physical_5090_distinct_from_registered_5090B"],
     "new_endpoint_identity_audit": {
@@ -142,7 +142,7 @@
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
         "supervisor_pid": 336345,
-        "trainer_pid": 336346,
+        "trainer_pid": 431032,
         "health_watcher_pid": 352017,
         "plain_resume_successor_pid": null,
         "plain_resume_health_watcher_pid": null,
@@ -157,7 +157,9 @@
         "projected_completion_from_latest_epoch": "2026-09-14T05:45:00+08:00",
         "gpu_zero_utilization_probe_observed": true,
         "trainer_cpu_time_advanced_during_probe": true,
-        "telemetry_adjudication": "OBSERVE_WITH_EXISTING_HEARTBEAT_DO_NOT_RESTART",
+        "telemetry_adjudication": "E13_LIVE_PROCESS_STALL_CONFIRMED_CHILD_ONLY_TERMINATED_EXACT_E12_RESUME_RESTORED_GPU_AND_INPUT_PROGRESS",
+        "supervisor_consecutive_failures": 1,
+        "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_STALL_EXACT_RESUME_20260903T1815.json",
         "evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_ONLY_PRIORITY_20260903T041111.json",
         "latest_live_audit": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T170000.json",
         "formula_implementation_live_audit": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
