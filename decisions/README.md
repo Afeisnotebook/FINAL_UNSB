@@ -221,3 +221,6 @@ authorize compute.
 67. `DEC-20260903-AMTNC-SUCCESSOR-SOURCE-LINEAGE.md`：修复4090A旧AM-TNC等待器只锁
     scientific checkout、未锁自身control checkout和未来identity gate源码的谱系缺口；v2
     持续复验双仓commit/clean及源码SHA，替换等待器与health watcher但不触碰plain训练。
+68. `DEC-20260903-5090B-MATCHED-PLAIN-SUCCESSOR-SOURCE-LINEAGE.md`：把等待CUT e200的
+    matched-plain控制链升级为v2，冻结control/scientific双仓、源码、manifest和peer receipt；
+    修复真实共驻合同序列化门后部署新PID，CUT/CycleGAN保持连续运行且未启动新训练。

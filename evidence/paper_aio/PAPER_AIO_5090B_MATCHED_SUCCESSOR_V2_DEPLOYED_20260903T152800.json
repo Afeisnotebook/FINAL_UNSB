@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-successor-v2-deployment-evidence-v1",
+  "captured_at": "2026-09-03T15:28:00+08:00",
+  "host_label": "5090B",
+  "decision": "REPLACE_WAITING_CONTROL_PLANE_ONLY_WITH_SOURCE_BOUND_V2",
+  "implementation": {
+    "initial_lineage_commit": "50a3cee7a64d20d9e54e5130271486a5911465b6",
+    "deployed_control_commit": "a9c63cff5b5f23baf6ed8548b01abcc51e0f7be8",
+    "control_checkout": "/root/autodl-tmp/FINAL_UNSB_MATCHED_SUCCESSOR_a9c63cf",
+    "control_checkout_clean": true,
+    "control_source_sha256": "ff31531860abc7db4dac716573b6e185795d2d6221a223ccbd4defe45083ffed",
+    "scientific_training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+    "frozen_contract_schema": "final-unsb-paper-cross-host-plain-successor-contract-v2",
+    "frozen_contract_sha256": "854c9c6f6e7bdfc995b7e64976ae0b38d54c07eb2f90c99d38e06c758f2add50",
+    "state_schema": "final-unsb-paper-cross-host-plain-successor-v2",
+    "state_sha256_at_capture": "11c8f4211479d67644b78f355307e653211fca4f59dee2c98831e24afb1a91ce",
+    "full_regression_tests": "591 passed",
+    "compile_gate": "PASS"
+  },
+  "deployment_correction": {
+    "first_attempt_status": "FAILED_CLOSED_BEFORE_WAIT_OR_TRAINING_AUTHORIZATION",
+    "failure": "PosixPath in co-resident capacity contract was not JSON serializable",
+    "scientific_training_started": false,
+    "running_training_interrupted": false,
+    "repair": "normalize co-resident paths to resolved strings and test JSON serialization",
+    "repair_commit": "a9c63cff5b5f23baf6ed8548b01abcc51e0f7be8"
+  },
+  "successor": {
+    "status": "WAITING_FOR_PREDECESSOR_E200",
+    "pid": 115562,
+    "ppid": 1,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "fresh_e0_required": true,
+    "cross_host_checkpoint_resume": false,
+    "co_resident_capacity_gate_configured": true,
+    "capacity_probe_epochs": 2,
+    "minimum_makespan_saving_seconds": 3600,
+    "performance_values_available_to_scheduler": false
+  },
+  "health": {
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "watcher_pid": 115614,
+    "watcher_ppid": 1,
+    "health_state_sha256_at_capture": "fdd7cc44daadbe32b135c6e4e53a252858f931035518b91d8953be3e78d41b3c",
+    "free_disk_gib": 230.2897491455078,
+    "estimated_remaining_write_gib": 8.0
+  },
+  "retired_waiting_control": {
+    "successor_pid": 61721,
+    "health_watcher_pid": 61725,
+    "both_confirmed_absent": true
+  },
+  "unaffected_training": {
+    "cut": {
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 66,
+      "completed_updates": 564498,
+      "status": "CHILD_RUNNING_COLOCATED"
+    },
+    "cyclegan": {
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 40,
+      "completed_updates": 342120,
+      "status": "CHILD_RUNNING_COLOCATED"
+    },
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu_utilization_percent_at_capture": 92,
+    "training_process_signals_sent": false
+  },
+  "scientific_boundary": {
+    "matched_plain_training_started": false,
+    "paired_metric_control": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "runtime_twin_still_required_after_cut_e200": true,
+    "explicit_registry_relation_still_required_for_cross_host_delta": true
+  }
+}

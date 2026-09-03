@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T14:47:37+08:00",
+  "captured_at": "2026-09-03T15:28:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -106,7 +106,7 @@
       "5090C": 13587
     },
     "auxiliary_watcher_pids": {
-      "5090B_matched_plain_successor": 61725,
+      "5090B_matched_plain_successor": 115614,
       "4090A_5090B_matched_plain_relay": 2237500,
       "local_terminal_audit_successor": 20888,
       "local_terminal_pathology_successor": 16968,
@@ -131,7 +131,8 @@
       "evidence/paper_aio/DCLGAN_SOURCE_BOUND_ADAPTER_AND_LOCAL1000_START_20260903T1204.json",
       "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json",
       "evidence/paper_aio/PAPER_AIO_FIVE_NODE_METRIC_BLIND_REFRESH_20260903T144737.json",
-      "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json"
+      "evidence/paper_aio/PAPER_AIO_AMTNC_SUCCESSOR_V2_DEPLOYED_20260903T150451.json",
+      "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json"
     ]
   },
   "ddsb_source_watch": {
@@ -218,10 +219,12 @@
   },
   "future_matched_plain_successor": {
     "status": "WAITING_FOR_5090B_CUT_E200_WITH_DYNAMIC_CORESIDENT_CAPACITY_GATE",
-    "pid": 61721,
-    "health_watcher_pid": 61725,
+    "pid": 115562,
+    "health_watcher_pid": 115614,
     "retired_pid": 38294,
     "retired_health_watcher_pid": 39139,
+    "retired_v1_pid": 61721,
+    "retired_v1_health_watcher_pid": 61725,
     "host": "5090B",
     "lane": "plain",
     "fresh_e0": true,
@@ -230,6 +233,11 @@
     "capacity_probe_epochs": 2,
     "minimum_makespan_saving_seconds": 3600,
     "capacity_gate_policy": "continue beside CycleGAN only when observed e2 projection saves at least one hour; otherwise exact-pause and wait",
+    "control_commit": "a9c63cff5b5f23baf6ed8548b01abcc51e0f7be8",
+    "control_contract_schema": "final-unsb-paper-cross-host-plain-successor-contract-v2",
+    "control_contract_sha256": "854c9c6f6e7bdfc995b7e64976ae0b38d54c07eb2f90c99d38e06c758f2add50",
+    "control_source_sha256": "ff31531860abc7db4dac716573b6e185795d2d6221a223ccbd4defe45083ffed",
+    "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
     "long_training_fail_closed_until_exact_pass": true,
     "source_host_label": "5090B_MATCHED_PLAIN",
     "proposal_relation_status": "not_yet_authorized_await_runtime_gate",
@@ -242,7 +250,7 @@
     "source_export_relay_status": "waiting_metric_blind",
     "source_export_relay_health_watcher_pid": 2237500,
     "projected_e200_window": "2026-09-12/2026-09-13",
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DYNAMIC_CAPACITY_SUCCESSOR_20260903.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_SUCCESSOR_V2_DEPLOYED_20260903T152800.json"
   },
   "post_training_delivery": {
     "status": "LEGACY_WAITER_HEALTHY_BUT_SUPERSEDED_AS_COMPLETION_PATH_BY_5090A_PLAIN_CANCELLATION",
