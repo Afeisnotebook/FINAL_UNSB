@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-03T15:43:23+08:00",
+  "captured_at": "2026-09-03T16:13:38+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "protocol_implementation_audit": {
@@ -179,13 +179,20 @@
     "future_boundary_hardening_commit": "c11968e",
     "long_wait_audit_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
     "unified_import_relay_pid": 2491699,
-    "unified_evaluation_successor_pid": 2491700,
-    "unified_delivery_health_watcher_pid": 2491724,
+    "unified_evaluation_successor_pid": 2545174,
+    "unified_delivery_health_watcher_pid": 2545378,
     "unified_delivery_status": "healthy_waiting_for_dclgan_export_and_dynamic_first_wave_cohort",
-    "unified_delivery_control_commit": "b6bf3a4e8fed1b2d1d24855c7cf6237e3a210251",
+    "unified_delivery_control_commit": "07b558af59850dfc26f579a3d1890137e79595bc",
+    "unified_delivery_contract_sha256": "07e216693582079416488741aedb388e690dafc36c381bd0cde6516dd79685cf",
+    "retired_identity_unsafe_evaluation_pid": 2491700,
+    "retired_identity_unsafe_health_watcher_pid": 2491724,
     "unified_reference_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
     "common_runtime_checkpoint_load_smoke": "pass_cross_runtime_read_only_target_blind_cpu_inference",
     "common_runtime_checkpoint_load_smoke_evidence": "evidence/paper_aio/DCLGAN_COMMON_RUNTIME_CHECKPOINT_LOAD_SMOKE_20260903T1405.json",
+    "real_complexity_checkpoint_smoke": "pass_target_blind_checkpoint_read_only_profile",
+    "cross_checkout_adapter_identity_repair": "pass_and_redeployed_before_any_fixed_evaluation",
+    "portfolio_addendum": "code_ready_nonblocking_waiting_for_dynamic_core_output_path",
+    "delivery_completion_matrix": "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json",
     "negcut_upstream_commit": "c7dbe3db2ef8713229cc7cf593d4add25d3395e9",
     "negcut_status": "deferred_engineering_not_mechanism_falsified",
     "local_training_authorized": true,
@@ -194,7 +201,7 @@
     "config": "configs/PAPER_DCLGAN_NEGCUT_SOURCE_GATE.json",
     "decision": "decisions/DEC-20260903-DCLGAN-PORTABLE-GATE-AND-DURABLE-QUEUE.md",
     "long_wait_audit_decision": "decisions/DEC-20260903-DCLGAN-LONG-WAIT-SUCCESSOR-AUDIT.md",
-    "evidence": "evidence/paper_aio/DCLGAN_PORTABLE_GATE_AND_5090B_DURABLE_QUEUE_20260903T1320.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_IDENTITY_REPAIR_AND_NONBLOCKING_ADDENDUM_20260903T161338.json"
   },
   "new_endpoint_identity_audit": {
     "status": "DUPLICATE_ENDPOINT_OF_REGISTERED_5090B_NO_NEW_GPU_CAPACITY",

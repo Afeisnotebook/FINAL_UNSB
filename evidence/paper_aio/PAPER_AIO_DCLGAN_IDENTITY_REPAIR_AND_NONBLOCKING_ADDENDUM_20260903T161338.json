@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-paper-dclgan-identity-repair-and-addendum-evidence-v1",
+  "captured_at": "2026-09-03T16:13:38+08:00",
+  "status": "PASS_REAL_CHECKPOINT_SMOKE_AND_SOURCE_BOUND_EVALUATION_SUCCESSOR_REDEPLOYED",
+  "finding": {
+    "paper_delivery_gap": "DCLGAN fixed result was not consumed by the core final portfolio and had no unified complexity receipt",
+    "runtime_identity_gap": "a dynamically loaded frozen adapter inherited the evaluation control checkout git_commit helper through Python module caching",
+    "failure_consequence_without_repair": "a valid DCLGAN checkpoint would be rejected at post-e200 evaluation because adapter_git_commit appeared to equal the control commit",
+    "training_result_known_incorrect": false,
+    "algorithm_semantics_changed": false
+  },
+  "implementation": {
+    "commit": "07b558af59850dfc26f579a3d1890137e79595bc",
+    "identity_repair": "bind the frozen adapter git identity helper to the already source-hash-verified adapter checkout",
+    "dclgan_optimizer_complexity_adapter": "one official unpaired DCLGAN batch per disposable timing step",
+    "nonblocking_successor": "operations/paper_aio_dclgan_portfolio_addendum_successor.py",
+    "completion_matrix": "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json",
+    "core_delivery_waits_for_dclgan": false,
+    "future_outputs": [
+      "DCLGAN_PAPER_RESULT.json",
+      "complexity/dclgan.json",
+      "PAPER_EXTERNAL_BASELINE_ADDENDUM.json",
+      "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"
+    ]
+  },
+  "real_checkpoint_complexity_smoke": {
+    "status": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE",
+    "source_updates": 1000,
+    "source_checkpoint_sha256": "92a97592987562f5b325a2b0e046cac89a20c4b66f2b21fa02ceb4bb77c4363e",
+    "checkpoint_unchanged": true,
+    "adapter_git_commit_after_identity_repair": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "unique_parameters": 29272968,
+    "gtx1660_inference_mean_ms": 12.177680000119532,
+    "gtx1660_training_step_mean_ms": 460.94721000408754,
+    "gtx1660_training_peak_reserved_bytes": 2197815296,
+    "target_path_read": false,
+    "confirmation20_opened": false,
+    "receipt": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_COMPLEXITY_SMOKE_AF7AE46\\dclgan_complexity_1000.json",
+    "paper_claim": false,
+    "purpose": "engineering compatibility only; final complexity will use the frozen e200 checkpoint in the common 4090 evaluation runtime"
+  },
+  "deployment": {
+    "host": "4090A",
+    "control_checkout": "/home/yc/FINAL_UNSB_DCL_EVAL_07B558A_BUNDLE",
+    "control_commit": "07b558af59850dfc26f579a3d1890137e79595bc",
+    "control_script_sha256": "c4814679e74138ece04773f71615feed49014e105c1c44d18ce4dc31884156c0",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_EVAL_07B558A",
+    "evaluation_pid": 2545174,
+    "health_watcher_pid": 2545378,
+    "retained_import_relay_pid": 2491699,
+    "old_evaluation_pid_retired": 2491700,
+    "old_health_watcher_pid_retired": 2491724,
+    "contract_sha256": "07e216693582079416488741aedb388e690dafc36c381bd0cde6516dd79685cf",
+    "state": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "health_after_second_poll": "HEALTHY",
+    "health_alert_count": 0,
+    "stderr_bytes": 0,
+    "reference_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+    "adapter_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_source_sha256": "d84353e5da247a37723c506886f53c9fda8c248ef7cac025832773cd2ed2f4b7",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "verification": {
+    "local_full_pytest_passed": 598,
+    "remote_targeted_pytest_passed": 11,
+    "contract_validation": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "deployment_boundary": {
+    "portfolio_addendum_deployed_now": false,
+    "reason": "the legal dynamic core final-delivery output is frozen only after the real 5090B runtime relation is reviewed and admitted",
+    "old_superseded_core_output_bound": false,
+    "next_action": "deploy the addendum from a clean frozen checkout when the dynamic base portfolio output path is fixed"
+  },
+  "scientific_boundaries": {
+    "healthy_training_interrupted": false,
+    "dclgan_training_started_by_this_change": false,
+    "performance_values_read_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "paired_metric_control": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-DCLGAN-NONBLOCKING-PAPER-ADDENDUM.md"
+}
