@@ -40,7 +40,7 @@
   "nonblocking_extensions": [
     {
       "id": "baseline_taxonomy",
-      "status": "frozen_before_performance_results",
+      "status": "frozen_before_performance_results_and_hash_bound_to_final_delivery",
       "critical_path": false,
       "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
       "scope": "separate six-domain direct comparisons, domain-specific context and paired ceilings",

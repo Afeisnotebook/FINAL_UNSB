@@ -92,6 +92,13 @@ def _complexity(lane: str) -> dict:
     }
 
 
+def _baseline() -> dict:
+    return json.loads(
+        (Path(__file__).resolve().parents[1] / "configs" / "PAPER_BASELINE_PORTFOLIO.json")
+        .read_text(encoding="utf-8")
+    )
+
+
 def test_completion_decision_uses_only_fixed_status(tmp_path: Path) -> None:
     state = tmp_path / "state.json"
     assert final.completion_decision(state, "DONE") == "WAIT"
@@ -231,6 +238,7 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
         first_wave_results=first, amtnc_disposition=amtnc,
         stcgr_disposition=stcgr, complexity=complexity,
         source_hashes={"fixture": "f" * 64}, method_portfolio=portfolio,
+        baseline_portfolio=_baseline(),
         first_wave_lane_sources={
             "plain": "5090B_MATCHED_PLAIN", "proposal": "5090C",
             "cut": "5090B", "cyclegan": "5090B",
@@ -244,6 +252,8 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     assert value["deferred_or_reproduction_incomplete"]["hjcgr"]["mechanism_falsified"] is False
     assert value["paper_claims_frozen"] is False
     assert value["confirmation20_opened"] is False
+    assert value["baseline_reporting_tiers"]["main_table_checkpoint"] == "e200_only"
+    assert value["baseline_reporting_tiers"]["paired_ceiling_as_unpaired_competitor_allowed"] is False
 
 
 def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:
@@ -267,6 +277,7 @@ def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:
             stcgr_disposition=stcgr,
             complexity={lane: _complexity(lane) for lane in final.COMPLEXITY_LANES},
             source_hashes={},
+            baseline_portfolio=_baseline(),
             method_portfolio={
                 "methods": {"hjcgr": {"status": "deferred"}},
                 "controls_and_external": {"ddsb": "reproduction_incomplete"},
@@ -305,6 +316,7 @@ def test_portfolio_rejects_a_cross_host_relation_without_exact_2000_step_core(
             stcgr_disposition=stcgr,
             complexity={lane: _complexity(lane) for lane in final.COMPLEXITY_LANES},
             source_hashes={},
+            baseline_portfolio=_baseline(),
             method_portfolio={
                 "methods": {"hjcgr": {"status": "deferred"}},
                 "controls_and_external": {"ddsb": "reproduction_incomplete"},
@@ -315,3 +327,19 @@ def test_portfolio_rejects_a_cross_host_relation_without_exact_2000_step_core(
             },
             stcgr_source_host="5090A",
         )
+
+
+def test_baseline_portfolio_rejects_posthoc_protocol_mixing() -> None:
+    value = _baseline()
+    assert final.validate_baseline_portfolio(value) == value
+    value["paired_ceiling_block"][0]["role"] = "unpaired competitor"
+    with pytest.raises(RuntimeError, match="baseline reporting portfolio"):
+        final.validate_baseline_portfolio(value)
+
+    value = _baseline()
+    dehaze = next(
+        row for row in value["domain_specific_context"] if row["id"] == "dehazesb"
+    )
+    dehaze["reporting_rule"] = "report as a six-domain macro"
+    with pytest.raises(RuntimeError, match="baseline reporting portfolio"):
+        final.validate_baseline_portfolio(value)

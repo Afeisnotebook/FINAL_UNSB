@@ -52,6 +52,90 @@ FIRST_WAVE_LANES = ("plain", "proposal", "cut", "cyclegan")
 COMPLEXITY_LANES = ("plain", "proposal", "cut", "cyclegan", "amtnc", STCGR_ID)
 FIRST_WAVE_STATE_SCHEMA = "final-unsb-paper-unified-evaluation-successor-state-v2"
 ALGORITHM_STATE_SCHEMA = "final-unsb-paper-algorithm-evaluation-successor-state-v1"
+BASELINE_PORTFOLIO_SCHEMA = "final-unsb-paper-baseline-portfolio-v1"
+
+
+def validate_baseline_portfolio(value: dict[str, Any]) -> dict[str, Any]:
+    """Fail closed if the pre-result baseline/reporting partition drifted."""
+    core = {
+        str(row.get("id")): row
+        for row in value.get("core_controlled_main_table", [])
+        if isinstance(row, dict)
+    }
+    direct = {
+        str(row.get("id")): row
+        for row in value.get("direct_external_extensions", [])
+        if isinstance(row, dict)
+    }
+    contextual = {
+        str(row.get("id")): row
+        for row in value.get("domain_specific_context", [])
+        if isinstance(row, dict)
+    }
+    ceilings = {
+        str(row.get("id")): row
+        for row in value.get("paired_ceiling_block", [])
+        if isinstance(row, dict)
+    }
+    hard = value.get("hard_reporting_rules") or {}
+    valid = (
+        value.get("schema") == BASELINE_PORTFOLIO_SCHEMA
+        and value.get("status")
+        == "CORE_MAIN_TABLE_RUNNING_EXTENSIONS_FAIL_CLOSED_OR_NONBLOCKING"
+        and set(core) == {
+            "input", "cyclegan", "cut", "plain_unsb", "proposal_only",
+            "stcgr", "amtnc",
+        }
+        and set(direct) == {"ddsb", "dclgan", "negcut"}
+        and direct["ddsb"].get("status") == "reproduction_incomplete_fail_closed"
+        and direct["ddsb"].get("main_table_number_allowed") is False
+        and direct["negcut"].get("main_table_number_allowed") is False
+        and "dehazesb" in contextual
+        and "never impute missing domains"
+        in str(contextual["dehazesb"].get("reporting_rule", ""))
+        and set(ceilings) == {"restorevar", "promptir"}
+        and all(
+            "not an unpaired competitor" in str(row.get("role", ""))
+            and "no delta" in str(row.get("reporting_rule", ""))
+            for row in ceilings.values()
+        )
+        and (value.get("priority_and_scheduling") or {}).get(
+            "current_gpu_queue_changed"
+        ) is False
+        and hard.get("main_table_checkpoint") == "e200_only"
+        and hard.get("best_checkpoint_selection") is False
+        and hard.get("missing_baseline_number_fabricated") is False
+        and hard.get("partial_domain_result_used_as_six_domain_macro") is False
+        and hard.get("paired_method_called_unpaired_competitor") is False
+        and hard.get("external_baseline_called_matched_without_runtime_identity")
+        is False
+        and hard.get("confirmation20_opened") is False
+    )
+    if not valid:
+        raise RuntimeError("paper baseline reporting portfolio is incomplete or unsafe")
+    return value
+
+
+def _baseline_reporting_summary(value: dict[str, Any]) -> dict[str, Any]:
+    value = validate_baseline_portfolio(value)
+    return {
+        "core_controlled_main_table": [
+            row["id"] for row in value["core_controlled_main_table"]
+        ],
+        "direct_external_extensions": {
+            row["id"]: row["status"]
+            for row in value["direct_external_extensions"]
+        },
+        "domain_specific_context": {
+            row["id"]: row["status"] for row in value["domain_specific_context"]
+        },
+        "paired_ceiling_block": {
+            row["id"]: row["status"] for row in value["paired_ceiling_block"]
+        },
+        "main_table_checkpoint": "e200_only",
+        "partial_domain_macro_allowed": False,
+        "paired_ceiling_as_unpaired_competitor_allowed": False,
+    }
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -348,6 +432,7 @@ def build_portfolio(
     *, first_wave_results: dict[str, Any], amtnc_disposition: dict[str, Any],
     stcgr_disposition: dict[str, Any], complexity: dict[str, dict[str, Any]],
     source_hashes: dict[str, str], method_portfolio: dict[str, Any],
+    baseline_portfolio: dict[str, Any],
     first_wave_lane_sources: dict[str, str], stcgr_source_host: str,
 ) -> dict[str, Any]:
     if (
@@ -436,6 +521,9 @@ def build_portfolio(
             for lane in COMPLEXITY_LANES
         },
         "deferred_or_reproduction_incomplete": deferred,
+        "baseline_reporting_tiers": _baseline_reporting_summary(
+            baseline_portfolio
+        ),
         "source_artifact_sha256": source_hashes,
         "multiple_algorithms_allowed": True,
         "paper_claims_frozen": False,
@@ -464,6 +552,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
     _, stcgr_source_host = parse_lane_source(
         f"{STCGR_ID}={args.stcgr_source_host}"
     )
+    baseline_portfolio = repo / "configs" / "PAPER_BASELINE_PORTFOLIO.json"
+    validate_baseline_portfolio(_read_json(baseline_portfolio))
     return {
         "schema": CONTRACT_SCHEMA,
         "status": "FROZEN_WAITING",
@@ -471,6 +561,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "control_git_commit": head,
         "control_script": str(Path(__file__).resolve()),
         "control_script_sha256": file_sha256(Path(__file__).resolve()),
+        "baseline_portfolio": str(baseline_portfolio.resolve()),
+        "baseline_portfolio_sha256": file_sha256(baseline_portfolio),
         "paper_protocol_fingerprint": protocol_fingerprint(args.manifest),
         "evaluation_bundle_fingerprint": FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
         "python": str(args.python.resolve()),
@@ -526,8 +618,11 @@ def _verify_control(contract: dict[str, Any]) -> None:
         != contract["control_script_sha256"]
         or protocol_fingerprint(Path(contract["manifest"]))
         != contract["paper_protocol_fingerprint"]
+        or file_sha256(Path(contract["baseline_portfolio"]))
+        != contract["baseline_portfolio_sha256"]
     ):
         raise RuntimeError("final delivery control identity changed")
+    validate_baseline_portfolio(_read_json(Path(contract["baseline_portfolio"])))
 
 
 def _dependencies(contract: dict[str, Any]) -> tuple[bool, dict[str, str]]:
@@ -689,15 +784,20 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "first_wave_cohort": file_sha256(cohort_path),
                 "amtnc_disposition": file_sha256(amtnc_path),
                 "stcgr_disposition": file_sha256(stcgr_path),
+                "baseline_portfolio": contract["baseline_portfolio_sha256"],
             }
             method_portfolio = _read_json(
                 Path(contract["control_repo"]) / "configs" / "FULL_DATA_METHOD_PORTFOLIO.json"
+            )
+            baseline_portfolio = validate_baseline_portfolio(
+                _read_json(Path(contract["baseline_portfolio"]))
             )
             result = build_portfolio(
                 first_wave_results=_read_json(first_results_path),
                 amtnc_disposition=amtnc, stcgr_disposition=stcgr,
                 complexity=values, source_hashes=source_hashes,
                 method_portfolio=method_portfolio,
+                baseline_portfolio=baseline_portfolio,
                 first_wave_lane_sources=contract["first_wave_lane_sources"],
                 stcgr_source_host=contract["stcgr_source_host"],
             )

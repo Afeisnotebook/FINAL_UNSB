@@ -10,13 +10,15 @@
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
     "target_updates_per_full_lane": 1710600,
     "paper_baseline_portfolio": {
-      "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS",
+      "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS_HASH_BOUND_TO_FINAL_DELIVERY",
       "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
       "decision": "decisions/DEC-20260903-PAPER-BASELINE-PORTFOLIO.md",
       "core_table_scope": "six_domain_unpaired_direct_comparisons",
       "domain_specific_and_paired_ceiling_separated": true,
       "current_gpu_queue_changed": false,
-      "performance_values_read": false
+      "performance_values_read": false,
+      "final_delivery_fail_closed": true,
+      "full_test_result": "632 passed"
     },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",

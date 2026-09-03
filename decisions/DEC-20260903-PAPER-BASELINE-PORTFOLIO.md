@@ -23,4 +23,10 @@ restoration ceiling。若时间允许，只能在算法冻结后对兼容重叠�
 本裁决不新增训练、不改变四张远端卡的队列，也不读取中间 paired 指标。它只提前冻结
 最终论文表格的语义，确保缺源码、缺域或监督条件不同不会在结果出来后被掩盖。
 
+随后对最终交付链的代码审计发现，仅提交配置仍不足以阻止末端绕过。现在
+`paper_aio_final_delivery_successor.py` 会在冻结合同时验证并记录基线配置路径与 SHA256，
+每次轮询验证控制面时重新检查内容，并在最终组合中写入紧凑的 reporting tiers 和来源
+哈希。任何把 paired ceiling 改成无配对对手、把 DehazeSB 缺失域拼成宏平均，或为 DDSB
+生成无来源数值的更改都会 fail closed。全量测试为 `632 passed`。
+
 权威配置：`configs/PAPER_BASELINE_PORTFOLIO.json`。

@@ -4,10 +4,11 @@
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
-    "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS",
+    "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS_HASH_BOUND_TO_FINAL_DELIVERY",
     "config": "configs/PAPER_BASELINE_PORTFOLIO.json",
     "decision": "decisions/DEC-20260903-PAPER-BASELINE-PORTFOLIO.md",
-    "current_gpu_queue_changed": false
+    "current_gpu_queue_changed": false,
+    "final_delivery_fail_closed": true
   },
   "protocol_implementation_audit": {
     "captured_at": "2026-09-03T08:54:41+08:00",
