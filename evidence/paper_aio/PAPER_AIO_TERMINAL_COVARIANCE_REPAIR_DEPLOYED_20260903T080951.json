@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-terminal-covariance-repair-deployment-v1",
+  "captured_at": "2026-09-03T08:09:51+08:00",
+  "status": "PASS_CORRECTED_COVARIANCE_AUDIT_CHAIN_HEALTHY_BEFORE_FIRST_CELL",
+  "defect": {
+    "old_expression": "X_centered @ X_centered.T / flattened_feature_dimension",
+    "old_quantity": "per-coordinate Gram spectrum",
+    "incorrect_old_label": "sample covariance spectrum",
+    "affected_absolute_fields": ["top_eigenvalue", "trace"],
+    "unaffected_fields": ["effective_rank", "same-resolution epoch ratios"],
+    "formal_audit_cells_produced_by_old_chain": 0
+  },
+  "repair": {
+    "new_expression": "X_centered @ X_centered.T / (rollout_sample_count - 1)",
+    "mathematical_identity": "the Gram matrix and feature-space unbiased sample covariance have the same nonzero eigenvalues",
+    "normalization_tag": "unbiased_sample_covariance_nonzero_spectrum_n_minus_1",
+    "effective_rank_definition": "participation_ratio_trace_squared_over_frobenius_squared",
+    "adjudicator_rejects_legacy_or_ambiguous_normalization": true,
+    "code_commit": "628345b854424a9d6d3e7be0e7cec872a85d1b32",
+    "targeted_tests_passed": 17
+  },
+  "replacement_chain": {
+    "worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_TERMINAL_628345B",
+    "worktree_clean": true,
+    "terminal_audit": {
+      "pid": 5100,
+      "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+      "preflight_release": "READY",
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_audits_covariance_628345b",
+      "contract_sha256": "55b86d9172a5ad456d2061becdc95eeed6e0dfb4da7f792dcc560b9b462a392c"
+    },
+    "terminal_pathology": {
+      "pid": 2732,
+      "status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+      "paired_files_parsed": false,
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_pathology_covariance_628345b",
+      "contract_sha256": "29eb0a1f9b9bde0bef436905e2759406c7c860312f99dcd08f00b60859b8d5be"
+    },
+    "health": {
+      "pid": 13852,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "watches_all_four_incremental_relays": true,
+      "watches_audit_and_pathology_successors": true,
+      "free_disk_gib": 125.54896545410156,
+      "estimated_remaining_write_gib": 16.0
+    }
+  },
+  "retirement": {
+    "old_terminal_audit_pid": 15436,
+    "old_terminal_audit_health_pid": 20780,
+    "old_pathology_pid": 21384,
+    "old_pathology_health_pid": 18712,
+    "new_chain_healthy_before_retirement": true,
+    "old_formal_audit_completed_cells": [],
+    "old_outputs_preserved": true,
+    "checkpoint_or_historical_evidence_deleted": false
+  },
+  "unaffected_live_infrastructure": {
+    "incremental_relay_pids": [6292, 12656, 19904, 14528],
+    "training_process_changed": false,
+    "checkpoint_exporter_changed": false,
+    "evaluation_data_or_crn_changed": false,
+    "fixed_epochs": [100, 150, 200],
+    "fixed_probes": [
+      "4090A_plain",
+      "5090C_proposal",
+      "4090A_amtnc",
+      "5090A_stcgr"
+    ]
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "algorithm_or_module_started": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}
