@@ -226,6 +226,10 @@ def existing_evaluation_status(
         or receipt.get("evaluation_bundle_fingerprint")
         != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
         or receipt.get("training_checkpoint_read_only") is not True
+        or receipt.get("training_checkpoint_read_only_verified_by_rehash")
+        is not True
+        or receipt.get("source_checkpoint_sha256_after_evaluation")
+        != receipt.get("source_checkpoint_sha256")
         or receipt.get("paired_metric_control") is not False
         or receipt.get("cross_host_training_delta_merged") is not False
         or receipt.get("confirmation20_opened") is not False

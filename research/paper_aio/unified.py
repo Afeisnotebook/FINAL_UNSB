@@ -8,9 +8,14 @@ from typing import Any
 
 import torch
 
+from production.metrics import METRIC_SEMANTICS
 from research.local_route1.runtime import full_state_hash, seed_everything, write_json
 
-from .evaluate import evaluate_input_baseline, evaluate_model
+from .evaluate import (
+    evaluate_input_baseline,
+    evaluate_model,
+    validate_evaluation_result,
+)
 from .gates import environment_record
 from .protocol import (
     EVALUATION_SCHEMA,
@@ -239,7 +244,8 @@ def evaluate_imported_checkpoint(
         or export.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("unified checkpoint export receipt is invalid")
-    if file_sha256(checkpoint) != export.get("checkpoint_sha256"):
+    checkpoint_sha256_before = file_sha256(checkpoint)
+    if checkpoint_sha256_before != export.get("checkpoint_sha256"):
         raise RuntimeError("copied unified checkpoint differs from source export")
     lane_id = str(export["lane_id"])
     epoch = int(export["epoch"])
@@ -282,6 +288,9 @@ def evaluate_imported_checkpoint(
         replicates=(5 if terminal else 1), nfe_values=nfe_values,
         include_lpips=epoch in protocol["training"]["lpips_epochs"],
     )
+    checkpoint_sha256_after = file_sha256(checkpoint)
+    if checkpoint_sha256_after != checkpoint_sha256_before:
+        raise RuntimeError("unified evaluation mutated the copied training checkpoint")
     result.update({
         "epoch": epoch,
         "updates": _expected_step(epoch),
@@ -290,10 +299,12 @@ def evaluate_imported_checkpoint(
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
+        "source_checkpoint_sha256_after_evaluation": checkpoint_sha256_after,
         "source_host_label": export["source_host_label"],
         "portable_candidate_authority_sha256": authority_sha256,
         "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
+        "training_checkpoint_read_only_verified_by_rehash": True,
         "cross_host_training_delta_merged": False,
     })
     metric_path = output_root / "lanes" / lane_id / "metrics" / f"e{epoch:03d}.json"
@@ -314,6 +325,7 @@ def evaluate_imported_checkpoint(
         "source_export_receipt": str(export_path),
         "source_export_receipt_sha256": file_sha256(export_path),
         "source_checkpoint_sha256": export["checkpoint_sha256"],
+        "source_checkpoint_sha256_after_evaluation": checkpoint_sha256_after,
         "training_protocol_fingerprint": export.get("training_protocol_fingerprint"),
         "manifest_sha256": export.get("manifest_sha256"),
         "portable_candidate_authority_sha256": authority_sha256,
@@ -324,6 +336,7 @@ def evaluate_imported_checkpoint(
         "unified_evaluator_protocol_fingerprint": protocol_fingerprint(manifest_path),
         "unified_environment": unified_environment,
         "training_checkpoint_read_only": True,
+        "training_checkpoint_read_only_verified_by_rehash": True,
         "paired_metric_control": False,
         "cross_host_training_delta_merged": False,
         "confirmation20_opened": False,
@@ -451,6 +464,11 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
         or input_metric.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("unified Input metric protocol mismatch")
+    validated_input = validate_evaluation_result(
+        input_metric, lane_id="input", family="input", count_per_domain=80,
+        replicates=1, nfe_values=[0], include_lpips=True,
+        input_reference=True,
+    )
     environment = input_receipt.get("unified_environment")
     evaluator_fingerprint = input_receipt.get(
         "unified_evaluator_protocol_fingerprint"
@@ -461,6 +479,9 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
         "receipt_sha256": file_sha256(input_receipt_path),
         "source_host_label": "evaluation_only",
     })
+    epoch_input_hashes: dict[int, str] = {}
+    epoch_sample_identities: dict[int, list[tuple[str, str, int]]] = {}
+    epoch_crn_identities: dict[int, list[tuple[str, str, int, int, str]]] = {}
     for lane_id in REQUIRED_FIRST_WAVE:
         family = lane_spec(lane_id).family
         for epoch in UNIFIED_EPOCHS:
@@ -479,6 +500,10 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
                 or receipt.get("evaluation_bundle_fingerprint")
                 != FROZEN_EVALUATION_BUNDLE_FINGERPRINT
                 or receipt.get("training_checkpoint_read_only") is not True
+                or receipt.get("training_checkpoint_read_only_verified_by_rehash")
+                is not True
+                or receipt.get("source_checkpoint_sha256_after_evaluation")
+                != receipt.get("source_checkpoint_sha256")
                 or receipt.get("paired_metric_control") is not False
                 or receipt.get("cross_host_training_delta_merged") is not False
                 or receipt.get("confirmation20_opened") is not False
@@ -488,6 +513,14 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
             expected = _expected_evaluation(epoch, family)
             if any(metric.get(key) != value for key, value in expected.items()):
                 raise RuntimeError(f"unified metric protocol mismatch: {lane_id} e{epoch}")
+            if metric.get("lane_id") != lane_id or int(metric.get("epoch", -1)) != epoch:
+                raise RuntimeError(f"unified metric lane/epoch mismatch: {lane_id} e{epoch}")
+            validated = validate_evaluation_result(
+                metric, lane_id=lane_id, family=family,
+                count_per_domain=expected["count_per_domain"],
+                replicates=expected["replicates"],
+                nfe_values=expected["nfe_values"], include_lpips=True,
+            )
             if (
                 not metric.get("source_host_label")
                 or not metric.get("training_protocol_fingerprint")
@@ -504,10 +537,28 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
                 raise RuntimeError("unified metric CRN bundle identity changed")
             if (
                 metric.get("training_checkpoint_read_only") is not True
+                or metric.get("training_checkpoint_read_only_verified_by_rehash")
+                is not True
+                or metric.get("source_checkpoint_sha256_after_evaluation")
+                != metric.get("source_checkpoint_sha256")
                 or metric.get("cross_host_training_delta_merged") is not False
                 or metric.get("confirmation20_opened") is not False
             ):
                 raise RuntimeError("unified metric violates read-only or sealed-evaluation policy")
+            current_input_hash = str(metric.get("evaluation_input_sha256", ""))
+            if epoch in epoch_input_hashes:
+                if (
+                    current_input_hash != epoch_input_hashes[epoch]
+                    or validated["sample_identity"] != epoch_sample_identities[epoch]
+                    or validated["crn_identity"] != epoch_crn_identities[epoch]
+                ):
+                    raise RuntimeError(
+                        f"unified evaluations do not share exact samples/CRN at e{epoch}"
+                    )
+            else:
+                epoch_input_hashes[epoch] = current_input_hash
+                epoch_sample_identities[epoch] = validated["sample_identity"]
+                epoch_crn_identities[epoch] = validated["crn_identity"]
             current_environment = receipt.get("unified_environment")
             current_evaluator = receipt.get("unified_evaluator_protocol_fingerprint")
             if current_environment != environment or current_evaluator != evaluator_fingerprint:
@@ -517,6 +568,11 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
                 "receipt": str(receipt_path), "receipt_sha256": file_sha256(receipt_path),
                 "source_host_label": receipt.get("source_host_label"),
             })
+    if (
+        input_metric.get("evaluation_input_sha256") != epoch_input_hashes.get(200)
+        or validated_input["sample_identity"] != epoch_sample_identities.get(200)
+    ):
+        raise RuntimeError("unified Input reference does not share discovery80 identities")
     if evaluator_fingerprint != protocol_fingerprint():
         raise RuntimeError("unified evaluator fingerprint is stale for the current checkout")
     if environment != current_unified_environment:
@@ -541,6 +597,11 @@ def lock_unified_evaluation_cohort(output_root: Path) -> dict[str, Any]:
         "unified_environment": environment,
         "receipts": receipts,
         "training_hosts_remain_separate": True,
+        "metric_semantics_sha256": object_sha256(METRIC_SEMANTICS),
+        "metric_payloads_recomputed_from_per_image_evidence": True,
+        "exact_sample_identity_all_lanes": True,
+        "exact_crn_identity_all_lanes": True,
+        "training_checkpoints_read_only_verified_by_rehash": True,
         "proposal_plain_runtime_relation": proposal_runtime_relation,
         "cross_host_training_delta_merged": False,
         "paired_metric_control": False,

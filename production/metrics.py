@@ -10,6 +10,22 @@ import torch
 import torch.nn.functional as F
 
 
+METRIC_SEMANTICS = {
+    "schema": "final-unsb-rgb-metric-semantics-v1",
+    "prediction_range": "clamp_minus1_plus1_then_affine_to_float_unit_range",
+    "target_range": "PIL_RGB_float32_minus1_plus1_then_affine_to_float_unit_range",
+    "psnr": "RGB_float_unit_range_mse_data_range_1_no_border_crop",
+    "ssim": (
+        "RGB_channelwise_uniform_7x7_zero_padding_population_moments_"
+        "C1_0.01_squared_C2_0.03_squared_then_all_pixel_channel_mean"
+    ),
+    "lpips": "lpips_0.1.4_alex_version_0.1_RGB_minus1_plus1",
+    "domain_aggregation": "image_mean_within_domain_then_equal_mean_across_six_domains",
+    "terminal_replicate_aggregation": "equal_mean_over_five_fixed_lane_blind_CRN_bundles",
+    "terminal_stochasticity": "population_std_ddof_0_over_replicate_macro_metrics",
+}
+
+
 def canonical_seed(*fields: object) -> int:
     payload = "|".join(str(field) for field in fields).encode("utf-8")
     return int.from_bytes(hashlib.sha256(payload).digest()[:8], "big")
