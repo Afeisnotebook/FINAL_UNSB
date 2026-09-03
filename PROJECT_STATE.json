@@ -906,16 +906,23 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_AND_CODEX_GOAL_HEARTBEAT_20260903T142200.json"
     },
     "lease_horizon_action": {
-      "status": "EXTERNAL_CAPACITY_ACTION_REQUIRED_FOR_5090C_AND_POST_CONTROL_DCLGAN",
+      "status": "CORE_LANES_WITHIN_DECLARED_LEASES_DCLGAN_EXTENSION_STILL_REQUIRED",
       "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
-      "5090C_action_deadline": "2026-09-11T00:00:00+08:00",
-      "5090C_conditional_shortfall_hours": 30.16,
+      "5090C_projected_completion": "2026-09-14T01:47:29+08:00",
+      "5090C_projected_headroom_hours": 22.2086,
+      "5090C_conditional_shortfall_hours": 0.0,
       "5090A_minimum_availability_through": "2026-09-16T00:00:00+08:00",
+      "5090A_stcgr_projected_completion": "2026-09-14T14:00:07+08:00",
+      "5090A_projected_headroom_hours": 33.9981,
       "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
+      "5090B_core_control_latest_projected_completion": "2026-09-13T14:55:00+08:00",
+      "5090B_core_control_projected_headroom_hours": 9.0833,
       "5090B_dclgan_provisional_capacity_through": "2026-09-22T00:00:00+08:00",
+      "5090B_external_capacity_decision_deadline": "2026-09-08T00:00:00+08:00",
       "5090B_dclgan_recalibrate_after_target_gate": true,
       "scientific_protocol_change": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_LEASE_CRITICAL_PATH_REFRESH_20260903T143200.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260903T194257.json",
+      "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
     },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "future_dynamic_control_integration_rehearsal": {
@@ -947,7 +954,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_REFRESH_AND_RELATION_STATE_BINDING_20260903T053640.json",
       "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
     },
-    "next_manual_decision_window": "confirm now that 5090C is available through at least 2026-09-15, 5090A through 2026-09-16 and 5090B through 2026-09-14; then review Proposal/ST-CGR relation candidates after the 5090B exact-runtime receipt around 2026-09-06"
+    "next_manual_decision_window": "by 2026-09-08 confirm whether 5090B can remain available through approximately 2026-09-22 for DCLGAN; core matched plain remains projected within the current 2026-09-14 lease with only about 9 hours worst-path headroom"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
   "development_head_at_state_write": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",

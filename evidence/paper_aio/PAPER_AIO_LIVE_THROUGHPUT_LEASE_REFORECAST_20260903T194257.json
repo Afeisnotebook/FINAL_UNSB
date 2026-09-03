@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-live-throughput-lease-reforecast-v1",
+  "captured_at": "2026-09-03T19:42:57+08:00",
+  "status": "CORE_LANES_WITHIN_DECLARED_LEASES_DCLGAN_EXTENSION_STILL_REQUIRED",
+  "method": "latest completed data epoch and latest observed epoch wall time; no performance metric used",
+  "active_lane_projections": {
+    "4090A_plain": {"completed_epoch": 94, "epoch_seconds": 1262.1947557926178, "projected_e200": "2026-09-05T08:23:53+08:00"},
+    "5090B_cut": {"completed_epoch": 76, "epoch_seconds": 1502.7643420696259, "projected_e200": "2026-09-05T23:28:39+08:00"},
+    "5090B_cyclegan": {"completed_epoch": 46, "epoch_seconds": 2367.724556684494, "projected_e200": "2026-09-08T01:00:06+08:00"},
+    "5090C_proposal": {
+      "completed_epoch": 17,
+      "epoch_seconds": 4849.595539808273,
+      "projected_e200": "2026-09-14T01:47:29+08:00",
+      "declared_availability_through": "2026-09-15T00:00:00+08:00",
+      "projected_headroom_hours": 22.2086,
+      "prior_conditional_shortfall_hours": 30.16,
+      "prior_shortfall_now_superseded": true
+    },
+    "5090A_stcgr": {
+      "completed_epoch": 13,
+      "epoch_seconds": 4974.037229537964,
+      "projected_e200": "2026-09-14T14:00:07+08:00",
+      "declared_availability_through": "2026-09-16T00:00:00+08:00",
+      "projected_headroom_hours": 33.9981
+    }
+  },
+  "5090B_control_chain": {
+    "matched_plain_isolated_epoch_seconds": 2410.470835328102,
+    "scenario_start_after_cut": {"start": "2026-09-05T23:28:39+08:00", "projected_e200": "2026-09-11T13:23:33+08:00"},
+    "scenario_wait_for_cyclegan_release": {
+      "start": "2026-09-08T01:00:06+08:00",
+      "projected_e200": "2026-09-13T14:55:00+08:00",
+      "headroom_to_declared_lease_hours": 9.0833
+    },
+    "capacity_gate_will_choose_without_metrics": true,
+    "core_control_within_declared_lease": true,
+    "core_control_margin_is_tight": true
+  },
+  "dclgan": {
+    "remote_long_run_throughput_measured": false,
+    "earliest_start_after_matched_control": "2026-09-11T13:23:33+08:00",
+    "latest_start_if_control_waits": "2026-09-13T14:55:00+08:00",
+    "completion_within_2026_09_14_unproven_and_not_credible": true,
+    "provisional_5090B_capacity_through": "2026-09-22T00:00:00+08:00",
+    "recalibrate_after_target_gate": true
+  },
+  "scheduling_decision": {
+    "current_queue_changed": false,
+    "reason": "moving DCLGAN ahead of matched plain would delay the control required for Proposal and ST-CGR interpretation",
+    "next_external_capacity_decision_deadline": "2026-09-08T00:00:00+08:00",
+    "required_decision": "retain or extend 5090B through approximately 2026-09-22 if DCLGAN remains required"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
+}
