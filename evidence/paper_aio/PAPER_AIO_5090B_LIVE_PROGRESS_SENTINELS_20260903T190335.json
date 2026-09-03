@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-paper-5090b-live-progress-sentinels-v1",
+  "captured_at": "2026-09-03T19:03:35+08:00",
+  "status": "CUT_AND_CYCLEGAN_HEALTHY_WITH_DURABLE_METRIC_BLIND_PROGRESS_SENTINELS",
+  "host": {
+    "label": "5090B",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu_utilization_percent_after_deployment": 99,
+    "gpu_memory_mib_after_deployment": 3479,
+    "gpu_power_watts_after_deployment": 229.49,
+    "free_disk_gib": 230,
+    "training_interrupted": false
+  },
+  "training": {
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8",
+    "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "cut": {
+      "heartbeat_data_epoch": 74,
+      "heartbeat_updates": 632922,
+      "checkpoint_step_seen_by_sentinel": 641475,
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "status": "RUNNING_COLOCATED"
+    },
+    "cyclegan": {
+      "heartbeat_data_epoch": 45,
+      "heartbeat_updates": 384885,
+      "checkpoint_step_seen_by_sentinel": 384885,
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "status": "RUNNING_COLOCATED"
+    }
+  },
+  "sentinels": {
+    "source_bundle": "/root/autodl-tmp/FINAL_UNSB_PROGRESS_WATCH_674bc02.bundle",
+    "source_bundle_sha256": "3e474084b8a8050807dd2658c7c73ef0d64a7f44da1ad55c7e6077be4567c7aa",
+    "source_commit_v3": "674bc02ac05ce3af89490065fac69c2edd285f44",
+    "source_script_sha256_v3": "d8837483afcae5804c13fae6b5292fb182263ab69f504bd1045af965ad870443",
+    "cut": {
+      "pid": 139039,
+      "ppid_after_ssh_disconnect": 1,
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090B_CUT_674bc02",
+      "schema": "final-unsb-paper-live-progress-watch-v3",
+      "trainer_selection": "unique direct child containing research.paper_aio.run",
+      "trainer_pid_selected": 5771,
+      "status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "alert_count": 0,
+      "thirty_second_rchar_delta": 74857149,
+      "thirty_second_cpu_ticks_delta": 6532
+    },
+    "cyclegan": {
+      "pid": 138626,
+      "ppid_after_ssh_disconnect": 1,
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_PROGRESS_WATCH_5090B_CYCLEGAN_9677175",
+      "schema": "final-unsb-paper-live-progress-watch-v2",
+      "trainer_pid_selected": 11846,
+      "status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "alert_count": 0,
+      "thirty_second_rchar_delta": 48357120,
+      "thirty_second_cpu_ticks_delta": 14209
+    },
+    "diagnostic_only": true,
+    "signals_processes": false,
+    "launches_training": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "engineering_adjudication": {
+    "initial_cut_v2_pid": 138625,
+    "initial_cut_v2_status": "WAITING_BECAUSE_SUPERVISOR_HAS_BOOTSTRAP_HELPER_AND_TRAINER_CHILDREN",
+    "initial_cut_v2_retired": true,
+    "training_pids_unchanged_during_replacement": true,
+    "v3_reason": "select a unique trainer by a frozen command fragment while preserving fail-closed ambiguity handling"
+  },
+  "successors": {
+    "matched_plain_pid": 115562,
+    "matched_plain_status": "WAITING_FOR_PREDECESSOR_E200",
+    "dclgan_pid": 99704,
+    "dclgan_status": "WAITING_FOR_MATCHED_PLAIN_COMPLETE_E200",
+    "duplicate_training_started": false
+  },
+  "decision": "decisions/DEC-20260903-5090B-LIVE-PROGRESS-SENTINELS.md"
+}
