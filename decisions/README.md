@@ -242,3 +242,6 @@ authorize compute.
 73. `DEC-20260903-PAPER-BASELINE-PORTFOLIO.md`：在性能结果出现前冻结论文比较分层；核心
     六域无配对表、DehazeSB等分域上下文以及RestoreVAR/PromptIR paired ceiling不得混表，
     DDSB缺权威实现继续fail-closed，且本裁决不改变当前GPU队列。
+74. `DEC-20260903-STCGR-LIVE-PROGRESS-SENTINEL.md`：针对5090A曾出现的“PID存活但I/O与
+    GPU无进展”停滞，新增只诊断的动态child进度哨兵；不发送signal、不读指标、不改训练，
+    让每小时Goal能在普通六小时health阈值前获得明确工程告警。
