@@ -598,11 +598,13 @@
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
     "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json",
-    "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json",
+    "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "delivery_handoff_repair": {
-      "status": "DYNAMIC_SOURCE_CONTRACT_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
-      "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",
-      "interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
+      "status": "DYNAMIC_SOURCE_V3_HASH_CLOSURE_READY_AND_DURABLE_REGISTRY_REVIEW_DEPLOYED_AWAITING_REAL_5090B_RELATIONS",
+      "contract_schema": "final-unsb-paper-final-delivery-successor-contract-v3",
+      "unified_successor_state_schema": "final-unsb-paper-unified-evaluation-successor-state-v2",
+      "interface_commit": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
+      "result_and_disposition_hashes_revalidated_before_and_after_complexity": true,
       "registry_review_interface_commit": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
       "registry_review_successor_pid": 2349420,
       "registry_review_health_watcher_pid": 2349694,
@@ -619,7 +621,7 @@
     "next_manual_decision_window": "confirm now that 5090C is available through at least 2026-09-15, 5090A through 2026-09-16 and 5090B through 2026-09-14; then review Proposal/ST-CGR relation candidates after the 5090B exact-runtime receipt around 2026-09-06"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
-  "development_head_at_state_write": "f973c68ed71d5e2ad481f90a4012b4a4978127f0",
+  "development_head_at_state_write": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
   "active_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
   "terminal_related_multi_algorithm_outcome": {
     "status": "MULTIPLE_VIABLE_ALGORITHMS",

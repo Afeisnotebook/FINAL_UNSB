@@ -161,3 +161,6 @@ authorize compute.
 49. `DEC-20260903-LIVE-CRITICAL-PATH-AND-LEASE-HORIZON.md`：五节点训练、监督、导出和
     交付链全部健康，不做无故重启或改协议；按实测吞吐明确5090C Proposal与5090A
     ST-CGR的e200日期，并把云端租期识别为supervisor无法自行修复的唯一当前外部风险。
+50. `DEC-20260903-DYNAMIC-DELIVERY-HASH-CLOSURE.md`：修复取消5090A plain后future
+    replacement delivery只看完成状态、未把全部结果/disposition重新绑定到路径与SHA的
+    延迟故障窗口；v3交付在profiling前后均复验固定产物，并重新核验跨宿主2000-step core。

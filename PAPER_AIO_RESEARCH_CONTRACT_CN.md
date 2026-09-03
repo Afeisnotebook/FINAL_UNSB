@@ -72,6 +72,12 @@ scientific-state hash、lane语义、训练commit/fingerprint与宿主标签的e
 只能只读加载。plain、Proposal、CUT、CycleGAN五个epoch全部在同一environment与当前
 evaluator fingerprint复算并锁成`UNIFIED_EVALUATION_COHORT`后，第一波才可标记完成。
 
+取消5090A plain后的replacement delivery必须使用unified successor state v2和final-delivery
+contract v3。first-wave完成状态需绑定cohort、`PAPER_RESULTS.json`和`ALGORITHM_SET.json`
+的绝对路径与SHA；AM-TNC/ST-CGR完成状态需绑定各自disposition。final delivery在complexity
+前后均复验这些产物，并重新检查跨宿主关系的2000-step及e0/step core；旧完成状态不得向上
+冒充新闭环。
+
 ## 4. 评估和确认集
 
 - 固定里程碑：e1/5/10/20/40/60/80/100/125/150/175/200；

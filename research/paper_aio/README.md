@@ -289,6 +289,15 @@ advertised paths and hashes only after exact release, and runs the same review
 command. Its terminal artifact is still only a Git review proposal: it cannot
 edit the tracked registry, authorize a comparison, or start evaluation.
 
+The replacement delivery deployed after registry admission must use unified
+successor state v2 and final-delivery contract v3. The first-wave completion
+state binds the cohort, `PAPER_RESULTS.json`, and `ALGORITHM_SET.json` by
+absolute path and SHA256. AM-TNC and dynamic-candidate completion states bind
+their dispositions the same way. Final delivery checks these bindings both
+before and after complexity profiling, and independently requires the compact
+cross-host relation to retain its exact 2,000-update e0/step cores. A legacy
+status-only completion state cannot release the v3 pipeline.
+
 First-wave completion is deliberately not the algorithm/claim freeze.
 `ALGORITHM_SET.json` keeps DDSB as `REPRODUCTION_INCOMPLETE`, distinguishes
 deferred and engineering-blocked lanes, and remains

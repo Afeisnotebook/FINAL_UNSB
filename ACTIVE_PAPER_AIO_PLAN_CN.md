@@ -53,6 +53,9 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
    审阅和Git提交才能把它加入comparison registry。
 6. 现有全部后继保持冻结旧checkout，不得自动采用`f973c68`的新e0策略；论文外部基线
    将CUT的一sample暴露偏移与CycleGAN的“官方损失、受控共享骨干”边界写入脚注。
+7. registry准入后部署的replacement evaluator必须包含`1dbb5f5`：first-wave与两条算法
+   disposition由完成状态中的路径和SHA闭环，final delivery使用v3 contract；旧5090A-plain
+   waiter只作持续占位，不能提供最终完成凭据。
 
 ## 第一波完成后的顺序
 

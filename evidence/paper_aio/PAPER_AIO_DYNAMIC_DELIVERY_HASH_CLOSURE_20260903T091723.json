@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-dynamic-delivery-hash-closure-audit-v1",
+  "captured_at": "2026-09-03T09:17:23+08:00",
+  "status": "PASS_FUTURE_DYNAMIC_DELIVERY_HASH_CLOSED_CURRENT_TRAINING_UNCHANGED",
+  "finding": {
+    "affected_scope": "future replacement first-wave and final-discovery delivery after 5090A plain cancellation",
+    "training_or_checkpoint_generation_affected": false,
+    "previous_gap": "completion states were checked by status but final delivery did not rebind every consumed result/disposition path and SHA256",
+    "failure_window": "could surface only after all fixed e200 work if an output root was stale, replaced or miswired",
+    "normal_path_results_known_incorrect": false
+  },
+  "implementation": {
+    "git_commit": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
+    "unified_successor_state_schema": "final-unsb-paper-unified-evaluation-successor-state-v2",
+    "final_delivery_contract_schema": "final-unsb-paper-final-delivery-successor-contract-v3",
+    "final_delivery_state_schema": "final-unsb-paper-final-delivery-successor-state-v2",
+    "first_wave_artifacts_bound": [
+      "gates/UNIFIED_EVALUATION_COHORT.json",
+      "PAPER_RESULTS.json",
+      "ALGORITHM_SET.json"
+    ],
+    "algorithm_dispositions_bound": ["amtnc", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"],
+    "dependency_revalidated_after_complexity": true,
+    "cross_host_relation_rechecks": {
+      "runtime_twin_updates": 2000,
+      "e0_core_sha256_required": true,
+      "step_core_sha256_required": true,
+      "method_and_plain_hosts_required": true,
+      "performance_values_read_must_be_false": true
+    }
+  },
+  "deployment_boundary": {
+    "current_legacy_waiters_restarted": false,
+    "current_training_process_changed": false,
+    "current_export_or_relation_successor_changed": false,
+    "future_replacement_requires_registry_admission_first": true,
+    "future_replacement_requires_clean_checkout_containing_fix": true,
+    "legacy_completion_state_accepted_as_v3": false
+  },
+  "verification": {
+    "targeted_test_files": [
+      "tests/test_paper_final_delivery_successor.py",
+      "tests/test_paper_unified_evaluation_successor.py",
+      "tests/test_paper_algorithm_evaluation_successor.py"
+    ],
+    "targeted_tests_passed": 18,
+    "full_test_suite_passed": 538,
+    "contract_validation_passed": true,
+    "compileall_passed": true,
+    "git_diff_check_passed": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false,
+    "new_experiment_started": false
+  }
+}

@@ -166,7 +166,7 @@
     },
     "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json",
     "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json",
-    "latest_control_chain_audit": "evidence/paper_aio/PAPER_AIO_MATCHED_CONTROL_CHAIN_AUDIT_20260903T075821.json"
+    "latest_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json"
   },
   "local_evaluation_node": {
     "status": "preflight_pass_full_rollout_jvp_terminal_audit_pipeline_healthy_waiting_fixed_e100_e150_e200_imports",
@@ -260,8 +260,10 @@
     "preserves_distinct_matched_plains": true,
     "paper_claims_frozen": false,
     "confirmation_authorized": false,
-    "replacement_contract_schema": "final-unsb-paper-final-delivery-successor-contract-v2",
-    "replacement_interface_commit": "1d424c0fe0f0f913cf3a34808e054fd8e84d7ab0",
+    "replacement_contract_schema": "final-unsb-paper-final-delivery-successor-contract-v3",
+    "replacement_unified_state_schema": "final-unsb-paper-unified-evaluation-successor-state-v2",
+    "replacement_interface_commit": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
+    "result_and_disposition_hash_closure": true,
     "replacement_decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
   },
