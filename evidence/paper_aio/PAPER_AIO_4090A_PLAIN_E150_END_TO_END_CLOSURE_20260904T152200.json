@@ -1,0 +1,103 @@
+{
+  "schema": "final-unsb-paper-4090a-plain-e150-end-to-end-closure-v1",
+  "captured_at": "2026-09-04T15:22:00+08:00",
+  "decision": "ACCEPT_PLAIN_E150_FIXED_MILESTONE_EXPORT_IMPORT_AND_TARGET_BLIND_AUDIT_KEEP_SCHEDULE",
+  "milestone": {
+    "host": "4090A",
+    "lane": "plain",
+    "physical_epoch_completed": 150,
+    "step": 1282950,
+    "checkpoint_bytes": 201480798,
+    "checkpoint_sha256_from_sidecar": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
+    "checkpoint_sha256_recomputed_on_source": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
+    "checkpoint_sha256_recomputed_after_local_import": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
+    "sidecar_sha256_after_local_import": "99762f903b94bcaabee5325005611bc7ee36445a03770daa83ceda460c681b1b",
+    "scientific_state_sha256": "c6aa5be2207b0f7219924d548b93095f47748bbb90a536074ee5f8fc9cb1c023",
+    "metric_artifact_bytes": 685693,
+    "metric_artifact_sha256": "d3fbbdeaa76dc4aba9a3e3db30471d551d428d6d6e2ee65dfe9c7ca749bd9689",
+    "metric_content_parsed": false
+  },
+  "source_bound_export_import": {
+    "export_receipt_sha256": "bf792d7b3f589668ed0ca62880a66d450d84ccc1e0e409784b500ce88a68b15f",
+    "export_status": "ACCEPTED_SOURCE_BOUND_CHECKPOINT_EXPORT",
+    "relay_pid": 6292,
+    "relay_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [100, 150],
+    "checkpoint_hash_preserved_end_to_end": true
+  },
+  "target_blind_audit": {
+    "status": "PASS_FIXED_TARGET_BLIND_TERMINAL_AUDIT",
+    "completed_cell": "4090A_plain:e150",
+    "audit_receipt_sha256": "82ea8b9548818c294f7909259be44748a59e7495e9c329a68bfd3a106f653c5f",
+    "audit_sha256": "ae323a2015ed69fc4686eaa5f37d5ba6a4bc011d3aa16e6a64438fa0d9f3fc30",
+    "stderr_bytes": 0,
+    "parent_state_and_rng_unchanged": true,
+    "audit_content_adjudicated_in_this_monitoring_turn": false
+  },
+  "live_after_milestone": {
+    "4090A_plain": {
+      "data_epoch": 151,
+      "updates": 1291503,
+      "epoch_seconds": 1276.217740535736,
+      "full_state_sha256": "fb037740925099fae67a10ae99d695e427b436c1c5a8fc8c50926c82a493b5a2",
+      "health_status": "HEALTHY",
+      "health_alert_count": 0
+    },
+    "5090A_stcgr": {
+      "data_epoch": 26,
+      "updates": 222378,
+      "epoch_seconds": 5097.80469751358,
+      "full_state_sha256": "870c1420e19475ae17a1baa850d1caff6ecd232eba6020462de7f429ddae67b0",
+      "health_status": "HEALTHY",
+      "health_alert_count": 0
+    },
+    "5090B_cut": {
+      "data_epoch": 120,
+      "updates": 1026360,
+      "epoch_seconds": 1676.1083323955536,
+      "full_state_sha256": "527e4d054933c22eb9cb1feb20871bcbbad40c44ea34facbadb4e0b2e31bf823",
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 77,
+      "updates": 658581,
+      "epoch_seconds": 2421.7896015644073,
+      "full_state_sha256": "6e68884c42eb981d125cf64da538c3e8bf0af80c991a27c28ab50f0fad31ea6e",
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 32,
+      "updates": 273696,
+      "epoch_seconds": 4843.351404428482,
+      "full_state_sha256": "0026dae8f30aa79e06578666c3cc94c091b7aac4472bcf8429b4c23ce73dac2e",
+      "health_status": "HEALTHY",
+      "health_alert_count": 0
+    }
+  },
+  "control_plane": {
+    "4090A_health_watcher_pid": 2922943,
+    "4090A_plain_to_amtnc_successor_pid": 2518921,
+    "all_expected_training_and_successor_processes_alive": true,
+    "local_terminal_audit_supervisor_pid": 6196,
+    "local_terminal_audit_successor_pid": 20244,
+    "local_terminal_audit_completed_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150"
+    ],
+    "local_health_status": "HEALTHY",
+    "local_health_alert_count": 0
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}

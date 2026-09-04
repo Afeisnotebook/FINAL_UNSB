@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-04T09:10:00+08:00",
+  "captured_at": "2026-09-04T15:22:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,12 +31,12 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 27,
+      "completed_full_data_epoch": 32,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4763.458491563797,
+      "latest_epoch_seconds": 4843.351404428482,
       "projected_completion": "2026-09-13T16:18:19+08:00",
       "latest_full_state_hash_verified": true,
-      "latest_full_state_sha256": "9c3e13596e0674223091a238fbd37aa1de9725057e50eda5ff138f52332cb77b",
+      "latest_full_state_sha256": "0026dae8f30aa79e06578666c3cc94c091b7aac4472bcf8429b4c23ce73dac2e",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
       "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_PROPOSAL_E20_20260904T003000.json",
@@ -53,15 +53,15 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 22,
+      "completed_full_data_epoch": 26,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 431032,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 5070.195494413376,
-      "latest_full_state_sha256": "dfe100702a2d3a7f03cdff846614b787b0615283dd718883ae1aa02d2d9faeb9",
+      "latest_resumed_epoch_seconds": 5097.80469751358,
+      "latest_full_state_sha256": "870c1420e19475ae17a1baa850d1caff6ecd232eba6020462de7f429ddae67b0",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
       "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -115,6 +115,15 @@
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
+    "plain_e150": {
+      "status": "checkpoint_export_import_and_target_blind_audit_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
+      "scientific_state_sha256": "c6aa5be2207b0f7219924d548b93095f47748bbb90a536074ee5f8fc9cb1c023",
+      "audit_receipt_sha256": "82ea8b9548818c294f7909259be44748a59e7495e9c329a68bfd3a106f653c5f",
+      "audit_sha256": "ae323a2015ed69fc4686eaa5f37d5ba6a4bc011d3aa16e6a64438fa0d9f3fc30",
+      "parent_state_and_rng_unchanged": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json"
+    },
     "plain_e125": {
       "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
       "checkpoint_sha256": "1d4858a99463e51673d8ebd13d2af2488c967bde736275072df93f8ca1629259",
@@ -157,6 +166,18 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E100_TARGET_BLIND_AUDIT_20260903T212213.json",
       "decision": "decisions/DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md"
+    },
+    "latest_full_data_target_blind_audit": {
+      "status": "PASS_4090A_PLAIN_E150_END_TO_END",
+      "completed_cells": ["4090A_plain:e100", "4090A_plain:e150"],
+      "source_updates": 1282950,
+      "checkpoint_sha256": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
+      "audit_receipt_sha256": "82ea8b9548818c294f7909259be44748a59e7495e9c329a68bfd3a106f653c5f",
+      "audit_sha256": "ae323a2015ed69fc4686eaa5f37d5ba6a4bc011d3aa16e6a64438fa0d9f3fc30",
+      "parent_state_and_rng_unchanged": true,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json"
     },
     "codex_goal_heartbeat": {
       "status": "active",
@@ -250,7 +271,8 @@
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_PROPOSAL_E20_20260904T003000.json",
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_CYCLEGAN_E60_20260904T044500.json",
       "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
-      "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json"
+      "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
+      "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json"
     ]
   },
   "ddsb_source_watch": {
@@ -551,8 +573,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260903T194257.json",
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
