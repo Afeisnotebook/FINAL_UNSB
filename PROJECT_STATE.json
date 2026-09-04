@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-04",
-  "state_snapshot_time": "2026-09-04T06:53:00+08:00",
+  "state_snapshot_time": "2026-09-04T09:10:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -36,7 +36,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
     "e100_target_blind_pipeline_readiness": {
       "status": "FIRST_FIXED_E100_EXPORTED_IMPORTED_AND_TARGET_BLIND_AUDITED",
       "source_lane": "4090A_plain",
@@ -118,25 +118,25 @@
       "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
     },
     "latest_metric_blind_continuity_audit": {
-      "status": "ALL_ACTIVE_AND_FUTURE_CHAINS_HEALTHY_PLAIN_E125_STCGR_E20_CUT_E100_HASH_CLOSED",
+      "status": "ALL_ACTIVE_AND_FUTURE_CHAINS_HEALTHY_STALE_5090A_PLAIN_RELAY_WATCH_RETIRED",
       "health_alerts": 0,
       "5090A_priority": "STCGR_ONLY",
       "5090A_plain_auto_resume_authorized": false,
       "other_hosts_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json"
     },
     "latest_5090b_live_progress_sentinels": {
-      "status": "CUT_E101_AND_CYCLEGAN_E64_HEALTHY_WITH_NONINTRUSIVE_OUTER_RECOVERY",
+      "status": "CUT_E106_AND_CYCLEGAN_E67_HEALTHY_WITH_NONINTRUSIVE_OUTER_RECOVERY",
       "cut_progress_sentinel_pid": 139039,
       "cyclegan_progress_sentinel_pid": 138626,
-      "cut_latest_observed_data_epoch": 101,
-      "cyclegan_latest_observed_data_epoch": 64,
+      "cut_latest_observed_data_epoch": 106,
+      "cyclegan_latest_observed_data_epoch": 67,
       "training_processes_changed": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
       "decision": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
     },
     "5090b_active_training_continuity_guards": {
@@ -193,9 +193,9 @@
       "decision": "decisions/DEC-20260903-PROGRESS-AWARE-SUPERVISOR-FAILURE-BUDGET.md"
     },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING_AFTER_VERIFIED_E100_AUDIT_RELEASE", "latest_observed_data_epoch": 127, "latest_observed_updates": 1086231, "latest_epoch_seconds": 1277.5642046928406, "latest_milestone_checkpoint_sha256": "1d4858a99463e51673d8ebd13d2af2488c967bde736275072df93f8ca1629259", "latest_milestone_scientific_state_sha256": "e635a56d670f6c864bee2fa1119c48a358a4ff33a994f7ad70235736169edaac", "latest_milestone_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json", "latest_full_state_sha256": "573ef408c986f718fbf8725b3ac45812d215150fbda470b7cbe3d08b4075b65b", "projected_completion": "2026-09-05T08:43:59+08:00", "next_target_blind_audit_release_e150": "2026-09-04T14:30:00+08:00_rough", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 101, "latest_observed_updates": 863853, "latest_epoch_seconds": 1682.8183062076569, "latest_full_state_sha256": "0377c1fa7fc7bd6f987310d4ae3eeaa5f9b9ac56aa4092022b123b9a21ba7228", "latest_fixed_milestone": "e100", "latest_fixed_milestone_checkpoint_sha256": "a44fc0eed917bcab7e2399bd86f2f9ff111f79f3cc588ab7b110aaf3968da9fe", "latest_fixed_milestone_scientific_state_sha256": "e88798820a10428beaf02f3ce4f89204146f7bd7ea2ac90a6a2a0aed55fce8f8", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json", "projected_completion": "2026-09-06T04:30:45+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039, "continuity_guard_pid": 159133},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 64, "latest_observed_updates": 547392, "latest_epoch_seconds": 2321.2741186618805, "latest_full_state_sha256": "c65a9af4856da06fb3e3a4dbae38a4c6011d5657e54a7e6931400a3ab4ccf6c8", "projected_completion": "2026-09-07T23:08:18+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "continuity_guard_pid": 159134, "latest_fixed_milestone": "e60", "latest_fixed_milestone_checkpoint_sha256": "abb97b1753e6984b777a94e0c730e24b511b5227f994cfc0ed18e0c13a2198ca", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_CYCLEGAN_E60_20260904T044500.json", "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING_AFTER_VERIFIED_E100_AUDIT_RELEASE", "latest_observed_data_epoch": 134, "latest_observed_updates": 1146102, "latest_epoch_seconds": 1276.4936230182648, "latest_milestone_checkpoint_sha256": "1d4858a99463e51673d8ebd13d2af2488c967bde736275072df93f8ca1629259", "latest_milestone_scientific_state_sha256": "e635a56d670f6c864bee2fa1119c48a358a4ff33a994f7ad70235736169edaac", "latest_milestone_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json", "latest_full_state_sha256": "9bfec135c496a4f542726b06fe885b1da656b6398bb6ec2583b835a0b841d3f3", "projected_completion": "2026-09-05T08:43:59+08:00", "next_target_blind_audit_release_e150": "2026-09-04T14:30:00+08:00_rough", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "health_watcher_pid": 2922943, "retired_stale_health_watcher_pid": 2519397, "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 106, "latest_observed_updates": 906618, "latest_epoch_seconds": 1563.2365403175354, "latest_full_state_sha256": "d3069982a10b5a1786d10d99dd260b0e1ffcc866064e8728f40dddabfb6c10de", "latest_fixed_milestone": "e100", "latest_fixed_milestone_checkpoint_sha256": "a44fc0eed917bcab7e2399bd86f2f9ff111f79f3cc588ab7b110aaf3968da9fe", "latest_fixed_milestone_scientific_state_sha256": "e88798820a10428beaf02f3ce4f89204146f7bd7ea2ac90a6a2a0aed55fce8f8", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json", "projected_completion": "2026-09-06T04:30:45+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039, "continuity_guard_pid": 159133},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 67, "latest_observed_updates": 573051, "latest_epoch_seconds": 2272.255468606949, "latest_full_state_sha256": "b1c83d2c417e5689a0e7da4a5f48a4a30113114062fd83ef70423d83f4318c71", "projected_completion": "2026-09-07T23:08:18+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "continuity_guard_pid": 159134, "latest_fixed_milestone": "e60", "latest_fixed_milestone_checkpoint_sha256": "abb97b1753e6984b777a94e0c730e24b511b5227f994cfc0ed18e0c13a2198ca", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_CYCLEGAN_E60_20260904T044500.json", "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -226,8 +226,8 @@
       },
       "5090A_stcgr_full": {
         "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
-        "latest_completed_data_epoch": 20,
-        "latest_completed_updates": 171060,
+        "latest_completed_data_epoch": 22,
+        "latest_completed_updates": 188166,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -243,8 +243,8 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 5228.054005622864,
-        "latest_full_state_sha256": "dcecf3e8100b79acd383f43d8b1719f45cad2f9e5d81179a07118c5d362d4c6a",
+        "latest_epoch_wall_seconds": 5070.195494413376,
+        "latest_full_state_sha256": "dfe100702a2d3a7f03cdff846614b787b0615283dd718883ae1aa02d2d9faeb9",
         "latest_fixed_milestone": "e20",
         "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
         "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -304,14 +304,14 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 26,
-        "latest_observed_updates": 222378,
+        "latest_observed_data_epoch": 27,
+        "latest_observed_updates": 230931,
         "first_epoch_seconds": 4696.602091550827,
-        "latest_epoch_seconds": 4757.2232530117035,
+        "latest_epoch_seconds": 4763.458491563797,
         "live_progress_sentinel_pid": 89015,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
         "projected_completion": "2026-09-13T16:18:19+08:00",
-        "latest_full_state_sha256": "d481070e67721b73d27b3409f105a4f936a9c21fecf90c263d8f8dfa3825fef6",
+        "latest_full_state_sha256": "9c3e13596e0674223091a238fbd37aa1de9725057e50eda5ff138f52332cb77b",
         "latest_full_state_hash_verified": true,
         "latest_fixed_milestone": "e20",
         "latest_fixed_milestone_checkpoint_sha256": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
@@ -362,7 +362,10 @@
       "control_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
       "scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
       "successor_pid": 2518921,
-      "health_watcher_pid": 2519397,
+      "health_watcher_pid": 2922943,
+      "retired_stale_health_watcher_pid": 2519397,
+      "retired_stale_5090A_plain_relay_pid": 2164861,
+      "latest_health_watch_replacement_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
       "old_successor_pid_retired": 2182585,
       "old_health_watcher_pid_retired": 2200307,
       "contract_sha256": "698546636284f3c0ecbed5f67c76fb80ccbe7692973ca995569ca467f409193b",
@@ -945,7 +948,7 @@
       "status": "FOUR_TRAINING_HOSTS_AND_LOCAL_TARGET_BLIND_CHAIN_HEALTHY_METRIC_BLIND_LEASE_HORIZON_FLAGGED",
       "control_git_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
       "watcher_pids": {
-        "4090A": 2519397,
+        "4090A": 2922943,
         "5090A": 352017,
         "5090B": 30355,
         "5090C": 13587,
@@ -956,14 +959,14 @@
       "all_states_refreshed_after_initial_poll": true,
       "alert_count": 0,
       "automatic_training_mutation": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_HEALTH_AND_LEASE_REFRESH_20260903T090517.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
       "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
     },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
     "codex_goal_heartbeat": {
       "status": "ACTIVE",
       "automation_id": "final-unsb-goal",

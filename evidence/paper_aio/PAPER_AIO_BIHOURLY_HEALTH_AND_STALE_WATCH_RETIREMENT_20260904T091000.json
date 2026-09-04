@@ -1,0 +1,115 @@
+{
+  "schema": "final-unsb-paper-bihourly-health-and-stale-watch-retirement-v1",
+  "captured_at": "2026-09-04T09:10:00+08:00",
+  "decision": "RETIRE_STALE_5090A_PLAIN_RELAY_WATCH_KEEP_ALL_SCIENTIFIC_RUNS_AND_QUEUES_UNCHANGED",
+  "live_lanes": {
+    "4090A_plain": {
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND",
+      "data_epoch": 134,
+      "updates": 1146102,
+      "epoch_seconds": 1276.4936230182648,
+      "full_state_sha256": "9bfec135c496a4f542726b06fe885b1da656b6398bb6ec2583b835a0b841d3f3",
+      "supervisor_pid": 2072054,
+      "trainer_pid": 2072055,
+      "successor_amtnc_pid": 2518921
+    },
+    "5090A_stcgr": {
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
+      "data_epoch": 22,
+      "updates": 188166,
+      "epoch_seconds": 5070.195494413376,
+      "full_state_sha256": "dfe100702a2d3a7f03cdff846614b787b0615283dd718883ae1aa02d2d9faeb9",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS",
+      "data_epoch": 106,
+      "updates": 906618,
+      "epoch_seconds": 1563.2365403175354,
+      "full_state_sha256": "d3069982a10b5a1786d10d99dd260b0e1ffcc866064e8728f40dddabfb6c10de",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS",
+      "data_epoch": 67,
+      "updates": 573051,
+      "epoch_seconds": 2272.255468606949,
+      "full_state_sha256": "b1c83d2c417e5689a0e7da4a5f48a4a30113114062fd83ef70423d83f4318c71",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND",
+      "data_epoch": 27,
+      "updates": 230931,
+      "epoch_seconds": 4763.458491563797,
+      "full_state_sha256": "9c3e13596e0674223091a238fbd37aa1de9725057e50eda5ff138f52332cb77b",
+      "health_alert_count": 0
+    }
+  },
+  "stale_watch_adjudication": {
+    "old_health_watcher_pid": 2519397,
+    "old_status": "ALERT",
+    "sole_alert": "relay_5090A_plain",
+    "retired_relay_pid": 2164861,
+    "retired_relay_status": "FAIL_CLOSED_INTEGRITY_CAPACITY_OR_LOCAL_IO",
+    "retired_relay_error_class": "SSH_AUTHENTICATION_FAILED",
+    "reason_watch_is_obsolete": "5090A plain was explicitly paused at e9 with automatic resume and export retired; final matched control is planned through the separately gated 5090B matched-plain chain",
+    "scientific_training_affected": false,
+    "checkpoint_affected": false,
+    "successor_order_affected": false
+  },
+  "replacement_health_watch": {
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "pid": 2922943,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_4090A_RETIRE_STALE_5090A_PLAIN_a297add",
+    "control_repo_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
+    "control_repo_clean": true,
+    "health_watch_source_sha256": "b899671b0d19d33e0e676d37af6a79ea1acfba1e0582231cd7611f81f47670cd",
+    "stderr_empty": true,
+    "old_health_watcher_retired_after_replacement_healthy": true,
+    "old_health_watcher_pid_alive_after_retirement": false,
+    "watches_preserved": [
+      "4090A_plain_supervisor",
+      "4090A_plain_lane",
+      "4090A_plain_export",
+      "4090A_amtnc_successor",
+      "4090A_amtnc_future_lane",
+      "4090A_amtnc_export",
+      "5090A_stcgr_relay",
+      "5090B_external_relay",
+      "5090C_proposal_relay"
+    ]
+  },
+  "capacity": {
+    "4090A_free_gib": 385.69707107543945,
+    "5090A_free_gib": 183.87602615356445,
+    "5090A_user_capacity_override": true,
+    "5090A_estimated_remaining_write_gib": 24.0,
+    "5090B_free_gib": 229.53913497924805,
+    "5090C_free_gib": 229.7067527770996,
+    "all_capacity_gates_healthy": true
+  },
+  "local_control": {
+    "relay_audit_pathology_and_ddsb_processes_alive": true,
+    "local_health_alert_count": 0
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "health_watcher_replaced": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}

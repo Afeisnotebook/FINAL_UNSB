@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-04T06:53:00+08:00",
+  "captured_at": "2026-09-04T09:10:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,12 +31,12 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 26,
+      "completed_full_data_epoch": 27,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4757.2232530117035,
+      "latest_epoch_seconds": 4763.458491563797,
       "projected_completion": "2026-09-13T16:18:19+08:00",
       "latest_full_state_hash_verified": true,
-      "latest_full_state_sha256": "d481070e67721b73d27b3409f105a4f936a9c21fecf90c263d8f8dfa3825fef6",
+      "latest_full_state_sha256": "9c3e13596e0674223091a238fbd37aa1de9725057e50eda5ff138f52332cb77b",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
       "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_PROPOSAL_E20_20260904T003000.json",
@@ -53,15 +53,15 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 20,
+      "completed_full_data_epoch": 22,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 431032,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 5228.054005622864,
-      "latest_full_state_sha256": "dcecf3e8100b79acd383f43d8b1719f45cad2f9e5d81179a07118c5d362d4c6a",
+      "latest_resumed_epoch_seconds": 5070.195494413376,
+      "latest_full_state_sha256": "dfe100702a2d3a7f03cdff846614b787b0615283dd718883ae1aa02d2d9faeb9",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
       "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -90,7 +90,8 @@
       "resume_after": "4090A/plain COMPLETE_E200",
       "successor_pid": 2518921,
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
-      "successor_health_watcher_pid": 2519397,
+      "successor_health_watcher_pid": 2922943,
+      "retired_stale_health_watcher_pid": 2519397,
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified"
     },
@@ -177,7 +178,7 @@
       "decision": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
     },
     "watcher_pids": {
-      "4090A": 2519397,
+      "4090A": 2922943,
       "5090A": 352017,
       "5090B": 30355,
       "5090C": 13587
@@ -248,7 +249,8 @@
       "evidence/paper_aio/PAPER_AIO_5090B_CONTINUITY_GUARDS_AND_BIHOURLY_GOAL_20260903T220753.json",
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_PROPOSAL_E20_20260904T003000.json",
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_CYCLEGAN_E60_20260904T044500.json",
-      "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json"
+      "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
+      "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json"
     ]
   },
   "ddsb_source_watch": {
@@ -549,8 +551,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260903T194257.json",
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
