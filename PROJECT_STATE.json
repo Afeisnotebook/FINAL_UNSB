@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-04",
-  "state_snapshot_time": "2026-09-05T01:41:00+08:00",
+  "state_snapshot_time": "2026-09-05T04:48:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -36,7 +36,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_INITIALIZATION_EXPOSURE_AND_EXTERNAL_BASELINE_AUDIT_20260903T085441.json",
       "decision": "decisions/DEC-20260903-PAPER-INITIALIZATION-EXPOSURE-AUDIT.md"
     },
-    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json",
+    "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json",
     "e100_target_blind_pipeline_readiness": {
       "status": "FIXED_E100_AND_E150_EXPORTED_IMPORTED_AND_TARGET_BLIND_AUDITED",
       "source_lane": "4090A_plain",
@@ -124,25 +124,25 @@
       "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
     },
     "latest_metric_blind_continuity_audit": {
-      "status": "ALL_ACTIVE_AND_FUTURE_CHAINS_HEALTHY_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSED",
+      "status": "ALL_ACTIVE_AND_FUTURE_CHAINS_HEALTHY_CUT_E150_HASH_CLOSED",
       "health_alerts": 0,
       "5090A_priority": "STCGR_ONLY",
       "5090A_plain_auto_resume_authorized": false,
       "other_hosts_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json"
     },
     "latest_5090b_live_progress_sentinels": {
-      "status": "CUT_E143_AND_CYCLEGAN_E92_HEALTHY_WITH_NONINTRUSIVE_OUTER_RECOVERY",
+      "status": "CUT_E150_AND_CYCLEGAN_E97_HEALTHY_WITH_NONINTRUSIVE_OUTER_RECOVERY",
       "cut_progress_sentinel_pid": 139039,
       "cyclegan_progress_sentinel_pid": 138626,
-      "cut_latest_observed_data_epoch": 143,
-      "cyclegan_latest_observed_data_epoch": 92,
+      "cut_latest_observed_data_epoch": 150,
+      "cyclegan_latest_observed_data_epoch": 97,
       "training_processes_changed": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json",
       "decision": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
     },
     "5090b_active_training_continuity_guards": {
@@ -199,9 +199,9 @@
       "decision": "decisions/DEC-20260903-PROGRESS-AWARE-SUPERVISOR-FAILURE-BUDGET.md"
     },
     "runs": {
-      "4090A_plain": {"status": "CHILD_RUNNING_AFTER_VERIFIED_E150_TARGET_BLIND_AUDIT_RELEASE", "latest_observed_data_epoch": 180, "latest_observed_updates": 1539540, "latest_epoch_seconds": 1283.6001513004303, "latest_milestone_checkpoint_sha256": "b5fbec66182afe97dc85c0d3c4876173eb71098bc83b70308e9d30477f075371", "latest_milestone_scientific_state_sha256": "61b4a3f289159789066abd44586c8e4c77af4b286a38453e52c18a4b8ada4dcb", "latest_milestone_evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json", "latest_full_state_sha256": "4078138bc3980c138231396a03ddb220f40b323e27380aeb8cc10dbc7f51e2f8", "projected_completion": "2026-09-05T08:43:59+08:00", "next_target_blind_audit_release_e200": "2026-09-05T08:43:59+08:00_rough", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "health_watcher_pid": 2922943, "retired_stale_health_watcher_pid": 2519397, "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
-      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 143, "latest_observed_updates": 1223079, "latest_epoch_seconds": 1529.0599839687347, "latest_full_state_sha256": "2d09a5fdc7ffaeef858da4918dfaf79ad81a2eb0c58f720f21ed90080c121758", "latest_fixed_milestone": "e125", "latest_fixed_milestone_checkpoint_sha256": "48aea7a35393a20254968224f3ae39299d2443529dc5d2e0a4f1009141b98a46", "latest_fixed_milestone_scientific_state_sha256": "7345c16e1f5d5cf61d3ecb48d1f2e2fe5d59051782b876c427216995e682aa8d", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json", "projected_completion": "2026-09-06T04:30:45+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039, "continuity_guard_pid": 159133},
-      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 92, "latest_observed_updates": 786876, "latest_epoch_seconds": 2404.280916929245, "latest_full_state_sha256": "e84535ffa1922da9c80c31fef489c628b53412a08a06c8a04cb5772d4666b91d", "projected_completion": "2026-09-07T23:08:18+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "continuity_guard_pid": 159134, "latest_fixed_milestone": "e80", "latest_fixed_milestone_checkpoint_sha256": "a40b4a1bf8a8becfc9e3b5d1633eda15c93a83634a57deac54562e54f81ccd81", "latest_fixed_milestone_scientific_state_sha256": "37f6d116c97e2810eaa9fc1e189e6433e0ab742f027bd2fc6008780a9018b914", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json", "old_successor_pid_7414_canceled": true},
+      "4090A_plain": {"status": "CHILD_RUNNING_AFTER_VERIFIED_E150_TARGET_BLIND_AUDIT_RELEASE", "latest_observed_data_epoch": 189, "latest_observed_updates": 1616517, "latest_epoch_seconds": 1278.991887807846, "latest_milestone_checkpoint_sha256": "b5fbec66182afe97dc85c0d3c4876173eb71098bc83b70308e9d30477f075371", "latest_milestone_scientific_state_sha256": "61b4a3f289159789066abd44586c8e4c77af4b286a38453e52c18a4b8ada4dcb", "latest_milestone_evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json", "latest_full_state_sha256": "d5db4fc1c09bb6abfda42e012372d3c5d0ded941ef5e3b2f51ba043fa6795f04", "projected_completion": "2026-09-05T08:43:59+08:00", "next_target_blind_audit_release_e200": "2026-09-05T08:43:59+08:00_rough", "successor": "amtnc", "successor_pid": 2518921, "successor_status": "WAITING_FOR_PREDECESSOR_E200_SOURCE_LINEAGE_V2", "health_watcher_pid": 2922943, "retired_stale_health_watcher_pid": 2519397, "live_progress_sentinel_pid": 2613987, "future_amtnc_progress_sentinel_pid": 2613988, "proposal_relocated_to": "5090C", "proposal_colocation_decision": "REJECTED_BY_MAKESPAN_GATE"},
+      "5090B_cut": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 150, "latest_observed_updates": 1282950, "latest_epoch_seconds": 1608.0706191062927, "latest_full_state_sha256": "1998e265645e9637096d879bddfc5cb60da8bdcac9c30ac0509bc25582c06c84", "latest_fixed_milestone": "e150", "latest_fixed_milestone_checkpoint_sha256": "771e219dce9a644312a040b80e7c933de4af562e028e63c915c57d068471c108", "latest_fixed_milestone_scientific_state_sha256": "da0a6379b84f3da9fda882001af3041bb60d95057b802368dd2d9bddc9b67668", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json", "projected_completion": "2026-09-06T04:30:45+08:00", "successor": "fresh_e0_runtime_matched_plain_after_exact_gate", "live_progress_sentinel_pid": 139039, "continuity_guard_pid": 159133},
+      "5090B_cyclegan": {"status": "CHILD_RUNNING_COLOCATED_OUTER_GUARD_ZERO_RESTARTS", "latest_observed_data_epoch": 97, "latest_observed_updates": 829641, "latest_epoch_seconds": 2358.9571871757507, "latest_full_state_sha256": "6984be4833d2b77c0751d42f8bc9bc4077d25bffc2c746463dea9e48b79c8cb6", "projected_completion": "2026-09-07T23:08:18+08:00", "supervisor_pid": 11845, "live_progress_sentinel_pid": 138626, "continuity_guard_pid": 159134, "latest_fixed_milestone": "e80", "latest_fixed_milestone_checkpoint_sha256": "a40b4a1bf8a8becfc9e3b5d1633eda15c93a83634a57deac54562e54f81ccd81", "latest_fixed_milestone_scientific_state_sha256": "37f6d116c97e2810eaa9fc1e189e6433e0ab742f027bd2fc6008780a9018b914", "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json", "old_successor_pid_7414_canceled": true},
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
         "latest_observed_data_epoch": 200,
@@ -232,8 +232,8 @@
       },
       "5090A_stcgr_full": {
         "status": "CHILD_RUNNING_HEALTHY_WITHIN_EPOCH_BOUND_STCGR_ONLY",
-        "latest_completed_data_epoch": 34,
-        "latest_completed_updates": 290802,
+        "latest_completed_data_epoch": 36,
+        "latest_completed_updates": 307908,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 336344,
@@ -249,8 +249,8 @@
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "UNAVAILABLE_UNTIL_NEW_EXPLICIT_LEGAL_PLAIN_E200_PLAN",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 4865.694943189621,
-        "latest_full_state_sha256": "ccfcfe0537c9ea1965043c6cf18ba5af3f40b3575a79695753b108ca4b6db861",
+        "latest_epoch_wall_seconds": 4878.393977642059,
+        "latest_full_state_sha256": "5e72bbe4977dd5e794941c0938f8d13fd214a1131a90ed1eb4089c74d2c55732",
         "latest_fixed_milestone": "e20",
         "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
         "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -310,14 +310,14 @@
         "matched_plain": "5090A_plain",
         "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
         "first_full_epoch_status": "COMPLETE",
-        "latest_observed_data_epoch": 40,
-        "latest_observed_updates": 342120,
+        "latest_observed_data_epoch": 42,
+        "latest_observed_updates": 359226,
         "first_epoch_seconds": 4696.602091550827,
-        "latest_epoch_seconds": 5057.397521734238,
+        "latest_epoch_seconds": 4797.944336175919,
         "live_progress_sentinel_pid": 89015,
         "first_epoch_scientific_state_sha256": "d6767a1e8e05ac0d77888f19fd53916db824bf28ae5e6a39cbfb46f2904a9be8",
         "projected_completion": "2026-09-13T16:18:19+08:00",
-        "latest_full_state_sha256": "d74fff42c99b8750994c6836a92571ea7b1e51b9bfb43c6ee56abc00339b1f73",
+        "latest_full_state_sha256": "8960ff2652c0ea6726441954ad105669b1d2e7e54963bf1e0e3fb532c122b91b",
         "latest_full_state_hash_verified": true,
         "latest_fixed_milestone": "e40",
         "latest_fixed_milestone_checkpoint_sha256": "dc983a111c5a3efa2da05d0c65268d7bcd16600f9434dc5c8878687a6c2bf6a4",
@@ -973,7 +973,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json",
     "codex_goal_heartbeat": {
       "status": "ACTIVE",
       "automation_id": "final-unsb-goal",

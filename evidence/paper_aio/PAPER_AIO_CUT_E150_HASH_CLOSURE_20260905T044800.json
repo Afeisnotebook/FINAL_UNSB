@@ -1,0 +1,85 @@
+{
+  "schema": "final-unsb-paper-cut-e150-hash-closure-v1",
+  "captured_at": "2026-09-05T04:48:00+08:00",
+  "decision": "ACCEPT_CUT_E150_FIXED_MILESTONE_KEEP_ALL_SCHEDULES_UNCHANGED",
+  "milestone": {
+    "host": "5090B",
+    "lane": "cut",
+    "physical_epoch_completed": 150,
+    "step": 1282950,
+    "checkpoint_bytes": 176651513,
+    "checkpoint_sha256_from_sidecar": "771e219dce9a644312a040b80e7c933de4af562e028e63c915c57d068471c108",
+    "checkpoint_sha256_recomputed": "771e219dce9a644312a040b80e7c933de4af562e028e63c915c57d068471c108",
+    "scientific_state_sha256": "da0a6379b84f3da9fda882001af3041bb60d95057b802368dd2d9bddc9b67668",
+    "metric_artifact_bytes": 138442,
+    "metric_artifact_sha256": "fc78cf810ae814eec313c181648e640e80e47fc68663f82d1a3083d9b19de01b",
+    "metric_content_parsed": false
+  },
+  "identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "live_after_milestone": {
+    "4090A_plain": {
+      "data_epoch": 189,
+      "updates": 1616517,
+      "epoch_seconds": 1278.991887807846,
+      "full_state_sha256": "d5db4fc1c09bb6abfda42e012372d3c5d0ded941ef5e3b2f51ba043fa6795f04",
+      "health_alert_count": 0
+    },
+    "5090A_stcgr": {
+      "data_epoch": 36,
+      "updates": 307908,
+      "epoch_seconds": 4878.393977642059,
+      "full_state_sha256": "5e72bbe4977dd5e794941c0938f8d13fd214a1131a90ed1eb4089c74d2c55732",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "data_epoch": 150,
+      "updates": 1282950,
+      "epoch_seconds": 1608.0706191062927,
+      "full_state_sha256": "1998e265645e9637096d879bddfc5cb60da8bdcac9c30ac0509bc25582c06c84",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 97,
+      "updates": 829641,
+      "epoch_seconds": 2358.9571871757507,
+      "full_state_sha256": "6984be4833d2b77c0751d42f8bc9bc4077d25bffc2c746463dea9e48b79c8cb6",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 42,
+      "updates": 359226,
+      "epoch_seconds": 4797.944336175919,
+      "full_state_sha256": "8960ff2652c0ea6726441954ad105669b1d2e7e54963bf1e0e3fb532c122b91b",
+      "health_alert_count": 0
+    }
+  },
+  "control_plane": {
+    "all_expected_training_and_successor_processes_alive": true,
+    "all_health_alert_counts_zero": true,
+    "5090B_guard_restarts": 0,
+    "local_terminal_pipeline_health_status": "HEALTHY"
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
