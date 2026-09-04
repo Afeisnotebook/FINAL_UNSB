@@ -117,6 +117,20 @@ def validate_source_set(
     return [by_epoch[epoch] for epoch in epochs]
 
 
+def _open_sftp(client):
+    """Open SFTP while classifying transport resets as retryable only."""
+    try:
+        return client.open_sftp()
+    except Exception as error:
+        if error.__class__.__module__.startswith("paramiko") or isinstance(
+            error, (EOFError, OSError)
+        ):
+            raise TransientRelayNetwork(
+                "incremental relay SFTP channel unavailable"
+            ) from error
+        raise
+
+
 def _matching_incremental_sets(
     import_root: Path, lane_id: str, host_label: str, lane_path: Path,
 ) -> list[dict[str, Any]]:
@@ -428,7 +442,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             try:
                 client = _connect(contract)
                 try:
-                    with client.open_sftp() as sftp:
+                    sftp_handle = _open_sftp(client)
+                    with sftp_handle as sftp:
                         result = _import_available(sftp, contract)
                 finally:
                     client.close()

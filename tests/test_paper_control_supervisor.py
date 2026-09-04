@@ -69,6 +69,25 @@ def test_pid_liveness_distinguishes_current_and_exited_process():
     assert not _pid_alive(child.pid)
 
 
+def test_atomic_state_write_retries_transient_replace_denial(tmp_path, monkeypatch):
+    path = tmp_path / "state.json"
+    real_replace = Path.replace
+    attempts = 0
+
+    def flaky_replace(source, destination):
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise PermissionError("transient reader lock")
+        return real_replace(source, destination)
+
+    monkeypatch.setattr(Path, "replace", flaky_replace)
+    monkeypatch.setattr(supervisor.time, "sleep", lambda seconds: None)
+    supervisor._atomic_json(path, {"status": "HEALTHY"})
+    assert json.loads(path.read_text(encoding="utf-8")) == {"status": "HEALTHY"}
+    assert attempts == 3
+
+
 def test_fixed_child_command_rejects_training_or_confirmation(tmp_path):
     path = _command(
         tmp_path,

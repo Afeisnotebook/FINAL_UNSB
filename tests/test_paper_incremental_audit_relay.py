@@ -14,10 +14,12 @@ from operations.paper_aio_incremental_audit_relay import (
     IncrementalImportNotReady,
     _contract,
     _import_available,
+    _open_sftp,
     incremental_import_lane_path,
     validate_incremental_import_lane,
     validate_source_set,
 )
+from operations.paper_aio_export_relay import TransientRelayNetwork
 from operations.paper_aio_local_terminal_audit_successor import _ready_rows
 from research.local_route1.runtime import full_state_hash
 from research.paper_aio.protocol import FULL_STATE_SCHEMA, file_sha256, lane_spec
@@ -56,6 +58,15 @@ def test_partial_source_set_accepts_only_ordered_audit_epoch_subset() -> None:
         _source_set(), lane_id="plain", source_host_label="hostA",
     )
     assert [row["epoch"] for row in rows] == [100]
+
+
+def test_incremental_sftp_banner_reset_is_retryable() -> None:
+    class ResetClient:
+        def open_sftp(self):
+            raise ConnectionResetError("gateway reset")
+
+    with pytest.raises(TransientRelayNetwork, match="SFTP channel unavailable"):
+        _open_sftp(ResetClient())
     bad = _source_set((150, 100))
     with pytest.raises(RuntimeError, match="epochs"):
         validate_source_set(bad, lane_id="plain", source_host_label="hostA")

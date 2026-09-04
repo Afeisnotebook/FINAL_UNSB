@@ -5,7 +5,9 @@ import pytest
 
 from operations.paper_aio_export_relay import (
     SourceExportNotReady,
+    TransientRelayNetwork,
     UNIFIED_EPOCHS,
+    _connect,
     _download_verified,
     _contract,
     _remote_path,
@@ -168,6 +170,40 @@ def test_download_missing_remote_is_waiting_not_local_io(monkeypatch, tmp_path) 
         _download_verified(
             MissingSftp(), "/not-ready/e100.pt", tmp_path / "e100.pt", "a" * 64,
         )
+
+
+def test_connect_treats_gateway_auth_rejection_as_retryable(monkeypatch) -> None:
+    class AuthenticationException(Exception):
+        pass
+
+    class SSHException(Exception):
+        pass
+
+    class Client:
+        def set_missing_host_key_policy(self, policy):
+            self.policy = policy
+
+        def connect(self, **kwargs):
+            raise AuthenticationException("gateway temporarily rejected auth")
+
+        def close(self):
+            pass
+
+    fake_paramiko = SimpleNamespace(
+        AuthenticationException=AuthenticationException,
+        SSHException=SSHException,
+        SSHClient=Client,
+    )
+    monkeypatch.setitem(__import__("sys").modules, "paramiko", fake_paramiko)
+    monkeypatch.setenv("RELAY_PASSWORD", "not-persisted")
+    with pytest.raises(TransientRelayNetwork, match="temporarily unavailable"):
+        _connect({
+            "password_env": "RELAY_PASSWORD",
+            "expected_host_key_sha256": "SHA256:pinned",
+            "source_host": "gateway",
+            "source_port": 22,
+            "source_user": "user",
+        })
 
 
 def test_existing_destination_hash_mismatch_fails_closed(tmp_path) -> None:

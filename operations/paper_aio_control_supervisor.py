@@ -60,7 +60,18 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
             handle.write("\n")
             handle.flush()
             os.fsync(handle.fileno())
-        temporary.replace(path)
+        # On Windows a concurrent read, virus scanner or indexer may retain a
+        # short-lived handle to the prior JSON file.  Retrying the atomic
+        # replacement preserves the same-state-or-new-state contract without
+        # killing an otherwise healthy long-lived control supervisor.
+        for attempt in range(10):
+            try:
+                temporary.replace(path)
+                break
+            except PermissionError:
+                if attempt == 9:
+                    raise
+                time.sleep(0.05 * (attempt + 1))
     finally:
         temporary.unlink(missing_ok=True)
 

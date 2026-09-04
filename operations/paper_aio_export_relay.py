@@ -216,7 +216,13 @@ def _connect(contract: dict[str, Any]):
         )
     except paramiko.AuthenticationException as error:
         client.close()
-        raise RuntimeError("paper relay SSH authentication failed") from error
+        # Managed GPU gateways can transiently reject an otherwise valid
+        # password while rotating or throttling their SSH front end.  This is
+        # an availability failure, not evidence-integrity failure: host-key,
+        # receipt and content hashes are still checked after reconnecting.
+        raise TransientRelayNetwork(
+            "paper relay SSH authentication temporarily unavailable"
+        ) from error
     except (paramiko.SSHException, EOFError, OSError, socket.error) as error:
         client.close()
         raise TransientRelayNetwork("paper relay SSH connection unavailable") from error
