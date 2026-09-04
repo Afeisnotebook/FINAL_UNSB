@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-plain-e175-and-proposal-e40-hash-closure-v1",
+  "captured_at": "2026-09-05T01:41:00+08:00",
+  "decision": "ACCEPT_PLAIN_E175_AND_PROPOSAL_E40_FIXED_MILESTONES_KEEP_ALL_SCHEDULES_UNCHANGED",
+  "milestones": {
+    "4090A_plain_e175": {
+      "step": 1496775,
+      "checkpoint_bytes": 201480862,
+      "checkpoint_sha256_from_sidecar": "b5fbec66182afe97dc85c0d3c4876173eb71098bc83b70308e9d30477f075371",
+      "checkpoint_sha256_recomputed": "b5fbec66182afe97dc85c0d3c4876173eb71098bc83b70308e9d30477f075371",
+      "scientific_state_sha256": "61b4a3f289159789066abd44586c8e4c77af4b286a38453e52c18a4b8ada4dcb",
+      "metric_artifact_bytes": 138381,
+      "metric_artifact_sha256": "df744f94f3c799e508dccd83728f7abff0d7242461300fdb8511b48ad372cff6",
+      "metric_content_parsed": false
+    },
+    "5090C_proposal_e40": {
+      "step": 342120,
+      "checkpoint_bytes": 201481579,
+      "checkpoint_sha256_from_sidecar": "dc983a111c5a3efa2da05d0c65268d7bcd16600f9434dc5c8878687a6c2bf6a4",
+      "checkpoint_sha256_recomputed": "dc983a111c5a3efa2da05d0c65268d7bcd16600f9434dc5c8878687a6c2bf6a4",
+      "scientific_state_sha256": "d329084bca14b148c4224d16d36f1d6d606c3684db1f0b4c86f151e85ea7fc67",
+      "metric_artifact_bytes": 134804,
+      "metric_artifact_sha256": "852ef02cd631c18c3d7108790c4786c1de0d8144da2b8a5aaa4c9c1d830eb7c7",
+      "metric_content_parsed": false
+    }
+  },
+  "identity": {
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "4090A_plain_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "4090A_plain_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "5090C_proposal_training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "5090C_proposal_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "live_after_milestones": {
+    "4090A_plain": {
+      "data_epoch": 180,
+      "updates": 1539540,
+      "epoch_seconds": 1283.6001513004303,
+      "full_state_sha256": "4078138bc3980c138231396a03ddb220f40b323e27380aeb8cc10dbc7f51e2f8",
+      "health_alert_count": 0
+    },
+    "5090A_stcgr": {
+      "data_epoch": 34,
+      "updates": 290802,
+      "epoch_seconds": 4865.694943189621,
+      "full_state_sha256": "ccfcfe0537c9ea1965043c6cf18ba5af3f40b3575a79695753b108ca4b6db861",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "data_epoch": 143,
+      "updates": 1223079,
+      "epoch_seconds": 1529.0599839687347,
+      "full_state_sha256": "2d09a5fdc7ffaeef858da4918dfaf79ad81a2eb0c58f720f21ed90080c121758",
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 92,
+      "updates": 786876,
+      "epoch_seconds": 2404.280916929245,
+      "full_state_sha256": "e84535ffa1922da9c80c31fef489c628b53412a08a06c8a04cb5772d4666b91d",
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 40,
+      "updates": 342120,
+      "epoch_seconds": 5057.397521734238,
+      "full_state_sha256": "d74fff42c99b8750994c6836a92571ea7b1e51b9bfb43c6ee56abc00339b1f73",
+      "health_alert_count": 0
+    }
+  },
+  "control_plane": {
+    "all_expected_training_and_successor_processes_alive": true,
+    "all_health_alert_counts_zero": true,
+    "5090B_continuity_guard_restarts": 0,
+    "local_terminal_pipeline_health_status": "HEALTHY",
+    "git_commit_before_evidence": "5df7ac198b74a053947c10c10c42352503c8f5ba"
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
