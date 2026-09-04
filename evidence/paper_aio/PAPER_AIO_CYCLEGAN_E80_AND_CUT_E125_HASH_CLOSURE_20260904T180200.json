@@ -1,0 +1,96 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e80-and-cut-e125-hash-closure-v1",
+  "captured_at": "2026-09-04T18:02:00+08:00",
+  "decision": "ACCEPT_CYCLEGAN_E80_AND_CUT_E125_FIXED_MILESTONES_KEEP_ALL_SCHEDULES_UNCHANGED",
+  "milestones": {
+    "5090B_cyclegan_e80": {
+      "step": 684240,
+      "checkpoint_bytes": 359430003,
+      "checkpoint_sha256_from_sidecar": "a40b4a1bf8a8becfc9e3b5d1633eda15c93a83634a57deac54562e54f81ccd81",
+      "checkpoint_sha256_recomputed": "a40b4a1bf8a8becfc9e3b5d1633eda15c93a83634a57deac54562e54f81ccd81",
+      "scientific_state_sha256": "37f6d116c97e2810eaa9fc1e189e6433e0ab742f027bd2fc6008780a9018b914",
+      "metric_artifact_bytes": 132018,
+      "metric_artifact_sha256": "ed834aa25024063f5c8d3240a0c36e92cf364e19d5ecf26e367dd90f9fe34a55",
+      "metric_content_parsed": false
+    },
+    "5090B_cut_e125": {
+      "step": 1069125,
+      "checkpoint_bytes": 176651513,
+      "checkpoint_sha256_from_sidecar": "48aea7a35393a20254968224f3ae39299d2443529dc5d2e0a4f1009141b98a46",
+      "checkpoint_sha256_recomputed": "48aea7a35393a20254968224f3ae39299d2443529dc5d2e0a4f1009141b98a46",
+      "scientific_state_sha256": "7345c16e1f5d5cf61d3ecb48d1f2e2fe5d59051782b876c427216995e682aa8d",
+      "metric_artifact_bytes": 138456,
+      "metric_artifact_sha256": "707331e6fff7c5289ae7d0b3d4e1c50c2abf1d7a90cb0277a3907d15728c71a4",
+      "metric_content_parsed": false
+    }
+  },
+  "identity": {
+    "host": "5090B",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "live_after_milestones": {
+    "4090A_plain": {
+      "data_epoch": 159,
+      "updates": 1359927,
+      "epoch_seconds": 1273.7311861515045,
+      "full_state_sha256": "a192acb716edae2cef19b826c4742e23b38643a3c94af00bf36e49b38db90473",
+      "health_alert_count": 0
+    },
+    "5090A_stcgr": {
+      "data_epoch": 28,
+      "updates": 239484,
+      "epoch_seconds": 5010.289093732834,
+      "full_state_sha256": "455d87d023355c2d49c51c8cdb02904e49f03b52ecd9704e5294a74649288764",
+      "health_alert_count": 0,
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "data_epoch": 125,
+      "updates": 1069125,
+      "epoch_seconds": 1699.8366215229034,
+      "full_state_sha256": "c6145e09e467210aef70925a429060c20e3421eb963c86afddcc5c38aae61c07",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 81,
+      "updates": 692793,
+      "epoch_seconds": 2448.67067360878,
+      "full_state_sha256": "252fb63f0a3f1b94e60d3ea00cc290ecfb98069e0569edc2dc0656f730630945",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 34,
+      "updates": 290802,
+      "epoch_seconds": 4890.862953424454,
+      "full_state_sha256": "361bbc9526b2df5086f6094f6b10223f917d489db7bc7743320ca80e49b4ac64",
+      "health_alert_count": 0
+    }
+  },
+  "control_plane": {
+    "5090B_guard_health_status": "HEALTHY",
+    "5090B_guard_alert_count": 0,
+    "5090B_all_future_successor_and_watcher_pids_alive": true,
+    "4090A_plain_to_amtnc_successor_and_watchers_alive": true,
+    "local_terminal_pipeline_health_status": "HEALTHY"
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}

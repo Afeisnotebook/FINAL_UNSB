@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-04T15:22:00+08:00",
+  "captured_at": "2026-09-04T18:02:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,12 +31,12 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 32,
+      "completed_full_data_epoch": 34,
       "first_epoch_seconds": 4696.602091550827,
-      "latest_epoch_seconds": 4843.351404428482,
+      "latest_epoch_seconds": 4890.862953424454,
       "projected_completion": "2026-09-13T16:18:19+08:00",
       "latest_full_state_hash_verified": true,
-      "latest_full_state_sha256": "0026dae8f30aa79e06578666c3cc94c091b7aac4472bcf8429b4c23ce73dac2e",
+      "latest_full_state_sha256": "361bbc9526b2df5086f6094f6b10223f917d489db7bc7743320ca80e49b4ac64",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "213ac61bab087be0fe366b0e609b4eee03084b6d742025f70bbc4a98af951365",
       "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_PROPOSAL_E20_20260904T003000.json",
@@ -53,15 +53,15 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 26,
+      "completed_full_data_epoch": 28,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
       "supervisor_pid": 336345,
       "trainer_pid": 431032,
       "export_successor_pid": 336344,
-      "latest_resumed_epoch_seconds": 5097.80469751358,
-      "latest_full_state_sha256": "870c1420e19475ae17a1baa850d1caff6ecd232eba6020462de7f429ddae67b0",
+      "latest_resumed_epoch_seconds": 5010.289093732834,
+      "latest_full_state_sha256": "455d87d023355c2d49c51c8cdb02904e49f03b52ecd9704e5294a74649288764",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
       "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -132,6 +132,18 @@
     }
   },
   "external_fixed_milestones": {
+    "cut_e125": {
+      "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "48aea7a35393a20254968224f3ae39299d2443529dc5d2e0a4f1009141b98a46",
+      "scientific_state_sha256": "7345c16e1f5d5cf61d3ecb48d1f2e2fe5d59051782b876c427216995e682aa8d",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json"
+    },
+    "cyclegan_e80": {
+      "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "a40b4a1bf8a8becfc9e3b5d1633eda15c93a83634a57deac54562e54f81ccd81",
+      "scientific_state_sha256": "37f6d116c97e2810eaa9fc1e189e6433e0ab742f027bd2fc6008780a9018b914",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json"
+    },
     "cut_e100": {
       "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
       "checkpoint_sha256": "a44fc0eed917bcab7e2399bd86f2f9ff111f79f3cc588ab7b110aaf3968da9fe",
@@ -272,7 +284,8 @@
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_CYCLEGAN_E60_20260904T044500.json",
       "evidence/paper_aio/PAPER_AIO_TRIPLE_FIXED_MILESTONE_HASH_CLOSURE_20260904T065300.json",
       "evidence/paper_aio/PAPER_AIO_BIHOURLY_HEALTH_AND_STALE_WATCH_RETIREMENT_20260904T091000.json",
-      "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json"
+      "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
+      "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json"
     ]
   },
   "ddsb_source_watch": {
@@ -573,8 +586,8 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260903T194257.json",
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
-  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
+  "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
