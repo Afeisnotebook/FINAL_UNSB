@@ -1,0 +1,120 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e100-and-relay-recovery-v1",
+  "captured_at": "2026-09-05T07:08:00+08:00",
+  "decision": "ACCEPT_CYCLEGAN_E100_FIXED_MILESTONE_RECOVER_CONTROL_PLANE_ONLY_KEEP_ALL_TRAINING_UNCHANGED",
+  "milestone": {
+    "host": "5090B",
+    "lane": "cyclegan",
+    "physical_epoch_completed": 100,
+    "step": 855300,
+    "checkpoint_bytes": 359430067,
+    "checkpoint_sha256_from_sidecar": "a01d0d5243c9f9f8a51ab2834d183a85c539b49ce6560c0407037abfaa9263d8",
+    "checkpoint_sha256_recomputed": "a01d0d5243c9f9f8a51ab2834d183a85c539b49ce6560c0407037abfaa9263d8",
+    "scientific_state_sha256": "7bb2d7e00c5acb8f377acba503f2dc1ce24ece912c526f132b60ad5cdc5c1b81",
+    "metric_artifact_bytes": 138391,
+    "metric_artifact_sha256": "17e539bcf2ac7d5407149ccc746999c0f69558525a17f37b283c281886063587",
+    "metric_content_parsed": false
+  },
+  "identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "live_after_milestone": {
+    "4090A_plain": {
+      "data_epoch": 195,
+      "updates": 1667835,
+      "epoch_seconds": 1278.2084183692932,
+      "full_state_sha256": "69ff97a8c787a17198ec55e0ea89c8b8f4ab416e75d984d2ed0b951e0d4a2bf0"
+    },
+    "5090A_stcgr": {
+      "data_epoch": 38,
+      "updates": 325014,
+      "epoch_seconds": 4863.23805475235,
+      "full_state_sha256": "c2ab629c4de3afd63ee5755635c402a06e39ee7f7cc3ab31ecf70a8559066687",
+      "plain": "PAUSED_EXACTLY_AT_E9_NO_AUTOMATIC_RESUME"
+    },
+    "5090B_cut": {
+      "data_epoch": 155,
+      "updates": 1325715,
+      "epoch_seconds": 1582.4242572784424,
+      "full_state_sha256": "432db516adde0ed51fa35c25e731b0f394cc9bd48abb849216f52f15de22febc",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 100,
+      "updates": 855300,
+      "epoch_seconds": 2390.457566022873,
+      "full_state_sha256": "a342499243c8818a55e311cd2e046c8efc719ca1281078c1ab044fc6d65eaf7b",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "5090C_proposal": {
+      "data_epoch": 44,
+      "updates": 376332,
+      "epoch_seconds": 4951.319998025894,
+      "full_state_sha256": "28584efe344fa94f1c36a238600cdbad4986aa63cdd49597d8dae2f9b01a3113"
+    }
+  },
+  "control_plane_recovery": {
+    "cause": "transient SSH authentication/banner failures and one Windows atomic-state replace denial; no scientific process failed",
+    "4090A_unified_relay_5090A_stcgr": {
+      "retired_pid": 2164862,
+      "replacement_pid": 3403433,
+      "replacement_state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+    },
+    "4090A_unified_relay_5090C_proposal": {
+      "retired_pid": 2182279,
+      "replacement_pid": 3405306,
+      "replacement_state": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+    },
+    "4090A_health_watcher": {
+      "active_pid": 3405736,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "retired_pids": [2922943, 3404791]
+    },
+    "local_incremental_relay_5090A_stcgr": {
+      "retired_pid": 19904,
+      "replacement_pid": 24956,
+      "replacement_state": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"
+    },
+    "local_terminal_pathology_supervisor": {
+      "retired_pid": 23476,
+      "replacement_pid": 24460,
+      "existing_child_pid": 9400,
+      "child_restarted": false,
+      "replacement_state": "MONITORING_EXISTING_CHILD"
+    },
+    "local_combined_health_watcher": {
+      "active_pid": 21244,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "retired_pids": [21052, 22788]
+    }
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "control_plane_only_recovered": true
+  },
+  "monitoring_policy": {
+    "normal_cadence": "two_hours",
+    "normal_scope": "metric_blind_health_and_progress_only",
+    "full_audit_triggers": ["fixed_milestone", "predecessor_successor_handoff", "health_alert"],
+    "goal_remains_active": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
