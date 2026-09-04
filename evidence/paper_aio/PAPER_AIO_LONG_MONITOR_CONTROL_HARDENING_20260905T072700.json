@@ -1,0 +1,116 @@
+{
+  "schema": "final-unsb-paper-long-monitor-control-hardening-v1",
+  "captured_at": "2026-09-05T07:27:00+08:00",
+  "decision": "ADOPT_RETRYABLE_TRANSIENT_TRANSPORT_CONTROL_PLANE_AND_RETAIN_TWO_HOUR_EVENT_DRIVEN_MONITORING",
+  "trigger": {
+    "training_failure": false,
+    "observed_control_failures": [
+      "managed-cloud SSH authentication rejection after prior successful connections",
+      "SSH protocol banner reset during incremental SFTP open",
+      "transient Windows PermissionError during atomic supervisor-state replacement"
+    ],
+    "scientific_state_affected": false
+  },
+  "implementation": {
+    "git_commit": "e98e3b24d7a3052c807671e28ed4f6c4de1db99",
+    "export_relay_source_sha256": "edfc92836843605f09deb08c987c6ca8fae01a749705cdcc76b60f15f6072a3f",
+    "changes": [
+      "classify transient managed-gateway authentication rejection as retryable transport unavailability",
+      "classify incremental SFTP open resets as retryable transport unavailability",
+      "retry atomic supervisor-state replacement after short-lived PermissionError"
+    ],
+    "integrity_checks_unchanged": [
+      "pinned SSH host key",
+      "frozen relay contract and source hash",
+      "source receipt hash",
+      "checkpoint and sidecar SHA256",
+      "manifest, code and protocol identity",
+      "confirmation and paired-control prohibitions"
+    ],
+    "tests": {
+      "targeted": "29 passed",
+      "full": "660 passed",
+      "compileall": "pass",
+      "git_diff_check": "pass"
+    }
+  },
+  "4090A_deployment": {
+    "source_bundle": "/home/yc/FINAL_UNSB_RELAY_HARDENED_e98e3b2_manual",
+    "source_hash_matches_git": true,
+    "relays": {
+      "5090A_stcgr_v4": {
+        "pid": 3414650,
+        "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+      },
+      "5090B_external_v3": {
+        "pid": 3414651,
+        "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+      },
+      "5090B_matched_plain_v3": {
+        "pid": 3414652,
+        "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+      },
+      "5090C_proposal_v4": {
+        "pid": 3414653,
+        "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK"
+      }
+    },
+    "health_watcher": {
+      "pid": 3415044,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "second_poll_passed": true
+    },
+    "retired_control_pids": [3403433, 2164945, 2236741, 3405736, 2237500]
+  },
+  "local_deployment": {
+    "incremental_5090A_stcgr_v3": {
+      "pid": 23844,
+      "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+      "available_epochs": []
+    },
+    "terminal_pathology_supervisor": {
+      "pid": 24460,
+      "status": "MONITORING_EXISTING_CHILD",
+      "existing_child_pid": 9400,
+      "child_restarted": false
+    },
+    "combined_health_watcher": {
+      "pid": 25944,
+      "status": "HEALTHY",
+      "alert_count": 0
+    },
+    "retired_control_pids": [19904, 24956, 21052, 21244, 22788]
+  },
+  "live_scientific_chain": {
+    "4090A_plain": {
+      "data_epoch": 196,
+      "updates": 1676388,
+      "scientific_state_sha256": "b57a74b3d332c0f6bd03be20666f49a13c8e9f447fdb35eab03d4196a1570510",
+      "successor": "amtnc",
+      "successor_status": "WAITING_FOR_PREDECESSOR_E200"
+    },
+    "all_other_training_lanes_interrupted": false,
+    "training_configuration_changed": false
+  },
+  "monitoring_policy": {
+    "heartbeat_cadence": "two_hours",
+    "notification_policy": "failed_runs_only",
+    "healthy_wake_action": "metric_blind_health_only_no_git_churn",
+    "full_audit_triggers": [
+      "fixed milestone",
+      "predecessor-successor handoff",
+      "engineering alert",
+      "runtime relation review",
+      "real capacity or lease risk"
+    ],
+    "goal_remains_active": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
