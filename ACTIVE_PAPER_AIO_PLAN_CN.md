@@ -15,6 +15,10 @@ CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。�
 - 当前阶段不是把这三个旧结果重跑一次，而是获得全量论文对照，并继续从长期因果证据
   生成更好的算法。
 - terminal low-variance/singular-drift假设未通过跨算法/跨域门，所以没有加入终端修复。
+- 相关工作碰撞审计已将新意收紧到online sequential UNSB中的player/state边界与具体
+  stochastic operator；通用averaging、time stratification、gradient projection不是首创，
+  NADB/SDDBM的endpoint工作必须正常引用，详见
+  `research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`。
 - time-stratum梯度异方差及Proposal/HJCGR父状态审计支持ST-CGR；small25 e200、全量
   candidate lock、跨代码runtime和独立authorization均已通过，当前运行full-data e200。
 - 当前冻结e0存在已审核的一sample stream相位偏移：UNSB family的A/B及CUT的A受影响，

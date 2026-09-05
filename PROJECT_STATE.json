@@ -37,6 +37,21 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
       "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
     },
+    "paper_related_work_novelty_boundary": {
+      "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_COMPLETE",
+      "canonical_document": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+      "generic_multisample_averaging_claimed_novel": false,
+      "generic_timestep_stratification_claimed_novel": false,
+      "generic_gradient_projection_claimed_novel": false,
+      "terminal_existing_work_hidden": false,
+      "terminal_module_authorized": false,
+      "ddsb_reproduction_status_changed": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_RELATED_WORK_NOVELTY_BOUNDARY_20260906T031839.json",
+      "decision": "decisions/DEC-20260906-RELATED-WORK-NOVELTY-BOUNDARY.md"
+    },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
       "current_unsb_family_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary_and_secondary",

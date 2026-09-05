@@ -30,7 +30,10 @@ run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是
 
 接手者应在本文件后优先阅读`PAPER_AIO_RESEARCH_CONTRACT_CN.md`、
 `ACTIVE_PAPER_AIO_PLAN_CN.md`、`configs/PAPER_AIO_UNPAIRED_V1.json`与
-`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`。下述2026-09-01内容是small25权威历史，
+`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`，再读
+`research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`。后者明确三条方法不能把通用
+averaging、stratification或gradient projection当首创，也要求正常引用NADB/SDDBM的
+endpoint工作；它不授权添加terminal模块。下述2026-09-01内容是small25权威历史，
 不是当前算力限制或实时队列。
 
 ## 当前状态（2026-09-01）

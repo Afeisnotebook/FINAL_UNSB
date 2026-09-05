@@ -39,6 +39,9 @@ runtime与容量门，再建立fresh-e0 matched plain；本地GTX1660独占运�
 
 Proposal、ST-CGR和AM-TNC的共同数学母题、严格非重复关系及可写/不可写主张见
 [`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`](research/paper_aio/ALGORITHM_THEORY_MAP_CN.md)。
+它们与通用Monte Carlo方差缩减、timestep sampling、gradient surgery以及最新bridge
+endpoint工作的重叠和投稿边界见
+[`research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`](research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md)。
 small25的多算法终局仍是算法来源证据，不是full-data结果替代品；单seed成本策略也不等于
 跨seed稳定性证明。
 

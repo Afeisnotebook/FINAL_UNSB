@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-related-work-novelty-boundary-v1",
+  "captured_at": "2026-09-06T03:18:39+08:00",
+  "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_COMPLETE",
+  "canonical_document": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+  "scope": [
+    "proposal-only",
+    "ST-CGR",
+    "AM-TNC",
+    "terminal endpoint hypothesis",
+    "direct unpaired restoration baseline obligations"
+  ],
+  "primary_sources": [
+    {"id": "unsb", "url": "https://openreview.net/forum?id=uQBW7ELXfO", "role": "canonical unpaired sequential neural Schrodinger bridge"},
+    {"id": "improved_ddpm", "url": "https://proceedings.mlr.press/v139/nichol21a.html", "role": "loss-second-moment timestep importance sampling and diffusion gradient noise"},
+    {"id": "adaptive_nonuniform_time", "url": "https://arxiv.org/abs/2411.09998", "role": "learned nonuniform timestep sampling and cross-time coupling"},
+    {"id": "carv", "url": "https://arxiv.org/abs/2605.21489", "role": "unbiased resampling and stratified diffusion-gradient variance reduction in frozen-teacher downstream tasks"},
+    {"id": "antithetic_sampling", "url": "https://arxiv.org/abs/1810.02555", "role": "generic marginal-correct correlated Monte Carlo variance reduction"},
+    {"id": "pcgrad", "url": "https://proceedings.neurips.cc/paper/2020/hash/3fe78a8acf5fda99de95303940a2420c-Abstract.html", "role": "multi-task Euclidean gradient projection"},
+    {"id": "cagrad", "url": "https://proceedings.neurips.cc/paper/2021/hash/9d27fdf2477ffbff837d73ef7ae23db9-Abstract.html", "role": "conflict-averse multi-task gradient direction"},
+    {"id": "stochastic_gradient_manipulation", "url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/f91bd64a3620aad8e70a27ad9cb3ca57-Abstract-Conference.html", "role": "non-convergence risk from instantaneous stochastic gradient composition"},
+    {"id": "ddsb", "url": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html", "role": "direct contemporary unpaired restoration comparator"},
+    {"id": "nadb", "url": "https://arxiv.org/abs/2605.28962", "role": "paired bridge endpoint underfitting and noise alignment"},
+    {"id": "sddbm", "url": "https://arxiv.org/abs/2608.08594", "role": "soft endpoint law for terminal-boundary singularity"},
+    {"id": "dbim", "url": "https://openreview.net/forum?id=eghAocvqBk", "role": "paired bridge inference acceleration with unchanged training objective"},
+    {"id": "consistency_bridge", "url": "https://openreview.net/forum?id=FFJFGx78OK", "role": "paired bridge consistency training and distillation"},
+    {"id": "dsm_loss_floor", "url": "https://arxiv.org/abs/2608.23916", "role": "conditional variance and Fisher geometry of denoising score matching"},
+    {"id": "bridge_graphical_models", "url": "https://arxiv.org/abs/2608.19144", "role": "Markovization gap from endpoint-conditioned bridge compression"}
+  ],
+  "adjudication": {
+    "generic_multisample_averaging_is_novel": false,
+    "generic_timestep_stratification_is_novel": false,
+    "generic_gradient_projection_is_novel": false,
+    "proposal_possible_novelty_unit": "post-DE player-selective complete-GF-view estimator in an online sequential unpaired UNSB game, subject to e200 evidence",
+    "stcgr_possible_novelty_unit": "uniform-marginal without-replacement bridge-time coupling nested inside the Proposal operator, subject to isolated e200 evidence",
+    "amtnc_possible_novelty_unit": "same-player exchange-antisymmetric disagreement geometry in a frozen pre-step Adam metric, subject to same-host e200 evidence",
+    "terminal_existing_work_may_be_hidden": false,
+    "terminal_module_authorized": false,
+    "reason_terminal_module_not_authorized": "the preregistered target-blind cross-algorithm and cross-domain terminal pathology gate did not pass",
+    "ddsb_reproduction_status_changed": false,
+    "training_queue_changed": false
+  },
+  "limitations": [
+    "this is a bounded primary-source collision audit, not an exhaustive novelty proof",
+    "all empirical benefit claims remain withheld until complete e200 and legal matched controls",
+    "submission-time literature must be refreshed before abstract and claims are frozen"
+  ],
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

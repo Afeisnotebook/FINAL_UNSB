@@ -41,6 +41,16 @@
   ],
   "nonblocking_extensions": [
     {
+      "id": "related_work_novelty_boundary",
+      "status": "pre_result_primary_source_collision_audit_complete_submission_time_refresh_required",
+      "critical_path": false,
+      "document": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+      "gate": "refresh the primary-source search before manuscript abstract and claim freeze",
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false
+    },
+    {
       "id": "baseline_taxonomy",
       "status": "frozen_before_performance_results_and_hash_bound_to_final_delivery",
       "critical_path": false,

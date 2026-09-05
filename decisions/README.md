@@ -271,3 +271,7 @@ authorize compute.
     Proposal、ST-CGR和AM-TNC的公式、源码与可声明边界；前两者属于选择性G/F估计器族但
     time coupling不同，AM-TNC是独立all-player几何路线。共同无偏主张只到pre-Adam条件
     梯度，terminal singular drift仍未过门，六条健康训练与队列均未改动。
+83. `DEC-20260906-RELATED-WORK-NOVELTY-BOUNDARY.md`：以一手来源冻结投稿前碰撞边界；通用
+    averaging、timestep stratification、antithetic sampling和gradient projection不作为
+    首创，三条算法的可主张单位收紧到UNSB顺序player/state operator。NADB/SDDBM不得隐去，
+    当前terminal门未过故不追加模块；本裁决不读取性能、不改变任何训练。

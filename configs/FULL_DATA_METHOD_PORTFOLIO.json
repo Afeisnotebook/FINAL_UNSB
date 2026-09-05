@@ -23,6 +23,22 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
     "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
   },
+  "related_work_novelty_boundary": {
+    "status": "pre_result_primary_source_collision_audit_complete",
+    "canonical_document": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+    "proposal_claim_unit": "post_DE_player_selective_complete_GF_view_estimator_in_online_sequential_UNSB",
+    "stcgr_claim_unit": "uniform_marginal_without_replacement_bridge_time_coupling_inside_proposal",
+    "amtnc_claim_unit": "same_player_exchange_antisymmetric_disagreement_geometry_in_frozen_pre_step_Adam_metric",
+    "generic_variance_reduction_claimed_novel": false,
+    "terminal_singularity_repair_claimed": false,
+    "existing_terminal_work_must_be_cited": true,
+    "submission_time_refresh_required": true,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_RELATED_WORK_NOVELTY_BOUNDARY_20260906T031839.json",
+    "decision": "decisions/DEC-20260906-RELATED-WORK-NOVELTY-BOUNDARY.md"
+  },
   "protocol_implementation_audit": {
     "captured_at": "2026-09-03T08:54:41+08:00",
     "status": "CURRENT_FROZEN_LEGACY_OFFSET_ACCEPTED_FUTURE_FRESH_E0_FIXED",
