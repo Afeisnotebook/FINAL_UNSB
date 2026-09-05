@@ -278,3 +278,6 @@ authorize compute.
 84. `DEC-20260906-THEORY-ASSUMPTION-HARDENING.md`：在不读取full-data性能的前提下，把三条
     算法定理所需的有限矩、条件独立和交换性假设写明；补齐ST-CGR在`T=5`时删除`V_mu/8`
     的范围，以及AM-TNC零共识分支和浮点非逐位保证，避免把数学恒等式过写成跨硬件事实。
+85. `DEC-20260906-REPORTING-METADATA-CHAIN.md`：修复冻结基线语义到最终论文表格之间的
+    元数据断点；每行必须哈希绑定paper label和复现/比较范围，使受控骨干CycleGAN、受控
+    曝光CUT/DCLGAN不会在导表后被误写成逐字官方复现。训练、指标选择和confirmation均未变。

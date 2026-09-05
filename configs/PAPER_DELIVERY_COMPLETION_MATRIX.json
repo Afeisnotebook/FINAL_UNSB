@@ -89,10 +89,12 @@
     },
     {
       "id": "manuscript_tables",
-      "status": "implemented_tested_fail_closed_post_freeze_not_scheduled",
+      "status": "implemented_tested_fail_closed_labels_and_reproduction_scopes_preserved_post_freeze_not_scheduled",
       "critical_path": false,
       "gate": "committed algorithm/baseline/claim freeze and frozen source portfolio hash",
       "outputs": ["MAIN_E200.csv", "ALGORITHM_SUSTAINED.csv", "ALGORITHM_DOMAIN_DELTAS.csv", "COMPLEXITY.csv", "PAPER_CLAIMS.csv", "PAPER_RESULT_SUMMARY.md", "MANUSCRIPT_TABLES_RECEIPT.json"],
+      "row_metadata_gate": "every main-table row must retain its frozen paper label and reproduction/comparison scope",
+      "implementation_commit": "fb8daf47636ddfd183829d5ec1832df61dfb5153",
       "implementation": "operations/paper_aio_manuscript_tables.py",
       "training_fingerprint_changed": false,
       "confirmation20_opened": false

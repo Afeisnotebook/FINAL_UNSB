@@ -1,0 +1,43 @@
+{
+  "schema": "final-unsb-paper-reporting-metadata-chain-v1",
+  "captured_at": "2026-09-06T04:01:00+08:00",
+  "status": "PASS_PAPER_LABEL_AND_REPRODUCTION_SCOPE_HASH_BOUND_TO_FINAL_TABLES",
+  "implementation_commit": "fb8daf47636ddfd183829d5ec1832df61dfb5153",
+  "source_hashes": {
+    "operations/paper_aio_final_delivery_successor.py": "59a87b5c666c9047bd825d86532d773e31c1b9cf09b47530c7bd081cdf5fa6bb",
+    "operations/paper_aio_manuscript_tables.py": "0771788777f50b69b20a552e09f3d8c98232b15e29e5c33108771ad28378de42",
+    "tests/test_paper_final_delivery_successor.py": "1b8ad51a4d166f900ae706ff72324986b8f41678101c252aa6172ccd04fa7302",
+    "tests/test_paper_manuscript_tables.py": "58475675723b87eb8c15de67925f81a74ed911a95ac63c69973cb13f0c173344",
+    "configs/PAPER_BASELINE_PORTFOLIO.json": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b"
+  },
+  "closed_gap": {
+    "before": "final numeric tables retained lane_id and comparison_scope but could discard the frozen human-facing paper label and explicit reproduction boundary",
+    "after": "final portfolio carries normalized per-row reporting metadata; manuscript CSV and Markdown fail closed unless every row has a paper label and reproduction/comparison scope",
+    "cycle_gan_required_label": "CycleGAN (official-loss, controlled shared backbone)",
+    "cut_required_label": "CUT (official-loss, controlled exposure reproduction)",
+    "dclgan_required_label": "DCLGAN (official-source, controlled exposure reproduction)",
+    "verbatim_official_cyclegan_claim_allowed": false
+  },
+  "outputs_changed": {
+    "MAIN_E200.csv": ["paper_label", "reproduction_or_comparison_scope"],
+    "PAPER_RESULT_SUMMARY.md": ["paper_label_column", "reproduction_and_comparison_scope_section"]
+  },
+  "validation": {
+    "targeted_tests": "14 passed",
+    "full_tests": "697 passed",
+    "contract_checks": "ALL CONTRACT CHECKS PASSED",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_effect": {
+    "frozen_baseline_portfolio_changed": false,
+    "training_code_changed": false,
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md"
+}

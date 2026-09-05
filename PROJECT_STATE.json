@@ -926,13 +926,16 @@
       "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
     },
     "post_freeze_manuscript_table_interface": {
-      "status": "CODE_READY_TESTED_NOT_DEPLOYED_AWAITING_COMMITTED_FREEZE",
-      "implementation_commit": "a4419ee9c51fbe90c0949d5dbc59752bde3017a0",
+      "status": "CODE_READY_TESTED_FAIL_CLOSED_REPORTING_LABELS_AND_SCOPES_PRESERVED_AWAITING_COMMITTED_FREEZE",
+      "implementation_commit": "fb8daf47636ddfd183829d5ec1832df61dfb5153",
       "implementation": "operations/paper_aio_manuscript_tables.py",
-      "exporter_source_sha256": "4c596297e18f7461ec29bc5cd9ca4f9dc5de98faa90b81ce182edc3d87bec8e4",
+      "exporter_source_sha256": "0771788777f50b69b20a552e09f3d8c98232b15e29e5c33108771ad28378de42",
       "primary_epoch": 200,
       "sustained_epochs": [150, 175, 200],
       "six_domain_algorithm_deltas_required": true,
+      "main_table_paper_labels_required": true,
+      "reproduction_or_comparison_scope_required_per_row": true,
+      "controlled_backbone_cyclegan_cannot_be_rendered_as_verbatim_official": true,
       "committed_freeze_required": true,
       "source_portfolio_hash_required": true,
       "all_outputs_hash_bound": true,
@@ -941,8 +944,9 @@
       "best_checkpoint_selection": false,
       "confirmation_authorized": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
-      "decision": "decisions/DEC-20260906-FROZEN-MANUSCRIPT-TABLES.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_REPORTING_METADATA_CHAIN_20260906T040100.json",
+      "prior_interface_evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
+      "decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md"
     },
     "confirmation20_control_plane": {
       "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",
