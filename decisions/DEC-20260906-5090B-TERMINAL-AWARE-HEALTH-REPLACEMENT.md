@@ -21,4 +21,3 @@ checkpoint、runtime cohort和协议均未改变。
 5090B主健康入口改用
 `/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_TERMINAL_E831AC7/HEALTH_WATCH_STATE.json`。
 容量门仍只按工程吞吐和makespan裁决，不能读取paired结果；confirmation20继续封存。
-
