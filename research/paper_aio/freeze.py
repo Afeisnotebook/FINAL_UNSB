@@ -18,7 +18,7 @@ from .protocol import (
     git_commit,
     object_sha256,
 )
-from .theory_bundle import theory_bundle_reference
+from .theory_bundle import theory_bundle_reference, validate_theory_bundle
 
 
 DRAFT_SCHEMA = "final-unsb-paper-freeze-review-draft-v1"
@@ -68,7 +68,9 @@ def _committed_json(path: Path) -> tuple[dict[str, Any], str, str]:
     return current, commit, relative
 
 
-def validate_portfolio(path: Path) -> tuple[dict[str, Any], list[str]]:
+def validate_portfolio(
+    path: Path, *, theory_bundle: Path | None = None,
+) -> tuple[dict[str, Any], list[str]]:
     value = _read(path)
     if (
         value.get("schema") not in PORTFOLIO_SCHEMAS
@@ -93,6 +95,26 @@ def validate_portfolio(path: Path) -> tuple[dict[str, Any], list[str]]:
     lanes.discard("")
     if "plain" not in lanes or "input" not in lanes or len(lanes) < 5:
         raise RuntimeError("paper portfolio has an incomplete frozen lane set")
+    theory = validate_theory_bundle(theory_bundle, root=ROOT)
+    methods = value.get("methods") or {}
+    expected_lanes = {
+        "proposal": "proposal",
+        "stcgr": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+        "amtnc": "amtnc",
+    }
+    if set(methods) != set(theory["methods"]):
+        raise RuntimeError("paper portfolio and theory bundle method sets differ")
+    for method, expected_lane in expected_lanes.items():
+        row = methods.get(method) or {}
+        result = row.get("result") or {}
+        if (
+            row.get("algorithm_id")
+            != theory["methods"][method]["algorithm_id"]
+            or result.get("lane_id") != expected_lane
+        ):
+            raise RuntimeError(
+                f"paper portfolio algorithm identity differs from theory: {method}"
+            )
     return value, sorted(lanes)
 
 
@@ -101,7 +123,7 @@ def create_review_draft(
     theory_bundle: Path | None = None,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
-    value, lanes = validate_portfolio(portfolio)
+    value, lanes = validate_portfolio(portfolio, theory_bundle=theory_bundle)
     cleaned_claims = [str(claim).strip() for claim in claims]
     if (
         not cleaned_claims
@@ -147,7 +169,7 @@ def materialize_freeze_receipt(
     theory_bundle: Path | None = None,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
-    _, lanes = validate_portfolio(portfolio)
+    _, lanes = validate_portfolio(portfolio, theory_bundle=theory_bundle)
     review, review_commit, review_relative = _committed_json(review_decision)
     claims = review.get("paper_claims")
     theory = theory_bundle_reference(theory_bundle, root=ROOT)

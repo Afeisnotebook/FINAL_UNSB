@@ -22,8 +22,18 @@ def _portfolio(path: Path) -> Path:
         "primary_epoch": 200,
         "plain_control": result("plain"),
         "methods": {
-            "proposal": {"result": result("proposal")},
-            "stcgr": {"result": result("G4-01-STRATIFIED-TIME-CONDITIONAL-GF")},
+            "proposal": {
+                "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+                "result": result("proposal"),
+            },
+            "stcgr": {
+                "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+                "result": result("G4-01-STRATIFIED-TIME-CONDITIONAL-GF"),
+            },
+            "amtnc": {
+                "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+                "result": result("amtnc"),
+            },
         },
         "external_baselines": {
             "input": result("input"), "cut": result("cut"),
@@ -124,7 +134,7 @@ def test_freeze_draft_cannot_self_approve(tmp_path: Path) -> None:
     assert draft["confirmation_authorized"] is False
     assert set(draft["distribution_lanes"]) == {
         "input", "plain", "proposal", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
-        "cut", "cyclegan", "dclgan",
+        "amtnc", "cut", "cyclegan", "dclgan",
     }
 
 
@@ -192,6 +202,17 @@ def test_freeze_draft_rejects_empty_claim_set(tmp_path: Path) -> None:
             portfolio=_portfolio(tmp_path / "portfolio.json"),
             claims=[], destination=tmp_path / "draft.json",
         )
+
+
+def test_freeze_rejects_portfolio_algorithm_identity_drift(
+    tmp_path: Path,
+) -> None:
+    portfolio = _portfolio(tmp_path / "portfolio.json")
+    value = json.loads(portfolio.read_text(encoding="utf-8"))
+    value["methods"]["proposal"]["algorithm_id"] = "DIFFERENT-OPERATOR"
+    portfolio.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="identity differs from theory"):
+        freeze.validate_portfolio(portfolio)
 
 
 def test_theory_bundle_is_hash_bound_and_rejects_artifact_drift(

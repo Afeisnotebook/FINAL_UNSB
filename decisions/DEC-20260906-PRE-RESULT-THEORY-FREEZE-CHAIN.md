@@ -14,6 +14,10 @@ formula/source audits。机器 review draft 会写入 bundle、object 和 artifa
 decision 必须逐位复述同一引用；freeze receipt 物化及其后的 distribution、manuscript table、
 confirmation 路径会重新哈希全部文件，任何漂移都 fail closed。
 
+冻结入口还会核对最终 portfolio 的方法集合、algorithm ID 与 lane ID 必须逐项对应 bundle
+中的 Proposal-only、ST-CGR、AM-TNC。这样不能用一套正确的理论哈希为另一套结果或一个
+悄悄缩减的算法集合背书。
+
 ## 科学边界
 
 这不是对算法、超参或训练队列的修改，也不读取 full-data 性能。共同定理仍只到 pre-Adam
