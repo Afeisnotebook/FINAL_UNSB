@@ -139,6 +139,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--confirmation-session", type=Path)
     value.add_argument("--confirmation-result", type=Path, action="append", default=[])
     value.add_argument("--paper-claim", action="append", default=[])
+    value.add_argument("--theory-bundle", type=Path)
     value.add_argument("--method-runtime-receipt", type=Path)
     value.add_argument("--plain-runtime-receipt", type=Path)
     value.add_argument("--method-authorization-receipt", type=Path)
@@ -351,6 +352,9 @@ def main(argv: list[str] | None = None) -> int:
         result = create_review_draft(
             portfolio=args.portfolio.resolve(), claims=args.paper_claim,
             destination=args.receipt_output.resolve(),
+            theory_bundle=(
+                None if args.theory_bundle is None else args.theory_bundle.resolve()
+            ),
         )
     elif args.stage == "freeze-materialize":
         if (
@@ -366,6 +370,9 @@ def main(argv: list[str] | None = None) -> int:
             portfolio=args.portfolio.resolve(),
             review_decision=args.review_decision.resolve(),
             destination=args.receipt_output.resolve(),
+            theory_bundle=(
+                None if args.theory_bundle is None else args.theory_bundle.resolve()
+            ),
         )
     elif args.stage == "distribution-lock":
         if (

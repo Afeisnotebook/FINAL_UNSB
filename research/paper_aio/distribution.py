@@ -36,6 +36,7 @@ from .protocol import (
     object_sha256,
     protocol_fingerprint,
 )
+from .theory_bundle import validate_theory_bundle_reference
 
 
 SCHEMA = "final-unsb-paper-post-freeze-distribution-metrics-v1"
@@ -85,6 +86,7 @@ def validate_freeze_receipt(path: Path, *, lane_id: str) -> dict[str, Any]:
         or not isinstance(value.get("paper_claims"), list)
         or not value["paper_claims"]
         or value.get("paper_claims_sha256") != object_sha256(value["paper_claims"])
+        or not isinstance(value.get("algorithm_theory_bundle"), dict)
         or not isinstance(lanes, list)
         or len(lanes) != len(set(lanes))
         or lane_id not in lanes
@@ -127,6 +129,7 @@ def committed_freeze_identity(
         raise RuntimeError("committed freeze receipt is not JSON") from error
     if object_sha256(committed) != object_sha256(value):
         raise RuntimeError("working freeze receipt differs from its committed Git blob")
+    validate_theory_bundle_reference(value["algorithm_theory_bundle"], root=ROOT)
     portfolio = Path(value["source_portfolio_path"]).resolve()
     if (
         not portfolio.is_file()
@@ -164,6 +167,8 @@ def committed_freeze_identity(
         != value["source_portfolio_sha256"]
         or review_current.get("distribution_lanes") != value["distribution_lanes"]
         or review_current.get("paper_claims_sha256") != value["paper_claims_sha256"]
+        or review_current.get("algorithm_theory_bundle")
+        != value["algorithm_theory_bundle"]
     ):
         raise RuntimeError("freeze review decision is not the committed approval")
     return value, commit

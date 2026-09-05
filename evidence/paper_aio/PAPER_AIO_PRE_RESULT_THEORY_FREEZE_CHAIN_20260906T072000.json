@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-pre-result-theory-freeze-chain-v1",
+  "captured_at": "2026-09-06T07:20:00+08:00",
+  "status": "PASS_THREE_OPERATOR_THEORY_BUNDLE_HASH_BOUND_TO_POST_RESULT_FREEZE",
+  "audit_question": "Are the final paper-freeze and post-freeze reporting paths forced to use the exact pre-result derivations and formula-to-source audits for Proposal-only, ST-CGR and AM-TNC?",
+  "finding_before_change": {
+    "mathematical_material_complete": true,
+    "proposal_dedicated_duplicate_card_required": false,
+    "reason": "The parent PC-RSMG derivation card defines Proposal-only as the player-selective ablation, the selective-family derivation gives the exact estimator, and the live formula audit binds that estimator to the frozen full-data source and state.",
+    "freeze_receipt_bound_exact_theory_artifacts": false,
+    "risk": "A later claim freeze could bind result and prose claims while failing to prove which exact derivation and formula-to-source audit was reviewed."
+  },
+  "implemented_control": {
+    "bundle": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
+    "bundle_sha256": "5a21ece2ba66333c4f927f8d6fe1cb27d4551565732d2f770dacecd5759283a5",
+    "bundle_object_sha256": "b46d42fd38bc60668464cf91cb8b9b202f20ab9d5c75a479a9498fb081f5a68b",
+    "artifact_set_sha256": "5c5f29f6a8d19c2df7701c00e8eeccee55db5193e1f321a41ba10cc58f29e1e7",
+    "algorithm_ids": [
+      "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS"
+    ],
+    "validator": "research/paper_aio/theory_bundle.py",
+    "review_draft_change": "Every machine draft now includes the exact theory-bundle, object and artifact-set hashes.",
+    "review_decision_gate": "Freeze materialization rejects a committed review that does not repeat the exact current theory-bundle reference.",
+    "post_freeze_gate": "Committed freeze validation rehashes the bundle and every referenced artifact before distribution, manuscript-table or confirmation paths can proceed."
+  },
+  "claim_boundaries_preserved": {
+    "pre_adam_conditional_mean_only": true,
+    "expected_adam_displacement_unbiased_claimed": false,
+    "full_markov_kernel_unbiased_claimed": false,
+    "equal_flop_superiority_claimed": false,
+    "terminal_singular_drift_repair_claimed": false,
+    "full_data_benefit_claimed_before_e200": false,
+    "unique_winner_predeclared": false
+  },
+  "live_state_at_audit": {
+    "4090A_amtnc": "e22 CHILD_RUNNING HEALTHY",
+    "5090A_stcgr": "e55 CHILD_RUNNING HEALTHY",
+    "5090C_proposal": "e61 CHILD_RUNNING",
+    "5090B_cyclegan": "e133 CHILD_RUNNING",
+    "5090B_matched_plain": "e1 complete, e2 metric-blind co-resident capacity probe running",
+    "local_dclgan": "e15 CHILD_RUNNING",
+    "all_observed_health_alerts": 0
+  },
+  "verification": {
+    "targeted_tests": "21 passed",
+    "full_tests": "702 passed",
+    "actual_bundle_validation": "PASS",
+    "artifact_drift_test": "PASS_FAIL_CLOSED",
+    "training_process_changed": false,
+    "training_protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

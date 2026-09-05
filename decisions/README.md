@@ -292,3 +292,7 @@ authorize compute.
     的gate-5阻塞来自旧回执字段混用而非科学失败；归档原始字节、保持runtime twin哈希不变，
     以fail-closed元数据修复恢复到两epoch metric-blind容量门。同时把review生成且字节一致的
     Proposal与ST-CGR到5090B plain关系纳入Git，但在plain e200前仍不产生matched delta。
+89. `DEC-20260906-PRE-RESULT-THEORY-FREEZE-CHAIN.md`：确认三条算法的既有推导已充分，不重复
+    造Proposal卡；修复最终结果/claim冻结没有绑定精确理论版本的缺口。新增三算法theory bundle，
+    review、freeze及后续distribution/manuscript/confirmation必须逐层复验全部推导与公式—源码
+    审计哈希；不读取性能、不改变训练或提前声明赢家。

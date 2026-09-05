@@ -60,6 +60,19 @@
   ],
   "nonblocking_extensions": [
     {
+      "id": "algorithm_theory_freeze_chain",
+      "status": "pre_result_three_operator_bundle_hash_bound_to_review_freeze_and_post_freeze_consumers",
+      "critical_path": false,
+      "bundle": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
+      "algorithms": ["proposal", "stcgr", "amtnc"],
+      "gate": "the committed review decision and freeze receipt must bind the exact bundle and every referenced artifact hash",
+      "proposal_duplicate_card_required": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_THEORY_FREEZE_CHAIN_20260906T072000.json"
+    },
+    {
       "id": "related_work_novelty_boundary",
       "status": "pre_result_primary_source_collision_audit_complete_submission_time_refresh_required",
       "critical_path": false,

@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-algorithm-theory-bundle-v1",
+  "status": "PRE_RESULT_THREE_OPERATOR_THEORY_BUNDLE_FROZEN",
+  "canonical_map": {
+    "path": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
+    "sha256": "15a116e208e1960fd60bb7090dfc44ece8a781d4d99aedfbeb7ee13e436948a0"
+  },
+  "methods": {
+    "proposal": {
+      "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "paper_role": "player-selective post-D/E conditional iid G/F estimator",
+      "pre_adam_property": "conditional mean preserved and conditional covariance halved",
+      "artifacts": [
+        {
+          "role": "derivation_card",
+          "path": "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json",
+          "sha256": "c6070c44b853454ecabdc6d4ed0ef3f15bcc2db4ab9ea7e28d66695b95bd93eb"
+        },
+        {
+          "role": "family_derivation",
+          "path": "research/local_route1/derivation_cards/SELECTIVE-GF-CONDITIONAL-ESTIMATOR-FAMILY.md",
+          "sha256": "013cb15df86d70c196a9034febcf833c25c6ba7fddb302d6e76406f479e13228"
+        },
+        {
+          "role": "formula_implementation_audit",
+          "path": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json",
+          "sha256": "fadfb2b1540c7ee939ca1d7f47aa431de617f2f721209b6a29a12265bcbc7ecd"
+        }
+      ]
+    },
+    "stcgr": {
+      "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "paper_role": "ordered without-replacement bridge-time coupling inside the Proposal estimator",
+      "pre_adam_property": "conditional mean preserved and Proposal covariance reduced by V_mu/[2(T-1)]",
+      "artifacts": [
+        {
+          "role": "derivation_card",
+          "path": "research/local_route1/derivation_cards/G4-01-STRATIFIED-TIME-CONDITIONAL-GF.json",
+          "sha256": "4e40a0f84bc2e0f2dfba11ec36ace851c5f57ffb79fd8bc06d74d689d3e3bfba"
+        },
+        {
+          "role": "formula_implementation_audit",
+          "path": "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json",
+          "sha256": "544ea4bd536069e21e4651f30a6212d86d32bd4d96350b81e16e10d44db5b789"
+        },
+        {
+          "role": "independent_operator_semantic_audit",
+          "path": "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json",
+          "sha256": "b9345a2f56b803f638dd416553dad597391e5a7729b9eb8a45f89df87a8028b6"
+        }
+      ]
+    },
+    "amtnc": {
+      "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+      "paper_role": "all-player exchange-antisymmetric disagreement geometry in a frozen pre-step Adam metric",
+      "pre_adam_property": "exchange-pair mean returns to the two-view consensus estimator",
+      "artifacts": [
+        {
+          "role": "derivation_card",
+          "path": "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json",
+          "sha256": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4"
+        },
+        {
+          "role": "formula_implementation_audit",
+          "path": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
+          "sha256": "a04594f6451ac26c9c34db0b008e372a994c3ea2029fe60ebc847437b76e8b6c"
+        }
+      ]
+    }
+  },
+  "claim_boundaries": {
+    "pre_adam_conditional_mean_only": true,
+    "expected_adam_displacement_unbiased_claimed": false,
+    "full_markov_kernel_unbiased_claimed": false,
+    "equal_flop_superiority_claimed": false,
+    "terminal_singular_drift_repair_claimed": false,
+    "full_data_benefit_claimed_before_e200": false,
+    "unique_winner_predeclared": false
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

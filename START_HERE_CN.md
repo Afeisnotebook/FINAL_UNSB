@@ -51,6 +51,12 @@ averaging、stratification或gradient projection当首创，也要求正常引�
 endpoint工作；它不授权添加terminal模块。下述2026-09-01内容是small25权威历史，
 不是当前算力限制或实时队列。
 
+三条在飞自研算法的精确推导、族谱和formula-to-source audits现由
+`configs/PAPER_ALGORITHM_THEORY_BUNDLE.json`统一哈希绑定。最终机器review、人工/Codex
+decision、freeze receipt以及其后的distribution/manuscript/confirmation都会复验该bundle
+和全部引用文件；任何公式或证据漂移都fail closed。Proposal不另造重复卡：其父卡中的
+`proposal_only`定义、选择性G/F族推导和full-data源码审计三者共同构成权威推导链。
+
 ## 当前状态（2026-09-01）
 
 ### 2026-09-01 10:25 路线一终局：两条严格算法与一条独立脆弱正方向

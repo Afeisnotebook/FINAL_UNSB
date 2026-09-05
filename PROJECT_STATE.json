@@ -23,6 +23,11 @@
     "paper_algorithm_theory_boundary": {
       "status": "PRE_RESULT_THREE_OPERATOR_BOUNDARY_FROZEN_ASSUMPTIONS_HARDENED_CONTINUE_ALL_E200",
       "canonical_map": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
+      "theory_bundle": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
+      "theory_bundle_status": "PRE_RESULT_THREE_OPERATOR_THEORY_BUNDLE_FROZEN",
+      "theory_bundle_sha256": "5a21ece2ba66333c4f927f8d6fe1cb27d4551565732d2f770dacecd5759283a5",
+      "theory_artifact_set_sha256": "5c5f29f6a8d19c2df7701c00e8eeccee55db5193e1f321a41ba10cc58f29e1e7",
+      "post_result_freeze_rehashes_all_theory_artifacts": true,
       "proposal_role": "player_selective_post_DE_conditional_iid_GF_mean",
       "stcgr_role": "proposal_family_ordered_without_replacement_time_coupling",
       "amtnc_role": "independent_all_player_adam_metric_tangential_geometry",
@@ -38,11 +43,13 @@
       "training_process_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "full_test_result": "696 passed",
+      "full_test_result": "702 passed",
       "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
       "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md",
       "assumption_hardening_evidence": "evidence/paper_aio/PAPER_AIO_THEORY_ASSUMPTION_HARDENING_20260906T035100.json",
-      "assumption_hardening_decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md"
+      "assumption_hardening_decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md",
+      "freeze_chain_evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_THEORY_FREEZE_CHAIN_20260906T072000.json",
+      "freeze_chain_decision": "decisions/DEC-20260906-PRE-RESULT-THEORY-FREEZE-CHAIN.md"
     },
     "paper_related_work_novelty_boundary": {
       "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_COMPLETE",

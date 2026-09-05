@@ -39,6 +39,79 @@ def _portfolio(path: Path) -> Path:
     })
 
 
+def _theory_bundle(root: Path) -> Path:
+    artifacts = {
+        "map.md": "map",
+        "proposal-card.json": json.dumps({"candidate_id": "proposal"}),
+        "proposal-family.md": "family",
+        "proposal-audit.json": json.dumps({"status": "PASS"}),
+        "stcgr-card.json": json.dumps({"candidate_id": "stcgr"}),
+        "stcgr-audit.json": json.dumps({"status": "PASS"}),
+        "stcgr-semantic.json": json.dumps({"status": "PASS"}),
+        "amtnc-card.json": json.dumps({"candidate_id": "amtnc"}),
+        "amtnc-audit.json": json.dumps({"status": "PASS"}),
+    }
+    for relative, text in artifacts.items():
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def ref(role: str, relative: str) -> dict:
+        return {
+            "role": role, "path": relative,
+            "sha256": freeze.file_sha256(root / relative),
+        }
+
+    path = root / "configs" / "PAPER_ALGORITHM_THEORY_BUNDLE.json"
+    return _write(path, {
+        "schema": "final-unsb-paper-algorithm-theory-bundle-v1",
+        "status": "PRE_RESULT_THREE_OPERATOR_THEORY_BUNDLE_FROZEN",
+        "canonical_map": {
+            "path": "map.md", "sha256": freeze.file_sha256(root / "map.md"),
+        },
+        "methods": {
+            "proposal": {
+                "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+                "paper_role": "proposal", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "proposal-card.json"),
+                    ref("family_derivation", "proposal-family.md"),
+                    ref("formula_implementation_audit", "proposal-audit.json"),
+                ],
+            },
+            "stcgr": {
+                "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+                "paper_role": "stcgr", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "stcgr-card.json"),
+                    ref("formula_implementation_audit", "stcgr-audit.json"),
+                    ref("independent_operator_semantic_audit", "stcgr-semantic.json"),
+                ],
+            },
+            "amtnc": {
+                "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+                "paper_role": "amtnc", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "amtnc-card.json"),
+                    ref("formula_implementation_audit", "amtnc-audit.json"),
+                ],
+            },
+        },
+        "claim_boundaries": {
+            "pre_adam_conditional_mean_only": True,
+            "expected_adam_displacement_unbiased_claimed": False,
+            "full_markov_kernel_unbiased_claimed": False,
+            "equal_flop_superiority_claimed": False,
+            "terminal_singular_drift_repair_claimed": False,
+            "full_data_benefit_claimed_before_e200": False,
+            "unique_winner_predeclared": False,
+        },
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    })
+
+
 def test_freeze_draft_cannot_self_approve(tmp_path: Path) -> None:
     portfolio = _portfolio(tmp_path / "portfolio.json")
     draft = freeze.create_review_draft(
@@ -60,6 +133,7 @@ def test_freeze_materialization_requires_committed_explicit_review(
 ) -> None:
     root = tmp_path / "repo"
     root.mkdir()
+    bundle = _theory_bundle(root)
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
     claims = ["fixed e200 claim"]
@@ -71,6 +145,9 @@ def test_freeze_materialization_requires_committed_explicit_review(
         "distribution_lanes": lanes,
         "paper_claims": claims,
         "paper_claims_sha256": freeze.object_sha256(claims),
+        "algorithm_theory_bundle": freeze.theory_bundle_reference(
+            bundle, root=root,
+        ),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
         "best_checkpoint_selection": False,
@@ -89,18 +166,23 @@ def test_freeze_materialization_requires_committed_explicit_review(
     assert receipt["paper_claims_frozen"] is True
     assert receipt["confirmation_authorized"] is False
     assert receipt["review_decision_git_commit"] == "d" * 40
+    assert receipt["algorithm_theory_bundle"]["path"] == (
+        "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json"
+    )
 
 
 def test_freeze_cli_requires_explicit_stages() -> None:
     draft = parser().parse_args([
         "--stage", "freeze-draft", "--portfolio", "portfolio.json",
         "--receipt-output", "draft.json", "--paper-claim", "claim",
+        "--theory-bundle", "theory.json",
     ])
     materialize = parser().parse_args([
         "--stage", "freeze-materialize", "--portfolio", "portfolio.json",
         "--review-decision", "review.json", "--receipt-output", "freeze.json",
     ])
     assert draft.stage == "freeze-draft"
+    assert draft.theory_bundle.name == "theory.json"
     assert materialize.stage == "freeze-materialize"
 
 
@@ -112,12 +194,30 @@ def test_freeze_draft_rejects_empty_claim_set(tmp_path: Path) -> None:
         )
 
 
+def test_theory_bundle_is_hash_bound_and_rejects_artifact_drift(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "repo"
+    root.mkdir()
+    bundle = _theory_bundle(root)
+    reference = freeze.theory_bundle_reference(bundle, root=root)
+    assert reference["algorithm_ids"] == [
+        "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+        "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+        "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    ]
+    (root / "proposal-family.md").write_text("drift", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="artifact changed"):
+        freeze.theory_bundle_reference(bundle, root=root)
+
+
 def test_committed_review_and_freeze_form_a_real_git_chain(
     tmp_path: Path, monkeypatch,
 ) -> None:
     root = tmp_path / "repo"
     root.mkdir()
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    bundle = _theory_bundle(root)
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
     claims = ["Every reported comparison uses its frozen e200 protocol."]
@@ -129,13 +229,16 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
         "distribution_lanes": lanes,
         "paper_claims": claims,
         "paper_claims_sha256": freeze.object_sha256(claims),
+        "algorithm_theory_bundle": freeze.theory_bundle_reference(
+            bundle, root=root,
+        ),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
         "best_checkpoint_selection": False,
         "paired_metric_control": False,
         "confirmation20_opened": False,
     })
-    subprocess.run(["git", "add", "review.json"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run([
         "git", "-c", "user.name=Freeze Test", "-c",
         "user.email=freeze@example.invalid", "commit", "-q", "-m", "review",

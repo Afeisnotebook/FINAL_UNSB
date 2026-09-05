@@ -18,6 +18,7 @@ from .protocol import (
     git_commit,
     object_sha256,
 )
+from .theory_bundle import theory_bundle_reference
 
 
 DRAFT_SCHEMA = "final-unsb-paper-freeze-review-draft-v1"
@@ -97,6 +98,7 @@ def validate_portfolio(path: Path) -> tuple[dict[str, Any], list[str]]:
 
 def create_review_draft(
     *, portfolio: Path, claims: list[str], destination: Path,
+    theory_bundle: Path | None = None,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
     value, lanes = validate_portfolio(portfolio)
@@ -107,6 +109,7 @@ def create_review_draft(
         or len(cleaned_claims) != len(set(cleaned_claims))
     ):
         raise ValueError("freeze review requires a nonempty unique explicit claim set")
+    theory = theory_bundle_reference(theory_bundle, root=ROOT)
     result = {
         "schema": DRAFT_SCHEMA,
         "status": DRAFT_STATUS,
@@ -118,8 +121,10 @@ def create_review_draft(
         "distribution_lanes": lanes,
         "paper_claims": cleaned_claims,
         "paper_claims_sha256": object_sha256(cleaned_claims),
+        "algorithm_theory_bundle": theory,
         "review_requirements": [
             "confirm every named algorithm and baseline configuration is final",
+            "confirm every algorithm claim matches the hash-bound derivation, formula-to-source audit and theory boundary",
             "confirm every paper claim is supported by fixed e200 and sustained evidence",
             "confirm failures, deferrals and reproduction-incomplete baselines are labeled honestly",
             "confirm no result was selected by best checkpoint or confirmation20",
@@ -139,11 +144,13 @@ def create_review_draft(
 
 def materialize_freeze_receipt(
     *, portfolio: Path, review_decision: Path, destination: Path,
+    theory_bundle: Path | None = None,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
     _, lanes = validate_portfolio(portfolio)
     review, review_commit, review_relative = _committed_json(review_decision)
     claims = review.get("paper_claims")
+    theory = theory_bundle_reference(theory_bundle, root=ROOT)
     if (
         review.get("schema") != REVIEW_SCHEMA
         or review.get("status") != REVIEW_STATUS
@@ -154,6 +161,7 @@ def materialize_freeze_receipt(
         or not claims
         or len(claims) != len(set(claims))
         or review.get("paper_claims_sha256") != object_sha256(claims)
+        or review.get("algorithm_theory_bundle") != theory
         or review.get("human_approval_recorded") is not True
         or review.get("codex_scientific_review_recorded") is not True
         or review.get("best_checkpoint_selection") is not False
@@ -181,6 +189,7 @@ def materialize_freeze_receipt(
         "distribution_lanes": lanes,
         "paper_claims": claims,
         "paper_claims_sha256": object_sha256(claims),
+        "algorithm_theory_bundle": theory,
         "review_decision": review_relative,
         "review_decision_sha256": file_sha256(review_decision),
         "review_decision_git_commit": review_commit,

@@ -6,8 +6,83 @@ import numpy as np
 import pytest
 import torch
 
-from research.paper_aio import distribution
+from research.paper_aio import distribution, theory_bundle
 from research.paper_aio.run import parser
+
+
+def _theory_bundle(root):
+    artifacts = {
+        "map.md": "map",
+        "proposal-card.json": "{}",
+        "proposal-family.md": "family",
+        "proposal-audit.json": "{}",
+        "stcgr-card.json": "{}",
+        "stcgr-audit.json": "{}",
+        "stcgr-semantic.json": "{}",
+        "amtnc-card.json": "{}",
+        "amtnc-audit.json": "{}",
+    }
+    for relative, text in artifacts.items():
+        (root / relative).write_text(text, encoding="utf-8")
+
+    def ref(role, relative):
+        return {
+            "role": role, "path": relative,
+            "sha256": distribution.file_sha256(root / relative),
+        }
+
+    value = {
+        "schema": theory_bundle.SCHEMA,
+        "status": theory_bundle.STATUS,
+        "canonical_map": {
+            "path": "map.md",
+            "sha256": distribution.file_sha256(root / "map.md"),
+        },
+        "methods": {
+            "proposal": {
+                "algorithm_id": theory_bundle.METHOD_IDS["proposal"],
+                "paper_role": "proposal", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "proposal-card.json"),
+                    ref("family_derivation", "proposal-family.md"),
+                    ref("formula_implementation_audit", "proposal-audit.json"),
+                ],
+            },
+            "stcgr": {
+                "algorithm_id": theory_bundle.METHOD_IDS["stcgr"],
+                "paper_role": "stcgr", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "stcgr-card.json"),
+                    ref("formula_implementation_audit", "stcgr-audit.json"),
+                    ref("independent_operator_semantic_audit", "stcgr-semantic.json"),
+                ],
+            },
+            "amtnc": {
+                "algorithm_id": theory_bundle.METHOD_IDS["amtnc"],
+                "paper_role": "amtnc", "pre_adam_property": "mean",
+                "artifacts": [
+                    ref("derivation_card", "amtnc-card.json"),
+                    ref("formula_implementation_audit", "amtnc-audit.json"),
+                ],
+            },
+        },
+        "claim_boundaries": {
+            "pre_adam_conditional_mean_only": True,
+            "expected_adam_displacement_unbiased_claimed": False,
+            "full_markov_kernel_unbiased_claimed": False,
+            "equal_flop_superiority_claimed": False,
+            "terminal_singular_drift_repair_claimed": False,
+            "full_data_benefit_claimed_before_e200": False,
+            "unique_winner_predeclared": False,
+        },
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    path = root / "configs" / "PAPER_ALGORITHM_THEORY_BUNDLE.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value), encoding="utf-8")
+    return path
 
 
 def _freeze(tmp_path, **updates):
@@ -16,6 +91,7 @@ def _freeze(tmp_path, **updates):
     review = tmp_path / "FREEZE_REVIEW.json"
     review.write_text("{}", encoding="utf-8")
     claims = ["frozen paper claim"]
+    bundle = _theory_bundle(tmp_path)
     value = {
         "schema": distribution.FREEZE_SCHEMA,
         "status": distribution.FREEZE_STATUS,
@@ -35,6 +111,9 @@ def _freeze(tmp_path, **updates):
         "review_decision_git_commit": "c" * 40,
         "paper_claims": claims,
         "paper_claims_sha256": distribution.object_sha256(claims),
+        "algorithm_theory_bundle": theory_bundle.theory_bundle_reference(
+            bundle, root=tmp_path,
+        ),
         "distribution_lanes": ["input", "plain", "proposal"],
         "best_checkpoint_selection": False,
         "paired_metric_control": False,
@@ -82,6 +161,7 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
         "source_portfolio_sha256": value["source_portfolio_sha256"],
         "distribution_lanes": value["distribution_lanes"],
         "paper_claims_sha256": value["paper_claims_sha256"],
+        "algorithm_theory_bundle": value["algorithm_theory_bundle"],
     }
     review.write_text(json.dumps(review_value), encoding="utf-8")
     value["review_decision_sha256"] = distribution.file_sha256(review)
