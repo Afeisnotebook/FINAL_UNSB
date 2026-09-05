@@ -261,3 +261,6 @@ authorize compute.
     仍升级为完整审计。
 79. `DEC-20260904-PROPOSAL-E20-FIXED-MILESTONE.md`：验收5090C Proposal全量e20完整checkpoint
     与固定评估文件的hash闭环；未读取性能值，训练继续到e21，所有宿主健康且调度不变。
+80. `DEC-20260905-NEW-ENDPOINT-REVALIDATES-5090B.md`：对用户再次提供的44804端点重做
+    物理GPU身份门；GPU UUID、hostname、现有CUT/CycleGAN PID与run目录均证明它仍是5090B，
+    因此不把同一卡重复登记或启动第三lane。现有训练、matched-plain后继和两小时Goal监控保持健康。

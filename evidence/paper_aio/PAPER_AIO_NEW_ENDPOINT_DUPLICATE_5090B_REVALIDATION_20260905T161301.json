@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-endpoint-physical-identity-revalidation-v1",
+  "captured_at": "2026-09-05T16:13:01+08:00",
+  "status": "DUPLICATE_ENDPOINT_OF_REGISTERED_5090B_NO_NEW_GPU_CAPACITY_REVALIDATED",
+  "provided_endpoint": {
+    "host": "connect.weste.seetacloud.com",
+    "port": 44804,
+    "credentials_recorded_in_git": false
+  },
+  "physical_identity": {
+    "resolved_host_label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+    "boot_id": "2ce2c6db-5fc5-4053-a5e5-33ee98eabad4",
+    "gpu_name": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu_memory_total_mib": 32607,
+    "driver_version": "595.71.05",
+    "registered_gpu_uuid_match": true,
+    "registered_hostname_match": true,
+    "active_run_identity_match": true
+  },
+  "runtime_identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "python": "3.11.16",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8"
+  },
+  "live_5090b": {
+    "gpu_utilization_percent_snapshot": 98,
+    "gpu_memory_used_mib_snapshot": 3479,
+    "disk_free_gib": 228.3753,
+    "cut": {
+      "status": "CHILD_RUNNING_HEALTHY",
+      "supervisor_pid": 3739,
+      "trainer_pid": 5771,
+      "completed_data_epoch": 176,
+      "completed_updates": 1505328,
+      "full_state_sha256": "981722748bca98b0020c2fc87de9878540d0f30c4472e9c9dd9600fb2e704ea1",
+      "continuity_guard_pid": 159133,
+      "continuity_guard_restarts": 0
+    },
+    "cyclegan": {
+      "status": "CHILD_RUNNING_HEALTHY",
+      "supervisor_pid": 11845,
+      "trainer_pid": 11846,
+      "completed_data_epoch": 114,
+      "completed_updates": 975042,
+      "full_state_sha256": "494cd58c4cae928f1c962eadfc77b036cd23dc4204fd2a419d578958ad6e2c15",
+      "continuity_guard_pid": 159134,
+      "continuity_guard_restarts": 0
+    },
+    "matched_plain_successor": {
+      "status": "WAITING_FOR_PREDECESSOR_E200",
+      "pid": 148465,
+      "health_watcher_pid": 148593,
+      "progress_watcher_pid": 148594,
+      "fresh_e0": true,
+      "exact_runtime_gate_required": true
+    },
+    "health": {
+      "primary_watcher_pid": 30355,
+      "continuity_watcher_pid": 159190,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "estimated_remaining_write_gib": 12.0,
+      "minimum_headroom_gib": 12.0
+    }
+  },
+  "scheduling_action": {
+    "new_lane_started": false,
+    "environment_reinstalled": false,
+    "existing_lane_interrupted": false,
+    "existing_queue_changed": false,
+    "reason": "the endpoint resolves to the already-loaded registered 5090B; a third process would consume existing capacity rather than add a new physical GPU",
+    "north_star_continues": true,
+    "next_existing_transition": "CUT_E200_THEN_MATCHED_PLAIN_CAPACITY_GATE"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  },
+  "repository_verification": {
+    "pytest": "671 passed in 43.77s",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "credential_leak_scan": "PASS_NO_MATCH"
+  },
+  "prior_identity_evidence": "evidence/paper_aio/PAPER_AIO_NEW_ENDPOINT_DUPLICATES_5090B_20260903T094940.json",
+  "decision": "decisions/DEC-20260905-NEW-ENDPOINT-REVALIDATES-5090B.md"
+}
