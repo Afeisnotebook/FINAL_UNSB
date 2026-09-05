@@ -25,6 +25,15 @@ def test_delivery_matrix_keeps_dclgan_nonblocking_and_confirmation_sealed() -> N
     assert extensions["dclgan"]["implementation"].endswith(
         "paper_aio_dclgan_portfolio_addendum_successor.py"
     )
+    assert extensions["higher_resolution_inference"]["status"].startswith(
+        "implemented_tested_fail_closed_"
+    )
+    assert extensions["higher_resolution_inference"]["critical_path"] is False
+    assert (
+        extensions["higher_resolution_inference"]["training_fingerprint_changed"]
+        is False
+    )
+    assert extensions["higher_resolution_inference"]["confirmation20_opened"] is False
     assert extensions["confirmation20"]["status"].startswith("sealed_")
     assert extensions["confirmation20"]["open_count_allowed"] == 1
     assert extensions["confirmation20"]["same_session_failure_recovery_allowed"] is True
