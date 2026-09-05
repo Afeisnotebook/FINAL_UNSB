@@ -34,6 +34,7 @@ def _args(tmp_path):
         predecessor_state=tmp_path / "cut.json",
         poll_seconds=60,
         timeout_hours=720,
+        resume_after_passed_engineering_gates=False,
     )
 
 
@@ -85,6 +86,76 @@ def test_runtime_receipt_must_be_exact_and_confirmation_closed():
                 host_label="5090B_MATCHED",
                 required_protocol_fingerprint="frozen",
             )
+
+
+def test_gate_only_recovery_rebinds_every_existing_receipt(tmp_path):
+    args = _args(tmp_path)
+    output = args.training_output
+    gates = output / "gates"
+    gates.mkdir(parents=True)
+    (output / "PAPER_PROTOCOL.json").write_text(json.dumps({
+        "protocol_fingerprint": args.required_protocol_fingerprint,
+        "evaluation": {"bundle_seed_fingerprint": "evaluation-bundle"},
+    }), encoding="utf-8")
+    receipts = {
+        "PREFLIGHT.json": {
+            "status": "PASS", "node_role": "training",
+            "manifest": {"content_hashes_verified": True},
+            "protocol_fingerprint": args.required_protocol_fingerprint,
+            "confirmation20_opened": False,
+        },
+        "RESUME_GATE_plain.json": {
+            "status": "PASS", "lane_id": "plain", "total_updates": 1000,
+            "split_updates": 500, "continuous_core_sha256": "same",
+            "resumed_core_sha256": "same",
+            "protocol_fingerprint": args.required_protocol_fingerprint,
+            "confirmation20_opened": False,
+        },
+        f"RUNTIME_TWIN_{args.host_label}.json": {
+            "schema": "final-unsb-paper-runtime-twin-receipt-v1",
+            "status": "PASS_EXACT_RUNTIME_COHORT",
+            "host_label": args.host_label, "updates": 2000,
+            "protocol_fingerprint": args.required_protocol_fingerprint,
+            "exact_runtime_equivalence": True, "differences": {},
+            "confirmation20_opened": False,
+        },
+        "EVALUATION_REPEAT_plain.json": {
+            "status": "PASS", "lane_id": "plain",
+            "first_result_sha256": "same", "second_result_sha256": "same",
+            "protocol_fingerprint": args.required_protocol_fingerprint,
+            "evaluation_bundle_fingerprint": "evaluation-bundle",
+            "split": "discovery", "confirmation20_opened": False,
+        },
+    }
+    for name, value in receipts.items():
+        (gates / name).write_text(json.dumps(value), encoding="utf-8")
+    authorization = {
+        "status": "PASS", "lane_id": "plain",
+        "protocol_fingerprint": args.required_protocol_fingerprint,
+        "preflight_sha256": successor.file_sha256(gates / "PREFLIGHT.json"),
+        "resume_gate_sha256": successor.file_sha256(
+            gates / "RESUME_GATE_plain.json"
+        ),
+        "evaluation_repeat_gate_sha256": successor.file_sha256(
+            gates / "EVALUATION_REPEAT_plain.json"
+        ),
+        "comparison": {"mode": "standalone_fixed_protocol"},
+        "failures": [], "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    (gates / "LANE_AUTHORIZATION_plain.json").write_text(
+        json.dumps(authorization), encoding="utf-8"
+    )
+    result = successor.validate_passed_engineering_gates(args, output=output)
+    assert result["status"] == "PASS_EXACT_EXISTING_ENGINEERING_GATES"
+    assert result["performance_values_read"] is False
+
+    receipts["EVALUATION_REPEAT_plain.json"]["protocol_fingerprint"] = "stale"
+    (gates / "EVALUATION_REPEAT_plain.json").write_text(
+        json.dumps(receipts["EVALUATION_REPEAT_plain.json"]), encoding="utf-8"
+    )
+    with pytest.raises(RuntimeError, match="evaluation"):
+        successor.validate_passed_engineering_gates(args, output=output)
 
 
 def test_capacity_contract_is_all_or_none_and_requires_clean_probe(tmp_path):

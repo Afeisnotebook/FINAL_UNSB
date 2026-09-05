@@ -207,6 +207,119 @@ def validate_runtime_receipt(
         raise RuntimeError("cross-host plain runtime twin did not pass exactly")
 
 
+def validate_passed_engineering_gates(
+    args: argparse.Namespace,
+    *,
+    output: Path,
+) -> dict:
+    """Validate a complete gate chain before a gate-only recovery.
+
+    This path exists for operational recovery only.  It does not waive or
+    regenerate any gate: a corrected repeated-evaluation receipt and a PASS
+    authorization must already exist, and every receipt is rebound to the
+    frozen protocol and current bytes before capacity probing can continue.
+    """
+    gates = output / "gates"
+    paths = {
+        "preflight": gates / "PREFLIGHT.json",
+        "resume": gates / "RESUME_GATE_plain.json",
+        "runtime": gates / f"RUNTIME_TWIN_{args.host_label}.json",
+        "evaluation": gates / "EVALUATION_REPEAT_plain.json",
+        "authorization": gates / "LANE_AUTHORIZATION_plain.json",
+    }
+    missing = [name for name, path in paths.items() if not path.is_file()]
+    if missing:
+        raise RuntimeError(
+            "gate-only recovery lacks receipts: " + ", ".join(sorted(missing))
+        )
+
+    preflight = read_json(paths["preflight"])
+    resume = read_json(paths["resume"])
+    runtime = read_json(paths["runtime"])
+    evaluation = read_json(paths["evaluation"])
+    authorization = read_json(paths["authorization"])
+    protocol = read_json(output / "PAPER_PROTOCOL.json")
+    required = args.required_protocol_fingerprint
+    evaluation_bundle = (protocol.get("evaluation") or {}).get(
+        "bundle_seed_fingerprint"
+    )
+    failures: list[str] = []
+    if (
+        preflight.get("status") != "PASS"
+        or preflight.get("node_role") != "training"
+        or not (preflight.get("manifest") or {}).get("content_hashes_verified")
+        or preflight.get("protocol_fingerprint") != required
+        or preflight.get("confirmation20_opened") is not False
+    ):
+        failures.append("preflight")
+    if (
+        resume.get("status") != "PASS"
+        or resume.get("lane_id") != "plain"
+        or resume.get("total_updates") != 1000
+        or resume.get("split_updates") != 500
+        or resume.get("continuous_core_sha256")
+        != resume.get("resumed_core_sha256")
+        or resume.get("protocol_fingerprint") != required
+        or resume.get("confirmation20_opened") is not False
+    ):
+        failures.append("resume")
+    try:
+        validate_runtime_receipt(
+            runtime,
+            host_label=args.host_label,
+            required_protocol_fingerprint=required,
+        )
+    except RuntimeError:
+        failures.append("runtime")
+    if (
+        evaluation.get("status") != "PASS"
+        or evaluation.get("lane_id") != "plain"
+        or evaluation.get("first_result_sha256")
+        != evaluation.get("second_result_sha256")
+        or evaluation.get("protocol_fingerprint") != required
+        or evaluation.get("evaluation_bundle_fingerprint") != evaluation_bundle
+        or evaluation.get("split") != "discovery"
+        or evaluation.get("confirmation20_opened") is not False
+    ):
+        failures.append("evaluation")
+    if (
+        authorization.get("status") != "PASS"
+        or authorization.get("lane_id") != "plain"
+        or authorization.get("protocol_fingerprint") != required
+        or authorization.get("preflight_sha256") != file_sha256(paths["preflight"])
+        or authorization.get("resume_gate_sha256") != file_sha256(paths["resume"])
+        or authorization.get("evaluation_repeat_gate_sha256")
+        != file_sha256(paths["evaluation"])
+        or (authorization.get("comparison") or {}).get("mode")
+        != "standalone_fixed_protocol"
+        or authorization.get("failures") != []
+        or authorization.get("paired_metric_control") is not False
+        or authorization.get("confirmation20_opened") is not False
+    ):
+        failures.append("authorization")
+    if protocol.get("protocol_fingerprint") != required:
+        failures.append("protocol")
+    if (output / "gates" / "SUPERVISOR_plain.json").exists():
+        failures.append("preexisting_plain_supervisor")
+    if (output / "lanes" / "plain" / "HEARTBEAT.json").exists():
+        failures.append("preexisting_plain_lane")
+    if failures:
+        raise RuntimeError(
+            "gate-only recovery validation failed: "
+            + ", ".join(sorted(set(failures)))
+        )
+    return {
+        "status": "PASS_EXACT_EXISTING_ENGINEERING_GATES",
+        "receipt_sha256": {
+            name: file_sha256(path) for name, path in paths.items()
+        },
+        "protocol_fingerprint": required,
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+
+
 def gate_commands(args: argparse.Namespace) -> list[list[str]]:
     common = [
         "--output",
@@ -312,6 +425,14 @@ def arguments(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--co-resident-isolated-epoch-seconds", type=float)
     parser.add_argument("--minimum-makespan-saving-seconds", type=float, default=3600)
     parser.add_argument("--control-instance-id")
+    parser.add_argument(
+        "--resume-after-passed-engineering-gates",
+        action="store_true",
+        help=(
+            "Recover only from a recorded gate-5 engineering failure after "
+            "all five corrected receipts have independently passed"
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -397,6 +518,9 @@ def frozen_contract(
         "poll_seconds": int(args.poll_seconds),
         "timeout_hours": float(args.timeout_hours),
         "co_resident_capacity_gate": colocation,
+        "resume_after_passed_engineering_gates": bool(
+            args.resume_after_passed_engineering_gates
+        ),
         "fresh_e0_required": True,
         "cross_host_checkpoint_resume": False,
         "performance_values_available_to_scheduler": False,
@@ -638,6 +762,7 @@ def main(argv: list[str] | None = None) -> int:
             raise RuntimeError("cross-host plain successor requires POSIX file locking")
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         started = time.time()
+        prior_state = read_json(state_path) if state_path.is_file() else {}
         while True:
             try:
                 verify_frozen_contract(contract)
@@ -684,30 +809,59 @@ def main(argv: list[str] | None = None) -> int:
             time.sleep(args.poll_seconds)
 
         verify_frozen_contract(contract)
-        commands = gate_commands(args)
-        for index, command in enumerate(commands, start=1):
-            verify_frozen_contract(contract)
+        if args.resume_after_passed_engineering_gates:
+            if (
+                prior_state.get("status") != "BLOCKED_ENGINEERING_GATE_FAILURE"
+                or prior_state.get("gate_index") != 5
+                or prior_state.get("child_returncode") != 1
+                or prior_state.get("host_label") != args.host_label
+                or prior_state.get("training_git_commit")
+                != args.required_training_git_commit
+                or prior_state.get("required_protocol_fingerprint")
+                != args.required_protocol_fingerprint
+            ):
+                raise RuntimeError(
+                    "gate-only recovery requires the recorded gate-5 failure"
+                )
+            gate_recovery = validate_passed_engineering_gates(
+                args,
+                output=output,
+            )
             atomic_json(
                 state_path,
                 state_payload(
                     args,
-                    status="RUNNING_EXACT_ENGINEERING_GATES",
-                    gate_index=index,
-                    gate_count=len(commands),
+                    status="EXACT_ENGINEERING_GATES_RECOVERED",
+                    resume_after_passed_engineering_gates=True,
+                    prior_blocked_state=prior_state,
+                    gate_recovery=gate_recovery,
                 ),
             )
-            code = run_logged(command, cwd=repo, log=log)
-            if code:
+        else:
+            commands = gate_commands(args)
+            for index, command in enumerate(commands, start=1):
+                verify_frozen_contract(contract)
                 atomic_json(
                     state_path,
                     state_payload(
                         args,
-                        status="BLOCKED_ENGINEERING_GATE_FAILURE",
+                        status="RUNNING_EXACT_ENGINEERING_GATES",
                         gate_index=index,
-                        child_returncode=code,
+                        gate_count=len(commands),
                     ),
                 )
-                return code
+                code = run_logged(command, cwd=repo, log=log)
+                if code:
+                    atomic_json(
+                        state_path,
+                        state_payload(
+                            args,
+                            status="BLOCKED_ENGINEERING_GATE_FAILURE",
+                            gate_index=index,
+                            child_returncode=code,
+                        ),
+                    )
+                    return code
 
         runtime_path = output / "gates" / f"RUNTIME_TWIN_{args.host_label}.json"
         validate_runtime_receipt(
