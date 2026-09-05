@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-amtnc-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-05T14:09:38+08:00",
+  "decision": "AMTNC_E5_CHECKPOINT_AND_METRIC_ARTIFACT_HASH_CLOSED_CONTINUE_UNCHANGED",
+  "lane": {
+    "lane_id": "amtnc",
+    "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "host": "4090A",
+    "data_epoch": 5,
+    "updates": 42765,
+    "target_data_epoch": 200,
+    "checkpoint_sha256": "9a9c7d71679a1aa27da6338c19ae55f297ad517347144c712d1a93cd73343e74",
+    "checkpoint_sidecar_sha256": "5dae5ba38913dfda544703bc41092949488961daef40f65eeb6670c450985ff9",
+    "scientific_state_sha256": "189a516f0533104b9faa674ee4e4f322f6356d854f40a89945f5d2646b325be9",
+    "metric_artifact_sha256": "64f5114e95320f2922054f9f1e19f8356ef663515d3171cd53fa59e1e0730270",
+    "heartbeat_sha256": "d755ff679402bb5858b127964a224014fe25ee470a1198be884148d774c5a1dc",
+    "epoch_wall_seconds": 3562.757393360138,
+    "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "shared_e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591",
+    "checkpoint_hash_matches_sidecar": true,
+    "heartbeat_matches_sidecar": true,
+    "performance_values_read": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "concurrent_frontier": {
+    "5090A_stcgr": {"data_epoch": 43, "updates": 367779},
+    "5090B_cut": {"data_epoch": 171, "updates": 1462563},
+    "5090B_cyclegan": {"data_epoch": 111, "updates": 949383},
+    "5090C_proposal": {"data_epoch": 49, "updates": 419097}
+  },
+  "health": {
+    "4090A_health_watcher_pid": 3460191,
+    "4090A_health_status": "HEALTHY_ZERO_ALERTS",
+    "local_health_watcher_pid": 276,
+    "local_health_status": "HEALTHY_ZERO_ALERTS",
+    "all_heartbeat_sidecar_pairs_match": true,
+    "disk_capacity_risk": false,
+    "training_interrupted": false
+  },
+  "action": {
+    "training_configuration_changed": false,
+    "early_stop_or_selection_performed": false,
+    "continue_to_e200": true,
+    "next_amtnc_fixed_milestone": 10,
+    "next_monitoring_mode": "two_hour_metric_blind"
+  },
+  "scientific_boundaries": {
+    "intermediate_paired_performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
