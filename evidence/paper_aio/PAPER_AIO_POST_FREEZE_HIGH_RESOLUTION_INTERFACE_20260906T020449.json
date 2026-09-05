@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-high-resolution-interface-evidence-v1",
+  "captured_at": "2026-09-06T02:04:49+08:00",
+  "status": "PASS_IMPLEMENTED_TESTED_FAIL_CLOSED_POST_FREEZE_256PX_SUPPLEMENT",
+  "implementation_commit": "8e33362a580a4de5f944f511ecedcb71adae6b25",
+  "implementation": "operations/paper_aio_high_resolution_inference.py",
+  "implementation_sha256": "6aee23f29079d1d77a1ddb14dbab05af8d845c42b73e511d966a599361ab45a1",
+  "training_scientific_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "training_fingerprint_scope_changed": false,
+  "fingerprint_isolation_proof": "operations/paper_aio_high_resolution_inference.py is absent from research.paper_aio.protocol._fingerprinted_files()",
+  "spatial_policy": {
+    "training_resolution": 128,
+    "inference_resolution": 256,
+    "source_and_target_resize": "PIL_RGB_bicubic_square_256",
+    "execution": "whole_image_fully_convolutional",
+    "tiling": false,
+    "retraining": false,
+    "checkpoint_selection": false,
+    "interpretation": "supplementary fixed-resolution sensitivity, not native-resolution restoration or the primary 128px table"
+  },
+  "hard_gates": {
+    "committed_algorithm_baseline_claim_freeze_required_before_any_discovery_read": true,
+    "fixed_e200_checkpoint_only": true,
+    "checkpoint_pre_post_sha256_required": true,
+    "manifest_bytes_and_sha256_verified_for_all_discovery80_inputs_and_targets": true,
+    "all_frozen_lanes_required_for_cohort_lock": true,
+    "one_evaluator_environment_and_script_identity_required": true,
+    "unsb_primary_nfe": 5,
+    "unsb_fixed_crn_replicates": 5,
+    "external_replicates": 1,
+    "generated_images_retained": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  },
+  "coverage": {
+    "input": true,
+    "standard_paper_lanes": true,
+    "portable_candidates": true,
+    "source_bound_dclgan": true,
+    "metrics": ["PSNR", "SSIM", "LPIPS"]
+  },
+  "verification": {
+    "focused_and_boundary_tests": "43 passed",
+    "focused_test_file": "tests/test_paper_high_resolution_inference.py",
+    "focused_test_count": 5,
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "credential_scan": "PASS"
+  },
+  "runtime_action": "NONE_PRE_FREEZE",
+  "healthy_training_changed": false,
+  "new_gpu_job_started": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

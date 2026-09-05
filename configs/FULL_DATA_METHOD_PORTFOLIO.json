@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T01:40:00+08:00",
+  "captured_at": "2026-09-06T02:04:49+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -693,6 +693,26 @@
     "confirmation_authorized": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_TWO_STAGE_FREEZE_GATE_20260903T164000.json",
     "decision": "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
+  },
+  "post_freeze_high_resolution_interface": {
+    "status": "CODE_READY_TESTED_NOT_DEPLOYED_AWAITING_COMMITTED_FREEZE",
+    "implementation_commit": "8e33362a580a4de5f944f511ecedcb71adae6b25",
+    "implementation": "operations/paper_aio_high_resolution_inference.py",
+    "training_fingerprint_scope_changed": false,
+    "primary_table_resolution": 128,
+    "supplementary_resolution": 256,
+    "spatial_policy": "bicubic square 256 then whole-image fully convolutional inference",
+    "fixed_e200_only": true,
+    "discovery80_only": true,
+    "complete_frozen_lane_cohort_required": true,
+    "one_evaluator_runtime_and_script_identity_required": true,
+    "source_bound_dclgan_supported": true,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_HIGH_RESOLUTION_INTERFACE_20260906T020449.json",
+    "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
   },
   "confirmation20_control_plane": {
     "status": "SEALED_INTERFACE_READY_NOT_AUTHORIZED",

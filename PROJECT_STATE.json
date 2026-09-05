@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T01:40:00+08:00",
+  "state_snapshot_time": "2026-09-06T02:04:49+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -857,6 +857,34 @@
         "decisions/DEC-20260903-POST-FREEZE-DISTRIBUTION-EVALUATION.md",
         "decisions/DEC-20260903-TWO-STAGE-PAPER-FREEZE-GATE.md"
       ]
+    },
+    "post_freeze_high_resolution_interface": {
+      "status": "IMPLEMENTED_TESTED_FAIL_CLOSED_NOT_DEPLOYED_AWAITING_COMPLETE_PAPER_FREEZE",
+      "implementation_commit": "8e33362a580a4de5f944f511ecedcb71adae6b25",
+      "implementation": "operations/paper_aio_high_resolution_inference.py",
+      "implementation_sha256": "6aee23f29079d1d77a1ddb14dbab05af8d845c42b73e511d966a599361ab45a1",
+      "training_fingerprint_scope_changed": false,
+      "primary_table_resolution": 128,
+      "supplementary_resolution": 256,
+      "spatial_policy": "bicubic square 256 then whole-image fully convolutional inference",
+      "native_resolution_claimed": false,
+      "fixed_epoch": 200,
+      "discovery_per_domain": 80,
+      "unsb_replicates": 5,
+      "unsb_primary_nfe": 5,
+      "requires_committed_freeze_receipt_before_discovery_read": true,
+      "manifest_content_hash_reverified": true,
+      "checkpoint_read_only_rehash": true,
+      "all_frozen_lanes_exactly_required": true,
+      "one_evaluator_runtime_and_script_identity_required": true,
+      "dclgan_source_bound_adapter_available": true,
+      "deployed": false,
+      "metric_values_used_for_training_or_scheduling": false,
+      "best_checkpoint_selection": false,
+      "confirmation_authorized": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_HIGH_RESOLUTION_INTERFACE_20260906T020449.json",
+      "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
     },
     "confirmation20_control_plane": {
       "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",

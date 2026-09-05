@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-05T17:00:34+08:00",
+  "captured_at": "2026-09-06T02:04:49+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -65,10 +65,15 @@
     },
     {
       "id": "higher_resolution_inference",
-      "status": "supplementary_not_implemented",
+      "status": "implemented_tested_fail_closed_post_freeze_not_scheduled",
       "critical_path": false,
       "gate": "algorithm and baseline freeze",
-      "scope": "fixed e200 checkpoint inference only; no retraining or selection"
+      "scope": "fixed e200 checkpoint inference only; no retraining or selection",
+      "policy": "bicubic square 256 then whole-image fully convolutional inference; supplementary only, not native resolution",
+      "implementation": "operations/paper_aio_high_resolution_inference.py",
+      "cohort_gate": "all frozen lanes in one evaluator runtime and one script identity",
+      "training_fingerprint_changed": false,
+      "confirmation20_opened": false
     },
     {
       "id": "confirmation20",
