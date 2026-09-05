@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-05T15:56:01+08:00",
+  "captured_at": "2026-09-05T16:38:53+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -133,7 +133,7 @@
     "cut_5090B": "running",
     "cyclegan_5090B": "running",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_from_authorized_update1000_state_remote_5090B_duplicate_waiters_retired_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -660,7 +660,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_NONDESTRUCTIVE_ACCELERATION_AUDIT_20260905T155601.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_SOURCE_BOUND_DELIVERY_DEPLOYED_20260905T163853.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-03T17:15:00+08:00",
+  "captured_at": "2026-09-05T16:38:53+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -48,11 +48,12 @@
     },
     {
       "id": "dclgan",
-      "status": "training_queued_evaluation_waiter_deployed_portfolio_addendum_code_ready",
+      "status": "training_running_local_source_bound_push_and_recoverable_evaluation_waiters_deployed",
       "critical_path": false,
-      "reason": "DCLGAN waits behind 5090B matched plain and must not delay the earlier core portfolio",
+      "reason": "DCLGAN runs independently on local GTX1660 and must not delay the earlier core portfolio",
       "outputs": ["DCLGAN_PAPER_RESULT.json", "complexity/dclgan.json", "PAPER_EXTERNAL_BASELINE_ADDENDUM.json", "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"],
-      "deployment_gate": "deploy after the future dynamic core final-delivery output path is frozen",
+      "delivery_gate": "local e200 export then pinned source-bound push; evaluation also waits for the future dynamic first-wave cohort",
+      "portfolio_addendum_gate": "deploy after the future dynamic core final-delivery output path is frozen",
       "implementation": "operations/paper_aio_dclgan_portfolio_addendum_successor.py"
     },
     {
@@ -82,7 +83,7 @@
   "known_completion_risks": [
     "5090A plain cancellation requires the reviewed 5090B control relation before Proposal or ST-CGR matched deltas",
     "future dynamic unified and final-delivery successors cannot be deployed before the real 5090B runtime receipt is admitted",
-    "DCLGAN capacity must extend beyond the 5090B matched-plain chain",
+    "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff",
     "5090C and 5090A lease horizons must cover their projected e200 plus export"
   ],
   "scientific_boundaries": {

@@ -1,0 +1,101 @@
+{
+  "schema": "final-unsb-paper-local-dclgan-source-bound-delivery-deployment-v1",
+  "captured_at": "2026-09-05T16:38:53+08:00",
+  "status": "PASS_LOCAL_EXPORT_PUSH_AND_RECOVERABLE_4090A_EVALUATION_WAITERS_DEPLOYED",
+  "finding": {
+    "gap": "the local GTX1660 DCLGAN run had an e200 exporter but no durable path from its Windows source receipts into the common 4090A evaluation staging root",
+    "failure_if_unrepaired": "the lane would stop after local export and never enter the unified paper evaluator",
+    "training_result_known_incorrect": false,
+    "algorithm_semantics_changed": false
+  },
+  "implementation": {
+    "windows_source_path_provenance": "accepted as immutable receipt provenance without granting path access on the evaluation host",
+    "transport": "outbound pinned-host-key SFTP with per-file local and remote SHA256 and publish-last IMPORT_LANE",
+    "destination_identity": "hostname and GPU UUID are checked at preflight and again before publication",
+    "atomicity": "unique .part upload, remote SHA256 verification, then rename; existing files must have the same hash",
+    "capacity": "remote free bytes are checked before each payload with 2 GiB transfer headroom",
+    "credentials": "password inherited through an environment variable by the recovery supervisor and never persisted",
+    "source_mutation": false,
+    "training_or_metric_control": false
+  },
+  "local_push": {
+    "control_commit": "4a8c760d3103dad087ecea4c7d3786823bb8f9ab",
+    "frozen_checkout": "E:\\UNSB_Expl\\FINAL_UNSB_DCLGAN_PUSH_4A8C760",
+    "source_run": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "source_host_label": "LOCAL_GTX1660",
+    "destination_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+    "supervisor_pid": 26020,
+    "initial_child_pid": 18188,
+    "current_child_pid": 24396,
+    "health_watcher_pid": 20500,
+    "contract_sha256": "b8251136c3ea643ced7798c200f0f65d620dae8fc70ee32b2b9ad68fc7a82a79",
+    "status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "destination_preflight": {
+      "status": "PASS_PINNED_DESTINATION_IDENTITY_AND_CAPACITY",
+      "hostname": "Machine",
+      "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+      "free_gib": 382.6006
+    },
+    "fault_injection": {
+      "scope": "waiting control child only",
+      "old_child_pid": 18188,
+      "new_child_pid": 24396,
+      "supervisor_restart_count": 2,
+      "post_restart_destination_preflight": "PASS",
+      "training_process_touched": false
+    },
+    "retired_preflight_attempts": [25944, 21608],
+    "retired_static_child_pid_health_watcher": 26236,
+    "health_status": "HEALTHY_ZERO_ALERTS_DYNAMIC_CHILD_STATE_WATCH"
+  },
+  "remote_evaluation": {
+    "host": "4090A",
+    "control_commit": "82ca28ad2acc33e4981c42733630c6bfb347698e",
+    "bundle_sha256": "9fa7ec8585401762c60f9c2ee98de09a8cc50190f031e6dcb28e4744e680b8b7",
+    "frozen_checkout": "/home/yc/FINAL_UNSB_DCL_LOCAL_EVAL_82CA28A_BUNDLE",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_82CA28A",
+    "supervisor_pid": 3586790,
+    "initial_child_pid": 3586800,
+    "current_child_pid": 3587264,
+    "health_watcher_pid": 3586976,
+    "contract_sha256": "c9b7243ea8bb9535e6e908ab8ad931d798cdb4297abdbeb8f6c2015567a03a4d",
+    "status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "imported_lane_ready": false,
+    "reference_cohort_ready": false,
+    "completed_evaluations": 0,
+    "shared_gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "fault_injection": {
+      "scope": "waiting evaluation child only",
+      "old_child_pid": 3586800,
+      "new_child_pid": 3587264,
+      "supervisor_restart_count": 2,
+      "amtnc_trainer_pid_3446758_alive_after_test": true
+    },
+    "retired_legacy_waiter_pid": 3585692,
+    "retired_legacy_health_watcher_pid": 3585813,
+    "health_status": "HEALTHY_ZERO_ALERTS_DYNAMIC_CHILD_STATE_WATCH"
+  },
+  "verification": {
+    "local_full_pytest": "681 passed in 43.92s",
+    "local_compileall": "PASS",
+    "git_diff_check": "PASS",
+    "credential_leak_scan": "PASS_NO_MATCH",
+    "remote_targeted_tests": "18 passed",
+    "local_push_destination_preflight": "PASS",
+    "local_push_recovery_fault_injection": "PASS",
+    "remote_evaluation_recovery_fault_injection": "PASS",
+    "source_checkpoint_uploaded_before_e200": false,
+    "evaluation_gpu_acquired_before_dependencies": false
+  },
+  "scientific_boundaries": {
+    "healthy_training_interrupted": false,
+    "dclgan_training_pid_22020_alive": true,
+    "amtnc_training_pid_3446758_alive": true,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260905-LOCAL-DCLGAN-SOURCE-BOUND-DELIVERY.md"
+}

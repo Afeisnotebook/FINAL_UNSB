@@ -264,3 +264,6 @@ authorize compute.
 80. `DEC-20260905-NEW-ENDPOINT-REVALIDATES-5090B.md`：对用户再次提供的44804端点重做
     物理GPU身份门；GPU UUID、hostname、现有CUT/CycleGAN PID与run目录均证明它仍是5090B，
     因此不把同一卡重复登记或启动第三lane。现有训练、matched-plain后继和两小时Goal监控保持健康。
+81. `DEC-20260905-LOCAL-DCLGAN-SOURCE-BOUND-DELIVERY.md`：补齐本地GTX1660 DCLGAN在e200
+    之后到4090A统一评估的缺失桥；部署固定host-key/GPU身份和逐文件哈希的出站push，以及可恢复
+    evaluation waiter。两条等待子进程均通过故障注入恢复，不触碰训练、不读取paired指标。
