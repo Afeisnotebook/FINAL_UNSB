@@ -52,7 +52,7 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert state["phase"] == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
     portfolio = common.load_json("configs/FULL_DATA_METHOD_PORTFOLIO.json")
     assert portfolio["methods"]["proposal"]["status"] == "running"
-    assert portfolio["methods"]["amtnc"]["status"] == "queued"
+    assert portfolio["methods"]["amtnc"]["status"] == "running"
     assert portfolio["methods"]["stcgr"]["status"] == "running"
     assert portfolio["controls_and_external"]["plain_5090A"].startswith(
         "paused_by_explicit_user_time_priority_at_e9"

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-05T07:27:00+08:00",
+  "captured_at": "2026-09-05T09:49:42+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -31,12 +31,13 @@
       "status": "running",
       "host": "5090C",
       "first_full_epoch_status": "complete",
-      "completed_full_data_epoch": 44,
+    "completed_full_data_epoch": 46,
       "first_epoch_seconds": 4696.602091550827,
       "latest_epoch_seconds": 4951.319998025894,
       "projected_completion": "2026-09-13T16:18:19+08:00",
       "latest_full_state_hash_verified": true,
-      "latest_full_state_sha256": "28584efe344fa94f1c36a238600cdbad4986aa63cdd49597d8dae2f9b01a3113",
+    "latest_full_state_sha256": "c72917548dc6adb8791587a8333063fd99e7b2efeadd974dbbf4f1535dd041bb",
+    "latest_scientific_state_sha256": "f004ceca038d1259fc47af395eff34647546c31f5069a122b49c44a243faf369",
       "latest_fixed_milestone": "e40",
       "latest_fixed_milestone_checkpoint_sha256": "dc983a111c5a3efa2da05d0c65268d7bcd16600f9434dc5c8878687a6c2bf6a4",
       "latest_fixed_milestone_scientific_state_sha256": "d329084bca14b148c4224d16d36f1d6d606c3684db1f0b4c86f151e85ea7fc67",
@@ -54,7 +55,7 @@
       "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
       "status": "running",
       "host": "5090A",
-      "completed_full_data_epoch": 38,
+    "completed_full_data_epoch": 40,
       "resume_from_full_data_epoch": 1,
       "target_full_data_epoch": 200,
       "continuation_pid": 336340,
@@ -62,7 +63,8 @@
       "trainer_pid": 431032,
       "export_successor_pid": 336344,
       "latest_resumed_epoch_seconds": 4863.23805475235,
-      "latest_full_state_sha256": "c2ab629c4de3afd63ee5755635c402a06e39ee7f7cc3ab31ecf70a8559066687",
+    "latest_full_state_sha256": "805ebc232ccab818c163cb2663c09b0f278f6b64549f535f84f4356263d290e1",
+    "latest_scientific_state_sha256": "500931063a42724dd130a86e938411a993fcea1045aa1011a1107c50ab77da1f",
       "latest_fixed_milestone": "e20",
       "latest_fixed_milestone_checkpoint_sha256": "5898f3a32e955ea626062b1be58f9996aa0615bd720041e63770c4db4c7a837f",
       "latest_fixed_milestone_scientific_state_sha256": "a44f5671fd18398cd11ca33014267e3a0b6bd95e19af571b7bfd5c835a9070e3",
@@ -85,16 +87,25 @@
     },
     "amtnc": {
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
-      "status": "queued",
+      "status": "running",
       "host": "4090A",
       "projected_completion_window": "2026-09-11/2026-09-12",
-      "resume_after": "4090A/plain COMPLETE_E200",
+      "resume_after": "4090A/plain COMPLETE_E200 satisfied",
       "successor_pid": 2518921,
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "export_successor_pid": 2182586,
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
-      "successor_health_watcher_pid": 3415044,
-      "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500],
+      "successor_health_watcher_pid": 3460191,
+      "first_epoch_status": "healthy_in_progress_no_epoch_boundary_checkpoint_yet",
+      "resume_gate": "pass",
+      "zero_intervention_gate": "pass",
+      "evaluation_repeat_gate": "pass",
+      "latest_liveness_probe": "cpu_time_advanced_gpu_utilization_50_to_52_percent_no_restart",
+      "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500, 3415044],
       "scientific_role": "independent Adam-metric optimization geometry",
-      "small25_status": "positive_but_fragile_not_falsified"
+      "small25_status": "positive_but_fragile_not_falsified",
+      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
     },
     "hjcgr": {
       "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
@@ -106,7 +117,7 @@
     }
   },
   "controls_and_external": {
-    "plain_4090A": "running",
+    "plain_4090A": "complete_e200_target_blind_audit_closed",
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "durably_queued_after_cut_with_exact_runtime_gate_fresh_e0",
     "cut_5090B": "running",
@@ -116,6 +127,16 @@
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
+    "plain_e200": {
+      "status": "checkpoint_export_import_and_target_blind_audit_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "1b102d410d629982db3346041bde17c563042d14ed38ed76bf2124a362b3dd02",
+      "scientific_state_sha256": "ef2b1a322b76f8552fd0e778c6b3c70393f2ccf95f77503b88156988070d39e2",
+      "metric_artifact_sha256": "7c8268feaa62814e98702f85069b130c31d00560e538285a6295f0d3a65a605b",
+      "audit_receipt_sha256": "24c8f086d6d06ab6b67320e5350ae79d279e2eb7de30fbd69f4bc6cca0076397",
+      "audit_sha256": "7d33b7d8890baeaf97caa766664325c0684076b36b557fc68a000d49fdb1fb1e",
+      "parent_state_and_rng_unchanged": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
+    },
     "plain_e175": {
       "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
       "checkpoint_sha256": "b5fbec66182afe97dc85c0d3c4876173eb71098bc83b70308e9d30477f075371",
@@ -177,7 +198,7 @@
     }
   },
   "operational_monitoring": {
-    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_DURABLE_5090B_OUTER_RECOVERY_AND_BIHOURLY_CODEX_WATCH",
+    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_ZERO_ALERTS_AMTNC_HANDOFF_COMPLETE_AND_BIHOURLY_CODEX_WATCH",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
     "progress_aware_supervisor_live_processes_restarted": false,
@@ -199,16 +220,16 @@
       "decision": "decisions/DEC-20260903-FIRST-TARGET-BLIND-E100-AUDIT.md"
     },
     "latest_full_data_target_blind_audit": {
-      "status": "PASS_4090A_PLAIN_E150_END_TO_END",
-      "completed_cells": ["4090A_plain:e100", "4090A_plain:e150"],
-      "source_updates": 1282950,
-      "checkpoint_sha256": "da045ac4f798b1afbef2bb8449a896f1b8561de6996c713ffd3f00556ac65686",
-      "audit_receipt_sha256": "82ea8b9548818c294f7909259be44748a59e7495e9c329a68bfd3a106f653c5f",
-      "audit_sha256": "ae323a2015ed69fc4686eaa5f37d5ba6a4bc011d3aa16e6a64438fa0d9f3fc30",
+      "status": "PASS_4090A_PLAIN_E200_END_TO_END",
+      "completed_cells": ["4090A_plain:e100", "4090A_plain:e150", "4090A_plain:e200"],
+      "source_updates": 1710600,
+      "checkpoint_sha256": "1b102d410d629982db3346041bde17c563042d14ed38ed76bf2124a362b3dd02",
+      "audit_receipt_sha256": "24c8f086d6d06ab6b67320e5350ae79d279e2eb7de30fbd69f4bc6cca0076397",
+      "audit_sha256": "7d33b7d8890baeaf97caa766664325c0684076b36b557fc68a000d49fdb1fb1e",
       "parent_state_and_rng_unchanged": true,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
     },
     "codex_goal_heartbeat": {
       "status": "active",
@@ -230,7 +251,7 @@
       "decision": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
     },
     "watcher_pids": {
-      "4090A": 3415044,
+      "4090A": 3460191,
       "5090A": 352017,
       "5090B": 30355,
       "5090C": 13587
@@ -242,7 +263,7 @@
       "local_terminal_audit_successor": 20244,
       "local_terminal_pathology_control_supervisor": 24460,
       "local_terminal_pathology_successor": 9400,
-      "local_terminal_combined_health": 25944,
+      "local_terminal_combined_health": 276,
       "local_ddsb_source_watch": 20388,
       "local_ddsb_source_health": 10780,
       "local_dclgan_portable_gate_supervisor_terminal": 16956,
@@ -306,7 +327,10 @@
       "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
       "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E80_AND_CUT_E125_HASH_CLOSURE_20260904T180200.json",
       "evidence/paper_aio/PAPER_AIO_PLAIN_E175_AND_PROPOSAL_E40_HASH_CLOSURE_20260905T014100.json",
-      "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json"
+      "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json",
+      "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E100_AND_RELAY_RECOVERY_20260905T070800.json",
+      "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
+      "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
     ]
   },
   "ddsb_source_watch": {

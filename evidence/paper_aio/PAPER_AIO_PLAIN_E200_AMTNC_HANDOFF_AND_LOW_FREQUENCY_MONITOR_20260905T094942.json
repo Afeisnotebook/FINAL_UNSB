@@ -1,0 +1,133 @@
+{
+  "schema": "final-unsb-paper-plain-e200-amtnc-handoff-low-frequency-monitor-v1",
+  "captured_at": "2026-09-05T09:49:42+08:00",
+  "decision": "PLAIN_E200_AND_TARGET_BLIND_AUDIT_CLOSED_AMTNC_HEALTHY_IN_FIRST_EPOCH_CONTINUE_WITH_TWO_HOUR_EVENT_DRIVEN_MONITORING",
+  "plain_e200": {
+    "status": "COMPLETE_E200",
+    "host": "4090A",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "checkpoint_sha256": "1b102d410d629982db3346041bde17c563042d14ed38ed76bf2124a362b3dd02",
+    "scientific_state_sha256": "ef2b1a322b76f8552fd0e778c6b3c70393f2ccf95f77503b88156988070d39e2",
+    "metric_artifact_sha256": "7c8268feaa62814e98702f85069b130c31d00560e538285a6295f0d3a65a605b",
+    "source_export_set_sha256": "4cdbaeb2e53827757507ffae590fc0a0f0c87715a800463452a73c248072beda",
+    "source_export_receipt_sha256": "0789edfef75e5d98d9b0146784022ea72eba5dbc346affab1b5e34b0df2e509c",
+    "incremental_export_set_sha256": "6373688fd5a90a1b7e4a622c004f59f04a5cb7fbd10b856a47f78c65ae516354",
+    "performance_values_read": false
+  },
+  "plain_target_blind_audit": {
+    "status": "PASS_FIXED_TARGET_BLIND_TERMINAL_AUDIT",
+    "completed_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200"
+    ],
+    "e200_audit_receipt_sha256": "24c8f086d6d06ab6b67320e5350ae79d279e2eb7de30fbd69f4bc6cca0076397",
+    "e200_audit_sha256": "7d33b7d8890baeaf97caa766664325c0684076b36b557fc68a000d49fdb1fb1e",
+    "parent_state_and_rng_unchanged": true,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "amtnc_handoff": {
+    "status": "CHILD_RUNNING_HEALTHY_FIRST_EPOCH_IN_PROGRESS",
+    "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "host": "4090A",
+    "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "control_git_commit": "5b4739aa082cbe67d05a5c1ff06b27c039ea1ff8",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "successor_pid": 2518921,
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "export_successor_pid": 2182586,
+    "successor_state_sha256": "c43ffb44c0372023efb0bbb35f5941558ec8ffcff7fe8940a8af0eb5d9d130c7",
+    "supervisor_state_sha256": "d307dd94df2c94e212a0446805478b1ae6e9b38829ea4d77cba0a26d09d6d06f",
+    "resume_gate": {
+      "status": "PASS",
+      "continuous_and_resumed_step_core_sha256": "1dac84e071e46e1e80ae41fc7071c3f657252ac2d8c6a808ba676c15cc1f2e32",
+      "total_updates": 1000,
+      "split_update": 500
+    },
+    "zero_intervention_gate": {
+      "status": "PASS",
+      "plain_and_zero_component_transition_sha256": "8e11eb4d0c028a99c6ad6ca6b708377d35b9865c55cdf965f5c487e097943dbc",
+      "operator_sha256": "77f98563e0d9dbae35ab7527c1d9b6c58a50f93033993f54604f2d54c455d8bf"
+    },
+    "evaluation_repeat_gate": {
+      "status": "PASS",
+      "repeated_result_sha256": "98769406d07e2ee681c6a7097d9080e64e2faaec2bfdb81523fede41ade2119d"
+    },
+    "shared_e0_checkpoint_sha256": "5cf7d95469d9e83ffed5954e9b313022c2879189de79791c84c914f437f30ec4",
+    "shared_e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591",
+    "liveness_probe": {
+      "process_state": "running",
+      "cpu_time_advanced": true,
+      "gpu_utilization_samples_percent": [50, 52, 50],
+      "gpu_memory_mib": 2369,
+      "first_epoch_checkpoint_written": false,
+      "adjudication": "HEALTHY_WITHIN_FIRST_EPOCH_BOUND_NO_RESTART"
+    }
+  },
+  "other_live_frontier": {
+    "5090A_stcgr": {"data_epoch": 40, "updates": 342120, "trainer_pid": 431032},
+    "5090B_cut": {"data_epoch": 161, "updates": 1377033, "trainer_pid": 5771},
+    "5090B_cyclegan": {"data_epoch": 104, "updates": 889512, "trainer_pid": 11846},
+    "5090C_proposal": {"data_epoch": 45, "updates": 384885, "trainer_pid": 9734}
+  },
+  "control_recovery": {
+    "implementation_commit": "b85b692fd998c276c54ecdd5fd738b57d9509933",
+    "cause": "transient Windows sharing violation during atomic relay state publication plus fail-closed source-change exits after the control patch",
+    "scientific_training_affected": false,
+    "changes": [
+      "use per-process temporary JSON paths",
+      "retry atomic replacement after transient PermissionError",
+      "redeploy only affected local incremental relays",
+      "replace stale completed-task watches with active-frontier watches"
+    ],
+    "local_incremental_relays": {
+      "4090A_amtnc_v2": {"pid": 26064, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"},
+      "5090A_stcgr_v4": {"pid": 18340, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"},
+      "5090C_proposal": {"pid": 14528, "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT"}
+    },
+    "local_health_watcher": {
+      "pid": 276,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "state_sha256": "dc28450aef7312df2eb48a8b64e8bc20c55481fb9c3619972ac381234f2a26d1"
+    },
+    "4090A_active_frontier_health_watcher": {
+      "pid": 3460191,
+      "status": "HEALTHY",
+      "alert_count": 0,
+      "state_sha256_at_capture": "b5a03868ac704f81ef87ebdaf590be83e592354348376e5ca1adc5d3cb22ab98"
+    },
+    "tests": {
+      "targeted": "30 passed",
+      "full": "661 passed",
+      "compileall": "pass",
+      "git_diff_check": "pass"
+    }
+  },
+  "monitoring_policy": {
+    "automation_id": "final-unsb-goal",
+    "target_thread_id": "01a043c5-352f-7ab0-a65b-f97f7a035aa1",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "healthy_wake_action": "metric_blind_liveness_and_milestone_check_only_no_git_churn",
+    "intervention_triggers": [
+      "process death or stale heartbeat beyond its declared within-epoch bound",
+      "OOM NaN checkpoint or exact-resume failure",
+      "relay hash or runtime identity failure",
+      "real disk or lease risk",
+      "fixed milestone or predecessor-successor handoff requiring compact closure"
+    ]
+  },
+  "scientific_boundaries": {
+    "intermediate_performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false
+  }
+}
