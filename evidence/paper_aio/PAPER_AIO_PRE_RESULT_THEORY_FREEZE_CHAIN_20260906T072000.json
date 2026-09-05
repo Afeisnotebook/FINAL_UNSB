@@ -62,5 +62,17 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false
+  },
+  "post_commit_git_materialization_verification": {
+    "verified_at": "2026-09-06T07:48:00+08:00",
+    "implementation_commit": "f799667113e5d84488ccf56dd543676dc5b1baaa",
+    "origin_main_matched": true,
+    "committed_bundle_validation": "PASS",
+    "bundle_sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8",
+    "bundle_object_sha256": "2783cec7943f478c1d016cf621d21f48bd2478ed6582b01e72310af3d486f0b0",
+    "artifact_set_sha256": "4338f6eef4ee2a2e8d9d0ca0bba86a9ffedd0eac3cf1bd214175fd466facbd30",
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false
   }
 }

@@ -27,6 +27,11 @@ full-data 提交中的 operator、model registry 和 derivation card 是相同 G
 无未提交修改，并逐文件核对当前字节等于Git `HEAD`。只有SHA一致但仓库中没有对应版本的
 临时理论文件不能进入论文冻结。
 
+该门已在实现提交 `f799667113e5d84488ccf56dd543676dc5b1baaa` 推送后对真实仓库执行：
+`origin/main` 与本地 `HEAD` 一致，bundle、object 与 artifact-set 三个哈希分别保持
+`0dddf1b5...de4e8`、`2783cec7...f0b0` 与 `4338f6ee...bd30`，提交后字节门实际通过。
+这不是仅由临时测试仓库支持的承诺。
+
 ## 科学边界
 
 这不是对算法、超参或训练队列的修改，也不读取 full-data 性能。共同定理仍只到 pre-Adam
