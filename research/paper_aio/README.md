@@ -467,6 +467,26 @@ The cohort lock requires the complete frozen lane set, one evaluator
 environment, one script hash, one discovery identity, and one committed freeze.
 Neither evaluation nor locking authorizes or opens confirmation20.
 
+## Frozen manuscript tables
+
+After the same two-stage freeze is committed, export the primary e200 macro
+table, the e150/e175/e200 algorithm trajectories, all six-domain deltas, the
+fixed complexity table and the approved claim set without manually copying
+numbers from JSON:
+
+```bash
+python -m operations.paper_aio_manuscript_tables \
+  --freeze-receipt configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json \
+  --output /absolute/FROZEN_MANUSCRIPT_TABLES
+```
+
+The command revalidates the committed freeze and its external portfolio hash.
+It emits deterministic CSV/Markdown files plus
+`MANUSCRIPT_TABLES_RECEIPT.json`, which binds every output by SHA256. The
+export is descriptive only: it uses e200 and the fixed late-three epochs, does
+not rank or select a method, cannot control training, and does not authorize
+confirmation20.
+
 Confirmation has a second, independent two-stage review. The draft below is
 non-authorizing:
 
