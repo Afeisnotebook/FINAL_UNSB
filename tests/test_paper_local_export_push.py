@@ -162,3 +162,35 @@ def test_destination_identity_is_physically_pinned() -> None:
     contract["required_destination_gpu_uuid"] = "GPU-other"
     with pytest.raises(RuntimeError, match="physical identity differs"):
         push.destination_identity(Client(), contract)
+
+
+def test_remote_capacity_uses_portable_df_output() -> None:
+    class Channel:
+        @staticmethod
+        def recv_exit_status():
+            return 0
+
+    class Stream:
+        channel = Channel()
+
+        def __init__(self, value: bytes):
+            self.value = value
+
+        def read(self):
+            return self.value
+
+    class Client:
+        @staticmethod
+        def exec_command(command, timeout):
+            output = b"Filesystem 1024-blocks Used Available Capacity Mounted on\n/dev/x 100 40 60 40% /imports\n"
+            return None, Stream(output), Stream(b"")
+
+    assert push.remote_free_bytes(Client(), "/imports") == 60 * 1024
+
+
+def test_fail_closed_state_can_record_contract_path() -> None:
+    value = push.state(
+        {"relay_id": "r", "source_host_label": "h", "lane_id": "dclgan"},
+        status="FAIL_CLOSED_REQUIRES_CODEX_AUDIT", contract="contract.json",
+    )
+    assert value["contract"] == "contract.json"

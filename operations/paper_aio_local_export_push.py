@@ -247,7 +247,7 @@ def destination_preflight(contract: dict[str, Any]) -> dict[str, Any]:
             sftp = client.open_sftp()
             with sftp:
                 sftp.stat(contract["destination_root"])
-                stat = sftp.statvfs(contract["destination_root"])
+                free_bytes = remote_free_bytes(client, contract["destination_root"])
         except (EOFError, OSError, socket.error) as error:
             raise relay.TransientRelayNetwork(
                 "cannot inspect local push destination"
@@ -255,7 +255,7 @@ def destination_preflight(contract: dict[str, Any]) -> dict[str, Any]:
         return {
             **identity,
             "destination_root": contract["destination_root"],
-            "free_gib": int(stat.f_bavail) * int(stat.f_frsize) / 1024 ** 3,
+            "free_gib": free_bytes / 1024 ** 3,
             "status": "PASS_PINNED_DESTINATION_IDENTITY_AND_CAPACITY",
         }
     finally:
@@ -286,6 +286,28 @@ def _remote_sha256(client, path: str) -> str:
     return result.split()[0]
 
 
+def remote_free_bytes(client, path: str) -> int:
+    command = "df -Pk -- " + shlex.quote(path)
+    _, stdout, stderr = client.exec_command(command, timeout=60)
+    lines = [
+        line.strip() for line in stdout.read().decode("utf-8", "replace").splitlines()
+        if line.strip()
+    ]
+    error = stderr.read().decode("utf-8", "replace").strip()
+    status = stdout.channel.recv_exit_status()
+    if status != 0 or error or len(lines) < 2:
+        raise relay.TransientRelayNetwork(
+            f"cannot read remote capacity for {path}"
+        )
+    try:
+        available_kib = int(lines[-1].split()[3])
+    except (IndexError, ValueError) as parse_error:
+        raise relay.TransientRelayNetwork(
+            f"cannot parse remote capacity for {path}"
+        ) from parse_error
+    return available_kib * 1024
+
+
 def _remove_part(sftp, path: str) -> None:
     try:
         sftp.remove(path)
@@ -308,8 +330,7 @@ def upload_file(client, sftp, source: Path, destination: str, expected: str) -> 
         if _remote_sha256(client, destination) != expected:
             raise RuntimeError(f"existing remote import differs: {destination}")
         return
-    stat = sftp.statvfs(str(PurePosixPath(destination).parent))
-    available = int(stat.f_bavail) * int(stat.f_frsize)
+    available = remote_free_bytes(client, str(PurePosixPath(destination).parent))
     required = source.stat().st_size + 2 * 1024 ** 3
     if available < required:
         raise RuntimeError(
@@ -544,14 +565,14 @@ def acquire_lock(path: Path):
     return handle
 
 
-def state(contract: dict[str, Any], *, status: str, **extra: Any) -> dict[str, Any]:
+def state(frozen: dict[str, Any], *, status: str, **extra: Any) -> dict[str, Any]:
     return {
         "schema": STATE_SCHEMA,
         "status": status,
         "pid": os.getpid(),
-        "relay_id": contract["relay_id"],
-        "source_host_label": contract["source_host_label"],
-        "lane_id": contract["lane_id"],
+        "relay_id": frozen["relay_id"],
+        "source_host_label": frozen["source_host_label"],
+        "lane_id": frozen["lane_id"],
         "password_persisted": False,
         "performance_values_read": False,
         "paired_metric_control": False,
