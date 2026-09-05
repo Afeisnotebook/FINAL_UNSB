@@ -12,6 +12,7 @@ from operations.paper_aio_export_relay import (
     _download_verified,
     _contract,
     _remote_path,
+    _source_absolute_path,
     validate_export_receipt,
     validate_export_set,
 )
@@ -138,6 +139,16 @@ def test_remote_paths_must_be_absolute_and_cannot_escape() -> None:
         _remote_path("relative/export", "test")
     with pytest.raises(RuntimeError):
         _remote_path("/safe/../escape", "test")
+
+
+def test_receipt_source_paths_accept_windows_provenance_but_not_escape() -> None:
+    assert _source_absolute_path(
+        r"E:\\runs\\dclgan\\e200.pt", "test",
+    ) == r"E:\\runs\\dclgan\\e200.pt"
+    with pytest.raises(RuntimeError):
+        _source_absolute_path(r"E:\\runs\\..\\escape.pt", "test")
+    with pytest.raises(RuntimeError):
+        _source_absolute_path("relative/e200.pt", "test")
 
 
 def test_contract_never_persists_password(tmp_path, monkeypatch) -> None:

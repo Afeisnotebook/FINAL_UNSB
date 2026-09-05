@@ -18,7 +18,7 @@ import shutil
 import socket
 import sys
 import time
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 
 
@@ -113,6 +113,25 @@ def _remote_path(value: str, label: str) -> str:
     return str(path)
 
 
+def _source_absolute_path(value: str, label: str) -> str:
+    """Validate provenance paths emitted by either Linux or Windows sources.
+
+    Pull relays still require a POSIX ``remote_export_root``.  Receipts are
+    also consumed after a separately authenticated push from a Windows
+    training host, however, and their immutable source path remains a Windows
+    absolute path.  Accepting both syntaxes here preserves that provenance;
+    it does not grant access to either path.
+    """
+    raw = str(value)
+    posix = PurePosixPath(raw)
+    windows = PureWindowsPath(raw)
+    if posix.is_absolute() and ".." not in posix.parts:
+        return raw
+    if windows.is_absolute() and ".." not in windows.parts:
+        return raw
+    raise RuntimeError(f"unsafe source {label}: {value!r}")
+
+
 def validate_export_set(
     payload: dict[str, Any], *, lane_id: str, source_host_label: str,
 ) -> list[dict[str, Any]]:
@@ -180,8 +199,8 @@ def validate_export_receipt(
     ):
         if not isinstance(payload.get(key), str) or not payload[key]:
             raise RuntimeError(f"checkpoint export receipt lacks {key}")
-    _remote_path(payload["source_checkpoint"], "checkpoint path")
-    _remote_path(payload["source_sidecar"], "sidecar path")
+    _source_absolute_path(payload["source_checkpoint"], "checkpoint path")
+    _source_absolute_path(payload["source_sidecar"], "sidecar path")
     if lane_id == "dclgan" and (
         not isinstance(payload.get("upstream_commit"), str)
         or len(payload["upstream_commit"]) != 40
