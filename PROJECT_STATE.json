@@ -926,16 +926,19 @@
       "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
     },
     "post_freeze_manuscript_table_interface": {
-      "status": "CODE_READY_TESTED_FAIL_CLOSED_REPORTING_LABELS_AND_SCOPES_PRESERVED_AWAITING_COMMITTED_FREEZE",
-      "implementation_commit": "fb8daf47636ddfd183829d5ec1832df61dfb5153",
+      "status": "CODE_READY_TESTED_FAIL_CLOSED_REPORTING_METADATA_AND_CONTROLLED_COST_PRESERVED_AWAITING_COMMITTED_FREEZE",
+      "implementation_commit": "bebfa05b6a66e4c2caf18a2a13fba57364a96ce0",
       "implementation": "operations/paper_aio_manuscript_tables.py",
-      "exporter_source_sha256": "0771788777f50b69b20a552e09f3d8c98232b15e29e5c33108771ad28378de42",
+      "exporter_source_sha256": "52a10479f8bd98817f27acad12b85bcd3d27940a2587d7fcd2e26e1b30386180",
       "primary_epoch": 200,
       "sustained_epochs": [150, 175, 200],
       "six_domain_algorithm_deltas_required": true,
       "main_table_paper_labels_required": true,
       "reproduction_or_comparison_scope_required_per_row": true,
       "controlled_backbone_cyclegan_cannot_be_rendered_as_verbatim_official": true,
+      "controlled_training_cost_fields": ["median_ms", "p90_ms", "peak_allocated_bytes", "relative_to_plain"],
+      "cross_host_epoch_time_used_as_algorithm_cost_ratio": false,
+      "unaudited_flops_reported": false,
       "committed_freeze_required": true,
       "source_portfolio_hash_required": true,
       "all_outputs_hash_bound": true,
@@ -944,9 +947,11 @@
       "best_checkpoint_selection": false,
       "confirmation_authorized": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_REPORTING_METADATA_CHAIN_20260906T040100.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CONTROLLED_COMPLEXITY_TABLE_20260906T041200.json",
+      "reporting_metadata_evidence": "evidence/paper_aio/PAPER_AIO_REPORTING_METADATA_CHAIN_20260906T040100.json",
+      "reporting_metadata_decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md",
       "prior_interface_evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
-      "decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md"
+      "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
     },
     "confirmation20_control_plane": {
       "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",

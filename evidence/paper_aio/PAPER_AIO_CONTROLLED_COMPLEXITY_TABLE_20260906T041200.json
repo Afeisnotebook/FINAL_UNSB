@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-controlled-complexity-table-v1",
+  "captured_at": "2026-09-06T04:12:00+08:00",
+  "status": "PASS_CONTROLLED_COST_FIELDS_AND_PLAIN_RATIO_FAIL_CLOSED",
+  "implementation_commit": "bebfa05b6a66e4c2caf18a2a13fba57364a96ce0",
+  "source_hashes": {
+    "operations/paper_aio_manuscript_tables.py": "52a10479f8bd98817f27acad12b85bcd3d27940a2587d7fcd2e26e1b30386180",
+    "tests/test_paper_manuscript_tables.py": "7f050196b4a64beda2764e16a28daa2d84e1dea45c6235e252a6ea94bfc29ea5",
+    "research/paper_aio/README.md": "e388f84737625802a0adbcfbdab3b7ed9c6fe3dd4cd593bc546aca83265894f9"
+  },
+  "controlled_measurement": {
+    "source": "post_freeze checkpoint-read-only profiler in one evaluator runtime",
+    "training_cost_fields": [
+      "training_step_median_ms",
+      "training_step_p90_ms",
+      "training_step_vs_plain",
+      "training_peak_allocated_bytes"
+    ],
+    "inference_cost_fields": [
+      "inference_reference_nfe",
+      "inference_median_ms",
+      "inference_peak_allocated_bytes",
+      "inference_json"
+    ],
+    "unsb_family_reference_nfe": 5,
+    "external_translation_reference_nfe": 1,
+    "cross_host_observed_epoch_time_used_as_algorithm_ratio": false,
+    "unaudited_flops_reported": false,
+    "missing_plain_or_cost_field_behavior": "fail_closed"
+  },
+  "validation": {
+    "targeted_tests": "6 passed",
+    "full_tests": "698 passed",
+    "contract_checks": "ALL CONTRACT CHECKS PASSED",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_effect": {
+    "training_code_changed": false,
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
+}

@@ -771,8 +771,8 @@
     "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
   },
   "post_freeze_manuscript_table_interface": {
-    "status": "code_ready_tested_fail_closed_reporting_labels_and_scopes_preserved_awaiting_committed_freeze",
-    "implementation_commit": "fb8daf47636ddfd183829d5ec1832df61dfb5153",
+    "status": "code_ready_tested_fail_closed_reporting_metadata_and_controlled_cost_preserved_awaiting_committed_freeze",
+    "implementation_commit": "bebfa05b6a66e4c2caf18a2a13fba57364a96ce0",
     "implementation": "operations/paper_aio_manuscript_tables.py",
     "primary_epoch": 200,
     "sustained_epochs": [150, 175, 200],
@@ -780,6 +780,9 @@
     "main_table_paper_labels_required": true,
     "reproduction_or_comparison_scope_required_per_row": true,
     "controlled_backbone_cyclegan_cannot_be_rendered_as_verbatim_official": true,
+    "controlled_training_cost_fields": ["median_ms", "p90_ms", "peak_allocated_bytes", "relative_to_plain"],
+    "cross_host_epoch_time_used_as_algorithm_cost_ratio": false,
+    "unaudited_flops_reported": false,
     "committed_freeze_required": true,
     "all_outputs_hash_bound": true,
     "performance_ranking_performed": false,
@@ -788,9 +791,11 @@
     "best_checkpoint_selection": false,
     "confirmation_authorized": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_REPORTING_METADATA_CHAIN_20260906T040100.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_CONTROLLED_COMPLEXITY_TABLE_20260906T041200.json",
+    "reporting_metadata_evidence": "evidence/paper_aio/PAPER_AIO_REPORTING_METADATA_CHAIN_20260906T040100.json",
+    "reporting_metadata_decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md",
     "prior_interface_evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
-    "decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md"
+    "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
   },
   "confirmation20_control_plane": {
     "status": "SEALED_INTERFACE_READY_NOT_AUTHORIZED",

@@ -281,3 +281,6 @@ authorize compute.
 85. `DEC-20260906-REPORTING-METADATA-CHAIN.md`：修复冻结基线语义到最终论文表格之间的
     元数据断点；每行必须哈希绑定paper label和复现/比较范围，使受控骨干CycleGAN、受控
     曝光CUT/DCLGAN不会在导表后被误写成逐字官方复现。训练、指标选择和confirmation均未变。
+86. `DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md`：用同一冻结后评估运行时的完整训练step
+    计时补齐median、p90、峰值显存和相对plain倍率，并固定UNSB-family NFE5与外部translation
+    NFE1推理成本；禁止把跨宿主或共驻epoch墙钟当算法倍率，继续不声明未审计FLOPs。
