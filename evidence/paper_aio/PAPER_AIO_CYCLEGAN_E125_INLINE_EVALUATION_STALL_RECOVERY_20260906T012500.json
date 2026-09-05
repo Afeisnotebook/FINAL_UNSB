@@ -1,0 +1,86 @@
+{
+  "schema": "final-unsb-paper-cyclegan-inline-evaluation-stall-recovery-v1",
+  "captured_at": "2026-09-06T01:25:33+08:00",
+  "status": "EXACT_E125_RESUME_LAUNCHED_AWAITING_E126_PROGRESS",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090"
+  },
+  "incident": {
+    "lane_id": "cyclegan",
+    "phase": "inline_fixed_e125_evaluation_after_checkpoint_publication",
+    "detected_at": "2026-09-06T01:22:01+08:00",
+    "watcher_status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+    "watcher_pid": 138626,
+    "stall_threshold_seconds": 10800,
+    "observed_heartbeat_age_seconds": 10859.809013605118,
+    "checkpoint_step": 1069125,
+    "old_trainer_pid": 11846,
+    "old_trainer_state": "R",
+    "sampled_cpu_ticks_delta_30s": 3001,
+    "sampled_io_delta_30s": {
+      "rchar": 0,
+      "wchar": 0,
+      "read_bytes": 0,
+      "write_bytes": 0,
+      "syscr": 0,
+      "syscw": 0
+    },
+    "raw_alert_copy": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/operations/CYCLEGAN_E125_STALL_ALERT_20260906T012201.json",
+    "raw_alert_sha256": "91714b6fb0c751bcf37bf8881dcb99c27e08ca18e23e1135738223d40535079d"
+  },
+  "recovery_checkpoint": {
+    "path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/lanes/cyclegan/full_state_latest.pt",
+    "step": 1069125,
+    "physical_epoch_completed": 125,
+    "checkpoint_sha256": "ce5e58740ba14e6f024dc0e0afd5ef623befbbd1dadc92132d50c432843099b1",
+    "sidecar_sha256": "ca894d96eafc5e92b89f7d2b52dc9eea24f7b6f7108c6a48ab54fef9f7cb85b4",
+    "scientific_state_sha256": "ac896c95d4f6c2cc331c70e3e1f2679e7e441d65aca41cdae0d29efe459585f2",
+    "milestone_checkpoint_sha256": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
+    "milestone_sidecar_sha256": "018b109a1f6eddbef16f5af1e4807c73e76caa8a86cfc9087e6d16b500144471",
+    "deserialization_check": "PASS_CPU_FULL_STATE_SCHEMA_AND_STEP",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+  },
+  "recovery": {
+    "action": "SIGTERM_ONLY_AFTER_FROZEN_PROGRESS_WATCH_THRESHOLD",
+    "identity_rechecked_before_signal": true,
+    "signal_sent_at": "2026-09-06T01:24:59+08:00",
+    "scientific_supervisor_pid": 11845,
+    "new_trainer_pid": 493306,
+    "new_trainer_started_at": "2026-09-06T01:25:29+08:00",
+    "supervisor_status": "CHILD_RUNNING",
+    "supervisor_consecutive_failures": 1,
+    "resume_mode": "EXACT_FULL_STATE_E125",
+    "post_launch_gpu_utilization_percent": 89,
+    "post_launch_total_gpu_memory_mib": 3467,
+    "cut_trainer_pid_unchanged": 5771,
+    "other_training_changed": false
+  },
+  "evaluation_disposition": {
+    "inline_e125_metric_published": false,
+    "checkpoint_lost": false,
+    "source_bound_export_blocked": false,
+    "reason": "the source-bound exporter hashes fixed checkpoints and sidecars; final unified evaluation regenerates metrics from the frozen e125 checkpoint",
+    "co_resident_metric_backfill_started": false,
+    "best_checkpoint_selection": false
+  },
+  "closure_requirements": [
+    "new trainer publishes a checkpoint beyond step 1069125",
+    "scientific supervisor remains CHILD_RUNNING or reaches COMPLETE_E200",
+    "continuity guard adopts the new trainer without duplicate processes",
+    "final unified evaluator recomputes the e125 metric from the frozen checkpoint"
+  ],
+  "scientific_boundaries": {
+    "algorithm_changed": false,
+    "optimizer_or_scheduler_changed": false,
+    "batch_or_data_order_changed": false,
+    "checkpoint_migrated": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260906-CYCLEGAN-E125-INLINE-EVALUATION-RECOVERY.md"
+}

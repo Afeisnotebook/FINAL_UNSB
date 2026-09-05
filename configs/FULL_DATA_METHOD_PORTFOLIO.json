@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-05T21:11:00+08:00",
+  "captured_at": "2026-09-06T01:25:33+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -172,6 +172,13 @@
     }
   },
   "external_fixed_milestones": {
+    "cyclegan_e125": {
+      "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",
+      "checkpoint_sha256": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
+      "scientific_state_sha256": "ac896c95d4f6c2cc331c70e3e1f2679e7e441d65aca41cdae0d29efe459585f2",
+      "trainer_recovery_status": "exact_e125_resume_launched_awaiting_e126_progress",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json"
+    },
     "cyclegan_e100": {
       "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
       "checkpoint_sha256": "a01d0d5243c9f9f8a51ab2834d183a85c539b49ce6560c0407037abfaa9263d8",
@@ -666,7 +673,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_E40_CUT_E175_DCLGAN_E5_HASH_CLOSURE_20260905T211100.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
