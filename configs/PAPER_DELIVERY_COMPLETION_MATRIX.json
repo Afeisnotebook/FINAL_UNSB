@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T02:33:58+08:00",
+  "captured_at": "2026-09-06T02:39:03+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -101,7 +101,8 @@
     "5090A plain cancellation requires the reviewed 5090B control relation before Proposal or ST-CGR matched deltas",
     "future dynamic unified and final-delivery successors cannot be deployed before the real 5090B runtime receipt is admitted",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff",
-    "5090C and 5090A lease horizons must cover their projected e200 plus export"
+    "5090C and 5090A lease horizons must cover their projected e200 plus export",
+    "5090B matched plain has only about 8.2 hours nominal headroom in the wait-for-CycleGAN case; availability through 2026-09-15 is recommended"
   ],
   "scientific_boundaries": {
     "intermediate_performance_controls_training_or_scheduling": false,

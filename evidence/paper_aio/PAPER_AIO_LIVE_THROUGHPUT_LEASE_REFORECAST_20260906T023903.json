@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-paper-live-throughput-lease-reforecast-v2",
+  "captured_at": "2026-09-06T02:39:03+08:00",
+  "status": "CORE_PROJECTED_IN_HORIZON_5090B_MATCHED_CONTROL_HEADROOM_TIGHT",
+  "method": {
+    "source": "last five completed TRAIN_TRACE epoch wall times",
+    "fields_read": ["data_epoch", "updates", "epoch_wall_seconds"],
+    "paired_performance_fields_read": false,
+    "completion_window": "last-five median-to-mean bracket",
+    "cut_outlier_policy": "median only because e192-e193 overlap the recorded CycleGAN e125 engineering stall",
+    "evaluation_and_export_tail_included": false
+  },
+  "lanes": {
+    "4090A_amtnc": {
+      "latest_complete_epoch": 18,
+      "latest_complete_updates": 153954,
+      "last_five_epoch_seconds": [3534.0742700099945, 3531.650328397751, 3542.917097091675, 3562.000672340393, 3538.80708527565],
+      "median_seconds": 3538.80708527565,
+      "mean_seconds": 3541.8898906230925,
+      "projected_e200_window": ["2026-09-13T13:34:23+08:00", "2026-09-13T13:43:44+08:00"]
+    },
+    "5090A_stcgr": {
+      "latest_complete_epoch": 52,
+      "latest_complete_updates": 444756,
+      "last_five_epoch_seconds": [4881.700852870941, 5074.112666130066, 5256.776831150055, 4904.766565561295, 4928.300729513168],
+      "median_seconds": 4928.300729513168,
+      "mean_seconds": 5009.131529045105,
+      "projected_e200_window": ["2026-09-14T13:16:29+08:00", "2026-09-14T16:35:52+08:00"]
+    },
+    "5090C_proposal": {
+      "latest_complete_epoch": 58,
+      "latest_complete_updates": 496074,
+      "last_five_epoch_seconds": [4756.204624891281, 4789.454889297485, 4785.964323759079, 4760.215468168259, 4655.050531387329],
+      "median_seconds": 4760.215468168259,
+      "mean_seconds": 4749.377967500686,
+      "projected_e200_window": ["2026-09-13T22:00:12+08:00", "2026-09-13T22:25:51+08:00"]
+    },
+    "5090B_cut": {
+      "latest_complete_epoch": 195,
+      "latest_complete_updates": 1667835,
+      "median_last_five_seconds": 1641.7057321071625,
+      "projected_e200": "2026-09-06T04:56:49+08:00"
+    },
+    "5090B_cyclegan": {
+      "latest_complete_epoch": 126,
+      "latest_complete_updates": 1077678,
+      "median_last_five_seconds": 2274.927243232727,
+      "mean_last_five_seconds": 2296.3610270023346,
+      "projected_e200_window": ["2026-09-08T01:25:45+08:00", "2026-09-08T01:52:11+08:00"]
+    },
+    "local_dclgan": {
+      "latest_complete_epoch": 10,
+      "latest_complete_updates": 85530,
+      "median_last_five_seconds": 3983.0731325149536,
+      "mean_last_five_seconds": 4105.995478439331,
+      "projected_e200_window": ["2026-09-14T20:53:04+08:00", "2026-09-15T03:22:20+08:00"],
+      "remote_gpu_lease_required": false
+    }
+  },
+  "5090b_matched_plain_wait_case": {
+    "scenario": "capacity gate rejects co-residence and plain waits for CycleGAN e200",
+    "isolated_epoch_seconds": 2410.470835328102,
+    "projected_start_after_cyclegan": "2026-09-08T01:52:11+08:00",
+    "projected_e200": "2026-09-13T15:47:05+08:00",
+    "declared_minimum_availability_through": "2026-09-14T00:00:00+08:00",
+    "nominal_headroom_hours_before_export": 8.2153,
+    "risk": "TIGHT_HEADROOM_DOES_NOT_INCLUDE_EXPORT_OR_THROUGHPUT_VARIANCE",
+    "recommended_availability_through": "2026-09-15T00:00:00+08:00",
+    "capacity_gate_must_still_use_makespan_not_performance": true
+  },
+  "lease_adjudication": {
+    "5090C_declared_through": "2026-09-15T00:00:00+08:00",
+    "5090C_conservative_headroom_hours": 25.5693,
+    "5090A_declared_through": "2026-09-16T00:00:00+08:00",
+    "5090A_conservative_headroom_hours": 31.4024,
+    "5090B_declared_through": "2026-09-14T00:00:00+08:00",
+    "5090B_conservative_headroom_hours": 8.2153,
+    "5090B_extension_recommended": true,
+    "old_5090B_dclgan_extension_requirement_still_applicable": false,
+    "reason": "DCLGAN is running on the local GTX1660 with its own durable export/push/evaluation chain"
+  },
+  "actions": {
+    "running_training_changed": false,
+    "successor_changed": false,
+    "scientific_protocol_changed": false,
+    "new_experiment_started": false,
+    "user_capacity_action": "ensure 5090B remains available through 2026-09-15 if its present lease ends at the declared 2026-09-14 boundary"
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T02:33:58+08:00",
+  "state_snapshot_time": "2026-09-06T02:39:03+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1151,23 +1151,25 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CONTINUITY_GUARDS_AND_BIHOURLY_GOAL_20260903T220753.json"
     },
     "lease_horizon_action": {
-      "status": "CORE_LANES_WITHIN_DECLARED_LEASES_DCLGAN_EXTENSION_STILL_REQUIRED",
+      "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CONTROL_HEADROOM_TIGHT_LOCAL_DCLGAN_NO_REMOTE_EXTENSION",
       "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
-      "5090C_projected_completion": "2026-09-13T16:18:19+08:00",
-      "5090C_projected_headroom_hours": 31.6947,
+      "5090C_projected_completion": "2026-09-13T22:25:51+08:00",
+      "5090C_projected_headroom_hours": 25.5693,
       "5090C_conditional_shortfall_hours": 0.0,
       "5090A_minimum_availability_through": "2026-09-16T00:00:00+08:00",
-      "5090A_stcgr_projected_completion": "2026-09-15T04:57:44+08:00",
-      "5090A_projected_headroom_hours": 19.0378,
+      "5090A_stcgr_projected_completion": "2026-09-14T16:35:52+08:00",
+      "5090A_projected_headroom_hours": 31.4024,
       "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
-      "5090B_core_control_latest_projected_completion": "2026-09-13T14:55:00+08:00",
-      "5090B_core_control_projected_headroom_hours": 9.0833,
-      "5090B_dclgan_provisional_capacity_through": "2026-09-22T00:00:00+08:00",
-      "5090B_external_capacity_decision_deadline": "2026-09-08T00:00:00+08:00",
-      "5090B_dclgan_recalibrate_after_target_gate": true,
+      "5090B_core_control_latest_projected_completion": "2026-09-13T15:47:05+08:00",
+      "5090B_core_control_projected_headroom_hours": 8.2153,
+      "5090B_recommended_availability_through": "2026-09-15T00:00:00+08:00",
+      "5090B_capacity_extension_recommended": true,
+      "local_dclgan_projected_completion_window": ["2026-09-14T20:53:04+08:00", "2026-09-15T03:22:20+08:00"],
+      "local_dclgan_remote_gpu_extension_required": false,
       "scientific_protocol_change": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260903T194257.json",
-      "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
+      "performance_values_read": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260906T023903.json",
+      "decision": "decisions/DEC-20260906-LIVE-LEASE-REFRESH.md"
     },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "future_dynamic_control_integration_rehearsal": {
