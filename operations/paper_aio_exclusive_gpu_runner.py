@@ -46,13 +46,13 @@ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
 
 def acquire_lock(handle) -> None:
     handle.seek(0)
-    if handle.read(1) == "":
-        handle.write("0")
-        handle.flush()
-    handle.seek(0)
     if os.name == "nt":
         import msvcrt
-        msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+        # The legacy terminal-audit process opens this file with ``a+`` and
+        # therefore attempts its one-byte lock at EOF.  Cover byte 0 and byte
+        # 1 so both an empty legacy file and the historical one-byte file are
+        # mutually exclusive with this runner.
+        msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 2)
     else:
         import fcntl
         fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
