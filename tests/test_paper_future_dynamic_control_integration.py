@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import json
 from pathlib import Path
 
@@ -24,37 +23,6 @@ def _metric(host: str, protocol: str) -> dict:
     }
 
 
-def _stcgr_relation() -> dict:
-    return {
-        "status": review.CANDIDATE_STATUS,
-        "method_lane": review.STCGR_ID,
-        "candidate_id": review.STCGR_ID,
-        "method_source_host_label": "5090A",
-        "plain_source_host_label": PLAIN_HOST,
-        "updates": 2000,
-        "candidate_protocol_fingerprint": STCGR_PROTOCOL,
-        "plain_training_protocol_fingerprint": PLAIN_PROTOCOL,
-        "manifest_sha256": MANIFEST,
-        "e0_core_sha256": "e" * 64,
-        "step_core_sha256": "s" * 64,
-        "candidate_runtime_gate_sha256": "g" * 64,
-        "candidate_authorization_sha256": "a" * 64,
-        "candidate_metadata_import_sha256": "m" * 64,
-        "candidate_authority_sha256": "u" * 64,
-        "candidate_parent_runtime_receipt_sha256": "r" * 64,
-        "plain_runtime_receipt_sha256": "p" * 64,
-        "normalized_environment": {"gpu": "NVIDIA GeForce RTX 5090"},
-        "proof_chain": {
-            "candidate_to_parent": "PASS_CROSS_CODE_CANDIDATE_RUNTIME",
-            "parent_to_plain": "PASS_EXACT_RUNTIME_COHORT",
-        },
-        "differences": {},
-        "performance_values_read": False,
-        "paired_metric_control": False,
-        "confirmation20_opened": False,
-    }
-
-
 def _late_entry(relation: dict) -> dict:
     return {
         "late_trajectory": [
@@ -66,19 +34,23 @@ def _late_entry(relation: dict) -> dict:
 
 def test_future_5090b_control_registry_reaches_final_delivery(tmp_path: Path) -> None:
     base = review.validate_registry(runtime_relation.RELATIONS_PATH)
-    old_proposal = runtime_relation.relation_candidates(base, "proposal")
-    assert len(old_proposal) == 1
-    assert old_proposal[0]["plain_source_host_label"] == "5090A"
-
-    future_proposal = copy.deepcopy(old_proposal[0])
-    future_proposal["plain_source_host_label"] = PLAIN_HOST
-    future_proposal["plain_runtime_receipt_sha256"] = "n" * 64
-    stcgr = _stcgr_relation()
+    proposal_relations = runtime_relation.relation_candidates(base, "proposal")
+    assert len(proposal_relations) == 2
+    old_proposal = next(
+        row for row in proposal_relations
+        if row["plain_source_host_label"] == "5090A"
+    )
+    future_proposal = next(
+        row for row in proposal_relations
+        if row["plain_source_host_label"] == PLAIN_HOST
+    )
+    stcgr = runtime_relation.relation_candidates(base, review.STCGR_ID)[0]
     proposed = review.propose_registry(base, [future_proposal, stcgr])
+    assert proposed == base
 
     proposal_relations = runtime_relation.relation_candidates(proposed, "proposal")
     assert len(proposal_relations) == 2
-    assert old_proposal[0] in proposal_relations
+    assert old_proposal in proposal_relations
     assert future_proposal in proposal_relations
     assert runtime_relation.relation_candidates(proposed, review.STCGR_ID) == [stcgr]
 

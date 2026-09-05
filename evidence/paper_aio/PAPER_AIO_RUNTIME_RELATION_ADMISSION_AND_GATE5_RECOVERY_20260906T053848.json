@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-paper-runtime-relation-admission-and-gate5-recovery-v1",
+  "captured_at": "2026-09-06T05:38:48+08:00",
+  "status": "EXACT_RELATIONS_ADMITTED_MATCHED_PLAIN_CAPACITY_GATE_RUNNING",
+  "incident": {
+    "host": "5090B",
+    "lane": "plain",
+    "failed_successor_pid": 148465,
+    "failed_status": "BLOCKED_ENGINEERING_GATE_FAILURE",
+    "failed_gate_index": 5,
+    "root_cause": "legacy e4a5eed repeat gate stored the frozen evaluation-bundle fingerprint in the training protocol fingerprint field",
+    "scientific_failure": false,
+    "long_training_had_started": false,
+    "training_progress_lost": false,
+    "failed_successor_state_sha256": "26ab627b5d8eafed055714edab980a6393273d764a9bfd853d109ffe46b86217",
+    "legacy_evaluation_receipt_sha256": "53e7e618f63d86fb3d56d6d59d2397a96064f4051afc5a6c96fc24e507641385",
+    "failed_authorization_sha256": "9337ae87030104de5792a14e6e280fa1b1f7a96390f967548c1c85feab413597"
+  },
+  "repair": {
+    "repair_implementation_commit": "f8c38c1e7d0163ec8246b8ddac12fa66b7f7fb7b",
+    "recovery_successor_implementation_commit": "4d2e7df58df771b45608a7a1604045d442e76407",
+    "repair_status": "PASS_KNOWN_LEGACY_METADATA_REPAIR",
+    "repair_receipt_sha256": "89ce226a8ee60afbfd0502c0f34ec172fd3e26f3bfbe542bd41a1ac7a4df4343",
+    "corrected_evaluation_receipt_sha256": "2249627fb2c09c048511696947b5295d1d03abd10d386834377df0d6d8abf7c7",
+    "corrected_authorization_status": "PASS",
+    "corrected_authorization_sha256": "e43cb66d91de7f9949483fdd345215ea8528b8731142d9e03cc6ebc87e67db16",
+    "training_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "runtime_receipt_unchanged_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
+    "original_bytes_archived": true,
+    "checkpoint_loaded_by_repair": false,
+    "training_repo_modified": false
+  },
+  "recovery_runtime": {
+    "host": "5090B",
+    "lane": "plain",
+    "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "control_commit": "f8c38c1e7d0163ec8246b8ddac12fa66b7f7fb7b",
+    "control_instance_id": "gatefpfix-f8c38c1",
+    "successor_pid": 523993,
+    "capacity_probe_trainer_pid": 524019,
+    "health_watcher_pid": 524155,
+    "progress_watcher_pid": 524156,
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "control_contract_sha256": "704256964f6636295505b35668dcb82071655eb2cf44435dae95c8b0b920b383",
+    "control_source_sha256": "024d2aa8c1c0f5cd5136fb01b1f9bf3c97b9f1d8072190e73746dc157fe28ecb",
+    "supervisor_source_sha256": "f8be2bd14a1ddba9051f65eaca58e832e59e2e93db0c27893dff5536beb365e5",
+    "status": "RUNNING_METRIC_BLIND_CO_RESIDENT_CAPACITY_GATE",
+    "health_status": "HEALTHY",
+    "capacity_probe_epochs": 2,
+    "long_training_started": false,
+    "fresh_e0": true,
+    "cross_host_checkpoint_resume": false,
+    "active_duplicate_plain": false,
+    "cycle_gan_healthy_and_unmodified": true
+  },
+  "runtime_relation_review": {
+    "review_status": "PASS_REVIEW_PROPOSAL_REQUIRES_EXPLICIT_GIT_ADMISSION",
+    "review_receipt_sha256": "b9e010b46213513db81be028d8ade4b2582195500b4048bf9ca9d2e8df5483be",
+    "proposed_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
+    "proposed_registry_object_sha256": "2642fe294897c3414f2d6c226a4dee6805e11a2824ee10857ef01e083559b52f",
+    "admitted_registry_is_byte_identical_to_reviewed_proposal": true,
+    "proposal_5090a_relation_preserved": true,
+    "proposal_5090b_candidate_sha256": "29965f4ae66bd38fd43f4de7ab6a57e15c388221129fa9b0e069351673499695",
+    "proposal_5090b_status": "PASS_EXACT_RUNTIME_RELATION",
+    "stcgr_5090b_candidate_sha256": "52ba8049d72223307b4adf26bcddaea65bcc260fafd649873f8d298d000500de",
+    "stcgr_5090b_status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+    "stcgr_proof_chain": {
+      "candidate_to_parent": "PASS_CROSS_CODE_CANDIDATE_RUNTIME",
+      "parent_to_plain": "PASS_EXACT_RUNTIME_COHORT"
+    },
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "comparison_relation_authorized_by_registry": true,
+    "actual_matched_delta_available": false,
+    "reason_actual_delta_unavailable": "5090B matched plain has not completed e200"
+  },
+  "live_training_snapshot": {
+    "4090A_amtnc": {"status": "CHILD_RUNNING", "data_epoch": 20, "updates": 171060},
+    "5090A_stcgr": {"status": "CHILD_RUNNING", "data_epoch": 54, "updates": 461862},
+    "5090B_cyclegan": {"status": "CHILD_RUNNING", "data_epoch": 131, "updates": 1120443},
+    "5090C_proposal": {"status": "CHILD_RUNNING", "data_epoch": 60, "updates": 513180},
+    "local_dclgan": {"status": "CHILD_RUNNING", "data_epoch": 13, "updates": 111189},
+    "healthy_training_interrupted": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read_for_recovery_or_admission": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}

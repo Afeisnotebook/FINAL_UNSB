@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T04:48:50+08:00",
+  "captured_at": "2026-09-06T05:38:48+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -14,19 +14,23 @@
     },
     {
       "id": "legal_matched_control",
-      "status": "running_exact_engineering_gates_after_5090B_cut_e200",
+      "status": "running_metric_blind_capacity_gate_after_exact_gate5_recovery",
       "requires": ["5090B exact 2000-update runtime twin", "fresh-e0 5090B matched plain e200", "reviewed Git runtime relations"],
       "proof": "wait-only recovery guard, runtime receipt, and committed relation registry",
       "predecessor": "5090B CUT COMPLETE_E200 source-bound export hash closed",
-      "current_gate": "2_of_5_resume_gate",
+      "current_gate": "post_5_of_5_two_epoch_metric_blind_capacity_gate",
       "wait_only_guard": "HANDOFF_STARTED_RECOVERY_RELINQUISHED_ZERO_RESTARTS",
       "long_plain_training_started": false,
-      "handoff_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
+      "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
+      "runtime_twin_receipt_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
+      "runtime_relation_registry_status": "ADMITTED_BYTE_IDENTICAL_TO_REVIEW_PROPOSAL",
+      "runtime_relation_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
+      "handoff_evidence": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_ADMISSION_AND_GATE5_RECOVERY_20260906T053848.json",
       "paired_metrics_used_for_release": false
     },
     {
       "id": "dynamic_unified_evaluation",
-      "status": "code_ready_waiting_for_relation_admission",
+      "status": "code_ready_relations_admitted_deployment_next",
       "requires": ["five fixed epochs", "discovery80 at e200", "five e200 CRN bundles", "LPIPS", "read-only checkpoint rehash"],
       "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json"
     },

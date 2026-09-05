@@ -288,3 +288,7 @@ authorize compute.
     sidecar、scientific state与source-bound export的哈希闭环；既有matched-plain后继自动进入
     精确工程门，wait-only guard零重启正常移交。runtime twin、容量门及Git relation审阅完成前
     仍禁止matched delta，且CycleGAN和其余健康训练均未改动。
+88. `DEC-20260906-RUNTIME-RELATION-ADMISSION-AND-GATE5-RECOVERY.md`：确认5090B matched plain
+    的gate-5阻塞来自旧回执字段混用而非科学失败；归档原始字节、保持runtime twin哈希不变，
+    以fail-closed元数据修复恢复到两epoch metric-blind容量门。同时把review生成且字节一致的
+    Proposal与ST-CGR到5090B plain关系纳入Git，但在plain e200前仍不产生matched delta。

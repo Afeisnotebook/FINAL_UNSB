@@ -59,11 +59,11 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     )
     assert (
         portfolio["methods"]["stcgr"]["matched_delta_status"]
-        == "unavailable_until_5090B_e200_and_reviewed_registry_relation"
+        == "unavailable_until_5090B_e200"
     )
     assert (
         portfolio["methods"]["proposal"]["matched_delta_status"]
-        == "unavailable_until_5090B_e200_and_reviewed_registry_relation"
+        == "unavailable_until_5090B_e200"
     )
     assert (
         portfolio["post_training_delivery"]["replacement_lane_sources"]["plain"]
@@ -75,12 +75,13 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert plain_resume["future_resume_requires_new_explicit_decision"] is True
     future_control = portfolio["future_matched_plain_successor"]
     assert future_control["stcgr_relation_status"] == (
-        "review_only_two_link_proof_successor_armed_registry_unchanged"
+        "pass_two_link_cross_code_runtime_relation_admitted_in_git"
     )
-    relation = state["paper_aio_20260902"]["multi_control_runtime_relation_interface"]
-    stcgr_relation = relation["stcgr_candidate_control_relation"]
-    assert stcgr_relation["registry_edited"] is False
-    assert stcgr_relation["comparison_authorized"] is False
+    relations = common.load_json("configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json")
+    assert len(relations["relations"]["proposal"]) == 2
+    assert relations["relations"]["G4-01-STRATIFIED-TIME-CONDITIONAL-GF"][
+        "proof_chain"
+    ]["parent_to_plain"] == "PASS_EXACT_RUNTIME_COHORT"
     assert portfolio["methods"]["hjcgr"]["status"] == "deferred"
     assert portfolio["methods"]["hjcgr"]["mechanism_falsified"] is False
     authorization = project["authorization_required"]
