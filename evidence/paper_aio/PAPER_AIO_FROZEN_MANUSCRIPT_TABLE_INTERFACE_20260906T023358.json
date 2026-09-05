@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-paper-frozen-manuscript-table-interface-evidence-v1",
+  "captured_at": "2026-09-06T02:33:58+08:00",
+  "status": "IMPLEMENTED_TESTED_NOT_RUN_AWAITING_COMMITTED_FREEZE",
+  "implementation": {
+    "git_commit": "a4419ee9c51fbe90c0949d5dbc59752bde3017a0",
+    "module": "operations/paper_aio_manuscript_tables.py",
+    "source_sha256": "4c596297e18f7461ec29bc5cd9ca4f9dc5de98faa90b81ce182edc3d87bec8e4",
+    "documentation": "research/paper_aio/README.md",
+    "test": "tests/test_paper_manuscript_tables.py",
+    "scientific_training_fingerprint_scope_changed": false
+  },
+  "hard_entry_gate": {
+    "requires_committed_freeze_receipt": true,
+    "requires_committed_human_codex_review": true,
+    "requires_frozen_external_portfolio_sha256": true,
+    "requires_e200_primary_epoch": true,
+    "requires_fixed_late_epochs": [150, 175, 200],
+    "requires_six_domain_algorithm_deltas": true,
+    "accepts_uncommitted_or_changed_exporter": false,
+    "accepts_best_checkpoint_selection": false
+  },
+  "deterministic_outputs": [
+    "MAIN_E200.csv",
+    "ALGORITHM_SUSTAINED.csv",
+    "ALGORITHM_DOMAIN_DELTAS.csv",
+    "COMPLEXITY.csv",
+    "PAPER_CLAIMS.csv",
+    "PAPER_RESULT_SUMMARY.md",
+    "MANUSCRIPT_TABLES_RECEIPT.json"
+  ],
+  "reporting_semantics": {
+    "external_baselines_report_absolute_e200_metrics": true,
+    "plain_reports_absolute_e200_metrics": true,
+    "algorithms_report_absolute_e200_and_fixed_late_three_deltas": true,
+    "algorithm_domain_delta_rows_expected_for_three_methods": 54,
+    "matched_plain_identity_preserved": true,
+    "runtime_relation_status_preserved": true,
+    "dclgan_comparison_scope_remains_standalone_not_matched": true,
+    "performance_ranking_performed": false,
+    "checkpoint_selection_performed": false
+  },
+  "integrity": {
+    "exporter_git_blob_reverified_at_runtime": true,
+    "freeze_receipt_git_identity_reverified_at_runtime": true,
+    "source_portfolio_sha256_reverified_at_runtime": true,
+    "all_output_sha256_values_published": true,
+    "existing_different_output_overwritten": false,
+    "partial_exact_rerun_recoverable": true
+  },
+  "verification": {
+    "relevant_tests": "31 passed",
+    "focused_post_commit_tests": "4 passed",
+    "committed_script_identity": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "credential_scan": "PASS",
+    "scientific_fingerprint_scope": "UNCHANGED"
+  },
+  "runtime": {
+    "deployed_now": false,
+    "reason": "the full-data portfolio and its two-stage algorithm/baseline/claim freeze do not yet exist",
+    "training_or_successor_changed": false,
+    "gpu_required": false,
+    "confirmation_authorized": false
+  },
+  "performance_values_read": false,
+  "metric_values_used_for_training_or_scheduling": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

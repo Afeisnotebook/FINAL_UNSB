@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T02:25:01+08:00",
+  "captured_at": "2026-09-06T02:33:58+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -74,6 +74,16 @@
       "policy": "bicubic square 256 then whole-image fully convolutional inference; supplementary only, not native resolution",
       "implementation": "operations/paper_aio_high_resolution_inference.py",
       "cohort_gate": "all frozen lanes in one evaluator runtime and one script identity",
+      "training_fingerprint_changed": false,
+      "confirmation20_opened": false
+    },
+    {
+      "id": "manuscript_tables",
+      "status": "implemented_tested_fail_closed_post_freeze_not_scheduled",
+      "critical_path": false,
+      "gate": "committed algorithm/baseline/claim freeze and frozen source portfolio hash",
+      "outputs": ["MAIN_E200.csv", "ALGORITHM_SUSTAINED.csv", "ALGORITHM_DOMAIN_DELTAS.csv", "COMPLEXITY.csv", "PAPER_CLAIMS.csv", "PAPER_RESULT_SUMMARY.md", "MANUSCRIPT_TABLES_RECEIPT.json"],
+      "implementation": "operations/paper_aio_manuscript_tables.py",
       "training_fingerprint_changed": false,
       "confirmation20_opened": false
     },

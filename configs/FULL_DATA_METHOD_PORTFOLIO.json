@@ -733,6 +733,24 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_FREEZE_HIGH_RESOLUTION_INTERFACE_20260906T020449.json",
     "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
   },
+  "post_freeze_manuscript_table_interface": {
+    "status": "code_ready_tested_not_deployed_awaiting_committed_freeze",
+    "implementation_commit": "a4419ee9c51fbe90c0949d5dbc59752bde3017a0",
+    "implementation": "operations/paper_aio_manuscript_tables.py",
+    "primary_epoch": 200,
+    "sustained_epochs": [150, 175, 200],
+    "six_domain_algorithm_deltas_required": true,
+    "committed_freeze_required": true,
+    "all_outputs_hash_bound": true,
+    "performance_ranking_performed": false,
+    "training_fingerprint_scope_changed": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
+    "decision": "decisions/DEC-20260906-FROZEN-MANUSCRIPT-TABLES.md"
+  },
   "confirmation20_control_plane": {
     "status": "SEALED_INTERFACE_READY_NOT_AUTHORIZED",
     "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
