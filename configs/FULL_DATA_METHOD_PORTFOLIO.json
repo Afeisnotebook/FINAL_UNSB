@@ -660,7 +660,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_SOURCE_BOUND_DELIVERY_DEPLOYED_20260905T163853.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_PUSH_END_TO_END_GATE_20260905T164330.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",

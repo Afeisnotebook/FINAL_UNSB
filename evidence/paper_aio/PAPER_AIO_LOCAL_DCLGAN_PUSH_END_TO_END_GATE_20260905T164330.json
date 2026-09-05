@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-local-dclgan-push-end-to-end-gate-v1",
+  "captured_at": "2026-09-05T16:43:30+08:00",
+  "status": "PASS_WINDOWS_SOURCE_TO_4090A_PUBLISH_LAST_AND_REMOTE_VALIDATOR",
+  "purpose": "exercise the complete cross-platform transport path before real DCLGAN e200 without using a model checkpoint or GPU",
+  "source": {
+    "root": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_PUSH_INTEGRATION_82CA28A",
+    "source_host_label": "LOCAL_PUSH_SMOKE_20260905",
+    "epochs": [100, 125, 150, 175, 200],
+    "synthetic_payloads_not_models": true,
+    "synthetic_payloads_evaluated": false,
+    "source_mutation": false
+  },
+  "destination": {
+    "host_label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "root": "/home/yc/runs/FINAL_UNSB_DCLGAN_PUSH_INTEGRATION_82CA28A",
+    "free_gib_at_gate": 382.5828,
+    "host_key_pinned": true
+  },
+  "publication": {
+    "remote_import_lane": "/home/yc/runs/FINAL_UNSB_DCLGAN_PUSH_INTEGRATION_82CA28A/sources/LOCAL_PUSH_SMOKE_20260905/dclgan/IMPORT_LANE.json",
+    "remote_import_lane_sha256": "6dc06f5091d83453c0a552fec84dc32b8b0e0f3fea46127d7f0f61ad293c639a",
+    "remote_import_set": "/home/yc/runs/FINAL_UNSB_DCLGAN_PUSH_INTEGRATION_82CA28A/operations/IMPORT_SET_LOCAL_PUSH_SMOKE_20260905.json",
+    "remote_import_set_sha256": "9d4e362c5a9859ca1ce23db9b6efb824f0af3e23ae84bf70dcdf351d9703a65a",
+    "remote_validator_result": "5 100,125,150,175,200",
+    "checkpoint_sidecar_receipt_hashes_verified_on_both_sides": true,
+    "import_lane_published_last": true
+  },
+  "first_attempt": {
+    "status": "NO_UPLOAD_DESTINATION_ROOT_ABSENT",
+    "reason": "the isolated smoke root had not been created",
+    "production_root_affected": false,
+    "scientific_checkpoint_uploaded": false
+  },
+  "production_chain_after_gate": {
+    "local_push_supervisor_pid": 26020,
+    "local_push_child_pid": 24396,
+    "local_push_health_watcher_pid": 20500,
+    "remote_evaluation_supervisor_pid": 3586790,
+    "remote_evaluation_child_pid": 3587264,
+    "remote_evaluation_health_watcher_pid": 3586976,
+    "status": "HEALTHY_WAITING_REAL_LOCAL_EXPORT_AND_DYNAMIC_REFERENCE"
+  },
+  "scientific_boundaries": {
+    "real_training_changed": false,
+    "real_checkpoint_copied": false,
+    "evaluation_gpu_acquired": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "parent_deployment_evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_SOURCE_BOUND_DELIVERY_DEPLOYED_20260905T163853.json",
+  "decision": "decisions/DEC-20260905-LOCAL-DCLGAN-SOURCE-BOUND-DELIVERY.md"
+}
