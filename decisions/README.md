@@ -275,3 +275,6 @@ authorize compute.
     averaging、timestep stratification、antithetic sampling和gradient projection不作为
     首创，三条算法的可主张单位收紧到UNSB顺序player/state operator。NADB/SDDBM不得隐去，
     当前terminal门未过故不追加模块；本裁决不读取性能、不改变任何训练。
+84. `DEC-20260906-THEORY-ASSUMPTION-HARDENING.md`：在不读取full-data性能的前提下，把三条
+    算法定理所需的有限矩、条件独立和交换性假设写明；补齐ST-CGR在`T=5`时删除`V_mu/8`
+    的范围，以及AM-TNC零共识分支和浮点非逐位保证，避免把数学恒等式过写成跨硬件事实。

@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-theory-assumption-hardening-v1",
+  "captured_at": "2026-09-06T03:51:00+08:00",
+  "status": "PASS_PRE_RESULT_THEOREM_ASSUMPTIONS_AND_NUMERICAL_SCOPE_EXPLICIT",
+  "scope": [
+    "proposal_only_conditional_iid_covariance",
+    "stcgr_without_replacement_time_covariance",
+    "amtnc_exchange_unbiased_pre_adam_estimator"
+  ],
+  "source_hashes": {
+    "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md": "15a116e208e1960fd60bb7090dfc44ece8a781d4d99aedfbeb7ee13e436948a0",
+    "src/models/route1/amtnc.py": "77f98563e0d9dbae35ab7527c1d9b6c58a50f93033993f54604f2d54c455d8bf",
+    "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json": "c6070c44b853454ecabdc6d4ed0ef3f15bcc2db4ab9ea7e28d66695b95bd93eb",
+    "research/local_route1/derivation_cards/G4-01-STRATIFIED-TIME-CONDITIONAL-GF.json": "4e40a0f84bc2e0f2dfba11ec36ace851c5f57ffb79fd8bc06d74d689d3e3bfba",
+    "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4",
+    "tests/test_route1_amtnc.py": "7e4d85400cd2196061977e9a8fcb8e5e065af840b7ca3dd1ebd43dc17970fc4c"
+  },
+  "clarifications": {
+    "common_probability_assumptions": [
+      "finite_second_moments",
+      "conditional_iid_views_where_claimed",
+      "exchangeable_replicas_where_claimed"
+    ],
+    "stcgr": {
+      "non_time_randomness_conditionally_independent_given_time_pair": true,
+      "t_equals_5_covariance": "0.5*barSigma + 0.375*V_mu",
+      "proposal_minus_stcgr_covariance": "0.125*V_mu positive_semidefinite",
+      "shared_non_time_randomness_would_invalidate_direct_formula_reuse": true
+    },
+    "amtnc": {
+      "pre_step_metric_replica_order_invariant": true,
+      "zero_consensus_branch": "commit_ordered_g1; swapped_commit_g2; exchange_average_equals_zero_consensus",
+      "mathematical_exchange_identity_exact": true,
+      "general_floating_exchange_claim": "pre_registered_numerical_tolerance_only",
+      "byte_exact_claim_limited_to_identical_replica_identity_branch": true,
+      "expected_adam_displacement_unbiased_claimed": false
+    }
+  },
+  "scientific_effect": {
+    "training_code_changed": false,
+    "training_process_changed": false,
+    "algorithm_hyperparameter_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md"
+}

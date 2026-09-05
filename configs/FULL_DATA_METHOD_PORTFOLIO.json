@@ -11,17 +11,23 @@
     "final_delivery_fail_closed": true
   },
   "algorithm_theory_boundary": {
-    "status": "pre_result_three_operator_boundary_frozen",
+    "status": "pre_result_three_operator_boundary_frozen_assumptions_hardened",
     "canonical_map": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
     "proposal_and_stcgr_relationship": "shared_selective_GF_estimator_family_but_distinct_time_coupling",
     "amtnc_relationship": "independent_all_player_stochastic_geometry",
     "shared_theorem_scope": "pre_adam_conditional_gradient_mean",
+    "probability_conditions": ["finite_second_moments", "conditional_iid_where_claimed", "exchangeable_replicas_where_claimed"],
+    "stcgr_t5_covariance_reduction": "V_mu/8",
+    "amtnc_zero_consensus_exchange_branch_explicit": true,
+    "general_float_exchange_byte_exact_claimed": false,
     "full_data_benefit_claimed": false,
     "terminal_singular_drift_repair_claimed": false,
     "unique_winner_predeclared": false,
     "full_test_result": "696 passed",
     "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
-    "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
+    "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md",
+    "assumption_hardening_evidence": "evidence/paper_aio/PAPER_AIO_THEORY_ASSUMPTION_HARDENING_20260906T035100.json",
+    "assumption_hardening_decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md"
   },
   "related_work_novelty_boundary": {
     "status": "pre_result_primary_source_collision_audit_complete",

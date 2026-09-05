@@ -36,6 +36,10 @@ V_\mu=\frac1T\sum_i(\mu_i-\bar\mu)(\mu_i-\bar\mu)^\top.
 `pre-Adam` 梯度估计器保持父目标的条件均值。它不等于期望 Adam 参数位移不变，也不等于
 完整顺序博弈的有限步转移、RNG 轨迹或训练分布不变。
 
+这里还隐含以下最小概率条件：每个所用梯度具有有限二阶矩；标记为 iid 的两个视图在给定
+状态与 batch 后条件独立同分布；标记为 exchangeable 的两个 replica 具有交换不变的联合
+分布。所有结论均针对冻结的源码采样顺序，而不是任意实现了“两次 forward”的近似版本。
+
 ## 2. Proposal-only：选择性降低 post-D/E G/F 条件方差
 
 Proposal 保留原生单视图 D/E，待 $S_k^{DE}$ 已形成后，独立抽取两个完整 G/F 视图：
@@ -86,6 +90,17 @@ ST-CGR 保持 Proposal 的 post-D/E 两视图和一次 G/F Adam commit，但把�
 当 $V_\mu=0$ 时，两者协方差相同。ST-CGR 不改变 time 边际、不做 importance weighting，
 也不增加相对 Proposal 的网络视图数。
 
+这一协方差式要求：给定两个被抽中的 time index 后，两份非 time 随机量条件独立，且第
+$i$ 个 stratum 的噪声协方差确为上文定义的 $\operatorname{Cov}_\omega(g_{i,\omega})$。
+当前冻结实现逐视图独立抽取这些随机量并通过门禁；若未来共享 latent、bridge noise 或
+PatchNCE sampling，上式就不能直接沿用。对当前 $T=5$，公式具体化为
+
+\[
+\operatorname{Cov}(\widehat g_S)=\frac12\bar\Sigma+\frac38V_\mu,
+\qquad
+\operatorname{Cov}(\widehat g_P)-\operatorname{Cov}(\widehat g_S)=\frac18V_\mu\succeq0.
+\]
+
 ST-CGR 的证据来源是已审核的 time-stratum 梯度异方差。终端低方差/奇异值漂移没有通过
 预注册的跨算法、跨域门，因此不得把 ST-CGR 写成“终端奇异漂移修复”，也不得借这个叙事
 加入一个未验证的 terminal module。
@@ -126,6 +141,14 @@ A(\widehat g_A-m)=Ad-\operatorname{Proj}_{Am}(Ad),
 
 在交换性条件下，AM-TNC 的 pre-Adam estimator 仍具有原生条件均值。若两个梯度逐位相同，
 实现直接返回第一份梯度；配置为单 replica 时则逐位 dispatch 到 plain。
+
+零共识分支也必须单独说明：由于 $A$ 为正对角算子，$\|Am\|=0$ 蕴含 $m=0$。冻结实现此时
+提交有序第一份梯度 $g_1=d$；交换 replica 后提交 $g_2=-d$，所以交换对的平均仍为
+$0=m$。无偏证明要求 $A$ 只由提交前 optimizer state 决定、对 replica 顺序可测且不变，
+以及两份梯度可积。当前源码在计算两份梯度前冻结 `exp_avg_sq` 与 epsilon，满足该条件。
+
+上述交换恒等式在实数算术中精确成立。除“两个 replica 逐位相同”这一显式 identity 分支外，
+通用浮点交换测试只应声称在预注册数值容差内成立，不能写成任意硬件上逐位相同。
 
 AM-TNC 不是 Proposal/ST-CGR 的“第三个方差平均版本”：它对 D/E/G/F 全部 player 生效，
 使用两套 pre-opponent 视图和 D/E 提交后的新 G/F 视图，并有意保留随机切向分量。这里的

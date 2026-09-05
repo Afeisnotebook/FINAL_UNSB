@@ -21,13 +21,18 @@
       "full_test_result": "632 passed"
     },
     "paper_algorithm_theory_boundary": {
-      "status": "PRE_RESULT_THREE_OPERATOR_BOUNDARY_FROZEN_CONTINUE_ALL_E200",
+      "status": "PRE_RESULT_THREE_OPERATOR_BOUNDARY_FROZEN_ASSUMPTIONS_HARDENED_CONTINUE_ALL_E200",
       "canonical_map": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
       "proposal_role": "player_selective_post_DE_conditional_iid_GF_mean",
       "stcgr_role": "proposal_family_ordered_without_replacement_time_coupling",
       "amtnc_role": "independent_all_player_adam_metric_tangential_geometry",
       "shared_claim_limit": "pre_adam_conditional_gradient_mean_only",
       "expected_adam_displacement_unbiased_claimed": false,
+      "finite_second_moment_condition_explicit": true,
+      "conditional_independence_and_exchangeability_explicit": true,
+      "amtnc_zero_consensus_branch_proved": true,
+      "general_float_exchange_byte_exact_claimed": false,
+      "stcgr_t5_covariance_reduction": "V_mu/8",
       "terminal_singular_drift_repair_claimed": false,
       "unique_winner_predeclared": false,
       "training_process_changed": false,
@@ -35,7 +40,9 @@
       "confirmation20_opened": false,
       "full_test_result": "696 passed",
       "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
-      "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
+      "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md",
+      "assumption_hardening_evidence": "evidence/paper_aio/PAPER_AIO_THEORY_ASSUMPTION_HARDENING_20260906T035100.json",
+      "assumption_hardening_decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md"
     },
     "paper_related_work_novelty_boundary": {
       "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_COMPLETE",
