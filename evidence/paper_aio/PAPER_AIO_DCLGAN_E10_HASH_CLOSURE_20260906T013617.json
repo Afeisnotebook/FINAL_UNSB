@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-dclgan-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-06T01:40:00+08:00",
+  "status": "DCLGAN_E10_FIXED_MILESTONE_HASH_CLOSED_CONTINUE_E200",
+  "host_label": "LOCAL_GTX1660",
+  "lane_id": "dclgan",
+  "data_epoch": 10,
+  "updates": 85530,
+  "target_data_epoch": 200,
+  "target_updates": 1710600,
+  "epoch_wall_seconds": 4760.829364776611,
+  "milestone": {
+    "checkpoint_path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A\\lanes\\dclgan\\milestones\\e010.pt",
+    "checkpoint_sha256": "0e781f58d82371e01b737d66c1b450ca514f24976d34b6d52dbdc8514dcdee0b",
+    "checkpoint_size_bytes": 351608880,
+    "sidecar_sha256": "28f0179eae2cd0e24782e75cc13c9f7ae51baee891121166ccb0cbba91ec92cc",
+    "scientific_state_sha256": "71c2189b113b808c67f54d819328c4de43ef470fdf6bc14c8ec8bff553e519b7",
+    "metric_artifact_expected_at_this_early_milestone": false
+  },
+  "latest_full_state_at_capture": {
+    "checkpoint_sha256": "6a0c3d9243c86d5f20000c6b4a6c25473be2d912ed676e442fe82cb51626cab6",
+    "sidecar_sha256": "b0ac65db269b80936c12f458170da76600407697ae2f6628b28128bb4e4d42af",
+    "scientific_state_sha256": "71c2189b113b808c67f54d819328c4de43ef470fdf6bc14c8ec8bff553e519b7"
+  },
+  "source_identity": {
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "upstream_git_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "gpu_uuid": "22b92065-0a2b-ff50-f2c5-9c9ee65e6b53"
+  },
+  "durability": {
+    "trainer_pid": 22020,
+    "supervisor_pid": 12824,
+    "export_successor_pid": 23168,
+    "health_watcher_pid": 22088,
+    "push_recovery_supervisor_pid": 26020,
+    "push_health_watcher_pid": 20500,
+    "training_health": "HEALTHY",
+    "export_status": "WAITING_FOR_COMPLETE_E200",
+    "push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "disk_free_gib": 116.1194,
+    "estimated_remaining_write_gib": 10.8
+  },
+  "adjudication": {
+    "action": "CONTINUE_FROZEN_E200_PROTOCOL",
+    "training_restarted_or_modified": false,
+    "checkpoint_sidecar_hash_mismatch": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

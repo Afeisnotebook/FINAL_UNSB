@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T01:25:33+08:00",
+  "captured_at": "2026-09-06T01:40:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -135,7 +135,7 @@
     "cut_5090B": "running_e187_latest_fixed_e175_hash_closed",
     "cyclegan_5090B": "running",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_e6_latest_fixed_e5_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_e10_latest_fixed_e10_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -172,6 +172,12 @@
     }
   },
   "external_fixed_milestones": {
+    "local_dclgan_e10": {
+      "status": "checkpoint_and_sidecar_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "0e781f58d82371e01b737d66c1b450ca514f24976d34b6d52dbdc8514dcdee0b",
+      "scientific_state_sha256": "71c2189b113b808c67f54d819328c4de43ef470fdf6bc14c8ec8bff553e519b7",
+      "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E10_HASH_CLOSURE_20260906T013617.json"
+    },
     "cyclegan_e125": {
       "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",
       "checkpoint_sha256": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
@@ -366,7 +372,7 @@
     "evidence": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json"
   },
   "external_second_priority_source_gate": {
-    "status": "dclgan_portable_local_formal_gate_pass_5090B_target_gate_and_e200_durably_queued",
+    "status": "dclgan_local_e200_running_e10_source_bound_delivery_armed_negcut_deferred",
     "selected_target": "dclgan",
     "dclgan_upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
     "dclgan_cpu_smoke": "pass",
@@ -383,10 +389,10 @@
     "short_cuda_exact_resume_gate": "pass_diagnostic_not_remote_authorization",
     "short_discovery70_repeat_gate": "pass_diagnostic_not_remote_authorization",
     "target_host": "LOCAL_GTX1660",
-    "target_status": "running_e1_from_authorized_update1000_state_exclusive_gpu_lock",
+    "target_status": "running_e10_from_authorized_update1000_state_exclusive_gpu_lock",
     "target_successor_pid": null,
-    "target_export_successor_pid": null,
-    "target_health_watcher_pid": null,
+    "target_export_successor_pid": 23168,
+    "target_health_watcher_pid": 22088,
     "target_contract_sha256": "d89f417e2d978f27d6bc5b72e5a10ef1dd961d72cbb164d082ef38154826b97c",
     "long_wait_successor_audit": "historical_pass_then_redundant_waiters_retired_after_local_acceleration",
     "target_source_hashes_match": true,
@@ -399,11 +405,14 @@
       "trainer_pid": 22020,
       "export_successor_pid": 23168,
       "health_watcher_pid": 22088,
-      "completed_data_epoch": 1,
-      "completed_updates": 8553,
-      "epoch_wall_seconds": 3766.0768144130707,
-      "checkpoint_sha256": "e7419844e432bc1b2fadc16ecae6709b4b72a7e6c4603990a07e6a31d26e62a1",
-      "scientific_state_sha256": "b47e0d74ee441cf412527cfb5e17a6daa794cda3fee0033277e538e5206546a4",
+      "completed_data_epoch": 10,
+      "completed_updates": 85530,
+      "epoch_wall_seconds": 4760.829364776611,
+      "checkpoint_sha256": "6a0c3d9243c86d5f20000c6b4a6c25473be2d912ed676e442fe82cb51626cab6",
+      "scientific_state_sha256": "71c2189b113b808c67f54d819328c4de43ef470fdf6bc14c8ec8bff553e519b7",
+      "latest_fixed_milestone": "e10",
+      "latest_fixed_milestone_checkpoint_sha256": "0e781f58d82371e01b737d66c1b450ca514f24976d34b6d52dbdc8514dcdee0b",
+      "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E10_HASH_CLOSURE_20260906T013617.json",
       "projected_completion": "2026-09-14T07:46:02+08:00_rough",
       "terminal_audit_colocation_blocked": true
     },
@@ -673,7 +682,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_E10_HASH_CLOSURE_20260906T013617.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
