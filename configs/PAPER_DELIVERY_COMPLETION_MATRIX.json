@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T02:39:03+08:00",
+  "captured_at": "2026-09-06T04:48:50+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -8,15 +8,20 @@
       "id": "full_training",
       "status": "running",
       "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
-      "proof": "source-bound e200 export sets"
+      "proof": "source-bound e200 export sets",
+      "completed": ["4090A/plain", "5090B/cut"],
+      "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"
     },
     {
       "id": "legal_matched_control",
-      "status": "queued_after_5090B_cut_with_frozen_wait_only_process_recovery",
+      "status": "running_exact_engineering_gates_after_5090B_cut_e200",
       "requires": ["5090B exact 2000-update runtime twin", "fresh-e0 5090B matched plain e200", "reviewed Git runtime relations"],
       "proof": "wait-only recovery guard, runtime receipt, and committed relation registry",
-      "pre_handoff_preflight": "PASS_READY_WAITING_FOR_CUT_E200",
-      "pre_handoff_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PRE_HANDOFF_20260906T022501.json",
+      "predecessor": "5090B CUT COMPLETE_E200 source-bound export hash closed",
+      "current_gate": "2_of_5_resume_gate",
+      "wait_only_guard": "HANDOFF_STARTED_RECOVERY_RELINQUISHED_ZERO_RESTARTS",
+      "long_plain_training_started": false,
+      "handoff_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "paired_metrics_used_for_release": false
     },
     {

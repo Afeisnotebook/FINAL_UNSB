@@ -284,3 +284,7 @@ authorize compute.
 86. `DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md`：用同一冻结后评估运行时的完整训练step
     计时补齐median、p90、峰值显存和相对plain倍率，并固定UNSB-family NFE5与外部translation
     NFE1推理成本；禁止把跨宿主或共驻epoch墙钟当算法倍率，继续不声明未审计FLOPs。
+87. `DEC-20260906-CUT-E200-MATCHED-PLAIN-HANDOFF.md`：5090B CUT完成固定e200，checkpoint、
+    sidecar、scientific state与source-bound export的哈希闭环；既有matched-plain后继自动进入
+    精确工程门，wait-only guard零重启正常移交。runtime twin、容量门及Git relation审阅完成前
+    仍禁止matched delta，且CycleGAN和其余健康训练均未改动。
