@@ -32,6 +32,12 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 和`decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。运行环境恢复不
 建立新的训练runtime cohort，matched关系仍只使用已审核注册表。
 
+本地terminal-audit链于2026-09-06发现AM-TNC与ST-CGR两条旧增量relay因引用可变
+`main`工作树而按源码漂移门退出；训练本身不受影响。两条relay已从detached commit
+`46f9077`重新部署并连续健康，综合监视器PID为`18736`。DCLGAN仍持有和terminal JVP
+相同的本地GPU锁，因此审计不会误与其在GTX1660上共驻。详见
+`decisions/DEC-20260906-LOCAL-INCREMENTAL-RELAY-RECOVERY.md`。
+
 2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经GPU UUID、hostname、
 run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是第五张GPU。不得把它
 登记为新宿主或在CUT/CycleGAN之外误开第三条训练；详见

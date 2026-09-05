@@ -1,0 +1,89 @@
+{
+  "schema": "final-unsb-paper-local-incremental-relay-recovery-v1",
+  "captured_at": "2026-09-06T06:54:15+08:00",
+  "status": "TWO_FAILED_INCREMENTAL_RELAYS_RECOVERED_FROM_IMMUTABLE_CONTROL_WORKTREE",
+  "incident": {
+    "detection": "terminal health watcher reported two dead incremental checkpoint relays while training and terminal-audit successors remained healthy",
+    "failed_relays": [
+      {
+        "relay_id": "incremental_4090A_amtnc_v2",
+        "pid": 26064,
+        "last_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+        "last_error": "incremental audit relay failed: incremental relay control source changed"
+      },
+      {
+        "relay_id": "incremental_5090A_stcgr_v4",
+        "pid": 18340,
+        "last_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+        "last_error": "incremental audit relay failed: incremental relay control source changed"
+      }
+    ],
+    "root_cause": "the old relay contracts referenced the mutable main checkout; a later change to the imported base relay script correctly triggered the frozen-source fail-closed check",
+    "training_affected": false,
+    "source_checkpoint_affected": false,
+    "existing_import_deleted": false
+  },
+  "recovery": {
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_RECOVERY_46F9077",
+    "control_git_commit": "46f90779979427810f6d84cea751d2545f2da5f3",
+    "detached_immutable_worktree": true,
+    "incremental_relay_script_sha256": "0261c85b30465814fcd394568ac785858c4d4f774c5b1e76342874f2d351f3e1",
+    "base_relay_script_sha256": "df58cf76b8c5f7d6d503a8b83e6e05ea0f2c5b857a151b08a418da50a3336254",
+    "new_relays": [
+      {
+        "relay_id": "incremental_4090A_amtnc_v3",
+        "pid": 19068,
+        "source_host_label": "4090A",
+        "lane_id": "amtnc",
+        "state": "E:\\UNSB_Expl\\paper_eval_node\\checkpoint_imports\\operations\\INCREMENTAL_RELAY_incremental_4090A_amtnc_v3_STATE.json",
+        "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+        "available_epochs": []
+      },
+      {
+        "relay_id": "incremental_5090A_stcgr_v5",
+        "pid": 6152,
+        "source_host_label": "5090A",
+        "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+        "state": "E:\\UNSB_Expl\\paper_eval_node\\checkpoint_imports\\operations\\INCREMENTAL_RELAY_incremental_5090A_stcgr_v5_STATE.json",
+        "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+        "available_epochs": []
+      }
+    ],
+    "empty_available_epochs_expected": "both source lanes remain below fixed audit epoch e100",
+    "password_persisted": false
+  },
+  "health": {
+    "new_health_watcher_pid": 18736,
+    "new_health_output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_46f9077_v8",
+    "status_after_two_independent_polls": "HEALTHY",
+    "alert_count": 0,
+    "retired_alerted_health_watcher_pid": 276,
+    "terminal_audit_supervisor_pid": 6196,
+    "terminal_audit_child_pid": 20244,
+    "terminal_pathology_supervisor_pid": 24460,
+    "terminal_pathology_child_pid": 9400,
+    "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "local_free_disk_gib": 116.0996
+  },
+  "gpu_exclusion_gate": {
+    "dclgan_lock_supplement_pid": 16164,
+    "shared_gpu_lock": "E:\\UNSB_Expl\\paper_eval_node\\LOCAL_EVALUATION_GPU0.lock",
+    "status": "LOCK_HELD",
+    "terminal_jvp_can_colocate_with_dclgan": false
+  },
+  "repository_validation": {
+    "json_parse": "PASS",
+    "pytest": "701 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_restarted_or_modified": false,
+    "algorithm_or_protocol_modified": false,
+    "checkpoint_or_data_deleted": false
+  }
+}

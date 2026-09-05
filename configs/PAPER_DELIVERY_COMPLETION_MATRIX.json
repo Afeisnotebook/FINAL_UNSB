@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T06:28:31+08:00",
+  "captured_at": "2026-09-06T06:54:15+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -90,6 +90,21 @@
       "recovery_supervisor_pid": 3804113,
       "recovery_health_watcher_pid": 3804260,
       "recovery_restart_count": 0
+    },
+    {
+      "id": "terminal_causal_audit",
+      "status": "plain_three_fixed_cells_complete_waiting_proposal_amtnc_stcgr_fixed_imports",
+      "critical_path": false,
+      "proof": "target-blind e100/e150/e200 audit receipts and terminal pathology decision",
+      "incremental_relay_pids": {
+        "4090A_amtnc_v3": 19068,
+        "5090A_stcgr_v5": 6152,
+        "5090C_proposal": 14528
+      },
+      "health_watcher_pid": 18736,
+      "health_status": "healthy_after_two_polls_zero_alerts",
+      "gpu_exclusion": "DCLGAN holds the same local GPU lock; terminal JVP cannot co-reside",
+      "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_RECOVERY_20260906T065415.json"
     },
     {
       "id": "distribution_metrics",

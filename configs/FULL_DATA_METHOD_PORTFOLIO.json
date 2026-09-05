@@ -630,7 +630,10 @@
     "checkpoint_relays_status": "six_source_bound_relays_waiting_after_successful_first_connection",
     "checkpoint_relay_pids": [19200, 17176, 19784, 16252, 19496, 19236],
     "incremental_source_exporter_pids": [2274259, 2274260, 351230, 29411],
-    "incremental_checkpoint_relay_pids": [6292, 12656, 23844, 14528],
+    "incremental_checkpoint_relay_pids": [6292, 19068, 6152, 14528],
+    "retired_incremental_checkpoint_relay_pids": [12656, 26064, 19904, 24956, 23844, 18340],
+    "incremental_relay_recovery_control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_RECOVERY_46F9077",
+    "incremental_relay_recovery_control_commit": "46f90779979427810f6d84cea751d2545f2da5f3",
     "terminal_audit_successor_status": "preflight_ready_waiting_for_fixed_imports_or_gpu_full_rollout_jvp_required",
     "first_e100_relay_readiness": "pass_end_to_end_partial_e100_release_ready",
     "first_e100_relay_readiness_evidence": "evidence/paper_aio/PAPER_AIO_FIRST_E100_RELAY_READINESS_20260903T145419.json",
@@ -643,14 +646,15 @@
     "terminal_audit_authority_write": "same_directory_fsync_atomic_replace_reject_preexisting_torn_row",
     "terminal_audit_process_recovery": "frozen_command_auto_restart_fail_closed_max_20_launches",
     "terminal_audit_definition": "full_numerical_Xt_to_NFE5_endpoint_rollout_jacobian_lane_blind_crn_plus_unbiased_sample_covariance_nonzero_spectrum_and_cross_time_common_batch_sampler_rng_train_mode_gradient_strata",
-    "incremental_health_watcher_pid": 25944,
-    "incremental_health_status": "healthy_zero_alerts_long_cell_aware_auto_recovery_chain_and_four_relays",
+    "incremental_health_watcher_pid": 18736,
+    "incremental_health_status": "healthy_after_two_polls_zero_alerts_long_cell_aware_chain_and_four_relays",
+    "retired_alerted_incremental_health_watcher_pid": 276,
     "retired_incremental_health_watcher_pid": 21244,
     "earlier_retired_incremental_health_watcher_pids": [21052, 6776, 13536, 13852, 15672, 20780, 5200, 20860, 22700, 22788],
     "terminal_pathology_successor_status": "healthy_waiting_target_blind_release_then_auto_unified_evaluation_and_posthoc_adjudication",
     "terminal_pathology_control_supervisor_pid": 24460,
     "terminal_pathology_successor_pid": 9400,
-    "terminal_pathology_health_watcher_pid": 25944,
+    "terminal_pathology_health_watcher_pid": 18736,
     "retired_terminal_pathology_successor_pid": 11452,
     "earlier_retired_terminal_pathology_successor_pids": [2732, 21384, 16968, 22408, 17116],
     "retired_terminal_pathology_health_watcher_pid": 22700,
@@ -677,7 +681,8 @@
       "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRASH_ATOMIC_DEPLOYED_20260903T172200.json",
       "evidence/paper_aio/PAPER_AIO_LOCAL_CONTROL_AUTO_RECOVERY_DEPLOYED_20260903T174000.json",
       "evidence/paper_aio/PAPER_AIO_E100_LOCAL_AUDIT_FROZEN_CHAIN_REVALIDATION_20260903T175132.json",
-      "evidence/paper_aio/PAPER_AIO_LOCAL_LONG_CELL_HEALTH_WATCH_REPAIR_20260903T175726.json"
+      "evidence/paper_aio/PAPER_AIO_LOCAL_LONG_CELL_HEALTH_WATCH_REPAIR_20260903T175726.json",
+      "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_RECOVERY_20260906T065415.json"
     ]
   },
   "algorithm_posthoc_delivery": {
@@ -769,7 +774,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
     "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_RECOVERY_20260906T065415.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_running_metric_blind_capacity_gate",
     "successor_pid": 523993,
