@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-05T09:49:42+08:00",
+  "captured_at": "2026-09-05T10:01:25+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -89,7 +89,7 @@
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
       "status": "running",
       "host": "4090A",
-      "projected_completion_window": "2026-09-11/2026-09-12",
+      "projected_completion_window": "2026-09-13T14:40:00+08:00_rough_from_e1",
       "resume_after": "4090A/plain COMPLETE_E200 satisfied",
       "successor_pid": 2518921,
       "supervisor_pid": 3446757,
@@ -97,7 +97,12 @@
       "export_successor_pid": 2182586,
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
       "successor_health_watcher_pid": 3460191,
-      "first_epoch_status": "healthy_in_progress_no_epoch_boundary_checkpoint_yet",
+      "first_epoch_status": "complete_full_state_hash_closed",
+      "completed_full_data_epoch": 1,
+      "completed_updates": 8553,
+      "first_epoch_wall_seconds": 3556.696762084961,
+      "latest_full_state_sha256": "2dd606fd46fbe8d74548c5169673ec9dd2c0388d663bde9ecc7766135b4c7787",
+      "latest_scientific_state_sha256": "9a9e4899c9769a6f017825b28668fc66be13daafda6e965ea39d565e1e769894",
       "resume_gate": "pass",
       "zero_intervention_gate": "pass",
       "evaluation_repeat_gate": "pass",
@@ -105,7 +110,7 @@
       "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500, 3415044],
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified",
-      "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E1_LONG_MONITOR_RELEASE_20260905T100125.json"
     },
     "hjcgr": {
       "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
@@ -330,7 +335,8 @@
       "evidence/paper_aio/PAPER_AIO_CUT_E150_HASH_CLOSURE_20260905T044800.json",
       "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E100_AND_RELAY_RECOVERY_20260905T070800.json",
       "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-      "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
+      "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json",
+      "evidence/paper_aio/PAPER_AIO_AMTNC_E1_LONG_MONITOR_RELEASE_20260905T100125.json"
     ]
   },
   "ddsb_source_watch": {

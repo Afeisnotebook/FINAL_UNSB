@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-paper-amtnc-e1-long-monitor-release-v1",
+  "captured_at": "2026-09-05T10:01:25+08:00",
+  "decision": "AMTNC_E1_FULL_STATE_HASH_CLOSED_RELEASE_TO_TWO_HOUR_METRIC_BLIND_MONITOR",
+  "lane": {
+    "lane_id": "amtnc",
+    "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "host": "4090A",
+    "data_epoch": 1,
+    "updates": 8553,
+    "target_data_epoch": 200,
+    "target_updates": 1710600,
+    "epoch_wall_seconds": 3556.696762084961,
+    "full_state_sha256": "2dd606fd46fbe8d74548c5169673ec9dd2c0388d663bde9ecc7766135b4c7787",
+    "scientific_state_sha256": "9a9e4899c9769a6f017825b28668fc66be13daafda6e965ea39d565e1e769894",
+    "heartbeat_sha256": "6b40b74be1ffb73b23f5d8f3dbfbeebd7433fca4ac2583a86af5b55b13b831dc",
+    "full_state_sidecar_sha256": "71f7ad34d9c82cac920f199724b4f4e432d8d56dd385b5d7307ce56863d33a7b",
+    "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "shared_e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591",
+    "estimated_e200_from_first_epoch": "2026-09-13T14:40:00+08:00_rough",
+    "resume_required": false,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "health": {
+    "trainer_pid": 3446758,
+    "supervisor_pid": 3446757,
+    "4090A_health_watcher_pid": 3460191,
+    "4090A_health_status": "HEALTHY_ZERO_ALERTS",
+    "local_health_watcher_pid": 276,
+    "local_health_status": "HEALTHY_ZERO_ALERTS",
+    "training_interrupted": false
+  },
+  "monitoring": {
+    "automation_id": "final-unsb-goal",
+    "cadence": "every_two_hours",
+    "normal_action": "metric_blind_liveness_and_fixed_milestone_check_only",
+    "next_fixed_target_blind_export_epoch": 100,
+    "automatic_recovery_scope": "engineering_failure_only_exact_resume",
+    "algorithm_or_schedule_mutation_authorized": false
+  },
+  "scientific_boundaries": {
+    "intermediate_paired_performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
