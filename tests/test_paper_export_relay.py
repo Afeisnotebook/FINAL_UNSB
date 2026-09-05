@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -204,6 +205,30 @@ def test_connect_treats_gateway_auth_rejection_as_retryable(monkeypatch) -> None
             "source_port": 22,
             "source_user": "user",
         })
+
+
+def test_json_write_retries_transient_windows_replace_denial(
+    tmp_path, monkeypatch,
+) -> None:
+    import operations.paper_aio_export_relay as relay
+
+    path = tmp_path / "relay-state.json"
+    real_replace = Path.replace
+    attempts = 0
+
+    def flaky_replace(source, destination):
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise PermissionError("transient reader lock")
+        return real_replace(source, destination)
+
+    monkeypatch.setattr(Path, "replace", flaky_replace)
+    monkeypatch.setattr(relay.time, "sleep", lambda seconds: None)
+    relay._write_json(path, {"status": "HEALTHY"})
+    assert json.loads(path.read_text(encoding="utf-8")) == {"status": "HEALTHY"}
+    assert attempts == 3
+    assert not list(tmp_path.glob("relay-state.json.*.tmp"))
 
 
 def test_existing_destination_hash_mismatch_fails_closed(tmp_path) -> None:

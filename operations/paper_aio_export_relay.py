@@ -72,11 +72,26 @@ def _read_json_bytes(value: bytes, label: str) -> dict[str, Any]:
 def _write_json(path: Path, value: dict[str, Any]) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
-    )
-    temporary.replace(path)
+    temporary = path.with_name(path.name + f".{os.getpid()}.tmp")
+    try:
+        temporary.write_text(
+            json.dumps(value, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        # Antivirus and indexers on Windows can briefly retain a handle to a
+        # freshly written file.  Keep the publication atomic, but tolerate the
+        # transient sharing violation instead of terminating a durable relay.
+        for attempt in range(10):
+            try:
+                temporary.replace(path)
+                break
+            except PermissionError:
+                if attempt == 9:
+                    raise
+                time.sleep(0.05 * (attempt + 1))
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def _write_bytes(path: Path, value: bytes) -> None:
