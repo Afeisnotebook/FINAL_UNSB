@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e125-recovery-closure-v1",
+  "captured_at": "2026-09-06T02:09:17+08:00",
+  "status": "PASS_EXACT_E125_RECOVERY_CLOSED_BY_COMPLETE_E126_PROGRESS",
+  "host": "5090B",
+  "lane": "cyclegan",
+  "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "recovery_source": {
+    "epoch": 125,
+    "updates": 1069125,
+    "checkpoint_sha256": "ce5e58740ba14e6f024dc0e0afd5ef623befbbd1dadc92132d50c432843099b1",
+    "scientific_state_sha256": "ac896c95d4f6c2cc331c70e3e1f2679e7e441d65aca41cdae0d29efe459585f2",
+    "fixed_milestone_checkpoint_sha256": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
+    "old_trainer_pid": 11846,
+    "inline_metric_status": "not_published_recompute_from_fixed_e125_milestone_in_final_unified_evaluator"
+  },
+  "recovered_progress": {
+    "epoch": 126,
+    "updates": 1077678,
+    "epoch_wall_seconds": 2300.5238225460052,
+    "checkpoint_sha256": "152cf02c54f0a1f47e581a06d73b41a013904d09a9765dc5b37a3d6f73bcd60a",
+    "sidecar_sha256": "9ea6dade77f1931e8f513ddf8ff753622bfd9dabf1130c1d68a43efd3cad419e",
+    "scientific_state_sha256": "30e78362b5f088bed4d667051eab6def14d9337b6c05e4b4eb0d6a072e35205c",
+    "checkpoint_sidecar_step": 1077678,
+    "checkpoint_sidecar_epoch": 126,
+    "heartbeat_epoch": 126,
+    "heartbeat_checkpoint_publication_gap_seconds": 0.48
+  },
+  "process_chain": {
+    "supervisor_pid": 11845,
+    "supervisor_status": "CHILD_RUNNING",
+    "supervisor_consecutive_failures": 1,
+    "trainer_pid": 493306,
+    "trainer_state": "Sl",
+    "continuity_guard_pid": 159134,
+    "continuity_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "continuity_guard_total_restarts": 0,
+    "progress_watcher_pid": 138626,
+    "progress_watcher_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_watcher_alert": false,
+    "progress_watcher_checkpoint_step": 1077678
+  },
+  "co_running_state": {
+    "cut_epoch": 194,
+    "cut_updates": 1659282,
+    "cut_scientific_state_sha256": "d9c974f97e3107ab7116feee3e92c2196b3e86071350651c1f1b438d7291f4d9",
+    "cut_changed_or_restarted": false,
+    "matched_plain_successor_pid": 148465,
+    "matched_plain_successor_status": "WAITING_FOR_PREDECESSOR_E200",
+    "waiting_successor_guard_pid": 441694,
+    "waiting_successor_guard_status": "MONITORING_EXISTING_WAITING_SUCCESSOR",
+    "waiting_successor_guard_restart_count": 0
+  },
+  "adjudication": {
+    "recovery_closed": true,
+    "restart_from_e0": false,
+    "cross_host_resume": false,
+    "protocol_changed": false,
+    "future_successor_changed": false,
+    "e125_inline_metric_required_for_training_continuity": false,
+    "e125_inline_metric_final_disposition": "recompute_read_only_from_fixed_milestone_in_unified_evaluator"
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

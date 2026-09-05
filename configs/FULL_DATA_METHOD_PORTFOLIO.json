@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T02:04:49+08:00",
+  "captured_at": "2026-09-06T02:09:17+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -182,7 +182,11 @@
       "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",
       "checkpoint_sha256": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
       "scientific_state_sha256": "ac896c95d4f6c2cc331c70e3e1f2679e7e441d65aca41cdae0d29efe459585f2",
-      "trainer_recovery_status": "exact_e125_resume_launched_awaiting_e126_progress",
+      "trainer_recovery_status": "exact_e125_recovery_closed_by_complete_e126_progress",
+      "recovered_e126_checkpoint_sha256": "152cf02c54f0a1f47e581a06d73b41a013904d09a9765dc5b37a3d6f73bcd60a",
+      "recovered_e126_scientific_state_sha256": "30e78362b5f088bed4d667051eab6def14d9337b6c05e4b4eb0d6a072e35205c",
+      "e125_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json",
+      "recovery_closure_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E126_RECOVERY_CLOSURE_20260906T020917.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json"
     },
     "cyclegan_e100": {
@@ -223,7 +227,7 @@
     }
   },
   "operational_monitoring": {
-    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_ZERO_ALERTS_AMTNC_HANDOFF_COMPLETE_AND_BIHOURLY_CODEX_WATCH",
+    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_CYCLEGAN_E125_EXACT_RECOVERY_CLOSED_BY_E126",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
     "progress_aware_supervisor_live_processes_restarted": false,
@@ -682,7 +686,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_E10_HASH_CLOSURE_20260906T013617.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E126_RECOVERY_CLOSURE_20260906T020917.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",
