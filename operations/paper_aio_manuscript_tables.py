@@ -235,6 +235,15 @@ def _algorithm_rows(
 
 
 def _complexity_rows(portfolio: dict[str, Any]) -> list[dict[str, Any]]:
+    plain = portfolio["complexity"].get("plain")
+    if not isinstance(plain, dict):
+        raise RuntimeError("complexity table lacks the controlled plain profile")
+    plain_training = plain.get("training_step") or {}
+    plain_median = _number(
+        plain_training.get("median_ms"), label="plain.training_step.median_ms",
+    )
+    if plain_median is None or plain_median <= 0:
+        raise RuntimeError("plain training-step median must be positive")
     rows = []
     for lane in sorted(portfolio["complexity"]):
         value = portfolio["complexity"][lane]
@@ -242,11 +251,47 @@ def _complexity_rows(portfolio: dict[str, Any]) -> list[dict[str, Any]]:
             raise RuntimeError(f"invalid complexity entry: {lane}")
         parameters = value.get("parameters") or {}
         training = value.get("training_step") or {}
+        training_median = _number(
+            training.get("median_ms"), label=f"{lane}.training_step.median_ms",
+        )
+        training_p90 = _number(
+            training.get("p90_ms"), label=f"{lane}.training_step.p90_ms",
+        )
+        training_peak = training.get("peak_allocated_bytes")
+        if (
+            training_median is None or training_median <= 0
+            or training_p90 is None or training_p90 <= 0
+            or isinstance(training_peak, bool) or not isinstance(training_peak, int)
+            or training_peak < 0
+        ):
+            raise RuntimeError(f"invalid controlled training-cost profile: {lane}")
+        inference = value.get("inference") or {}
+        nfe = inference.get("nfe") or {}
+        reference_nfe = "5" if "5" in nfe else "1"
+        reference = nfe.get(reference_nfe)
+        if not isinstance(reference, dict):
+            raise RuntimeError(f"complexity profile lacks reference inference NFE: {lane}")
+        inference_median = _number(
+            reference.get("median_ms"), label=f"{lane}.inference.nfe{reference_nfe}.median_ms",
+        )
+        inference_peak = reference.get("peak_allocated_bytes")
+        if (
+            inference_median is None or inference_median <= 0
+            or isinstance(inference_peak, bool) or not isinstance(inference_peak, int)
+            or inference_peak < 0
+        ):
+            raise RuntimeError(f"invalid controlled inference-cost profile: {lane}")
         rows.append({
             "lane_id": lane,
             "unique_parameters": parameters.get("unique_parameters"),
-            "training_step_median_ms": training.get("median_ms"),
-            "inference_json": json.dumps(value.get("inference") or {}, sort_keys=True, separators=(",", ":")),
+            "training_step_median_ms": training_median,
+            "training_step_p90_ms": training_p90,
+            "training_step_vs_plain": training_median / plain_median,
+            "training_peak_allocated_bytes": training_peak,
+            "inference_reference_nfe": int(reference_nfe),
+            "inference_median_ms": inference_median,
+            "inference_peak_allocated_bytes": inference_peak,
+            "inference_json": json.dumps(inference, sort_keys=True, separators=(",", ":")),
             "flops_json": json.dumps(value.get("flops") or {}, sort_keys=True, separators=(",", ":")),
             "environment_json": json.dumps(value.get("environment") or {}, sort_keys=True, separators=(",", ":")),
         })
@@ -327,6 +372,9 @@ def build_tables(
         )),
         "COMPLEXITY.csv": _csv_text(complexity, (
             "lane_id", "unique_parameters", "training_step_median_ms",
+            "training_step_p90_ms", "training_step_vs_plain",
+            "training_peak_allocated_bytes", "inference_reference_nfe",
+            "inference_median_ms", "inference_peak_allocated_bytes",
             "inference_json", "flops_json", "environment_json",
         )),
         "PAPER_CLAIMS.csv": _csv_text(claim_rows, ("claim_index", "claim")),

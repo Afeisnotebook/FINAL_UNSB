@@ -56,8 +56,19 @@ def _portfolio() -> dict:
     complexity = {
         lane: {
             "parameters": {"unique_parameters": 10},
-            "training_step": {"median_ms": 2.0},
-            "inference": {"nfe": {"5": 1.0}},
+            "training_step": {
+                "median_ms": 2.0 if lane == "plain" else 4.0,
+                "p90_ms": 3.0 if lane == "plain" else 5.0,
+                "peak_allocated_bytes": 1024,
+            },
+            "inference": {
+                "nfe": {
+                    "5" if lane in ("plain", "proposal", "amtnc", "stcgr") else "1": {
+                        "median_ms": 1.0,
+                        "peak_allocated_bytes": 512,
+                    },
+                },
+            },
             "flops": {"reported": False},
             "environment": {"gpu": "fixture"},
         }
@@ -117,6 +128,10 @@ def test_builds_fixed_main_sustained_domain_and_complexity_tables() -> None:
     assert len(result["ALGORITHM_SUSTAINED.csv"].splitlines()) == 1 + 3 * 3
     assert len(result["ALGORITHM_DOMAIN_DELTAS.csv"].splitlines()) == 1 + 3 * 3 * 6
     assert "algorithm-proposal" in result["ALGORITHM_SUSTAINED.csv"]
+    complexity = result["COMPLEXITY.csv"]
+    assert "training_step_vs_plain" in complexity.splitlines()[0]
+    assert next(line for line in complexity.splitlines() if line.startswith("plain,")).split(",")[4] == "1.0"
+    assert next(line for line in complexity.splitlines() if line.startswith("proposal,")).split(",")[4] == "2.0"
     assert "Source portfolio SHA256" in result["PAPER_RESULT_SUMMARY.md"]
     assert "claim one" in result["PAPER_CLAIMS.csv"]
 
@@ -172,6 +187,24 @@ def test_rejects_unlabelled_or_undisclosed_main_table_row() -> None:
         tables.build_tables(
             portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
             portfolio_sha256="f" * 64,
+        )
+
+
+def test_rejects_incomplete_controlled_complexity_profile() -> None:
+    portfolio = _portfolio()
+    portfolio["complexity"]["proposal"]["training_step"].pop("p90_ms")
+    with pytest.raises(RuntimeError, match="proposal.training_step.p90_ms"):
+        tables.build_tables(
+            portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
+            portfolio_sha256="1" * 64,
+        )
+
+    portfolio = _portfolio()
+    portfolio["complexity"]["cut"]["inference"]["nfe"] = {}
+    with pytest.raises(RuntimeError, match="reference inference NFE: cut"):
+        tables.build_tables(
+            portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
+            portfolio_sha256="2" * 64,
         )
 
 

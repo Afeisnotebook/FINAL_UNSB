@@ -66,7 +66,12 @@ training input only, never reads the paired target, verifies the source
 checkpoint hash before and after, and discards the in-memory model used for
 training-step timing. FLOPs are deliberately not claimed because the custom
 stochastic bridge and lazy PatchNCE operators are not fully covered by one
-audited counter.
+audited counter. The frozen manuscript export reports controlled training-step
+median, p90, peak allocated memory and median cost relative to plain. It also
+extracts the fixed NFE5 inference cost for UNSB-family methods (NFE1 for the
+external translation baselines), while retaining the complete timing JSON and
+evaluator environment. Different training hosts' observed epoch times are not
+used as algorithm-cost ratios.
 
 Source-host exports can be transferred to one evaluation host with
 `operations/paper_aio_export_relay.py`.  The relay pins the SSH host key,
