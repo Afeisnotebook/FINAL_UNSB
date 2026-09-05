@@ -267,3 +267,7 @@ authorize compute.
 81. `DEC-20260905-LOCAL-DCLGAN-SOURCE-BOUND-DELIVERY.md`：补齐本地GTX1660 DCLGAN在e200
     之后到4090A统一评估的缺失桥；部署固定host-key/GPU身份和逐文件哈希的出站push，以及可恢复
     evaluation waiter。两条等待子进程均通过故障注入恢复，不触碰训练、不读取paired指标。
+82. `DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md`：在full-data结果冻结前统一核对
+    Proposal、ST-CGR和AM-TNC的公式、源码与可声明边界；前两者属于选择性G/F估计器族但
+    time coupling不同，AM-TNC是独立all-player几何路线。共同无偏主张只到pre-Adam条件
+    梯度，terminal singular drift仍未过门，六条健康训练与队列均未改动。

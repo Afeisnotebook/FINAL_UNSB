@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T02:39:03+08:00",
+  "state_snapshot_time": "2026-09-06T02:59:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -19,6 +19,23 @@
       "performance_values_read": false,
       "final_delivery_fail_closed": true,
       "full_test_result": "632 passed"
+    },
+    "paper_algorithm_theory_boundary": {
+      "status": "PRE_RESULT_THREE_OPERATOR_BOUNDARY_FROZEN_CONTINUE_ALL_E200",
+      "canonical_map": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
+      "proposal_role": "player_selective_post_DE_conditional_iid_GF_mean",
+      "stcgr_role": "proposal_family_ordered_without_replacement_time_coupling",
+      "amtnc_role": "independent_all_player_adam_metric_tangential_geometry",
+      "shared_claim_limit": "pre_adam_conditional_gradient_mean_only",
+      "expected_adam_displacement_unbiased_claimed": false,
+      "terminal_singular_drift_repair_claimed": false,
+      "unique_winner_predeclared": false,
+      "training_process_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "full_test_result": "696 passed",
+      "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
+      "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
     },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",

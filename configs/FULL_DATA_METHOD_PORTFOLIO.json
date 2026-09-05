@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T02:09:17+08:00",
+  "captured_at": "2026-09-06T02:59:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -9,6 +9,19 @@
     "decision": "decisions/DEC-20260903-PAPER-BASELINE-PORTFOLIO.md",
     "current_gpu_queue_changed": false,
     "final_delivery_fail_closed": true
+  },
+  "algorithm_theory_boundary": {
+    "status": "pre_result_three_operator_boundary_frozen",
+    "canonical_map": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
+    "proposal_and_stcgr_relationship": "shared_selective_GF_estimator_family_but_distinct_time_coupling",
+    "amtnc_relationship": "independent_all_player_stochastic_geometry",
+    "shared_theorem_scope": "pre_adam_conditional_gradient_mean",
+    "full_data_benefit_claimed": false,
+    "terminal_singular_drift_repair_claimed": false,
+    "unique_winner_predeclared": false,
+    "full_test_result": "696 passed",
+    "evidence": "evidence/paper_aio/PAPER_AIO_THREE_ALGORITHM_THEORY_BOUNDARY_20260906T025900.json",
+    "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
   },
   "protocol_implementation_audit": {
     "captured_at": "2026-09-03T08:54:41+08:00",

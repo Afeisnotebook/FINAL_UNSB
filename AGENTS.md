@@ -39,11 +39,13 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
 - **Executors** run only committed, per-host matched protocols and may not use
   paired targets as training/controller inputs. Checkpoints never continue
   across hosts and a method is compared only with its same-host plain.
-- **4090A** runs full plain and then the independently valuable AM-TNC path.
+- **4090A** has completed and sealed full plain and now runs the independently
+  valuable AM-TNC path; unified evaluation follows after e200.
   **5090C** runs Proposal. **5090A** has paused its recoverable plain at e9 by
   explicit user time-priority and now runs the authorized full-data ST-CGR from
   its exact e1 state. **5090B** co-runs CUT and CycleGAN, then executes a
-  fresh-e0 exact-runtime plain gate for Proposal after CUT releases capacity.
+  fresh-e0 exact-runtime plain gate for Proposal/ST-CGR relation review after
+  CUT releases capacity. **Local GTX1660** runs DCLGAN exclusively.
 - Every live scientific checkout remains pinned to the per-lane commit and
   protocol fingerprint recorded in `PROJECT_STATE.json`.  Newer commits may
   orchestrate, relay and evaluate, but must not mutate those live transitions.

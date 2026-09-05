@@ -1,15 +1,16 @@
 # FINAL_UNSB
 
-这是 UNSB 项目的可审计 clean canonical 与研究主控仓库。项目已暂停旧四条固定lane
-计划，进入以本地1660、权威同运行时4090和独立复核5090共同执行的路线一长期算法发现阶段。
+这是 UNSB 项目的可审计 clean canonical 与论文研究主控仓库。当前已进入 full-data
+All-in-One 无配对论文阶段：每侧8553张、batch1、seed2026、真实200 data epochs。
 
-当前目标不是验证固定四条lane，而是从DT/HJ/HNEK及后续机制的长期证据中主动
-构造至少一个能在真实200 data epochs保持收益的新算法，并保留所有证据合格、数学上
-相互关联或独立成立的可行算法。HJ是第一项时间量尺正对照，不是唯一研究方向。
+北极星不是验证固定lane或只找一个冠军，而是同时取得外部论文基线、严格matched plain，
+以及多条由长期因果证据产生的完整算法轨迹。DT/HJ/HNEK继续是算法发现证据，不是必须保留
+原形的候选；confirmation20仍封存，paired指标不得控制训练，非等价runtime不得合并delta。
 
-仓库不搬运三个月的全部历史。它保留 deterministic UNSB canonical、最小历史
-证据、完整状态恢复、统一评估协议，以及当前路线一的持久化研究契约。服务器授权只用于
-host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和路线二仍关闭。
+仓库不搬运三个月的全部历史。它保留 deterministic UNSB canonical、最小历史证据、
+完整状态恢复、统一评估协议和持久监督链。实时事实以`PROJECT_STATE.json`、
+`configs/FULL_DATA_METHOD_PORTFOLIO.json`和`configs/PAPER_DELIVERY_COMPLETION_MATRIX.json`
+为准。
 
 ## 接手顺序
 
@@ -25,41 +26,23 @@ host-matched batch-1加速；跨宿主delta、全量数据、confirmation20和�
 8. [`configs/LOCAL_ROUTE1_PROBES.json`](configs/LOCAL_ROUTE1_PROBES.json)
 9. [`DATA_CONTRACT.json`](DATA_CONTRACT.json)
 
-## 当前阶段
+## 当前阶段（2026-09-06）
 
-当前是`RELATED_MULTI_ALGORITHM_E200_FRONTIER_RUNNING`。本地和两台服务器均已验证
-数据身份、共同e0、真实优化器更新、full-state exact resume、评估重放和confirmation锁。
-4090的plain/HJ/HNEK/DT与最终474条反转、140条采样方差因果证据已经冻结；它们用于
-生成新算法，而不是旧算法排名。当前科学终点不再被压缩成一个冠军：兼容
-`CANDIDATE.json`只给出下一步行动优先级，`ALGORITHM_SET.json`拥有多算法科学解释权。
+4090A的full plain已经完成并封存，现在运行AM-TNC；5090A运行ST-CGR；5090C运行
+Proposal-only；5090B同时运行CUT和CycleGAN，并在CUT e200后由已冻结继任器执行exact
+runtime与容量门，再建立fresh-e0 matched plain；本地GTX1660独占运行DCLGAN。所有健康
+训练均有full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
 
-旧SEARCH-005 small25 2400 updates只有16 data epochs，旧full100 12000 updates只有
-20 data epochs，不能充当目标所需的e200长期裁决。长期因果图谱已经生成并完成多项新
-算法的真实e200：BVCP、PC-RSMG、AM-TNC和MCRB的当前实现均已有长期结论边界。
-PC-RSMG full虽有`+0.621 dB` late-three均值，但e200为`-0.00138 dB`；其
-proposal-only在同协议下达到late-three `+0.542 dB`、e200 `+0.451 dB`，并通过
-SSIM/LPIPS等完整门，因此按“严格资格优先、资格层内再排序”成为当前seed2026开发
-主候选。observable-only与plain的完整动力学及e200指标精确一致，收益来源被定位到
-条件原生双视图G/F估计，而不是观察开销。固定四lane、HJ有限handoff、退出阈值和
-paired控制仍不属于当前任务。
+论文结论仍未冻结：Proposal与ST-CGR必须等待合法的5090B matched plain关系，AM-TNC只
+使用4090A同宿主plain；所有方法主表使用e200，sustained固定为e150/e175/e200。DDSB因
+权威源码/公式不足保持`reproduction_incomplete`，不能用猜测实现补表。
 
-搜索没有因出现当前主候选而停止。当前相关算法族共享post-D/E条件独立双视图G/F均值，
-但分别作用于三个不同父对象：原生UNSB场（Proposal-only）、HNEK physical-horizon
-bridge game（HPCGR）和HJ structure-projected PatchNCE目标（HJCGR）。AM-TNC作为独立
-Adam度量切向机制保留。4090并行运行HPCGR/HJCGR，5090并行完成Proposal-only/AM-TNC，
-随后在释放的资源槽执行HJCGR跨运行时复核；所有分支都从共同e0跑到真实e200。
+Proposal、ST-CGR和AM-TNC的共同数学母题、严格非重复关系及可写/不可写主张见
+[`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`](research/paper_aio/ALGORITHM_THEORY_MAP_CN.md)。
+small25的多算法终局仍是算法来源证据，不是full-data结果替代品；单seed成本策略也不等于
+跨seed稳定性证明。
 
-最终交付会分别计算Proposal-only相对plain、HPCGR相对HNEK、HJCGR相对HJ的完整轨迹
-增量，从而区分父目标收益和共享估计器的匹配组合增量；这些差值不会被表述为单轨迹内的
-线性因果贡献。具体边界见
-`decisions/DEC-20260831-RELATED-MULTI-ALGORITHM-FAMILY-DELIVERY.md`和
-`decisions/DEC-20260831-HJCGR-PORTABLE-CONSTRUCTION-AUTHORITY.md`。
-
-紧急成本协议以完整seed2026/e200作为开发候选冻结依据，seed2027/2028延期；节省的
-算力用于赢家机制消融、全负后的唯一证据驱动数学修订和额外独立方向。该协议不声称
-跨seed稳定，详情见`decisions/DEC-20260830-ROUTE1-SINGLE-SEED-EMERGENCY.md`。
-
-## 当前本地路线一入口
+## small25路线一入口（当前用于证据与审计）
 
 独立研究runner位于 `research/local_route1`，不调用已暂停的
 `production.train_lane`。默认使用冻结manifest、本机small25视图、seed 2026和

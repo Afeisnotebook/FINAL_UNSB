@@ -1,7 +1,7 @@
 # ACTIVE：FINAL_UNSB 全量论文实验与下一阶段算法重构
 
 状态：`FIRST_WAVE_RUNNING / THREE_ALGORITHM_PATHS_RUNNING / CONFIRMATION_LOCKED`
-日期：2026-09-03
+日期：2026-09-06
 
 资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与正在运行
 CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此
@@ -25,11 +25,11 @@ CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。�
 
 | 宿主 | 当前任务 | 冻结身份 | 自动后继 |
 |---|---|---|---|
-| 4090A | full plain e200 | 当前live commit/fp见`PROJECT_STATE.json` | plain后运行AM-TNC |
+| 4090A | full AM-TNC e200；plain已完成封存 | 当前live commit/fp见`PROJECT_STATE.json` | AM-TNC后terminal audit与统一评估 |
 | 5090A | full ST-CGR e200 | candidate `656670c` / fp `2fbdd6f...` | e200后source-bound export；plain无自动恢复授权 |
 | 5090B | full CUT + CycleGAN e200同卡 | 各自冻结外部基线协议 | CUT后先exact twin，再fresh-e0 matched plain |
 | 5090C | full Proposal e200 | commit `e4a5eed` / fp `e5704e...` | source-bound export |
-| 本地1660 | 合同、代码、只读审计 | 不与远端训练混用 | 准备统一评估和只读runtime关系证据 |
+| 本地1660 | full DCLGAN e200独占 | source-bound adapter `e45973a` | e200后export并推送4090A统一评估 |
 
 进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
 这些心跳不是科学结论。所有训练均由持久监督器执行。5090A plain停在e9完整状态且不会
@@ -39,11 +39,11 @@ CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。�
 继任器已退役，未来恢复必须有新的明确决策。任何relay或关系候选都不能自动改Git registry
 或授权结论。
 
-2026-09-03 13:20的实测吞吐外推表明：4090A plain约在09-05早到达e200，5090B CUT/
-CycleGAN约在09-06早/09-07晚到达e200，5090C Proposal约在09-14凌晨到达e200，5090A
-ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09-12/09-13。
-云端到期时间不在仓库内可验证，必须分别保障5090C至09-15、5090A至09-16、5090B至
-09-14。租期检查只防止工程中断，不得改变训练配置、提前停止或选择算法。
+最新实测吞吐与租期外推不在本计划中硬编码，权威入口是
+`decisions/DEC-20260906-LIVE-LEASE-REFRESH.md`及其compact evidence。当前最紧路径是
+5090B matched plain：若容量门拒绝与CycleGAN共驻，应保障5090B至少到09-15，以覆盖
+e200、export和正常吞吐波动。租期检查只防止工程中断，不得改变训练配置、提前停止或
+选择算法。
 
 ## 最近硬门
 
@@ -55,8 +55,8 @@ ST-CGR约在09-15凌晨到达e200，5090B的matched plain队列预计延伸到09
 3. DDSB维持`reproduction_incomplete`，除非出现权威作者源码；资源不会给猜测实现。本地
    冻结commit的来源守望器每六小时检查官方页面和GitHub，命中只触发人工公式—源码审核，
    不会自动放行或启动训练。
-4. 4090A plain完成后执行AM-TNC；5090B的CUT/CycleGAN保持连续，CUT完成后才运行已冻结
-   的Proposal matched-plain继任器。
+4. 4090A AM-TNC与5090B的CUT/CycleGAN保持连续；CUT完成后才由已冻结继任器执行exact
+   runtime与容量门并启动matched plain。
 5. 5090B的runtime receipt必须先被只读转运、验证并生成review-only关系候选；只有人工
    审阅和Git提交才能把它加入comparison registry。
 6. 现有全部后继保持冻结旧checkout，不得自动采用`f973c68`的新e0策略；论文外部基线

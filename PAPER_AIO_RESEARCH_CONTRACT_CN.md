@@ -52,7 +52,7 @@ output root，未经新exact twin不得与当前legacy-offset cohort混合。所
 
 ## 3. 宿主与比较边界
 
-- 4090A：full plain；完成后执行独立优化几何方向AM-TNC。
+- 4090A：full plain已完成并封存；当前执行独立优化几何方向AM-TNC，完成后承担统一评估。
 - 5090C：运行Proposal；它与任何plain的matched关系必须由精确2000-update runtime twin
   和独立Git registry关系共同证明。
 - 5090B：CUT与CycleGAN同卡独立运行；CUT完成后，已武装的继任器先运行严格runtime
@@ -60,7 +60,8 @@ output root，未经新exact twin不得与当前legacy-offset cohort混合。所
   delta。
 - 5090A：按用户时间优先授权，plain完整暂停于e9，当前从完整e1状态运行full-data
   ST-CGR；plain补齐前ST-CGR只有绝对轨迹，不构成matched收益。
-- 本地 GTX1660：代码门、只读审计和不影响远端吞吐的研究工作。
+- 本地 GTX1660：独占运行已通过作者源码与恢复门的DCLGAN；terminal JVP和统一评估不得
+  与其在6GB显存上共驻。
 - 计划建议的另外两张4090在用户提供实际连接前只是假设资源，禁止写成在线或已分配。
 
 method-minus-plain 只能在相同 runtime cohort 中计算；同宿主相同身份可直接成立，跨宿主

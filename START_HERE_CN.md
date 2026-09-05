@@ -1,6 +1,6 @@
 # 先从这里开始
 
-## 当前最高优先级覆盖（2026-09-02）
+## 当前最高优先级覆盖（2026-09-06）
 
 用户已明确启动“全量论文实验 + 下一阶段算法重构”。这项授权覆盖本文旧段落中的
 “full-data未激活/服务器仅限small25”，但不改写small25路线一的历史证据。
@@ -9,15 +9,19 @@
 
 - full 8553张/侧、batch1、seed2026、200 data epochs的论文对照；
 - 继续从small25长期因果证据构造新算法，不能收缩为只验证Proposal；
-- 保留HJCGR、Proposal-only、AM-TNC及后续新算法的多算法前沿；
+- 保留HJCGR、Proposal-only、AM-TNC、ST-CGR及后续新算法的多算法前沿；
 - 维持confirmation20封存、禁止paired在线控制、禁止跨宿主delta。
 
-当前在线分配为：4090A运行full plain并后继AM-TNC；5090C运行Proposal；5090B同卡
-运行CUT与CycleGAN，并在CUT完成后为Proposal建立fresh-e0 exact-runtime matched plain；
-5090A按用户时间优先授权把plain完整暂停在e9，直接从完整e1状态运行full-data ST-CGR。
-本地负责合同、代码和只读审计。DDSB因没有权威公开实现保持
-`reproduction_incomplete`，不得跑猜测版。此覆盖只改变调度次序；ST-CGR在5090A plain
-补齐前只能报告绝对轨迹，不能宣称matched收益。
+当前在线分配为：4090A的full plain已经完成并封存，现运行AM-TNC；5090C运行Proposal；
+5090B同卡运行CUT与CycleGAN，并在CUT完成后通过exact-runtime与metric-blind容量门启动
+fresh-e0 matched plain；5090A按用户时间优先授权把plain暂停在e9，只运行full-data
+ST-CGR；本地GTX1660独占运行DCLGAN，并已部署source-bound export、推送及4090A统一
+评估等待链。DDSB因没有权威公开实现保持`reproduction_incomplete`，不得跑猜测版。
+
+Proposal和ST-CGR都不能在5090B plain的runtime relation经Git审核前宣称matched收益；
+AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推只看`PROJECT_STATE.json`、
+`configs/FULL_DATA_METHOD_PORTFOLIO.json`和`configs/PAPER_DELIVERY_COMPLETION_MATRIX.json`，
+不要从本文件的历史段落恢复旧队列。
 
 2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经GPU UUID、hostname、
 run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是第五张GPU。不得把它
@@ -25,8 +29,9 @@ run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是
 `decisions/DEC-20260903-NEW-ENDPOINT-IDENTITY-IS-5090B.md`。
 
 接手者应在本文件后优先阅读`PAPER_AIO_RESEARCH_CONTRACT_CN.md`、
-`ACTIVE_PAPER_AIO_PLAN_CN.md`与`configs/PAPER_AIO_UNPAIRED_V1.json`。下述2026-09-01
-内容是small25权威历史，不是当前算力限制。
+`ACTIVE_PAPER_AIO_PLAN_CN.md`、`configs/PAPER_AIO_UNPAIRED_V1.json`与
+`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`。下述2026-09-01内容是small25权威历史，
+不是当前算力限制或实时队列。
 
 ## 当前状态（2026-09-01）
 

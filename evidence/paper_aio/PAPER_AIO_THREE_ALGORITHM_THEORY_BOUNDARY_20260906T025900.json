@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-three-algorithm-theory-boundary-audit-v1",
+  "captured_at": "2026-09-06T02:59:00+08:00",
+  "status": "PASS_PRE_RESULT_THEORY_BOUNDARY_FROZEN_NO_TRAINING_CHANGE",
+  "scope": "Independent formula, frozen-source and paper-claim audit for Proposal-only, ST-CGR and AM-TNC while full-data e200 training continues.",
+  "canonical_theory_map": {
+    "path": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
+    "sha256": "6d2ca465b3570baf3c3fdbe51bae681dbdcc9a6f983197fe3780a8f1050d5848"
+  },
+  "source_bindings": {
+    "research/local_route1/derivation_cards/G1-02B-PLAYER-CONDITIONAL-RSMG.json": "c6070c44b853454ecabdc6d4ed0ef3f15bcc2db4ab9ea7e28d66695b95bd93eb",
+    "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4",
+    "research/local_route1/derivation_cards/G4-01-STRATIFIED-TIME-CONDITIONAL-GF.json": "4e40a0f84bc2e0f2dfba11ec36ace851c5f57ffb79fd8bc06d74d689d3e3bfba",
+    "src/models/route1/pcrsmg_ablation.py": "c21d63b1e29c359b24e3b1bc7e864a1090161d6023c1ef7f5a6e38eb1c7c4ea1",
+    "src/models/route1/stratified_time.py": "a71461d39371a24f84a3316219c6d6827e87f0944cee88cc8099e55643c28703",
+    "src/models/route1/amtnc.py": "77f98563e0d9dbae35ab7527c1d9b6c58a50f93033993f54604f2d54c455d8bf",
+    "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json": "fadfb2b1540c7ee939ca1d7f47aa431de617f2f721209b6a29a12265bcbc7ecd",
+    "evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json": "544ea4bd536069e21e4651f30a6212d86d32bd4d96350b81e16e10d44db5b789",
+    "evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json": "b9345a2f56b803f638dd416553dad597391e5a7729b9eb8a45f89df87a8028b6",
+    "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json": "a04594f6451ac26c9c34db0b008e372a994c3ea2029fe60ebc847437b76e8b6c"
+  },
+  "proved_pre_adam_properties": {
+    "proposal": {
+      "conditioning": "realized post-D/E state and one official unpaired batch",
+      "mean": "native G/F conditional gradient mean",
+      "covariance": "one half of the complete within-batch native G/F view covariance",
+      "modified_players": ["GF"]
+    },
+    "stcgr": {
+      "conditioning": "realized post-D/E state and one official unpaired batch",
+      "time_law": "ordered uniform pair without replacement with exact uniform marginals",
+      "mean": "native G/F conditional gradient mean",
+      "covariance_relative_to_proposal": "subtract V_mu/[2(T-1)], a positive-semidefinite between-time term",
+      "modified_players": ["GF"]
+    },
+    "amtnc": {
+      "conditioning": "each sequential player state and one official unpaired batch",
+      "exchange_identity": "T(g1,g2)+T(g2,g1)=g1+g2",
+      "mean": "native per-player conditional gradient mean under replica exchangeability",
+      "geometry": "remove only disagreement parallel to consensus in a frozen pre-step Adam diagonal metric",
+      "modified_players": ["D", "E", "GF"]
+    }
+  },
+  "non_equivalence": {
+    "proposal_vs_stcgr": "ST-CGR retains Proposal's selective post-D/E two-view mean but changes only the time-index coupling; it is a structured estimator extension, not a duplicate run.",
+    "proposal_or_stcgr_vs_amtnc": "AM-TNC modifies all sequential players and preserves an exchange-antisymmetric tangential disagreement component; it is an independent stochastic-geometry path.",
+    "combined_algorithm_claim": false,
+    "unique_winner_predeclared": false
+  },
+  "claims_explicitly_not_supported": [
+    "unbiased expected Adam parameter displacement",
+    "an unchanged finite-step sequential-game transition or RNG trajectory",
+    "equal-FLOP superiority to plain UNSB",
+    "full-data sustained benefit before fixed e200 evaluation and a legal matched control",
+    "cross-seed stability",
+    "terminal low-variance singular drift repair",
+    "cross-host delta before exact runtime relation and Git registry review"
+  ],
+  "terminal_pathology_boundary": {
+    "terminal_singular_drift_confirmed": false,
+    "stcgr_evidence_source": "time-stratum conditional-gradient heterogeneity and target-blind covariance audit",
+    "terminal_repair_module_authorized": false
+  },
+  "paper_routing": {
+    "proposal_and_stcgr": "May form one conditional-estimator family only after each receives its own full-data e200 disposition; common mathematics does not imply common empirical success.",
+    "amtnc": "Must remain a separate geometry contribution and may not be combined additively with estimator gains.",
+    "hjcgr": "Retained as small25 evidence-bearing family member; not running full-data and not mechanism-falsified.",
+    "result_dependent_claims_deferred": true
+  },
+  "onboarding_files_refreshed": [
+    "README.md",
+    "START_HERE_CN.md",
+    "CONTEXT_CAPSULE_CN.md",
+    "PAPER_AIO_RESEARCH_CONTRACT_CN.md",
+    "ACTIVE_PAPER_AIO_PLAN_CN.md",
+    "AGENTS.md"
+  ],
+  "verification": {
+    "proposal_stcgr_targeted_tests_passed": 29,
+    "amtnc_and_runtime_relation_targeted_tests_passed": 23,
+    "full_repository_tests_passed": 696,
+    "bound_source_and_theory_hashes_verified": 11,
+    "json_parse": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "live_read_only_snapshot": {
+    "4090A_amtnc_completed_epoch": 18,
+    "5090A_stcgr_completed_epoch": 52,
+    "5090C_proposal_completed_epoch": 58,
+    "5090B_cut_completed_epoch": 195,
+    "5090B_cyclegan_completed_epoch": 127,
+    "local_dclgan_completed_epoch": 11,
+    "all_health_watchers_healthy": true,
+    "5090B_matched_plain_successor": "WAITING_FOR_PREDECESSOR_E200",
+    "5090B_wait_guard_restart_count": 0
+  },
+  "runtime_effect": {
+    "training_process_changed": false,
+    "training_protocol_changed": false,
+    "checkpoint_loaded": false,
+    "gpu_task_started": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260906-THREE-ALGORITHM-THEORY-BOUNDARY.md"
+}
