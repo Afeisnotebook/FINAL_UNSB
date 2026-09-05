@@ -24,6 +24,7 @@
     "review_draft_change": "Every machine draft now includes the exact theory-bundle, object and artifact-set hashes.",
     "review_decision_gate": "Freeze materialization rejects a committed review that does not repeat the exact current theory-bundle reference.",
     "portfolio_identity_gate": "The final portfolio must contain exactly Proposal-only, ST-CGR and AM-TNC with algorithm IDs and lane IDs matching the theory bundle; name substitution or method-set drift fails closed.",
+    "git_materialization_gate": "The bundle and every referenced theory artifact must be clean and byte-identical to the current Git HEAD before review draft creation, freeze materialization or a post-freeze consumer can proceed.",
     "post_freeze_gate": "Committed freeze validation rehashes the bundle and every referenced artifact before distribution, manuscript-table or confirmation paths can proceed."
   },
   "amtnc_full_data_lineage_closure": {
@@ -52,8 +53,8 @@
     "all_observed_health_alerts": 0
   },
   "verification": {
-    "targeted_tests": "22 passed",
-    "full_tests": "703 passed",
+    "targeted_tests": "23 passed",
+    "full_tests": "704 passed",
     "actual_bundle_validation": "PASS",
     "artifact_drift_test": "PASS_FAIL_CLOSED",
     "training_process_changed": false,

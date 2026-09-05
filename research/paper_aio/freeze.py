@@ -18,7 +18,11 @@ from .protocol import (
     git_commit,
     object_sha256,
 )
-from .theory_bundle import theory_bundle_reference, validate_theory_bundle
+from .theory_bundle import (
+    committed_theory_bundle_reference,
+    theory_bundle_reference,
+    validate_theory_bundle,
+)
 
 
 DRAFT_SCHEMA = "final-unsb-paper-freeze-review-draft-v1"
@@ -131,7 +135,7 @@ def create_review_draft(
         or len(cleaned_claims) != len(set(cleaned_claims))
     ):
         raise ValueError("freeze review requires a nonempty unique explicit claim set")
-    theory = theory_bundle_reference(theory_bundle, root=ROOT)
+    theory = committed_theory_bundle_reference(theory_bundle, root=ROOT)
     result = {
         "schema": DRAFT_SCHEMA,
         "status": DRAFT_STATUS,
@@ -172,7 +176,7 @@ def materialize_freeze_receipt(
     _, lanes = validate_portfolio(portfolio, theory_bundle=theory_bundle)
     review, review_commit, review_relative = _committed_json(review_decision)
     claims = review.get("paper_claims")
-    theory = theory_bundle_reference(theory_bundle, root=ROOT)
+    theory = committed_theory_bundle_reference(theory_bundle, root=ROOT)
     if (
         review.get("schema") != REVIEW_SCHEMA
         or review.get("status") != REVIEW_STATUS

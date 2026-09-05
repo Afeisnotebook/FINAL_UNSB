@@ -7,7 +7,9 @@ reads evaluation values and cannot authorize confirmation access.
 
 from __future__ import annotations
 
+import hashlib
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -138,15 +140,69 @@ def theory_bundle_reference(
     }
 
 
+def _artifact_relatives(value: dict[str, Any]) -> list[str]:
+    result = [str(value["canonical_map"]["path"])]
+    for method in sorted(value["methods"]):
+        result.extend(
+            str(item["path"]) for item in value["methods"][method]["artifacts"]
+        )
+    return result
+
+
+def committed_theory_bundle_reference(
+    path: Path | None = None, *, root: Path = ROOT,
+) -> dict[str, Any]:
+    """Require every theory byte to exist unchanged in the current Git tree."""
+    root = Path(root).resolve()
+    path = root / DEFAULT_RELATIVE_PATH if path is None else Path(path)
+    if not path.is_absolute():
+        path = root / path
+    path = path.resolve()
+    value = validate_theory_bundle(path, root=root)
+    try:
+        bundle_relative = path.relative_to(root).as_posix()
+    except ValueError as error:
+        raise RuntimeError("paper theory bundle must be inside the repository") from error
+    relatives = [bundle_relative, *_artifact_relatives(value)]
+    status = subprocess.check_output(
+        ["git", "status", "--porcelain", "--", *relatives],
+        cwd=root, text=True,
+    ).strip()
+    if status:
+        raise RuntimeError("paper theory bundle or artifact has uncommitted changes")
+    for relative in relatives:
+        try:
+            committed = subprocess.check_output(
+                ["git", "show", f"HEAD:{relative}"], cwd=root,
+            )
+        except subprocess.CalledProcessError as error:
+            raise RuntimeError(
+                f"paper theory artifact is not committed: {relative}"
+            ) from error
+        current_sha256 = file_sha256(root / relative)
+        committed_bytes = (
+            committed.encode("utf-8") if isinstance(committed, str) else committed
+        )
+        if hashlib.sha256(committed_bytes).hexdigest() != current_sha256:
+            raise RuntimeError(
+                f"paper theory artifact differs from Git HEAD: {relative}"
+            )
+    return theory_bundle_reference(path, root=root)
+
+
 def validate_theory_bundle_reference(
-    reference: object, *, root: Path = ROOT,
+    reference: object, *, root: Path = ROOT, require_committed: bool = False,
 ) -> dict[str, Any]:
     if not isinstance(reference, dict):
         raise RuntimeError("paper freeze lacks an algorithm theory bundle reference")
     relative = reference.get("path")
     if not isinstance(relative, str) or not relative:
         raise RuntimeError("paper theory bundle reference has no path")
-    expected = theory_bundle_reference(Path(root) / relative, root=root)
+    factory = (
+        committed_theory_bundle_reference if require_committed
+        else theory_bundle_reference
+    )
+    expected = factory(Path(root) / relative, root=root)
     if reference != expected:
         raise RuntimeError("paper algorithm theory bundle reference changed")
     return expected

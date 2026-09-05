@@ -129,7 +129,9 @@ def committed_freeze_identity(
         raise RuntimeError("committed freeze receipt is not JSON") from error
     if object_sha256(committed) != object_sha256(value):
         raise RuntimeError("working freeze receipt differs from its committed Git blob")
-    validate_theory_bundle_reference(value["algorithm_theory_bundle"], root=ROOT)
+    validate_theory_bundle_reference(
+        value["algorithm_theory_bundle"], root=ROOT, require_committed=True,
+    )
     portfolio = Path(value["source_portfolio_path"]).resolve()
     if (
         not portfolio.is_file()

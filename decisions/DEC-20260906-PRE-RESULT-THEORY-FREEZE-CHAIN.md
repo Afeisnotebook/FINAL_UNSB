@@ -23,6 +23,10 @@ full-data 提交中的 operator、model registry 和 derivation card 是相同 G
 固定 e20 checkpoint 的双 bundle 计数、五事件 schedule、RNG 与双 sampler 状态也一致。
 因此新增 full-data 现场审计并由 bundle 直接绑定它，旧审计作为其哈希父证据保留。
 
+最后，review draft、freeze materialization 和post-freeze消费端都要求bundle与全部引用文件
+无未提交修改，并逐文件核对当前字节等于Git `HEAD`。只有SHA一致但仓库中没有对应版本的
+临时理论文件不能进入论文冻结。
+
 ## 科学边界
 
 这不是对算法、超参或训练队列的修改，也不读取 full-data 性能。共同定理仍只到 pre-Adam

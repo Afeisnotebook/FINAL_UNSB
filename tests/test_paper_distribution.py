@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 
 import numpy as np
 import pytest
@@ -149,6 +150,12 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
     root = tmp_path / "repo"
     root.mkdir()
     path = _freeze(root)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run([
+        "git", "-c", "user.name=Theory Test", "-c",
+        "user.email=theory@example.invalid", "commit", "-q", "-m", "fixture",
+    ], cwd=root, check=True)
     monkeypatch.setattr(distribution, "ROOT", root)
     value = json.loads(path.read_text(encoding="utf-8"))
     portfolio = root / "PAPER_ALGORITHM_PORTFOLIO.json"
@@ -173,6 +180,8 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
         if command[1:3] == ["log", "-1"]:
             return ("c" if command[-1] == "FREEZE_REVIEW.json" else "b") * 40 + "\n"
         if command[1] == "show":
+            if command[-1].startswith("HEAD:"):
+                return (root / command[-1].split(":", 1)[1]).read_bytes()
             return (
                 review.read_text(encoding="utf-8")
                 if command[-1].endswith(":FREEZE_REVIEW.json")

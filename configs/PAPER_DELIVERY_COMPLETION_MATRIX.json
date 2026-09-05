@@ -67,6 +67,7 @@
       "algorithms": ["proposal", "stcgr", "amtnc"],
       "gate": "the committed review decision and freeze receipt must bind the exact bundle and every referenced artifact hash",
       "portfolio_identity_gate": "method set, algorithm IDs and lane IDs must exactly match the theory bundle",
+      "git_identity_gate": "theory bundle and all referenced artifacts must be clean and byte-identical to Git HEAD",
       "proposal_duplicate_card_required": false,
       "training_queue_changed": false,
       "performance_values_read": false,

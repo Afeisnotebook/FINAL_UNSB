@@ -122,12 +122,29 @@ def _theory_bundle(root: Path) -> Path:
     })
 
 
-def test_freeze_draft_cannot_self_approve(tmp_path: Path) -> None:
+def _commit_theory(root: Path) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run([
+        "git", "-c", "user.name=Theory Test", "-c",
+        "user.email=theory@example.invalid", "commit", "-q", "-m", "theory",
+    ], cwd=root, check=True)
+
+
+def test_freeze_draft_cannot_self_approve(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    root = tmp_path / "repo"
+    root.mkdir()
+    bundle = _theory_bundle(root)
+    _commit_theory(root)
+    monkeypatch.setattr(freeze, "ROOT", root)
     portfolio = _portfolio(tmp_path / "portfolio.json")
     draft = freeze.create_review_draft(
         portfolio=portfolio,
         claims=["Proposal is compared only with its reviewed matched plain."],
         destination=tmp_path / "draft.json",
+        theory_bundle=bundle,
     )
     assert draft["status"] == freeze.DRAFT_STATUS
     assert draft["human_approval_recorded"] is False
@@ -144,6 +161,7 @@ def test_freeze_materialization_requires_committed_explicit_review(
     root = tmp_path / "repo"
     root.mkdir()
     bundle = _theory_bundle(root)
+    _commit_theory(root)
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
     claims = ["fixed e200 claim"]
@@ -232,12 +250,31 @@ def test_theory_bundle_is_hash_bound_and_rejects_artifact_drift(
         freeze.theory_bundle_reference(bundle, root=root)
 
 
+def test_theory_bundle_must_match_committed_git_bytes(tmp_path: Path) -> None:
+    root = tmp_path / "repo"
+    root.mkdir()
+    bundle = _theory_bundle(root)
+    _commit_theory(root)
+    reference = freeze.committed_theory_bundle_reference(bundle, root=root)
+    assert reference["status"] == "PRE_RESULT_THREE_OPERATOR_THEORY_BUNDLE_FROZEN"
+
+    family = root / "proposal-family.md"
+    family.write_text("uncommitted replacement", encoding="utf-8")
+    value = json.loads(bundle.read_text(encoding="utf-8"))
+    proposal = value["methods"]["proposal"]["artifacts"]
+    next(row for row in proposal if row["role"] == "family_derivation")[
+        "sha256"
+    ] = freeze.file_sha256(family)
+    bundle.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="uncommitted changes"):
+        freeze.committed_theory_bundle_reference(bundle, root=root)
+
+
 def test_committed_review_and_freeze_form_a_real_git_chain(
     tmp_path: Path, monkeypatch,
 ) -> None:
     root = tmp_path / "repo"
     root.mkdir()
-    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     bundle = _theory_bundle(root)
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
@@ -259,6 +296,7 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
         "paired_metric_control": False,
         "confirmation20_opened": False,
     })
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run([
         "git", "-c", "user.name=Freeze Test", "-c",
