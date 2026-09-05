@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-05",
-  "state_snapshot_time": "2026-09-05T16:43:30+08:00",
+  "state_snapshot_time": "2026-09-05T17:00:34+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -335,8 +335,12 @@
         "formula_implementation_live_audit": "evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json"
       },
       "5090B_matched_plain_successor": {
-        "status": "WAITING_FOR_CUT_E200_THEN_EXACT_RUNTIME_AND_DYNAMIC_CAPACITY_GATES",
+        "status": "WAITING_FOR_CUT_E200_WITH_FROZEN_WAIT_ONLY_RECOVERY_THEN_EXACT_RUNTIME_AND_DYNAMIC_CAPACITY_GATES",
         "successor_pid": 148465,
+        "waiting_recovery_guard_pid": 441694,
+        "waiting_recovery_guard_status": "MONITORING_EXISTING_WAITING_SUCCESSOR_ZERO_RESTARTS",
+        "waiting_recovery_guard_commit": "c8040ef3c03b37bae186a3b3a983758473fe4ae4",
+        "waiting_recovery_guard_scope": "restart_exact_frozen_command_only_in_WAITING_FOR_PREDECESSOR_E200; relinquish_at_handoff",
         "health_watcher_pid": 148593,
         "health_status": "HEALTHY_ZERO_ALERTS",
         "source_export_relay_pid": 2236741,
@@ -368,7 +372,7 @@
         "cross_host_checkpoint_resume": false,
         "proposal_relation_status": "AWAITING_EXACT_RUNTIME_GATE_AND_EXPLICIT_REGISTRY_RELATION",
         "stcgr_relation_status": "NOT_AUTHORIZED_BY_THIS_SUCCESSOR",
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json"
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_WAIT_RECOVERY_GUARD_20260905T170034.json"
       }
     },
     "durable_successor_orchestration_commit": "15a503e220d2d459bacbccf65835d2204fea771c",
@@ -1015,7 +1019,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_PUSH_END_TO_END_GATE_20260905T164330.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_WAIT_RECOVERY_GUARD_20260905T170034.json",
     "non_destructive_acceleration_audit": {
       "status": "COMPLETE_KEEP_REMOTE_AFFINITIES_LOCAL_DCLGAN_STARTED",
       "control_commit": "ac79658",

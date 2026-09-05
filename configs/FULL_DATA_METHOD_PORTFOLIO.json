@@ -458,8 +458,12 @@
     "decision": "decisions/DEC-20260903-PHYSICAL-GPU-IDENTITY-GATE.md"
   },
   "future_matched_plain_successor": {
-    "status": "WAITING_FOR_5090B_CUT_E200_WITH_DYNAMIC_CORESIDENT_CAPACITY_GATE",
+    "status": "WAITING_FOR_5090B_CUT_E200_WITH_WAIT_ONLY_RECOVERY_AND_DYNAMIC_CORESIDENT_CAPACITY_GATE",
     "pid": 148465,
+    "waiting_recovery_guard_pid": 441694,
+    "waiting_recovery_guard_status": "monitoring_existing_successor_zero_restarts",
+    "waiting_recovery_guard_commit": "c8040ef3c03b37bae186a3b3a983758473fe4ae4",
+    "waiting_recovery_guard_scope": "only_WAITING_FOR_PREDECESSOR_E200_is_restartable; handoff_and_later_phases_are_never_restarted",
     "health_watcher_pid": 148593,
     "progress_watcher_pid": 148594,
     "retired_pid": 38294,
@@ -494,7 +498,7 @@
     "source_export_relay_status": "waiting_metric_blind",
     "source_export_relay_health_watcher_pid": 2237500,
     "projected_e200_window": "2026-09-12/2026-09-13",
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PROGRESS_AWARE_SUCCESSOR_DEPLOYED_20260903T203538.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_WAIT_RECOVERY_GUARD_20260905T170034.json"
   },
   "post_training_delivery": {
     "status": "LEGACY_WAITER_HEALTHY_BUT_SUPERSEDED_AS_COMPLETION_PATH_BY_5090A_PLAIN_CANCELLATION",
@@ -660,7 +664,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_PUSH_END_TO_END_GATE_20260905T164330.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_WAIT_RECOVERY_GUARD_20260905T170034.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",

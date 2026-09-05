@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-05T16:38:53+08:00",
+  "captured_at": "2026-09-05T17:00:34+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -12,9 +12,9 @@
     },
     {
       "id": "legal_matched_control",
-      "status": "queued_after_5090B_cut",
+      "status": "queued_after_5090B_cut_with_frozen_wait_only_process_recovery",
       "requires": ["5090B exact 2000-update runtime twin", "fresh-e0 5090B matched plain e200", "reviewed Git runtime relations"],
-      "proof": "runtime receipt plus committed relation registry",
+      "proof": "wait-only recovery guard, runtime receipt, and committed relation registry",
       "paired_metrics_used_for_release": false
     },
     {

@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-wait-recovery-guard-v1",
+  "captured_at": "2026-09-05T17:00:34+08:00",
+  "status": "DEPLOYED_ADOPTING_EXISTING_SUCCESSOR_ZERO_RESTARTS",
+  "finding": "the matched-plain successor had health and progress alarms but no process-level recovery while waiting for CUT e200",
+  "deployment": {
+    "host_label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "control_commit": "c8040ef3c03b37bae186a3b3a983758473fe4ae4",
+    "control_repo": "/root/autodl-tmp/FINAL_UNSB_MATCHED_WAIT_GUARD_c8040ef_DEPLOY",
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_MATCHED_WAIT_GUARD_c8040ef",
+    "guard_pid": 441694,
+    "adopted_successor_pid": 148465,
+    "guard_status": "MONITORING_EXISTING_WAITING_SUCCESSOR",
+    "child_status": "WAITING_FOR_PREDECESSOR_E200",
+    "restart_count": 0,
+    "guard_contract_sha256": "bdb6f3a1415483a09b9216236cf93881f8ada4e99b2e235fa19907379e997c9c",
+    "child_command_sha256": "d411d89dcf3ad5aee9f596123779055784207090877ed18f089bd962471353c4",
+    "child_source_sha256": "92bcc7dd07c6cfc05f2b786a70598242e9dadc8789d024b73fce8842d0f68583",
+    "recoverable_status": "WAITING_FOR_PREDECESSOR_E200",
+    "recovery_relinquished_after_handoff": true
+  },
+  "failed_closed_first_attempt": {
+    "commit": "c6839ddaa128d9e57f309cfe79b95e4017a0c05f",
+    "failure": "legacy successor cwd was /root while its script used an absolute frozen checkout path",
+    "existing_successor_changed": false,
+    "training_process_changed": false,
+    "state_created": false
+  },
+  "live_snapshot": {
+    "4090A_amtnc": {"data_epoch": 8, "updates": 68424, "trainer_pid": 3446758, "health": "HEALTHY"},
+    "5090A_stcgr": {"data_epoch": 45, "updates": 384885, "trainer_pid": 431032, "health": "HEALTHY"},
+    "5090B_cut": {"data_epoch": 177, "updates": 1513881, "trainer_pid": 5771, "health": "HEALTHY"},
+    "5090B_cyclegan": {"data_epoch": 115, "updates": 983595, "trainer_pid": 11846, "health": "HEALTHY"},
+    "5090C_proposal": {"data_epoch": 50, "updates": 427650, "trainer_pid": 9734, "health": "HEALTHY_WITHIN_EPOCH_BOUND"},
+    "local_gtx1660_dclgan": {"data_epoch": 2, "updates": 17106, "trainer_pid": 22020, "health": "HEALTHY"},
+    "dclgan_local_push_supervisor": {"pid": 26020, "child_pid": 24396, "status": "HEALTHY_WAITING"},
+    "dclgan_4090a_evaluation_supervisor": {"pid": 3586790, "child_pid": 3587264, "restart_count": 2, "status": "CHILD_RUNNING_WAITING"}
+  },
+  "verification": {
+    "local_targeted_tests": "15 passed",
+    "remote_guard_tests": "6 passed",
+    "full_repository_tests": "687 passed",
+    "guard_state_rechecked_after_more_than_one_poll": true,
+    "cut_pid_unchanged": true,
+    "cyclegan_pid_unchanged": true,
+    "successor_pid_unchanged": true
+  },
+  "scientific_boundaries": {
+    "training_changed": false,
+    "checkpoint_migrated": false,
+    "algorithm_protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260905-5090B-MATCHED-WAIT-RECOVERY.md"
+}
