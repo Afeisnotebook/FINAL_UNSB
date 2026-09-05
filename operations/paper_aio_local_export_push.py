@@ -214,6 +214,54 @@ def _connect(contract: dict[str, Any]):
     return client
 
 
+def destination_identity(client, contract: dict[str, Any]) -> dict[str, Any]:
+    command = (
+        "printf '%s\\n' \"$(hostname)\"; "
+        "nvidia-smi --query-gpu=uuid --format=csv,noheader"
+    )
+    _, stdout, stderr = client.exec_command(command, timeout=60)
+    lines = [
+        line.strip() for line in stdout.read().decode("utf-8", "replace").splitlines()
+        if line.strip()
+    ]
+    error = stderr.read().decode("utf-8", "replace").strip()
+    status = stdout.channel.recv_exit_status()
+    if status != 0 or error or len(lines) != 2:
+        raise relay.TransientRelayNetwork("cannot read destination identity")
+    identity = {"hostname": lines[0], "gpu_uuid": lines[1]}
+    if (
+        identity["hostname"] != contract["required_destination_hostname"]
+        or identity["gpu_uuid"] != contract["required_destination_gpu_uuid"]
+    ):
+        raise RuntimeError(
+            "local push destination physical identity differs from frozen contract"
+        )
+    return identity
+
+
+def destination_preflight(contract: dict[str, Any]) -> dict[str, Any]:
+    client = _connect(contract)
+    try:
+        identity = destination_identity(client, contract)
+        try:
+            sftp = client.open_sftp()
+            with sftp:
+                sftp.stat(contract["destination_root"])
+                stat = sftp.statvfs(contract["destination_root"])
+        except (EOFError, OSError, socket.error) as error:
+            raise relay.TransientRelayNetwork(
+                "cannot inspect local push destination"
+            ) from error
+        return {
+            **identity,
+            "destination_root": contract["destination_root"],
+            "free_gib": int(stat.f_bavail) * int(stat.f_frsize) / 1024 ** 3,
+            "status": "PASS_PINNED_DESTINATION_IDENTITY_AND_CAPACITY",
+        }
+    finally:
+        client.close()
+
+
 def _ensure_remote_directory(sftp, path: str) -> None:
     target = PurePosixPath(path)
     current = PurePosixPath("/")
@@ -313,6 +361,7 @@ def publish(contract: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, A
     try:
         try:
             import paramiko
+            destination_identity(client, contract)
             try:
                 sftp = client.open_sftp()
             except Exception as error:
@@ -456,6 +505,8 @@ def make_contract(args: argparse.Namespace) -> dict[str, Any]:
         "destination_port": args.destination_port,
         "destination_user": args.destination_user,
         "expected_host_key_sha256": args.expected_host_key_sha256,
+        "required_destination_hostname": args.required_destination_hostname,
+        "required_destination_gpu_uuid": args.required_destination_gpu_uuid,
         "destination_root": remote_root(args.destination_root),
         "password_env": args.password_env,
         "poll_seconds": args.poll_seconds,
@@ -522,6 +573,23 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     lock = acquire_lock(root / "LOCAL_EXPORT_PUSH.lock")
     started = time.time()
     try:
+        preflight: dict[str, Any] | None = None
+        while preflight is None:
+            verify_contract(contract)
+            try:
+                preflight = destination_preflight(contract)
+            except relay.TransientRelayNetwork as error:
+                atomic_json(state_path, state(
+                    contract,
+                    status="WAITING_FOR_PINNED_DESTINATION_CONNECTIVITY",
+                    contract=str(contract_path),
+                    contract_sha256=file_sha256(contract_path),
+                    last_error_type=type(error).__name__,
+                    elapsed_seconds=time.time() - started,
+                ))
+                if time.time() - started > contract["timeout_hours"] * 3600:
+                    raise TimeoutError("local export push preflight timed out")
+                time.sleep(contract["poll_seconds"])
         while True:
             verify_contract(contract)
             try:
@@ -545,12 +613,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     contract_sha256=file_sha256(contract_path),
                     last_error_type=type(error).__name__,
                     elapsed_seconds=time.time() - started,
+                    destination_preflight=preflight,
                 ))
             else:
                 final = state(
                     contract, status="COMPLETE_VERIFIED_REMOTE_IMPORT",
                     contract=str(contract_path),
-                    contract_sha256=file_sha256(contract_path), **result,
+                    contract_sha256=file_sha256(contract_path),
+                    destination_preflight=preflight, **result,
                 )
                 atomic_json(state_path, final)
                 return final
@@ -585,6 +655,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--destination-port", type=int, required=True)
     value.add_argument("--destination-user", required=True)
     value.add_argument("--expected-host-key-sha256", required=True)
+    value.add_argument("--required-destination-hostname", required=True)
+    value.add_argument("--required-destination-gpu-uuid", required=True)
     value.add_argument("--destination-root", required=True)
     value.add_argument("--password-env", required=True)
     value.add_argument("--poll-seconds", type=int, default=60)

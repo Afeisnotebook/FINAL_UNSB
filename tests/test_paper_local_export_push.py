@@ -4,6 +4,8 @@ import json
 from pathlib import Path, PurePosixPath
 from types import SimpleNamespace
 
+import pytest
+
 from operations import paper_aio_local_export_push as push
 
 
@@ -94,6 +96,8 @@ def test_contract_never_persists_password(tmp_path: Path, monkeypatch) -> None:
         required_manifest_sha256="m" * 64,
         destination_host="host", destination_port=22, destination_user="user",
         expected_host_key_sha256="SHA256:pinned",
+        required_destination_hostname="evaluation-host",
+        required_destination_gpu_uuid="GPU-123",
         destination_root="/safe/imports",
         password_env="FINAL_UNSB_DCLGAN_PUSH_PASSWORD",
         poll_seconds=60, timeout_hours=480,
@@ -102,6 +106,7 @@ def test_contract_never_persists_password(tmp_path: Path, monkeypatch) -> None:
     assert contract["password_persisted"] is False
     assert "secret" not in json.dumps(contract)
     assert contract["destination_root"] == "/safe/imports"
+    assert contract["required_destination_gpu_uuid"] == "GPU-123"
 
 
 def test_remote_root_and_local_containment_are_fail_closed(tmp_path: Path) -> None:
@@ -127,3 +132,33 @@ def test_remote_root_and_local_containment_are_fail_closed(tmp_path: Path) -> No
 def test_import_payload_uses_remote_paths_only() -> None:
     lane_root = PurePosixPath("/imports") / "sources" / "LOCAL_GTX1660" / "dclgan"
     assert str(lane_root / "e200.pt") == "/imports/sources/LOCAL_GTX1660/dclgan/e200.pt"
+
+
+def test_destination_identity_is_physically_pinned() -> None:
+    class Channel:
+        @staticmethod
+        def recv_exit_status():
+            return 0
+
+    class Stream:
+        channel = Channel()
+
+        def __init__(self, value: bytes):
+            self.value = value
+
+        def read(self):
+            return self.value
+
+    class Client:
+        @staticmethod
+        def exec_command(command, timeout):
+            return None, Stream(b"evaluation-host\nGPU-123\n"), Stream(b"")
+
+    contract = {
+        "required_destination_hostname": "evaluation-host",
+        "required_destination_gpu_uuid": "GPU-123",
+    }
+    assert push.destination_identity(Client(), contract)["gpu_uuid"] == "GPU-123"
+    contract["required_destination_gpu_uuid"] = "GPU-other"
+    with pytest.raises(RuntimeError, match="physical identity differs"):
+        push.destination_identity(Client(), contract)
