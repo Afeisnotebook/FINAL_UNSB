@@ -47,6 +47,12 @@ ROLE_SPECS = {
         "final_status": "COMPLETE_VERIFIED_REMOTE_IMPORT",
         "performance_must_remain_false": True,
     },
+    "dclgan_evaluation": {
+        "module": "operations.paper_aio_dclgan_evaluation_successor",
+        "child_schema": "final-unsb-paper-dclgan-evaluation-successor-v1",
+        "final_status": "COMPLETE_DCLGAN_FIXED_EVALUATION_SET",
+        "performance_must_remain_false": False,
+    },
 }
 
 

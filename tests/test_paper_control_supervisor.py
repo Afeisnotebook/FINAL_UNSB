@@ -189,6 +189,23 @@ def test_local_export_push_state_is_recoverable_but_fail_closed() -> None:
     ) == "BLOCK"
 
 
+def test_dclgan_evaluation_wait_and_completion_are_supervisable() -> None:
+    base = {
+        "schema": "final-unsb-paper-dclgan-evaluation-successor-v1",
+        "status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert child_state_decision("dclgan_evaluation", base) == "WAIT"
+    assert child_state_decision(
+        "dclgan_evaluation",
+        {**base, "status": "COMPLETE_DCLGAN_FIXED_EVALUATION_SET"},
+    ) == "COMPLETE"
+    assert child_state_decision(
+        "dclgan_evaluation", {**base, "status": "FAIL_CLOSED_TEST"},
+    ) == "BLOCK"
+
+
 def _run_contract(tmp_path: Path, child_state: Path) -> dict:
     return {
         "schema": supervisor.CONTRACT_SCHEMA,
