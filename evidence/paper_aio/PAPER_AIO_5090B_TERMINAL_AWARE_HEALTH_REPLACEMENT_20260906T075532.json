@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-paper-5090b-terminal-aware-health-replacement-v1",
+  "captured_at": "2026-09-06T07:55:32+08:00",
+  "status": "PASS_FALSE_TERMINAL_ALERT_REMOVED_WITHOUT_TOUCHING_TRAINING",
+  "trigger": {
+    "old_watcher_pid": 30355,
+    "old_control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
+    "old_state": "ALERT",
+    "only_alert": "cut_export PID 9515 dead after COMPLETE_SOURCE_BOUND_EXPORT_SET",
+    "adjudication": "false operational alert: CUT e200 and its source-bound export had both completed successfully"
+  },
+  "replacement": {
+    "control_commit": "e831ac7334791faa8f4ee533eae85455859a7be5",
+    "checkout": "/root/autodl-tmp/FINAL_UNSB_HEALTH_TERMINAL_E831AC7",
+    "checkout_clean": true,
+    "control_script": "operations/paper_aio_health_watch.py",
+    "control_script_sha256": "b899671b0d19d33e0e676d37af6a79ea1acfba1e0582231cd7611f81f47670cd",
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_TERMINAL_E831AC7",
+    "contract_sha256": "46b10c6566112ddbe88f4343e3f87ac09599344567b9393077f3c0bdecdbce38",
+    "watcher_pid": 533823,
+    "watcher_ppid": 1,
+    "started_at": "2026-09-06T07:53:54+08:00",
+    "consecutive_healthy_states_observed": 3,
+    "alert_count": 0,
+    "cut_supervisor_health": "TERMINAL",
+    "cut_lane_health": "TERMINAL",
+    "cut_export_health": "TERMINAL",
+    "cyclegan_supervisor_health": "HEALTHY",
+    "cyclegan_lane_health": "HEALTHY",
+    "cyclegan_export_health": "HEALTHY",
+    "free_disk_gib": 225.876,
+    "estimated_remaining_write_gib": 12.0,
+    "minimum_headroom_gib": 12.0
+  },
+  "handoff": {
+    "old_watcher_retired": true,
+    "old_watcher_pid": 30355,
+    "retired_only_after_new_ppid_one_and_repeated_healthy_state": true,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 493306,
+    "matched_plain_successor_pid": 523993,
+    "matched_plain_capacity_probe_pid": 524019,
+    "all_scientific_and_gate_pids_alive_after_handoff": true,
+    "training_process_changed": false,
+    "checkpoint_changed_by_handoff": false,
+    "runtime_cohort_changed": false
+  },
+  "capacity_gate_snapshot": {
+    "status": "RUNNING_METRIC_BLIND_CO_RESIDENT_CAPACITY_GATE",
+    "plain_completed_data_epoch": 1,
+    "plain_completed_updates": 8553,
+    "plain_scientific_state_sha256": "fd57ff6e3a83f703b7ff6c98ba241b18fd194ab8a1b8f2f3f7b2185dc36f1e1f",
+    "second_epoch_process_alive": true,
+    "capacity_receipt_exists": false
+  },
+  "verification": {
+    "targeted_health_watch_tests": "11 passed",
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

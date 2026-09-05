@@ -284,7 +284,7 @@
     }
   },
   "operational_monitoring": {
-    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_CYCLEGAN_E125_EXACT_RECOVERY_CLOSED_BY_E126",
+    "status": "FOUR_REMOTE_HOSTS_AND_LOCAL_PIPELINE_HEALTHY_5090B_TERMINAL_FALSE_ALERT_REMOVED",
     "control_commit": "a51d4cd64a34a9cf52c9d0c15add9fdf78191dca",
     "progress_aware_supervisor_commit": "a89874ff378dbb5dd7721efb87a0345536d621ff",
     "progress_aware_supervisor_live_processes_restarted": false,
@@ -336,10 +336,21 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CONTINUITY_GUARDS_AND_BIHOURLY_GOAL_20260903T220753.json",
       "decision": "decisions/DEC-20260903-5090B-NONINTRUSIVE-CONTINUITY-GUARDS.md"
     },
+    "5090b_terminal_aware_health_replacement": {
+      "status": "PASS_NEW_WATCHER_HEALTHY_OLD_FALSE_ALERT_WATCHER_RETIRED",
+      "control_commit": "e831ac7334791faa8f4ee533eae85455859a7be5",
+      "watcher_pid": 533823,
+      "retired_watcher_pid": 30355,
+      "scientific_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_TERMINAL_AWARE_HEALTH_REPLACEMENT_20260906T075532.json",
+      "decision": "decisions/DEC-20260906-5090B-TERMINAL-AWARE-HEALTH-REPLACEMENT.md"
+    },
     "watcher_pids": {
       "4090A": 3460191,
       "5090A": 352017,
-      "5090B": 30355,
+      "5090B": 533823,
       "5090C": 13587
     },
     "auxiliary_watcher_pids": {
@@ -786,7 +797,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
     "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_RECOVERY_20260906T065415.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_TERMINAL_AWARE_HEALTH_REPLACEMENT_20260906T075532.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_running_metric_blind_capacity_gate",
     "successor_pid": 523993,

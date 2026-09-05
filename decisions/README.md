@@ -296,3 +296,6 @@ authorize compute.
     造Proposal卡；修复最终结果/claim冻结没有绑定精确理论版本的缺口。新增三算法theory bundle，
     review、freeze及后续distribution/manuscript/confirmation必须逐层复验全部推导与公式—源码
     审计哈希；不读取性能、不改变训练或提前声明赢家。
+90. `DEC-20260906-5090B-TERMINAL-AWARE-HEALTH-REPLACEMENT.md`：CUT与source-bound export均
+    已完成后，旧监控把正常退出的exporter误报为PID死亡；部署通用`COMPLETE_*`终态感知监控，
+    连续三次零告警且归属PID 1后才退役旧监控。CycleGAN与matched-plain容量探针均未触碰。

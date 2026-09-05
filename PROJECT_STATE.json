@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T04:48:50+08:00",
+  "state_snapshot_time": "2026-09-06T07:55:32+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1131,7 +1131,7 @@
       "watcher_pids": {
         "4090A": 3460191,
         "5090A": 352017,
-        "5090B": 30355,
+        "5090B": 533823,
         "5090C": 13587,
         "4090A_stcgr_control_relation": 2289036
       },
@@ -1143,11 +1143,24 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json",
       "decision": "decisions/DEC-20260903-5090A-STCGR-ONLY-PRIORITY.md"
     },
+    "5090b_terminal_aware_health_replacement": {
+      "status": "PASS_FALSE_COMPLETE_EXPORT_ALERT_REMOVED_NEW_WATCHER_HEALTHY",
+      "control_commit": "e831ac7334791faa8f4ee533eae85455859a7be5",
+      "watcher_pid": 533823,
+      "retired_watcher_pid": 30355,
+      "consecutive_healthy_states_observed": 3,
+      "scientific_processes_changed": false,
+      "capacity_gate_status": "RUNNING_METRIC_BLIND_CO_RESIDENT_CAPACITY_GATE",
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_TERMINAL_AWARE_HEALTH_REPLACEMENT_20260906T075532.json",
+      "decision": "decisions/DEC-20260906-5090B-TERMINAL-AWARE-HEALTH-REPLACEMENT.md"
+    },
     "paired_metric_control": false,
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_RECOVERY_20260906T065415.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_TERMINAL_AWARE_HEALTH_REPLACEMENT_20260906T075532.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_RUNNING_METRIC_BLIND_CAPACITY_GATE",
       "captured_at": "2026-09-06T05:38:48+08:00",
