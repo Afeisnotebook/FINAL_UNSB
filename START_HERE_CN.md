@@ -23,6 +23,15 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 `configs/FULL_DATA_METHOD_PORTFOLIO.json`和`configs/PAPER_DELIVERY_COMPLETION_MATRIX.json`，
 不要从本文件的历史段落恢复旧队列。
 
+5090B的两条runtime relation现已完成审核并写入注册表；4090A已从当前commit部署动态
+统一评估、ST-CGR matched评估和最终论文交付链，旧的5090A-plain绑定等待器已在新链
+连续健康后退出。4090A原`unsb_cov`目录缺失也已按运行进程的精确核心版本重建，过程中
+没有中断或重启AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
+权威回执与裁决分别为
+`evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json`
+和`decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。运行环境恢复不
+建立新的训练runtime cohort，matched关系仍只使用已审核注册表。
+
 2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经GPU UUID、hostname、
 run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是第五张GPU。不得把它
 登记为新宿主或在CUT/CycleGAN之外误开第三条训练；详见

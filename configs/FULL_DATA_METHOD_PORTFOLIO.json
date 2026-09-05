@@ -468,10 +468,15 @@
     "retired_5090b_waiting_pids": [99704, 99821, 99966, 140049],
     "future_boundary_hardening_commit": "c11968e",
     "long_wait_audit_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_LONG_WAIT_SUCCESSOR_AUDIT_20260903T153320.json",
-    "unified_import_relay_pid": null,
-    "unified_evaluation_successor_pid": null,
-    "unified_delivery_health_watcher_pid": null,
-    "unified_delivery_status": "legacy_5090B_source_waiters_retired_local_source_bound_export_armed_post_e200_bridge_required",
+    "unified_import_relay_pid": 24396,
+    "unified_import_relay_supervisor_pid": 26020,
+    "unified_import_relay_health_watcher_pid": 20500,
+    "unified_evaluation_successor_pid": 3587264,
+    "unified_evaluation_supervisor_pid": 3804113,
+    "unified_delivery_health_watcher_pid": 3804260,
+    "unified_delivery_status": "recovery_supervisor_adopted_existing_evaluation_child_zero_restarts_healthy",
+    "retired_failed_recovery_supervisor_pid": 3586790,
+    "retired_alerted_health_watcher_pid": 3586976,
     "retired_legacy_unified_delivery_pids": [2491699, 2545174, 2545378],
     "unified_delivery_control_commit": "07b558af59850dfc26f579a3d1890137e79595bc",
     "unified_delivery_contract_sha256": "07e216693582079416488741aedb388e690dafc36c381bd0cde6516dd79685cf",
@@ -578,23 +583,25 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_ADMISSION_AND_GATE5_RECOVERY_20260906T053848.json"
   },
   "post_training_delivery": {
-    "status": "LEGACY_WAITER_HEALTHY_BUT_SUPERSEDED_AS_COMPLETION_PATH_BY_5090A_PLAIN_CANCELLATION",
+    "status": "DYNAMIC_5090B_CONTROL_WAITER_DEPLOYED_HEALTHY_AFTER_MULTIPLE_POLLS",
     "host": "4090A",
-    "pid": 2209120,
+    "pid": 3802120,
     "ppid": 1,
-    "control_commit": "03a59489e575ce8adcdf7576eef3a819ce12809e",
+    "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
     "protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
     "release_after": "4090A_AMTNC_COMPLETE_E200",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+    "contract_sha256": "8471d0635b366dfc95f4ca07478fd5b804c8d32b36734768e97f7f17663379b3",
     "lane_sources": {
-      "plain": "5090A",
+      "plain": "5090B_MATCHED_PLAIN",
       "proposal": "5090C",
       "cut": "5090B",
       "cyclegan": "5090B"
     },
-    "health_watcher_pid": 2209213,
-    "health_status": "HEALTHY",
+    "health_watcher_pid": 3802159,
+    "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
     "first_wave_complete_is_not_algorithm_freeze": true,
-    "replacement_status": "runtime_relations_admitted_dynamic_redeployment_next",
+    "replacement_status": "complete_dynamic_chain_is_authoritative",
     "registry_review_interface_commit": "1660b1d0ebd2498d5e2ae88c338c21221f4c9b02",
     "registry_review_status": "complete_both_review_only_candidates_admitted_byte_identical_to_proposal",
     "registry_review_successor_pid": 2349420,
@@ -606,7 +613,8 @@
       "cut": "5090B",
       "cyclegan": "5090B"
     },
-    "evidence": "evidence/paper_aio/PAPER_AIO_UNIFIED_EVALUATION_SUCCESSOR_DEPLOYMENT_20260902.json",
+    "retired_legacy_waiter_pids": [2209120, 2209213],
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
     "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json",
     "latest_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json"
   },
@@ -673,35 +681,41 @@
     ]
   },
   "algorithm_posthoc_delivery": {
-    "status": "AMTNC_AND_STCGR_MATCHED_EVALUATION_SUCCESSORS_ARMED",
-    "control_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
+    "status": "AMTNC_STATIC_WAITER_RETAINED_AND_DYNAMIC_STCGR_WAITER_HEALTHY",
+    "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
     "amtnc": {
       "pid": 2217242,
       "status": "waiting_for_4090a_plain_and_amtnc_exports",
       "matched_plain": "4090A/plain",
-      "separate_output_required": true
+      "separate_output_required": true,
+      "health_watcher_pid": 3802162,
+      "health_status": "healthy_after_multiple_polls_zero_alerts"
     },
     "stcgr": {
-      "pid": 2217244,
-      "status": "legacy_waiter_bound_to_superseded_5090A_plain_cohort_pending_safe_replacement",
-      "matched_plain": "5090B_MATCHED_PLAIN/plain after reviewed relation",
+      "pid": 3802121,
+      "status": "waiting_for_candidate_import_metadata_or_cohort",
+      "matched_plain": "5090B_MATCHED_PLAIN",
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+      "contract_sha256": "5a854a4ceb00ff8c2bf43ac6d7122c9472d4305f2df8265cc4b1119cc136853a",
       "candidate_metadata_import": "complete_verified",
-      "future_alternate_plain": "5090B_MATCHED_PLAIN",
-      "alternate_control_relation": "review_only_successor_armed_not_yet_authorized"
+      "reviewed_control_relation": "admitted_byte_identical_to_proposal"
     },
-    "health_watcher_pid": 2217321,
-    "health_status": "HEALTHY",
+    "health_watcher_pid": 3802160,
+    "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
+    "retired_legacy_stcgr_waiter_pids": [2217244, 2217321],
     "cross_non_equivalent_runtime_delta": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_ALGORITHM_EVALUATION_SUCCESSORS_20260902.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json"
   },
   "final_discovery_delivery": {
-    "status": "legacy_waiter_healthy_but_superseded_pending_safe_dynamic_control_replacement",
-    "pid": 2220419,
+    "status": "dynamic_durable_waiting_for_all_fixed_e200_results",
+    "pid": 3802122,
     "ppid": 1,
-    "control_commit": "adb6cf8b2fa037677d3eb3b18f221d84e2505997",
-    "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_adb6cf8",
-    "health_watcher_pid": 2220505,
-    "health_status": "HEALTHY",
+    "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1",
+    "contract_sha256": "d1887c210bd7a0ec81782f0b596e7c26e2c55f6c2bc2ff88869305a248c1284a",
+    "health_watcher_pid": 3802161,
+    "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
+    "retired_legacy_waiter_pids": [2220419, 2220505],
     "complexity_lanes": [
       "plain",
       "proposal",
@@ -718,7 +732,7 @@
     "replacement_interface_commit": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
     "result_and_disposition_hash_closure": true,
     "replacement_decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
-    "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_DELIVERY_SUCCESSOR_20260902.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "lease_horizon_action": {
@@ -743,7 +757,19 @@
     "decision": "decisions/DEC-20260906-LIVE-LEASE-REFRESH.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_ADMISSION_AND_GATE5_RECOVERY_20260906T053848.json",
+  "runtime_environment_recovery": {
+    "status": "4090A_exact_core_runtime_restored_without_training_interruption",
+    "target": "/home/yc/anaconda3/envs/unsb_cov",
+    "snapshot": "/home/yc/recovery_snapshots/unsb_cov_py310_torch251cu121_2f57f22_complete",
+    "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "pip_freeze_sha256": "e6ae65d87a12cbb10d092a2aca1527e8a1cd63a9225e86f62dcfb1be91b89bcb",
+    "targeted_tests": "31_passed_staging_and_31_passed_promoted",
+    "amtnc_pids_unchanged": [3446757, 3446758],
+    "creates_new_runtime_cohort": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
+    "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
+  },
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_running_metric_blind_capacity_gate",
     "successor_pid": 523993,

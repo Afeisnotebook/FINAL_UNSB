@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T05:38:48+08:00",
+  "captured_at": "2026-09-06T06:28:31+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -30,22 +30,32 @@
     },
     {
       "id": "dynamic_unified_evaluation",
-      "status": "code_ready_relations_admitted_deployment_next",
+      "status": "deployed_healthy_waiting_for_fixed_imports_or_gpu_release",
       "requires": ["five fixed epochs", "discovery80 at e200", "five e200 CRN bundles", "LPIPS", "read-only checkpoint rehash"],
-      "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json"
+      "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json",
+      "pid": 3802120,
+      "health_watcher_pid": 3802159,
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+      "matched_plain": "5090B_MATCHED_PLAIN"
     },
     {
       "id": "algorithm_dispositions",
-      "status": "durable_waiters_exist_but_stcgr_legacy_control_requires_dynamic_replacement",
+      "status": "amtnc_static_waiter_retained_and_dynamic_stcgr_waiter_deployed_healthy",
       "requires": ["AM-TNC matched 4090A plain", "ST-CGR reviewed legal plain relation", "e150/e175/e200"],
-      "proof": "hash-bound algorithm disposition receipts"
+      "proof": "hash-bound algorithm disposition receipts",
+      "amtnc_waiter_pid": 2217242,
+      "stcgr_waiter_pid": 3802121,
+      "health_watcher_pids": [3802162, 3802160]
     },
     {
       "id": "core_final_portfolio",
-      "status": "code_ready_dynamic_successor_not_yet_deployed",
+      "status": "dynamic_successor_deployed_healthy_waiting_for_all_fixed_e200_results",
       "requires": ["first-wave result", "AM-TNC disposition", "ST-CGR disposition", "six fixed complexity profiles"],
       "proof": "PAPER_ALGORITHM_PORTFOLIO.json",
-      "blocks_confirmation": true
+      "blocks_confirmation": true,
+      "pid": 3802122,
+      "health_watcher_pid": 3802161,
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1"
     }
   ],
   "nonblocking_extensions": [
@@ -69,13 +79,17 @@
     },
     {
       "id": "dclgan",
-      "status": "training_running_local_source_bound_push_and_recoverable_evaluation_waiters_deployed",
+      "status": "training_running_local_source_bound_push_armed_evaluation_child_preserved_and_recovery_supervisor_healthy",
       "critical_path": false,
       "reason": "DCLGAN runs independently on local GTX1660 and must not delay the earlier core portfolio",
       "outputs": ["DCLGAN_PAPER_RESULT.json", "complexity/dclgan.json", "PAPER_EXTERNAL_BASELINE_ADDENDUM.json", "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"],
       "delivery_gate": "local e200 export then pinned source-bound push; evaluation also waits for the future dynamic first-wave cohort",
       "portfolio_addendum_gate": "deploy after the future dynamic core final-delivery output path is frozen",
-      "implementation": "operations/paper_aio_dclgan_portfolio_addendum_successor.py"
+      "implementation": "operations/paper_aio_dclgan_portfolio_addendum_successor.py",
+      "evaluation_child_pid": 3587264,
+      "recovery_supervisor_pid": 3804113,
+      "recovery_health_watcher_pid": 3804260,
+      "recovery_restart_count": 0
     },
     {
       "id": "distribution_metrics",
@@ -120,8 +134,8 @@
     }
   ],
   "known_completion_risks": [
-    "5090A plain cancellation requires the reviewed 5090B control relation before Proposal or ST-CGR matched deltas",
-    "future dynamic unified and final-delivery successors cannot be deployed before the real 5090B runtime receipt is admitted",
+    "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
+    "the 4090A runtime directory incident is closed by an exact-version rebuild and hardlink recovery snapshot; any future AM-TNC process failure must use full-state exact resume rather than process migration",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "5090B matched plain has only about 8.2 hours nominal headroom in the wait-for-CycleGAN case; availability through 2026-09-15 is recommended"

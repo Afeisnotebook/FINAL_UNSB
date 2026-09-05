@@ -1,0 +1,117 @@
+{
+  "schema": "final-unsb-paper-aio-runtime-recovery-and-dynamic-delivery-v1",
+  "captured_at": "2026-09-06T06:28:31+08:00",
+  "status": "RECOVERY_COMPLETE_DYNAMIC_DELIVERY_HEALTHY",
+  "host": "4090A",
+  "runtime_recovery": {
+    "incident": "configured /home/yc/anaconda3/envs/unsb_cov directory was missing while the healthy AM-TNC process continued from deleted inode mappings",
+    "training_interrupted": false,
+    "training_restarted": false,
+    "training_pids_before_and_after": {
+      "supervisor": 3446757,
+      "trainer": 3446758
+    },
+    "staging_path": "/home/yc/anaconda3/envs/unsb_cov_recovery_2f57f22",
+    "promoted_path": "/home/yc/anaconda3/envs/unsb_cov",
+    "recovery_snapshot": "/home/yc/recovery_snapshots/unsb_cov_py310_torch251cu121_2f57f22_complete",
+    "target_and_snapshot_python_inode": "66309:28209067",
+    "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "pip_freeze_sha256": "e6ae65d87a12cbb10d092a2aca1527e8a1cd63a9225e86f62dcfb1be91b89bcb",
+    "versions": {
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "torchvision": "0.20.1+cu121",
+      "cuda": "12.1",
+      "cudnn": 90100,
+      "numpy": "2.1.3",
+      "pillow": "11.3.0",
+      "lpips": "0.1.4",
+      "clean_fid": "0.1.35"
+    },
+    "first_staging_failure": "visdom build isolation lacked pkg_resources; the official target path was not modified",
+    "targeted_tests_staging": "31 passed",
+    "targeted_tests_promoted": "31 passed",
+    "checkpoint_load_smoke": [
+      "shared_e0/unsb_common/e0.pt",
+      "plain/milestones/e100.pt"
+    ],
+    "evaluation_runtime_smoke": "PASS_LPIPS_ALEX_CACHED_WEIGHTS_AND_CLEAN_FID_IMPORT",
+    "free_disk_gib_after_recovery": 548,
+    "recovery_logs": "/home/yc/runs/FINAL_UNSB_ENV_RECOVERY_2f57f22",
+    "recovery_semantics": "restores the exact core software versions for future fail-closed resume and evaluation; it does not create a new training runtime cohort"
+  },
+  "amtnc_continuity": {
+    "latest_complete_data_epoch": 21,
+    "latest_complete_updates": 179613,
+    "scientific_state_sha256": "1043673d01f8ec9b93a5c28a4e7e7243c1ac8b00dfaf1394ad23d4f8b6b75089",
+    "original_process_deleted_inode_mapping_retained": true,
+    "full_state_resume_performed": false
+  },
+  "dynamic_delivery": {
+    "control_repo": "/home/yc/FINAL_UNSB_DYNAMIC_DELIVERY_2f57f22",
+    "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+    "runtime_relation_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
+    "stcgr_authority_sha256": "bc1cac1bca0c53cff6042053525e107e90a104ededbada5bb6d7063fedd853f6",
+    "candidate_metadata_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364",
+    "unified_evaluation": {
+      "pid": 3802120,
+      "health_watcher_pid": 3802159,
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+      "status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+      "contract_sha256": "8471d0635b366dfc95f4ca07478fd5b804c8d32b36734768e97f7f17663379b3",
+      "lane_sources": {
+        "plain": "5090B_MATCHED_PLAIN",
+        "proposal": "5090C",
+        "cut": "5090B",
+        "cyclegan": "5090B"
+      }
+    },
+    "stcgr_evaluation": {
+      "pid": 3802121,
+      "health_watcher_pid": 3802160,
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+      "status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+      "matched_plain": "5090B_MATCHED_PLAIN",
+      "contract_sha256": "5a854a4ceb00ff8c2bf43ac6d7122c9472d4305f2df8265cc4b1119cc136853a"
+    },
+    "final_delivery": {
+      "pid": 3802122,
+      "health_watcher_pid": 3802161,
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1",
+      "status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+      "contract_sha256": "d1887c210bd7a0ec81782f0b596e7c26e2c55f6c2bc2ff88869305a248c1284a"
+    },
+    "amtnc_health_watcher_pid": 3802162,
+    "health_validation": "ALL_WATCHERS_HEALTHY_AFTER_MULTIPLE_INDEPENDENT_POLLS_ZERO_ALERTS"
+  },
+  "dclgan_recovery": {
+    "failed_supervisor_pid": 3586790,
+    "failure_cause": "fixed child runtime path was absent",
+    "preserved_evaluation_child_pid": 3587264,
+    "replacement_supervisor_pid": 3804113,
+    "replacement_health_watcher_pid": 3804260,
+    "replacement_status": "MONITORING_EXISTING_CHILD",
+    "restart_count": 0,
+    "control_commit": "82ca28ad2acc33e4981c42733630c6bfb347698e",
+    "control_state_sha256": "7802331e09c6f785f9200597e47a3611cf1d75bd878ec42dab5efd1d9c1fa33d",
+    "health_validation": "HEALTHY_AFTER_TWO_POLLS_ZERO_ALERTS"
+  },
+  "retired_obsolete_waiter_pids": [2209120, 2209213, 2217244, 2217321, 2220419, 2220505, 3586976],
+  "retained_live_pids": [2217242, 3446757, 3446758, 3587264, 3802120, 3802121, 3802122, 3802159, 3802160, 3802161, 3802162, 3804113, 3804260],
+  "repository_validation": {
+    "json_parse": "PASS",
+    "pytest": "701 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_protocol_modified": false,
+    "healthy_training_modified": false,
+    "checkpoint_or_data_deleted": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
