@@ -168,6 +168,27 @@ def test_terminal_pathology_allows_only_posthoc_performance_state():
     ) == "BLOCK"
 
 
+def test_local_export_push_state_is_recoverable_but_fail_closed() -> None:
+    base = {
+        "schema": "final-unsb-paper-local-export-push-state-v1",
+        "status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert child_state_decision("local_export_push", base) == "WAIT"
+    assert child_state_decision(
+        "local_export_push",
+        {**base, "status": "COMPLETE_VERIFIED_REMOTE_IMPORT"},
+    ) == "COMPLETE"
+    assert child_state_decision(
+        "local_export_push", {**base, "status": "FAIL_CLOSED_TEST"},
+    ) == "BLOCK"
+    assert child_state_decision(
+        "local_export_push", {**base, "performance_values_read": True},
+    ) == "BLOCK"
+
+
 def _run_contract(tmp_path: Path, child_state: Path) -> dict:
     return {
         "schema": supervisor.CONTRACT_SCHEMA,

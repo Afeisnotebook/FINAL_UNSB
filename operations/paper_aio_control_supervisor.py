@@ -41,6 +41,12 @@ ROLE_SPECS = {
         "final_status": "COMPLETE_POSTHOC_TERMINAL_PATHOLOGY_ADJUDICATION",
         "performance_must_remain_false": False,
     },
+    "local_export_push": {
+        "module": "operations.paper_aio_local_export_push",
+        "child_schema": "final-unsb-paper-local-export-push-state-v1",
+        "final_status": "COMPLETE_VERIFIED_REMOTE_IMPORT",
+        "performance_must_remain_false": True,
+    },
 }
 
 
