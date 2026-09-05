@@ -10,6 +10,7 @@ from operations.paper_aio_numa_ab_supervisor import (
     net_remaining_saving,
     parse_cpu_list,
     prepare_branch,
+    process_task_affinities,
 )
 
 
@@ -120,3 +121,13 @@ def test_component_hashes_cover_transition_defining_substates(tmp_path) -> None:
     assert left_hashes["networks"] == changed_hashes["networks"]
     assert left_hashes["samplers"] != changed_hashes["samplers"]
     assert left_hashes["scientific_core"] != changed_hashes["scientific_core"]
+
+
+def test_current_process_task_affinities_include_main_thread() -> None:
+    import os
+
+    if os.name == "nt":
+        return
+    tasks = process_task_affinities(os.getpid())
+    assert os.getpid() in tasks
+    assert tasks[os.getpid()] == set(os.sched_getaffinity(0))

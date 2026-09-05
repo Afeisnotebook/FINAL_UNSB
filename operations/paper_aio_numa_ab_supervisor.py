@@ -138,6 +138,45 @@ def _process_state(pid: int) -> str:
     raise RuntimeError(f"cannot read process state: {pid}")
 
 
+def process_task_affinities(pid: int) -> dict[int, set[int]]:
+    task_root = Path(f"/proc/{pid}/task")
+    if not task_root.is_dir():
+        raise RuntimeError(f"trainer task directory is unavailable: {pid}")
+    result = {
+        int(path.name): set(os.sched_getaffinity(int(path.name)))
+        for path in task_root.iterdir() if path.name.isdigit()
+    }
+    if not result:
+        raise RuntimeError(f"trainer has no visible tasks: {pid}")
+    return result
+
+
+def set_process_task_affinity(pid: int, cpus: set[int]) -> dict[int, set[int]]:
+    # The trainer is SIGSTOP'ed before this function is called, so its task
+    # set is stable.  Linux sched_setaffinity(pid, ...) changes only one TID;
+    # every existing thread must be changed explicitly.
+    before = process_task_affinities(pid)
+    for tid in before:
+        os.sched_setaffinity(tid, cpus)
+    after = process_task_affinities(pid)
+    if set(after) != set(before) or any(value != cpus for value in after.values()):
+        raise RuntimeError("whole-process task affinity application was incomplete")
+    return after
+
+
+def restore_process_task_affinities(
+    pid: int, affinities: dict[int, set[int]],
+) -> None:
+    current = process_task_affinities(pid)
+    if set(current) != set(affinities):
+        raise RuntimeError("trainer task set changed while stopped")
+    for tid, cpus in affinities.items():
+        os.sched_setaffinity(tid, cpus)
+    restored = process_task_affinities(pid)
+    if restored != affinities:
+        raise RuntimeError("original per-thread affinities were not restored")
+
+
 def _wait_stopped(pid: int, timeout: float = 30.0) -> None:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -343,7 +382,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     checkpoint_path = source_lane / "full_state_latest.pt"
     initial_heartbeat = _read_json(heartbeat_path)
     initial_epoch = int(float(initial_heartbeat["data_epoch"]))
+    original_task_affinities = process_task_affinities(args.trainer_pid)
     original_affinity = set(os.sched_getaffinity(args.trainer_pid))
+    if any(value != original_affinity for value in original_task_affinities.values()):
+        raise RuntimeError("trainer starts with heterogeneous per-thread affinities")
     local_affinity = parse_cpu_list(args.local_cpus)
     if not local_affinity.issubset(original_affinity):
         raise RuntimeError("local NUMA CPU set is outside trainer affinity")
@@ -361,6 +403,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "initial_epoch": initial_epoch,
         "updates_per_branch": args.updates,
         "original_cpus": format_cpu_list(original_affinity),
+        "original_thread_count": len(original_task_affinities),
         "local_cpus": format_cpu_list(local_affinity),
         "minimum_net_saving_fraction": args.minimum_net_saving_fraction,
         "performance_values_read": False,
@@ -468,7 +511,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             and timing["net_saving_fraction"] >= args.minimum_net_saving_fraction
         )
         final_affinity = local_affinity if adopted else original_affinity
-        os.sched_setaffinity(args.trainer_pid, final_affinity)
+        applied_task_affinities = set_process_task_affinity(
+            args.trainer_pid, final_affinity,
+        )
         result = {
             **contract,
             "status": "PASS_ADOPT_LOCAL_NUMA" if adopted else "PASS_KEEP_ORIGINAL",
@@ -490,6 +535,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "local_numa_updates_per_second": args.updates / local_seconds,
             "timing": timing,
             "adopted_affinity": format_cpu_list(final_affinity),
+            "adopted_thread_count": len(applied_task_affinities),
+            "all_trainer_threads_verified": True,
             "runtime_cohort": (
                 "SCIENTIFIC_TRANSITION_EQUIVALENT_OPERATIONAL_AFFINITY_ANNOTATED"
                 if adopted else "UNCHANGED"
@@ -507,8 +554,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     finally:
         if paused:
             try:
-                os.sched_setaffinity(args.trainer_pid, final_affinity)
-                os.kill(args.trainer_pid, signal.SIGCONT)
+                try:
+                    if adopted:
+                        set_process_task_affinity(args.trainer_pid, final_affinity)
+                    else:
+                        restore_process_task_affinities(
+                            args.trainer_pid, original_task_affinities,
+                        )
+                finally:
+                    os.kill(args.trainer_pid, signal.SIGCONT)
             finally:
                 if guard is not None and guard.poll() is None:
                     guard.terminate()
