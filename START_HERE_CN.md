@@ -56,6 +56,9 @@ endpoint工作；它不授权添加terminal模块。下述2026-09-01内容是sma
 decision、freeze receipt以及其后的distribution/manuscript/confirmation都会复验该bundle
 和全部引用文件；任何公式或证据漂移都fail closed。Proposal不另造重复卡：其父卡中的
 `proposal_only`定义、选择性G/F族推导和full-data源码审计三者共同构成权威推导链。
+AM-TNC则由新的full-data现场审计证明旧route1公式审计与当前训练提交使用相同源码blob，
+并在固定e20状态复验事件顺序和计数；见
+`evidence/paper_aio/AMTNC_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260906T073500.json`。
 
 ## 当前状态（2026-09-01）
 

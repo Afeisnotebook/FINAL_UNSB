@@ -226,7 +226,8 @@ Git registry 审核和统一 CRN 评估；AM-TNC 只使用其 4090A 同宿主 pl
 - Proposal formula/source audit：`evidence/paper_aio/PROPOSAL_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T0754.json`
 - ST-CGR formula/source audit：`evidence/paper_aio/STCGR_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260903T074759.json`
 - ST-CGR independent operator audit：`evidence/paper_aio/STCGR_INDEPENDENT_OPERATOR_SEMANTIC_AUDIT_20260903T102300.json`
-- AM-TNC formula/source audit：`evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json`
+- AM-TNC full-data formula/source audit：`evidence/paper_aio/AMTNC_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260906T073500.json`
+  （其中继续哈希绑定原始 route1 审计）
 
 实时训练进度、runtime relation 与最终 disposition 不在本文件硬编码，以免静态数学文档
 覆盖后来完整证据；它们始终由 `PROJECT_STATE.json`、完成矩阵和 source-bound receipts 决定。

@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-paper-amtnc-formula-implementation-live-audit-v1",
+  "captured_at": "2026-09-06T07:35:00+08:00",
+  "status": "PASS_HISTORICAL_FORMULA_AUDIT_SOURCE_IDENTICAL_AND_FULL_DATA_E20_STATE_CONSISTENT",
+  "algorithm": {
+    "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+    "lane": "amtnc",
+    "host": "4090A",
+    "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c"
+  },
+  "formula_authority": {
+    "historical_audit": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
+    "historical_audit_sha256": "a04594f6451ac26c9c34db0b008e372a994c3ea2029fe60ebc847437b76e8b6c",
+    "historical_training_commit": "977ce32d32af8933d2322fc1b44f8d61be66368a",
+    "derivation_card": "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json",
+    "derivation_card_sha256": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4",
+    "claim_scope": "pre-Adam conditional estimator under the frozen exchangeability and finite-moment assumptions; not expected Adam displacement or full-kernel equivalence"
+  },
+  "cross_commit_source_identity": {
+    "historical_and_full_data_git_blobs_identical": true,
+    "rows": [
+      {
+        "path": "src/models/route1/amtnc.py",
+        "historical_blob": "f2a672265c7e7f0238225633fe92f2f41126a380",
+        "full_data_blob": "f2a672265c7e7f0238225633fe92f2f41126a380",
+        "full_data_checkout_sha256": "77f98563e0d9dbae35ab7527c1d9b6c58a50f93033993f54604f2d54c455d8bf"
+      },
+      {
+        "path": "src/models/route1_amtnc_model.py",
+        "historical_blob": "5ac16cb9aa295cfa79cef7baa27d50df746e8529",
+        "full_data_blob": "5ac16cb9aa295cfa79cef7baa27d50df746e8529",
+        "full_data_checkout_sha256": "4c5c1927f73405c09716af3c5c6db3aac47b67c38d2a3c8b2e6f32e776eb85fe"
+      },
+      {
+        "path": "research/local_route1/derivation_cards/G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS.json",
+        "historical_blob": "cd4641060aadfab30c8e4cd1623ec8a67d02497c",
+        "full_data_blob": "cd4641060aadfab30c8e4cd1623ec8a67d02497c",
+        "full_data_checkout_sha256": "3770248d0f953ae2c9f14a7003be103842138d6a41297eed158ca275a44acfb4"
+      }
+    ],
+    "full_data_checkout_clean": true,
+    "paper_protocol_source_sha256": "20d6008ca52bf9bcee55e281b2e86d8f639bdf2c400024410732e401e8d6751b",
+    "paper_protocol_config_sha256": "2e8bc31bab29f26d6426988611bfc9bbca7a84b1dabb22d8749c8436835138af"
+  },
+  "full_data_e20_state": {
+    "checkpoint_sha256": "1e2864757092a2e9fd3db3bed5a1081c3299d5557c611b3ed8026c88080002bf",
+    "sidecar_sha256": "db666c250e8c8c3a1dae80d9355ff155889ee0ebdcffb11ffcc723c4457cbac4",
+    "scientific_state_sha256": "92b7a696fa81a40efe8574c651e635b25a203d795da6ec8d08ec6093fd0abec7",
+    "updates": 171060,
+    "data_epoch": 20,
+    "replicates": 2,
+    "update_index": 171060,
+    "de_bundle_count": 171060,
+    "gf_bundle_count": 171060,
+    "bundle_serial": 342120,
+    "last_schedule": ["DE_BUNDLE", "D_COMMIT", "E_COMMIT", "GF_BUNDLE", "GF_COMMIT"],
+    "schedule_and_counter_consistency": true,
+    "python_numpy_cpu_cuda_rng_present": true,
+    "independent_primary_secondary_sampler_state_present": true,
+    "seed": 2026,
+    "batch_size": 1,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "sampling_measure": "official_image_proportional_unpaired",
+    "paired_or_confirmation_state_present": false
+  },
+  "live_continuity_at_audit": {
+    "completed_data_epoch": 22,
+    "completed_updates": 188166,
+    "latest_scientific_state_sha256": "905bf65ddee19b4d2658a532456925979a0a777a66a023dc532604ca728dcd77",
+    "supervisor_status": "CHILD_RUNNING",
+    "health_status": "HEALTHY",
+    "health_alert_count": 0
+  },
+  "adjudication": {
+    "historical_formula_audit_transfers_to_full_data_source": true,
+    "full_data_live_state_matches_frozen_schedule": true,
+    "continue_to_e200": true,
+    "restart_required": false,
+    "algorithm_change_required": false,
+    "full_data_gain_claim_authorized": false,
+    "reason": "The complete AM-TNC operator, model registry and derivation card are byte-identical Git blobs between the audited historical commit and the active full-data training commit, and the fixed e20 checkpoint carries the exact registered schedule and counters."
+  },
+  "boundaries": {
+    "checkpoint_loaded_read_only_on_cpu": true,
+    "checkpoint_or_rng_mutated": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}

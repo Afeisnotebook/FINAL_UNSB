@@ -3,7 +3,7 @@
   "status": "PRE_RESULT_THREE_OPERATOR_THEORY_BUNDLE_FROZEN",
   "canonical_map": {
     "path": "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md",
-    "sha256": "15a116e208e1960fd60bb7090dfc44ece8a781d4d99aedfbeb7ee13e436948a0"
+    "sha256": "55c6a55418cef01de65b7168d44a63ff0154bcb81557c6e479182349a21be95c"
   },
   "methods": {
     "proposal": {
@@ -62,8 +62,8 @@
         },
         {
           "role": "formula_implementation_audit",
-          "path": "evidence/remote_route1_offload/AMTNC_FORMULA_IMPLEMENTATION_AUDIT_20260830.json",
-          "sha256": "a04594f6451ac26c9c34db0b008e372a994c3ea2029fe60ebc847437b76e8b6c"
+          "path": "evidence/paper_aio/AMTNC_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260906T073500.json",
+          "sha256": "6f791c01920459ceac9141d816b2143276d12546ddada7af68c05ade2f2d4e6b"
         }
       ]
     }

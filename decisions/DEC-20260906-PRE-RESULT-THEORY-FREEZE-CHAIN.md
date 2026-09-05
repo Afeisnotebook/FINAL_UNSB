@@ -18,6 +18,11 @@ confirmation 路径会重新哈希全部文件，任何漂移都 fail closed。
 中的 Proposal-only、ST-CGR、AM-TNC。这样不能用一套正确的理论哈希为另一套结果或一个
 悄悄缩减的算法集合背书。
 
+对称性复核还发现 AM-TNC 原先只引用 route1 阶段审计。只读比对证明旧审计提交与当前
+full-data 提交中的 operator、model registry 和 derivation card 是相同 Git blob；4090A
+固定 e20 checkpoint 的双 bundle 计数、五事件 schedule、RNG 与双 sampler 状态也一致。
+因此新增 full-data 现场审计并由 bundle 直接绑定它，旧审计作为其哈希父证据保留。
+
 ## 科学边界
 
 这不是对算法、超参或训练队列的修改，也不读取 full-data 性能。共同定理仍只到 pre-Adam

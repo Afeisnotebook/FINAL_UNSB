@@ -12,9 +12,9 @@
   },
   "implemented_control": {
     "bundle": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
-    "bundle_sha256": "5a21ece2ba66333c4f927f8d6fe1cb27d4551565732d2f770dacecd5759283a5",
-    "bundle_object_sha256": "b46d42fd38bc60668464cf91cb8b9b202f20ab9d5c75a479a9498fb081f5a68b",
-    "artifact_set_sha256": "5c5f29f6a8d19c2df7701c00e8eeccee55db5193e1f321a41ba10cc58f29e1e7",
+    "bundle_sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8",
+    "bundle_object_sha256": "2783cec7943f478c1d016cf621d21f48bd2478ed6582b01e72310af3d486f0b0",
+    "artifact_set_sha256": "4338f6eef4ee2a2e8d9d0ca0bba86a9ffedd0eac3cf1bd214175fd466facbd30",
     "algorithm_ids": [
       "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
       "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
@@ -25,6 +25,13 @@
     "review_decision_gate": "Freeze materialization rejects a committed review that does not repeat the exact current theory-bundle reference.",
     "portfolio_identity_gate": "The final portfolio must contain exactly Proposal-only, ST-CGR and AM-TNC with algorithm IDs and lane IDs matching the theory bundle; name substitution or method-set drift fails closed.",
     "post_freeze_gate": "Committed freeze validation rehashes the bundle and every referenced artifact before distribution, manuscript-table or confirmation paths can proceed."
+  },
+  "amtnc_full_data_lineage_closure": {
+    "audit": "evidence/paper_aio/AMTNC_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260906T073500.json",
+    "historical_and_full_data_operator_registry_and_card_git_blobs_identical": true,
+    "fixed_e20_schedule_and_counters_match": true,
+    "checkpoint_loaded_read_only_on_cpu": true,
+    "training_process_changed": false
   },
   "claim_boundaries_preserved": {
     "pre_adam_conditional_mean_only": true,
