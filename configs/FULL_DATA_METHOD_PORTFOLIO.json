@@ -686,7 +686,22 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E126_RECOVERY_CLOSURE_20260906T020917.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PRE_HANDOFF_20260906T022501.json",
+  "5090b_matched_plain_pre_handoff": {
+    "status": "pass_ready_waiting_for_cut_e200",
+    "successor_pid": 148465,
+    "wait_only_guard_pid": 441694,
+    "wait_only_guard_restart_count": 0,
+    "frozen_inputs_ready": true,
+    "active_duplicate_plain": false,
+    "runtime_twin_pending": true,
+    "metric_blind_capacity_gate_pending": true,
+    "runtime_relation_admitted": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_PRE_HANDOFF_20260906T022501.json",
+    "decision": "decisions/DEC-20260906-5090B-MATCHED-PLAIN-PRE-HANDOFF.md"
+  },
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",

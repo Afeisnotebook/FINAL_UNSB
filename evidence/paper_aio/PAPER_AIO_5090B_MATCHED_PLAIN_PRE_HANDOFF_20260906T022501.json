@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-plain-pre-handoff-v1",
+  "captured_at": "2026-09-06T02:25:01+08:00",
+  "status": "PASS_READY_WAITING_FOR_CUT_E200",
+  "host": "5090B",
+  "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+  "predecessor": {
+    "lane": "cut",
+    "status": "CHILD_RUNNING",
+    "latest_complete_data_epoch": 194,
+    "latest_complete_updates": 1659282,
+    "trainer_pid": 5771,
+    "supervisor_pid": 3739,
+    "progress_watcher_pid": 139039,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND"
+  },
+  "co_resident_lane": {
+    "lane": "cyclegan",
+    "status": "CHILD_RUNNING",
+    "latest_complete_data_epoch": 126,
+    "latest_complete_updates": 1077678,
+    "trainer_pid": 493306,
+    "supervisor_pid": 11845,
+    "progress_watcher_pid": 138626,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND"
+  },
+  "frozen_successor": {
+    "pid": 148465,
+    "status": "WAITING_FOR_PREDECESSOR_E200",
+    "state_sha256": "2e2869f61993fab22c660b3d037e46c724b83411b283d457eaac2f91b92d134b",
+    "command_schema": "final-unsb-paper-waiting-successor-command-v1",
+    "command_sha256": "d411d89dcf3ad5aee9f596123779055784207090877ed18f089bd962471353c4",
+    "child_source_sha256": "92bcc7dd07c6cfc05f2b786a70598242e9dadc8789d024b73fce8842d0f68583",
+    "deployed_child_source_sha256": "92bcc7dd07c6cfc05f2b786a70598242e9dadc8789d024b73fce8842d0f68583",
+    "source_hash_match": true,
+    "timeout_hours": 720,
+    "fresh_e0_required": true,
+    "cross_host_checkpoint_resume": false,
+    "capacity_probe_epochs": 2,
+    "minimum_makespan_saving_seconds": 3600
+  },
+  "wait_only_recovery_guard": {
+    "pid": 441694,
+    "status": "MONITORING_EXISTING_WAITING_SUCCESSOR",
+    "control_git_commit": "c8040ef3c03b37bae186a3b3a983758473fe4ae4",
+    "restart_count": 0,
+    "child_pid": 148465,
+    "child_status": "WAITING_FOR_PREDECESSOR_E200"
+  },
+  "immutable_inputs": {
+    "training_repo": "/root/autodl-tmp/FINAL_UNSB_PAPER_MATCHED_5090B_e4a5eed",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "training_repo_clean": true,
+    "python_executable_present": true,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "train_view_a_entries": 8553,
+    "train_view_b_entries": 8553,
+    "peer_runtime_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+    "peer_runtime_receipt_host": "5090A",
+    "peer_runtime_receipt_updates": 2000,
+    "peer_e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "peer_step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "peer_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "capacity_and_duplicate_gate": {
+    "free_disk_gib": 228,
+    "estimated_remaining_plain_write_gib": 8,
+    "minimum_headroom_gib": 16,
+    "disk_gate": "PASS",
+    "active_plain_trainer_count": 0,
+    "active_plain_supervisor_count": 0,
+    "plain_lane_directory_exists": false,
+    "target_root_contains_control_artifacts_only": true,
+    "duplicate_plain_started": false
+  },
+  "pending_runtime_only_gates": [
+    "CUT must publish a complete source-bound e200 state",
+    "5090B must pass its own exact 2000-update runtime twin",
+    "the metric-blind two-epoch capacity gate must decide co-resident versus wait-for-CycleGAN",
+    "future runtime-relation candidates must be reviewed and committed before any matched delta"
+  ],
+  "adjudication": {
+    "handoff_can_start_now": false,
+    "reason": "the sole unsatisfied predecessor is CUT e200; every inspectable frozen input is present and internally consistent",
+    "healthy_training_changed": false,
+    "successor_changed": false,
+    "new_training_started": false,
+    "runtime_cohort_declared_equivalent": false,
+    "matched_delta_legal_now": false
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}
