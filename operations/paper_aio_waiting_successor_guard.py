@@ -104,8 +104,11 @@ def validate_child_command(path: Path) -> dict[str, Any]:
         raise RuntimeError("frozen successor runtime/source is missing")
     if source.name != "paper_aio_cross_host_plain_successor.py":
         raise RuntimeError("guard can only recover the cross-host plain successor")
-    if source.parent.parent != cwd or not cwd.is_dir():
-        raise RuntimeError("successor source is not bound to its frozen cwd")
+    # Legacy successors were intentionally launched with absolute script paths
+    # from the operator's home directory.  The cwd need not equal the source
+    # checkout; both are frozen independently in the immutable command payload.
+    if not cwd.is_dir() or not cwd.is_absolute():
+        raise RuntimeError("successor cwd is missing or not absolute")
     if payload.get("child_source_sha256") != _sha256(source):
         raise RuntimeError("frozen successor source hash changed")
 

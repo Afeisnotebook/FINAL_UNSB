@@ -31,6 +31,64 @@ def test_state_decision_recovers_only_predecessor_wait() -> None:
     assert guard.child_state_decision({**_state(guard.WAIT_STATUS), "confirmation20_opened": True}) == "BLOCK"
 
 
+def test_legacy_successor_cwd_is_frozen_but_need_not_equal_source_checkout(
+    tmp_path, monkeypatch
+) -> None:
+    runtime = tmp_path / "python"
+    runtime.write_bytes(b"runtime")
+    control = tmp_path / "control"
+    source = control / "operations" / "paper_aio_cross_host_plain_successor.py"
+    source.parent.mkdir(parents=True)
+    source.write_text("successor\n", encoding="utf-8")
+    cwd = tmp_path / "operator-home"
+    cwd.mkdir()
+    training = tmp_path / "training"
+    training.mkdir()
+    output = tmp_path / "output"
+    command = [
+        str(runtime),
+        str(source),
+        "--training-repo",
+        str(training),
+        "--training-output",
+        str(output),
+        "--required-training-git-commit",
+        "train123",
+        "--required-protocol-fingerprint",
+        "protocol123",
+        "--host-label",
+        "5090B_MATCHED_PLAIN",
+        "--predecessor-state",
+        str(tmp_path / "predecessor.json"),
+        "--peer-runtime-receipt",
+        str(tmp_path / "peer.json"),
+        "--manifest",
+        str(tmp_path / "manifest.csv"),
+        "--data-root",
+        str(tmp_path / "data"),
+    ]
+    payload = {
+        "schema": guard.COMMAND_SCHEMA,
+        "role": guard.ROLE,
+        "cwd": str(cwd),
+        "state_path": str(
+            output / "operations" / "CROSS_HOST_PLAIN_SUCCESSOR_STATE.json"
+        ),
+        "child_source_sha256": guard._sha256(source),
+        "command": command,
+    }
+    path = tmp_path / "command.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(
+        guard,
+        "_git",
+        lambda repo, *args: "train123" if args[-1] == "HEAD" else "",
+    )
+    result = guard.validate_child_command(path)
+    assert result["cwd"] == str(cwd.resolve())
+    assert result["child_source"] == str(source.resolve())
+
+
 def _contract(tmp_path: Path, child_state: Path) -> dict:
     return {
         "schema": guard.CONTRACT_SCHEMA,
