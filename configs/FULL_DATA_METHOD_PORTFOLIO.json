@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-05T16:38:53+08:00",
+  "captured_at": "2026-09-05T19:11:17+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -100,14 +100,16 @@
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
       "successor_health_watcher_pid": 3460191,
       "first_epoch_status": "complete_full_state_hash_closed",
-      "completed_full_data_epoch": 7,
-      "completed_updates": 59871,
+      "completed_full_data_epoch": 10,
+      "completed_updates": 85530,
       "first_epoch_wall_seconds": 3556.696762084961,
-      "latest_epoch_wall_seconds": 3534.8858087062836,
-      "latest_full_state_sha256": "c9bda9618af0a500c94747aa38559a112a78887ee4dce0562730fa3a456324a7",
-      "latest_scientific_state_sha256": "d5c8f0784e97533639f8c94e6b82aa67443e78bc8e9af1238ed045e8ec4dc356",
-      "latest_metric_artifact_sha256": "64f5114e95320f2922054f9f1e19f8356ef663515d3171cd53fa59e1e0730270",
-      "latest_fixed_milestone": "e5",
+      "latest_epoch_wall_seconds": 3553.6216671466827,
+      "latest_full_state_sha256": "bdd04a368afe2d6a8db74289c9bbd1e3716a4b985c6e0a1a593cdd72f32e5f70",
+      "latest_scientific_state_sha256": "2a6f813f212b182e6b7015ff943ce74a0055c2869d0612e9625b9e62fe7d1acf",
+      "latest_metric_artifact_sha256": "9398572d17530db01e4711c8a55f6481aa9a2daa705b85f884a0f769fbea8b37",
+      "latest_fixed_milestone": "e10",
+      "latest_fixed_milestone_checkpoint_sha256": "6e01a027ab34fd3a0a196933cbca4e29075a3fbbfc8dcbf594ae8652392d5d98",
+      "latest_fixed_milestone_scientific_state_sha256": "2a6f813f212b182e6b7015ff943ce74a0055c2869d0612e9625b9e62fe7d1acf",
       "resume_gate": "pass",
       "zero_intervention_gate": "pass",
       "evaluation_repeat_gate": "pass",
@@ -115,7 +117,7 @@
       "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500, 3415044],
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified",
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E5_HASH_CLOSURE_20260905T140938.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E10_HASH_CLOSURE_20260905T191117.json"
     },
     "hjcgr": {
       "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
@@ -664,7 +666,7 @@
     "decision": "decisions/DEC-20260903-LIVE-THROUGHPUT-LEASE-REFORECAST.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_WAIT_RECOVERY_GUARD_20260905T170034.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E10_HASH_CLOSURE_20260905T191117.json",
   "paper_freeze_control_plane": {
     "status": "TWO_STAGE_REVIEW_GATE_IMPLEMENTED_NOT_ACTIVATED",
     "implementation_commit": "049e236445477f2ff464bc7d044dd366c1abfe35",

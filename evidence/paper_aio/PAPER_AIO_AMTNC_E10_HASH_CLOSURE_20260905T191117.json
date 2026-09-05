@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-amtnc-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-05T19:11:17+08:00",
+  "status": "AMTNC_E10_FIXED_MILESTONE_HASH_CLOSED_CONTINUE_E200",
+  "source": {
+    "host_label": "4090A",
+    "lane_id": "amtnc",
+    "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "data_epoch": 10,
+    "updates": 85530,
+    "target_updates": 1710600,
+    "epoch_wall_seconds": 3553.6216671466827
+  },
+  "milestone": {
+    "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e010.pt",
+    "checkpoint_size_bytes": 201481694,
+    "checkpoint_sha256": "6e01a027ab34fd3a0a196933cbca4e29075a3fbbfc8dcbf594ae8652392d5d98",
+    "sidecar_sha256": "1fa55303f039fe0716a4779fa0e49c26008b9ffada4a3692ff72715ad710c3a3",
+    "sidecar_recorded_checkpoint_sha256_matches": true,
+    "scientific_state_sha256": "2a6f813f212b182e6b7015ff943ce74a0055c2869d0612e9625b9e62fe7d1acf",
+    "e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591",
+    "metric_artifact": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/metrics/e010.json",
+    "metric_artifact_size_bytes": 132082,
+    "metric_artifact_sha256": "9398572d17530db01e4711c8a55f6481aa9a2daa705b85f884a0f769fbea8b37",
+    "metric_artifact_values_read": false
+  },
+  "live_health_snapshot": {
+    "4090A_amtnc": "e10_healthy",
+    "5090A_stcgr": "e46_healthy",
+    "5090B_cut": "e182_healthy",
+    "5090B_cyclegan": "e119_healthy",
+    "5090B_matched_plain_successor": "waiting_guarded_zero_restarts",
+    "5090C_proposal": "e52_healthy_within_epoch_bound",
+    "local_gtx1660_dclgan": "e4_healthy"
+  },
+  "decision": {
+    "training_action": "CONTINUE_FIXED_E200",
+    "schedule_changed": false,
+    "algorithm_changed": false,
+    "reason": "routine preregistered fixed milestone; no health or scientific boundary failure"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_runtime_delta_computed": false
+  }
+}
