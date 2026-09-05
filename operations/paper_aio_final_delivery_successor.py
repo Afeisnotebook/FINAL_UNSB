@@ -118,6 +118,42 @@ def validate_baseline_portfolio(value: dict[str, Any]) -> dict[str, Any]:
 
 def _baseline_reporting_summary(value: dict[str, Any]) -> dict[str, Any]:
     value = validate_baseline_portfolio(value)
+    row_aliases = {"plain_unsb": "plain", "proposal_only": "proposal"}
+    default_labels = {
+        "input": "Input",
+        "plain": "Plain UNSB",
+        "proposal": "Proposal-only",
+        "stcgr": "ST-CGR",
+        "amtnc": "AM-TNC",
+        "hjcgr": "HJCGR",
+        "ddsb": "DDSB",
+        "dclgan": "DCLGAN",
+        "negcut": "NEGCUT",
+    }
+
+    def metadata(row: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+        source_id = str(row["id"])
+        row_id = row_aliases.get(source_id, source_id)
+        role = str(row.get("role", "")).strip()
+        label = str(row.get("paper_label") or default_labels.get(row_id, row_id)).strip()
+        scope = str(
+            row.get("comparison_rule") or row.get("reporting_rule") or role
+        ).strip()
+        if not label or not role or not scope:
+            raise RuntimeError(f"baseline reporting metadata is incomplete: {source_id}")
+        return row_id, {
+            "source_id": source_id,
+            "paper_label": label,
+            "role": role,
+            "reproduction_or_comparison_scope": scope,
+            "status": row.get("training_status", row.get("status")),
+        }
+
+    rows = [
+        *value["core_controlled_main_table"],
+        *value["direct_external_extensions"],
+    ]
+    main_table_metadata = dict(metadata(row) for row in rows)
     return {
         "core_controlled_main_table": [
             row["id"] for row in value["core_controlled_main_table"]
@@ -132,6 +168,7 @@ def _baseline_reporting_summary(value: dict[str, Any]) -> dict[str, Any]:
         "paired_ceiling_block": {
             row["id"]: row["status"] for row in value["paired_ceiling_block"]
         },
+        "main_table_metadata": main_table_metadata,
         "main_table_checkpoint": "e200_only",
         "partial_domain_macro_allowed": False,
         "paired_ceiling_as_unpaired_competitor_allowed": False,

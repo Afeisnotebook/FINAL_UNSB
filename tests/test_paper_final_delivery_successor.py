@@ -254,6 +254,15 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     assert value["confirmation20_opened"] is False
     assert value["baseline_reporting_tiers"]["main_table_checkpoint"] == "e200_only"
     assert value["baseline_reporting_tiers"]["paired_ceiling_as_unpaired_competitor_allowed"] is False
+    metadata = value["baseline_reporting_tiers"]["main_table_metadata"]
+    assert metadata["cyclegan"]["paper_label"] == (
+        "CycleGAN (official-loss, controlled shared backbone)"
+    )
+    assert metadata["cut"]["paper_label"] == (
+        "CUT (official-loss, controlled exposure reproduction)"
+    )
+    assert metadata["plain"]["paper_label"] == "Plain UNSB"
+    assert metadata["proposal"]["paper_label"] == "Proposal-only"
 
 
 def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:

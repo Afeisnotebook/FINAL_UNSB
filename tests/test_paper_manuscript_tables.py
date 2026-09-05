@@ -63,6 +63,16 @@ def _portfolio() -> dict:
         }
         for lane in ("plain", "proposal", "amtnc", "stcgr", "cut", "cyclegan")
     }
+    labels = {
+        "input": "Input",
+        "cyclegan": "CycleGAN (official-loss, controlled shared backbone)",
+        "cut": "CUT (official-loss, controlled exposure reproduction)",
+        "plain": "Plain UNSB",
+        "proposal": "Proposal-only",
+        "amtnc": "AM-TNC",
+        "stcgr": "ST-CGR",
+        "dclgan": "DCLGAN (official-source, controlled exposure reproduction)",
+    }
     return {
         "schema": "final-unsb-paper-full-data-algorithm-portfolio-v1",
         "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_AWAITING_CONFIRMATION_DECISION",
@@ -75,6 +85,15 @@ def _portfolio() -> dict:
         "plain_control": _entry("plain"),
         "complexity": complexity,
         "source_artifact_sha256": {"first_wave_results": "a" * 64},
+        "baseline_reporting_tiers": {
+            "main_table_metadata": {
+                key: {
+                    "paper_label": label,
+                    "reproduction_or_comparison_scope": f"frozen scope for {key}",
+                }
+                for key, label in labels.items()
+            },
+        },
         "paper_claims_frozen": False,
         "confirmation_authorized": False,
         "metric_values_used_for_training_or_scheduling": False,
@@ -92,7 +111,9 @@ def test_builds_fixed_main_sustained_domain_and_complexity_tables() -> None:
     )
     assert set(result) == set(tables.TABLE_FILES)
     assert result["MAIN_E200.csv"].splitlines()[1].startswith("input,")
-    assert "plain,plain_control" in result["MAIN_E200.csv"]
+    assert "plain,Plain UNSB,plain_control" in result["MAIN_E200.csv"]
+    assert "CycleGAN (official-loss, controlled shared backbone)" in result["MAIN_E200.csv"]
+    assert "## Reproduction and comparison scope" in result["PAPER_RESULT_SUMMARY.md"]
     assert len(result["ALGORITHM_SUSTAINED.csv"].splitlines()) == 1 + 3 * 3
     assert len(result["ALGORITHM_DOMAIN_DELTAS.csv"].splitlines()) == 1 + 3 * 3 * 6
     assert "algorithm-proposal" in result["ALGORITHM_SUSTAINED.csv"]
@@ -115,6 +136,7 @@ def test_accepts_augmented_dclgan_without_calling_it_matched() -> None:
         portfolio_sha256="c" * 64,
     )["MAIN_E200.csv"]
     dclgan = next(line for line in main.splitlines() if line.startswith("dclgan,"))
+    assert "DCLGAN (official-source, controlled exposure reproduction)" in dclgan
     assert "standalone_fixed_protocol_no_matched_delta_claim" in dclgan
     assert ",," in dclgan
 
@@ -130,6 +152,26 @@ def test_rejects_best_checkpoint_or_incomplete_domain_trajectory() -> None:
         tables.build_tables(
             portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
             portfolio_sha256="d" * 64,
+        )
+
+
+def test_rejects_unlabelled_or_undisclosed_main_table_row() -> None:
+    portfolio = _portfolio()
+    portfolio["baseline_reporting_tiers"]["main_table_metadata"].pop("cyclegan")
+    with pytest.raises(RuntimeError, match="reporting metadata is incomplete: cyclegan"):
+        tables.build_tables(
+            portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
+            portfolio_sha256="e" * 64,
+        )
+
+    portfolio = _portfolio()
+    portfolio["baseline_reporting_tiers"]["main_table_metadata"]["cut"][
+        "reproduction_or_comparison_scope"
+    ] = ""
+    with pytest.raises(RuntimeError, match="reporting metadata is incomplete: cut"):
+        tables.build_tables(
+            portfolio=tables.validate_portfolio(portfolio), claims=["fixed"],
+            portfolio_sha256="f" * 64,
         )
 
 

@@ -485,7 +485,10 @@ It emits deterministic CSV/Markdown files plus
 `MANUSCRIPT_TABLES_RECEIPT.json`, which binds every output by SHA256. The
 export is descriptive only: it uses e200 and the fixed late-three epochs, does
 not rank or select a method, cannot control training, and does not authorize
-confirmation20.
+confirmation20. `MAIN_E200.csv` and the Markdown summary also carry the frozen
+paper label and reproduction/comparison scope for every row. In particular,
+the controlled-backbone CycleGAN result cannot silently be rendered as a
+verbatim official CycleGAN reproduction.
 
 Confirmation has a second, independent two-stage review. The draft below is
 non-authorizing:

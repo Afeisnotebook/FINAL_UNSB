@@ -130,6 +130,8 @@ def _terminal(entry: dict[str, Any], *, lane: str) -> dict[str, Any]:
 
 def _main_rows(portfolio: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
+    reporting = portfolio.get("baseline_reporting_tiers") or {}
+    reporting_metadata = reporting.get("main_table_metadata") or {}
 
     def add(
         *, key: str, category: str, entry: dict[str, Any],
@@ -137,14 +139,27 @@ def _main_rows(portfolio: dict[str, Any]) -> list[dict[str, Any]]:
     ) -> None:
         lane = str(entry.get("lane_id", key))
         terminal = _terminal(entry, lane=lane)
+        metadata = reporting_metadata.get(key)
+        if (
+            not isinstance(metadata, dict)
+            or not isinstance(metadata.get("paper_label"), str)
+            or not metadata["paper_label"].strip()
+            or not isinstance(metadata.get("reproduction_or_comparison_scope"), str)
+            or not metadata["reproduction_or_comparison_scope"].strip()
+        ):
+            raise RuntimeError(f"paper reporting metadata is incomplete: {key}")
         rows.append({
             "row_id": key,
+            "paper_label": metadata["paper_label"],
             "category": category,
             "lane_id": lane,
             "algorithm_id": algorithm_id or lane,
             "comparison_scope": entry.get("comparison_scope"),
             "matched_plain": matched_plain,
             "scientific_gate": (entry.get("scientific_gate") or {}).get("status"),
+            "reproduction_or_comparison_scope": metadata[
+                "reproduction_or_comparison_scope"
+            ],
             "e200_macro_psnr": terminal["macro_psnr"],
             "e200_macro_ssim": terminal["macro_ssim"],
             "e200_macro_lpips": terminal["macro_lpips"],
@@ -255,15 +270,22 @@ def _summary_markdown(
         f"Source portfolio SHA256: `{portfolio_sha256}`", "",
         "Primary checkpoint: e200. No best-checkpoint selection.", "",
         "## Main e200 macro table", "",
-        "| Row | Category | PSNR | SSIM | LPIPS | Scientific gate |",
-        "|---|---|---:|---:|---:|---|",
+        "| Row | Paper label | Category | PSNR | SSIM | LPIPS | Scientific gate |",
+        "|---|---|---|---:|---:|---:|---|",
     ]
     for row in main_rows:
         lpips = "" if row["e200_macro_lpips"] is None else f"{row['e200_macro_lpips']:.6f}"
         lines.append(
-            f"| {row['row_id']} | {row['category']} | {row['e200_macro_psnr']:.6f} | "
+            f"| {row['row_id']} | {row['paper_label']} | {row['category']} | "
+            f"{row['e200_macro_psnr']:.6f} | "
             f"{row['e200_macro_ssim']:.6f} | {lpips} | {row['scientific_gate'] or ''} |"
         )
+    lines.extend(["", "## Reproduction and comparison scope", ""])
+    lines.extend(
+        f"- **{row['paper_label']}** (`{row['row_id']}`): "
+        f"{row['reproduction_or_comparison_scope']}"
+        for row in main_rows
+    )
     lines.extend(["", "## Frozen sustained algorithm deltas", "",
                   "| Method | Epoch | PSNR delta | SSIM delta | LPIPS delta | Positive domains | Worst domain |",
                   "|---|---:|---:|---:|---:|---:|---:|"])
@@ -288,8 +310,9 @@ def build_tables(
     claim_rows = [{"claim_index": index + 1, "claim": claim} for index, claim in enumerate(claims)]
     return {
         "MAIN_E200.csv": _csv_text(main, (
-            "row_id", "category", "lane_id", "algorithm_id", "comparison_scope",
-            "matched_plain", "scientific_gate", "e200_macro_psnr",
+            "row_id", "paper_label", "category", "lane_id", "algorithm_id",
+            "comparison_scope", "matched_plain", "scientific_gate",
+            "reproduction_or_comparison_scope", "e200_macro_psnr",
             "e200_macro_ssim", "e200_macro_lpips",
         )),
         "ALGORITHM_SUSTAINED.csv": _csv_text(trajectory, (
