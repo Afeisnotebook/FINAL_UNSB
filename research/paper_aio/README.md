@@ -421,6 +421,52 @@ python -m research.paper_aio.run --stage distribution-lock \
   --receipt-output /absolute/DISTRIBUTION_COHORT.json
 ```
 
+## Post-freeze 256px inference sensitivity
+
+`operations.paper_aio_high_resolution_inference` implements the frozen
+supplementary resolution check without changing the active training protocol
+fingerprint. It is fail-closed until the same algorithm/baseline/claim freeze
+used above has been committed. It reads only fixed e200 checkpoints and the
+already frozen discovery80 split, resizes both source and target to 256×256
+with bicubic interpolation, and performs whole-image fully convolutional
+inference. This is explicitly not native-resolution restoration, not a second
+training protocol, and not part of the controlled 128px primary table.
+
+UNSB-family lanes use NFE=5 with five lane-blind 256px CRN bundles;
+deterministic external baselines use one fixed pass. PSNR, SSIM and LPIPS are
+reported, source checkpoints are rehashed before and after evaluation, all
+960 discovery files are checked against the frozen manifest for every lane,
+and generated images are not retained. The fixed policy exposes no resolution,
+tiling, checkpoint or NFE choice that could be tuned from the result.
+
+```bash
+python -m operations.paper_aio_high_resolution_inference \
+  --mode evaluate --lane plain --checkpoint /absolute/plain_e200.pt \
+  --output /absolute/HIGH_RES_256_RUNTIME \
+  --manifest /absolute/FULL_DATA_MANIFEST.csv \
+  --data-root /absolute/full_dataset --train-view /absolute/train_view \
+  --freeze-receipt configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json \
+  --receipt-output /absolute/high_resolution/plain.json --gpu 0
+```
+
+Candidate checkpoints additionally require their portable authority. DCLGAN
+uses `--lane dclgan --upstream-root /absolute/locked/DCLGAN`. Input uses
+`--lane input` and no checkpoint. After every frozen lane has been evaluated
+inside the same evaluator checkout/runtime, lock the exact cohort:
+
+```bash
+python -m operations.paper_aio_high_resolution_inference \
+  --mode lock \
+  --freeze-receipt configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json \
+  --high-resolution-receipt /absolute/high_resolution/input.json \
+  --high-resolution-receipt /absolute/high_resolution/plain.json \
+  --receipt-output /absolute/HIGH_RESOLUTION_256_COHORT.json
+```
+
+The cohort lock requires the complete frozen lane set, one evaluator
+environment, one script hash, one discovery identity, and one committed freeze.
+Neither evaluation nor locking authorizes or opens confirmation20.
+
 Confirmation has a second, independent two-stage review. The draft below is
 non-authorizing:
 
