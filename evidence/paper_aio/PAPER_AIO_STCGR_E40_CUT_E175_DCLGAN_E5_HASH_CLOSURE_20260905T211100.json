@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-paper-multi-lane-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-05T21:11:00+08:00",
+  "status": "THREE_FIXED_MILESTONES_HASH_CLOSED_ALL_LANES_CONTINUE",
+  "milestones": {
+    "5090A_stcgr_e40": {
+      "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "data_epoch": 40,
+      "updates": 342120,
+      "checkpoint_sha256": "25809faa73914ef3bdabfff0e94f587506988e5abb0bbc6e5422af377d46341a",
+      "checkpoint_size_bytes": 201482411,
+      "sidecar_sha256": "f5966207b1208cd73df3772914358f07cfbf5c08da497ab1eb15f32c1f761c74",
+      "scientific_state_sha256": "500931063a42724dd130a86e938411a993fcea1045aa1011a1107c50ab77da1f",
+      "metric_artifact_sha256": "b65fd8e0d67be75ea03e189aeb7b8c6c5606c8a2c37e91220392d704c5893706",
+      "metric_artifact_size_bytes": 134850,
+      "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+    },
+    "5090B_cut_e175": {
+      "lane_id": "cut",
+      "data_epoch": 175,
+      "updates": 1496775,
+      "checkpoint_sha256": "330b5c13a1a2eab35819267339d65d228b231e41cba6bd87e96b2997fd0edfc6",
+      "checkpoint_size_bytes": 176651577,
+      "sidecar_sha256": "c5e92a26f396adec3e7ba813df26174a5fc81a6574a4c0959b3eda49096c9e06",
+      "scientific_state_sha256": "9e0d2f64e3c064fe81f2f1fabcc5db02db107c9613f779796a1829f46e96b0f8",
+      "metric_artifact_sha256": "a3f95093543b3377ddee8e5d609a947fb85834ff11c46848ff0809e96d21b000",
+      "metric_artifact_size_bytes": 138470,
+      "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+    },
+    "local_gtx1660_dclgan_e5": {
+      "lane_id": "dclgan",
+      "data_epoch": 5,
+      "updates": 42765,
+      "checkpoint_sha256": "674da702e3ff0bd4b9f2e06582f84d36a18dcc4fc9b193f77e5e9340ddd14f71",
+      "checkpoint_size_bytes": 351608880,
+      "sidecar_sha256": "d00b3165734a60e7f5c280a4acfc33d3e1e387d513ba648d4714c6d64771374c",
+      "scientific_state_sha256": "63f63ce1c0ece4f7638b0db189cc7787cf8b3d007447b6a2e184b4b67ac7ddae",
+      "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+      "upstream_git_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+      "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+      "metric_artifact_expected_at_this_early_milestone": false
+    }
+  },
+  "latest_metric_blind_progress": {
+    "4090A_amtnc": {"data_epoch": 12, "updates": 102636, "health": "HEALTHY"},
+    "5090A_stcgr": {"data_epoch": 48, "updates": 410544, "latest_full_state_sha256": "3aa0f5891b38905c54e3942679402a5b8b4503599ef618ffa368c063569026bd", "latest_scientific_state_sha256": "7600b26f65a4fd6f56dec961996d6c808acb982940aae69ef05a81b7df8dba6b", "health": "HEALTHY"},
+    "5090B_cut": {"data_epoch": 187, "updates": 1599411, "latest_full_state_sha256": "05cf1d9ceebd7d69dd7e433bfc579c7f3b770833e27ba02369bdd6a42f94ecb4", "latest_scientific_state_sha256": "c16918f00784ecb9d65e47a0f9460f7b9a40c960c123d982a86d7435612e80f3", "health": "HEALTHY"},
+    "5090B_cyclegan": {"data_epoch": 122, "updates": 1043466, "health": "HEALTHY"},
+    "5090B_matched_plain_wait": {"status": "WAITING_FOR_PREDECESSOR_E200", "guard_restart_count": 0, "health": "HEALTHY"},
+    "5090C_proposal": {"data_epoch": 53, "updates": 453309, "health": "HEALTHY_WITHIN_EPOCH_BOUND"},
+    "local_gtx1660_dclgan": {"data_epoch": 6, "updates": 51318, "latest_full_state_sha256": "50a37200759896268a8365fcd4e09c2c6f7de8addbb3671c6b116569be909866", "latest_scientific_state_sha256": "6c8205ecb85a85de1b39f3478d4accc78b2068ec3b79c0337d3dd83d0dd2aa41", "health": "HEALTHY"}
+  },
+  "adjudication": {
+    "action": "CONTINUE_ALL_FIXED_E200_PROTOCOLS",
+    "training_or_queue_changed": false,
+    "engineering_failure_observed": false,
+    "checkpoint_sidecar_hash_mismatch": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}
