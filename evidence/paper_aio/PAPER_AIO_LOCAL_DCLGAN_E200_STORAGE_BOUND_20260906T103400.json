@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-paper-local-dclgan-e200-storage-bound-v1",
+  "captured_at": "2026-09-06T10:34:00+08:00",
+  "status": "PASS_LOCAL_E200_AND_DELIVERY_STORAGE_HEADROOM",
+  "source_run": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+  "live_process": {
+    "trainer_pid": 22020,
+    "trainer_cpu_advanced_during_five_second_probe": true,
+    "latest_complete_data_epoch": 18,
+    "latest_complete_updates": 153954,
+    "gpu_utilization_percent_snapshot": 81,
+    "gpu_memory_mib_snapshot": 2995
+  },
+  "observed_storage": {
+    "run_total_gib": 2.293,
+    "checkpoint_like_gib": 2.292,
+    "full_state_checkpoint_bytes": 351617361,
+    "full_state_checkpoint_gib": 0.32746918592602015,
+    "free_gib": 115.984
+  },
+  "remaining_write_bound": {
+    "future_milestone_checkpoints": 9,
+    "future_source_bound_export_checkpoint_copies": 5,
+    "atomic_save_overlap_checkpoints": 1,
+    "trace_and_metadata_allowance_gib": 0.25,
+    "dclgan_additional_bound_gib": 5.162,
+    "registered_terminal_and_import_chain_remaining_gib": 16.0,
+    "combined_remaining_bound_gib": 21.162,
+    "headroom_after_combined_bound_gib": 94.822,
+    "minimum_local_terminal_headroom_gib": 50.0
+  },
+  "adjudication": {
+    "disk_risk": "CLOSED_CURRENT_CAPACITY",
+    "training_or_queue_change_required": false,
+    "deletion_required": false,
+    "next_storage_recheck": "only if free space falls below 75 GiB or an unexpected artifact family appears"
+  },
+  "scientific_boundaries": {
+    "checkpoint_or_data_deleted": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_protocol_changed": false
+  }
+}

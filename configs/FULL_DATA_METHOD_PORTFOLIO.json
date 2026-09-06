@@ -830,6 +830,17 @@
     "decision": "decisions/DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md"
   },
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_HOST_HEALTH_AND_STALE_WATCH_RETIREMENT_20260906T102400.json",
+  "local_dclgan_storage_gate": {
+    "status": "pass_local_e200_and_delivery_storage_headroom",
+    "dclgan_additional_bound_gib": 5.162,
+    "combined_remaining_bound_gib": 21.162,
+    "free_gib_at_audit": 115.984,
+    "headroom_after_combined_bound_gib": 94.822,
+    "minimum_terminal_headroom_gib": 50.0,
+    "deletion_required": false,
+    "queue_change_required": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_E200_STORAGE_BOUND_20260906T103400.json"
+  },
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_formal_e200_running_after_capacity_pass",
     "successor_pid": 523993,
