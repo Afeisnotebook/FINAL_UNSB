@@ -1,0 +1,103 @@
+{
+  "schema": "final-unsb-paper-4090a-all-evaluation-recovery-supervisors-v1",
+  "captured_at": "2026-09-06T10:12:00+08:00",
+  "status": "PASS_ALL_WAITING_EVALUATORS_ADOPTED_WITH_PINNED_RECOVERY_ZERO_RESTARTS",
+  "incident": {
+    "cause": "the original unsb_cov path was cleaned while the AM-TNC trainer and evaluation waiters still owned deleted executable mappings",
+    "active_amtnc_supervisor_pid": 3446757,
+    "active_amtnc_trainer_pid": 3446758,
+    "active_trainer_executable_status": "DELETED_INODE_STILL_RUNNING",
+    "latest_complete_data_epoch": 24,
+    "latest_complete_updates": 205272,
+    "live_heartbeat_data_epoch": 25,
+    "live_heartbeat_updates": 213825,
+    "healthy_training_restarted": false,
+    "healthy_evaluation_child_restarted": false
+  },
+  "training_recovery": {
+    "runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "tree_sha256": "eababf34e314c97614364824d78b1d005a60c9134f00550b06939d96428bd3b7",
+    "active_deleted_mappings_matched": "111_OF_111_BYTE_IDENTICAL",
+    "full_checkout_tests": "379 passed, 1 skipped",
+    "full_state_one_update_cpu_probe": "PASS",
+    "original_entrypoint_relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "gpu_next_step_bitwise_equivalence_claimed": false,
+    "restart_policy": "only the existing AM-TNC supervisor may invoke the relay after a real child exit; resume from the latest complete full-state checkpoint"
+  },
+  "evaluation_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+    "tree_sha256": "4c9ca0c7d5e0e4aaa4d1026ed6229136d50e646aeccaf73401a565ce3f4e1bfe",
+    "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "pip_freeze_sha256": "98e89a892885a2993f929a9c13e2dea190ebf23d1dc8e34d329fcc44a9c08a5a",
+    "dcl_bundle_tests": "679 passed, 2 skipped",
+    "dynamic_delivery_bundle_tests": "699 passed, 2 skipped",
+    "control_repo": "/home/yc/FINAL_UNSB_EVALUATOR_CONTROL_c464d6a",
+    "control_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+    "control_test_result_local": "713 passed",
+    "control_test_result_remote": "20 passed"
+  },
+  "supervisors": {
+    "amtnc_evaluation": {
+      "pid": 3879668,
+      "child_pid": 2217242,
+      "child_status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+      "restart_count": 0,
+      "command_sha256": "1e567177ad8a4b44026ff5e815b9bb7cd526a576b28a1787f7d18a0f9cd2eb31",
+      "contract_sha256": "3bdfffcae2499e52dd6ff6b363ee4a66a24146cb08827542f3e2bd7ddc4f95fe"
+    },
+    "unified_evaluation": {
+      "pid": 3879670,
+      "child_pid": 3802120,
+      "child_status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+      "restart_count": 0,
+      "command_sha256": "e3429d60a81bf24ced3fe80ffac132e777f752be253b7102cea396279f6c0d76",
+      "contract_sha256": "3eb7c3fb6ab48c0862763e199128d0808e241abda02cba62b52e14e7ee24f4e9"
+    },
+    "stcgr_evaluation": {
+      "pid": 3879672,
+      "child_pid": 3802121,
+      "child_status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+      "restart_count": 0,
+      "command_sha256": "012441830d015d83aaddc5c27c78c2838bab6a259079306f3c84842fd3e14761",
+      "contract_sha256": "424b155eecbc902e8838aab9a5cc2f15cd4733beafd52bf2cdf3168453f88639"
+    },
+    "final_delivery": {
+      "pid": 3879674,
+      "child_pid": 3802122,
+      "child_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+      "restart_count": 0,
+      "command_sha256": "eff443fdab4ffc5611a9b32027497941afd8d2e4605cdbab66d88c065295ddae",
+      "contract_sha256": "b5784ef27a2a6d5d5e02276d70ba2bde0bb0aba7a83f0885df1593eae106439f"
+    }
+  },
+  "health": {
+    "pid": 3880106,
+    "ppid": 1,
+    "state": "/home/yc/runs/FINAL_UNSB_HEALTH_EVALUATOR_RECOVERY_PINNED_c464d6a/HEALTH_WATCH_STATE.json",
+    "contract_sha256": "4c3829d62662ff7cb8d0ad0c226aae09471aef6f8cc80f231c0a6bccf5e9a2ef",
+    "status": "HEALTHY",
+    "watch_count": 8,
+    "alert_count": 0,
+    "free_disk_gib": 537.56,
+    "retired_fixed_health_pids": [3802159, 3802160, 3802161, 3802162]
+  },
+  "fail_closed_guards": {
+    "control_source_and_command_hash_revalidated_each_poll": true,
+    "child_repo_commit_and_clean_state_revalidated_each_poll": true,
+    "final_delivery_nested_python_must_equal_pinned_child_runtime": true,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_protocol_changed": false
+  },
+  "loss_assessment": {
+    "completed_amtnc_epochs_lost": 0,
+    "current_training_continues_from_original_process": true,
+    "recoverable_after_future_child_failure": true,
+    "maximum_expected_training_rework_after_failure": "the currently incomplete epoch only",
+    "remaining_uncertainty": "a future CUDA resume has not been claimed byte-identical to the deleted live process; the exact captured runtime and full-state recovery are the strongest available recovery path",
+    "paper_delivery_waiters_have_durable_recovery": true
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T09:42:00+08:00",
+  "state_snapshot_time": "2026-09-06T10:12:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -636,7 +636,7 @@
       ]
     },
     "unified_evaluation_successor": {
-      "status": "DYNAMIC_5090B_CONTROL_WAITER_DEPLOYED_HEALTHY_AFTER_MULTIPLE_POLLS",
+      "status": "DYNAMIC_WAITER_HEALTHY_PINNED_RUNTIME_RECOVERY_SUPERVISOR_ADOPTED_ZERO_RESTARTS",
       "pid": 3802120,
       "ppid": 1,
       "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
@@ -652,7 +652,10 @@
         "cyclegan": "5090B"
       },
       "runtime_relation_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
-      "health_watcher_pid": 3802159,
+      "recovery_supervisor_pid": 3879670,
+      "recovery_supervisor_restart_count": 0,
+      "recovery_control_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+      "health_watcher_pid": 3880106,
       "health_watcher_ppid": 1,
       "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
       "retired_legacy_waiter_pids": [2209120, 2209213],
@@ -660,11 +663,12 @@
       "paired_metric_control": false,
       "best_checkpoint_selection": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
-      "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
+      "retired_fixed_health_watcher_pid": 3802159,
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
+      "decision": "decisions/DEC-20260906-4090A-ALL-EVALUATION-RECOVERY-SUPERVISORS.md"
     },
     "matched_algorithm_evaluation_successors": {
-      "status": "AMTNC_STATIC_WAITER_RETAINED_AND_DYNAMIC_STCGR_WAITER_HEALTHY",
+      "status": "AMTNC_AND_STCGR_WAITERS_HEALTHY_PINNED_RUNTIME_RECOVERY_SUPERVISORS_ZERO_RESTARTS",
       "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
       "protocol_fingerprint": "a8256f1297fda49d88110ad6cf194e5d35cca470525687a515c496e11fe14c74",
       "amtnc": {
@@ -675,7 +679,9 @@
         "matched_plain": "4090A_plain",
         "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_0492097",
         "contract_sha256": "0beb7125f492cbe8dc3bb05d44b5eaeac396874a1639e4daafdfe592e15b47d1",
-        "health_watcher_pid": 3802162,
+        "recovery_supervisor_pid": 3879668,
+        "recovery_restart_count": 0,
+        "health_watcher_pid": 3880106,
         "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS"
       },
       "stcgr": {
@@ -686,11 +692,13 @@
         "matched_plain": "5090B_MATCHED_PLAIN",
         "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
         "contract_sha256": "5a854a4ceb00ff8c2bf43ac6d7122c9472d4305f2df8265cc4b1119cc136853a",
-        "candidate_metadata_receipt_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364"
+        "candidate_metadata_receipt_sha256": "c42314e3d10c638ef42d081d8d8d8ce3b90f3cb4f1f17a50f34c8adcd9417364",
+        "recovery_supervisor_pid": 3879672,
+        "recovery_restart_count": 0
       },
       "health_watcher": {
         "status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
-        "pid": 3802160,
+        "pid": 3880106,
         "ppid": 1,
         "alert_count": 0
       },
@@ -701,11 +709,12 @@
       "best_checkpoint_selection": false,
       "cross_non_equivalent_runtime_delta": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
-      "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
+      "retired_fixed_health_watcher_pids": [3802160, 3802162],
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
+      "decision": "decisions/DEC-20260906-4090A-ALL-EVALUATION-RECOVERY-SUPERVISORS.md"
     },
     "final_discovery_delivery_successor": {
-      "status": "DYNAMIC_DURABLE_WAITING_FOR_ALL_FIXED_E200_RESULTS",
+      "status": "DYNAMIC_DURABLE_WAITING_WITH_PINNED_RUNTIME_RECOVERY_SUPERVISOR",
       "pid": 3802122,
       "ppid": 1,
       "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
@@ -728,7 +737,9 @@
         "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
       ],
       "future_portfolio_status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_AWAITING_CONFIRMATION_DECISION",
-      "health_watcher_pid": 3802161,
+      "recovery_supervisor_pid": 3879674,
+      "recovery_restart_count": 0,
+      "health_watcher_pid": 3880106,
       "health_watcher_ppid": 1,
       "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
       "retired_legacy_waiter_pids": [2220419, 2220505],
@@ -737,8 +748,9 @@
       "paper_claims_frozen": false,
       "confirmation_authorized": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
-      "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
+      "retired_fixed_health_watcher_pid": 3802161,
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
+      "decision": "decisions/DEC-20260906-4090A-ALL-EVALUATION-RECOVERY-SUPERVISORS.md"
     },
     "unified_export_relays": {
       "status": "HARDENED_RETRYABLE_TRANSIENT_TRANSPORT_RELAYS_WAITING_FOR_SOURCE_EXPORTS",
@@ -1373,7 +1385,7 @@
       "decision": "decisions/DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md"
     },
     "runtime_role_separation": {
-      "status": "TRAINING_AND_EVALUATION_RUNTIME_ROLES_SEPARATED_DCLGAN_RECOVERY_PINNED",
+      "status": "TRAINING_AND_EVALUATION_RUNTIME_ROLES_SEPARATED_ALL_EVALUATION_RECOVERY_PINNED",
       "amtnc_training_recovery_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
       "training_relay_scope": "AMTNC_TRAINER_FULL_STATE_RESUME_ONLY",
       "evaluation_waiters_completed_evaluations": 0,
@@ -1384,13 +1396,23 @@
       "dclgan_evaluation_child_pid": 3587264,
       "dclgan_pinned_supervisor_pid": 3870693,
       "dclgan_pinned_health_watcher_pid": 3870938,
+      "evaluation_recovery_control_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+      "evaluation_recovery_supervisor_pids": {
+        "amtnc": 3879668,
+        "unified": 3879670,
+        "stcgr": 3879672,
+        "final_delivery": 3879674
+      },
+      "evaluation_recovery_restart_counts": {"amtnc": 0, "unified": 0, "stcgr": 0, "final_delivery": 0},
+      "evaluation_recovery_health_watcher_pid": 3880106,
+      "retired_fixed_evaluation_health_watcher_pids": [3802159, 3802160, 3802161, 3802162],
       "retired_runtime_unsafe_control_pids": [3804113, 3804260],
       "healthy_training_restarted": false,
       "healthy_waiter_restarted": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_PINNED_EVALUATOR_RUNTIME_AND_DCLGAN_SUPERVISOR_20260906T094200.json",
-      "decision": "decisions/DEC-20260906-4090A-PINNED-EVALUATOR-RUNTIME.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
+      "decision": "decisions/DEC-20260906-4090A-ALL-EVALUATION-RECOVERY-SUPERVISORS.md"
     },
     "next_manual_decision_window": "2026-09-11T12:00:00+08:00 reforecast 5090C Proposal and 5090A ST-CGR lease headroom; recheck 5090B earlier only on material throughput regression, supervisor recovery, or e100 projection crossing 2026-09-13T12:00:00+08:00"
   },

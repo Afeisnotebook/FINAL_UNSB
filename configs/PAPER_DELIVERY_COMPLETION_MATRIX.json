@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T09:42:00+08:00",
+  "captured_at": "2026-09-06T10:12:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -48,26 +48,33 @@
     },
     {
       "id": "dynamic_unified_evaluation",
-      "status": "deployed_healthy_waiting_for_fixed_imports_or_gpu_release",
+      "status": "deployed_healthy_waiting_with_pinned_runtime_recovery_supervisor",
       "requires": ["five fixed epochs", "discovery80 at e200", "five e200 CRN bundles", "LPIPS", "read-only checkpoint rehash"],
       "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json",
       "pid": 3802120,
-      "health_watcher_pid": 3802159,
+      "recovery_supervisor_pid": 3879670,
+      "recovery_restart_count": 0,
+      "recovery_control_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+      "health_watcher_pid": 3880106,
       "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
       "matched_plain": "5090B_MATCHED_PLAIN",
       "runtime_role_gate": "healthy waiter preserved; any restart must rehash the dedicated read-only unified-evaluation runtime and must not use the AM-TNC training relay",
       "dedicated_evaluator_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
       "dedicated_evaluator_runtime_tree_sha256": "4c9ca0c7d5e0e4aaa4d1026ed6229136d50e646aeccaf73401a565ce3f4e1bfe",
-      "runtime_role_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PINNED_EVALUATOR_RUNTIME_AND_DCLGAN_SUPERVISOR_20260906T094200.json"
+      "runtime_role_evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json"
     },
     {
       "id": "algorithm_dispositions",
-      "status": "amtnc_static_waiter_retained_and_dynamic_stcgr_waiter_deployed_healthy",
+      "status": "amtnc_and_stcgr_waiters_healthy_with_pinned_runtime_recovery_supervisors",
       "requires": ["AM-TNC matched 4090A plain", "ST-CGR reviewed legal plain relation", "e150/e175/e200"],
       "proof": "hash-bound algorithm disposition receipts",
       "amtnc_waiter_pid": 2217242,
       "stcgr_waiter_pid": 3802121,
-      "health_watcher_pids": [3802162, 3802160]
+      "amtnc_recovery_supervisor_pid": 3879668,
+      "stcgr_recovery_supervisor_pid": 3879672,
+      "recovery_restart_counts": {"amtnc": 0, "stcgr": 0},
+      "health_watcher_pids": [3880106],
+      "retired_fixed_health_watcher_pids": [3802159, 3802160, 3802161, 3802162]
     },
     {
       "id": "core_final_portfolio",
@@ -76,7 +83,9 @@
       "proof": "PAPER_ALGORITHM_PORTFOLIO.json",
       "blocks_confirmation": true,
       "pid": 3802122,
-      "health_watcher_pid": 3802161,
+      "recovery_supervisor_pid": 3879674,
+      "recovery_restart_count": 0,
+      "health_watcher_pid": 3880106,
       "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1"
     }
   ],
