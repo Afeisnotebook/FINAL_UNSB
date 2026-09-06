@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T08:25:24+08:00",
+  "captured_at": "2026-09-06T08:55:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -799,18 +799,23 @@
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
   "runtime_environment_recovery": {
-    "status": "4090A_exact_core_runtime_restored_without_training_interruption",
-    "target": "/home/yc/anaconda3/envs/unsb_cov",
-    "snapshot": "/home/yc/recovery_snapshots/unsb_cov_py310_torch251cu121_2f57f22_complete",
-    "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
-    "pip_freeze_sha256": "e6ae65d87a12cbb10d092a2aca1527e8a1cd63a9225e86f62dcfb1be91b89bcb",
-    "targeted_tests": "31_passed_staging_and_31_passed_promoted",
+    "status": "4090A_active_deleted_inode_preserved_isolated_resume_runtime_verified_relay_armed",
+    "active_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "previous_rebuild_disposition": "superseded_non_equivalent_numpy_2_1_3_pillow_11_3_0",
+    "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "isolated_runtime_tree_sha256": "eababf34e314c97614364824d78b1d005a60c9134f00550b06939d96428bd3b7",
+    "captured_active_mappings": "111_of_111_byte_identical",
+    "runtime_versions": {"python": "3.10.20", "numpy": "2.2.6", "pillow": "12.2.0", "torch": "2.5.1+cu121", "torchvision": "0.20.1+cu121"},
+    "full_checkout_tests": "379_passed_1_skipped_cuda_only",
+    "isolated_resume_probe": "pass_e24_to_one_additional_update_cpu",
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
     "amtnc_pids_unchanged": [3446757, 3446758],
+    "gpu_next_step_bitwise_equivalence_claimed": false,
     "creates_new_runtime_cohort": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
-    "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_DELETED_RUNTIME_RECOVERY_HARDENING_20260906T085500.json",
+    "decision": "decisions/DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DELIVERY_CHAIN_REVALIDATION_20260906T082524.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_4090A_DELETED_RUNTIME_RECOVERY_HARDENING_20260906T085500.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_formal_e200_running_after_capacity_pass",
     "successor_pid": 523993,

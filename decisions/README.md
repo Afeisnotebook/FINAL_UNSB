@@ -309,3 +309,8 @@ authorize compute.
 93. `DEC-20260906-5090B-MATCHED-PLAIN-DELIVERY-CHAIN-REVALIDATION.md`：formal plain启动后
     逐进程复核export、跨宿主relay、统一评估及最终组合链；仅把Git中已退役v2 relay引用纠正为
     健康的v3 PID与active-frontier监控，训练和科学状态均未触碰。
+94. `DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md`：撤回此前把
+    NumPy 2.1.3/Pillow 11.3.0重建环境称为精确恢复的字段；从活AM-TNC进程保全111个已删除
+    映射，重建并验证2.2.6/12.2.0隔离运行时，通过完整checkout测试和e24后一更新恢复探针，
+    再把原Python入口改为只执行该候选的relay。PID 3446757/3446758始终未重启，动态交付
+    健康结论不被覆盖，且不声称未做的GPU下一步逐位等价。

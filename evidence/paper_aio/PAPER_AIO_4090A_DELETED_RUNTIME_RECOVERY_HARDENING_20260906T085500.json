@@ -1,0 +1,110 @@
+{
+  "schema": "final-unsb-paper-aio-deleted-runtime-recovery-hardening-v1",
+  "captured_at": "2026-09-06T08:55:00+08:00",
+  "status": "ACTIVE_RUN_PRESERVED_ISOLATED_RESUME_RUNTIME_VERIFIED_AND_RECOVERY_RELAY_ARMED",
+  "host": "4090A",
+  "incident": {
+    "cause": "the original unsb_cov environment was removed while AM-TNC remained alive from deleted inode mappings",
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_trainer_exe": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "previous_rebuild_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "active_and_previous_rebuild_python_byte_identical": false,
+    "previous_rebuild_numpy": "2.1.3",
+    "forensic_active_numpy": "2.2.6",
+    "previous_rebuild_pillow": "11.3.0",
+    "forensic_active_pillow": "12.2.0",
+    "first_isolated_candidate_failure": "NumPy 2.2.6 native extensions over NumPy 2.1.3 Python sources raised _get_promotion_state ImportError",
+    "supersedes_prior_runtime_claim_only": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
+    "prior_dynamic_delivery_health_claim_superseded": false
+  },
+  "forensic_preservation": {
+    "live_mapped_capture": "/home/yc/recovery_snapshots/unsb_cov_live_mapped_3446758_20260906T083500",
+    "captured_deleted_files": 111,
+    "captured_deleted_logical_bytes": 4198514872,
+    "capture_manifest_sha256": "a9a6e0b7832384d8b9cfc96ff174f9b99ad7c95c83b3fb70d4c52d275726d537",
+    "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "isolated_runtime_files": 26699,
+    "isolated_runtime_symlinks": 1,
+    "isolated_runtime_logical_bytes": 5497668508,
+    "isolated_runtime_tree_sha256": "eababf34e314c97614364824d78b1d005a60c9134f00550b06939d96428bd3b7",
+    "pip_freeze_sha256": "07787c682e20909712c603866485ddfae2509eaacad9a124b8d73e45dc7e0662",
+    "captured_mapping_candidate_match": "111_OF_111_BYTE_IDENTICAL",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "numpy_multiarray_sha256": "c634eaf05367af02b815cf3d2020fbeee9b47426af1fe26cf3189e4798932dc5",
+    "pillow_imaging_sha256": "aecc6213684b9f535d4448cc9c7c4d22cb828b8dbfed450c0a475e3e1988714a",
+    "libtorch_cuda_sha256": "e4d8a8872fca060df8e6f03b2703296501b9e4ba7fc152c2cb983fb251979175",
+    "versions": {
+      "python": "3.10.20",
+      "numpy": "2.2.6",
+      "pillow": "12.2.0",
+      "torch": "2.5.1+cu121",
+      "torchvision": "0.20.1+cu121",
+      "lpips": "0.1.4",
+      "clean_fid": "0.1.35",
+      "paramiko_control_plane": "3.5.1"
+    }
+  },
+  "recovery_gates": {
+    "core_imports": "PASS",
+    "lpips_and_clean_fid_imports": "PASS",
+    "frozen_training_checkout_full_pytest": "379 passed, 1 skipped CUDA-only invariant",
+    "latest_checkpoint_torch_load": "PASS_FULL_SCHEMA_CPU",
+    "latest_checkpoint_step": 205272,
+    "latest_checkpoint_data_epoch": 24,
+    "latest_checkpoint_sha256": "7fc83c01ddf913ce7569e6e334aa7d3e60ecb5a6499252fec9f9b3fa377ece33",
+    "latest_scientific_state_sha256": "0f1f4070ad3cd78b83e2ef21bb31314b24e7fcd80dca406e298a72b556de1505",
+    "isolated_resume_probe": {
+      "output": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_3446758_20260906T091500",
+      "device": "CPU_ONLY_NO_LIVE_GPU_OR_RUN_MUTATION",
+      "start_updates": 205272,
+      "final_updates": 205273,
+      "wall_seconds": 9.288324117660522,
+      "result": "ENGINEERING_PAUSE_AFTER_ONE_UPDATE",
+      "result_checkpoint_sha256": "5f1e998695a678fc0b09a03f8ca5b4b8c03974349257215295ac2ffac452446d",
+      "result_scientific_state_sha256": "933d9c60af8dd92ba03e2853a15d2ff2df962d92b75a11b7542e8fe999e921f4"
+    },
+    "gpu_next_step_bitwise_equivalence_to_still_running_process": "NOT_CLAIMED",
+    "full_state_resume_capability": "VERIFIED_IN_ISOLATED_CPU_BRANCH"
+  },
+  "recovery_control_plane": {
+    "remote_receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/operations/4090A_RUNTIME_RECOVERY_HARDENING.json",
+    "relay_source": "/home/yc/recovery_snapshots/4090A_unsb_cov_python_relay_20260906.sh",
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "relay_entrypoints": [
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10"
+    ],
+    "future_supervisor_spawn_resolution": "VERIFIED_TO_EXEC_ISOLATED_RUNTIME",
+    "previous_rebuild_binaries_preserved_under": "/home/yc/recovery_snapshots/unsb_cov_rebuilt_*_before_relay_20260906T09*",
+    "active_supervisor_modified_or_restarted": false,
+    "active_trainer_modified_or_restarted": false,
+    "active_pids_after_hardening": [3446757, 3446758]
+  },
+  "impact_and_residual_risk": {
+    "completed_checkpoint_loss": false,
+    "current_training_continues": true,
+    "future_automatic_resume_no_longer_uses_mismatched_rebuild": true,
+    "maximum_compute_at_risk_on_process_failure": "current incomplete data epoch since full_state_latest is atomically saved each complete epoch",
+    "remaining_limit": "the still-running process retains deleted mappings; a future restart is a full-state resume in the verified isolated runtime, not continuation of the same process inode",
+    "recovery_disposition": "LOSS_AVOIDABLE_IF_CAPTURE_RUNTIME_AND_RELAY_ARE_PRESERVED"
+  },
+  "repository_validation": {
+    "json_parse": "PASS",
+    "local_origin_main_pytest": "705 passed",
+    "frozen_training_checkout_pytest": "379 passed, 1 skipped CUDA-only invariant",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "checkpoint_or_data_deleted": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
