@@ -62,6 +62,27 @@ def test_fixed_child_command_accepts_only_bound_audit_module(tmp_path):
     assert result["state_path"] == str((tmp_path / "state.json").resolve())
 
 
+def test_fixed_child_command_accepts_original_buffered_module_form(tmp_path):
+    path = _command(
+        tmp_path,
+        "terminal_audit",
+        "operations.paper_aio_local_terminal_audit_successor",
+    )
+    value = json.loads(path.read_text(encoding="utf-8"))
+    value["command"].remove("-u")
+    path.write_text(json.dumps(value), encoding="utf-8")
+    result = validate_child_command(
+        path,
+        role="terminal_audit",
+        repo=(tmp_path / "repo").resolve(),
+        required_commit="abc123",
+    )
+    assert result["command"][1:3] == [
+        "-m",
+        "operations.paper_aio_local_terminal_audit_successor",
+    ]
+
+
 def test_pid_liveness_distinguishes_current_and_exited_process():
     assert _pid_alive(os.getpid())
     child = subprocess.Popen([sys.executable, "-c", "pass"])

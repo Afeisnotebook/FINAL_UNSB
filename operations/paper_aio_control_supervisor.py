@@ -147,12 +147,14 @@ def validate_child_command(
         payload.get("schema") != COMMAND_SCHEMA
         or payload.get("role") != role
         or not isinstance(command, list)
-        or len(command) < 8
+        or len(command) < 7
         or any(not isinstance(value, str) or "\n" in value for value in command)
     ):
         raise RuntimeError("fixed child command payload is invalid")
     python = Path(command[0]).resolve()
-    if not python.is_file() or command[1:4] != ["-u", "-m", spec["module"]]:
+    module_prefix = command[1:4] == ["-u", "-m", spec["module"]]
+    unbuffered_omitted = command[1:3] == ["-m", spec["module"]]
+    if not python.is_file() or not (module_prefix or unbuffered_omitted):
         raise RuntimeError("fixed child command module/runtime is invalid")
     child_repo = Path(_argument(command, "--repo")).resolve()
     child_commit = _argument(command, "--required-control-git-commit")
