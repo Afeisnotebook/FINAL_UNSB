@@ -1,0 +1,105 @@
+{
+  "schema": "final-unsb-paper-aio-runtime-role-separation-v1",
+  "captured_at": "2026-09-06T09:25:00+08:00",
+  "status": "TRAINING_RECOVERY_ARMED_EVALUATION_WAITERS_PRESERVED_FAIL_CLOSED_ON_ROLE_MISMATCH",
+  "host": "4090A",
+  "training_runtime": {
+    "lane": "amtnc",
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "active_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "latest_complete_data_epoch": 24,
+    "latest_complete_updates": 205272,
+    "latest_full_state_sha256": "7fc83c01ddf913ce7569e6e334aa7d3e60ecb5a6499252fec9f9b3fa377ece33",
+    "latest_scientific_state_sha256": "0f1f4070ad3cd78b83e2ef21bb31314b24e7fcd80dca406e298a72b556de1505",
+    "isolated_recovery_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "isolated_runtime_tree_sha256": "eababf34e314c97614364824d78b1d005a60c9134f00550b06939d96428bd3b7",
+    "entrypoint_relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "disposition": "PRESERVE_LIVE_PROCESS_USE_RELAY_ONLY_AFTER_REAL_TRAINER_EXIT"
+  },
+  "evaluation_control_plane": {
+    "all_metric_producing_processes_still_waiting": true,
+    "performance_values_generated": false,
+    "numeric_modules_loaded_in_waiters": false,
+    "waiters": [
+      {
+        "role": "amtnc_static_pair_evaluator",
+        "pid": 2217242,
+        "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+        "executable_status": "DELETED_INODE",
+        "status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+        "completed_evaluations": 0
+      },
+      {
+        "role": "dclgan_evaluator",
+        "pid": 3587264,
+        "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+        "executable_status": "DELETED_INODE",
+        "status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+        "completed_evaluations": 0
+      },
+      {
+        "role": "first_wave_unified_evaluator",
+        "pid": 3802120,
+        "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+        "executable_status": "DELETED_INODE",
+        "status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+        "completed_evaluations": 0
+      },
+      {
+        "role": "stcgr_evaluator",
+        "pid": 3802121,
+        "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+        "executable_status": "DELETED_INODE",
+        "status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+        "completed_evaluations": 0
+      },
+      {
+        "role": "final_delivery",
+        "pid": 3802122,
+        "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+        "executable_status": "DELETED_INODE",
+        "status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+        "completed_evaluations": 0
+      }
+    ],
+    "risk": "the AM-TNC training relay targets the exact live training runtime and must not be treated as a generic evaluator restart path",
+    "policy": "KEEP_HEALTHY_WAITERS; ON_ANY_WAITER_EXIT FAIL_CLOSED, VERIFY_A_DEDICATED_EVALUATION_RUNTIME, AND REBUILD_ONLY_THE_READ_ONLY_EVALUATION_COHORT_IF_NEEDED",
+    "partial_result_rule": "if any evaluation receipt already exists, a replacement must use the same verified evaluator runtime or regenerate the entire read-only evaluation cohort from immutable checkpoints",
+    "training_checkpoint_mutation_allowed": false
+  },
+  "live_metric_blind_snapshot": {
+    "5090A_stcgr_latest_complete_data_epoch": 57,
+    "5090C_proposal_latest_complete_data_epoch": 63,
+    "5090B_cyclegan_latest_complete_data_epoch": 136,
+    "5090B_matched_plain_latest_complete_data_epoch": 2,
+    "local_dclgan_latest_complete_data_epoch": 16,
+    "all_observed_trainers_live": true
+  },
+  "control_change": {
+    "heartbeat_automation": "final-unsb-goal",
+    "status": "UPDATED_WITH_EXPLICIT_TRAINING_VS_EVALUATION_RUNTIME_ROLE_BOUNDARY",
+    "healthy_training_restarted": false,
+    "healthy_evaluation_waiter_restarted": false,
+    "algorithm_protocol_changed": false,
+    "training_queue_changed": false
+  },
+  "impact": {
+    "completed_training_checkpoint_loss": false,
+    "evaluation_result_contamination_observed": false,
+    "future_training_resume_available": true,
+    "future_evaluation_recovery_requires_separate_runtime_gate": true,
+    "maximum_training_compute_at_risk": "current incomplete data epoch",
+    "loss_avoidance_status": "CURRENT_SCIENTIFIC_STATE_PRESERVED_AND_FUTURE_ROLE_CONFUSION_FAIL_CLOSED"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "training_protocol_modified": false,
+    "training_or_checkpoint_deleted": false
+  }
+}

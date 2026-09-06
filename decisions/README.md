@@ -318,3 +318,6 @@ authorize compute.
     共驻容量门替代旧的“等待CycleGAN”最坏串行预测；matched plain预计约9月12日17:37完成，
     相对9月14日边界有约30.38小时，因此当前不触发续租。Proposal与ST-CGR在9月11日中午
     统一复算；本裁决不改队列、不读性能，也不把44804重复登记为新GPU。
+96. `DEC-20260906-4090A-RUNTIME-ROLE-SEPARATION.md`：将AM-TNC训练恢复与4090A统一评估
+    恢复显式分开。现有评估waiter均未开始指标计算且保持健康，因此不重启；任一waiter未来
+    退出时必须先核验专用评估运行时，禁止机械使用AM-TNC训练relay造成同一cohort运行时混合。
