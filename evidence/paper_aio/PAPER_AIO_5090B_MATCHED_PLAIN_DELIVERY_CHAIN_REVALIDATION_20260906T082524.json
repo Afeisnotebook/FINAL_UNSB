@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-aio-compact-evidence-v1",
+  "captured_at": "2026-09-06T08:25:24+08:00",
+  "event": "5090B_MATCHED_PLAIN_POST_START_DELIVERY_CHAIN_REVALIDATION",
+  "training": {
+    "successor_pid": 523993,
+    "supervisor_pid": 534983,
+    "trainer_pid": 534984,
+    "export_successor_pid": 534982,
+    "all_alive": true,
+    "scientific_process_changed": false
+  },
+  "source_bound_export": {
+    "status": "WAITING_FOR_COMPLETE_E200",
+    "source_output": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "destination": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/exports",
+    "lane": "plain",
+    "source_host_label": "5090B_MATCHED_PLAIN",
+    "required_training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "required_training_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "timeout_hours": 720
+  },
+  "active_import_relay": {
+    "version": "v3",
+    "pid": 3414652,
+    "ppid": 1,
+    "status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+    "state": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/operations/IMPORT_RELAY_5090B_matched_plain_v3_STATE.json",
+    "state_sha256": "5500511659e5130046d27785b61436a789564788786d631e505c67ef87c0ba74",
+    "contract": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/operations/IMPORT_RELAY_5090B_matched_plain_v3_CONTRACT.json",
+    "contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005",
+    "required_epochs": [100, 125, 150, 175, 200],
+    "password_persisted": false,
+    "source_checkpoint_mutation": false
+  },
+  "retired_reference_correction": {
+    "retired_v2_pid": 2236741,
+    "retired_v2_health_watcher_pid": 2237500,
+    "retired_processes_alive": false,
+    "project_state_was_stale": true,
+    "scientific_state_affected": false
+  },
+  "active_health_watch": {
+    "pid": 3460191,
+    "ppid": 1,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "state": "/home/yc/runs/FINAL_UNSB_HEALTH_4090A_ACTIVE_FRONTIER_b85b692_v2/HEALTH_WATCH_STATE.json",
+    "state_sha256": "0733cc6b51bba0edfb88d0469eee4db71dded818f420b618d15b162408ac7b71",
+    "relay_state_age_seconds_at_observation": 38.32987999916077,
+    "free_disk_gib": 547.0722923278809,
+    "estimated_remaining_write_gib": 36,
+    "minimum_headroom_gib": 32
+  },
+  "downstream": {
+    "unified_evaluation_successor_pid": 3802120,
+    "stcgr_evaluation_successor_pid": 3802121,
+    "final_delivery_successor_pid": 3802122,
+    "all_alive": true,
+    "current_status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_configuration_changed": false,
+    "training_restarted_or_interrupted": false
+  },
+  "verification": {
+    "repository_full_test_result": "705 passed",
+    "source": "direct process table, relay state, relay contract and health state"
+  }
+}

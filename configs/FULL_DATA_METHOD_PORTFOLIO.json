@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-06T08:14:46+08:00",
+  "captured_at": "2026-09-06T08:25:24+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -607,9 +607,12 @@
     "stcgr_relation_successor_pid": 2289024,
     "stcgr_relation_health_watcher_pid": 2289036,
     "stcgr_relation_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
-    "source_export_relay_pid": 2236741,
+    "source_export_relay_pid": 3414652,
     "source_export_relay_status": "waiting_for_matched_plain_e200",
-    "source_export_relay_health_watcher_pid": 2237500,
+    "source_export_relay_health_watcher_pid": 3460191,
+    "source_export_relay_contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005",
+    "retired_source_export_relay_pid": 2236741,
+    "retired_source_export_relay_health_watcher_pid": 2237500,
     "runtime_relation_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
     "projected_e200_window": "2026-09-12T17:37:36+08:00_rough",
     "actual_matched_delta_available": false,
@@ -807,7 +810,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json",
     "decision": "decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_CAPACITY_PASS_AND_LONG_START_20260906T081446.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DELIVERY_CHAIN_REVALIDATION_20260906T082524.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_formal_e200_running_after_capacity_pass",
     "successor_pid": 523993,

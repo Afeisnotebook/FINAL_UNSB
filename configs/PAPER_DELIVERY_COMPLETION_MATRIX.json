@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T08:14:46+08:00",
+  "captured_at": "2026-09-06T08:25:24+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -32,11 +32,17 @@
       "latest_full_state_checkpoint_sha256": "e73d3b788ed743b8bc34fa3aacf55d7a16c5519925ed4849f95b03f085a396d9",
       "latest_scientific_state_sha256": "5ab8f3c9e4e65553d754e828762c0622f7098bb0f20007499d1a81de28f0a7ba",
       "projected_e200": "2026-09-12T17:37:36+08:00_rough",
+      "source_bound_export_successor_pid": 534982,
+      "active_import_relay_pid": 3414652,
+      "active_import_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "active_import_relay_contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005",
+      "active_import_relay_health_watcher_pid": 3460191,
       "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
       "runtime_twin_receipt_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
       "runtime_relation_registry_status": "ADMITTED_BYTE_IDENTICAL_TO_REVIEW_PROPOSAL",
       "runtime_relation_registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
       "handoff_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_CAPACITY_PASS_AND_LONG_START_20260906T081446.json",
+      "delivery_chain_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DELIVERY_CHAIN_REVALIDATION_20260906T082524.json",
       "matched_delta_available": false,
       "paired_metrics_used_for_release": false
     },

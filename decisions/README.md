@@ -306,3 +306,6 @@ authorize compute.
     共驻容量门实测继续训练可比等待CycleGAN释放缩短约7.77小时，因此从哈希闭环的e2完整
     状态精确进入formal e200长训；不启动重复plain，不读取paired指标，matched delta仍等待
     e200 source-bound export与统一评估。
+93. `DEC-20260906-5090B-MATCHED-PLAIN-DELIVERY-CHAIN-REVALIDATION.md`：formal plain启动后
+    逐进程复核export、跨宿主relay、统一评估及最终组合链；仅把Git中已退役v2 relay引用纠正为
+    健康的v3 PID与active-frontier监控，训练和科学状态均未触碰。
