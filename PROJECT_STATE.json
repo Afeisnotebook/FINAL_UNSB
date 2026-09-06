@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-06",
-  "state_snapshot_time": "2026-09-06T08:55:00+08:00",
+  "state_snapshot_time": "2026-09-06T09:10:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1175,7 +1175,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_DELIVERY_CHAIN_REVALIDATION_20260906T082524.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_POST_RECOVERY_FIVE_HOST_HEALTH_20260906T091000.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",
@@ -1291,7 +1291,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CONTINUITY_GUARDS_AND_BIHOURLY_GOAL_20260903T220753.json"
     },
     "lease_horizon_action": {
-      "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CONTROL_HEADROOM_TIGHT_LOCAL_DCLGAN_NO_REMOTE_EXTENSION",
+      "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CAPACITY_PASS_REMOVES_IMMEDIATE_EXTENSION_TRIGGER",
       "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
       "5090C_projected_completion": "2026-09-13T22:25:51+08:00",
       "5090C_projected_headroom_hours": 25.5693,
@@ -1300,16 +1300,17 @@
       "5090A_stcgr_projected_completion": "2026-09-14T16:35:52+08:00",
       "5090A_projected_headroom_hours": 31.4024,
       "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
-      "5090B_core_control_latest_projected_completion": "2026-09-13T15:47:05+08:00",
-      "5090B_core_control_projected_headroom_hours": 8.2153,
-      "5090B_recommended_availability_through": "2026-09-15T00:00:00+08:00",
-      "5090B_capacity_extension_recommended": true,
+      "5090B_core_control_latest_projected_completion": "2026-09-12T17:37:00+08:00_rough",
+      "5090B_core_control_projected_headroom_hours": 30.383333333333333,
+      "5090B_recommended_availability_through": "2026-09-14T00:00:00+08:00",
+      "5090B_capacity_extension_recommended": false,
       "local_dclgan_projected_completion_window": ["2026-09-14T20:53:04+08:00", "2026-09-15T03:22:20+08:00"],
       "local_dclgan_remote_gpu_extension_required": false,
       "scientific_protocol_change": false,
       "performance_values_read": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_LIVE_THROUGHPUT_LEASE_REFORECAST_20260906T023903.json",
-      "decision": "decisions/DEC-20260906-LIVE-LEASE-REFRESH.md"
+      "next_manual_reforecast": "2026-09-11T12:00:00+08:00",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CAPACITY_PASS_LEASE_REFORECAST_20260906T083000.json",
+      "decision": "decisions/DEC-20260906-5090B-CAPACITY-PASS-LEASE-REFRESH.md"
     },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "future_dynamic_control_integration_rehearsal": {
@@ -1368,7 +1369,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_4090A_DELETED_RUNTIME_RECOVERY_HARDENING_20260906T085500.json",
       "decision": "decisions/DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md"
     },
-    "next_manual_decision_window": "by 2026-09-08 confirm whether 5090B can remain available through approximately 2026-09-22 for DCLGAN; core matched plain remains projected within the current 2026-09-14 lease with only about 9 hours worst-path headroom"
+    "next_manual_decision_window": "2026-09-11T12:00:00+08:00 reforecast 5090C Proposal and 5090A ST-CGR lease headroom; recheck 5090B earlier only on material throughput regression, supervisor recovery, or e100 projection crossing 2026-09-13T12:00:00+08:00"
   },
   "active_code_commit": "4f1515812edfac3c6c2d5571e70a106fa8c93545",
   "development_head_at_state_write": "c62b5a9bb98503232e7f2b3abe2106711e368d9b",

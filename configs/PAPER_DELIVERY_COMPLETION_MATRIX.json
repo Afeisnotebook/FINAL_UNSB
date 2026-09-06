@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T08:55:00+08:00",
+  "captured_at": "2026-09-06T09:10:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -186,7 +186,7 @@
     "the 4090A active process still owns deleted runtime mappings; the earlier 2.1.3/11.3.0 rebuild is superseded, all 111 mapped files are preserved in a verified 2.2.6/12.2.0 isolated runtime, and all original Python entrypoints now relay future full-state recovery to that candidate without restarting the healthy trainer",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
-    "5090B matched plain has only about 8.2 hours nominal headroom in the wait-for-CycleGAN case; availability through 2026-09-15 is recommended"
+    "after the passed metric-blind co-resident capacity gate, 5090B matched plain is projected around 2026-09-12 17:37 with about 30.38 hours before the declared 2026-09-14 boundary; re-open the lease decision only on the committed regression triggers"
   ],
   "scientific_boundaries": {
     "intermediate_performance_controls_training_or_scheduling": false,

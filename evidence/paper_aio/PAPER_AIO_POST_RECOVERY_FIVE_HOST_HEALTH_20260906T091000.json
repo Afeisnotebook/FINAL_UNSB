@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-paper-aio-five-host-health-v1",
+  "captured_at": "2026-09-06T09:10:00+08:00",
+  "status": "ALL_AUTHORIZED_TRAINING_AND_DELIVERY_CHAINS_HEALTHY_NO_SCHEDULING_CHANGE",
+  "lanes": {
+    "4090A_amtnc": {
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "latest_complete_data_epoch": 24,
+      "latest_complete_updates": 205272,
+      "checkpoint_sha256": "7fc83c01ddf913ce7569e6e334aa7d3e60ecb5a6499252fec9f9b3fa377ece33",
+      "scientific_state_sha256": "0f1f4070ad3cd78b83e2ef21bb31314b24e7fcd80dca406e298a72b556de1505",
+      "runtime_status": "ACTIVE_DELETED_INODE_HEALTHY_VERIFIED_RECOVERY_RELAY_ARMED"
+    },
+    "5090A_stcgr": {
+      "supervisor_pid": 336345,
+      "trainer_pid": 431032,
+      "latest_complete_data_epoch": 56,
+      "latest_complete_updates": 478968,
+      "checkpoint_sha256": "842468d745eb1f10cc0c4c17476615aece772c0102be08380b88e57235c4afe9",
+      "scientific_state_sha256": "1f4e01fad0a8895c7093f35cb8adc3b6320b6e596e332209e0052917a8c33ce4",
+      "gpu_utilization_percent_snapshot": 40
+    },
+    "5090B_cyclegan": {
+      "trainer_pid": 493306,
+      "latest_complete_data_epoch": 136,
+      "latest_complete_updates": 1163208,
+      "gpu_shared_with": "5090B_matched_plain"
+    },
+    "5090B_matched_plain": {
+      "successor_pid": 523993,
+      "supervisor_pid": 534983,
+      "trainer_pid": 534984,
+      "exporter_pid": 534982,
+      "latest_complete_data_epoch": 2,
+      "latest_complete_updates": 17106,
+      "checkpoint_sha256": "e73d3b788ed743b8bc34fa3aacf55d7a16c5519925ed4849f95b03f085a396d9",
+      "scientific_state_sha256": "5ab8f3c9e4e65553d754e828762c0622f7098bb0f20007499d1a81de28f0a7ba",
+      "capacity_gate": "PASS_CONTINUE_PLAIN_NOW",
+      "gpu_utilization_percent_snapshot": 98
+    },
+    "5090C_proposal": {
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "exporter_pid": 9730,
+      "latest_complete_data_epoch": 63,
+      "latest_complete_updates": 538839,
+      "checkpoint_sha256": "3acf03793151a1f7f6a3c2f3eb651ff9fca8620a960b35946a0798f291fe5f8c",
+      "scientific_state_sha256": "9f651bdb017f2187123e70e478fab5b3c80d831cc0f80c6bb5d6d399911da368",
+      "gpu_utilization_percent_snapshot": 48
+    },
+    "local_gtx1660_dclgan": {
+      "wrapper_pid": 20832,
+      "supervisor_pid": 12824,
+      "trainer_pid": 22020,
+      "exporter_pid": 23168,
+      "latest_complete_data_epoch": 16,
+      "latest_complete_updates": 136848,
+      "checkpoint_sha256": "ec766669a3c95315a937564931a1c7a733432ebc9189b11dbdb13e45db53e74d",
+      "scientific_state_sha256": "55f116992047e9dce6174d3bf9e7c2b323782acbd076305fb9fa180443b40d9f"
+    }
+  },
+  "delivery_health": {
+    "local_dclgan_exporter_pid": 23168,
+    "local_to_4090A_push_supervisor_pid": 26020,
+    "local_push_health_pid": 20500,
+    "4090A_dynamic_evaluation_pids": [2217242, 3587264, 3802120, 3802121, 3802122],
+    "4090A_dclgan_recovery_supervisor_pid": 3804113,
+    "status": "ALL_EXPECTED_HANDLES_PRESENT"
+  },
+  "lease_reforecast": {
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CAPACITY_PASS_LEASE_REFORECAST_20260906T083000.json",
+    "decision": "decisions/DEC-20260906-5090B-CAPACITY-PASS-LEASE-REFRESH.md",
+    "5090B_projected_e200": "2026-09-12T17:37:00+08:00_rough",
+    "5090B_nominal_headroom_hours": 30.383333333333333,
+    "5090B_extension_recommended_now": false,
+    "next_manual_reforecast": "2026-09-11T12:00:00+08:00"
+  },
+  "actions": {
+    "running_training_restarted": false,
+    "running_training_modified": false,
+    "queue_changed": false,
+    "new_experiment_started": false,
+    "runtime_recovery_commit_already_pushed": "6e189c71ce2a16c015bc2361d77aa7f2e189331f"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}

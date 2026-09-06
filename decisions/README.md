@@ -314,3 +314,7 @@ authorize compute.
     映射，重建并验证2.2.6/12.2.0隔离运行时，通过完整checkout测试和e24后一更新恢复探针，
     再把原Python入口改为只执行该候选的relay。PID 3446757/3446758始终未重启，动态交付
     健康结论不被覆盖，且不声称未做的GPU下一步逐位等价。
+95. `DEC-20260906-5090B-CAPACITY-PASS-LEASE-REFRESH.md`：用已通过的两epoch metric-blind
+    共驻容量门替代旧的“等待CycleGAN”最坏串行预测；matched plain预计约9月12日17:37完成，
+    相对9月14日边界有约30.38小时，因此当前不触发续租。Proposal与ST-CGR在9月11日中午
+    统一复算；本裁决不改队列、不读性能，也不把44804重复登记为新GPU。
