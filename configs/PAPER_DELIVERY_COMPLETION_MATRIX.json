@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T10:12:00+08:00",
+  "captured_at": "2026-09-06T10:29:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -36,7 +36,7 @@
       "active_import_relay_pid": 3414652,
       "active_import_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
       "active_import_relay_contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005",
-      "active_import_relay_health_watcher_pid": 3460191,
+      "active_import_relay_health_watcher_pid": 3885710,
       "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
       "runtime_twin_receipt_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
       "runtime_relation_registry_status": "ADMITTED_BYTE_IDENTICAL_TO_REVIEW_PROPOSAL",

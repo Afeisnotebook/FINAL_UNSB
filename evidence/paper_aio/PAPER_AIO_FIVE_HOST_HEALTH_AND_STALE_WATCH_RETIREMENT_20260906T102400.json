@@ -1,0 +1,154 @@
+{
+  "schema": "final-unsb-paper-five-host-health-and-stale-watch-retirement-v1",
+  "captured_at": "2026-09-06T10:29:00+08:00",
+  "observation_window_started_at": "2026-09-06T10:16:00+08:00",
+  "status": "ALL_SCIENTIFIC_TRAINING_HEALTHY_STALE_MONITORS_RETIRED",
+  "classification_of_previous_goal_turn": "PROGRESS",
+  "hosts": {
+    "4090A": {
+      "active_lane": "amtnc",
+      "latest_complete_data_epoch": 25,
+      "latest_complete_updates": 213825,
+      "latest_full_state_sha256": "cdc3c5fcc0f7938f0f22fad57dd4b139308080a948b629cac682eaf862600677",
+      "latest_scientific_state_sha256": "7a2672fc2f96d5c82230d8be1b4ed6b03fad59365f17c178d2c2ca59aa7d1e18",
+      "trainer_pid": 3446758,
+      "supervisor_pid": 3446757,
+      "gpu_utilization_percent_snapshot": 47,
+      "gpu_memory_mib_snapshot": 2369,
+      "free_disk_gib": 537.56,
+      "training_runtime_status": "DELETED_INODE_ACTIVE_PROCESS_PRESERVED_EXACT_RECOVERY_RELAY_ARMED",
+      "active_frontier_health_pid": 3885710,
+      "active_frontier_health_status": "HEALTHY_ZERO_ALERTS",
+      "active_frontier_health_contract_sha256": "a5bc8ce2160279a42355b4fa15077558ce5d13376a76d159b153f992c8c903bc",
+      "retired_false_alert_health_pid": 3460191,
+      "evaluation_recovery_health_pid": 3880106,
+      "dclgan_evaluation_health_pid": 3870938,
+      "projected_e200": "2026-09-13T15:00:00+08:00_rough"
+    },
+    "5090A": {
+      "active_lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "latest_complete_data_epoch": 57,
+      "latest_complete_updates": 487521,
+      "latest_epoch_wall_seconds": 5097.636878490448,
+      "latest_full_state_sha256": "da40cea67852db743ff6d585e22cd6aa4c245dbcdcc64bcbcbcc7e83344528a3",
+      "latest_scientific_state_sha256": "d2d45470a74a888ff60851d82e17826bb3b56ad98c2533fadbe47902d5e968e4",
+      "trainer_pid": 431032,
+      "supervisor_pid": 336345,
+      "gpu_utilization_percent_snapshot": 97,
+      "gpu_memory_mib_snapshot": 4551,
+      "free_disk_gib": 184,
+      "health_pid": 352017,
+      "health_status": "HEALTHY_ZERO_ALERTS_USER_CAPACITY_OVERRIDE",
+      "projected_e200": "2026-09-14T20:50:00+08:00_rough"
+    },
+    "5090B": {
+      "completed_lane": "cut_e200",
+      "active_lanes": {
+        "cyclegan": {
+          "latest_complete_data_epoch": 138,
+          "latest_complete_updates": 1180314,
+          "latest_epoch_wall_seconds": 2523.3447258472443,
+          "latest_full_state_sha256": "5fc712ef4deb1ce1f6f2d7b3c328b82511014475e8d1dec062c6b587f4ebc79b",
+          "latest_scientific_state_sha256": "2e1acd3f72c9f23232f91c87ee45f4a3296f816103cff25e81bc31634f916707",
+          "trainer_pid": 493306,
+          "supervisor_pid": 11845,
+          "projected_e200": "2026-09-08T06:00:00+08:00_rough"
+        },
+        "matched_plain": {
+          "latest_complete_data_epoch": 3,
+          "latest_complete_updates": 25659,
+          "latest_co_resident_epoch_wall_seconds": 4680.1575429439545,
+          "latest_full_state_sha256": "aed29c7d89ba6de39c1b9a2639d1887d2c03b3a7298c9c143385bc7dca67eb40",
+          "latest_scientific_state_sha256": "88dcc622d4614dd4791bff3f879e08eeffda68c4738c4fc69e71f229d8f642d0",
+          "successor_pid": 523993,
+          "supervisor_pid": 534983,
+          "trainer_pid": 534984,
+          "exporter_pid": 534982,
+          "health_pid": 524155,
+          "progress_pid": 524156,
+          "projected_e200_after_cycle_release": "2026-09-12T19:30:00+08:00_rough"
+        }
+      },
+      "gpu_utilization_percent_snapshot": 98,
+      "gpu_memory_mib_snapshot": 3671,
+      "free_disk_gib": 226,
+      "terminal_aware_health_pid": 533823,
+      "current_health_status": "HEALTHY_ZERO_ALERTS",
+      "retired_stale_health_pid": 148593,
+      "retired_stale_progress_pid": 148594,
+      "co_resident_makespan_still_improved": true,
+      "queue_changed": false
+    },
+    "5090C": {
+      "active_lane": "proposal",
+      "latest_complete_data_epoch": 64,
+      "latest_complete_updates": 547392,
+      "latest_epoch_wall_seconds": 4761.598363399506,
+      "latest_full_state_sha256": "87fb12b53a0fb68ee09e70490b048e745f3740eedc5022fcbd199b22484f5bbe",
+      "latest_scientific_state_sha256": "0e6b3a6b1fa71a77bf8a0680abdd25d69acb69de4556c9c60f046b048e4423ae",
+      "trainer_pid": 9734,
+      "supervisor_pid": 9729,
+      "gpu_utilization_percent_snapshot": 44,
+      "gpu_memory_mib_snapshot": 4917,
+      "free_disk_gib": 229,
+      "health_pid": 13587,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "projected_e200": "2026-09-13T23:40:00+08:00_rough"
+    },
+    "local_GTX1660": {
+      "active_lane": "dclgan",
+      "latest_complete_data_epoch": 17,
+      "latest_complete_updates": 145401,
+      "latest_epoch_wall_seconds": 4489.885087251663,
+      "latest_full_state_sha256": "070edf69249037bbc741d9a6d824208c4b0ba5046b7cfa9d95cfe97ddb16d069",
+      "latest_scientific_state_sha256": "abd1a1e444e369d0aab59dd904881468bfdfd6cfac5668cfd393e3ea520cd47c",
+      "trainer_pid": 22020,
+      "supervisor_pid": 12824,
+      "exclusive_gpu_wrapper_pid": 20832,
+      "exporter_pid": 23168,
+      "gpu_utilization_percent_snapshot": 79,
+      "gpu_memory_mib_snapshot": 2995,
+      "free_disk_gib": 115.98,
+      "terminal_and_relay_health_pid": 18736,
+      "push_recovery_supervisor_pid": 26020,
+      "push_health_pid": 20500,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "terminal_jvp_status": "WAITING_FOR_EXCLUSIVE_GPU_RELEASE",
+      "projected_e200": "2026-09-15T22:30:00+08:00_rough"
+    }
+  },
+  "monitoring_corrections": {
+    "4090A": {
+      "problem": "transition-only supervisor JSON files were treated as periodic heartbeats and became falsely stale while their PIDs and lane heartbeat were healthy",
+      "replacement_policy": "static successor and supervisor states require live PIDs but have no freshness deadline; lane heartbeat, exporter and transport relays retain freshness gates",
+      "replacement_health_pid": 3885710,
+      "replacement_ppid": 1,
+      "replacement_alert_count": 0,
+      "old_health_pid_retired": 3460191,
+      "training_process_changed": false
+    },
+    "5090B": {
+      "problem": "legacy monitors remained bound to retired pre-gate successor PID 148465 and emitted a false alert after the formal gate-5 recovery successor took ownership",
+      "authoritative_health_pid": 524155,
+      "authoritative_progress_pid": 524156,
+      "retired_monitor_pids": [148593, 148594],
+      "training_process_changed": false
+    }
+  },
+  "dependency_state": {
+    "first_core_external_result_pending": "cyclegan_e200",
+    "matched_algorithm_evaluation_pending": "5090B_matched_plain_e200_and_algorithm_exports",
+    "amtnc_terminal_audit_pending": "amtnc_e100_e150_e200_incremental_exports",
+    "dclgan_delivery_pending": "local_dclgan_e200_export",
+    "ddsb": "REPRODUCTION_INCOMPLETE_WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "next_manual_lease_reforecast": "2026-09-11T12:00:00+08:00"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_protocol_changed": false,
+    "healthy_training_restarted": false
+  }
+}

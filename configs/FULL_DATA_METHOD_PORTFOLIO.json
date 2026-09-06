@@ -145,7 +145,7 @@
       "trainer_pid": 3446758,
       "export_successor_pid": 2182586,
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
-      "successor_health_watcher_pid": 3460191,
+      "successor_health_watcher_pid": 3885710,
       "first_epoch_status": "complete_full_state_hash_closed",
       "completed_full_data_epoch": 20,
       "completed_updates": 171060,
@@ -348,7 +348,7 @@
       "decision": "decisions/DEC-20260906-5090B-TERMINAL-AWARE-HEALTH-REPLACEMENT.md"
     },
     "watcher_pids": {
-      "4090A": 3460191,
+      "4090A": 3885710,
       "5090A": 352017,
       "5090B": 533823,
       "5090C": 13587
@@ -373,7 +373,8 @@
       "5090A_stcgr_live_progress_sentinel": 436478,
       "5090B_cut_live_progress_sentinel": 139039,
       "5090B_cyclegan_live_progress_sentinel": 138626,
-      "5090B_future_matched_plain_progress_sentinel": 148594,
+      "5090B_future_matched_plain_progress_sentinel": 524156,
+      "5090B_retired_pre_gate_matched_plain_monitor_pids": [148593, 148594],
       "5090B_future_dclgan_progress_sentinel": 140049,
       "5090B_cut_continuity_guard": 159133,
       "5090B_cyclegan_continuity_guard": 159134,
@@ -613,7 +614,7 @@
     "stcgr_relation_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_CROSS_HOST_CONTROL_SUCCESSOR_DEPLOYED_20260903.json",
     "source_export_relay_pid": 3414652,
     "source_export_relay_status": "waiting_for_matched_plain_e200",
-    "source_export_relay_health_watcher_pid": 3460191,
+    "source_export_relay_health_watcher_pid": 3885710,
     "source_export_relay_contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005",
     "retired_source_export_relay_pid": 2236741,
     "retired_source_export_relay_health_watcher_pid": 2237500,
@@ -726,14 +727,16 @@
     ]
   },
   "algorithm_posthoc_delivery": {
-    "status": "AMTNC_STATIC_WAITER_RETAINED_AND_DYNAMIC_STCGR_WAITER_HEALTHY",
+    "status": "AMTNC_AND_STCGR_WAITERS_HEALTHY_WITH_PINNED_RUNTIME_RECOVERY_SUPERVISORS",
     "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
     "amtnc": {
       "pid": 2217242,
       "status": "waiting_for_4090a_plain_and_amtnc_exports",
       "matched_plain": "4090A/plain",
       "separate_output_required": true,
-      "health_watcher_pid": 3802162,
+      "recovery_supervisor_pid": 3879668,
+      "recovery_restart_count": 0,
+      "health_watcher_pid": 3880106,
       "health_status": "healthy_after_multiple_polls_zero_alerts"
     },
     "stcgr": {
@@ -745,20 +748,25 @@
       "candidate_metadata_import": "complete_verified",
       "reviewed_control_relation": "admitted_byte_identical_to_proposal"
     },
-    "health_watcher_pid": 3802160,
+    "stcgr_recovery_supervisor_pid": 3879672,
+    "stcgr_recovery_restart_count": 0,
+    "health_watcher_pid": 3880106,
     "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
     "retired_legacy_stcgr_waiter_pids": [2217244, 2217321],
     "cross_non_equivalent_runtime_delta": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json"
+    "retired_fixed_health_watcher_pids": [3802160, 3802162],
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json"
   },
   "final_discovery_delivery": {
-    "status": "dynamic_durable_waiting_for_all_fixed_e200_results",
+    "status": "dynamic_durable_waiting_with_pinned_runtime_recovery_supervisor",
     "pid": 3802122,
     "ppid": 1,
     "control_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
     "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1",
     "contract_sha256": "d1887c210bd7a0ec81782f0b596e7c26e2c55f6c2bc2ff88869305a248c1284a",
-    "health_watcher_pid": 3802161,
+    "recovery_supervisor_pid": 3879674,
+    "recovery_restart_count": 0,
+    "health_watcher_pid": 3880106,
     "health_status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
     "retired_legacy_waiter_pids": [2220419, 2220505],
     "complexity_lanes": [
@@ -777,7 +785,8 @@
     "replacement_interface_commit": "1dbb5f56ddf83b4dca164940280339df3d80e30c",
     "result_and_disposition_hash_closure": true,
     "replacement_decision": "decisions/DEC-20260903-DYNAMIC-MATCHED-CONTROL-DELIVERY.md",
-    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json"
+    "retired_fixed_health_watcher_pid": 3802161,
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json"
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "lease_horizon_action": {
@@ -820,7 +829,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_4090A_DELETED_RUNTIME_RECOVERY_HARDENING_20260906T085500.json",
     "decision": "decisions/DEC-20260906-4090A-DELETED-RUNTIME-RECOVERY-HARDENING.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_POST_RECOVERY_FIVE_HOST_HEALTH_20260906T091000.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_FIVE_HOST_HEALTH_AND_STALE_WATCH_RETIREMENT_20260906T102400.json",
   "5090b_cut_e200_matched_plain_handoff": {
     "status": "cut_e200_hash_closed_matched_plain_formal_e200_running_after_capacity_pass",
     "successor_pid": 523993,
