@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-paper-dclgan-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-06T12:45:22+08:00",
+  "status": "DCLGAN_E20_FIXED_MILESTONE_HASH_CLOSED_CONTINUE_E200",
+  "host_label": "LOCAL_GTX1660",
+  "lane_id": "dclgan",
+  "data_epoch": 20,
+  "updates": 171060,
+  "target_data_epoch": 200,
+  "target_updates": 1710600,
+  "epoch_wall_seconds": 4003.373434782028,
+  "milestone": {
+    "checkpoint_path": "E:\\UNSB_Expl\\runs\\FINAL_UNSB_DCLGAN_LOCAL1000_E45973A\\lanes\\dclgan\\milestones\\e020.pt",
+    "checkpoint_sha256": "d0ce9339f44de9164d34d7d7220157b670e26af627e0b3fa35fa649f146a0f10",
+    "checkpoint_size_bytes": 351608880,
+    "sidecar_sha256": "083dca2af9bee251e6e6cf0104cdf8ee0488b1b6f11e1e137d357cfd162e60e1",
+    "scientific_state_sha256": "76b9717da9a3a9e868dc417c1fe5b64644c66abcc5fb39465c397f8b819e45f8",
+    "metric_artifact_expected_at_this_early_milestone": false
+  },
+  "latest_full_state_at_capture": {
+    "checkpoint_sha256": "1307de4f6842074c63287ae166d41b69a85fa0a0bd22dde6c8e99730f61b2a6e",
+    "sidecar_sha256": "5ead7ff9140fb7ba6c4783856a4fa9498c8d3fb7812fb1983f14b3fd8995b224",
+    "scientific_state_sha256": "76b9717da9a3a9e868dc417c1fe5b64644c66abcc5fb39465c397f8b819e45f8"
+  },
+  "source_identity": {
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "upstream_git_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "gpu_uuid": "22b92065-0a2b-ff50-f2c5-9c9ee65e6b53"
+  },
+  "live_progress_proof": {
+    "trainer_pid": 22020,
+    "cpu_seconds_delta_over_5s": 14.703,
+    "gpu_utilization_percent": 87,
+    "gpu_memory_used_mib": 2768,
+    "gpu_temperature_c": 76
+  },
+  "durability": {
+    "wrapper_pid": 20832,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "export_successor_pid": 23168,
+    "health_watcher_pid": 22088,
+    "lock_supplement_pid": 16164,
+    "push_recovery_supervisor_pid": 26020,
+    "push_child_pid": 24396,
+    "push_health_watcher_pid": 20500,
+    "training_health": "HEALTHY",
+    "training_health_alert_count": 0,
+    "export_status": "WAITING_FOR_COMPLETE_E200",
+    "push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "push_health_alert_count": 0,
+    "disk_free_gib": 115.636,
+    "previously_closed_combined_remaining_write_bound_gib": 21.162
+  },
+  "repository_validation": {
+    "json_parse": "PASS",
+    "git_diff_check": "PASS",
+    "pytest": "713 passed in 109.18s"
+  },
+  "adjudication": {
+    "action": "CONTINUE_FROZEN_E200_PROTOCOL",
+    "next_fixed_milestone": "e40",
+    "training_restarted_or_modified": false,
+    "queue_changed": false,
+    "checkpoint_sidecar_hash_mismatch": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}
