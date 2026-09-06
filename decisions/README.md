@@ -302,3 +302,7 @@ authorize compute.
 91. `DEC-20260906-CORESIDENT-MAKESPAN-TAIL-CORRECTION.md`：修正未来共驻容量门在plain先完成
     分支漏算companion独占尾部的非对称makespan公式；新增确定性反例与全套回归。当前已冻结
     5090B容量门不热修改，算法协议、运行时关系和训练进程均不受影响。
+92. `DEC-20260906-5090B-MATCHED-PLAIN-CAPACITY-PASS.md`：5090B两epoch metric-blind
+    共驻容量门实测继续训练可比等待CycleGAN释放缩短约7.77小时，因此从哈希闭环的e2完整
+    状态精确进入formal e200长训；不启动重复plain，不读取paired指标，matched delta仍等待
+    e200 source-bound export与统一评估。

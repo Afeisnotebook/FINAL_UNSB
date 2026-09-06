@@ -1,0 +1,121 @@
+{
+  "schema": "final-unsb-paper-aio-compact-evidence-v1",
+  "captured_at": "2026-09-06T08:14:46+08:00",
+  "event": "5090B_MATCHED_PLAIN_METRIC_BLIND_CAPACITY_GATE_PASS_AND_FORMAL_E200_START",
+  "host": "5090B",
+  "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+  "scientific_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+  "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+  "capacity_gate": {
+    "status": "PASS_METRIC_BLIND_CO_RESIDENT_MAKESPAN_GATE",
+    "decision": "CONTINUE_PLAIN_NOW",
+    "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/operations/CORESIDENT_MAKESPAN_CAPACITY_GATE.json",
+    "receipt_sha256": "7f1d96be51e3731098ecf2b6f1337b4ea61011ccfa06f97c2bb95bd145c83136",
+    "plain_colocated_epoch_seconds": 4549.138253450394,
+    "plain_isolated_epoch_seconds": 2410.470835328102,
+    "co_resident_lane_id": "cyclegan",
+    "co_resident_data_epoch_at_gate": 135,
+    "co_resident_colocated_epoch_seconds": 2463.3003108501434,
+    "co_resident_isolated_epoch_seconds": 1588.1261804232345,
+    "plain_remaining_epochs": 198,
+    "co_resident_remaining_epochs": 65,
+    "continue_now_seconds": 552547.1978383268,
+    "wait_for_release_seconds": 580501.4271224744,
+    "continue_now_saving_seconds": 27954.229284147616,
+    "continue_now_saving_hours": 7.76506369004,
+    "minimum_required_saving_seconds": 3600,
+    "probe_full_state_preserved_for_exact_resume": true
+  },
+  "formal_plain": {
+    "status": "PLAIN_SUPERVISOR_RUNNING",
+    "successor_pid": 523993,
+    "supervisor_pid": 534983,
+    "trainer_pid": 534984,
+    "export_successor_pid": 534982,
+    "health_watcher_pid": 524155,
+    "progress_watcher_pid": 524156,
+    "latest_complete_data_epoch": 2,
+    "latest_complete_updates": 17106,
+    "heartbeat_sha256": "fb888e7058f6d52ba0f3f0ce704605836311ca722dc512d3c4757eb1ae3fa8ce",
+    "full_state_sidecar_sha256": "fd40e12850f7ec0cf48b8c2fd3f7b2c84a918ca3988ea7d167b5e58b077b18f0",
+    "full_state_checkpoint_sha256": "e73d3b788ed743b8bc34fa3aacf55d7a16c5519925ed4849f95b03f085a396d9",
+    "scientific_state_sha256": "5ab8f3c9e4e65553d754e828762c0622f7098bb0f20007499d1a81de28f0a7ba",
+    "e0_scientific_state_sha256": "3e567e36dd984bf7e78004162b4c7e766c0d835feb2fa8bbb4cd5823e13af724",
+    "seed": 2026,
+    "batch_size": 1,
+    "steps_per_data_epoch": 8553,
+    "target_updates": 1710600,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "projected_e200_from_gate": "2026-09-12T17:37:36+08:00_rough"
+  },
+  "runtime_relation": {
+    "peer_5090A_receipt_sha256": "0ed6a5abb91f184def7f433bf79a8cadb7e0a0d2b71292040c1972de200c74e3",
+    "local_5090B_receipt_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
+    "registry_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
+    "matched_delta_available": false,
+    "reason": "plain e200 and unified matched evaluation remain pending"
+  },
+  "live_continuity": {
+    "plain_trainer_alive": true,
+    "cycle_gan_data_epoch": 135,
+    "cycle_gan_updates": 1154655,
+    "cycle_gan_scientific_state_sha256": "322e6b43d9ceae00148d6ae97b1435469760ddc8f9eeb6cd3f08da23498d7d55",
+    "cycle_gan_training_changed": false,
+    "gpu_utilization_percent_snapshot": 73,
+    "gpu_memory_used_mib_snapshot": 3671,
+    "free_disk_gib_snapshot": 226
+  },
+  "other_frontier_snapshot": {
+    "4090A_amtnc": {
+      "latest_complete_data_epoch": 23,
+      "latest_complete_updates": 196719,
+      "scientific_state_sha256": "cf7eaa1bfc2e8bc754e31e083c456149299e6a74e0e28abc8be2959105a414ce",
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "processes_alive": true
+    },
+    "5090A_stcgr": {
+      "latest_complete_data_epoch": 56,
+      "latest_complete_updates": 478968,
+      "scientific_state_sha256": "1f4e01fad0a8895c7093f35cb8adc3b6320b6e596e332209e0052917a8c33ce4",
+      "supervisor_pid": 336345,
+      "trainer_pid": 431032,
+      "processes_alive": true
+    },
+    "5090C_proposal": {
+      "latest_complete_data_epoch": 62,
+      "latest_complete_updates": 530286,
+      "scientific_state_sha256": "43fc8d8791dee71129c8a8244f96d8a33ab090daf41f392a32349f33f1797ab4",
+      "supervisor_pid": 9729,
+      "trainer_pid": 9734,
+      "processes_alive": true
+    },
+    "local_dclgan": {
+      "latest_complete_data_epoch": 16,
+      "latest_complete_updates": 136848,
+      "scientific_state_sha256": "55f116992047e9dce6174d3bf9e7c2b323782acbd076305fb9fa180443b40d9f",
+      "supervisor_pid": 12824,
+      "trainer_pid": 22020,
+      "processes_alive": true
+    }
+  },
+  "implementation_note": {
+    "live_control_commit": "f8c38c1e7d0163ec8246b8ddac12fa66b7f7fb7b",
+    "generic_future_formula_fix_commit": "a4f4b46ca93482371a65a187295b9ce7893b44ce",
+    "live_receipt_recomputed": false,
+    "adjudication": "The realized live branch has the companion finishing first, which the frozen live formula already counted correctly; the later generic companion-tail correction does not invalidate this receipt."
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_configuration_changed": false,
+    "healthy_training_restarted_or_interrupted": false
+  },
+  "verification": {
+    "full_test_suite_before_event": "705 passed",
+    "repository_state_before_recording": "dfe641240c72a1380b5a586d07f26ba38b5cc108",
+    "source_state": "direct host process table and hash-bound JSON receipts"
+  }
+}
