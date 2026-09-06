@@ -53,6 +53,36 @@ ROLE_SPECS = {
         "final_status": "COMPLETE_DCLGAN_FIXED_EVALUATION_SET",
         "performance_must_remain_false": False,
     },
+    "amtnc_evaluation": {
+        "module": "operations.paper_aio_algorithm_evaluation_successor",
+        "child_schema": "final-unsb-paper-algorithm-evaluation-successor-state-v1",
+        "final_status": "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+        "performance_must_remain_false": False,
+        "allow_external_child_repo": True,
+    },
+    "unified_evaluation": {
+        "module": "operations.paper_aio_unified_evaluation_successor",
+        "child_schema": "final-unsb-paper-unified-evaluation-successor-state-v2",
+        "final_status": (
+            "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION"
+        ),
+        "performance_must_remain_false": False,
+        "allow_external_child_repo": True,
+    },
+    "stcgr_evaluation": {
+        "module": "operations.paper_aio_algorithm_evaluation_successor",
+        "child_schema": "final-unsb-paper-algorithm-evaluation-successor-state-v1",
+        "final_status": "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+        "performance_must_remain_false": False,
+        "allow_external_child_repo": True,
+    },
+    "final_delivery": {
+        "module": "operations.paper_aio_final_delivery_successor",
+        "child_schema": "final-unsb-paper-final-delivery-successor-state-v2",
+        "final_status": "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
+        "performance_must_remain_false": False,
+        "allow_external_child_repo": True,
+    },
 }
 
 
@@ -124,12 +154,22 @@ def validate_child_command(
     python = Path(command[0]).resolve()
     if not python.is_file() or command[1:4] != ["-u", "-m", spec["module"]]:
         raise RuntimeError("fixed child command module/runtime is invalid")
-    if Path(str(payload.get("cwd", ""))).resolve() != repo:
-        raise RuntimeError("fixed child command cwd is not the frozen repo")
-    if Path(_argument(command, "--repo")).resolve() != repo:
+    child_repo = Path(_argument(command, "--repo")).resolve()
+    child_commit = _argument(command, "--required-control-git-commit")
+    if Path(str(payload.get("cwd", ""))).resolve() != child_repo:
         raise RuntimeError("fixed child command repo differs from its cwd")
-    if _argument(command, "--required-control-git-commit") != required_commit:
-        raise RuntimeError("fixed child command commit differs from supervisor")
+    if spec.get("allow_external_child_repo", False):
+        if (
+            _git(child_repo, "rev-parse", "HEAD") != child_commit
+            or _git(child_repo, "status", "--porcelain")
+        ):
+            raise RuntimeError("fixed child repo is not at its frozen commit")
+    elif child_repo != repo or child_commit != required_commit:
+        raise RuntimeError("fixed child command differs from supervisor repo or commit")
+    if role == "final_delivery":
+        nested_python = Path(_argument(command, "--python")).resolve()
+        if nested_python != python:
+            raise RuntimeError("final delivery nested runtime differs from child runtime")
     raw_state_path = payload.get("state_path")
     if not isinstance(raw_state_path, str) or not Path(raw_state_path).is_absolute():
         raise RuntimeError("fixed child state path must be absolute")
@@ -140,7 +180,7 @@ def validate_child_command(
     return {
         **payload,
         "command": command,
-        "cwd": str(repo),
+        "cwd": str(child_repo),
         "state_path": str(state_path),
     }
 

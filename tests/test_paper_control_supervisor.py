@@ -206,6 +206,161 @@ def test_dclgan_evaluation_wait_and_completion_are_supervisable() -> None:
     ) == "BLOCK"
 
 
+@pytest.mark.parametrize(
+    ("role", "schema", "complete_status"),
+    [
+        (
+            "amtnc_evaluation",
+            "final-unsb-paper-algorithm-evaluation-successor-state-v1",
+            "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+        ),
+        (
+            "unified_evaluation",
+            "final-unsb-paper-unified-evaluation-successor-state-v2",
+            "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION",
+        ),
+        (
+            "stcgr_evaluation",
+            "final-unsb-paper-algorithm-evaluation-successor-state-v1",
+            "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+        ),
+        (
+            "final_delivery",
+            "final-unsb-paper-final-delivery-successor-state-v2",
+            "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
+        ),
+    ],
+)
+def test_evaluation_delivery_roles_are_supervisable(
+    role: str, schema: str, complete_status: str
+) -> None:
+    base = {
+        "schema": schema,
+        "status": "WAITING_FOR_FIXED_E200_INPUTS",
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert child_state_decision(role, base) == "WAIT"
+    assert child_state_decision(role, {**base, "status": complete_status}) == "COMPLETE"
+    assert child_state_decision(role, {**base, "status": "FAIL_CLOSED_TEST"}) == "BLOCK"
+    assert child_state_decision(
+        role, {**base, "confirmation20_opened": True}
+    ) == "BLOCK"
+
+
+def test_explicit_evaluator_role_accepts_frozen_external_child_repo(
+    tmp_path, monkeypatch
+):
+    control_repo = tmp_path / "control"
+    child_repo = tmp_path / "child"
+    control_repo.mkdir()
+    child_repo.mkdir()
+    python = tmp_path / "python.exe"
+    python.write_bytes(b"runtime")
+    state = tmp_path / "state.json"
+    command = tmp_path / "amtnc.json"
+    command.write_text(
+        json.dumps(
+            {
+                "schema": COMMAND_SCHEMA,
+                "role": "amtnc_evaluation",
+                "cwd": str(child_repo),
+                "state_path": str(state),
+                "command": [
+                    str(python),
+                    "-u",
+                    "-m",
+                    "operations.paper_aio_algorithm_evaluation_successor",
+                    "--repo",
+                    str(child_repo),
+                    "--required-control-git-commit",
+                    "child123",
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    def frozen_git(repo: Path, *args: str) -> str:
+        if args == ("rev-parse", "HEAD"):
+            return "child123" if repo.resolve() == child_repo.resolve() else "control123"
+        if args == ("status", "--porcelain"):
+            return ""
+        raise AssertionError(args)
+
+    monkeypatch.setattr(supervisor, "_git", frozen_git)
+    result = validate_child_command(
+        command,
+        role="amtnc_evaluation",
+        repo=control_repo.resolve(),
+        required_commit="control123",
+    )
+    assert result["cwd"] == str(child_repo.resolve())
+
+
+def test_audit_role_rejects_external_child_repo(tmp_path):
+    path = _command(
+        tmp_path,
+        "terminal_audit",
+        "operations.paper_aio_local_terminal_audit_successor",
+    )
+    with pytest.raises(RuntimeError, match="differs from supervisor"):
+        validate_child_command(
+            path,
+            role="terminal_audit",
+            repo=(tmp_path / "different-control-repo").resolve(),
+            required_commit="abc123",
+        )
+
+
+def test_final_delivery_requires_one_pinned_runtime(tmp_path, monkeypatch):
+    control_repo = tmp_path / "control"
+    child_repo = tmp_path / "child"
+    control_repo.mkdir()
+    child_repo.mkdir()
+    python = tmp_path / "python.exe"
+    other_python = tmp_path / "other-python.exe"
+    python.write_bytes(b"runtime")
+    other_python.write_bytes(b"other")
+    state = tmp_path / "state.json"
+    command = tmp_path / "final.json"
+    command.write_text(
+        json.dumps(
+            {
+                "schema": COMMAND_SCHEMA,
+                "role": "final_delivery",
+                "cwd": str(child_repo),
+                "state_path": str(state),
+                "command": [
+                    str(python),
+                    "-u",
+                    "-m",
+                    "operations.paper_aio_final_delivery_successor",
+                    "--repo",
+                    str(child_repo),
+                    "--required-control-git-commit",
+                    "child123",
+                    "--python",
+                    str(other_python),
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        supervisor,
+        "_git",
+        lambda repo, *args: "child123" if args == ("rev-parse", "HEAD") else "",
+    )
+    with pytest.raises(RuntimeError, match="nested runtime differs"):
+        validate_child_command(
+            command,
+            role="final_delivery",
+            repo=control_repo.resolve(),
+            required_commit="control123",
+        )
+
+
 def _run_contract(tmp_path: Path, child_state: Path) -> dict:
     return {
         "schema": supervisor.CONTRACT_SCHEMA,
