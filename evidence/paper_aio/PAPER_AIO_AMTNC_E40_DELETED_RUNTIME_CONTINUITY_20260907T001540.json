@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-amtnc-e40-deleted-runtime-continuity-v1",
+  "captured_at": "2026-09-07T00:15:40+08:00",
+  "decision": "ACCEPT_AMTNC_E40_FIXED_MILESTONE_KEEP_HEALTHY_DELETED_INODE_TRAINER_RUNNING",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "machine_id": "0512766be54344ccb758fb4d31c1f078",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "milestone": {
+    "lane_id": "amtnc",
+    "physical_epoch_completed": 40,
+    "step": 342120,
+    "checkpoint_bytes": 201481694,
+    "checkpoint_sha256_from_sidecar": "e94a2cc24e24ec8f32c3203b3d6ed9fbf53f6c05c5586fc04396bf193228f695",
+    "checkpoint_sha256_recomputed": "e94a2cc24e24ec8f32c3203b3d6ed9fbf53f6c05c5586fc04396bf193228f695",
+    "sidecar_sha256": "0a0e32f6f55eb90a4ba5baaf8763b86c66383f6b8c99ca9be0f9f76a77b848a6",
+    "scientific_state_sha256": "8fdcaa03d5ded88878ba94c50bdcf6c590d3b35a1cf7e8178e003ed4a06344fb",
+    "metric_artifact_bytes": 132064,
+    "metric_artifact_sha256": "f368b2a745755bd2310485eb9eb9b81cc52be1a07c8c8a2ba8803ec5329ac526",
+    "metric_content_parsed": false,
+    "isolated_runtime_cpu_load": "PASS_FULL_STATE_SCHEMA_STEP_AND_EPOCH"
+  },
+  "identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "lane_config_sha256": "5be116a480b401b7a8e54d0964ee7295af004046bfe340864bb6449ce1ed8fdf",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "deleted_runtime_continuity": {
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_trainer_continuous_since": "2026-09-05T08:54:13+08:00",
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "original_environment_restored": false,
+    "original_python_entrypoints_are_read_only_relays": true,
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "captured_active_mappings": "PASS_111_OF_111_BYTE_IDENTICAL",
+    "outer_recovery_guard_pid": 3966089,
+    "outer_recovery_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_recovery_guard_total_restarts": 0,
+    "outer_recovery_guard_consecutive_no_progress_restarts": 0,
+    "outer_recovery_guard_health_watcher_pid": 3968393,
+    "outer_recovery_guard_health": "HEALTHY_ZERO_ALERTS",
+    "continuity_result": "FIRST_POST_INCIDENT_FIXED_MILESTONE_CREATED_AND_LOAD_VERIFIED_WITHOUT_RESTART"
+  },
+  "live_after_milestone": {
+    "status": "CHILD_RUNNING",
+    "data_epoch": 40,
+    "updates": 342120,
+    "latest_full_state_sha256": "d159bc98f532090dd00ee5947a28903e4d5f50e5dd5e3b8299da44158d5304af",
+    "latest_scientific_state_sha256": "8fdcaa03d5ded88878ba94c50bdcf6c590d3b35a1cf7e8178e003ed4a06344fb",
+    "gpu_utilization_percent": 55,
+    "gpu_memory_used_mib": 2371,
+    "disk_free_gib": 537
+  },
+  "impact": {
+    "completed_progress_lost": false,
+    "fixed_milestone_after_cleanup_proven": true,
+    "future_full_state_resume_path_proven": true,
+    "maximum_compute_at_risk": "only_the_current_incomplete_data_epoch",
+    "healthy_run_should_be_restarted": false,
+    "gpu_next_step_bitwise_equivalence_to_deleted_live_process_claimed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "confirmation20_opened": false
+  }
+}

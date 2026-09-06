@@ -333,3 +333,7 @@ authorize compute.
     sidecar和metric artifact完成来源侧哈希闭环，指标内容未读取；原e125恢复后的同一trainer
     已推进至e152，continuity guard零重启。严格runtime matched plain在既有metric-blind容量门
     后健康推进至e11，两条共驻训练及其调度均未改变。
+100. `DEC-20260907-AMTNC-E40-DELETED-RUNTIME-CONTINUITY.md`：4090A AM-TNC在误清理后由原
+    deleted-inode PID无重启推进到固定e40；checkpoint、sidecar和metric artifact来源侧哈希闭环，
+    隔离恢复运行时成功CPU加载完整状态。外层guard零重启、零告警，因此继续保留健康原进程，
+    已完成进度现由e40完整状态保护，且不声称与存活进程未做的GPU下一步逐位等价。
