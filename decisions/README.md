@@ -321,3 +321,6 @@ authorize compute.
 96. `DEC-20260906-4090A-RUNTIME-ROLE-SEPARATION.md`：将AM-TNC训练恢复与4090A统一评估
     恢复显式分开。现有评估waiter均未开始指标计算且保持健康，因此不重启；任一waiter未来
     退出时必须先核验专用评估运行时，禁止机械使用AM-TNC训练relay造成同一cohort运行时混合。
+97. `DEC-20260906-4090A-PINNED-EVALUATOR-RUNTIME.md`：冻结只读统一评估运行时，分别在
+    DCLGAN和dynamic delivery冻结bundle上通过679/699项测试；新DCLGAN supervisor收养
+    原child且零重启，脱离SSH后连续健康，再退役会误入训练relay的旧控制进程。

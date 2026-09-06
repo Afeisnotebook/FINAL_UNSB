@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T09:10:00+08:00",
+  "captured_at": "2026-09-06T09:42:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -55,8 +55,10 @@
       "health_watcher_pid": 3802159,
       "output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
       "matched_plain": "5090B_MATCHED_PLAIN",
-      "runtime_role_gate": "healthy_waiter_preserved; any restart must use a separately verified unified-evaluation runtime and must not use the AM-TNC training relay",
-      "runtime_role_evidence": "evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_ROLE_SEPARATION_20260906T092500.json"
+      "runtime_role_gate": "healthy waiter preserved; any restart must rehash the dedicated read-only unified-evaluation runtime and must not use the AM-TNC training relay",
+      "dedicated_evaluator_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+      "dedicated_evaluator_runtime_tree_sha256": "4c9ca0c7d5e0e4aaa4d1026ed6229136d50e646aeccaf73401a565ce3f4e1bfe",
+      "runtime_role_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PINNED_EVALUATOR_RUNTIME_AND_DCLGAN_SUPERVISOR_20260906T094200.json"
     },
     {
       "id": "algorithm_dispositions",
@@ -122,10 +124,11 @@
       "portfolio_addendum_gate": "deploy after the future dynamic core final-delivery output path is frozen",
       "implementation": "operations/paper_aio_dclgan_portfolio_addendum_successor.py",
       "evaluation_child_pid": 3587264,
-      "recovery_supervisor_pid": 3804113,
-      "recovery_health_watcher_pid": 3804260,
+      "recovery_supervisor_pid": 3870693,
+      "recovery_health_watcher_pid": 3870938,
       "recovery_restart_count": 0,
-      "runtime_role_gate": "if the child exits, fail closed before accepting an automatic restart because the original python entrypoint now resolves to the AM-TNC training relay"
+      "runtime_role_gate": "PASS_PINNED_READ_ONLY_EVALUATOR_RUNTIME; existing child adopted without restart",
+      "retired_runtime_unsafe_control_pids": [3804113, 3804260]
     },
     {
       "id": "terminal_causal_audit",
