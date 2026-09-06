@@ -324,3 +324,8 @@ authorize compute.
 97. `DEC-20260906-4090A-PINNED-EVALUATOR-RUNTIME.md`：冻结只读统一评估运行时，分别在
     DCLGAN和dynamic delivery冻结bundle上通过679/699项测试；新DCLGAN supervisor收养
     原child且零重启，脱离SSH后连续健康，再退役会误入训练relay的旧控制进程。
+98. `DEC-20260906-4090A-DELETED-RUNTIME-FRESH-AUDIT-AND-OUTER-GUARD.md`：重新核验事故后的
+    实时状态，确认原完整环境仍被删除但三个原Python路径已是可执行只读relay；111个活动
+    映射重新哈希全匹配，隔离环境通过4090 CUDA探针及当前e29后一更新CPU恢复。恢复资产
+    改为只读，并部署零重启外层guard收养现有PID；只有trainer与supervisor均消失且完整状态
+    验签通过时才恢复冻结命令，当前健康训练未中断。

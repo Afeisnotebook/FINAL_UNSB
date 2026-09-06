@@ -1,0 +1,111 @@
+{
+  "schema": "final-unsb-paper-aio-deleted-runtime-fresh-audit-v1",
+  "captured_at": "2026-09-06T13:52:00+08:00",
+  "host": "4090A",
+  "status": "ACTIVE_RUN_UNCHANGED_LATEST_FULL_STATE_RESUMABLE_OUTER_GUARD_MONITORING",
+  "incident_reassessment": {
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_trainer_continuous_since": "2026-09-05T08:54:13+08:00",
+    "active_trainer_restarted": false,
+    "active_supervisor_restarted": false,
+    "original_environment_directory_is_full_environment": false,
+    "original_entrypoint_status": "THREE_READ_ONLY_RECOVERY_RELAYS_PRESENT",
+    "relay_entrypoints": [
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10"
+    ],
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "direct_original_entrypoint_import_probe": "PASS_RELAY_TO_ISOLATED_RUNTIME",
+    "stale_claim_corrected": "the original full environment remains deleted, but the original Python paths now exist as verified relays; a new process launched through those paths no longer fails merely because the old environment was removed"
+  },
+  "isolated_runtime_fresh_verification": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "recorded_tree_sha256": "eababf34e314c97614364824d78b1d005a60c9134f00550b06939d96428bd3b7",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "active_mapping_manifest_sha256": "a9a6e0b7832384d8b9cfc96ff174f9b99ad7c95c83b3fb70d4c52d275726d537",
+    "active_mapping_entries_rehashed": 111,
+    "active_mapping_entries_mismatched": 0,
+    "active_mapping_result": "PASS_111_OF_111_BYTE_IDENTICAL",
+    "versions": {
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "torchvision": "0.20.1+cu121",
+      "numpy": "2.2.6",
+      "pillow": "12.2.0"
+    },
+    "cuda_smoke": "PASS_TORCH_CUDA_12_1_RTX_4090_TENSOR_ROUNDTRIP",
+    "runtime_and_live_mapping_capture_write_protected": true,
+    "write_protection_scope": "owner/group/other write bits removed; root-owned capture directories were already non-writable to the training user",
+    "new_runtime_cohort_claimed": false
+  },
+  "latest_full_state": {
+    "data_epoch": 29,
+    "step": 248037,
+    "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/full_state_latest.pt",
+    "checkpoint_sha256": "506357241abe82648e63963254f8ecaa924a21a4426d0c86a51ca0e0660db81f",
+    "scientific_state_sha256": "f8f6baaf10b9b36222900bb8fe727db91f73daa8d860b01250d2a3829756dbb7",
+    "sidecar_identity": "PASS",
+    "checkpoint_torch_load_cpu": "PASS_FULL_SCHEMA",
+    "completed_checkpoint_loss": false
+  },
+  "fresh_resume_probe": {
+    "path": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_E29_20260906T134800",
+    "device": "CPU_ONLY_NO_LIVE_GPU_OR_RUN_MUTATION",
+    "input_step": 248037,
+    "input_checkpoint_sha256": "506357241abe82648e63963254f8ecaa924a21a4426d0c86a51ca0e0660db81f",
+    "output_step": 248038,
+    "output_checkpoint_sha256": "2568b96f002848a1c356f025eb457dfaa3797de6147d8d351d24151258fbe4a1",
+    "output_scientific_state_sha256": "d70e86169730563326350490aaea5db11c72e2ab79d09a51596f675ed76ae79d",
+    "wall_seconds": 4.547025918960571,
+    "result": "PASS_ENGINEERING_PAUSE_AFTER_ONE_UPDATE",
+    "main_lane_files_modified": false
+  },
+  "outer_recovery_guard": {
+    "pid": 3966089,
+    "status": "MONITORING_EXISTING_SUPERVISOR",
+    "guard_output": "/home/yc/runs/FINAL_UNSB_AMTNC_RECOVERY_GUARD_C464D6A",
+    "health_watcher_pid": 3968393,
+    "health_watcher_output": "/home/yc/runs/FINAL_UNSB_AMTNC_RECOVERY_GUARD_HEALTH_C464D6A",
+    "health_watcher_status": "HEALTHY_ZERO_ALERTS",
+    "control_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+    "control_source_sha256": "ae9e9c1486cf5b5cf0382b458cd04c2f659b4065a3ef77278224f178fdf48697",
+    "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "training_supervisor_source_sha256": "00b70335cfb4ebc7b828a8d1a3e890cd840774f91b8f26834422c81ecaf985e3",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "guard_tests": "11_PASSED",
+    "observed_supervisor_pids": [3446757],
+    "observed_trainer_pids": [3446758],
+    "total_restarts": 0,
+    "consecutive_no_progress_restarts": 0,
+    "normal_behavior": "adopt and monitor the existing supervisor without launching anything",
+    "recovery_condition": "launch the frozen supervisor through the isolated runtime only when both the supervisor and trainer are absent and the latest checkpoint identity and file hash pass",
+    "duplicate_process_fail_closed": true,
+    "performance_values_available": false
+  },
+  "impact": {
+    "training_continues": true,
+    "latest_complete_epoch_recoverable": true,
+    "maximum_compute_at_risk": "only the currently incomplete data epoch if the live process fails before the next atomic epoch checkpoint",
+    "future_work_blocked_by_missing_original_environment": false,
+    "unified_evaluation_uses_separate_pinned_runtime": true,
+    "remaining_limit": "the live deleted-inode process cannot be made identical to a newly spawned process without restarting it; GPU next-step bitwise equivalence to that live process is therefore not claimed",
+    "loss_avoidance_disposition": "COMPLETED_STATE_AND_FUTURE_RESUME_PATH_PROTECTED; NO NEED TO RESTART THE HEALTHY RUN"
+  },
+  "capacity": {
+    "free_disk_gib": 538,
+    "recovery_snapshot_logical_gib_approx": 5.12,
+    "disk_blocker": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "checkpoint_or_data_deleted": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
