@@ -210,6 +210,21 @@ def test_projection_waits_when_contention_exceeds_release_cost():
     assert value["continue_now_saving_seconds"] < 0
 
 
+def test_projection_includes_companion_tail_when_plain_finishes_first():
+    value = successor.project_colocation_makespan(
+        target_epochs=200,
+        plain_completed_epochs=190,
+        plain_colocated_epoch_seconds=100,
+        plain_isolated_epoch_seconds=50,
+        co_resident_completed_epochs=100,
+        co_resident_colocated_epoch_seconds=200,
+        co_resident_isolated_epoch_seconds=50,
+    )
+    assert value["continue_now_seconds"] == 5750
+    assert value["wait_for_release_seconds"] == 5500
+    assert value["continue_now_saving_seconds"] == -250
+
+
 def test_capacity_gate_uses_only_training_heartbeats_and_preserves_resume(
     tmp_path,
     monkeypatch,

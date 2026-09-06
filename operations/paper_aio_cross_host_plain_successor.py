@@ -163,7 +163,17 @@ def project_colocation_makespan(
     )
     plain_colocated_completion_seconds = plain_remaining * plain_colocated_epoch_seconds
     if plain_colocated_completion_seconds <= co_resident_colocated_remaining_seconds:
-        continue_now_seconds = plain_colocated_completion_seconds
+        co_resident_epochs_during_colocation = (
+            plain_colocated_completion_seconds / co_resident_colocated_epoch_seconds
+        )
+        continue_now_seconds = (
+            plain_colocated_completion_seconds
+            + max(
+                0.0,
+                co_resident_remaining - co_resident_epochs_during_colocation,
+            )
+            * co_resident_isolated_epoch_seconds
+        )
     else:
         plain_epochs_during_colocation = (
             co_resident_colocated_remaining_seconds / plain_colocated_epoch_seconds
