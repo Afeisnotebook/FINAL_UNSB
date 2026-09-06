@@ -337,3 +337,7 @@ authorize compute.
     deleted-inode PID无重启推进到固定e40；checkpoint、sidecar和metric artifact来源侧哈希闭环，
     隔离恢复运行时成功CPU加载完整状态。外层guard零重启、零告警，因此继续保留健康原进程，
     已完成进度现由e40完整状态保护，且不声称与存活进程未做的GPU下一步逐位等价。
+101. `DEC-20260907-5090C-PROPOSAL-E75-STALL-EXACT-RESUME.md`：Proposal在e75后达到冻结的
+    14,400秒无进度门限；e75 full state重新哈希并由同一runtime CPU加载后，仅终止失去进度的
+    子PID，由原supervisor按冻结命令恢复。新PID完成e76，GPU、progress watcher和health均恢复；
+    没有完成epoch损失、没有paired控制或协议变化，也不声称未观测反事实的逐位等价。
