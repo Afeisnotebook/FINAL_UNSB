@@ -1201,6 +1201,16 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_RUNTIME_RELATION_ADMISSION_AND_GATE5_RECOVERY_20260906T053848.json",
       "decision": "decisions/DEC-20260906-RUNTIME-RELATION-ADMISSION-AND-GATE5-RECOVERY.md"
     },
+    "future_coresident_makespan_projection": {
+      "status": "COMPANION_TAIL_COUNTED_FOR_BOTH_COMPLETION_ORDERS",
+      "implementation_commit": "a4f4b46ca93482371a65a187295b9ce7893b44ce",
+      "current_live_gate_hot_patched": false,
+      "scientific_protocol_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CORESIDENT_MAKESPAN_TAIL_CORRECTION_20260906T080200.json",
+      "decision": "decisions/DEC-20260906-CORESIDENT-MAKESPAN-TAIL-CORRECTION.md"
+    },
     "cyclegan_e125_inline_evaluation_recovery": {
       "status": "EXACT_E125_RECOVERY_CLOSED_BY_COMPLETE_E126_PROGRESS",
       "alert_at": "2026-09-06T01:22:01+08:00",

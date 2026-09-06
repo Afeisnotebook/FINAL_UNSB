@@ -299,3 +299,6 @@ authorize compute.
 90. `DEC-20260906-5090B-TERMINAL-AWARE-HEALTH-REPLACEMENT.md`：CUT与source-bound export均
     已完成后，旧监控把正常退出的exporter误报为PID死亡；部署通用`COMPLETE_*`终态感知监控，
     连续三次零告警且归属PID 1后才退役旧监控。CycleGAN与matched-plain容量探针均未触碰。
+91. `DEC-20260906-CORESIDENT-MAKESPAN-TAIL-CORRECTION.md`：修正未来共驻容量门在plain先完成
+    分支漏算companion独占尾部的非对称makespan公式；新增确定性反例与全套回归。当前已冻结
+    5090B容量门不热修改，算法协议、运行时关系和训练进程均不受影响。

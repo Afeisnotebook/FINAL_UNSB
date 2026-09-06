@@ -1,0 +1,42 @@
+{
+  "schema": "final-unsb-paper-coresident-makespan-tail-correction-v1",
+  "captured_at": "2026-09-06T08:02:00+08:00",
+  "status": "PASS_FUTURE_CAPACITY_PROJECTION_COUNTS_BOTH_TASK_TAILS",
+  "audit_question": "Does the metric-blind co-resident gate compare wall time until both GPU tasks finish for either completion order?",
+  "finding": {
+    "companion_finishes_first_branch": "correctly counted the remaining isolated plain tail",
+    "plain_finishes_first_branch_before_fix": "incorrectly stopped the projection at plain completion and omitted the remaining isolated companion tail",
+    "affected_scope": "future capacity decisions in which plain would finish before its companion",
+    "current_live_training_changed": false,
+    "current_5090b_gate_hot_patched": false
+  },
+  "correction": {
+    "implementation_commit": "a4f4b46ca93482371a65a187295b9ce7893b44ce",
+    "function": "operations.paper_aio_cross_host_plain_successor.project_colocation_makespan",
+    "formula": "t_plain_colocated + max(0, companion_remaining_epochs - t_plain_colocated / companion_colocated_epoch_seconds) * companion_isolated_epoch_seconds",
+    "decision_inputs_remain_metric_blind": true,
+    "batch_or_algorithm_protocol_changed": false,
+    "runtime_cohort_changed": false
+  },
+  "counterexample": {
+    "plain_remaining_epochs": 10,
+    "plain_colocated_epoch_seconds": 100,
+    "plain_isolated_epoch_seconds": 50,
+    "companion_remaining_epochs": 100,
+    "companion_colocated_epoch_seconds": 200,
+    "companion_isolated_epoch_seconds": 50,
+    "correct_continue_now_seconds": 5750,
+    "wait_for_release_seconds": 5500,
+    "correct_continue_now_saving_seconds": -250,
+    "old_incorrect_continue_now_seconds": 1000
+  },
+  "verification": {
+    "targeted_tests": "11 passed",
+    "full_tests": "705 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}
