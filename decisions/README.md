@@ -329,3 +329,7 @@ authorize compute.
     映射重新哈希全匹配，隔离环境通过4090 CUDA探针及当前e29后一更新CPU恢复。恢复资产
     改为只读，并部署零重启外层guard收养现有PID；只有trainer与supervisor均消失且完整状态
     验签通过时才恢复冻结命令，当前健康训练未中断。
+99. `DEC-20260906-CYCLEGAN-E150-HASH-CLOSURE.md`：5090B CycleGAN固定e150 checkpoint、
+    sidecar和metric artifact完成来源侧哈希闭环，指标内容未读取；原e125恢复后的同一trainer
+    已推进至e152，continuity guard零重启。严格runtime matched plain在既有metric-blind容量门
+    后健康推进至e11，两条共驻训练及其调度均未改变。

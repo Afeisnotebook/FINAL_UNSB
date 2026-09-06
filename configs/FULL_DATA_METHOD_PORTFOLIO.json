@@ -180,7 +180,7 @@
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "formal_e200_running_after_metric_blind_capacity_pass_from_exact_e2_full_state",
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
-    "cyclegan_5090B": "running_e131",
+    "cyclegan_5090B": "running_e152_latest_fixed_e150_hash_closed",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
     "dclgan": "running_local_gtx1660_e20_latest_fixed_e20_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
@@ -219,6 +219,14 @@
     }
   },
   "external_fixed_milestones": {
+    "cyclegan_e150": {
+      "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
+      "checkpoint_sha256": "9aaa474e15c26a8466806f19ab69b76712d4bd319fcb3915faf52601a73c8a27",
+      "scientific_state_sha256": "8ca369aad58d8f8634a7845b1fe3be85088e13cc380c035dc1c30c8f10acedaa",
+      "metric_artifact_sha256": "033d7fc207a5dba5ce207de04bbfc66933c9a60076d78b6b7c6225402df52f32",
+      "live_continuation_epoch": 152,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E150_HASH_CLOSURE_AND_5090B_HEALTH_20260906T204629.json"
+    },
     "cut_e200": {
       "status": "checkpoint_sidecar_and_source_bound_export_hash_closed_performance_values_unread",
       "checkpoint_sha256": "81c213df8ccf7bb95803eedab51190439e916130dcd4555b8820103694d6b032",

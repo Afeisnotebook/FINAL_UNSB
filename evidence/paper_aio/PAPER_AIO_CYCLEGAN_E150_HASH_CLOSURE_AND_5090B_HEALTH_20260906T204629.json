@@ -1,0 +1,81 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e150-hash-closure-and-5090b-health-v1",
+  "captured_at": "2026-09-06T20:46:29+08:00",
+  "decision": "ACCEPT_CYCLEGAN_E150_FIXED_MILESTONE_KEEP_CYCLEGAN_AND_MATCHED_PLAIN_RUNNING",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu": "NVIDIA GeForce RTX 5090"
+  },
+  "milestone": {
+    "lane_id": "cyclegan",
+    "physical_epoch_completed": 150,
+    "step": 1282950,
+    "checkpoint_bytes": 359430451,
+    "checkpoint_sha256_from_sidecar": "9aaa474e15c26a8466806f19ab69b76712d4bd319fcb3915faf52601a73c8a27",
+    "checkpoint_sha256_recomputed": "9aaa474e15c26a8466806f19ab69b76712d4bd319fcb3915faf52601a73c8a27",
+    "sidecar_sha256": "b05266fcb844a85af8f1aa18abb0ba8e77d35f26d4001362a550c444e0be4ae6",
+    "scientific_state_sha256": "8ca369aad58d8f8634a7845b1fe3be85088e13cc380c035dc1c30c8f10acedaa",
+    "metric_artifact_bytes": 138435,
+    "metric_artifact_sha256": "033d7fc207a5dba5ce207de04bbfc66933c9a60076d78b6b7c6225402df52f32",
+    "metric_content_parsed": false
+  },
+  "identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "lane_config_sha256": "066d7b6b490f42812e29aedf1687763192438663592fb3e11a64a0b086d5c4d2",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "live_after_milestone": {
+    "cyclegan": {
+      "status": "CHILD_RUNNING",
+      "data_epoch": 152,
+      "updates": 1300056,
+      "epoch_wall_seconds": 2585.977890729904,
+      "latest_full_state_sha256": "90a044e8d341dbfdc95ffdf39a1826b0968e899c6d92dfe27ede6a50154ec997",
+      "latest_scientific_state_sha256": "4845451834519e53649a79b853a9325cbe4fa86d56364775613aea91d6eb7d23",
+      "supervisor_pid": 11845,
+      "trainer_pid": 493306,
+      "continuity_guard_pid": 159134,
+      "continuity_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "continuity_guard_total_restarts": 0
+    },
+    "matched_plain": {
+      "status": "PLAIN_SUPERVISOR_RUNNING",
+      "data_epoch": 11,
+      "updates": 94083,
+      "latest_scientific_state_sha256": "47860b70cea6bab2159ba6bdcaf23dd06ec0e3500419f8ae37b490073fc6a319",
+      "successor_pid": 523993,
+      "supervisor_pid": 534983,
+      "trainer_pid": 534984,
+      "export_successor_pid": 534982,
+      "health_status": "HEALTHY",
+      "exact_runtime_equivalence": true,
+      "capacity_gate_status": "PASS_METRIC_BLIND_CO_RESIDENT_MAKESPAN_GATE",
+      "capacity_gate_decision": "CONTINUE_PLAIN_NOW",
+      "capacity_gate_receipt_sha256": "7f1d96be51e3731098ecf2b6f1337b4ea61011ccfa06f97c2bb95bd145c83136"
+    },
+    "gpu_utilization_percent": 98,
+    "gpu_memory_used_mib": 3671,
+    "disk_free_gib": 225
+  },
+  "actions": {
+    "training_restarted": false,
+    "training_interrupted": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "git_compact_evidence_only": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "confirmation20_opened": false
+  }
+}
