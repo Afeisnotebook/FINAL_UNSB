@@ -341,3 +341,6 @@ authorize compute.
     14,400秒无进度门限；e75 full state重新哈希并由同一runtime CPU加载后，仅终止失去进度的
     子PID，由原supervisor按冻结命令恢复。新PID完成e76，GPU、progress watcher和health均恢复；
     没有完成epoch损失、没有paired控制或协议变化，也不声称未观测反事实的逐位等价。
+102. `DEC-20260907-5090B-MATCHED-PLAIN-E20-HASH-CLOSURE.md`：正式matched plain完成固定e20；
+    checkpoint、sidecar和未解析metric artifact在来源宿主哈希闭环，CPU full-state加载验证模型、
+    优化状态、RNG和sampler齐全。CycleGAN共驻训练继续e166且guard零重启，不提前产生matched delta。

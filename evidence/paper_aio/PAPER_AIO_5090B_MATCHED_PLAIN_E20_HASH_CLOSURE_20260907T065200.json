@@ -1,0 +1,72 @@
+{
+  "schema": "final-unsb-paper-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-07T06:52:00+08:00",
+  "decision": "ACCEPT_5090B_MATCHED_PLAIN_E20_FIXED_MILESTONE_KEEP_RUNNING",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194"
+  },
+  "lane": {
+    "id": "plain",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "scientific_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "supervisor_pid": 534983,
+    "trainer_pid": 534984,
+    "health_watcher_pid": 524155,
+    "progress_watcher_pid": 524156
+  },
+  "fixed_milestone": {
+    "data_epoch": 20,
+    "updates": 171060,
+    "epoch_wall_seconds": 4539.793508052826,
+    "checkpoint_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/lanes/plain/milestones/e020.pt",
+    "checkpoint_bytes": 201481694,
+    "checkpoint_sha256": "54b6cf358afb5dfcb1080285f7b684d795bac09f7791d8b82ea36146e03a8aee",
+    "sidecar_sha256": "037841c6cb429727fa77daf548cf9a647095b71a7f162b728a1267428a0ca6f3",
+    "scientific_state_sha256": "1051c6ea1c4285fe0743935a82fcd49d701a9e1c95b85aa7b2e91b73ba75e065",
+    "metric_artifact_path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/lanes/plain/metrics/e020.json",
+    "metric_artifact_bytes": 134816,
+    "metric_artifact_sha256": "c2c5a018d116f7945ac742aeed979a7b37605bd58ed834161b3d3dfb5220e7b5",
+    "metric_contents_read": false
+  },
+  "latest_state_at_capture": {
+    "data_epoch": 20,
+    "updates": 171060,
+    "heartbeat_sha256": "a0cec7e10019981eef6fb1853bb94c23d54403b52d187bdbdb36e467cb533e48",
+    "checkpoint_sha256": "bf5b7de3895cf730125dcaaecbb074c9ff8be026ef5f4b8397f225f405255661",
+    "sidecar_sha256": "b1563184e8f85b03c960ba312d41b7f87b13b4e6a4d06611a0b382391372d4cc",
+    "scientific_state_sha256": "1051c6ea1c4285fe0743935a82fcd49d701a9e1c95b85aa7b2e91b73ba75e065",
+    "separate_save_serialized_hash_difference_expected": true
+  },
+  "full_state_load": {
+    "runtime": "/root/autodl-tmp/envs/final_unsb_paper/bin/python3.11",
+    "map_location": "cpu",
+    "status": "PASS",
+    "loaded_step": 171060,
+    "rng_keys": ["numpy", "python", "torch_cpu", "torch_cuda"],
+    "sampler_keys": ["primary", "secondary"],
+    "lane_id": "plain",
+    "confirmation20_opened": false
+  },
+  "co_resident_context": {
+    "cyclegan_data_epoch": 166,
+    "cyclegan_updates": 1419798,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 493306,
+    "cyclegan_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "cyclegan_guard_total_restarts": 0,
+    "gpu_utilization_percent": 88,
+    "gpu_memory_mib": 3671,
+    "disk_free_gib": 225
+  },
+  "scientific_boundary": {
+    "training_process_changed": false,
+    "queue_changed": false,
+    "paired_performance_read": false,
+    "confirmation20_opened": false,
+    "matched_delta_available": false,
+    "claim": "This closes one preregistered control milestone only and does not rank algorithms."
+  }
+}
