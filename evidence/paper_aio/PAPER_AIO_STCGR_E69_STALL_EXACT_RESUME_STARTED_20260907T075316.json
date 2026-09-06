@@ -1,0 +1,89 @@
+{
+  "schema": "final-unsb-paper-stcgr-e69-stall-exact-resume-started-v1",
+  "captured_at": "2026-09-07T07:53:16+08:00",
+  "decision": "RECOVER_STALLED_STCGR_CHILD_FROM_HASH_VERIFIED_E69_WITH_EXISTING_FROZEN_SUPERVISOR",
+  "host": {
+    "label": "5090A",
+    "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+    "disk_free_gib": 182.9,
+    "user_capacity_override": true
+  },
+  "stall": {
+    "old_trainer_pid": 431032,
+    "supervisor_pid": 336345,
+    "last_complete_data_epoch": 69,
+    "last_complete_step": 590157,
+    "last_checkpoint_time": "2026-09-07T02:29:14+08:00",
+    "progress_watch_status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+    "effective_progress_age_seconds_at_audit": 18850.6,
+    "progress_watch_stall_seconds": 7200,
+    "gpu_samples_before_recovery_percent": [0, 0, 0, 0, 0],
+    "io_delta_before_recovery": {
+      "rchar": 0,
+      "wchar": 0,
+      "read_bytes": 0,
+      "write_bytes": 0,
+      "syscr": 0,
+      "syscw": 0
+    },
+    "no_oom_cuda_nan_or_traceback_found": true
+  },
+  "resume_source": {
+    "checkpoint": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/lanes/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/full_state_latest.pt",
+    "checkpoint_sha256": "0a777ccfe9628a07d0d146820c5aebf07b0b7fb4d6978a03e78555ca77e0b541",
+    "sidecar_sha256": "818b537167400f7e9841f6c23d93b7112bec2cef48fcfd8f8d41cfe1fde747f5",
+    "scientific_state_sha256": "c158a3fa800cc395e3d7afd597a1ca3b754d8659ae741a1dabbcf0aee4f94f70",
+    "cpu_load": "PASS",
+    "required_state": {
+      "models_optimizers_schedulers_method": true,
+      "python_numpy_cpu_cuda_rng": true,
+      "primary_secondary_samplers": true
+    }
+  },
+  "recovery": {
+    "signal": "SIGTERM_CHILD_ONLY",
+    "old_child_returncode": -15,
+    "supervisor_preserved": true,
+    "continuation_preserved": true,
+    "export_successor_preserved": true,
+    "new_trainer_pid": 863376,
+    "new_child_started_unix_time": 1788738470.799339,
+    "command_uses_resume": true,
+    "supervisor_consecutive_failures": 2,
+    "post_restart_gpu_utilization_percent": [46, 56],
+    "post_restart_gpu_memory_mib": 2186,
+    "status": "EXACT_RESUME_RUNNING_E70_HASH_CLOSURE_PENDING"
+  },
+  "other_frontier_snapshot": {
+    "4090A_amtnc": "HEALTHY_E47_DELETED_INODE_PROCESS_PRESERVED_OUTER_GUARD_ZERO_RESTARTS",
+    "5090C_proposal": "HEALTHY_E77_AFTER_PRIOR_E75_RECOVERY",
+    "5090B_cut": "COMPLETE_E200",
+    "5090B_cyclegan": "HEALTHY_E168",
+    "5090B_matched_plain": "HEALTHY_E20",
+    "local_dclgan": "HEALTHY_E38"
+  },
+  "impact": {
+    "completed_epoch_lost": false,
+    "maximum_compute_lost": "only_uncommitted_work_after_e69",
+    "healthy_training_interrupted": false,
+    "protocol_changed": false,
+    "runtime_cohort_changed": false,
+    "closure_condition": "new_child_completes_e70_and_writes_hash_verified_full_state"
+  },
+  "repository_validation": {
+    "base_commit": "2adc279ab0ae29775f0bd2bd07ab033c815c7086",
+    "contract_checks": "PASS",
+    "pytest": "713 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
