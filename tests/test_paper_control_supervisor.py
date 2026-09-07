@@ -250,6 +250,11 @@ def test_dclgan_evaluation_wait_and_completion_are_supervisable() -> None:
             "final-unsb-paper-final-delivery-successor-state-v2",
             "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
         ),
+        (
+            "dclgan_addendum",
+            "final-unsb-paper-dclgan-portfolio-addendum-state-v1",
+            "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM",
+        ),
     ],
 )
 def test_evaluation_delivery_roles_are_supervisable(
@@ -267,6 +272,21 @@ def test_evaluation_delivery_roles_are_supervisable(
     assert child_state_decision(
         role, {**base, "confirmation20_opened": True}
     ) == "BLOCK"
+
+
+def test_dclgan_addendum_allows_post_completion_metric_consumption() -> None:
+    base = {
+        "schema": "final-unsb-paper-dclgan-portfolio-addendum-state-v1",
+        "status": "PROFILING_FIXED_DCLGAN_E200_COMPLEXITY",
+        "performance_values_read": True,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert child_state_decision("dclgan_addendum", base) == "WAIT"
+    assert child_state_decision(
+        "dclgan_addendum",
+        {**base, "status": "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM"},
+    ) == "COMPLETE"
 
 
 def test_explicit_evaluator_role_accepts_frozen_external_child_repo(

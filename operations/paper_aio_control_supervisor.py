@@ -83,6 +83,12 @@ ROLE_SPECS = {
         "performance_must_remain_false": False,
         "allow_external_child_repo": True,
     },
+    "dclgan_addendum": {
+        "module": "operations.paper_aio_dclgan_portfolio_addendum_successor",
+        "child_schema": "final-unsb-paper-dclgan-portfolio-addendum-state-v1",
+        "final_status": "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM",
+        "performance_must_remain_false": False,
+    },
 }
 
 
