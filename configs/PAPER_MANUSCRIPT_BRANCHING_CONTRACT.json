@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-manuscript-branching-contract-v1",
-  "captured_at": "2026-09-08T01:20:00+08:00",
+  "captured_at": "2026-09-08T04:20:00+08:00",
   "status": "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM",
   "purpose": "Prevent result-contingent story drift while allowing the manuscript to follow whichever full-data operators actually pass the frozen paper disposition gate.",
   "source_bindings": {
@@ -30,7 +30,8 @@
     "PAPER_ALGORITHM_BASELINE_CLAIM_REVIEW.json",
     "PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json",
     "MANUSCRIPT_RESULT_BRANCH.json",
-    "MANUSCRIPT_TABLES_RECEIPT.json"
+    "MANUSCRIPT_TABLES_RECEIPT.json",
+    "MANUSCRIPT_FIGURES_RECEIPT.json"
   ],
   "claim_gate_order": [
     "source_bound_e200_exports",
@@ -39,7 +40,8 @@
     "algorithm_dispositions",
     "human_codex_claim_review_committed",
     "claim_freeze_receipt_committed",
-    "deterministic_manuscript_table_export"
+    "deterministic_manuscript_table_export",
+    "deterministic_manuscript_figure_export"
   ],
   "branch_matrix": [
     {"proposal": false, "stcgr": false, "amtnc": false, "route": "long_horizon_negative_results_and_causal_limits_only"},
