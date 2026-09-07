@@ -29,8 +29,8 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 可信恢复根是从运行进程映射建立并逐项验哈希的独立只读运行时，过程中没有中断或重启
 AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
 运行时风险的最新权威回执与裁决分别为
-`evidence/paper_aio/PAPER_AIO_AMTNC_E62_CURRENT_RESUME_REVALIDATION_20260907T223230.json`
-和`decisions/DEC-20260907-AMTNC-E62-CURRENT-RESUME-REVALIDATION.md`；动态交付链仍见
+`evidence/paper_aio/PAPER_AIO_AMTNC_E63_RECOVERY_AND_OFFHOST_RUNTIME_BACKUP_20260907T232900.json`
+和`decisions/DEC-20260907-AMTNC-E63-RECOVERY-AND-OFFHOST-RUNTIME-BACKUP.md`；动态交付链仍见
 `decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。恢复资产不建立
 新的训练runtime cohort，matched关系仍只使用已审核注册表。
 

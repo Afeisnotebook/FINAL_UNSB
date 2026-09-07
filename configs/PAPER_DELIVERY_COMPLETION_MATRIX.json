@@ -13,7 +13,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e80_hash_closed_live_heartbeat_e88",
         "5090A/stcgr": "e80_fixed_checkpoint_sidecar_metric_hash_closed_live_continuation",
-        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e62_current_checkpoint_resume_revalidated_deleted_runtime_guard_zero_restarts",
+        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e63_current_checkpoint_preflight_pass_deleted_runtime_guard_zero_restarts_offhost_runtime_backup_hash_closed",
         "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e185",
         "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e30",
         "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e50"
@@ -141,7 +141,7 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "healthy_deleted_inode_preserved_e62_current_resume_revalidated_runtime_identity_fail_closed",
+      "status": "healthy_deleted_inode_preserved_e63_current_preflight_pass_offhost_runtime_backup_hash_closed",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
       "active_training_pid": 3446758,
@@ -151,12 +151,15 @@
       "recovery_health_watcher_pid": 439447,
       "runtime_manifest_entries": 111,
       "runtime_entry_rehash": "pass_111_of_111",
-      "current_checkpoint_resume_probe": "pass_e62_step_530286_to_530287_cpu",
+      "current_checkpoint_resume_probe": "pass_e62_step_530286_to_530287_cpu_plus_e63_full_runtime_and_checkpoint_preflight",
+      "current_checkpoint_step": 538839,
+      "current_checkpoint_sha256": "b43934ab3d212dad835146b44de4cf4e82e27b1222d3cf379692fa855f0d9b75",
+      "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E62_CURRENT_RESUME_REVALIDATION_20260907T223230.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E63_RECOVERY_AND_OFFHOST_RUNTIME_BACKUP_20260907T232900.json"
     },
     "all_active_source_export_recovery": {
       "status": "five_source_exporters_protected_zero_restarts",
@@ -290,7 +293,7 @@
   ],
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A active process still owns deleted runtime mappings; the original full environment remains absent and the old python entrypoints are read-only relays, all 111 mapped files are preserved and freshly rehashed in a verified read-only 2.2.6/12.2.0 isolated runtime, the current e62 full-state resume has been executed in isolation, and the replacement guard rehashes the interpreter, manifest, all entries and checkpoint immediately before any recovery launch without restarting the healthy trainer",
+    "the 4090A active process still owns deleted runtime mappings; the original full environment remains absent and the old python entrypoints are read-only relays, all 111 mapped files are preserved and freshly rehashed in a verified read-only 2.2.6/12.2.0 isolated runtime, the e62 full-state resume was executed in isolation, the current e63 checkpoint passed full runtime and checkpoint preflight, the replacement guard rehashes every identity immediately before recovery, and an off-host read-only runtime archive is hash closed",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "the 2026-09-07 metric-blind refresh projects Proposal near 2026-09-14 07:38 with about 16.4 hours of lease headroom, ST-CGR near 2026-09-14 12:43 with about 35.3 hours, and the two-phase 5090B matched plain near 2026-09-12 21:49 with about 26.2 hours; no extension is currently triggered"

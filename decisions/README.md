@@ -344,3 +344,7 @@ authorize compute.
 102. `DEC-20260907-5090B-MATCHED-PLAIN-E20-HASH-CLOSURE.md`：正式matched plain完成固定e20；
     checkpoint、sidecar和未解析metric artifact在来源宿主哈希闭环，CPU full-state加载验证模型、
     优化状态、RNG和sampler齐全。CycleGAN共驻训练继续e166且guard零重启，不提前产生matched delta。
+103. `DEC-20260907-AMTNC-E63-RECOVERY-AND-OFFHOST-RUNTIME-BACKUP.md`：确认4090A错误清理没有
+    丢失AM-TNC已完成进度；e63 latest full-state全哈希、隔离运行时111项依赖和fail-closed guard
+    当前预检全部通过。健康deleted-inode进程保持原PID、零重启；5.49GB精确运行时另存本机只读
+    副本并完成跨宿主SHA256闭环，旧环境继续禁止原地覆盖。
