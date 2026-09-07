@@ -1,0 +1,112 @@
+{
+  "schema": "final-unsb-paper-cross-host-relay-recovery-supervisors-v1",
+  "captured_at": "2026-09-07T17:25:00+08:00",
+  "decision": "KEEP_ALL_HEALTHY_RELAYS_ADD_HASH_PINNED_DURABLE_RECOVERY_WITHOUT_TOUCHING_TRAINING",
+  "destination": {
+    "host_label": "4090A",
+    "hostname": "Machine",
+    "root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+    "disk_free_gib": 536.5229,
+    "estimated_remaining_write_gib": 160.0,
+    "minimum_headroom_gib": 20.0,
+    "capacity_status": "PASS_REAL_REMAINING_CAPACITY"
+  },
+  "control": {
+    "git_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
+    "checkout": "/home/yc/FINAL_UNSB_RELAY_RECOVERY_88b319c",
+    "checkout_clean": true,
+    "recovery_script_sha256": "e788044bb370946fa9add5f181ca75fb4b54ed77f0c72639c44448bac1b5f800",
+    "relay_source": "/home/yc/FINAL_UNSB_RELAY_HARDENED_e98e3b2_manual",
+    "relay_source_identity_mode": "contract_script_sha256",
+    "relay_source_script_sha256": "edfc92836843605f09deb08c987c6ca8fae01a749705cdcc76b60f15f6072a3f",
+    "python": "/usr/bin/python3.8",
+    "max_restarts_per_relay": 5,
+    "timeout_hours": 720,
+    "password_values_persisted": false
+  },
+  "relays": {
+    "5090A_stcgr_v4": {
+      "recovery_supervisor_pid": 400028,
+      "adopted_relay_pid": 3414650,
+      "recovery_status": "MONITORING_EXISTING_RELAY",
+      "child_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "restart_count": 0,
+      "recovery_output": "/home/yc/runs/FINAL_UNSB_RELAY_RECOVERY_5090A_stcgr_v4_4a61fca",
+      "recovery_contract_file_sha256": "1c766e1ec1916d54b0d3f7c87a109302a1aa2257613bc8ee509e07c5a8f2827f",
+      "frozen_relay_contract_sha256": "9be330c867a12c40c93291765abe16aaae3e5af89cf40ef99bad9e9dbeef2a19"
+    },
+    "5090B_external_v3": {
+      "recovery_supervisor_pid": 400037,
+      "adopted_relay_pid": 3414651,
+      "recovery_status": "MONITORING_EXISTING_RELAY",
+      "child_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "restart_count": 0,
+      "recovery_output": "/home/yc/runs/FINAL_UNSB_RELAY_RECOVERY_5090B_external_v3_4a61fca",
+      "recovery_contract_file_sha256": "369f1121c7a91060b43f9e2413a5a4f52cd5bcba73eb19235121aa78658c4b77",
+      "frozen_relay_contract_sha256": "bc5079f58d6c3f6cef8fcc45c9a1d59e27059286ad8ed41ddc8d482ced9ef17d"
+    },
+    "5090B_matched_plain_v3": {
+      "recovery_supervisor_pid": 400046,
+      "adopted_relay_pid": 3414652,
+      "recovery_status": "MONITORING_EXISTING_RELAY",
+      "child_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "restart_count": 0,
+      "recovery_output": "/home/yc/runs/FINAL_UNSB_RELAY_RECOVERY_5090B_matched_plain_v3_4a61fca",
+      "recovery_contract_file_sha256": "9c62923f48a3261383a640cb2eb299f0252b741932d047b598c579e323e1401d",
+      "frozen_relay_contract_sha256": "5a4ea22cfbd55d4da6b799e0025e209122fe4505605fd77d8775c3e466d91005"
+    },
+    "5090C_proposal_v4": {
+      "recovery_supervisor_pid": 400055,
+      "adopted_relay_pid": 3414653,
+      "recovery_status": "MONITORING_EXISTING_RELAY",
+      "child_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "restart_count": 0,
+      "recovery_output": "/home/yc/runs/FINAL_UNSB_RELAY_RECOVERY_5090C_proposal_v4_4a61fca",
+      "recovery_contract_file_sha256": "c6d7a50b59c72437e368b7906af337260bf4e7bda76124cd281e81cbe5b2a4e3",
+      "frozen_relay_contract_sha256": "1e8a3347ce1720255dbe901d46365820b4d563ade4b56a186453884be7df8167"
+    }
+  },
+  "post_disconnect_verification": {
+    "all_recovery_supervisor_ppids": 1,
+    "all_original_relay_ppids": 1,
+    "matching_active_relay_process_count": 4,
+    "duplicate_relay_processes": false,
+    "original_relays_restarted_or_modified": false
+  },
+  "health_watch": {
+    "pid": 401539,
+    "ppid": 1,
+    "output": "/home/yc/runs/FINAL_UNSB_HEALTH_RELAY_RECOVERY_4a61fca",
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "poll_seconds": 60,
+    "max_state_staleness_seconds": 180,
+    "contract_sha256": "bd73b19a0f74168f5636bf24ea380068c7c4c3a45f341abd4ef090b996ea0ae5",
+    "control_script_sha256": "b899671b0d19d33e0e676d37af6a79ea1acfba1e0582231cd7611f81f47670cd"
+  },
+  "metric_blind_live_snapshot": {
+    "4090A_amtnc": {"data_epoch": 56, "updates": 478968, "status": "healthy"},
+    "5090A_stcgr": {"data_epoch": 75, "updates": 641475, "status": "healthy"},
+    "5090B_cyclegan": {"data_epoch": 177, "updates": 1513881, "status": "healthy_after_exact_resume"},
+    "5090B_matched_plain": {"data_epoch": 26, "updates": 222378, "status": "healthy"},
+    "5090C_proposal": {"data_epoch": 84, "updates": 718452, "status": "healthy"},
+    "local_dclgan": {"data_epoch": 46, "updates": 393438, "status": "healthy"}
+  },
+  "recovery_semantics": {
+    "restart_trigger": "ONLY_WHEN_THE_FROZEN_RELAY_STATE_IS_NONTERMINAL_AND_NO_MATCHING_LIVE_RELAY_EXISTS",
+    "duplicate_or_command_mismatch": "FAIL_CLOSED",
+    "terminal_relay": "NO_RESTART",
+    "source_and_contract_identity": "REHASHED_BEFORE_EACH_DECISION",
+    "password_handling": "ENVIRONMENT_ONLY_NEVER_WRITTEN_TO_CONTRACT_STATE_LOG_OR_COMMAND_LINE",
+    "failure_scope_reduced": "A_RELAY_PROCESS_EXIT_NO_LONGER_SILENTLY_BREAKS_THE_E200_EXPORT_TO_UNIFIED_EVALUATION_CHAIN"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "checkpoint_migrated": false,
+    "confirmation20_opened": false
+  }
+}

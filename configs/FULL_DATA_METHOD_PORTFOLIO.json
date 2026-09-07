@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-07T15:22:28+08:00",
+  "captured_at": "2026-09-07T17:25:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -429,6 +429,27 @@
       "4090A_plain_live_progress_sentinel": 2613987,
       "4090A_future_amtnc_progress_sentinel": 2613988,
       "5090C_proposal_live_progress_sentinel": 89015
+    },
+    "cross_host_relay_recovery": {
+      "status": "deployed_healthy_four_relays_zero_restarts",
+      "control_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
+      "supervisor_pids": {
+        "5090A_stcgr_v4": 400028,
+        "5090B_external_v3": 400037,
+        "5090B_matched_plain_v3": 400046,
+        "5090C_proposal_v4": 400055
+      },
+      "health_watcher_pid": 401539,
+      "all_supervisor_ppids": 1,
+      "all_original_relays_preserved": true,
+      "relay_process_count": 4,
+      "duplicate_relay_processes": false,
+      "password_value_persisted": false,
+      "scientific_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
+      "decision": "decisions/DEC-20260907-CROSS-HOST-RELAY-RECOVERY-SUPERVISORS.md"
     },
     "evidence": [
       "evidence/paper_aio/PAPER_AIO_DURABLE_HEALTH_WATCH_DEPLOYMENT_20260902.json",
@@ -899,7 +920,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E56_CURRENT_CHECKPOINT_RESUME_PROOF_20260907T164249.json",
     "decision": "decisions/DEC-20260907-AMTNC-E56-CURRENT-CHECKPOINT-RESUME-PROOF.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E56_CURRENT_CHECKPOINT_RESUME_PROOF_20260907T164249.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

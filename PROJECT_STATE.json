@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-07",
-  "state_snapshot_time": "2026-09-07T15:22:28+08:00",
+  "state_snapshot_time": "2026-09-07T17:25:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -836,6 +836,37 @@
       "hardening_commit": "e98e3b24d7a3052c807671e28ed4f6c4de1db99",
       "health_watcher_pid": 3885710,
       "health_watcher_status": "HEALTHY_ZERO_ALERTS_ACTIVE_FRONTIER_ONLY",
+      "recovery_layer": {
+        "status": "FOUR_HASH_PINNED_RECOVERY_SUPERVISORS_HEALTHY_ZERO_RESTARTS",
+        "control_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
+        "control_script_sha256": "e788044bb370946fa9add5f181ca75fb4b54ed77f0c72639c44448bac1b5f800",
+        "relay_source_identity_mode": "contract_script_sha256",
+        "supervisor_pids": {
+          "5090A_stcgr_v4": 400028,
+          "5090B_external_v3": 400037,
+          "5090B_matched_plain_v3": 400046,
+          "5090C_proposal_v4": 400055
+        },
+        "adopted_relay_pids": {
+          "5090A_stcgr_v4": 3414650,
+          "5090B_external_v3": 3414651,
+          "5090B_matched_plain_v3": 3414652,
+          "5090C_proposal_v4": 3414653
+        },
+        "restart_counts": {
+          "5090A_stcgr_v4": 0,
+          "5090B_external_v3": 0,
+          "5090B_matched_plain_v3": 0,
+          "5090C_proposal_v4": 0
+        },
+        "health_watcher_pid": 401539,
+        "health_watcher_status": "HEALTHY_ZERO_ALERTS",
+        "health_contract_sha256": "bd73b19a0f74168f5636bf24ea380068c7c4c3a45f341abd4ef090b996ea0ae5",
+        "password_value_persisted": false,
+        "scientific_processes_changed": false,
+        "evidence": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
+        "decision": "decisions/DEC-20260907-CROSS-HOST-RELAY-RECOVERY-SUPERVISORS.md"
+      },
       "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
     },
     "paper_complexity_interface": {
@@ -1249,7 +1280,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E56_CURRENT_CHECKPOINT_RESUME_PROOF_20260907T164249.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",

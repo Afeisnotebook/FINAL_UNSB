@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-07T15:22:28+08:00",
+  "captured_at": "2026-09-07T17:25:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -102,6 +102,32 @@
       "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1"
     }
   ],
+  "delivery_recovery_control": {
+    "status": "four_hash_pinned_supervisors_healthy_monitoring_existing_relays_zero_restarts",
+    "critical_path": true,
+    "requires": ["source-bound e200 exporters", "frozen relay contracts", "destination 4090A"],
+    "proof": "each relay is adopted by one fail-closed recovery supervisor plus one state-freshness health watcher",
+    "control_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
+    "supervisor_pids": {
+      "5090A_stcgr_v4": 400028,
+      "5090B_external_v3": 400037,
+      "5090B_matched_plain_v3": 400046,
+      "5090C_proposal_v4": 400055
+    },
+    "adopted_relay_pids": {
+      "5090A_stcgr_v4": 3414650,
+      "5090B_external_v3": 3414651,
+      "5090B_matched_plain_v3": 3414652,
+      "5090C_proposal_v4": 3414653
+    },
+    "restart_count_total": 0,
+    "health_watcher_pid": 401539,
+    "health_status": "healthy_zero_alerts",
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json"
+  },
   "nonblocking_extensions": [
     {
       "id": "algorithm_theory_freeze_chain",
