@@ -1,0 +1,105 @@
+{
+  "schema": "final-unsb-paper-amtnc-e56-current-checkpoint-resume-proof-v1",
+  "captured_at": "2026-09-07T16:42:49+08:00",
+  "decision": "KEEP_HEALTHY_DELETED_INODE_RUN_CURRENT_E56_EXACT_FULL_STATE_RECOVERY_PROVED_IN_ISOLATION",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_utilization_percent_observed": 49,
+    "gpu_memory_used_mib_observed": 2371,
+    "disk_free_gib": 536.5
+  },
+  "cleanup_impact": {
+    "original_full_unsb_cov_environment_present": false,
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_pids_restarted_or_modified": false,
+    "completed_checkpoint_or_scientific_state_lost": false,
+    "old_python_paths": "THREE_READ_ONLY_326_BYTE_RELAYS_ONLY_NOT_A_REBUILT_ENVIRONMENT",
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb"
+  },
+  "isolated_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "python_sha256_live_deleted_inode": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "python_sha256_isolated": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "mapped_dependency_manifest": "/home/yc/recovery_snapshots/unsb_cov_live_mapped_3446758_20260906T083500/RECOVERY_MANIFEST.json",
+    "mapped_dependency_entries_rehashed": 111,
+    "mapped_dependency_entries_missing": 0,
+    "mapped_dependency_entries_mismatched": 0,
+    "mapped_dependency_revalidation": "PASS_111_OF_111_BYTE_IDENTICAL",
+    "versions": {
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "cuda": "12.1",
+      "numpy": "2.2.6",
+      "pillow": "12.2.0"
+    },
+    "direct_relay_probe": "PASS_PYTORCH_CUDA_RTX4090_AND_PAPER_RUNNER_IMPORT",
+    "training_checkout": "/home/yc/FINAL_UNSB_PAPER_AIO_6a68e2c",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "training_checkout_worktree": "CLEAN",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+  },
+  "latest_complete_state": {
+    "data_epoch": 56,
+    "step": 478968,
+    "epoch_wall_seconds": 3536.6844346523285,
+    "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/full_state_latest.pt",
+    "checkpoint_sha256": "f6191187ab828b851e982cda3c9f7eff0c0b5b889b67f98f0f4eff28c79d827e",
+    "sidecar_sha256": "c587e1d7764ec579e4d0e3d1975e7d9b9afaf839a3013f7da4fa11f793cee40e",
+    "scientific_state_sha256": "4f427790297ae2e3c8e9112f6b905ba6cafe2ff45d082cac2ee42ff5381d0a83",
+    "scientific_core_sha256": "c0b79fa55886206cc542bb364e8499f09931f33be17eafbc2a8576477cf95176",
+    "isolated_runtime_cpu_load": "PASS",
+    "loaded_state": {
+      "networks_optimizers_schedulers_method": "PRESENT",
+      "rng": ["python", "numpy", "torch_cpu", "torch_cuda"],
+      "samplers": ["primary", "secondary"]
+    }
+  },
+  "current_checkpoint_resume_probe": {
+    "path": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_E56_20260907T164500",
+    "device": "CPU_ONLY_CUDA_VISIBLE_DEVICES_EMPTY",
+    "input_step": 478968,
+    "input_checkpoint_sha256": "f6191187ab828b851e982cda3c9f7eff0c0b5b889b67f98f0f4eff28c79d827e",
+    "copied_input_hash_identical": true,
+    "output_step": 478969,
+    "output_checkpoint_sha256": "0cf6978d052835eddaba3019308f5ed8a9e22973c30f866e468da03537ceeaab",
+    "output_sidecar_sha256": "5279f299d7faaf79455c5a605bf1332390e6cfad3bbaf8857e1c5c4555d7d6d4",
+    "output_scientific_state_sha256": "6e4827a7aa9c848fe45438650411a6ea9b93287d954dd425897923df741362f2",
+    "wall_seconds": 4.5158302783966064,
+    "result": "PASS_LOAD_ALL_TRANSITION_STATE_AND_EXECUTE_ONE_UPDATE",
+    "main_lane_checkpoint_sha256_after_probe": "f6191187ab828b851e982cda3c9f7eff0c0b5b889b67f98f0f4eff28c79d827e",
+    "main_lane_modified": false,
+    "active_training_gpu_used_by_probe": false
+  },
+  "durable_recovery_control": {
+    "outer_guard_pid": 3966089,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_total_restarts": 0,
+    "outer_guard_health_watcher_pid": 3968393,
+    "outer_guard_health": "HEALTHY_ZERO_ALERTS",
+    "guard_contract_sha256": "0d3f7e766e29d7b76656d737a190163e85897a6aeae622a45b717f00e2f302ac",
+    "frozen_supervisor_command_uses_isolated_python_directly": true,
+    "recovery_condition": "ONLY_AFTER_BOTH_EXISTING_SUPERVISOR_AND_TRAINER_ARE_ABSENT_AND_SOURCE_PROTOCOL_CHECKPOINT_HASH_GATES_PASS",
+    "duplicate_process_fail_closed": true
+  },
+  "loss_boundary": {
+    "completed_progress_preserved_through_epoch": 56,
+    "maximum_compute_at_risk": "ONLY_CURRENT_INCOMPLETE_DATA_EPOCH",
+    "future_training_blocked": false,
+    "residual_risk": "THE_LIVE_PROCESS_STILL_OWNS_DELETED_MAPPINGS; A_FAILURE_SWITCHES_TO_FULL_STATE_RESUME_AND_GPU_NEXT_STEP_BITWISE_EQUIVALENCE_TO_THE_OLD_INODE_PROCESS_IS_NOT_CLAIMED",
+    "recommended_action": "KEEP_RUNNING_AND_MONITOR_DO_NOT_RESTART_OR_REBUILD_OVER_OLD_PATH"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}

@@ -13,7 +13,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e80_hash_closed",
         "5090A/stcgr": "e70_exact_resume_hash_closed",
-        "4090A/amtnc_after_plain": "e40_fixed_hash_closed_e55_latest_full_state_hash_and_isolated_load_verified",
+        "4090A/amtnc_after_plain": "e40_fixed_hash_closed_e56_current_checkpoint_one_step_resume_proved",
         "5090B/cyclegan": "e176_exact_resume_hash_and_full_state_load_closed_running_to_e200",
         "local/dclgan_extension": "e40_hash_closed"
       },
