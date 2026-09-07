@@ -376,3 +376,7 @@ authorize compute.
      重新哈希111项隔离依赖，并用e65完整状态完成CPU一更新恢复；原进程随后自然到e66。新增
      e66完整状态本机只读副本，与远端哈希闭环；训练、导出、统一评估均未被错误清理阻断，
      但原完整环境仍不存在且禁止原地覆盖，不声称未测试的GPU下一步逐位等价。
+111. `DEC-20260908-MANUSCRIPT-BRANCH-ENFORCEMENT.md`：把预结果冻结的Proposal、ST-CGR、
+     AM-TNC八分支合同接入最终表格导出器，要求canonical合同与来源绑定均已提交并重哈希，
+     三方法必须有终局PASS/FAIL才产生`MANUSCRIPT_RESULT_BRANCH.json`。该后冻结接口不预定
+     赢家、不读取训练中性能值，完整回归734项通过。

@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-manuscript-branch-enforcement-evidence-v1",
+  "captured_at": "2026-09-08T02:00:00+08:00",
+  "status": "CODE_READY_TESTED_FAIL_CLOSED_PRE_RESULT_BRANCH_ENFORCED",
+  "implementation": {
+    "path": "operations/paper_aio_manuscript_tables.py",
+    "git_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
+    "portable_source_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
+    "receipt_schema": "final-unsb-paper-manuscript-table-receipt-v2"
+  },
+  "branch_contract": {
+    "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "git_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
+    "portable_source_sha256": "584fb0798ecd87c3d08a21a8ad3e4f02b8c45ab6db299e261b48baa1ffd36c23",
+    "schema": "final-unsb-paper-manuscript-branching-contract-v1",
+    "method_keys": ["proposal", "stcgr", "amtnc"],
+    "complete_boolean_outcomes": 8
+  },
+  "enforcement": {
+    "canonical_contract_only": true,
+    "contract_must_be_committed_and_clean": true,
+    "contract_source_bindings_rehashed": true,
+    "all_eight_outcomes_required_exactly_once": true,
+    "terminal_pass_or_fail_required_for_each_method": true,
+    "unadjudicated_method_fails_closed": true,
+    "resolved_branch_output": "MANUSCRIPT_RESULT_BRANCH.json",
+    "branch_contract_and_input_hashes_bound_in_receipt": true,
+    "unique_winner_inferred": false,
+    "negative_result_route_preserved": true
+  },
+  "validation": {
+    "compileall": "PASS",
+    "targeted_pytest": "12 passed",
+    "full_pytest": "734 passed in 76.11s",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "operational_scope": {
+    "post_freeze_only": true,
+    "training_process_touched": false,
+    "training_fingerprint_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}
