@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-08",
-  "state_snapshot_time": "2026-09-08T04:31:00+08:00",
+  "state_snapshot_time": "2026-09-08T05:11:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -128,6 +128,28 @@
       "latest_e150_parent_state_and_rng_unchanged": true,
       "latest_e150_evidence": "evidence/paper_aio/PAPER_AIO_4090A_PLAIN_E150_END_TO_END_CLOSURE_20260904T152200.json",
       "latest_full_test_result": "660 passed"
+    },
+    "local_incremental_relay_durable_recovery": {
+      "status": "AMTNC_AND_STCGR_RELAYS_RECOVERED_UNDER_HASH_PINNED_SUPERVISION",
+      "control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
+      "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_SUPERVISOR_E066F08",
+      "amtnc_supervisor_pid": 16540,
+      "amtnc_child_pid": 24160,
+      "amtnc_restart_count": 1,
+      "stcgr_supervisor_pid": 20856,
+      "stcgr_child_pid": 16752,
+      "stcgr_restart_count": 2,
+      "stcgr_failure_injection_passed": true,
+      "combined_health_pid": 27152,
+      "combined_health_status": "HEALTHY_ZERO_ALERTS",
+      "retired_dead_relay_pids": [19068, 6152],
+      "retired_dead_health_pid": 18736,
+      "old_exit_cause": "UNRESOLVED_NO_RETAINED_EXIT_LOG",
+      "training_or_checkpoint_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_DURABLE_RECOVERY_20260908T051100.json",
+      "decision": "decisions/DEC-20260908-LOCAL-INCREMENTAL-RELAY-DURABLE-RECOVERY.md"
     },
     "durable_successor_readiness": {
       "status": "AUTHORIZED_SUCCESSOR_CHAINS_HEALTHY_AND_FROZEN",

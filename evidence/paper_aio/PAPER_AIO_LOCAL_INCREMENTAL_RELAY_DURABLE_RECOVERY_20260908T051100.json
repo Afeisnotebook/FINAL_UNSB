@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-paper-local-incremental-relay-durable-recovery-v1",
+  "captured_at": "2026-09-08T05:11:00+08:00",
+  "status": "AMTNC_AND_STCGR_INCREMENTAL_RELAYS_RECOVERED_UNDER_HASH_PINNED_SUPERVISION",
+  "incident": {
+    "detected_by": "live PID and state-freshness audit",
+    "dead_processes": {
+      "incremental_4090A_amtnc_v3": 19068,
+      "incremental_5090A_stcgr_v5": 6152,
+      "combined_health_watcher": 18736
+    },
+    "last_state_times": {
+      "incremental_4090A_amtnc_v3": "2026-09-07T21:41:34+08:00",
+      "incremental_5090A_stcgr_v5": "2026-09-07T21:41:57+08:00",
+      "combined_health_watcher": "2026-09-07T21:41:28+08:00"
+    },
+    "root_cause": "not recoverable from the old deployment because the bare relay exits had no retained stderr or outer supervisor log",
+    "proposal_incremental_relay_pid_14528_remained_alive": true,
+    "training_process_or_checkpoint_affected": false,
+    "existing_verified_import_deleted_or_rewritten": false
+  },
+  "implementation": {
+    "recovery_supervisor": "operations/paper_aio_incremental_relay_recovery_supervisor.py",
+    "control_git_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
+    "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_SUPERVISOR_E066F08",
+    "control_source_sha256": "07ce0690f27044ab39941c390b6f219a7d7c134a0390dab5fc0cd42359cd4bdb",
+    "features": [
+      "exact frozen relay contract and source hashes",
+      "exact Python binary hash",
+      "cross-platform exact child command matching",
+      "single-process adoption and duplicate rejection",
+      "bounded automatic restart with retained child log",
+      "Windows atomic state publication with reader-handle retry",
+      "password inherited only through a named environment variable and never persisted"
+    ],
+    "targeted_tests": "6 passed",
+    "full_test_result": "748 passed"
+  },
+  "deployment": {
+    "amtnc": {
+      "supervisor_pid": 16540,
+      "child_pid": 24160,
+      "status": "MONITORING_EXISTING_RELAY",
+      "restart_count": 1,
+      "restart_count_interpretation": "initial child launch only",
+      "recovery_contract_sha256": "4803f728d07b57882b11ed3c327b73a902b015b17cddf4f8fc8d14583890de49"
+    },
+    "stcgr": {
+      "supervisor_pid": 20856,
+      "child_pid": 16752,
+      "status": "MONITORING_EXISTING_RELAY",
+      "restart_count": 2,
+      "restart_count_interpretation": "one initial child launch plus one deliberate read-only failure-injection recovery",
+      "failure_injection_old_child_pid": 17860,
+      "failure_injection_result": "PASS_EXACT_FROZEN_RELAY_RELAUNCHED_WITHOUT_SOURCE_OR_IMPORT_MUTATION",
+      "recovery_contract_sha256": "8d776a75576950e1d8da8ea14eaa6b9fabe4e3992e0a642638d52a0fb0f1fa49"
+    },
+    "combined_health": {
+      "pid": 27152,
+      "status": "HEALTHY_AFTER_MULTIPLE_POLLS_ZERO_ALERTS",
+      "output": "E:\\UNSB_Expl\\paper_eval_node\\terminal_health_supervised_e066f08",
+      "contract_sha256": "05c7f499a02d316d8d3e1a82f997d11c12c54d351a823f7b7d9e3c86750a2685",
+      "covers": [
+        "AM-TNC relay recovery supervisor and child state",
+        "ST-CGR relay recovery supervisor and child state",
+        "Proposal incremental relay",
+        "terminal audit supervisor and child state",
+        "terminal pathology supervisor and child state",
+        "disk worst-case write bound"
+      ]
+    }
+  },
+  "live_delivery_state": {
+    "amtnc_available_epochs": [],
+    "stcgr_available_epochs": [],
+    "reason": "both source training lanes remain below the first fixed audit epoch e100",
+    "terminal_audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "local_free_disk_gib": 109.5579,
+    "remaining_write_bound_gib": 16.0,
+    "minimum_headroom_gib": 50.0
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "training_protocol_changed": false,
+    "checkpoint_or_data_deleted": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "new_experiment_started": false
+  }
+}

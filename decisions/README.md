@@ -411,3 +411,7 @@ authorize compute.
 120. `DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md`：低频Goal heartbeat已同步AM-TNC
      e68清理事故恢复合同和冻结论文图形交付要求；六条在途lane均以真实PID和最新完整epoch
      复核健康，没有重启、迁移、协议变化或中间性能控制。
+121. `DEC-20260908-LOCAL-INCREMENTAL-RELAY-DURABLE-RECOVERY.md`：实时PID审计发现AM-TNC与
+     ST-CGR的两个裸增量checkpoint中继及旧组合health已经停止，但训练、checkpoint和Proposal
+     中继均正常。新增哈希锁定、命令精确匹配、保留退出日志和有界自动恢复的只读监督器；两条
+     中继已恢复，并以一次ST-CGR子进程故障注入验证自动接管。新组合health覆盖完整终端链且零告警。
