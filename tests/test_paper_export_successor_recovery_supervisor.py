@@ -53,7 +53,7 @@ def _incremental_contract(tmp_path: Path) -> dict:
             "research/local_route1/runtime.py": "4" * 64,
         },
         "checkpoint_copy_performed": False,
-        "performance_values_available_to_scheduling": False,
+        "performance_values_available_to_scheduler": False,
         "paired_metric_control": False,
         "confirmation20_opened": False,
     })
@@ -147,6 +147,15 @@ def test_incremental_audit_export_contract_and_command_are_supported(
         command, cwd=Path(contract["control_repo"]), python=python,
         contract=contract,
     )
+
+    contract["performance_values_available_to_scheduler"] = True
+    try:
+        _validate_export_contract(contract)
+    except RuntimeError as error:
+        assert "frozen boundary" in str(error)
+    else:  # pragma: no cover - explicit fail-closed assertion.
+        raise AssertionError("metric-visible incremental contract was accepted")
+    contract["performance_values_available_to_scheduler"] = False
 
     contract["audit_epochs"] = [100, 200]
     try:

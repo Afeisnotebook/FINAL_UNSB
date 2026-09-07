@@ -120,9 +120,14 @@ def _validate_export_contract(value: dict[str, Any]) -> None:
     schema = value.get("schema")
     if schema not in {EXPORT_CONTRACT_SCHEMA, INCREMENTAL_EXPORT_CONTRACT_SCHEMA}:
         raise RuntimeError("unsupported frozen export successor contract")
+    performance_gate = (
+        value.get("performance_values_available_to_scheduling")
+        if schema == EXPORT_CONTRACT_SCHEMA
+        else value.get("performance_values_available_to_scheduler")
+    )
     if (
         value.get("status") != "FROZEN_WAITING"
-        or value.get("performance_values_available_to_scheduling") is not False
+        or performance_gate is not False
         or value.get("paired_metric_control") is not False
         or value.get("checkpoint_copy_performed") is not False
         or value.get("confirmation20_opened") is not False
