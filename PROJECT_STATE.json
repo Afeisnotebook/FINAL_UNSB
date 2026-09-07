@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-08",
-  "state_snapshot_time": "2026-09-08T05:45:00+08:00",
+  "state_snapshot_time": "2026-09-08T05:53:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1437,7 +1437,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_SIX_LANE_VERIFIED_WAIT_20260908T004100.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_POST_AMTNC_EXPORT_RECOVERY_SIX_LANE_VERIFIED_WAIT_20260908T055300.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",

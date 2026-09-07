@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-six-lane-verified-wait-v1",
+  "captured_at": "2026-09-08T05:53:00+08:00",
+  "status": "ALL_SIX_LANES_AND_DELIVERY_CHAINS_HEALTHY_AFTER_AMTNC_EXPORT_RECOVERY_REPLACEMENT",
+  "classification": "verified_wait",
+  "lanes": {
+    "4090A_amtnc": {"data_epoch": 70, "updates": 598710, "supervisor_pid": 3446757, "trainer_pid": 3446758, "scientific_state_sha256": "81592788ed49ed03b007657d409c0e282038c976829b9f5df4aa54de8250deda", "gpu_utilization_percent": 50},
+    "5090A_stcgr": {"data_epoch": 85, "updates": 727005, "trainer_pid": 863376, "guard_pid": 942101, "scientific_state_sha256": "8083abaf5ce79cc13bd675023111c615dfe46b47f8df95c8758a93f773ae688a", "gpu_utilization_percent": 42},
+    "5090B_cyclegan": {"data_epoch": 195, "updates": 1667835, "supervisor_pid": 11845, "trainer_pid": 662728, "scientific_state_sha256": "5e88de5cb6e9d8b6a91f4334fcfb061eb290a2e530d24889887b3e0c393f36ac"},
+    "5090B_matched_plain": {"data_epoch": 36, "updates": 307908, "supervisor_pid": 534983, "trainer_pid": 534984, "scientific_state_sha256": "e0e53034b55dbe2680b7d7c09b47166c3eceea5b18da09dee9b1692479465757"},
+    "5090C_proposal": {"data_epoch": 93, "updates": 795429, "trainer_pid": 366768, "guard_pid": 431648, "scientific_state_sha256": "3a2b13e97d8aff3db8579fb842a47d91fe22d82501e4cbde5e4ca9244463b43a", "gpu_utilization_percent": 50},
+    "local_dclgan": {"data_epoch": 57, "updates": 487521, "supervisor_pid": 12824, "trainer_pid": 22020, "scientific_state_sha256": "87cbf56d0ef00c2d0f680b2854c1b8a75098e5686c5bc883e3e6342bde6d9c93"}
+  },
+  "amtnc_export_recovery": {
+    "exporter_pid": 2182586,
+    "exporter_pid_unchanged": true,
+    "recovery_supervisor_pid": 706411,
+    "health_watcher_pid": 706689,
+    "status": "MONITORING_EXISTING_EXPORT_HEALTHY_ZERO_RESTARTS",
+    "retired_old_control_pids": [426584, 426612]
+  },
+  "terminal_and_delivery": {
+    "local_incremental_and_terminal_health_pid": 27152,
+    "local_incremental_and_terminal_health": "HEALTHY_ZERO_ALERTS",
+    "4090A_evaluation_recovery_supervisors": [3879668, 3879670, 3879672, 3879674],
+    "4090A_evaluation_recovery_health_pid": 3880106,
+    "5090B_source_export_recovery_pids": [673800, 673803],
+    "5090B_source_export_recovery_health_pid": 673880,
+    "all_checked_handles_live": true
+  },
+  "storage": {
+    "4090A_free_gib": 530,
+    "5090A_free_gib": 183,
+    "5090B_free_gib": 225,
+    "5090C_free_gib": 228,
+    "local_evaluation_free_gib": 109.5559,
+    "all_task_specific_bounds_pass": true
+  },
+  "boundaries": {
+    "training_processes_restarted": false,
+    "protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  },
+  "next_event": "5090B CycleGAN e200 source-bound export and transition of matched plain to isolated throughput"
+}
