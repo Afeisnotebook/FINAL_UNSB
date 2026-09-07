@@ -234,6 +234,14 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
     python = args.python.resolve()
     if not python.is_file():
         raise RuntimeError("export successor runtime is absent")
+    # A live exporter can legitimately retain a deleted interpreter inode after
+    # an external environment cleanup.  In that case its argv still contains the
+    # former path, while any future restart must use a separately verified
+    # runtime.  Keep the two identities explicit: ``adopt_python`` is used only
+    # to recognise the already-running child and is never executed.
+    adopt_python = (
+        args.adopt_python.resolve() if args.adopt_python is not None else python
+    )
     export_contract_path = args.export_contract.resolve()
     export_state_path = args.export_state.resolve()
     export = _read_json(export_contract_path)
@@ -255,6 +263,7 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         "export_control_git_commit": export["control_git_commit"],
         "export_source_sha256": export["control_source_sha256"],
         "python": str(python),
+        "adopt_python": str(adopt_python),
         "command": render_export_command(python, export),
         "poll_seconds": int(args.poll_seconds),
         "restart_delay_seconds": int(args.restart_delay_seconds),
@@ -354,7 +363,17 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 _atomic_json(state_path, result)
                 return result
 
-            matches = _matching_processes(Path(contract["python"]), export)
+            runtime_paths = {
+                Path(contract["python"]),
+                Path(contract.get("adopt_python", contract["python"])),
+            }
+            matches = sorted(
+                {
+                    pid
+                    for runtime_path in runtime_paths
+                    for pid in _matching_processes(runtime_path, export)
+                }
+            )
             advertised = int(export_state.get("pid", 0) or 0)
             if advertised > 0 and _pid_alive(advertised) and advertised not in matches:
                 result = _state(
@@ -412,6 +431,14 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--repo", type=Path, required=True)
     value.add_argument("--required-control-git-commit", required=True)
     value.add_argument("--python", type=Path, required=True)
+    value.add_argument(
+        "--adopt-python",
+        type=Path,
+        help=(
+            "Optional argv interpreter path accepted only for an already-running "
+            "exporter. Restarts always use --python."
+        ),
+    )
     value.add_argument("--export-contract", type=Path, required=True)
     value.add_argument("--export-state", type=Path, required=True)
     value.add_argument("--output", type=Path, required=True)

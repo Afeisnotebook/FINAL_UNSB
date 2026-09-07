@@ -76,3 +76,28 @@ def test_export_recovery_rejects_changed_lane_or_runtime(tmp_path: Path) -> None
         render_export_command(python, contract), cwd=Path(contract["control_repo"]),
         python=tmp_path / "other" / "python", contract=contract,
     )
+
+
+def test_adopt_runtime_and_restart_runtime_are_distinct_contract_roles(
+    tmp_path: Path,
+) -> None:
+    contract = _contract(tmp_path)
+    restart_python = tmp_path / "verified" / "bin" / "python"
+    deleted_argv_python = tmp_path / "deleted" / "bin" / "python"
+    live_command = render_export_command(deleted_argv_python, contract)
+
+    assert command_matches_contract(
+        live_command,
+        cwd=Path(contract["control_repo"]),
+        python=deleted_argv_python,
+        contract=contract,
+    )
+    assert not command_matches_contract(
+        live_command,
+        cwd=Path(contract["control_repo"]),
+        python=restart_python,
+        contract=contract,
+    )
+    assert render_export_command(restart_python, contract)[0] == str(
+        restart_python.resolve()
+    )
