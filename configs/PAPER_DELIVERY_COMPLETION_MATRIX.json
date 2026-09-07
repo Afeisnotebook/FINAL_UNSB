@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-07T19:56:16+08:00",
+  "captured_at": "2026-09-07T22:48:48+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,12 +11,12 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut"],
       "latest_running_milestones": {
-        "5090C/proposal": "e80_hash_closed_live_heartbeat_e85",
-        "5090A/stcgr": "e70_exact_resume_hash_closed_live_heartbeat_e77",
+        "5090C/proposal": "e80_hash_closed_live_heartbeat_e88",
+        "5090A/stcgr": "e80_fixed_checkpoint_sidecar_metric_hash_closed_live_continuation",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e62_current_checkpoint_resume_revalidated_deleted_runtime_guard_zero_restarts",
-        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e180",
-        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e28",
-        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e48"
+        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e185",
+        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e30",
+        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e50"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"
     },

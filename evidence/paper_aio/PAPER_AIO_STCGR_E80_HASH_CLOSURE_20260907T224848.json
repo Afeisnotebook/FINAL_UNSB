@@ -1,0 +1,90 @@
+{
+  "schema": "final-unsb-paper-stcgr-e80-hash-closure-v1",
+  "captured_at": "2026-09-07T22:48:48+08:00",
+  "decision": "ACCEPT_STCGR_E80_FIXED_MILESTONE_CONTINUE_E200",
+  "host": {
+    "label": "5090A",
+    "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+    "gpu_utilization_percent_observed": 43,
+    "gpu_memory_used_mib_observed": 2186,
+    "gpu_memory_total_mib": 32607,
+    "disk_free_gib": 182.72
+  },
+  "identity": {
+    "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "seed": 2026,
+    "batch_size": 1,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "lane_config_sha256": "d19846d3815d1bac28a9a8d777b58bf5792a55de21bc9b06d8cc37750f235554",
+    "e0_scientific_state_sha256": "8ead48803282875386f2b23590011a1fa2e8b0ed3c456ed0fd1bee3fc09d08c0"
+  },
+  "milestone": {
+    "physical_epoch_completed": 80,
+    "step": 684240,
+    "epoch_wall_seconds": 4779.96359372139,
+    "checkpoint_sha256": "6e4e6fd3706ec24765166aa814b5fa0af2a59bb8da52a92673de973c4df7b6a8",
+    "sidecar_file_sha256": "d15f58e76988b60e8ea44b8e3c223deb05e2ee04ebb9f585f937b6fff922709c",
+    "latest_checkpoint_sha256": "e52112cec007512c3ca56b5147ad6d23801d890544896525df6dac711a32646e",
+    "latest_sidecar_file_sha256": "2bc79e78cad13fac0a38e3eab4215d6db8876335eab22a112d4dd70bfd7dac9b",
+    "scientific_state_sha256": "afdbd35f5fab91d4b44b43017eb7cc06499eafbd2612b45e65e5f7e31641adf6",
+    "metric_artifact_sha256": "0fccbec6648ab3c3c1002a5605f124fb58fe4dbe8dd03bce3aea527089b18aa0",
+    "metric_artifact_bytes": 134825,
+    "metric_content_parsed": false,
+    "full_state_cpu_load": "PASS",
+    "full_state_schema": "final-unsb-paper-aio-full-state-v1",
+    "model_state": ["networks", "optimizers", "schedulers", "method"],
+    "network_state": ["G", "F", "D", "E"],
+    "method_state": ["pcrsmg_proposal", "search_global_step", "search_total_steps", "stcgr"],
+    "rng_state": ["python", "numpy", "torch_cpu", "torch_cuda"],
+    "sampler_state": ["primary", "secondary"]
+  },
+  "continuity": {
+    "continuation_pid": 336340,
+    "supervisor_pid": 336345,
+    "trainer_pid": 863376,
+    "export_successor_pid": 336344,
+    "health_watcher_pid": 352017,
+    "progress_watcher_pid": 436478,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "health_status": "HEALTHY_ZERO_CURRENT_ALERTS",
+    "export_recovery_supervisor_pid": 913443,
+    "export_recovery_health_pid": 913460,
+    "export_recovery_status": "MONITORING_EXISTING_EXPORT_ZERO_RESTARTS",
+    "prior_e69_recovery_remains_closed": true,
+    "completed_epoch_lost": false,
+    "training_process_restarted_for_this_milestone": false
+  },
+  "incremental_export_boundary": {
+    "fixed_target_blind_export_epochs": [100, 150, 200],
+    "e80_incremental_export_expected": false,
+    "e80_missing_from_incremental_export_is_not_a_defect": true
+  },
+  "projection": {
+    "basis": "latest_e80_epoch_wall_seconds_including_fixed_milestone_overhead",
+    "projected_e200": "2026-09-14T14:10:00+08:00_rough",
+    "declared_host_availability_through": "2026-09-16T00:00:00+08:00",
+    "projected_headroom_hours": 33.8,
+    "lease_extension_triggered": false
+  },
+  "repository_validation": {
+    "base_commit": "1f4cbc3a03e51c54fd9b468f4d41552e10b7de26",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS",
+    "full_test_suite_rerun": false,
+    "reason_full_suite_not_rerun": "compact evidence and state only; no executable code changed while long training remained active"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "matched_delta_available_before_5090B_plain_e200": false
+  }
+}
