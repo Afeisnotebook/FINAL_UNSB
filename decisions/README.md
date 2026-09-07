@@ -422,3 +422,7 @@ authorize compute.
      source exporter虽仍健康，但旧恢复器的未来启动命令仍指向已删除Python。新增“旧argv仅认领、
      隔离runtime只负责未来启动”的哈希锁定恢复语义；在两次健康轮询后只退休旧控制进程，训练、
      exporter和checkpoint均未改变，AM-TNC已自然推进至e70。
+124. `DEC-20260908-AMTNC-E71-POST-CLEANUP-EXECUTABLE-RECOVERY-CLOSURE.md`：不触碰deleted-inode
+     健康训练，重新验签隔离runtime 111项依赖和e71 full-state，并从607,263真实执行一个CPU
+     恢复update到607,264；e71原始状态同步为异机只读备份。全量PID审计确认训练、终端/增量
+     导出及统一评估均有直接使用隔离runtime的恢复层，剩余风险严格收窄为未保存的当前epoch。
