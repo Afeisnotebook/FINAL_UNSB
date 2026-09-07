@@ -8,6 +8,7 @@ from operations.paper_aio_training_supervisor_guard import (
     _argument,
     _contract,
     _supervisor_command,
+    authorization_matches_contract,
     command_matches_lane,
     guard_lane_identity,
     next_no_progress_count,
@@ -126,6 +127,51 @@ def test_contract_rejects_wrong_standalone_python_hash(tmp_path: Path) -> None:
     args.required_python_sha256 = "0" * 64
     with pytest.raises(RuntimeError, match="Python hash"):
         _contract(args)
+
+
+def test_candidate_authorization_uses_candidate_schema() -> None:
+    contract = {
+        "runner_lane": "candidate",
+        "lane_id": "G4-01-STCGR",
+        "training_git_commit": "candidate-commit",
+        "protocol_fingerprint": "candidate-protocol",
+    }
+    authorization = {
+        "status": "PASS_FULL_DATA_CANDIDATE_AUTHORIZATION",
+        "candidate_id": "G4-01-STCGR",
+        "lane": {"id": "G4-01-STCGR"},
+        "candidate_git_commit": "candidate-commit",
+        "candidate_protocol_fingerprint": "candidate-protocol",
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert authorization_matches_contract(authorization, contract)
+    assert not authorization_matches_contract(
+        {**authorization, "candidate_id": "G4-02-OTHER"}, contract
+    )
+    assert not authorization_matches_contract(
+        {**authorization, "candidate_git_commit": "wrong"}, contract
+    )
+
+
+def test_static_authorization_remains_strict() -> None:
+    contract = {
+        "runner_lane": "proposal",
+        "lane_id": "proposal",
+        "training_git_commit": "training-commit",
+        "protocol_fingerprint": "protocol",
+    }
+    authorization = {
+        "status": "PASS",
+        "lane_id": "proposal",
+        "protocol_fingerprint": "protocol",
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert authorization_matches_contract(authorization, contract)
+    assert not authorization_matches_contract(
+        {**authorization, "confirmation20_opened": True}, contract
+    )
 
 
 @pytest.mark.parametrize(

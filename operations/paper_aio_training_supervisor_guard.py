@@ -205,6 +205,35 @@ def command_matches_lane(
     return observed_candidate is None
 
 
+def authorization_matches_contract(
+    authorization: dict[str, Any], contract: dict[str, Any]
+) -> bool:
+    """Validate the distinct static-lane and candidate authorization schemas."""
+    if contract["runner_lane"] == "candidate":
+        lane = authorization.get("lane")
+        return bool(
+            authorization.get("status")
+            == "PASS_FULL_DATA_CANDIDATE_AUTHORIZATION"
+            and authorization.get("candidate_id") == contract["lane_id"]
+            and isinstance(lane, dict)
+            and lane.get("id") == contract["lane_id"]
+            and authorization.get("candidate_git_commit")
+            == contract["training_git_commit"]
+            and authorization.get("candidate_protocol_fingerprint")
+            == contract["protocol_fingerprint"]
+            and authorization.get("paired_metric_control") is False
+            and authorization.get("confirmation20_opened") is False
+        )
+    return bool(
+        authorization.get("status") == "PASS"
+        and authorization.get("lane_id") == contract["lane_id"]
+        and authorization.get("protocol_fingerprint")
+        == contract["protocol_fingerprint"]
+        and authorization.get("paired_metric_control") is False
+        and authorization.get("confirmation20_opened") is False
+    )
+
+
 def matching_lane_processes(
     output: Path, lane: str, candidate_id: str | None = None
 ) -> dict[str, list[int]]:
@@ -393,12 +422,7 @@ def _verify(contract: dict[str, Any], *, verify_runtime_tree: bool = False) -> N
     authorization = _read_json(Path(contract["output"]) / "gates" / authorization_name)
     if (
         protocol.get("protocol_fingerprint") != contract["protocol_fingerprint"]
-        or authorization.get("status") != "PASS"
-        or authorization.get("lane_id") != contract["lane_id"]
-        or authorization.get("protocol_fingerprint")
-        != contract["protocol_fingerprint"]
-        or authorization.get("paired_metric_control") is not False
-        or authorization.get("confirmation20_opened") is not False
+        or not authorization_matches_contract(authorization, contract)
     ):
         raise RuntimeError("protocol or lane authorization identity changed")
     runtime_identity = contract.get("runtime_identity")
