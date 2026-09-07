@@ -25,8 +25,8 @@ except ImportError:  # pragma: no cover
     fcntl = None
 
 
-CONTRACT_SCHEMA = "final-unsb-paper-training-supervisor-guard-contract-v2"
-STATE_SCHEMA = "final-unsb-paper-training-supervisor-guard-state-v2"
+CONTRACT_SCHEMA = "final-unsb-paper-training-supervisor-guard-contract-v3"
+STATE_SCHEMA = "final-unsb-paper-training-supervisor-guard-state-v3"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 
@@ -60,13 +60,12 @@ def _sha256(path: Path) -> str:
 
 
 def _runtime_identity(args: argparse.Namespace) -> dict[str, Any] | None:
-    values = (args.runtime_root, args.runtime_manifest, args.required_python_sha256)
+    values = (args.runtime_root, args.runtime_manifest)
     if not any(value is not None for value in values):
         return None
     if not all(value is not None for value in values):
         raise RuntimeError(
-            "runtime-root, runtime-manifest, and required-python-sha256 must be "
-            "provided together"
+            "runtime-root and runtime-manifest must be provided together"
         )
     python = args.python.resolve(strict=True)
     runtime_root = args.runtime_root.resolve(strict=True)
@@ -76,7 +75,10 @@ def _runtime_identity(args: argparse.Namespace) -> dict[str, Any] | None:
     except ValueError as error:
         raise RuntimeError("recovery Python must be inside the isolated runtime") from error
     actual_python_sha256 = _sha256(python)
-    if actual_python_sha256 != args.required_python_sha256:
+    if (
+        args.required_python_sha256 is not None
+        and actual_python_sha256 != args.required_python_sha256
+    ):
         raise RuntimeError("recovery Python hash does not match the required identity")
     manifest_value = _read_json(runtime_manifest)
     entries = manifest_value.get("entries")
@@ -175,21 +177,48 @@ def _argument(tokens: list[str], name: str) -> str | None:
     return tokens[index + 1] if index + 1 < len(tokens) else None
 
 
-def matching_lane_processes(output: Path, lane: str) -> dict[str, list[int]]:
+def guard_lane_identity(lane: str, candidate_id: str | None) -> str:
+    """Return the checkpoint lane identity for a static or candidate runner."""
+    if lane == "candidate":
+        value = str(candidate_id or "")
+        if not _SAFE_ID.fullmatch(value):
+            raise RuntimeError("candidate guard requires a safe candidate identity")
+        return value
+    if candidate_id is not None:
+        raise RuntimeError("candidate-id is only valid when lane is candidate")
+    if not _SAFE_ID.fullmatch(lane):
+        raise RuntimeError("unsafe lane identity")
+    return lane
+
+
+def command_matches_lane(
+    tokens: list[str], *, output: Path, lane: str, candidate_id: str | None
+) -> bool:
+    """Match the exact runner CLI, including candidate identity when present."""
+    if not tokens or _argument(tokens, "--output") != str(output.resolve()):
+        return False
+    if _argument(tokens, "--lane") != lane:
+        return False
+    observed_candidate = _argument(tokens, "--candidate-id")
+    if lane == "candidate":
+        return observed_candidate == candidate_id
+    return observed_candidate is None
+
+
+def matching_lane_processes(
+    output: Path, lane: str, candidate_id: str | None = None
+) -> dict[str, list[int]]:
     """Return exact-output/lane supervisor and trainer PIDs from Linux procfs."""
     result: dict[str, list[int]] = {"supervisors": [], "trainers": []}
     proc = Path("/proc")
     if not proc.is_dir():
         return result
-    expected_output = str(output.resolve())
     for entry in proc.iterdir():
         if not entry.name.isdigit() or int(entry.name) == os.getpid():
             continue
         tokens = _cmdline(int(entry.name))
-        if (
-            not tokens
-            or _argument(tokens, "--output") != expected_output
-            or _argument(tokens, "--lane") != lane
+        if not command_matches_lane(
+            tokens, output=output, lane=lane, candidate_id=candidate_id
         ):
             continue
         if any(token.endswith("paper_aio_supervisor.py") for token in tokens):
@@ -227,8 +256,9 @@ def next_no_progress_count(
 
 
 def _checkpoint(args: argparse.Namespace, *, verify_file_hash: bool) -> dict[str, Any]:
-    sidecar = args.output / "lanes" / args.lane / "full_state_latest.pt.json"
-    checkpoint = args.output / "lanes" / args.lane / "full_state_latest.pt"
+    lane_id = guard_lane_identity(args.lane, args.candidate_id)
+    sidecar = args.output / "lanes" / lane_id / "full_state_latest.pt.json"
+    checkpoint = args.output / "lanes" / lane_id / "full_state_latest.pt"
     if not sidecar.is_file() or not checkpoint.is_file():
         raise RuntimeError("complete full-state checkpoint and sidecar are required")
     value = _read_json(sidecar)
@@ -239,7 +269,7 @@ def _checkpoint(args: argparse.Namespace, *, verify_file_hash: bool) -> dict[str
     target_steps = int(value.get("target_steps", -1))
     if (
         value.get("schema") != "final-unsb-paper-aio-full-state-v1"
-        or value.get("lane_id") != args.lane
+        or value.get("lane_id") != lane_id
         or step < 0
         or target_steps <= 0
         or step > target_steps
@@ -260,7 +290,7 @@ def _checkpoint(args: argparse.Namespace, *, verify_file_hash: bool) -> dict[str
 
 
 def _supervisor_command(args: argparse.Namespace) -> list[str]:
-    return [
+    command = [
         str(args.python.resolve()),
         str((args.training_repo / "operations" / "paper_aio_supervisor.py").resolve()),
         "--repo", str(args.training_repo.resolve()),
@@ -272,13 +302,22 @@ def _supervisor_command(args: argparse.Namespace) -> list[str]:
         "--gpu", str(args.gpu),
         "--maximum-consecutive-failures", "3",
     ]
+    if args.candidate_id is not None:
+        command.extend(["--candidate-id", args.candidate_id])
+    return command
 
 
 def _contract(args: argparse.Namespace) -> dict[str, Any]:
     control_repo = args.control_repo.resolve()
     training_repo = args.training_repo.resolve()
-    if not _SAFE_ID.fullmatch(args.lane):
-        raise RuntimeError("unsafe lane identity")
+    lane_id = guard_lane_identity(args.lane, args.candidate_id)
+    python = args.python.resolve(strict=True)
+    python_sha256 = _sha256(python)
+    if (
+        args.required_python_sha256 is not None
+        and python_sha256 != args.required_python_sha256
+    ):
+        raise RuntimeError("recovery Python hash does not match the required identity")
     if args.poll_seconds < 10 or args.restart_delay_seconds < 5:
         raise RuntimeError("unsafe polling or restart delay")
     if args.maximum_consecutive_no_progress_restarts not in {1, 2, 3}:
@@ -290,7 +329,9 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
     contract = {
         "schema": CONTRACT_SCHEMA,
         "status": "FROZEN",
-        "lane_id": args.lane,
+        "lane_id": lane_id,
+        "runner_lane": args.lane,
+        "candidate_id": args.candidate_id,
         "control_repo": str(control_repo),
         "control_git_commit": args.required_control_git_commit,
         "control_source": str(control_source),
@@ -304,7 +345,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "manifest": str(args.manifest.resolve()),
         "data_root": str(args.data_root.resolve()),
         "train_view": str(args.train_view.resolve()),
-        "python": str(args.python.resolve()),
+        "python": str(python),
+        "python_sha256": python_sha256,
         "gpu": int(args.gpu),
         "initial_supervisor_pid": int(args.initial_supervisor_pid),
         "supervisor_command": _supervisor_command(args),
@@ -338,14 +380,17 @@ def _verify(contract: dict[str, Any], *, verify_runtime_tree: bool = False) -> N
         or _git(training_repo, "status", "--porcelain")
         or _sha256(Path(contract["training_supervisor_source"]))
         != contract["training_supervisor_source_sha256"]
+        or _sha256(Path(contract["python"]).resolve(strict=True))
+        != contract["python_sha256"]
     ):
         raise RuntimeError("frozen control or training source identity changed")
     protocol = _read_json(Path(contract["output"]) / "PAPER_PROTOCOL.json")
-    authorization = _read_json(
-        Path(contract["output"])
-        / "gates"
-        / f"LANE_AUTHORIZATION_{contract['lane_id']}.json"
+    authorization_name = (
+        f"CANDIDATE_AUTHORIZATION_{contract['lane_id']}.json"
+        if contract["runner_lane"] == "candidate"
+        else f"LANE_AUTHORIZATION_{contract['lane_id']}.json"
     )
+    authorization = _read_json(Path(contract["output"]) / "gates" / authorization_name)
     if (
         protocol.get("protocol_fingerprint") != contract["protocol_fingerprint"]
         or authorization.get("status") != "PASS"
@@ -399,7 +444,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     elif _read_json(contract_path) != contract:
         raise RuntimeError("training supervisor guard contract changed")
     _verify(contract, verify_runtime_tree=True)
-    processes = matching_lane_processes(args.output, args.lane)
+    processes = matching_lane_processes(args.output, args.lane, args.candidate_id)
     if created and (
         int(args.initial_supervisor_pid) not in processes["supervisors"]
         or len(processes["supervisors"]) != 1
@@ -436,14 +481,16 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         while True:
             _verify(contract)
             supervisor_state_path = (
-                args.output / "gates" / f"SUPERVISOR_{args.lane}.json"
+                args.output / "gates" / f"SUPERVISOR_{contract['lane_id']}.json"
             )
             supervisor_state = (
                 _read_json(supervisor_state_path)
                 if supervisor_state_path.is_file()
                 else {}
             )
-            processes = matching_lane_processes(args.output, args.lane)
+            processes = matching_lane_processes(
+                args.output, args.lane, args.candidate_id
+            )
             decision = process_decision(
                 supervisor_status=str(supervisor_state.get("status", "")),
                 supervisors=processes["supervisors"],
@@ -558,6 +605,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--data-root", type=Path, required=True)
     value.add_argument("--train-view", type=Path, required=True)
     value.add_argument("--lane", required=True)
+    value.add_argument("--candidate-id")
     value.add_argument("--python", type=Path, required=True)
     value.add_argument("--runtime-root", type=Path)
     value.add_argument("--runtime-manifest", type=Path)

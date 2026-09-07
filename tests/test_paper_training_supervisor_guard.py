@@ -6,16 +6,126 @@ import pytest
 
 from operations.paper_aio_training_supervisor_guard import (
     _argument,
+    _contract,
+    _supervisor_command,
+    command_matches_lane,
+    guard_lane_identity,
     next_no_progress_count,
     process_decision,
     verify_runtime_identity,
 )
 
 
+def _guard_args(tmp_path: Path, *, lane: str, candidate_id: str | None):
+    import argparse
+
+    control_repo = tmp_path / "control"
+    training_repo = tmp_path / "training"
+    output = tmp_path / "output"
+    runtime = tmp_path / "runtime"
+    python = runtime / "bin" / "python"
+    for repo in (control_repo, training_repo):
+        (repo / "operations").mkdir(parents=True)
+    (control_repo / "operations" / "paper_aio_training_supervisor_guard.py").write_text(
+        "guard", encoding="utf-8"
+    )
+    (training_repo / "operations" / "paper_aio_supervisor.py").write_text(
+        "supervisor", encoding="utf-8"
+    )
+    output.mkdir()
+    python.parent.mkdir(parents=True)
+    python.write_bytes(b"python-runtime")
+    return argparse.Namespace(
+        control_repo=control_repo,
+        training_repo=training_repo,
+        output=output,
+        manifest=tmp_path / "manifest.csv",
+        data_root=tmp_path / "data",
+        train_view=tmp_path / "view",
+        lane=lane,
+        candidate_id=candidate_id,
+        python=python,
+        runtime_root=None,
+        runtime_manifest=None,
+        required_python_sha256=hashlib.sha256(python.read_bytes()).hexdigest(),
+        required_control_git_commit="control-commit",
+        required_training_git_commit="training-commit",
+        required_protocol_fingerprint="protocol",
+        gpu=0,
+        initial_supervisor_pid=10,
+        poll_seconds=60,
+        restart_delay_seconds=30,
+        maximum_consecutive_no_progress_restarts=2,
+        timeout_hours=720.0,
+    )
+
+
 def test_argument_requires_named_value() -> None:
     assert _argument(["x", "--lane", "cut"], "--lane") == "cut"
     assert _argument(["x", "--lane"], "--lane") is None
     assert _argument(["x"], "--lane") is None
+
+
+def test_guard_lane_identity_supports_static_and_candidate() -> None:
+    assert guard_lane_identity("amtnc", None) == "amtnc"
+    assert (
+        guard_lane_identity("candidate", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF")
+        == "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    )
+    with pytest.raises(RuntimeError, match="candidate guard requires"):
+        guard_lane_identity("candidate", None)
+    with pytest.raises(RuntimeError, match="only valid"):
+        guard_lane_identity("proposal", "unexpected")
+
+
+def test_command_match_requires_exact_candidate_identity(tmp_path: Path) -> None:
+    output = tmp_path / "run"
+    candidate = [
+        "python", "supervisor.py", "--output", str(output.resolve()),
+        "--lane", "candidate", "--candidate-id", "G4-01-STCGR",
+    ]
+    assert command_matches_lane(
+        candidate,
+        output=output,
+        lane="candidate",
+        candidate_id="G4-01-STCGR",
+    )
+    assert not command_matches_lane(
+        candidate,
+        output=output,
+        lane="candidate",
+        candidate_id="G4-02-OTHER",
+    )
+    static = [
+        "python", "supervisor.py", "--output", str(output.resolve()),
+        "--lane", "proposal",
+    ]
+    assert command_matches_lane(
+        static, output=output, lane="proposal", candidate_id=None
+    )
+    assert not command_matches_lane(
+        static + ["--candidate-id", "unexpected"],
+        output=output,
+        lane="proposal",
+        candidate_id=None,
+    )
+
+
+def test_candidate_supervisor_command_and_contract_pin_identity(tmp_path: Path) -> None:
+    args = _guard_args(tmp_path, lane="candidate", candidate_id="G4-01-STCGR")
+    command = _supervisor_command(args)
+    assert command[-2:] == ["--candidate-id", "G4-01-STCGR"]
+    contract = _contract(args)
+    assert contract["lane_id"] == "G4-01-STCGR"
+    assert contract["runner_lane"] == "candidate"
+    assert contract["python_sha256"] == args.required_python_sha256
+
+
+def test_contract_rejects_wrong_standalone_python_hash(tmp_path: Path) -> None:
+    args = _guard_args(tmp_path, lane="proposal", candidate_id=None)
+    args.required_python_sha256 = "0" * 64
+    with pytest.raises(RuntimeError, match="Python hash"):
+        _contract(args)
 
 
 @pytest.mark.parametrize(
