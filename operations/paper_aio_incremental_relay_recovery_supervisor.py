@@ -128,7 +128,7 @@ def _validate_relay_contract(value: dict[str, Any]) -> None:
 def render_relay_command(python: Path, relay: dict[str, Any]) -> list[str]:
     return [
         str(Path(python).resolve()),
-        str(Path(relay["control_script"]).resolve()),
+        "-m", "operations.paper_aio_incremental_audit_relay",
         "--destination-root", str(Path(relay["destination_root"]).resolve()),
         "--relay-id", str(relay["relay_id"]),
         "--source-host-label", str(relay["source_host_label"]),
@@ -150,16 +150,18 @@ def render_relay_command(python: Path, relay: dict[str, Any]) -> list[str]:
 
 
 def _parse_command(command: list[str]) -> dict[str, Any] | None:
-    if len(command) < 4:
+    if len(command) < 5 or command[1:3] != [
+        "-m", "operations.paper_aio_incremental_audit_relay",
+    ]:
         return None
     try:
         result: dict[str, Any] = {
             "python": str(Path(command[0]).resolve()),
-            "script": str(Path(command[1]).resolve()),
+            "module": command[2],
         }
     except (OSError, ValueError):
         return None
-    index = 2
+    index = 3
     while index < len(command):
         if index + 1 >= len(command) or not command[index].startswith("--"):
             return None
@@ -194,7 +196,7 @@ def command_matches_contract(
     observed.pop("--timeout-hours")
     expected.pop("--timeout-hours")
     if os.name == "nt":
-        for key in ("python", "script", "--destination-root"):
+        for key in ("python", "--destination-root"):
             observed[key] = str(observed[key]).casefold()
             expected[key] = str(expected[key]).casefold()
     return observed == expected
