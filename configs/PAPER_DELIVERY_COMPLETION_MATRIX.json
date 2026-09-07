@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T01:52:00+08:00",
+  "captured_at": "2026-09-08T02:34:45+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -14,7 +14,7 @@
         "5090C/proposal": "e80_fixed_hash_closed_live_e89_outer_recovery_guard_zero_restarts",
         "5090A/stcgr": "e80_fixed_hash_closed_live_e81_outer_recovery_guard_zero_restarts",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e66_e65_real_resume_pass_deleted_runtime_guard_zero_restarts_offhost_runtime_and_e66_full_state_hash_closed",
-        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e187",
+        "5090B/cyclegan": "e190_hash_closed_e200_source_export_import_and_fixed_evaluation_chain_preflight_pass",
         "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e32",
         "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e52"
       },
@@ -138,7 +138,8 @@
       "training_processes_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
+      "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
       "status": "healthy_deleted_inode_preserved_e66_e65_real_resume_pass_offhost_full_state_and_downstream_recovery_confirmed",
@@ -186,6 +187,27 @@
       "performance_values_read": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json"
+    },
+    "cyclegan_e190_delivery_chain_preflight": {
+      "status": "pass_source_e190_hash_closed_e200_export_relay_and_fixed_evaluation_prearmed",
+      "critical_path": true,
+      "source_epoch": 190,
+      "source_step": 1625070,
+      "source_checkpoint_sha256": "ae19088055ca1c897cbb949e8090d457bcbbfee5fe583f9d16cb5a89fb008667",
+      "source_exporter_pid": 9516,
+      "source_export_recovery_supervisor_pid": 673800,
+      "destination_relay_pid": 3414651,
+      "destination_relay_recovery_supervisor_pid": 400037,
+      "unified_evaluation_pid": 3802120,
+      "final_delivery_pid": 3802122,
+      "projected_e200": "2026-09-08T09:49:38+08:00_rough",
+      "e175_online_metric_disposition": "reconstruct_from_hash_closed_fixed_checkpoint_in_unified_evaluation",
+      "all_recovery_restart_counts_zero": true,
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json",
+      "decision": "decisions/DEC-20260908-CYCLEGAN-E190-DELIVERY-CHAIN-PREFLIGHT.md"
     }
   },
   "nonblocking_extensions": [

@@ -383,3 +383,7 @@ authorize compute.
 112. `DEC-20260908-GOAL-HEARTBEAT-E66-SYNC.md`：直接核验六条活动训练与全部恢复句柄仍健康，
      本轮裁决为verified wait；通过自动化API把持久heartbeat从e64旧恢复信息同步到e66、e65
      一步恢复和异机完整状态备份。没有重启、重排或新增实验，下一关键事件仍为CycleGAN e200。
+113. `DEC-20260908-CYCLEGAN-E190-DELIVERY-CHAIN-PREFLIGHT.md`：CycleGAN 已到e190，固定
+     e100/e125/e150/e175 checkpoint真实存在；冻结source exporter、5090B到4090A relay、统一
+     评估和最终交付等待器均在线且恢复计数为零。e175缺失的在线metric将由固定checkpoint在
+     统一评估中重建，不阻塞e200自动交付，也未触碰健康训练或读取性能值。
