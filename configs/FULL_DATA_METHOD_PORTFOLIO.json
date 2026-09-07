@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T06:22:00+08:00",
+  "captured_at": "2026-09-08T06:50:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -40,6 +40,18 @@
     "assumption_hardening_decision": "decisions/DEC-20260906-THEORY-ASSUMPTION-HARDENING.md",
     "freeze_chain_evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_THEORY_FREEZE_CHAIN_20260906T072000.json",
     "freeze_chain_decision": "decisions/DEC-20260906-PRE-RESULT-THEORY-FREEZE-CHAIN.md"
+  },
+  "pre_result_methods_protocol_draft": {
+    "status": "english_methods_and_protocol_complete_hash_bound_no_empirical_claim",
+    "draft": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+    "contract": "configs/PAPER_METHODS_PROTOCOL_DRAFT_CONTRACT.json",
+    "authority_order": "configs/PAPER_AIO_UNPAIRED_V1.json and configs/PAPER_ALGORITHM_THEORY_BUNDLE.json override prose",
+    "empirical_language_release_gate": "committed post-result claim freeze",
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_METHODS_PROTOCOL_DRAFT_20260908T065000.json",
+    "decision": "decisions/DEC-20260908-PRE-RESULT-METHODS-PROTOCOL-DRAFT.md"
   },
   "related_work_novelty_boundary": {
     "status": "pre_result_primary_source_collision_audit_complete",

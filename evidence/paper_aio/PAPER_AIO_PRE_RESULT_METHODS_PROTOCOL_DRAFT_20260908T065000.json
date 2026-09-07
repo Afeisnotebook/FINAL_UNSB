@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-pre-result-methods-protocol-draft-evidence-v1",
+  "captured_at": "2026-09-08T06:50:00+08:00",
+  "status": "ENGLISH_METHODS_AND_EXPERIMENTAL_PROTOCOL_DRAFT_COMPLETE_HASH_BOUND_NO_EMPIRICAL_CLAIM",
+  "artifacts": {
+    "draft": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+    "draft_sha256": "7f0c70837ab74b1259cca6f0971f38a96f374288a331c7a5dc45251c19210cd0",
+    "contract": "configs/PAPER_METHODS_PROTOCOL_DRAFT_CONTRACT.json",
+    "test": "tests/test_paper_methods_protocol_draft.py"
+  },
+  "authority_bindings": {
+    "executable_protocol_sha256": "09f178be8158bf2102ebb241456a113fd8145294d513d503e72eeb2068bcbfcc",
+    "theory_bundle_sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8",
+    "manuscript_branching_contract_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
+    "novelty_boundary_sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585"
+  },
+  "coverage": [
+    "UNSB bridge and sequential D-to-E-to-G/F state boundary",
+    "Proposal-only estimator and conditional covariance statement",
+    "ST-CGR marginal and covariance-difference statement",
+    "AM-TNC exchange-antisymmetric frozen-Adam-metric statement",
+    "full-data unpaired sampler and optimizer protocol",
+    "full-state recovery and runtime-relation rules",
+    "fixed evaluation and manuscript reporting boundaries"
+  ],
+  "initial_targeted_test_result": "3 passed",
+  "full_test_result": "753 passed",
+  "training_queue_changed": false,
+  "checkpoint_loaded": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "decision": "use the hash-bound draft to remove result-independent manuscript work from the post-e200 critical path; empirical language remains gated by the committed claim freeze"
+}

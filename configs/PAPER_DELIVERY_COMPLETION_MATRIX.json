@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T06:22:00+08:00",
+  "captured_at": "2026-09-08T06:50:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -246,6 +246,20 @@
       "performance_values_read": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_THEORY_FREEZE_CHAIN_20260906T072000.json"
+    },
+    {
+      "id": "pre_result_methods_protocol_draft",
+      "status": "english_methods_and_protocol_complete_hash_bound_no_empirical_claim",
+      "critical_path": false,
+      "draft": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+      "contract": "configs/PAPER_METHODS_PROTOCOL_DRAFT_CONTRACT.json",
+      "authority_order": "executable protocol and frozen theory bundle override prose",
+      "post_result_empirical_language_gate": "committed claim freeze only",
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_METHODS_PROTOCOL_DRAFT_20260908T065000.json",
+      "decision": "decisions/DEC-20260908-PRE-RESULT-METHODS-PROTOCOL-DRAFT.md"
     },
     {
       "id": "related_work_novelty_boundary",

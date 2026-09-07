@@ -1276,6 +1276,18 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_MANUSCRIPT_BRANCHING_CONTRACT_20260908T012000.json",
       "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
     },
+    "pre_result_methods_protocol_draft": {
+      "status": "ENGLISH_METHODS_AND_PROTOCOL_COMPLETE_HASH_BOUND_NO_EMPIRICAL_CLAIM",
+      "draft": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+      "contract": "configs/PAPER_METHODS_PROTOCOL_DRAFT_CONTRACT.json",
+      "authority_order": "EXECUTABLE_PROTOCOL_AND_FROZEN_THEORY_BUNDLE_OVERRIDE_PROSE",
+      "post_result_empirical_language_gate": "COMMITTED_CLAIM_FREEZE_ONLY",
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_METHODS_PROTOCOL_DRAFT_20260908T065000.json",
+      "decision": "decisions/DEC-20260908-PRE-RESULT-METHODS-PROTOCOL-DRAFT.md"
+    },
     "confirmation20_control_plane": {
       "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",
       "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
