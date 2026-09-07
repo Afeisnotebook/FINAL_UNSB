@@ -352,3 +352,7 @@ authorize compute.
     supervisor已累计2/1次工程故障且计数不清零的静默停机风险，部署候选感知、解释器哈希
     绑定、full-state验签的外层guard。原四个训练PID全部未变，新guard与health均脱离SSH、
     零重启、零告警；只在supervisor与trainer同时消失且全部身份门通过时恢复。
+105. `DEC-20260908-AMTNC-E64-POST-CLEANUP-RECOVERY-REVALIDATION.md`：再次确认原完整
+    `unsb_cov`环境已被清理且活动trainer仍使用deleted inode，但旧Python入口现为可执行只读
+    relay而非缺失文件。用e64真实latest full-state在隔离运行时CPU执行一更新成功，111项依赖
+    重新哈希全匹配；主训练未触碰，导出与统一评估后继健康，异机运行时归档两端哈希一致。
