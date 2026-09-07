@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-07",
-  "state_snapshot_time": "2026-09-07T17:25:00+08:00",
+  "state_snapshot_time": "2026-09-07T17:55:18+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -869,6 +869,32 @@
       },
       "evidence": "evidence/paper_aio/PAPER_AIO_PLAIN_E200_AMTNC_HANDOFF_AND_LOW_FREQUENCY_MONITOR_20260905T094942.json"
     },
+    "5090b_source_export_recovery": {
+      "status": "CYCLEGAN_AND_MATCHED_PLAIN_EXPORTERS_ADOPTED_HEALTHY_ZERO_RESTARTS",
+      "control_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
+      "control_script_sha256": "5463c96b66ee71a65900c066348b66cd870eac5576c9ece230daf381a45e99b9",
+      "cyclegan": {
+        "recovery_supervisor_pid": 673800,
+        "adopted_exporter_pid": 9516,
+        "restart_count": 0,
+        "recovery_contract_sha256": "5be4ca2a1a82cb33f04fa801a625c8f258baed0ef957b330e7902b304cf9c18e"
+      },
+      "matched_plain": {
+        "recovery_supervisor_pid": 673803,
+        "adopted_exporter_pid": 534982,
+        "restart_count": 0,
+        "recovery_contract_sha256": "21a9bdc5a55c099e3d59d4facd2986111b2750e1be5e5ab51264bc7077104ea7"
+      },
+      "health_watcher_pid": 673880,
+      "health_status": "HEALTHY_ZERO_ALERTS_POST_SSH_DISCONNECT",
+      "health_contract_sha256": "14dbd82b5368d8acf84d8e6805a41494fda530cbfa1aabb56ad5e6f6a45a1feb",
+      "latest_metric_blind_live_epochs": {"cyclegan": 178, "matched_plain": 27},
+      "scientific_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
+      "decision": "decisions/DEC-20260907-5090B-SOURCE-EXPORT-RECOVERY.md"
+    },
     "paper_complexity_interface": {
       "status": "IMPLEMENTED_GPU_SMOKE_VERIFIED_AND_DURABLE_E200_SUCCESSOR_ARMED",
       "schema": "final-unsb-paper-complexity-profile-v1",
@@ -1280,7 +1306,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",

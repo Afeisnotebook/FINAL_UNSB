@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-07T17:25:00+08:00",
+  "captured_at": "2026-09-07T17:55:18+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -696,6 +696,23 @@
     "actual_matched_delta_available": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E26_PROGRESS_AWARE_HEALTH_REPLACEMENT_20260907T162554.json"
   },
+  "5090b_source_export_recovery": {
+    "status": "deployed_healthy_two_exporters_zero_restarts",
+    "control_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
+    "cyclegan_recovery_supervisor_pid": 673800,
+    "cyclegan_exporter_pid": 9516,
+    "matched_plain_recovery_supervisor_pid": 673803,
+    "matched_plain_exporter_pid": 534982,
+    "health_watcher_pid": 673880,
+    "health_status": "healthy_zero_alerts_post_ssh_disconnect",
+    "latest_metric_blind_epochs": {"cyclegan": 178, "matched_plain": 27},
+    "checkpoint_loaded": false,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
+    "decision": "decisions/DEC-20260907-5090B-SOURCE-EXPORT-RECOVERY.md"
+  },
   "post_training_delivery": {
     "status": "DYNAMIC_5090B_CONTROL_WAITER_DEPLOYED_HEALTHY_AFTER_MULTIPLE_POLLS",
     "host": "4090A",
@@ -920,7 +937,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E56_CURRENT_CHECKPOINT_RESUME_PROOF_20260907T164249.json",
     "decision": "decisions/DEC-20260907-AMTNC-E56-CURRENT-CHECKPOINT-RESUME-PROOF.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

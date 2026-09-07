@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-07T17:25:00+08:00",
+  "captured_at": "2026-09-07T17:55:18+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,11 +11,12 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut"],
       "latest_running_milestones": {
-        "5090C/proposal": "e80_hash_closed",
-        "5090A/stcgr": "e70_exact_resume_hash_closed",
-        "4090A/amtnc_after_plain": "e40_fixed_hash_closed_e56_current_checkpoint_one_step_resume_proved",
-        "5090B/cyclegan": "e176_exact_resume_hash_and_full_state_load_closed_running_to_e200",
-        "local/dclgan_extension": "e40_hash_closed"
+        "5090C/proposal": "e80_hash_closed_live_heartbeat_e84",
+        "5090A/stcgr": "e70_exact_resume_hash_closed_live_heartbeat_e76",
+        "4090A/amtnc_after_plain": "e40_fixed_hash_closed_e56_resume_proved_live_heartbeat_e57",
+        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e178",
+        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e27",
+        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e47"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"
     },
@@ -126,7 +127,19 @@
     "training_processes_changed": false,
     "performance_values_read": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_CROSS_HOST_RELAY_RECOVERY_SUPERVISORS_20260907T172500.json",
+    "5090b_source_export_recovery": {
+      "status": "healthy_two_exporters_zero_restarts",
+      "control_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
+      "cyclegan_recovery_supervisor_pid": 673800,
+      "matched_plain_recovery_supervisor_pid": 673803,
+      "health_watcher_pid": 673880,
+      "health_status": "healthy_zero_alerts",
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json"
+    }
   },
   "nonblocking_extensions": [
     {

@@ -1,0 +1,114 @@
+{
+  "schema": "final-unsb-paper-5090b-source-export-recovery-deployment-v1",
+  "captured_at": "2026-09-07T17:55:18+08:00",
+  "decision": "KEEP_BOTH_HEALTHY_TRAINING_LANES_AND_EXPORTERS_ADD_FAIL_CLOSED_SOURCE_EXPORT_RECOVERY",
+  "goal_turn_classification": "PROGRESS",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "disk_free_gib": 224.6279,
+    "estimated_remaining_source_delivery_write_gib": 30.0,
+    "minimum_headroom_gib": 10.0,
+    "capacity_status": "PASS_REAL_REMAINING_CAPACITY"
+  },
+  "live_training_snapshot": {
+    "cyclegan": {
+      "supervisor_pid": 11845,
+      "trainer_pid": 662728,
+      "data_epoch": 178,
+      "updates": 1522434,
+      "scientific_state_sha256": "b15b561baec56594369b7709f378ee69ab881da0083c784637d0cf2e063bdd85",
+      "status": "HEALTHY_AFTER_PRIOR_EXACT_RESUME"
+    },
+    "matched_plain": {
+      "successor_pid": 523993,
+      "supervisor_pid": 534983,
+      "trainer_pid": 534984,
+      "data_epoch": 27,
+      "updates": 230931,
+      "scientific_state_sha256": "f28db75b3f460f3280a6909568be64904f08bfc3d073915c615801549fdcfcfa",
+      "status": "HEALTHY_FORMAL_E200_RUN"
+    },
+    "training_processes_restarted_or_modified": false
+  },
+  "closed_delivery_gap": {
+    "before": "BOTH_SOURCE_EXPORTERS_WERE_LIVE_AND_HEALTH_WATCHED_BUT_HAD_NO_AUTOMATIC_PROCESS_RECOVERY",
+    "failure_mode": "TRAINING_COULD_REACH_E200_WHILE_A_DEAD_EXPORTER_SILENTLY_DELAYED_SOURCE_BOUND_RECEIPTS_AND_UNIFIED_EVALUATION",
+    "after": "EACH_FROZEN_EXPORTER_IS_ADOPTED_BY_ONE_HASH_PINNED_RECOVERY_SUPERVISOR"
+  },
+  "control": {
+    "git_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
+    "checkout": "/root/autodl-tmp/FINAL_UNSB_EXPORT_RECOVERY_ae897ba",
+    "checkout_clean": true,
+    "script": "operations/paper_aio_export_successor_recovery_supervisor.py",
+    "script_sha256": "5463c96b66ee71a65900c066348b66cd870eac5576c9ece230daf381a45e99b9",
+    "test_result": "721 passed",
+    "remote_command_match_probe": {
+      "cyclegan": "PASS_EXACTLY_PID_9516",
+      "matched_plain": "PASS_EXACTLY_PID_534982"
+    }
+  },
+  "recovery_supervisors": {
+    "cyclegan": {
+      "pid": 673800,
+      "detached_wrapper_pid": 673799,
+      "adopted_exporter_pid": 9516,
+      "status": "MONITORING_EXISTING_EXPORT",
+      "restart_count": 0,
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_EXPORT_RECOVERY_CYCLEGAN_ae897ba",
+      "recovery_contract_sha256": "5be4ca2a1a82cb33f04fa801a625c8f258baed0ef957b330e7902b304cf9c18e",
+      "frozen_export_contract_sha256": "2943e47928994da784aac9a194ed3d9c458b43aba55272e897d50792b3aab0a2",
+      "export_control_git_commit": "1c65ce463eaa305ab0f889486f73004439317468"
+    },
+    "matched_plain": {
+      "pid": 673803,
+      "detached_wrapper_pid": 673802,
+      "adopted_exporter_pid": 534982,
+      "status": "MONITORING_EXISTING_EXPORT",
+      "restart_count": 0,
+      "output": "/root/autodl-tmp/runs/FINAL_UNSB_EXPORT_RECOVERY_PLAIN_ae897ba",
+      "recovery_contract_sha256": "21a9bdc5a55c099e3d59d4facd2986111b2750e1be5e5ab51264bc7077104ea7",
+      "frozen_export_contract_sha256": "8b2dc18d84773575ef17ac250b547ad5db7ebdbba4a9fbe4063739d30a6ed5ed",
+      "export_control_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac"
+    }
+  },
+  "health_watch": {
+    "pid": 673880,
+    "detached_wrapper_pid": 673878,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_EXPORT_RECOVERY_ae897ba",
+    "contract_sha256": "14dbd82b5368d8acf84d8e6805a41494fda530cbfa1aabb56ad5e6f6a45a1feb",
+    "poll_seconds": 60,
+    "max_recovery_state_staleness_seconds": 180,
+    "post_ssh_disconnect_verified": true
+  },
+  "recovery_semantics": {
+    "restart_trigger": "ONLY_WHILE_EXPORT_STATE_IS_NONTERMINAL_AND_NO_MATCHING_LIVE_EXPORTER_EXISTS",
+    "command_and_source_gate": "CONTROL_COMMIT_EXPORT_CONTRACT_AND_ALL_THREE_EXPORT_SOURCE_HASHES_REVERIFIED",
+    "live_pid_command_mismatch": "FAIL_CLOSED",
+    "duplicate_exporters": "FAIL_CLOSED",
+    "completed_or_blocked_state": "NO_BLIND_RESTART",
+    "checkpoint_access": "NONE",
+    "maximum_restarts_per_exporter": 5
+  },
+  "portfolio_metric_blind_snapshot": {
+    "4090A_amtnc": {"data_epoch": 57, "updates": 487521, "status": "healthy"},
+    "5090A_stcgr": {"data_epoch": 76, "updates": 650028, "status": "healthy"},
+    "5090B_cyclegan": {"data_epoch": 178, "updates": 1522434, "status": "healthy"},
+    "5090B_matched_plain": {"data_epoch": 27, "updates": 230931, "status": "healthy"},
+    "5090C_proposal": {"data_epoch": 84, "updates": 718452, "status": "healthy"},
+    "local_dclgan": {"data_epoch": 47, "updates": 401991, "status": "healthy"}
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "checkpoint_loaded_or_migrated": false,
+    "runtime_cohort_changed": false,
+    "confirmation20_opened": false
+  }
+}
