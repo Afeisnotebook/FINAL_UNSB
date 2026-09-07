@@ -25,8 +25,8 @@ except ImportError:  # pragma: no cover
     fcntl = None
 
 
-CONTRACT_SCHEMA = "final-unsb-paper-training-supervisor-guard-contract-v1"
-STATE_SCHEMA = "final-unsb-paper-training-supervisor-guard-state-v1"
+CONTRACT_SCHEMA = "final-unsb-paper-training-supervisor-guard-contract-v2"
+STATE_SCHEMA = "final-unsb-paper-training-supervisor-guard-state-v2"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 
@@ -57,6 +57,92 @@ def _sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def _runtime_identity(args: argparse.Namespace) -> dict[str, Any] | None:
+    values = (args.runtime_root, args.runtime_manifest, args.required_python_sha256)
+    if not any(value is not None for value in values):
+        return None
+    if not all(value is not None for value in values):
+        raise RuntimeError(
+            "runtime-root, runtime-manifest, and required-python-sha256 must be "
+            "provided together"
+        )
+    python = args.python.resolve(strict=True)
+    runtime_root = args.runtime_root.resolve(strict=True)
+    runtime_manifest = args.runtime_manifest.resolve(strict=True)
+    try:
+        python.relative_to(runtime_root)
+    except ValueError as error:
+        raise RuntimeError("recovery Python must be inside the isolated runtime") from error
+    actual_python_sha256 = _sha256(python)
+    if actual_python_sha256 != args.required_python_sha256:
+        raise RuntimeError("recovery Python hash does not match the required identity")
+    manifest_value = _read_json(runtime_manifest)
+    entries = manifest_value.get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise RuntimeError("runtime recovery manifest has no entries")
+    return {
+        "runtime_root": str(runtime_root),
+        "runtime_manifest": str(runtime_manifest),
+        "runtime_manifest_sha256": _sha256(runtime_manifest),
+        "runtime_manifest_entry_count": len(entries),
+        "python": str(python),
+        "python_sha256": actual_python_sha256,
+    }
+
+
+def verify_runtime_identity(
+    identity: dict[str, Any], *, verify_all_entries: bool
+) -> dict[str, Any]:
+    """Fail closed if the isolated recovery runtime has changed.
+
+    The inexpensive interpreter and manifest checks run on every guard poll.
+    Full entry hashing is reserved for startup/preflight and the instant before
+    a recovery launch, so a healthy training process is not burdened by I/O.
+    """
+    root = Path(identity["runtime_root"]).resolve(strict=True)
+    manifest = Path(identity["runtime_manifest"]).resolve(strict=True)
+    python = Path(identity["python"]).resolve(strict=True)
+    if (
+        _sha256(python) != identity["python_sha256"]
+        or _sha256(manifest) != identity["runtime_manifest_sha256"]
+    ):
+        raise RuntimeError("isolated runtime interpreter or manifest changed")
+    result = {
+        "python_sha256": identity["python_sha256"],
+        "manifest_sha256": identity["runtime_manifest_sha256"],
+        "entry_count": int(identity["runtime_manifest_entry_count"]),
+        "full_entry_hashes_verified": False,
+    }
+    if not verify_all_entries:
+        return result
+    value = _read_json(manifest)
+    entries = value.get("entries")
+    if not isinstance(entries, list) or len(entries) != result["entry_count"]:
+        raise RuntimeError("isolated runtime manifest entry count changed")
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise RuntimeError("invalid isolated runtime manifest entry")
+        relative = entry.get("relative_path")
+        expected_sha256 = entry.get("sha256")
+        expected_size = entry.get("size")
+        if not isinstance(relative, str) or not relative:
+            raise RuntimeError("invalid isolated runtime relative path")
+        candidate = (root / relative).resolve(strict=True)
+        try:
+            candidate.relative_to(root)
+        except ValueError as error:
+            raise RuntimeError("isolated runtime manifest escapes its root") from error
+        if (
+            not candidate.is_file()
+            or candidate.stat().st_size != int(expected_size)
+            or candidate.stat().st_mode & 0o222
+            or _sha256(candidate) != expected_sha256
+        ):
+            raise RuntimeError(f"isolated runtime entry identity failed: {relative}")
+    result["full_entry_hashes_verified"] = True
+    return result
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -201,7 +287,7 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("guard timeout must be at least 24 hours")
     control_source = control_repo / "operations" / "paper_aio_training_supervisor_guard.py"
     training_source = training_repo / "operations" / "paper_aio_supervisor.py"
-    return {
+    contract = {
         "schema": CONTRACT_SCHEMA,
         "status": "FROZEN",
         "lane_id": args.lane,
@@ -232,9 +318,14 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "paired_metric_control": False,
         "confirmation20_opened": False,
     }
+    runtime_identity = _runtime_identity(args)
+    if runtime_identity is not None:
+        verify_runtime_identity(runtime_identity, verify_all_entries=True)
+        contract["runtime_identity"] = runtime_identity
+    return contract
 
 
-def _verify(contract: dict[str, Any]) -> None:
+def _verify(contract: dict[str, Any], *, verify_runtime_tree: bool = False) -> None:
     control_repo = Path(contract["control_repo"])
     training_repo = Path(contract["training_repo"])
     if (
@@ -265,6 +356,13 @@ def _verify(contract: dict[str, Any]) -> None:
         or authorization.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("protocol or lane authorization identity changed")
+    runtime_identity = contract.get("runtime_identity")
+    if runtime_identity is not None:
+        if not isinstance(runtime_identity, dict):
+            raise RuntimeError("invalid runtime identity contract")
+        verify_runtime_identity(
+            runtime_identity, verify_all_entries=verify_runtime_tree
+        )
 
 
 def _state(contract: dict[str, Any], status: str, **extra: Any) -> dict[str, Any]:
@@ -279,6 +377,7 @@ def _state(contract: dict[str, Any], status: str, **extra: Any) -> dict[str, Any
         "performance_values_read": False,
         "paired_metric_control": False,
         "confirmation20_opened": False,
+        "runtime_identity_bound": "runtime_identity" in contract,
         **extra,
     }
 
@@ -299,7 +398,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         _atomic_json(contract_path, contract)
     elif _read_json(contract_path) != contract:
         raise RuntimeError("training supervisor guard contract changed")
-    _verify(contract)
+    _verify(contract, verify_runtime_tree=True)
     processes = matching_lane_processes(args.output, args.lane)
     if created and (
         int(args.initial_supervisor_pid) not in processes["supervisors"]
@@ -307,6 +406,20 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         or len(processes["trainers"]) > 1
     ):
         raise RuntimeError("initial live process set is not uniquely adoptable")
+    if args.verify_only:
+        checkpoint = _checkpoint(args, verify_file_hash=True)
+        return _state(
+            contract,
+            "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+            checkpoint_step=checkpoint["step"],
+            checkpoint_sha256=checkpoint["sha256"],
+            runtime_entry_count=contract.get("runtime_identity", {}).get(
+                "runtime_manifest_entry_count"
+            ),
+            full_runtime_entry_hashes_verified=True,
+            supervisor_pids=processes["supervisors"],
+            trainer_pids=processes["trainers"],
+        )
 
     started = time.time()
     total_restarts = 0
@@ -393,6 +506,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 _atomic_json(state_path, result)
                 return result
             verified = _checkpoint(args, verify_file_hash=True)
+            _verify(contract, verify_runtime_tree=True)
             with log_path.open("a", encoding="utf-8") as log:
                 log.write(
                     f"\n[{time.time():.3f}] exact supervisor recovery from "
@@ -445,6 +559,9 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--train-view", type=Path, required=True)
     value.add_argument("--lane", required=True)
     value.add_argument("--python", type=Path, required=True)
+    value.add_argument("--runtime-root", type=Path)
+    value.add_argument("--runtime-manifest", type=Path)
+    value.add_argument("--required-python-sha256")
     value.add_argument("--gpu", type=int, default=0)
     value.add_argument("--initial-supervisor-pid", type=int, required=True)
     value.add_argument("--guard-output", type=Path, required=True)
@@ -452,6 +569,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--restart-delay-seconds", type=int, default=30)
     value.add_argument("--maximum-consecutive-no-progress-restarts", type=int, default=2)
     value.add_argument("--timeout-hours", type=float, default=720.0)
+    value.add_argument("--verify-only", action="store_true")
     return value
 
 

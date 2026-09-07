@@ -1,4 +1,5 @@
 import json
+import hashlib
 from pathlib import Path
 
 import pytest
@@ -7,6 +8,7 @@ from operations.paper_aio_training_supervisor_guard import (
     _argument,
     next_no_progress_count,
     process_decision,
+    verify_runtime_identity,
 )
 
 
@@ -65,3 +67,72 @@ def test_state_contract_flags_are_literal_false() -> None:
         "confirmation20_opened": False,
     }
     assert json.loads(json.dumps(sample)) == sample
+
+
+def test_runtime_identity_full_verification(tmp_path: Path) -> None:
+    root = tmp_path / "runtime"
+    python = root / "bin" / "python3.10"
+    python.parent.mkdir(parents=True)
+    python.write_bytes(b"frozen-python")
+    python.chmod(0o555)
+    digest = hashlib.sha256(python.read_bytes()).hexdigest()
+    manifest = tmp_path / "RECOVERY_MANIFEST.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "entries": [
+                    {
+                        "relative_path": "bin/python3.10",
+                        "sha256": digest,
+                        "size": python.stat().st_size,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    identity = {
+        "runtime_root": str(root.resolve()),
+        "runtime_manifest": str(manifest.resolve()),
+        "runtime_manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
+        "runtime_manifest_entry_count": 1,
+        "python": str(python.resolve()),
+        "python_sha256": digest,
+    }
+    result = verify_runtime_identity(identity, verify_all_entries=True)
+    assert result["entry_count"] == 1
+    assert result["full_entry_hashes_verified"] is True
+
+
+def test_runtime_identity_rejects_writable_or_changed_entry(tmp_path: Path) -> None:
+    root = tmp_path / "runtime"
+    python = root / "bin" / "python3.10"
+    python.parent.mkdir(parents=True)
+    python.write_bytes(b"frozen-python")
+    digest = hashlib.sha256(python.read_bytes()).hexdigest()
+    manifest = tmp_path / "RECOVERY_MANIFEST.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "entries": [
+                    {
+                        "relative_path": "bin/python3.10",
+                        "sha256": digest,
+                        "size": python.stat().st_size,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    identity = {
+        "runtime_root": str(root.resolve()),
+        "runtime_manifest": str(manifest.resolve()),
+        "runtime_manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
+        "runtime_manifest_entry_count": 1,
+        "python": str(python.resolve()),
+        "python_sha256": digest,
+    }
+    python.chmod(0o755)
+    with pytest.raises(RuntimeError, match="entry identity failed"):
+        verify_runtime_identity(identity, verify_all_entries=True)
