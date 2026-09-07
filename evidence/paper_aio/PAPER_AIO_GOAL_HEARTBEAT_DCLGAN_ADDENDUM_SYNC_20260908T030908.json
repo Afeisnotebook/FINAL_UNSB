@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-dclgan-addendum-sync-v1",
+  "captured_at": "2026-09-08T03:09:08+08:00",
+  "status": "ACTIVE_HEARTBEAT_UPDATED_AND_PERSISTENCE_VERIFIED",
+  "automation": {
+    "id": "final-unsb-goal",
+    "name": "FINAL_UNSB 论文北极星监控",
+    "kind": "heartbeat",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "target_thread_preserved": true,
+    "update_interface": "Codex automation API",
+    "persisted_toml_verified_read_only": true,
+    "credentials_persisted_in_prompt": false
+  },
+  "new_monitoring_scope": {
+    "dclgan_addendum_control_commit": "589125f552d2f3e9f35bdaf036a48a2b16e49bf2",
+    "dclgan_addendum_supervisor_pid": 638006,
+    "dclgan_addendum_child_pid": 638015,
+    "dclgan_addendum_health_pid": 638474,
+    "normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "initial_child_launch_restart_count_is_not_incident": true,
+    "waiting_must_not_hold_gpu_lock": true,
+    "post_completion_performance_read_is_reporting_only": true,
+    "future_outputs": [
+      "PAPER_EXTERNAL_BASELINE_ADDENDUM.json",
+      "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+      "complexity/dclgan.json"
+    ]
+  },
+  "refreshed_metric_blind_milestones": {
+    "stcgr": {"data_epoch": 83, "step": 709899},
+    "proposal": {"data_epoch": 91, "step": 778323},
+    "cyclegan": {"data_epoch": 190, "step": 1625070},
+    "matched_plain": {"data_epoch": 33, "step": 282249},
+    "dclgan": {"data_epoch": 54, "step": 461862},
+    "amtnc": {"data_epoch": 66, "step": 564498}
+  },
+  "persisted_content_checks": {
+    "dclgan_addendum_section_present": true,
+    "supervisor_pid_present": true,
+    "child_pid_present": true,
+    "health_pid_present": true,
+    "dclgan_latest_epoch_present": true,
+    "augmented_portfolio_output_present": true,
+    "status_active_present": true,
+    "failed_runs_only_present": true
+  },
+  "scientific_boundaries": {
+    "training_processes_changed": false,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "new_experiment_started": false
+  }
+}

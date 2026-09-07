@@ -391,3 +391,7 @@ authorize compute.
      补上此前仅代码就绪、尚未部署的DCLGAN非阻塞论文addendum。4090A上的固定child、恢复
      supervisor和health均健康，等待期不占GPU、不读性能；DCLGAN固定结果完成后将自动生成
      带其结果和复杂度的增强论文组合，且不阻塞核心交付。
+115. `DEC-20260908-GOAL-HEARTBEAT-DCLGAN-ADDENDUM-SYNC.md`：通过Codex automation API把
+     新部署的DCLGAN addendum三个句柄、正常等待语义、GPU锁和完成后只读汇总边界纳入两小时
+     Goal heartbeat，并刷新六条metric-blind里程碑。持久化配置复核通过且不含凭据，训练和
+     队列均未改变。
