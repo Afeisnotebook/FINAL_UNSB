@@ -1,0 +1,118 @@
+{
+  "schema": "final-unsb-paper-amtnc-e66-deleted-runtime-recovery-closure-v1",
+  "captured_at": "2026-09-08T01:52:00+08:00",
+  "status": "HEALTHY_CONTINUOUS_RUN_E66_ISOLATED_RESUME_AND_OFFHOST_STATE_BACKUP_VERIFIED",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib_observed": 2371,
+    "gpu_utilization_percent_observed": 58,
+    "disk_free_gib_observed": 529.93
+  },
+  "incident_state": {
+    "original_full_environment_present_or_trusted": false,
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "original_path_python_files_are_full_interpreters": false,
+    "original_path_python_files_are_read_only_relays": true,
+    "relay_file_bytes": 326,
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_processes_restarted_or_modified": false
+  },
+  "live_training": {
+    "lane": "amtnc",
+    "data_epoch": 66,
+    "step": 564498,
+    "target_step": 1710600,
+    "epoch_wall_seconds": 3545.6414914131165,
+    "checkpoint_sha256": "9d05f6b59bb3f67403b9d5f9e6c18fc3535e2faddb4d57f612987be5136e5960",
+    "scientific_state_sha256": "54b11cfad4b2824ed104f44137243b5c2a1c08377660312d2387e5f8bde69625",
+    "guard_pid": 439182,
+    "guard_health_pid": 439447,
+    "guard_total_restarts": 0,
+    "guard_consecutive_no_progress_restarts": 0,
+    "guard_health": "HEALTHY_ZERO_ALERTS"
+  },
+  "isolated_runtime_current_revalidation": {
+    "runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "runtime_mode": "0555",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "python_matches_live_deleted_inode": true,
+    "versions": {
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "cuda": "12.1",
+      "numpy": "2.2.6",
+      "pillow": "12.2.0",
+      "torchvision": "0.20.1+cu121"
+    },
+    "mapped_dependency_entries_rehashed": 111,
+    "mapped_dependency_bytes_rehashed": 4198514872,
+    "mapped_dependency_entries_missing": 0,
+    "mapped_dependency_entries_mismatched": 0,
+    "mapped_dependency_entries_writable": 0,
+    "relay_new_process_probe": "PASS_EXECUTES_VERIFIED_ISOLATED_RUNTIME"
+  },
+  "latest_real_resume_probe": {
+    "input_checkpoint_epoch": 65,
+    "input_step": 555945,
+    "input_checkpoint_sha256": "621e4c679bcd5c3cd43f689401d3f2d06694090e819855f1bb3d915121da4f8c",
+    "output": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_E65_20260908T014100",
+    "device": "CPU_ONLY_CUDA_HIDDEN_GPU_ID_MINUS_ONE",
+    "output_step": 555946,
+    "output_checkpoint_sha256": "9cd47bfdcc81dfff074cb06b45db5ffc52dda70b8a5adda234758df3b050f066",
+    "output_scientific_state_sha256": "bd47e8d77a37b424ee0398be276b54953a7199c2881f63da36fb9bd982f10f58",
+    "wall_seconds": 12.219088077545166,
+    "stderr_bytes": 0,
+    "result": "PASS_LOAD_FULL_STATE_AND_EXECUTE_ONE_UPDATE",
+    "main_checkpoint_hash_unchanged_during_probe": true,
+    "probe_initial_invocation_note": "The first invocation requested CPUs 28-31, outside this host cgroup's allowed 0-27 set, and failed in taskset before Python or checkpoint access. The corrected low-priority CPU-only invocation used CPUs 24-27 and passed."
+  },
+  "e66_full_state_offhost_backup": {
+    "remote_snapshot": "/home/yc/recovery_snapshots/AMTNC_FULL_STATE_OFFHOST_SNAPSHOT_20260908T015000",
+    "local_snapshot": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E66",
+    "checkpoint_bytes": 201489396,
+    "checkpoint_sha256_remote_and_local": "9d05f6b59bb3f67403b9d5f9e6c18fc3535e2faddb4d57f612987be5136e5960",
+    "sidecar_bound_epoch": 66,
+    "sidecar_bound_step": 564498,
+    "remote_and_local_read_only": true,
+    "cpu_torch_load": "PASS_MODEL_OPTIMIZERS_SCHEDULERS_RNG_AND_BOTH_SAMPLERS_PRESENT"
+  },
+  "runtime_offhost_backup": {
+    "remote_archive": "/home/yc/recovery_snapshots/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
+    "local_archive": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260907/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
+    "archive_bytes": 5487298560,
+    "sha256_remote_and_local": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
+    "remote_and_local_read_only": true
+  },
+  "downstream_continuity": {
+    "source_exporter_pid": 2182586,
+    "source_export_recovery_supervisor_pid": 426584,
+    "source_export_recovery_health_pid": 426612,
+    "unified_evaluation_waiter_pids": [3879668, 3879670, 3879672, 3879674],
+    "unified_evaluation_health_pid": 3880106,
+    "dedicated_evaluator_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+    "post_e200_export_or_evaluation_blocked": false
+  },
+  "loss_boundary": {
+    "completed_checkpoint_or_scientific_state_lost": false,
+    "completed_progress_now_protected_through_epoch": 66,
+    "maximum_compute_at_risk_on_active_process_failure": "CURRENT_INCOMPLETE_DATA_EPOCH_ONLY",
+    "future_training_resume_blocked": false,
+    "future_export_and_unified_evaluation_blocked": false,
+    "original_environment_should_be_rebuilt_in_place": false,
+    "gpu_next_step_bitwise_equivalence_to_live_process_claimed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "checkpoint_or_data_deleted": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}
