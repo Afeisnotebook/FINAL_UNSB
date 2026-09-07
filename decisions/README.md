@@ -405,3 +405,6 @@ authorize compute.
 118. `DEC-20260908-AMTNC-E68-POST-CLEANUP-RISK-REAUDIT.md`：确认4090A原完整环境仍被删除，
      但存活AM-TNC已自然到e68；训练guard直接绑定并全量验签111项只读隔离runtime，e68完整
      状态已在CPU加载并复制为本机只读哈希闭环快照，导出和统一评估恢复链均在线零重启。
+119. `DEC-20260908-FROZEN-MANUSCRIPT-FIGURES.md`：新增冻结后确定性SVG renderer，将所有
+     终局算法的e150/e175/e200 matched轨迹和固定e200六域delta转为可直接进稿的哈希闭环图形；
+     写作合同现在要求figure receipt，且拒绝最佳checkpoint、非法runtime或缺失方法/域。

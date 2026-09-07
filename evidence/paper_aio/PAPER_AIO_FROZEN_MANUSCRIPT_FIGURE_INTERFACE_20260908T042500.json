@@ -1,0 +1,51 @@
+{
+  "schema": "final-unsb-paper-frozen-manuscript-figure-interface-v1",
+  "captured_at": "2026-09-08T04:25:00+08:00",
+  "status": "CODE_READY_TESTED_VISUALLY_VERIFIED_AND_PRE_RESULT_CONTRACT_BOUND",
+  "implementation": {
+    "path": "operations/paper_aio_manuscript_figures.py",
+    "git_commit": "d3ebf6cd7afd8f66e9be452ddd8c6b0db29b95e1",
+    "source_sha256": "b9aebbec3fc8e941ea4c51b0265ff2e2ccdcdadbe515646de5fe8ca3ff2b8bef",
+    "dependencies": "PYTHON_STANDARD_LIBRARY_ONLY",
+    "input_receipt": "MANUSCRIPT_TABLES_RECEIPT.json",
+    "source_tables": ["ALGORITHM_SUSTAINED.csv", "ALGORITHM_DOMAIN_DELTAS.csv"],
+    "outputs": ["ALGORITHM_SUSTAINED_PSNR.svg", "ALGORITHM_E200_DOMAIN_PSNR.svg", "MANUSCRIPT_FIGURES_RECEIPT.json"]
+  },
+  "contract": {
+    "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "git_commit": "20113f268b3a10329f77b6c92f8487573b3958c9",
+    "source_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
+    "required_post_result_artifact_added": "MANUSCRIPT_FIGURES_RECEIPT.json",
+    "claim_gate_added": "deterministic_manuscript_figure_export"
+  },
+  "validation": {
+    "fixed_epochs": [150, 175, 200],
+    "primary_epoch": 200,
+    "exactly_six_domains_per_terminal_method": true,
+    "all_terminal_methods_rendered": true,
+    "crn_exact_required": true,
+    "runtime_relation_pass_status_required": true,
+    "source_table_sha256_revalidated": true,
+    "immutable_output_on_repeat": true,
+    "synthetic_visual_qa": "PASS_TRAJECTORY_AND_DOMAIN_HEATMAP_LAYOUT",
+    "targeted_tests": "6 passed",
+    "full_suite_before_contract_binding": "742 passed"
+  },
+  "execution_state": {
+    "scheduled_now": false,
+    "reason": "WAITING_FOR_COMMITTED_POST_RESULT_CLAIM_FREEZE_AND_MANUSCRIPT_TABLE_RECEIPT",
+    "changes_training_or_evaluation": false,
+    "changes_runtime_cohort": false,
+    "reads_intermediate_results": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read_while_implementing": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "failed_method_hidden": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "paired_metric_control": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  }
+}

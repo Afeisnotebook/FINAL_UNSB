@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T03:53:00+08:00",
+  "captured_at": "2026-09-08T04:25:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -1122,8 +1122,8 @@
     "implementation_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
     "implementation": "operations/paper_aio_manuscript_tables.py",
     "exporter_source_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
-    "branch_contract_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
-    "branch_contract_source_sha256": "3ee76cbf2fabb2aef1b6ded00c0e94a71c539394509e170a235cd59438f7e539",
+    "branch_contract_commit": "20113f268b3a10329f77b6c92f8487573b3958c9",
+    "branch_contract_source_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
     "primary_epoch": 200,
     "sustained_epochs": [150, 175, 200],
     "six_domain_algorithm_deltas_required": true,
@@ -1150,6 +1150,28 @@
     "reporting_metadata_decision": "decisions/DEC-20260906-REPORTING-METADATA-CHAIN.md",
     "prior_interface_evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
     "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
+  },
+  "post_freeze_manuscript_figure_interface": {
+    "status": "code_ready_tested_visually_verified_fail_closed_awaiting_frozen_table_receipt",
+    "implementation_commit": "d3ebf6cd7afd8f66e9be452ddd8c6b0db29b95e1",
+    "implementation": "operations/paper_aio_manuscript_figures.py",
+    "renderer_source_sha256": "b9aebbec3fc8e941ea4c51b0265ff2e2ccdcdadbe515646de5fe8ca3ff2b8bef",
+    "branch_contract_commit": "20113f268b3a10329f77b6c92f8487573b3958c9",
+    "branch_contract_source_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
+    "source_receipt": "MANUSCRIPT_TABLES_RECEIPT.json",
+    "outputs": ["ALGORITHM_SUSTAINED_PSNR.svg", "ALGORITHM_E200_DOMAIN_PSNR.svg", "MANUSCRIPT_FIGURES_RECEIPT.json"],
+    "primary_epoch": 200,
+    "sustained_epochs": [150, 175, 200],
+    "six_domain_terminal_coverage_required": true,
+    "all_terminal_methods_preserved": true,
+    "exact_runtime_relation_required": true,
+    "all_outputs_hash_bound": true,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_FIGURE_INTERFACE_20260908T042500.json",
+    "decision": "decisions/DEC-20260908-FROZEN-MANUSCRIPT-FIGURES.md"
   },
   "pre_result_manuscript_branching_contract": {
     "status": "structure_frozen_no_empirical_claim_all_eight_outcomes_and_canonical_outline_hash_bound",
