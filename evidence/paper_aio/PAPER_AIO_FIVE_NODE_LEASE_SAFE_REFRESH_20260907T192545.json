@@ -1,0 +1,104 @@
+{
+  "schema": "final-unsb-paper-live-throughput-lease-reforecast-v4",
+  "captured_at": "2026-09-07T19:25:45+08:00",
+  "status": "FIVE_NODE_HEALTHY_CORE_LEASES_REMAIN_IN_HORIZON_NO_SCHEDULE_CHANGE",
+  "method": {
+    "metric_blind": true,
+    "unsb_family_rate": "median of the latest eight complete data epochs when available",
+    "dclgan_rate": "median of the latest eight complete data epochs",
+    "amtnc_rate": "latest complete epoch after deleted-runtime recovery closure",
+    "5090b_plain_projection": "current co-resident median until CycleGAN e200, then the committed isolated plain capacity-gate rate",
+    "performance_values_read": false
+  },
+  "live": {
+    "4090A_amtnc": {
+      "latest_complete_data_epoch": 59,
+      "latest_complete_updates": 504627,
+      "latest_epoch_seconds": 3535.804349422455,
+      "scientific_state_sha256": "4dc41711db4599b268b7512bc67b2e469e0c0b1e1369ac8ec7ed9543fe881595",
+      "gpu_utilization_percent_snapshot": 50,
+      "gpu_memory_used_mib_snapshot": 2371,
+      "free_disk_gib_snapshot": 537,
+      "projected_e200": "2026-09-13T13:54:53+08:00_rough",
+      "deleted_runtime_recovery_guard_pid": 439182,
+      "deleted_runtime_recovery_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "deleted_runtime_recovery_guard_total_restarts": 0,
+      "healthy_training_restarted": false
+    },
+    "5090A_stcgr": {
+      "latest_complete_data_epoch": 77,
+      "latest_complete_updates": 658581,
+      "latest_eight_median_epoch_seconds": 4720.79406952858,
+      "scientific_state_sha256": "5845db316dd5aa9ce315c849882545613c906a78222734cf59c0c9a51a9174cd",
+      "gpu_utilization_percent_snapshot": 51,
+      "gpu_memory_used_mib_snapshot": 2186,
+      "free_disk_gib_snapshot": 183,
+      "projected_e200": "2026-09-14T12:43:23+08:00_rough",
+      "declared_available_through": "2026-09-16T00:00:00+08:00",
+      "projected_headroom_hours": 35.277
+    },
+    "5090C_proposal": {
+      "latest_complete_data_epoch": 85,
+      "latest_complete_updates": 727005,
+      "latest_eight_median_epoch_seconds": 4890.018596410751,
+      "scientific_state_sha256": "ea0a3ff2fd23a414bd5317e19fe8fb22efdf2e72f66596fd6d9c97644d4c1c6d",
+      "gpu_utilization_percent_snapshot": 51,
+      "gpu_memory_used_mib_snapshot": 2186,
+      "free_disk_gib_snapshot": 228,
+      "projected_e200": "2026-09-14T07:38:17+08:00_rough",
+      "declared_available_through": "2026-09-15T00:00:00+08:00",
+      "projected_headroom_hours": 16.3619
+    },
+    "5090B_cyclegan": {
+      "latest_complete_data_epoch": 180,
+      "latest_complete_updates": 1539540,
+      "latest_eight_median_epoch_seconds": 2728.1540842056274,
+      "scientific_state_sha256": "7ee1febfd809de81a731aeb20abc98e862533ee10993eb46e6bc9b0aec5d7f4d",
+      "projected_e200": "2026-09-08T10:35:08+08:00_rough"
+    },
+    "5090B_matched_plain": {
+      "latest_complete_data_epoch": 28,
+      "latest_complete_updates": 239484,
+      "recent_non_anomalous_colocated_median_epoch_seconds": 4600.468380331993,
+      "committed_isolated_epoch_seconds": 2410.470835328102,
+      "latest_full_state_checkpoint_sha256": "d0a745a89521bd815954b90f175413d79c77a58c1059bb14f27630a16188ed50",
+      "latest_full_state_sidecar_sha256": "3e1a00c8387a4a7184b90c26ccc2685189e7787b5985dc4bfe6e6fab71aa23fb",
+      "scientific_state_sha256": "bf00ca06c66ad1c7dc81498ad86b88adbdc82ce1d386990c0d2bcd54f5d7513a",
+      "projected_epoch_when_cyclegan_releases_gpu": 39.8603,
+      "projected_e200": "2026-09-12T21:48:40+08:00_rough",
+      "declared_available_through": "2026-09-14T00:00:00+08:00",
+      "projected_headroom_hours": 26.1889,
+      "capacity_gate_receipt_sha256": "7f1d96be51e3731098ecf2b6f1337b4ea61011ccfa06f97c2bb95bd145c83136"
+    },
+    "local_dclgan": {
+      "latest_complete_data_epoch": 48,
+      "latest_complete_updates": 410544,
+      "latest_eight_median_epoch_seconds": 3896.2701337337494,
+      "scientific_state_sha256": "467152d812efefae62ff748ba31f9414d8a3045fee1ed5eb9d4a25e1d8d3e387",
+      "gpu_utilization_percent_snapshot": 79,
+      "gpu_memory_used_mib_snapshot": 3107,
+      "free_disk_gib_snapshot": 115.3,
+      "projected_e200": "2026-09-14T15:56:18+08:00_rough"
+    }
+  },
+  "adjudication": {
+    "lease_extension_required_now": false,
+    "schedule_change_required": false,
+    "5090C_margin_narrowed_but_positive": true,
+    "next_manual_decision_time": "2026-09-11T12:00:00+08:00",
+    "reopen_early_if": [
+      "5090C Proposal projected headroom falls below 12 hours including export allowance",
+      "5090A ST-CGR projected completion crosses 2026-09-15T12:00:00+08:00",
+      "5090B CycleGAN does not release the GPU after its source-bound e200 export",
+      "any fail-closed health or recovery state appears"
+    ]
+  },
+  "scientific_boundaries": {
+    "running_training_changed": false,
+    "successor_changed": false,
+    "scientific_protocol_changed": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}
