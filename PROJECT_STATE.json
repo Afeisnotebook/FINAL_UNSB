@@ -56,7 +56,7 @@
       "freeze_chain_decision": "decisions/DEC-20260906-PRE-RESULT-THEORY-FREEZE-CHAIN.md"
     },
     "paper_related_work_novelty_boundary": {
-      "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_COMPLETE",
+      "status": "PRE_RESULT_PRIMARY_SOURCE_COLLISION_AUDIT_REFRESHED_20260908_NEW_NEIGHBORS_BOUND",
       "canonical_document": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
       "generic_multisample_averaging_claimed_novel": false,
       "generic_timestep_stratification_claimed_novel": false,
@@ -68,7 +68,10 @@
       "performance_values_read": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_RELATED_WORK_NOVELTY_BOUNDARY_20260906T031839.json",
-      "decision": "decisions/DEC-20260906-RELATED-WORK-NOVELTY-BOUNDARY.md"
+      "decision": "decisions/DEC-20260906-RELATED-WORK-NOVELTY-BOUNDARY.md",
+      "refresh_evidence": "evidence/paper_aio/PAPER_AIO_RELATED_WORK_NOVELTY_REFRESH_20260908T033000.json",
+      "refresh_decision": "decisions/DEC-20260908-RELATED-WORK-NOVELTY-REFRESH.md",
+      "newly_bound_neighbors": ["sbf", "ibcd", "e_bridge", "sampling_without_replacement_gradient_estimation"]
     },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
@@ -1168,7 +1171,7 @@
       "implementation": "operations/paper_aio_manuscript_tables.py",
       "exporter_source_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
       "branch_contract_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
-      "branch_contract_source_sha256": "584fb0798ecd87c3d08a21a8ad3e4f02b8c45ab6db299e261b48baa1ffd36c23",
+      "branch_contract_source_sha256": "16af7c33f766b2b8161d378cbb70eafb4b5ac26b66acaa186e542871336a984e",
       "primary_epoch": 200,
       "sustained_epochs": [150, 175, 200],
       "six_domain_algorithm_deltas_required": true,

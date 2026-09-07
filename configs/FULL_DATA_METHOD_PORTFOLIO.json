@@ -1123,7 +1123,7 @@
     "implementation": "operations/paper_aio_manuscript_tables.py",
     "exporter_source_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
     "branch_contract_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
-    "branch_contract_source_sha256": "584fb0798ecd87c3d08a21a8ad3e4f02b8c45ab6db299e261b48baa1ffd36c23",
+    "branch_contract_source_sha256": "16af7c33f766b2b8161d378cbb70eafb4b5ac26b66acaa186e542871336a984e",
     "primary_epoch": 200,
     "sustained_epochs": [150, 175, 200],
     "six_domain_algorithm_deltas_required": true,

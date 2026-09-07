@@ -1,0 +1,66 @@
+{
+  "schema": "final-unsb-paper-related-work-novelty-refresh-v1",
+  "captured_at": "2026-09-08T03:30:00+08:00",
+  "status": "PRIMARY_SOURCE_REFRESH_COMPLETE_NEW_NEIGHBORS_BOUND_NO_QUEUE_CHANGE",
+  "scope": "pre-result primary-source refresh for Proposal-only, ST-CGR, AM-TNC and terminal/path claims",
+  "sources": [
+    {
+      "id": "sbf",
+      "title": "Schrodinger Bridge Flow for Unpaired Data Translation",
+      "venue": "NeurIPS 2024",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/bb3cfcb0284642a973dd631ec9184f2f-Abstract-Conference.html",
+      "boundary": "No first-online-unpaired-SB or first-avoid-full-retraining claim."
+    },
+    {
+      "id": "ibcd",
+      "title": "Single-Step Bidirectional Unpaired Image Translation Using Implicit Bridge Consistency Distillation",
+      "status_at_refresh": "2025 arXiv and ICLR 2026 submission; author project page says code coming soon",
+      "url": "https://arxiv.org/abs/2503.15056",
+      "project": "https://hyn2028.github.io/project_page/IBCD/index.html",
+      "boundary": "No first unpaired bridge consistency, first single-step bridge translation or runnable-baseline claim."
+    },
+    {
+      "id": "e_bridge",
+      "title": "Energy-oriented Diffusion Bridge for Image Restoration with Foundational Diffusion Models",
+      "venue": "ICLR 2026",
+      "url": "https://openreview.net/forum?id=B9JHSksyox",
+      "source": "https://github.com/jinnh/E-Bridge",
+      "boundary": "Low-energy paths, entropy-regularized starts and few-step solvers are prior work; protocol is not a direct six-domain unpaired main-table match."
+    },
+    {
+      "id": "sampling_without_replacement_gradient_estimation",
+      "title": "Estimating Gradients for Discrete Random Variables by Sampling without Replacement",
+      "url": "https://arxiv.org/abs/2002.06043",
+      "boundary": "Generic without-replacement unbiasedness and variance reduction are not ST-CGR novelty."
+    }
+  ],
+  "source_status_checks": {
+    "ddsb_authoritative_public_implementation_found": false,
+    "ddsb_reproduction_gate": "REMAINS_FAIL_CLOSED_REPRODUCTION_INCOMPLETE_NOT_MECHANISM_FAILURE",
+    "ibcd_public_code_ready": false,
+    "e_bridge_author_source_present": true,
+    "amtnc_exact_operator_collision_found_in_bounded_refresh": false,
+    "amtnc_novelty_proven_by_search": false
+  },
+  "manuscript_contract_rebind": {
+    "contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "contract_sha256": "16af7c33f766b2b8161d378cbb70eafb4b5ac26b66acaa186e542871336a984e",
+    "novelty_boundary_sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585",
+    "historical_contract_evidence_modified": false,
+    "all_eight_outcome_branches_preserved": true,
+    "result_values_read_before_rebind": false
+  },
+  "decisions": {
+    "training_queue_changed": false,
+    "baseline_portfolio_changed": false,
+    "terminal_module_authorized": false,
+    "final_claim_time_refresh_still_required": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "healthy_training_changed": false
+  }
+}

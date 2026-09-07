@@ -395,3 +395,7 @@ authorize compute.
      新部署的DCLGAN addendum三个句柄、正常等待语义、GPU锁和完成后只读汇总边界纳入两小时
      Goal heartbeat，并刷新六条metric-blind里程碑。持久化配置复核通过且不含凭据，训练和
      队列均未改变。
+116. `DEC-20260908-RELATED-WORK-NOVELTY-REFRESH.md`：按当前日期复核一手来源，将SBF、
+     IBCD、E-Bridge和通用不放回梯度估计补入投稿边界；收紧在线无配对SB、bridge consistency、
+     低能量/少步bridge及ST-CGR无偏性措辞，并经fail-closed测试重新绑定八分支写作合同。
+     DDSB与IBCD复现门仍关闭，实验队列和健康训练不变。

@@ -2,7 +2,9 @@
 
 状态：`PRE-RESULT PRIMARY-SOURCE COLLISION AUDIT`
 
-冻结时间：2026-09-06
+初次冻结时间：2026-09-06
+
+最近一次一手来源复核：2026-09-08
 
 适用对象：Proposal-only、ST-CGR、AM-TNC，以及尚未由证据批准的 terminal 路线。
 
@@ -22,9 +24,13 @@
 | [PCGrad, NeurIPS 2020](https://proceedings.neurips.cc/paper/2020/hash/3fe78a8acf5fda99de95303940a2420c-Abstract.html) 与 [CAGrad, NeurIPS 2021](https://proceedings.neurips.cc/paper/2021/hash/9d27fdf2477ffbff837d73ef7ae23db9-Abstract.html) | 对不同任务目标的冲突梯度做 Euclidean 投影或在平均梯度邻域求 conflict-averse 方向 | 与 AM-TNC 共享“直接修改梯度方向”的表面形式 | AM-TNC 的两个向量是**同一 player、同一状态、同一 batch 的 exchangeable replicas**，不是两个任务；它删除 frozen Adam metric 下 disagreement 对 consensus 的径向分量，不能称为首次 gradient surgery |
 | [Stochastic gradient manipulation convergence audit, NeurIPS 2022](https://proceedings.neurips.cc/paper_files/paper/2022/hash/f91bd64a3620aad8e70a27ad9cb3ca57-Abstract-Conference.html) | 说明用瞬时 stochastic gradients 决定组合权重的多目标方法可能不收敛 | 是 AM-TNC 不得从单步几何越界到全程收敛主张的直接警示 | exchange symmetry 只证明 pre-Adam 条件均值；不能据此声称 Adam displacement、完整 Markov kernel 或长期收益无偏 |
 | [DDSB, NeurIPS 2025](https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html) | 直接面向无配对 restoration，以 degradation-aware OT 与 dynamic transport consistency 减少迭代误差和早期细节损失 | 是论文主任务最接近的已发表外部对手 | 必须在 related work 和主实验中正常处理；当前无权威公开实现，故保持 `reproduction_incomplete`，不得猜测复现或虚构数字 |
+| [Schrodinger Bridge Flow, NeurIPS 2024](https://proceedings.neurips.cc/paper_files/paper/2024/hash/bb3cfcb0284642a973dd631ec9184f2f-Abstract-Conference.html) | 把路径测度流离散化，在无配对数据翻译中以在线更新避免每轮完整重训 diffusion model | 与本项目共享“在线无配对 SB 训练”和有限步状态演化的宽泛语境 | 不能宣称首次在线学习无配对 SB、首次避免重复完整重训或首次研究无配对 SB 的累计误差；本项目边界只能落在固定 UNSB 顺序博弈内部的 player-conditional estimator/geometry |
+| [IBCD, 2025 arXiv / ICLR 2026 submission](https://arxiv.org/abs/2503.15056) / [项目页](https://hyn2028.github.io/project_page/IBCD/index.html) | 连接两个预训练 diffusion PF-ODE，以 distribution matching、cycle loss 和自适应蒸馏权重做单步双向无配对翻译 | 与本项目共享无配对 bridge、训练稳定性和有限 NFE 的应用语境，但目标、教师和推理机制不同 | 不能宣称首次用 bridge 做高效无配对翻译、首次单步 bridge translation 或首次用 consistency 改善无配对桥；项目页截至复核时仍标记 code coming soon，因此不伪装成已完成可复现主表基线 |
+| [E-Bridge, ICLR 2026](https://openreview.net/forum?id=B9JHSksyox) / [作者代码](https://github.com/jinnh/E-Bridge) | 改写 restoration bridge 的起点和时间域，以 entropy-regularized 起点、低能量轨迹和连续时间 consistency solver 接入 foundation diffusion model | 与 terminal/path-energy、桥坐标和少步推理叙事相邻，但不等同于当前三条在固定 UNSB law 内的训练估计器 | 不能把“更短/低能量 bridge”“避免 re-noising”或少步 solver 写成本文贡献；其任务、预训练先验和分辨率协议不等价于六域 128px All-in-One 无配对主表，当前只作相关工作而不临时挤入冻结训练队列 |
 | [NADB, 2026 preprint](https://arxiv.org/abs/2605.28962) | 研究 paired diffusion bridge 的 target-endpoint underfitting；改变 interpolant/target，并用 posterior-mean network 做方向对齐 | 与用户提出的“低方差末段导致 variance/direction drift”高度相关 | 不得隐去；但它用 paired target、改变 bridge law/回归目标，Proposal/ST-CGR/AM-TNC 均不做这些，因此不能声称在不改桥的情况下等价实现 NADB |
 | [SDDBM, 2026 preprint](https://arxiv.org/abs/2608.08594) | 将 hard terminal condition 改为非退化 Gaussian terminal marginal，以避免 terminal-boundary singularity | 覆盖更严格的“硬端点导致 drift ill-conditioning”理论叙事 | 本项目三条在飞方法不改变 endpoint law，不能声称解决该类奇异性；若未来采用 soft endpoint，必须作为新路线显式引用、重新推导和重新门禁 |
 | [DBIM, ICLR 2025](https://openreview.net/forum?id=eghAocvqBk) 与 [Consistency Diffusion Bridge, NeurIPS 2024](https://openreview.net/forum?id=FFJFGx78OK) | 在 paired denoising diffusion bridge 上改变采样过程或蒸馏 consistency function，重点是少 NFE 推理 | 与本项目的 bridge/time 术语接近，但作用阶段不同 | 本项目当前贡献是训练时 stochastic measure/geometry，不是 fast sampler；NFE=1--5 只作固定评估，不能宣称推理加速贡献 |
+| [Sampling without Replacement Gradient Estimation, 2020](https://arxiv.org/abs/2002.06043) | 对离散随机变量构造不放回的无偏梯度估计器，并从 Rao--Blackwellization 角度解释降方差 | 覆盖 ST-CGR 的通用“不放回且边际/期望正确”数学原理 | ST-CGR 不能把一般不放回无偏性或避免重复样本当作首创；只能主张有限 bridge-time、完整 G/F view 与 post-D/E UNSB player boundary 的具体构造及长期实证 |
 
 投稿前还应追踪两个2026年8月公开的概念近邻：
 [denoising score-matching loss floor 的 conditional-variance/Fisher 分解](https://arxiv.org/abs/2608.23916)
@@ -104,3 +110,21 @@ law 的条件下，顺序 player-conditional stochastic estimator/geometry 能�
 - DDSB是否发布权威源码，若有则重新打开复现门，而不是继续沿用“无源码”。
 
 本文件只能防止已知越界，不能替代投稿前的新颖性检索或审稿判断。
+
+## 6. 2026-09-08 投稿前复核增量
+
+本轮只检查一手论文页、论文原文、作者项目页和作者仓库，没有读取任何训练中 paired
+性能。新增边界为 SBF、IBCD、E-Bridge 和通用不放回梯度估计；它们分别收紧“在线无配对
+SB”“无配对 bridge consistency/单步推理”“低能量 bridge/terminal path”及“不放回无偏”
+四类措辞。
+
+截至本次复核：
+
+- DDSB 仍未找到可锁定的作者源码、checkpoint 或实现合同，复现门继续 fail closed；
+- IBCD 项目页的代码入口仍标注 coming soon，故不能把它临时加入正在运行的主表；
+- E-Bridge 已有作者代码，但其 foundation-model、任务和推理协议与当前六域无配对主协议
+  不等价，只进入 related-work/ceiling 语境；
+- 有界检索没有发现与 AM-TNC 完全相同的 same-player、exchange-antisymmetric、frozen
+  Adam-metric operator；这只是“未发现直接碰撞”，不是新颖性证明；
+- 不改变任何训练、GPU 队列、主表冻结项或 confirmation20 状态。最终摘要和 claim freeze
+  前仍须再做一次当日检索。

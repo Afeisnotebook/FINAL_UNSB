@@ -14,7 +14,7 @@
     },
     "novelty_boundary": {
       "path": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
-      "sha256": "550db3b3a2b680d3f8c645f25f4faf139cc3daa490af59877599664df6882070"
+      "sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],
