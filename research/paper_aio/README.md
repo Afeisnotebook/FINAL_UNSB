@@ -501,6 +501,23 @@ paper label and reproduction/comparison scope for every row. In particular,
 the controlled-backbone CycleGAN result cannot silently be rendered as a
 verbatim official CycleGAN reproduction.
 
+Render the fixed late-horizon and six-domain manuscript figures only after the
+table receipt exists:
+
+```bash
+python -m operations.paper_aio_manuscript_figures \
+  --table-receipt /absolute/FROZEN_MANUSCRIPT_TABLES/MANUSCRIPT_TABLES_RECEIPT.json \
+  --output /absolute/FROZEN_MANUSCRIPT_FIGURES
+```
+
+This produces deterministic editable SVGs for the e150/e175/e200 matched macro
+PSNR trajectory and the fixed e200 six-domain PSNR deltas, plus
+`MANUSCRIPT_FIGURES_RECEIPT.json`. The renderer verifies the table hashes,
+requires exact late-three and six-domain coverage, preserves every terminal
+method regardless of pass/fail, and refuses best-checkpoint, non-CRN or
+non-equivalent-runtime inputs. It is post-freeze reporting code and cannot
+schedule training or authorize confirmation20.
+
 Confirmation has a second, independent two-stage review. The draft below is
 non-authorizing:
 
