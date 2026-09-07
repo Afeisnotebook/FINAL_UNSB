@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-07T09:07:25+08:00",
+  "captured_at": "2026-09-07T09:50:30+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -193,7 +193,7 @@
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
     "cyclegan_5090B": "running_e152_latest_fixed_e150_hash_closed",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_e20_latest_fixed_e20_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_e40_fixed_milestone_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -872,7 +872,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E40_DELETED_RUNTIME_CONTINUITY_20260907T001540.json",
     "decision": "decisions/DEC-20260907-AMTNC-E40-DELETED-RUNTIME-CONTINUITY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_E70_EXACT_RESUME_CLOSURE_20260907T090725.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_E40_HASH_CLOSURE_20260907T095030.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

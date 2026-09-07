@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-06T10:29:00+08:00",
+  "captured_at": "2026-09-07T09:50:30+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -125,7 +125,7 @@
     },
     {
       "id": "dclgan",
-      "status": "training_running_local_source_bound_push_armed_evaluation_child_preserved_and_recovery_supervisor_healthy",
+      "status": "training_running_local_e40_hash_closed_source_bound_push_armed_evaluation_child_preserved_and_recovery_supervisor_healthy",
       "critical_path": false,
       "reason": "DCLGAN runs independently on local GTX1660 and must not delay the earlier core portfolio",
       "outputs": ["DCLGAN_PAPER_RESULT.json", "complexity/dclgan.json", "PAPER_EXTERNAL_BASELINE_ADDENDUM.json", "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"],
@@ -136,6 +136,11 @@
       "recovery_supervisor_pid": 3870693,
       "recovery_health_watcher_pid": 3870938,
       "recovery_restart_count": 0,
+      "latest_completed_data_epoch": 40,
+      "latest_completed_updates": 342120,
+      "latest_fixed_milestone_checkpoint_sha256": "1bed30cc4b13e1e6b65d029072c5e6903675f36bc4c63a0360f69fed444f73b2",
+      "latest_fixed_milestone_scientific_state_sha256": "d817597da105ed7a9120c2230bfd73c36cc18c8c352e25b292b524df94f48551",
+      "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E40_HASH_CLOSURE_20260907T095030.json",
       "runtime_role_gate": "PASS_PINNED_READ_ONLY_EVALUATOR_RUNTIME; existing child adopted without restart",
       "retired_runtime_unsafe_control_pids": [3804113, 3804260],
       "local_remaining_write_bound_gib": 5.162,
