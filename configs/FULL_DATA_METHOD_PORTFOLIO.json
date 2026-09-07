@@ -194,7 +194,7 @@
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "formal_e200_running_e20_fixed_milestone_hash_closed_after_metric_blind_capacity_pass",
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
-    "cyclegan_5090B": "exact_resume_running_from_hash_verified_e175_e176_closure_pending_metric_reconstructable_read_only",
+    "cyclegan_5090B": "exact_resume_closed_by_hash_verified_e176_running_to_e200_e175_metric_reconstructable_read_only",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
     "dclgan": "running_local_gtx1660_e40_fixed_milestone_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
@@ -281,6 +281,17 @@
       "e125_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json",
       "recovery_closure_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E126_RECOVERY_CLOSURE_20260906T020917.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E125_INLINE_EVALUATION_STALL_RECOVERY_20260906T012500.json"
+    },
+    "cyclegan_e176_recovery_closure": {
+      "status": "exact_resume_from_hash_verified_e175_closed_by_complete_e176_normal_throughput",
+      "checkpoint_sha256": "fe13fe4e16ca5a1a68a3e831e7e9b7be4d6e6b43e3976c30511498c2ed9d206d",
+      "sidecar_sha256": "2b2a36b16e9ff251424e41c507b4ffa9307c83f3928b3798f4f75bb75f7d57cc",
+      "scientific_state_sha256": "257a383777c23790c69fcf935b062fca1bbec44ab745aef8e1d5e6b639df1f52",
+      "epoch_wall_seconds": 2750.6916859149933,
+      "trainer_pid": 662728,
+      "matched_plain_trainer_pid": 534984,
+      "e175_metric_status": "missing_reconstruct_via_unified_read_only_evaluator",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E176_EXACT_RESUME_CLOSURE_20260907T160748.json"
     },
     "cyclegan_e100": {
       "status": "checkpoint_and_metric_artifact_hash_closed_performance_values_unread",
@@ -880,7 +891,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E55_DELETED_RUNTIME_RECOVERY_REAUDIT_20260907T153800.json",
     "decision": "decisions/DEC-20260907-AMTNC-E55-DELETED-RUNTIME-RECOVERY-REAUDIT.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E55_DELETED_RUNTIME_RECOVERY_REAUDIT_20260907T153800.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E176_EXACT_RESUME_CLOSURE_20260907T160748.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

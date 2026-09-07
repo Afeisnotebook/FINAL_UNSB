@@ -14,7 +14,7 @@
         "5090C/proposal": "e80_hash_closed",
         "5090A/stcgr": "e70_exact_resume_hash_closed",
         "4090A/amtnc_after_plain": "e40_fixed_hash_closed_e55_latest_full_state_hash_and_isolated_load_verified",
-        "5090B/cyclegan": "e175_checkpoint_hash_verified_exact_resume_to_e176_pending",
+        "5090B/cyclegan": "e176_exact_resume_hash_and_full_state_load_closed_running_to_e200",
         "local/dclgan_extension": "e40_hash_closed"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"

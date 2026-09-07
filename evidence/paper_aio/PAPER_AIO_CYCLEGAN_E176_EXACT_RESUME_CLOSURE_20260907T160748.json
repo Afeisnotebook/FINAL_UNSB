@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-aio-cyclegan-e176-exact-resume-closure-v1",
+  "captured_at": "2026-09-07T16:07:48+08:00",
+  "decision": "CLOSE_E175_POST_CHECKPOINT_STALL_RECOVERY_BY_HASH_VERIFIED_E176",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu": "NVIDIA GeForce RTX 5090"
+  },
+  "recovery": {
+    "supervisor_pid": 11845,
+    "retired_stalled_trainer_pid": 493306,
+    "recovered_trainer_pid": 662728,
+    "recovered_trainer_started_at": "2026-09-07T15:18:58+08:00",
+    "progress_watcher_pid": 138626,
+    "continuity_guard_pid": 159134,
+    "continuity_guard_total_restarts": 0,
+    "supervisor_consecutive_failures": 2,
+    "resume_source_epoch": 175,
+    "resume_source_step": 1496775,
+    "resume_source_checkpoint_sha256": "32e5eb7bea322ad4306b6879c8759bceff6c5b01a5569053c0814ccdf618695d",
+    "resume_source_scientific_state_sha256": "b6b71ff6e8ccbffb0e63b756f7af33ffcfd4d0bc612c54b9ee91c3b0fde15796"
+  },
+  "first_post_recovery_complete_epoch": {
+    "data_epoch": 176,
+    "step": 1505328,
+    "epoch_wall_seconds": 2750.6916859149933,
+    "checkpoint": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_V1_31f2fb8/lanes/cyclegan/full_state_latest.pt",
+    "checkpoint_sha256_from_sidecar": "fe13fe4e16ca5a1a68a3e831e7e9b7be4d6e6b43e3976c30511498c2ed9d206d",
+    "checkpoint_sha256_recomputed": "fe13fe4e16ca5a1a68a3e831e7e9b7be4d6e6b43e3976c30511498c2ed9d206d",
+    "sidecar_sha256": "2b2a36b16e9ff251424e41c507b4ffa9307c83f3928b3798f4f75bb75f7d57cc",
+    "scientific_state_sha256": "257a383777c23790c69fcf935b062fca1bbec44ab745aef8e1d5e6b639df1f52",
+    "cpu_full_state_load": "PASS",
+    "loaded_state": {
+      "networks": ["G_A", "G_B", "D_A", "D_B"],
+      "optimizers": "PRESENT",
+      "schedulers": "PRESENT",
+      "method_state": "PRESENT",
+      "rng": ["python", "numpy", "torch_cpu", "torch_cuda"],
+      "samplers": ["primary", "secondary"]
+    }
+  },
+  "identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "lane_config_sha256": "066d7b6b490f42812e29aedf1687763192438663592fb3e11a64a0b086d5c4d2",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "continuity_after_closure": {
+    "recovered_trainer_still_running": true,
+    "progress_watcher_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_watcher_checkpoint_step": 1505328,
+    "matched_plain_supervisor_pid": 534983,
+    "matched_plain_trainer_pid": 534984,
+    "matched_plain_process_unchanged": true,
+    "matched_plain_latest_observed_epoch": 25,
+    "matched_plain_latest_observed_step": 213825,
+    "e200_training_continues": true
+  },
+  "e175_metric_disposition": {
+    "source_metric_artifact": "MISSING_DUE_TO_POST_CHECKPOINT_INLINE_EVALUATION_STALL",
+    "checkpoint_valid": true,
+    "recovery_closure_requires_metric": false,
+    "planned_reconstruction": "READ_ONLY_UNIFIED_4090A_EVALUATOR_FROM_IMMUTABLE_E175_CHECKPOINT",
+    "performance_values_read": false
+  },
+  "scientific_boundaries": {
+    "paired_metric_control": false,
+    "performance_values_read": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_other_training_interrupted": false,
+    "confirmation20_opened": false
+  }
+}
