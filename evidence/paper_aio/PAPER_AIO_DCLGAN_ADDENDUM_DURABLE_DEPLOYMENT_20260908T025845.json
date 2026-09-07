@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-paper-dclgan-addendum-durable-deployment-v1",
+  "captured_at": "2026-09-08T02:58:45+08:00",
+  "status": "DCLGAN_NONBLOCKING_PORTFOLIO_ADDENDUM_DEPLOYED_DURABLE_HEALTHY_WAITING",
+  "gap_closed": "dynamic core output path is frozen, so completed DCLGAN fixed results can now enter the final paper portfolio automatically",
+  "implementation": {
+    "control_git_commit": "589125f552d2f3e9f35bdaf036a48a2b16e49bf2",
+    "control_checkout": "/home/yc/FINAL_UNSB_DCLGAN_ADDENDUM_589125f",
+    "checkout_clean": true,
+    "control_supervisor_source_sha256": "8d114401b2aed334ae0b11d8a87d02e4147d9aefe713c2a5002e79a0730b0959",
+    "addendum_source_sha256": "128eb7c34b809b0c2ffe946444eceae1af89f4494adc75111cc6f7e3930fea06",
+    "child_command_sha256": "fa1bac3c06db524683105e0ceabea2a8b9669d2ecd62b8ec2f0c564c317c9678",
+    "remote_bundle": "/home/yc/recovery_snapshots/FINAL_UNSB_589125f.bundle",
+    "local_bundle": "E:/UNSB_Expl/recovery_backups/control_bundles/FINAL_UNSB_589125f.bundle",
+    "bundle_sha256_remote_and_local": "d25fb3ba5dafbdd1f946185bf66a061f87bd6fd64d0f7cc9c5aebada02f83fd5",
+    "bundle_bytes": 3923254,
+    "remote_bundle_mode": "0444"
+  },
+  "preflight": {
+    "addendum_contract_verification": "PASS",
+    "base_portfolio_decision": "WAIT",
+    "dclgan_result_decision": "WAIT",
+    "dclgan_evaluation_contract_sha256": "c9b7243ea8bb9535e6e908ab8ad931d798cdb4297abdbeb8f6c2015567a03a4d",
+    "target_base_delivery_output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1",
+    "target_dclgan_evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_82CA28A",
+    "shared_gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "gpu_lock_created_during_wait": false
+  },
+  "durable_processes": {
+    "control_supervisor_pid": 638006,
+    "control_supervisor_status": "CHILD_RUNNING",
+    "control_supervisor_restart_count": 1,
+    "control_supervisor_restart_count_note": "one initial child launch, not an incident recovery",
+    "child_pid": 638015,
+    "child_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "child_dependencies": {
+      "base_portfolio": "WAIT",
+      "dclgan_result": "WAIT"
+    },
+    "health_watcher_pid": 638474,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "disk_free_gib_observed": 529.91,
+    "estimated_remaining_write_gib": 8,
+    "minimum_headroom_gib": 16
+  },
+  "frozen_contracts": {
+    "supervisor_contract": "/home/yc/runs/FINAL_UNSB_DCLGAN_ADDENDUM_CONTROL_589125f/supervisor/CONTROL_SUPERVISOR_CONTRACT.json",
+    "addendum_contract": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_DYNAMIC_V1/operations/DCLGAN_PORTFOLIO_ADDENDUM_CONTRACT.json",
+    "addendum_contract_sha256": "e168c276b339f8136cf75ce1924a0f96675b419092e64d2104bcc8e01209e275"
+  },
+  "future_outputs": [
+    "PAPER_EXTERNAL_BASELINE_ADDENDUM.json",
+    "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+    "complexity/dclgan.json"
+  ],
+  "deployment_incident": {
+    "direct_github_clone_completed": false,
+    "direct_github_clone_left_partial_checkout": false,
+    "fallback": "verified local Git bundle transferred and cloned into a new isolated path",
+    "training_or_existing_checkout_touched": false
+  },
+  "verification": {
+    "targeted_tests": "26 passed",
+    "full_tests": "736 passed",
+    "control_and_child_state_fresh": true,
+    "active_amtnc_supervisor_pid_3446757_alive": true,
+    "active_amtnc_trainer_pid_3446758_alive": true
+  },
+  "scientific_boundaries": {
+    "core_delivery_blocked_by_addendum": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "new_experiment_started": false
+  }
+}

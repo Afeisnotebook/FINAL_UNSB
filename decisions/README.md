@@ -387,3 +387,7 @@ authorize compute.
      e100/e125/e150/e175 checkpoint真实存在；冻结source exporter、5090B到4090A relay、统一
      评估和最终交付等待器均在线且恢复计数为零。e175缺失的在线metric将由固定checkpoint在
      统一评估中重建，不阻塞e200自动交付，也未触碰健康训练或读取性能值。
+114. `DEC-20260908-DCLGAN-ADDENDUM-DURABLE-DEPLOYMENT.md`：动态核心输出路径已冻结后，
+     补上此前仅代码就绪、尚未部署的DCLGAN非阻塞论文addendum。4090A上的固定child、恢复
+     supervisor和health均健康，等待期不占GPU、不读性能；DCLGAN固定结果完成后将自动生成
+     带其结果和复杂度的增强论文组合，且不阻塞核心交付。
