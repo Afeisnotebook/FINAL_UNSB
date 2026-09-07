@@ -11,8 +11,8 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut"],
       "latest_running_milestones": {
-        "5090C/proposal": "e80_hash_closed_live_heartbeat_e88",
-        "5090A/stcgr": "e80_fixed_checkpoint_sidecar_metric_hash_closed_live_continuation",
+        "5090C/proposal": "e80_fixed_hash_closed_live_e89_outer_recovery_guard_zero_restarts",
+        "5090A/stcgr": "e80_fixed_hash_closed_live_e81_outer_recovery_guard_zero_restarts",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e63_current_checkpoint_preflight_pass_deleted_runtime_guard_zero_restarts_offhost_runtime_backup_hash_closed",
         "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e185",
         "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e30",
@@ -160,6 +160,20 @@
       "performance_values_read": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E63_RECOVERY_AND_OFFHOST_RUNTIME_BACKUP_20260907T232900.json"
+    },
+    "stcgr_proposal_training_outer_recovery": {
+      "status": "healthy_both_guards_monitoring_existing_supervisors_zero_restarts",
+      "control_commit": "db16096018e8c121f30853a6b3c2d742524ec012",
+      "stcgr_guard_pid": 942101,
+      "stcgr_health_pid": 942182,
+      "stcgr_checkpoint_step_at_preflight": 692793,
+      "proposal_guard_pid": 431648,
+      "proposal_health_pid": 431712,
+      "proposal_checkpoint_step_at_preflight": 761217,
+      "original_training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_PROPOSAL_OUTER_RECOVERY_GUARDS_20260908T000000.json"
     },
     "all_active_source_export_recovery": {
       "status": "five_source_exporters_protected_zero_restarts",

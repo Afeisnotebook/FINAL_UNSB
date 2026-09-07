@@ -348,3 +348,7 @@ authorize compute.
     丢失AM-TNC已完成进度；e63 latest full-state全哈希、隔离运行时111项依赖和fail-closed guard
     当前预检全部通过。健康deleted-inode进程保持原PID、零重启；5.49GB精确运行时另存本机只读
     副本并完成跨宿主SHA256闭环，旧环境继续禁止原地覆盖。
+104. `DEC-20260908-STCGR-PROPOSAL-OUTER-RECOVERY-GUARDS.md`：针对ST-CGR/Proposal内层
+    supervisor已累计2/1次工程故障且计数不清零的静默停机风险，部署候选感知、解释器哈希
+    绑定、full-state验签的外层guard。原四个训练PID全部未变，新guard与health均脱离SSH、
+    零重启、零告警；只在supervisor与trainer同时消失且全部身份门通过时恢复。

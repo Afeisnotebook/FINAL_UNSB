@@ -34,6 +34,12 @@ AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
 `decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。恢复资产不建立
 新的训练runtime cohort，matched关系仍只使用已审核注册表。
 
+ST-CGR与Proposal内层supervisor分别累计2次和1次工程故障且计数不会自动清零。为避免
+下一次故障令长训静默停止，现已由commit `db16096`的candidate-aware外层guard收养：
+ST-CGR guard/health为`942101/942182`，Proposal为`431648/431712`；原训练PID未变，
+两组均为零重启、零告警。恢复前必须重新验签代码、协议、授权、解释器和latest full-state。
+权威回执见`evidence/paper_aio/PAPER_AIO_STCGR_PROPOSAL_OUTER_RECOVERY_GUARDS_20260908T000000.json`。
+
 本地terminal-audit链于2026-09-06发现AM-TNC与ST-CGR两条旧增量relay因引用可变
 `main`工作树而按源码漂移门退出；训练本身不受影响。两条relay已从detached commit
 `46f9077`重新部署并连续健康，综合监视器PID为`18736`。DCLGAN仍持有和terminal JVP
