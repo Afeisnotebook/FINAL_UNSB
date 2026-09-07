@@ -20,6 +20,9 @@ supervisor：
 三个源码hash。只有状态非终止且不存在语义匹配进程时才恢复；命令不匹配、重复进程、
 边界字段异常或终止状态一律fail closed。它不读取checkpoint和性能值。
 
+`final-unsb-goal`的两小时heartbeat也已同步到这些新PID、状态路径和旧固定PID误报的
+处理规则；通知策略继续为仅失败通知，北极星和科学协议未改变。
+
 ## 科学边界
 
 本次只加固控制面：没有中断或修改CycleGAN/matched plain，没有改变算法、数据顺序、

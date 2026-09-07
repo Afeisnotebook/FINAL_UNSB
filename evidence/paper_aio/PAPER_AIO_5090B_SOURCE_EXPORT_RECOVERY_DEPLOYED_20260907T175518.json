@@ -84,6 +84,15 @@
     "max_recovery_state_staleness_seconds": 180,
     "post_ssh_disconnect_verified": true
   },
+  "goal_heartbeat_update": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "new_recovery_pids_and_state_paths_recorded": true,
+    "old_fixed_exporter_pid_false_alert_policy_recorded": true,
+    "north_star_or_scientific_protocol_changed": false
+  },
   "recovery_semantics": {
     "restart_trigger": "ONLY_WHILE_EXPORT_STATE_IS_NONTERMINAL_AND_NO_MATCHING_LIVE_EXPORTER_EXISTS",
     "command_and_source_gate": "CONTROL_COMMIT_EXPORT_CONTRACT_AND_ALL_THREE_EXPORT_SOURCE_HASHES_REVERIFIED",

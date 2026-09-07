@@ -370,7 +370,10 @@
       "cadence": "every_two_hours",
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
-      "scope": "five_node_full_data_multi_algorithm_paper_delivery"
+      "scope": "five_node_full_data_multi_algorithm_paper_delivery",
+      "last_prompt_update": "2026-09-07T18:00:00+08:00",
+      "5090b_source_export_recovery_authoritative": true,
+      "old_fixed_exporter_pid_false_alert_policy_recorded": true
     },
     "5090b_active_training_continuity_guards": {
       "status": "adopted_existing_supervisors_zero_restarts_healthy",

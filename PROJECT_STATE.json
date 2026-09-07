@@ -1422,6 +1422,10 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
+      "last_prompt_update": "2026-09-07T18:00:00+08:00",
+      "5090b_source_export_recovery_pids": [673800, 673803],
+      "5090b_source_export_recovery_health_pid": 673880,
+      "old_fixed_exporter_pid_false_alert_policy_recorded": true,
       "supersedes_missing_automation_id": "final-unsb-route1-result-watch",
       "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CONTINUITY_GUARDS_AND_BIHOURLY_GOAL_20260903T220753.json"
     },
