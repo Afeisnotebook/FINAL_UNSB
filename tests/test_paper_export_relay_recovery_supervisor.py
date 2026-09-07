@@ -3,6 +3,7 @@ from pathlib import Path
 
 from operations.paper_aio_export_relay_recovery_supervisor import (
     command_matches_contract,
+    relay_source_identity,
     relay_state_decision,
     render_relay_command,
 )
@@ -79,3 +80,13 @@ def test_password_value_is_not_part_of_rendered_command(tmp_path: Path) -> None:
     command = render_relay_command(python, relay)
     assert relay["password_env"] in command
     assert "secret" not in json.dumps(command)
+
+
+def test_non_git_hardened_source_uses_contract_script_hash_identity(tmp_path: Path) -> None:
+    source = tmp_path / "immutable-copy"
+    source.mkdir()
+    assert relay_source_identity(source) == {
+        "mode": "contract_script_sha256",
+        "repo": str(source.resolve()),
+        "git_commit": None,
+    }

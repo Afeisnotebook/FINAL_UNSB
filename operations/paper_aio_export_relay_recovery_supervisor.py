@@ -64,6 +64,30 @@ def _git(repo: Path, *args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=repo, text=True).strip()
 
 
+def relay_source_identity(repo: Path) -> dict[str, Any]:
+    """Bind a Git checkout when present, otherwise retain blob-hash identity.
+
+    Some already-deployed relay controls are deliberately minimal immutable
+    copies without ``.git`` metadata.  Their frozen relay contract still binds
+    the exact executable script SHA256; absence of repository metadata must not
+    be misreported as absence of source identity.
+    """
+    repo = Path(repo).resolve()
+    if (repo / ".git").exists():
+        if _git(repo, "status", "--porcelain"):
+            raise RuntimeError("relay source checkout is dirty")
+        return {
+            "mode": "git_commit_and_script_sha256",
+            "repo": str(repo),
+            "git_commit": _git(repo, "rev-parse", "HEAD"),
+        }
+    return {
+        "mode": "contract_script_sha256",
+        "repo": str(repo),
+        "git_commit": None,
+    }
+
+
 def _pid_alive(pid: int) -> bool:
     if pid <= 0:
         return False
@@ -220,9 +244,7 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
     if not script.is_file() or _sha256(script) != relay["control_script_sha256"]:
         raise RuntimeError("relay source differs from its frozen contract")
     child_repo = script.parents[1]
-    child_commit = _git(child_repo, "rev-parse", "HEAD")
-    if _git(child_repo, "status", "--porcelain"):
-        raise RuntimeError("relay source checkout is dirty")
+    child_identity = relay_source_identity(child_repo)
     password_env = str(relay["password_env"])
     if not os.environ.get(password_env):
         raise RuntimeError(f"missing relay password environment: {password_env}")
@@ -239,7 +261,8 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         "relay_state": str(relay_state_path),
         "relay_id": relay["relay_id"],
         "relay_source_repo": str(child_repo),
-        "relay_source_git_commit": child_commit,
+        "relay_source_identity_mode": child_identity["mode"],
+        "relay_source_git_commit": child_identity["git_commit"],
         "relay_source_sha256": relay["control_script_sha256"],
         "python": str(python),
         "command": render_relay_command(python, relay),
@@ -264,10 +287,14 @@ def _verify(contract: dict[str, Any]) -> dict[str, Any]:
         or _git(repo, "status", "--porcelain")
         or _sha256(Path(contract["control_source"])) != contract["control_source_sha256"]
         or _sha256(relay_path) != contract["relay_contract_sha256"]
-        or _git(child_repo, "rev-parse", "HEAD") != contract["relay_source_git_commit"]
-        or _git(child_repo, "status", "--porcelain")
     ):
         raise RuntimeError("relay recovery frozen identity changed")
+    child_identity = relay_source_identity(child_repo)
+    if (
+        child_identity["mode"] != contract["relay_source_identity_mode"]
+        or child_identity["git_commit"] != contract["relay_source_git_commit"]
+    ):
+        raise RuntimeError("relay source identity mode changed")
     relay = _read_json(relay_path)
     _validate_relay_contract(relay)
     script = Path(relay["control_script"]).resolve()
