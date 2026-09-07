@@ -360,3 +360,7 @@ authorize compute.
     实验室页面和四条GitHub repository查询，仍未发现作者源码、checkpoint或可关闭实现歧义的
     权威记录。持久守望器与health真实存活、零告警；DDSB继续标为复现未完成而非机制失败，
     不启动猜测实现且不改变现有GPU队列。
+107. `DEC-20260908-GOAL-HEARTBEAT-PROMPT-INTEGRITY-REPAIR.md`：发现当前heartbeat虽为
+    ACTIVE，但持久化名称和prompt乱码且AM-TNC证据停在e63。通过自动化API重写为可读、
+    当前且不含凭据的完整北极星监控合同，保留两小时频率和失败才通知；更新后重新读取验证，
+    没有触碰任何训练、checkpoint或GPU队列。

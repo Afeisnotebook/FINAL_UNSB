@@ -395,9 +395,13 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-07T18:00:00+08:00",
+      "last_prompt_update": "2026-09-08T01:13:00+08:00",
+      "prompt_integrity": "readable_current_fail_closed_verified_after_automation_api_repair",
+      "prompt_credentials_persisted": false,
       "5090b_source_export_recovery_authoritative": true,
-      "old_fixed_exporter_pid_false_alert_policy_recorded": true
+      "old_fixed_exporter_pid_false_alert_policy_recorded": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_PROMPT_INTEGRITY_REPAIR_20260908T011300.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-PROMPT-INTEGRITY-REPAIR.md"
     },
     "5090b_active_training_continuity_guards": {
       "status": "adopted_existing_supervisors_zero_restarts_healthy",

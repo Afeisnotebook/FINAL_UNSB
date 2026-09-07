@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-prompt-integrity-repair-v1",
+  "captured_at": "2026-09-08T01:13:00+08:00",
+  "status": "ACTIVE_READABLE_CURRENT_FAIL_CLOSED_PROMPT_RESTORED",
+  "automation": {
+    "automation_id": "final-unsb-goal",
+    "kind": "heartbeat",
+    "target_thread_id": "01a043c5-352f-7ab0-a65b-f97f7a035aa1",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "updated_at_unix_ms": 1788801186036
+  },
+  "detected_problem": {
+    "automation_was_active": true,
+    "serialized_name_and_prompt_were_readable": false,
+    "serialized_prompt_latest_amtnc_evidence": "e63_stale",
+    "training_or_supervisor_impact_observed": false,
+    "risk": "future heartbeat turns could misread recovery policy or rely on stale checkpoint evidence"
+  },
+  "repair": {
+    "performed_through_codex_automation_api": true,
+    "direct_automation_file_edit": false,
+    "name_readable_after_update": true,
+    "prompt_readable_after_update": true,
+    "status_preserved": "ACTIVE",
+    "cadence_preserved": "every_two_hours",
+    "notification_policy_preserved": "failed_runs_only",
+    "credentials_persisted_in_prompt": false,
+    "north_star_preserved": "multiple paper-value full-data e200 algorithms, strict controls, legal external baselines, unified evaluation and causal audit"
+  },
+  "current_runtime_facts_bound_into_prompt": {
+    "amtnc": "e65_step555945_deleted_inode_preserved_fail_closed_guard439182_health439447",
+    "stcgr": "e82_step701346_guard942101_health942182",
+    "proposal": "e90_step769770_guard431648_health431712",
+    "cyclegan": "e188_step1607964_guard159134",
+    "matched_plain_5090b": "e32_step273696_supervisor534983_trainer534984_health667507",
+    "dclgan": "e52_step444756_trainer22020_exporter23168_push_supervisor26020_health20500",
+    "ddsb": "reproduction_incomplete_source_watch20388_health10780"
+  },
+  "policy_revalidated": {
+    "state_file_alone_is_live_proof": false,
+    "healthy_training_may_be_restarted": false,
+    "transient_observation_failure_triggers_restart": false,
+    "paired_metrics_may_control_training_or_scheduling": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_allowed": false,
+    "important_events_require_compact_git_evidence": true,
+    "unchanged_healthy_poll_is_quiet": true
+  },
+  "scope": {
+    "training_process_changed": false,
+    "supervisor_process_changed": false,
+    "gpu_queue_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-PROMPT-INTEGRITY-REPAIR.md"
+}
