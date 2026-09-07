@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-08",
-  "state_snapshot_time": "2026-09-08T04:25:00+08:00",
+  "state_snapshot_time": "2026-09-08T04:31:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1530,8 +1530,8 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-08T03:09:08+08:00",
-      "prompt_integrity": "READABLE_CURRENT_FAIL_CLOSED_VERIFIED_AFTER_AUTOMATION_API_REPAIR",
+      "last_prompt_update": "2026-09-08T04:31:00+08:00",
+      "prompt_integrity": "READABLE_CURRENT_FAIL_CLOSED_E68_RECOVERY_AND_FROZEN_FIGURE_DELIVERY_SYNCED",
       "prompt_credentials_persisted": false,
       "5090b_source_export_recovery_pids": [673800, 673803],
       "5090b_source_export_recovery_health_pid": 673880,
@@ -1544,9 +1544,10 @@
       "dclgan_addendum_child_pid": 638015,
       "dclgan_addendum_health_pid": 638474,
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
-      "latest_metric_blind_epochs": {"amtnc": 68, "stcgr": 83, "proposal": 91, "cyclegan": 190, "matched_plain": 33, "dclgan": 54},
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_DCLGAN_ADDENDUM_SYNC_20260908T030908.json",
-      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-DCLGAN-ADDENDUM-SYNC.md"
+      "latest_metric_blind_epochs": {"amtnc": 68, "stcgr": 84, "proposal": 92, "cyclegan": 193, "matched_plain": 35, "dclgan": 55},
+      "frozen_manuscript_figures_required": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E68_FIGURE_SYNC_20260908T043100.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md"
     },
     "lease_horizon_action": {
       "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CAPACITY_PASS_REMOVES_IMMEDIATE_EXTENSION_TRIGGER",

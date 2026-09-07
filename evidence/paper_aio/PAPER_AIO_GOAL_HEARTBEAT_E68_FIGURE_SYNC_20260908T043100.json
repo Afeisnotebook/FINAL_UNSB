@@ -1,0 +1,45 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-e68-figure-sync-v1",
+  "captured_at": "2026-09-08T04:31:00+08:00",
+  "status": "ACTIVE_LOW_FREQUENCY_GOAL_MONITOR_UPDATED_AND_ALL_TRAINING_HANDLES_VERIFIED",
+  "automation": {
+    "id": "final-unsb-goal",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence": "FREQ=HOURLY;INTERVAL=2",
+    "notification_policy": "failed_runs_only",
+    "updated_at_unix_ms": 1788813306881,
+    "prompt_credentials_persisted": false,
+    "e68_deleted_runtime_contract_synced": true,
+    "frozen_manuscript_figure_delivery_synced": true
+  },
+  "metric_blind_live_refresh": {
+    "4090A_amtnc": {"epoch": 68, "updates": 581604, "trainer_pid": 3446758, "guard_pid": 439182, "guard_restarts": 0},
+    "5090A_stcgr": {"epoch": 84, "updates": 718452, "trainer_pid": 863376, "guard_pid": 942101, "guard_restarts": 0},
+    "5090C_proposal": {"epoch": 92, "updates": 786876, "trainer_pid": 366768, "guard_pid": 431648, "guard_restarts": 0},
+    "5090B_cyclegan": {"epoch": 193, "updates": 1650729, "trainer_pid": 662728, "supervisor_pid": 11845, "guard_restarts": 0},
+    "5090B_matched_plain": {"epoch": 35, "updates": 299355, "trainer_pid": 534984, "supervisor_pid": 534983},
+    "local_dclgan": {"epoch": 55, "updates": 470415, "trainer_pid": 22020, "supervisor_pid": 12824, "exporter_pid": 23168}
+  },
+  "paper_delivery": {
+    "figure_renderer_commit": "d3ebf6cd7afd8f66e9be452ddd8c6b0db29b95e1",
+    "figure_renderer_sha256": "b9aebbec3fc8e941ea4c51b0265ff2e2ccdcdadbe515646de5fe8ca3ff2b8bef",
+    "branch_contract_commit": "20113f268b3a10329f77b6c92f8487573b3958c9",
+    "branch_contract_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
+    "required_final_artifact": "MANUSCRIPT_FIGURES_RECEIPT.json",
+    "execution_gate": "COMPLETE_HASH_BOUND_MANUSCRIPT_TABLES_RECEIPT",
+    "scheduled_before_gate": false
+  },
+  "actions": {
+    "healthy_training_restarted": false,
+    "training_protocol_changed": false,
+    "checkpoint_migrated": false,
+    "new_experiment_started": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}

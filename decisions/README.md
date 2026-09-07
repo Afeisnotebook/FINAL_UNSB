@@ -408,3 +408,6 @@ authorize compute.
 119. `DEC-20260908-FROZEN-MANUSCRIPT-FIGURES.md`：新增冻结后确定性SVG renderer，将所有
      终局算法的e150/e175/e200 matched轨迹和固定e200六域delta转为可直接进稿的哈希闭环图形；
      写作合同现在要求figure receipt，且拒绝最佳checkpoint、非法runtime或缺失方法/域。
+120. `DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md`：低频Goal heartbeat已同步AM-TNC
+     e68清理事故恢复合同和冻结论文图形交付要求；六条在途lane均以真实PID和最新完整epoch
+     复核健康，没有重启、迁移、协议变化或中间性能控制。

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T04:25:00+08:00",
+  "captured_at": "2026-09-08T04:31:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -407,20 +407,21 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-08T03:09:08+08:00",
-      "prompt_integrity": "readable_current_fail_closed_verified_after_automation_api_repair",
+      "last_prompt_update": "2026-09-08T04:31:00+08:00",
+      "prompt_integrity": "readable_current_fail_closed_e68_recovery_and_frozen_figure_delivery_synced",
       "prompt_credentials_persisted": false,
       "dclgan_addendum_supervisor_pid": 638006,
       "dclgan_addendum_child_pid": 638015,
       "dclgan_addendum_health_pid": 638474,
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
-      "latest_metric_blind_epochs": {"amtnc": 66, "stcgr": 83, "proposal": 91, "cyclegan": 190, "matched_plain": 33, "dclgan": 54},
+      "latest_metric_blind_epochs": {"amtnc": 68, "stcgr": 84, "proposal": 92, "cyclegan": 193, "matched_plain": 35, "dclgan": 55},
       "5090b_source_export_recovery_authoritative": true,
       "old_fixed_exporter_pid_false_alert_policy_recorded": true,
-      "latest_bound_amtnc_checkpoint_epoch": 66,
-      "latest_bound_amtnc_checkpoint_sha256": "9d05f6b59bb3f67403b9d5f9e6c18fc3535e2faddb4d57f612987be5136e5960",
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E66_SYNC_AND_VERIFIED_WAIT_20260908T021800.json",
-      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E66-SYNC.md"
+      "latest_bound_amtnc_checkpoint_epoch": 68,
+      "latest_bound_amtnc_checkpoint_sha256": "737a669d7576a44bb6415a4c212b72b50f4dc139cf305b987e99ba95340d9796",
+      "frozen_manuscript_figures_required": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E68_FIGURE_SYNC_20260908T043100.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md"
     },
     "5090b_active_training_continuity_guards": {
       "status": "adopted_existing_supervisors_zero_restarts_healthy",
