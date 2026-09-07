@@ -1,0 +1,34 @@
+{
+  "schema": "final-unsb-paper-manuscript-outline-novelty-sync-v1",
+  "captured_at": "2026-09-08T03:45:00+08:00",
+  "status": "CANONICAL_OUTLINE_UPDATED_AND_HASH_BOUND_ALL_EIGHT_RESULT_BRANCHES_PRESERVED",
+  "inputs": {
+    "novelty_refresh": "evidence/paper_aio/PAPER_AIO_RELATED_WORK_NOVELTY_REFRESH_20260908T033000.json",
+    "novelty_boundary_sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585"
+  },
+  "outputs": {
+    "canonical_outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+    "canonical_outline_sha256": "f365449caca2bcd8c42b0d6c2c7750f6401c5feecb3cd9a6af1eb196a25ff06e",
+    "branch_contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "branch_contract_sha256": "3ee76cbf2fabb2aef1b6ded00c0e94a71c539394509e170a235cd59438f7e539"
+  },
+  "outline_changes": [
+    "IBCD added to unpaired translation and consistency-distillation context",
+    "Schrodinger Bridge Flow and E-Bridge added to neural/diffusion bridge context",
+    "generic sampling-without-replacement gradient estimation added to stochastic-estimator context"
+  ],
+  "contract_checks": {
+    "canonical_outline_now_in_source_bindings": true,
+    "all_eight_algorithm_outcome_branches_preserved": true,
+    "main_table_ids_changed": false,
+    "claim_gate_order_changed": false,
+    "historical_evidence_modified": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_or_gpu_queue_changed": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  }
+}

@@ -15,6 +15,10 @@
     "novelty_boundary": {
       "path": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
       "sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585"
+    },
+    "canonical_outline": {
+      "path": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+      "sha256": "f365449caca2bcd8c42b0d6c2c7750f6401c5feecb3cd9a6af1eb196a25ff06e"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],

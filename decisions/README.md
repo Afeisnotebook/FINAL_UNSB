@@ -399,3 +399,6 @@ authorize compute.
      IBCD、E-Bridge和通用不放回梯度估计补入投稿边界；收紧在线无配对SB、bridge consistency、
      低能量/少步bridge及ST-CGR无偏性措辞，并经fail-closed测试重新绑定八分支写作合同。
      DDSB与IBCD复现门仍关闭，实验队列和健康训练不变。
+117. `DEC-20260908-MANUSCRIPT-OUTLINE-NOVELTY-SYNC.md`：把新增近邻同步进预结果论文骨架，
+     并修复canonical outline此前只有路径、没有哈希绑定的缺口。八种算法结果分支、主表、
+     claim gate与训练均不变，完整写作合同现在对理论、基线、新颖性边界和论文骨架全部fail closed。

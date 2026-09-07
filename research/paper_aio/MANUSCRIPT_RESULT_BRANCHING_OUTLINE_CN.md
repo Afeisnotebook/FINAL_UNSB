@@ -31,10 +31,12 @@ surgery”本身写成首创。
 
 ### 2.2 相关工作
 
-- unpaired translation/restoration：CycleGAN、CUT、DCLGAN及DDSB；
-- neural/diffusion Schrödinger bridge：UNSB、DBIM、Consistency Diffusion Bridge；
+- unpaired translation/restoration：CycleGAN、CUT、DCLGAN、DDSB及IBCD；IBCD是bridge
+  consistency distillation/单步无配对翻译近邻，不是当前可运行的主表基线；
+- neural/diffusion Schrödinger bridge：UNSB、Schrödinger Bridge Flow、DBIM、Consistency
+  Diffusion Bridge及E-Bridge；明确在线无配对SB、低能量bridge和少步solver已有先例；
 - stochastic estimator variance reduction：importance/non-uniform timestep sampling、
-  antithetic/stratified sampling；
+  antithetic/stratified sampling及通用sampling-without-replacement梯度估计；
 - gradient geometry：PCGrad、CAGrad与随机gradient manipulation的收敛限制；
 - endpoint/terminal工作：NADB与SDDBM，明确当前方法没有改变terminal law。
 

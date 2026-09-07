@@ -1123,7 +1123,7 @@
     "implementation": "operations/paper_aio_manuscript_tables.py",
     "exporter_source_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
     "branch_contract_commit": "95ae918839dee86e56dcd3e5e00cbe415cbc77ae",
-    "branch_contract_source_sha256": "16af7c33f766b2b8161d378cbb70eafb4b5ac26b66acaa186e542871336a984e",
+    "branch_contract_source_sha256": "3ee76cbf2fabb2aef1b6ded00c0e94a71c539394509e170a235cd59438f7e539",
     "primary_epoch": 200,
     "sustained_epochs": [150, 175, 200],
     "six_domain_algorithm_deltas_required": true,
@@ -1152,15 +1152,17 @@
     "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
   },
   "pre_result_manuscript_branching_contract": {
-    "status": "structure_frozen_no_empirical_claim_all_eight_three_algorithm_outcomes_preserved",
+    "status": "structure_frozen_no_empirical_claim_all_eight_outcomes_and_canonical_outline_hash_bound",
     "contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
     "outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+    "outline_source_sha256": "f365449caca2bcd8c42b0d6c2c7750f6401c5feecb3cd9a6af1eb196a25ff06e",
     "performance_values_read": false,
     "unique_winner_predeclared": false,
     "negative_result_route_preserved": true,
     "confirmation20_opened": false,
     "onboarding_entrypoints_synced": true,
     "entrypoint_sync_evidence": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_SYNC_20260908T013000.json",
+    "outline_sync_evidence": "evidence/paper_aio/PAPER_AIO_MANUSCRIPT_OUTLINE_NOVELTY_SYNC_20260908T034500.json",
     "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_MANUSCRIPT_BRANCHING_CONTRACT_20260908T012000.json",
     "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
   },
