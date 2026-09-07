@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-paper-control-entrypoint-sync-v1",
+  "captured_at": "2026-09-08T01:30:00+08:00",
+  "status": "CURRENT_PAPER_CONTROL_AND_RESULT_BRANCHING_DISCOVERABLE",
+  "pre_sync_conflicts": [
+    "README mandatory order routed new agents into small25 contracts before the active paper contract",
+    "START_HERE and CONTEXT_CAPSULE still described matched plain as future work after CUT",
+    "START_HERE cited the superseded AM-TNC e63 recovery record",
+    "AGENTS declared two rather than three host-separated 5090 nodes",
+    "no onboarding entrypoint required the pre-result manuscript branching contract"
+  ],
+  "post_sync_truth": {
+    "cut_status": "complete_e200",
+    "5090b_current_pair": "cyclegan_plus_admitted_fresh_e0_matched_plain",
+    "4090a_cleanup_authority": "e64_real_resume_probe_then_live_e65_complete_state",
+    "paper_method_theory_bundle_required_read": true,
+    "paper_manuscript_branching_contract_required_read": true,
+    "related_work_novelty_boundary_required_read": true,
+    "small25_documents_routed_as_conditional_historical_evidence": true,
+    "heartbeat_prompt_integrity_repair_discoverable": true
+  },
+  "entrypoint_sha256": {
+    "README.md": "806c2cbf221c6b78a1f9e5b0c63b5bffc49326b8ad22ba049e3413cb93c61225",
+    "START_HERE_CN.md": "b2f4b64301caae79af15ad1bfb6810f1767ede31431182e6ecc895d794971b94",
+    "CONTEXT_CAPSULE_CN.md": "59f5ea02890a6bdc2f05619598fe335b785c2c7424c40ad3fcf4bc65e69ad58b",
+    "AGENTS.md": "7970ba298ad65cd3e30557faa5fad96e00477f3a6a3fd76a38149a991401161f"
+  },
+  "scope": {
+    "training_process_changed": false,
+    "gpu_queue_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260908-CONTROL-ENTRYPOINT-SYNC.md"
+}

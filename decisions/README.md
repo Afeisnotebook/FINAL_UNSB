@@ -368,3 +368,7 @@ authorize compute.
     冻结论文问题、方法关系、实验协议、图表接口与claim gate，并完整保留Proposal、ST-CGR、
     AM-TNC八种通过/失败组合。结构冻结不预定赢家，防止e200后临时改故事、隐藏负结果或越界
     使用数学性质；数值仍只能从提交后的claim freeze与确定性表格导出进入稿件。
+109. `DEC-20260908-CONTROL-ENTRYPOINT-SYNC.md`：修正README、START_HERE、上下文胶囊和
+    AGENTS中的旧队列、e63恢复引用和“两个5090”描述；必读顺序加入当前paper合同、理论bundle、
+    八分支写作合同及相关工作边界。新会话不会再按CUT前状态重复调度，也不会先落回small25，
+    实时epoch/PID仍由机器状态文件决定。

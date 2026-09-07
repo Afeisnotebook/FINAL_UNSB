@@ -1,0 +1,16 @@
+# 新会话入口同步到当前论文控制面
+
+日期：2026-09-08
+
+结果分支合同与heartbeat修复已经存在，但四个新会话入口仍保留旧队列和旧恢复证据：README
+先把接手者导向small25合同；START_HERE和CONTEXT仍把5090B matched plain写成CUT后的
+未来任务；AGENTS仍声称只有两张host-separated 5090。这些文字不会改变训练，却可能让没有
+历史上下文的Codex重复启动plain、忽略写作claim gate或按e63旧证据处理4090恢复。
+
+本次同步README、START_HERE、CONTEXT_CAPSULE和AGENTS：CUT明确为e200完成，5090B当前
+结构改为CycleGAN与已准入fresh-e0 matched plain共驻；4090风险入口指向e64真实恢复验证和
+随后e65连续状态；必读顺序加入paper合同、理论bundle、结果分支合同和相关工作边界。small25
+材料仍保留，但只在修改历史证据或候选来源时进入。
+
+同步不硬编码会快速过期的普通epoch/PID；实时事实仍只由PROJECT_STATE、组合、完成矩阵和
+latest-live evidence决定。没有读取性能值或改变训练、checkpoint、GPU队列和confirmation20。

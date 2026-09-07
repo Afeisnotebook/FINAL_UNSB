@@ -1104,6 +1104,8 @@
     "unique_winner_predeclared": false,
     "negative_result_route_preserved": true,
     "confirmation20_opened": false,
+    "onboarding_entrypoints_synced": true,
+    "entrypoint_sync_evidence": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_SYNC_20260908T013000.json",
     "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_MANUSCRIPT_BRANCHING_CONTRACT_20260908T012000.json",
     "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
   },

@@ -10,17 +10,21 @@
 confirmation20继续封存；paired指标不能控制训练；不同宿主delta不得合并；checkpoint
 不得跨宿主续接；一个action-priority候选不等于唯一科学算法。
 
-当前4090A的full plain已完成并封存，现运行同宿主AM-TNC；5090B同卡运行CUT与
-CycleGAN，CUT完成后执行fresh-e0 exact-runtime matched plain；5090C运行Proposal；
+当前4090A的full plain已完成并封存，现运行同宿主AM-TNC；5090B的CUT已完成e200，
+CycleGAN与通过exact-runtime门的fresh-e0 matched plain正在同卡运行；5090C运行Proposal；
 5090A的plain完整暂停于e9且所有自动恢复链均已退役，当前只运行新构造ST-CGR的
 full-data/e200。终端低方差奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；
 ST-CGR来自已确认的time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB
 没有找到作者公开源码，当前只可标记`reproduction_incomplete`。本地GTX1660独占运行
 DCLGAN；算法公式与论文主张边界见`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`。
+结果到达后的八分支写作和claim gate见`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`；
+它不预定赢家，也显式保留三条均失败的论文路线。
 
 全量科学commit为`31f2fb8...`、协议指纹为`68f53a8e...`。较新commit只可增加门禁、
 持久编排、候选代码与compact evidence，不能修改在飞科学轨迹。当前合同见
 `PAPER_AIO_RESEARCH_CONTRACT_CN.md`，执行状态见`ACTIVE_PAPER_AIO_PLAN_CN.md`。
+持久heartbeat `final-unsb-goal`已在2026-09-08修复乱码和e63旧恢复语义，保持两小时低频、
+仅失败通知且不保存服务器凭据。
 
 ## 0. 2026-08-29 历史优先级覆盖
 

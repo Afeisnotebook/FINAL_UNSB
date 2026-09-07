@@ -1,6 +1,6 @@
 # 先从这里开始
 
-## 当前最高优先级覆盖（2026-09-06）
+## 当前最高优先级覆盖（2026-09-08）
 
 用户已明确启动“全量论文实验 + 下一阶段算法重构”。这项授权覆盖本文旧段落中的
 “full-data未激活/服务器仅限small25”，但不改写small25路线一的历史证据。
@@ -13,8 +13,8 @@
 - 维持confirmation20封存、禁止paired在线控制、禁止跨宿主delta。
 
 当前在线分配为：4090A的full plain已经完成并封存，现运行AM-TNC；5090C运行Proposal；
-5090B同卡运行CUT与CycleGAN，并在CUT完成后通过exact-runtime与metric-blind容量门启动
-fresh-e0 matched plain；5090A按用户时间优先授权把plain暂停在e9，只运行full-data
+5090B的CUT已经完成e200，CycleGAN与通过exact-runtime和metric-blind容量门的fresh-e0
+matched plain正在同卡运行；CycleGAN完成后plain自然转为独占。5090A按用户时间优先授权把plain暂停在e9，只运行full-data
 ST-CGR；本地GTX1660独占运行DCLGAN，并已部署source-bound export、推送及4090A统一
 评估等待链。DDSB因没有权威公开实现保持`reproduction_incomplete`，不得跑猜测版。
 
@@ -27,10 +27,11 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 统一评估、ST-CGR matched评估和最终论文交付链，旧的5090A-plain绑定等待器已在新链
 连续健康后退出。4090A原完整`unsb_cov`环境仍然缺失，旧`python*`入口只是只读中继；
 可信恢复根是从运行进程映射建立并逐项验哈希的独立只读运行时，过程中没有中断或重启
-AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
+AM-TNC；e64真实full-state已在隔离运行时完成CPU单步恢复，原进程随后继续保存到e65。
+DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
 运行时风险的最新权威回执与裁决分别为
-`evidence/paper_aio/PAPER_AIO_AMTNC_E63_RECOVERY_AND_OFFHOST_RUNTIME_BACKUP_20260907T232900.json`
-和`decisions/DEC-20260907-AMTNC-E63-RECOVERY-AND-OFFHOST-RUNTIME-BACKUP.md`；动态交付链仍见
+`evidence/paper_aio/PAPER_AIO_AMTNC_E64_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T003100.json`
+和`decisions/DEC-20260908-AMTNC-E64-POST-CLEANUP-RECOVERY-REVALIDATION.md`；动态交付链仍见
 `decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。恢复资产不建立
 新的训练runtime cohort，matched关系仍只使用已审核注册表。
 
@@ -67,6 +68,16 @@ decision、freeze receipt以及其后的distribution/manuscript/confirmation都�
 AM-TNC则由新的full-data现场审计证明旧route1公式审计与当前训练提交使用相同源码blob，
 并在固定e20状态复验事件顺序和计数；见
 `evidence/paper_aio/AMTNC_FULL_DATA_FORMULA_IMPLEMENTATION_AUDIT_20260906T073500.json`。
+
+结果出现后不得临时选择论文故事。`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`和
+`research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md`完整覆盖三条算法八种结果
+组合，并要求依次经过source-bound e200、统一评估、合法runtime relation、算法disposition、
+提交的claim review/freeze和确定性表格导出。三条都失败的路线也必须保留。
+
+Codex持久heartbeat `final-unsb-goal`仍为ACTIVE、每两小时运行、仅失败通知。2026-09-08
+发现其旧持久prompt乱码且证据停在e63后，已经通过自动化API重写并重新读取验证；prompt
+不保存SSH密码，权威回执为
+`evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_PROMPT_INTEGRITY_REPAIR_20260908T011300.json`。
 
 ## 当前状态（2026-09-01）
 

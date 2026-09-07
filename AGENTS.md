@@ -11,8 +11,11 @@ Read, in order, before changing code or launching compute:
 5. `PAPER_AIO_RESEARCH_CONTRACT_CN.md`
 6. `ACTIVE_PAPER_AIO_PLAN_CN.md`
 7. `configs/PAPER_AIO_UNPAIRED_V1.json`
-8. `DATA_CONTRACT.json`
-9. the latest non-example file under `decisions/`
+8. `configs/PAPER_ALGORITHM_THEORY_BUNDLE.json`
+9. `configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`
+10. `research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`
+11. `DATA_CONTRACT.json`
+12. the latest non-example file under `decisions/`
 
 When changing the small25 evidence atlas, ST-CGR derivation, or route-1 candidate
 code, additionally read `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`,
@@ -29,7 +32,7 @@ evidence, not a substitute for the newly authorized full-data experiment.
 
 The user's 2026-09-02 paper plan explicitly supersedes the older small25-only
 server restriction. It authorizes the frozen paper runner on the available
-4090 and two host-separated 5090 nodes, while confirmation20, paired control,
+4090, three host-separated 5090 nodes, and local GTX1660, while confirmation20, paired control,
 route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
 
 ## Current role separation
@@ -43,9 +46,10 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
   valuable AM-TNC path; unified evaluation follows after e200.
   **5090C** runs Proposal. **5090A** has paused its recoverable plain at e9 by
   explicit user time-priority and now runs the authorized full-data ST-CGR from
-  its exact e1 state. **5090B** co-runs CUT and CycleGAN, then executes a
-  fresh-e0 exact-runtime plain gate for Proposal/ST-CGR relation review after
-  CUT releases capacity. **Local GTX1660** runs DCLGAN exclusively.
+  its exact e1 state. **5090B** has completed CUT e200 and now co-runs CycleGAN
+  with the admitted fresh-e0 matched plain; after CycleGAN e200, plain must
+  continue from its current full state without a restart. **Local GTX1660**
+  runs DCLGAN exclusively.
 - Every live scientific checkout remains pinned to the per-lane commit and
   protocol fingerprint recorded in `PROJECT_STATE.json`.  Newer commits may
   orchestrate, relay and evaluate, but must not mutate those live transitions.
@@ -97,6 +101,10 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
   `DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`.
 - Full-paper milestones are descriptive until e200. Do not use intermediate
   discovery PSNR to stop, route, revise, choose NFE, or select a checkpoint.
+- The manuscript has a pre-result branching contract, not a preselected success
+  story. Resolve exactly one of its eight Proposal/ST-CGR/AM-TNC branches only
+  after source-bound e200 exports, unified evaluation, legal runtime relations,
+  dispositions, committed claim review/freeze, and deterministic table export.
 
 ## Required response to ambiguity
 
@@ -112,3 +120,6 @@ the frozen full-data e200 lanes finish, eligible new algorithms receive their
 own full-data adjudication, external baselines are honestly reproduced or
 explicitly marked incomplete, one unified evaluation runtime is used, and the
 multi-algorithm paper evidence is frozen before confirmation20 is opened once.
+The frozen result branch and manuscript tables must also satisfy
+`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`; a positive-looking metric
+or an action-priority method alone is never completion.

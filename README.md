@@ -21,16 +21,21 @@ All-in-One 无配对论文阶段：每侧8553张、batch1、seed2026、真实200
 3. [`PROJECT_CONTRACT.json`](PROJECT_CONTRACT.json)
 4. [`PROJECT_STATE.json`](PROJECT_STATE.json)
 5. [`CONTEXT_CAPSULE_CN.md`](CONTEXT_CAPSULE_CN.md)
-6. [`LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`](LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md)
-7. [`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`](ACTIVE_LOCAL_ROUTE1_PLAN_CN.md)
-8. [`configs/LOCAL_ROUTE1_PROBES.json`](configs/LOCAL_ROUTE1_PROBES.json)
-9. [`DATA_CONTRACT.json`](DATA_CONTRACT.json)
+6. [`PAPER_AIO_RESEARCH_CONTRACT_CN.md`](PAPER_AIO_RESEARCH_CONTRACT_CN.md)
+7. [`ACTIVE_PAPER_AIO_PLAN_CN.md`](ACTIVE_PAPER_AIO_PLAN_CN.md)
+8. [`configs/PAPER_ALGORITHM_THEORY_BUNDLE.json`](configs/PAPER_ALGORITHM_THEORY_BUNDLE.json)
+9. [`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`](configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json)
+10. [`DATA_CONTRACT.json`](DATA_CONTRACT.json)
 
-## 当前阶段（2026-09-06）
+只有修改small25历史证据或候选来源时，才继续阅读
+`LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`、`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`和
+`configs/LOCAL_ROUTE1_PROBES.json`。
+
+## 当前阶段（2026-09-08）
 
 4090A的full plain已经完成并封存，现在运行AM-TNC；5090A运行ST-CGR；5090C运行
-Proposal-only；5090B同时运行CUT和CycleGAN，并在CUT e200后由已冻结继任器执行exact
-runtime与容量门，再建立fresh-e0 matched plain；本地GTX1660独占运行DCLGAN。所有健康
+Proposal-only；5090B的CUT已经完成e200，CycleGAN与通过exact-runtime/容量门的fresh-e0
+matched plain正在同卡运行，CycleGAN完成后plain自然转为独占；本地GTX1660独占运行DCLGAN。所有健康
 训练均有full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
 
 论文结论仍未冻结：Proposal与ST-CGR必须等待合法的5090B matched plain关系，AM-TNC只
@@ -44,6 +49,12 @@ endpoint工作的重叠和投稿边界见
 [`research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`](research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md)。
 small25的多算法终局仍是算法来源证据，不是full-data结果替代品；单seed成本策略也不等于
 跨seed稳定性证明。
+
+结果到达后的写作不能临时选择故事。八种Proposal/ST-CGR/AM-TNC通过/失败组合、固定图表、
+披露项和claim gate已冻结在
+[`research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md`](research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md)，
+机器合同为[`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`](configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json)。
+它不预定赢家，也不包含任何中间性能结论。
 
 ## small25路线一入口（当前用于证据与审计）
 
