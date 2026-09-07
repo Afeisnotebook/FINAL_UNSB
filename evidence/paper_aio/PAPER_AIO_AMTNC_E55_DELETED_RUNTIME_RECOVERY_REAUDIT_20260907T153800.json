@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-amtnc-e55-deleted-runtime-recovery-reaudit-v1",
+  "captured_at": "2026-09-07T15:38:00+08:00",
+  "decision": "PRESERVE_HEALTHY_DELETED_INODE_RUN_RECOVERY_PATH_REVERIFIED_AT_E55",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_utilization_percent_observed": 55,
+    "gpu_memory_used_mib_observed": 2371,
+    "disk_free_gib": 537
+  },
+  "incident_state": {
+    "original_full_unsb_cov_environment_restored": false,
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_pids_restarted_or_modified": false,
+    "active_process_continuous_since": "2026-09-05T08:54:13+08:00",
+    "original_python_paths": "PRESENT_AS_READ_ONLY_RELAYS_NOT_AS_A_REBUILT_ENVIRONMENT",
+    "relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "direct_original_path_new_process_probe": "PASS_PYTHON_3_10_20_TORCH_2_5_1_CU121_CUDA_VISIBLE_PAPER_RUNNER_IMPORT",
+    "stale_claim_corrected": "a new process through the original Python path no longer fails because the relay execs the isolated runtime; the removed full environment itself remains absent"
+  },
+  "isolated_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "logical_size_gib_approx": 5.2,
+    "python_sha256_live_deleted_inode": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "python_sha256_isolated": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "mapped_dependency_manifest": "/home/yc/recovery_snapshots/unsb_cov_live_mapped_3446758_20260906T083500/RECOVERY_MANIFEST.json",
+    "mapped_dependency_entries_rehashed": 111,
+    "mapped_dependency_entries_missing": 0,
+    "mapped_dependency_entries_mismatched": 0,
+    "mapped_dependency_revalidation": "PASS_111_OF_111_BYTE_IDENTICAL",
+    "write_protection": "NO_WRITABLE_REGULAR_FILES_OR_DIRECTORIES; LIB64_IS_A_SYMLINK",
+    "training_checkout": "/home/yc/FINAL_UNSB_PAPER_AIO_6a68e2c",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "training_checkout_worktree": "CLEAN",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+  },
+  "latest_complete_state": {
+    "data_epoch": 55,
+    "step": 470415,
+    "epoch_wall_seconds": 3544.3149707317352,
+    "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/full_state_latest.pt",
+    "checkpoint_sha256": "3017debed3d0d49f5289aad9a6bac4874a376b9c7d8b88a5d281ab509dfc2983",
+    "sidecar_sha256": "0021d5d72338f2914dffc76c455b542eb1e7c50ff8774364e8faa3911aa76c38",
+    "scientific_state_sha256": "12e3be8c603e939c2eafac61573006088eb412c39c14fa123fbc2b0e46bd2da3",
+    "isolated_runtime_cpu_load": "PASS",
+    "loaded_state": {
+      "networks": ["G", "F", "D", "E"],
+      "optimizers": "PRESENT",
+      "schedulers": "PRESENT",
+      "method_state": ["amtnc", "search_global_step", "search_total_steps"],
+      "rng": ["python", "numpy", "torch_cpu", "torch_cuda"],
+      "samplers": ["primary", "secondary"]
+    },
+    "completed_progress_loss": false,
+    "maximum_compute_at_risk": "ONLY_CURRENT_INCOMPLETE_DATA_EPOCH"
+  },
+  "independent_resume_proof": {
+    "existing_probe": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_E29_20260906T134800",
+    "input_step": 248037,
+    "output_step": 248038,
+    "result": "PASS_ONE_UPDATE_IN_ISOLATED_CPU_BRANCH_WITHOUT_MAIN_LANE_MUTATION",
+    "current_e55_schema_and_full_state_load": "PASS",
+    "gpu_next_step_bitwise_equivalence_to_live_deleted_inode_process_claimed": false
+  },
+  "durable_recovery_control": {
+    "outer_guard_pid": 3966089,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_total_restarts": 0,
+    "outer_guard_consecutive_no_progress_restarts": 0,
+    "outer_guard_health_watcher_pid": 3968393,
+    "outer_guard_health": "HEALTHY_ZERO_ALERTS",
+    "active_frontier_health_watcher_pid": 3885710,
+    "active_frontier_health": "HEALTHY_ZERO_ALERTS",
+    "control_git_commit": "c464d6a596587ce6740cd567f2cd02a763923a21",
+    "guard_source_sha256": "ae9e9c1486cf5b5cf0382b458cd04c2f659b4065a3ef77278224f178fdf48697",
+    "training_supervisor_source_sha256": "00b70335cfb4ebc7b828a8d1a3e890cd840774f91b8f26834422c81ecaf985e3",
+    "guard_contract_sha256": "0d3f7e766e29d7b76656d737a190163e85897a6aeae622a45b717f00e2f302ac",
+    "frozen_supervisor_command_uses_isolated_python_directly": true,
+    "recovery_condition": "ONLY_AFTER_BOTH_EXISTING_SUPERVISOR_AND_TRAINER_ARE_ABSENT_AND_SOURCE_PROTOCOL_CHECKPOINT_HASH_GATES_PASS",
+    "duplicate_process_fail_closed": true
+  },
+  "impact_and_disposition": {
+    "cleanup_damaged_original_environment": true,
+    "cleanup_damaged_current_scientific_state_or_checkpoints": false,
+    "future_training_blocked": false,
+    "healthy_run_restarted": false,
+    "blind_overwrite_or_environment_rebuild_performed": false,
+    "loss_avoidance_status": "COMPLETED_E55_PROTECTED_AND_AUTOMATIC_EXACT_FULL_STATE_RECOVERY_ARMED",
+    "residual_risk": "the active process still owns deleted mappings; a future process failure changes execution from inode-continuation to full-state resume in the verified isolated runtime and may lose only the incomplete epoch",
+    "recommended_action": "KEEP_RUNNING_AND_MONITOR; DO_NOT_RESTART_TO_REMOVE_THE_DELETED_LABEL"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "healthy_training_interrupted": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}
