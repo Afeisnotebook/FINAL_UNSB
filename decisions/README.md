@@ -402,3 +402,6 @@ authorize compute.
 117. `DEC-20260908-MANUSCRIPT-OUTLINE-NOVELTY-SYNC.md`：把新增近邻同步进预结果论文骨架，
      并修复canonical outline此前只有路径、没有哈希绑定的缺口。八种算法结果分支、主表、
      claim gate与训练均不变，完整写作合同现在对理论、基线、新颖性边界和论文骨架全部fail closed。
+118. `DEC-20260908-AMTNC-E68-POST-CLEANUP-RISK-REAUDIT.md`：确认4090A原完整环境仍被删除，
+     但存活AM-TNC已自然到e68；训练guard直接绑定并全量验签111项只读隔离runtime，e68完整
+     状态已在CPU加载并复制为本机只读哈希闭环快照，导出和统一评估恢复链均在线零重启。
