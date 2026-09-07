@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-paper-all-active-algorithm-source-export-recovery-v1",
+  "captured_at": "2026-09-07T18:27:25+08:00",
+  "decision": "ALL_ACTIVE_ALGORITHM_SOURCE_EXPORTERS_ADOPTED_BY_FAIL_CLOSED_RECOVERY_SUPERVISORS",
+  "control": {
+    "git_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
+    "source_sha256": "5463c96b66ee71a65900c066348b66cd870eac5576c9ece230daf381a45e99b9",
+    "restart_policy": "ONLY_AFTER_EXACT_COMMAND_SOURCE_CONTRACT_AND_STATE_GATES_PASS",
+    "duplicate_process_policy": "FAIL_CLOSED"
+  },
+  "hosts": {
+    "4090A_amtnc": {
+      "exporter_pid": 2182586,
+      "recovery_supervisor_pid": 426584,
+      "recovery_supervisor_ppid_after_disconnect": 1,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "restart_count": 0,
+      "recovery_output": "/home/yc/runs/FINAL_UNSB_EXPORT_RECOVERY_AMTNC_ae897ba",
+      "recovery_contract_sha256": "6e38a057291a7913ab38919a4013cccb0ff86dd69f9da0aba3b2ac4218c5a3f2",
+      "health_watcher_pid": 426612,
+      "health_watcher_ppid_after_disconnect": 1,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "health_output": "/home/yc/runs/FINAL_UNSB_HEALTH_EXPORT_RECOVERY_AMTNC_ae897ba",
+      "health_contract_sha256": "27ca4e01b932b7389a3ad7ffd507f0893622439c308e3209cd87553d5b2ead61",
+      "latest_metric_blind_epoch": 58,
+      "latest_metric_blind_updates": 496074,
+      "disk_gate": "PASS_536.51_GIB_FREE_VS_100_GIB_BOUND"
+    },
+    "5090A_stcgr": {
+      "exporter_pid": 336344,
+      "recovery_supervisor_pid": 913443,
+      "recovery_supervisor_ppid_after_disconnect": 1,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "restart_count": 0,
+      "recovery_output": "/root/autodl-tmp/runs/FINAL_UNSB_EXPORT_RECOVERY_STCGR_ae897ba",
+      "recovery_contract_sha256": "3fe632bcfc67295c464f42c53a07aee3bdea319584479f6feba268cfe903280d",
+      "health_watcher_pid": 913460,
+      "health_watcher_ppid_after_disconnect": 1,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "health_output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_EXPORT_RECOVERY_STCGR_ae897ba",
+      "health_contract_sha256": "03f1b7e47f8c81dd4060c4b6d329455848000d6062b579279379a12a1747ca60",
+      "latest_metric_blind_epoch": 77,
+      "latest_metric_blind_updates": 658581,
+      "disk_gate": "USER_CAPACITY_OVERRIDE_PASS_182.89_GIB_FREE_VS_60_GIB_BOUND"
+    },
+    "5090C_proposal": {
+      "exporter_pid": 9730,
+      "recovery_supervisor_pid": 410165,
+      "recovery_supervisor_ppid_after_disconnect": 1,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "restart_count": 0,
+      "recovery_output": "/root/autodl-tmp/runs/FINAL_UNSB_EXPORT_RECOVERY_PROPOSAL_ae897ba",
+      "recovery_contract_sha256": "2ad24bbb427f648a4c0e2c356af7ce38307478e54097294332b09fd65839104b",
+      "health_watcher_pid": 410182,
+      "health_watcher_ppid_after_disconnect": 1,
+      "health_status": "HEALTHY_ZERO_ALERTS",
+      "health_output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_EXPORT_RECOVERY_PROPOSAL_ae897ba",
+      "health_contract_sha256": "e1c0de5fbad6c87cf3e4e8c7ed3dccc7458f2cee4e3889d83e77475d8158b84f",
+      "latest_metric_blind_epoch": 85,
+      "latest_metric_blind_updates": 727005,
+      "disk_gate": "PASS_227.92_GIB_FREE_VS_60_GIB_BOUND"
+    },
+    "5090B_external_and_plain": {
+      "reference": "evidence/paper_aio/PAPER_AIO_5090B_SOURCE_EXPORT_RECOVERY_DEPLOYED_20260907T175518.json",
+      "cyclegan_exporter_pid": 9516,
+      "cyclegan_recovery_supervisor_pid": 673800,
+      "matched_plain_exporter_pid": 534982,
+      "matched_plain_recovery_supervisor_pid": 673803,
+      "health_watcher_pid": 673880,
+      "restart_count_total": 0
+    }
+  },
+  "deployment_transport": {
+    "4090A": "DIRECT_GITHUB_CLONE",
+    "5090A_and_5090C": "EXACT_LOCAL_GIT_BUNDLE_AFTER_GITHUB_TIMEOUT",
+    "git_bundle_sha256": "df80c43ad2343e2ff72548c0565f107d3c3c995509d89dbf9be9d64a6eec85ef",
+    "5090A_and_5090C_initial_system_python_attempt": "CONTROL_PROCESS_EXIT_ONLY_USR_BIN_PYTHON3_ABSENT",
+    "5090A_and_5090C_final_python": "/root/miniconda3/bin/python3",
+    "training_or_exporter_processes_changed_by_failed_attempt": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded_by_recovery_supervisors": false,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}
