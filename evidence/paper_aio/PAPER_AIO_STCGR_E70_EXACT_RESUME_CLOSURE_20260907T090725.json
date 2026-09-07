@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-stcgr-e70-exact-resume-closure-v1",
+  "captured_at": "2026-09-07T09:07:25+08:00",
+  "decision": "ACCEPT_STCGR_E69_TO_E70_EXACT_RESUME_CLOSURE_CONTINUE_E200",
+  "host": {
+    "label": "5090A",
+    "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d"
+  },
+  "incident": {
+    "start_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E69_STALL_EXACT_RESUME_STARTED_20260907T075316.json",
+    "stalled_trainer_pid": 431032,
+    "resume_source_epoch": 69,
+    "resume_source_step": 590157,
+    "resume_source_checkpoint_sha256": "0a777ccfe9628a07d0d146820c5aebf07b0b7fb4d6978a03e78555ca77e0b541",
+    "resume_source_scientific_state_sha256": "c158a3fa800cc395e3d7afd597a1ca3b754d8659ae741a1dabbcf0aee4f94f70"
+  },
+  "closure": {
+    "trainer_pid": 863376,
+    "supervisor_pid": 336345,
+    "continuation_pid": 336340,
+    "export_successor_pid": 336344,
+    "health_watcher_pid": 352017,
+    "progress_watcher_pid": 436478,
+    "completed_data_epoch": 70,
+    "completed_step": 598710,
+    "recovered_epoch_wall_seconds": 4708.685802221298,
+    "checkpoint_sha256": "988335f422d5dd004ce2aea586de13e1c309d84ed594598627757f4f30ea6746",
+    "sidecar_sha256": "946271dc0dfeef504754f61a2619ce2068b8a0b0509bd868382ae70f1bc8d0fc",
+    "scientific_state_sha256": "5fb70c0b1b0354bdeb11c69b3cfc6a760303830fb565efa0b250b3c83d423f94",
+    "checkpoint_cpu_load": "PASS",
+    "model_state": ["networks", "optimizers", "schedulers", "method"],
+    "rng_state": ["python", "numpy", "torch_cpu", "torch_cuda"],
+    "sampler_state": ["primary", "secondary"],
+    "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "post_closure_gpu_utilization_percent": 54,
+    "post_closure_gpu_memory_mib": 2186,
+    "supervisor_consecutive_failures": 2,
+    "completed_epoch_lost": false,
+    "exact_resume_closure": true
+  },
+  "projection": {
+    "basis": "latest_recovered_epoch_wall_seconds",
+    "projected_e200": "2026-09-14T11:08:00+08:00_rough",
+    "minimum_host_availability_through": "2026-09-16T00:00:00+08:00",
+    "projected_headroom_hours": 36.9
+  },
+  "repository_validation": {
+    "base_commit": "79f623ec8bac2bf09774313819f4e311bf251a7e",
+    "contract_checks": "PASS",
+    "pytest": "713 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "runtime_cohort_changed": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
