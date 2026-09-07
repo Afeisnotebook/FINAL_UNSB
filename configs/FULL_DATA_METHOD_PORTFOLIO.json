@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T00:31:00+08:00",
+  "captured_at": "2026-09-08T00:41:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -984,7 +984,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E64_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T003100.json",
     "decision": "decisions/DEC-20260908-AMTNC-E64-POST-CLEANUP-RECOVERY-REVALIDATION.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E64_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T003100.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_SIX_LANE_VERIFIED_WAIT_20260908T004100.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

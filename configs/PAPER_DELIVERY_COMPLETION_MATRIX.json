@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T00:31:00+08:00",
+  "captured_at": "2026-09-08T00:41:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -14,9 +14,9 @@
         "5090C/proposal": "e80_fixed_hash_closed_live_e89_outer_recovery_guard_zero_restarts",
         "5090A/stcgr": "e80_fixed_hash_closed_live_e81_outer_recovery_guard_zero_restarts",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e64_real_current_state_resume_pass_deleted_runtime_guard_zero_restarts_offhost_runtime_backup_hash_closed",
-        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e185",
-        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e30",
-        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e50"
+        "5090B/cyclegan": "e176_exact_resume_hash_closed_live_heartbeat_e187",
+        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e32",
+        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e52"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"
     },
@@ -307,7 +307,7 @@
   ],
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A active process still owns deleted runtime mappings; the original full environment remains absent and the old python entrypoints are read-only relays, all 111 mapped files are preserved and freshly rehashed in a verified read-only 2.2.6/12.2.0 isolated runtime, the e62 full-state resume was executed in isolation, the current e63 checkpoint passed full runtime and checkpoint preflight, the replacement guard rehashes every identity immediately before recovery, and an off-host read-only runtime archive is hash closed",
+    "the 4090A active process still owns deleted runtime mappings; the original full environment remains absent and the old python entrypoints are read-only relays, all 111 mapped files are preserved and freshly rehashed in a verified read-only 2.2.6/12.2.0 isolated runtime, the current e64 full-state executed one isolated CPU update from 547392 to 547393 without changing the main checkpoint, the replacement guard rehashes every identity immediately before recovery, and an off-host read-only runtime archive is hash closed",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "the 2026-09-07 metric-blind refresh projects Proposal near 2026-09-14 07:38 with about 16.4 hours of lease headroom, ST-CGR near 2026-09-14 12:43 with about 35.3 hours, and the two-phase 5090B matched plain near 2026-09-12 21:49 with about 26.2 hours; no extension is currently triggered"

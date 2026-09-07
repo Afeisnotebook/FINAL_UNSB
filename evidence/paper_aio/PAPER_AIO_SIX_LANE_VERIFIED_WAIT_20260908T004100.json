@@ -1,0 +1,106 @@
+{
+  "schema": "final-unsb-paper-six-lane-verified-wait-v1",
+  "captured_at": "2026-09-08T00:41:00+08:00",
+  "status": "ALL_SIX_ACTIVE_TRAINING_HANDLES_LIVE_NO_INTERVENTION_REQUIRED",
+  "classification": "VERIFIED_WAIT",
+  "lanes": {
+    "4090A_amtnc": {
+      "data_epoch": 64,
+      "updates": 547392,
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "recovery_guard_pid": 439182,
+      "recovery_health_pid": 439447,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "guard_restarts": 0,
+      "health": "HEALTHY",
+      "recovery_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E64_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T003100.json"
+    },
+    "5090A_stcgr": {
+      "data_epoch": 81,
+      "updates": 692793,
+      "supervisor_pid": 336345,
+      "trainer_pid": 863376,
+      "recovery_guard_pid": 942101,
+      "recovery_health_pid": 942182,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "guard_restarts": 0,
+      "health": "HEALTHY"
+    },
+    "5090C_proposal": {
+      "data_epoch": 89,
+      "updates": 761217,
+      "supervisor_pid": 9729,
+      "trainer_pid": 366768,
+      "recovery_guard_pid": 431648,
+      "recovery_health_pid": 431712,
+      "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+      "guard_restarts": 0,
+      "health": "HEALTHY"
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 187,
+      "updates": 1599411,
+      "supervisor_pid": 11845,
+      "trainer_pid": 662728,
+      "continuity_guard_pid": 159134,
+      "source_exporter_pid": 9516,
+      "source_export_recovery_pid": 673800,
+      "source_export_health_pid": 673880,
+      "source_export_status": "WAITING_FOR_COMPLETE_E200",
+      "source_export_restarts": 0,
+      "health": "HEALTHY"
+    },
+    "5090B_matched_plain": {
+      "data_epoch": 32,
+      "updates": 273696,
+      "successor_pid": 523993,
+      "supervisor_pid": 534983,
+      "trainer_pid": 534984,
+      "health_pid": 667507,
+      "health": "HEALTHY"
+    },
+    "local_GTX1660_dclgan": {
+      "data_epoch": 52,
+      "updates": 444756,
+      "trainer_pid": 22020,
+      "source_exporter_pid": 23168,
+      "push_recovery_supervisor_pid": 26020,
+      "push_health_pid": 20500,
+      "source_export_status": "WAITING_FOR_COMPLETE_E200",
+      "health": "HEALTHY"
+    }
+  },
+  "resources": {
+    "4090A": {"gpu_utilization_percent": 56, "gpu_memory_used_mib": 2371, "disk_free_gib": 530.39},
+    "5090A": {"gpu_utilization_percent": 33, "gpu_memory_used_mib": 2186, "disk_free_gib": 182.68, "user_capacity_override": true},
+    "5090B": {"gpu_utilization_percent": 97, "gpu_memory_used_mib": 3671, "disk_free_gib": 225.0},
+    "5090C": {"gpu_utilization_percent": 52, "gpu_memory_used_mib": 2186, "disk_free_gib": 228.0},
+    "local_GTX1660": {"gpu_utilization_percent": 83, "gpu_memory_used_mib": 3119}
+  },
+  "dependency_audit": {
+    "immediately_runnable_unblocked_paper_tasks": [],
+    "reason": "Post-freeze evaluation, distribution, table and confirmation stages require complete fixed e200 inputs; terminal audit requires fixed checkpoint imports and exclusive GPU; DDSB remains fail-closed without an authoritative source.",
+    "nearest_critical_event": "5090B_CYCLEGAN_E200",
+    "cyclegan_remaining_epochs": 13,
+    "cyclegan_latest_epoch_seconds": 2514.0763103961945,
+    "cyclegan_projected_e200": "2026-09-08T09:46:00+08:00_rough",
+    "e200_export_and_recovery_chain_ready": true,
+    "new_experiment_started": false,
+    "queue_changed": false
+  },
+  "paper_theory_audit": {
+    "proposal_dedicated_duplicate_card_required": false,
+    "reason": "The PC-RSMG parent card defines the Proposal-only ablation, the Selective-GF family derivation states its exact estimator, and the full-data formula audit binds it to source and live state.",
+    "theory_bundle_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_changed": false,
+    "training_process_changed": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
