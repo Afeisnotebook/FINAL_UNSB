@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-paper-incremental-audit-source-export-recovery-closure-v1",
+  "captured_at": "2026-09-08T06:22:00+08:00",
+  "status": "THREE_INCREMENTAL_AUDIT_SOURCE_EXPORTERS_ADOPTED_WITH_DURABLE_RECOVERY_ZERO_RESTARTS",
+  "scope": {
+    "purpose": "protect the fixed e100/e150/e200 target-blind terminal-audit checkpoint export path",
+    "scientific_training_changed": false,
+    "source_exporters_restarted": false,
+    "checkpoint_loaded": false
+  },
+  "implementation": {
+    "initial_generalization_commit": "6dc1b6fe6a7b5292b0f4ad4fa6b7c1cc56ffacd4",
+    "authoritative_control_commit": "2c26c9a0e45f03f4f4c10b9767f69b8d237ea1ca",
+    "source": "operations/paper_aio_export_successor_recovery_supervisor.py",
+    "local_full_test_result": "750 passed",
+    "remote_targeted_test_result": "5 passed on each of 4090A, 5090A and 5090C",
+    "bundle_sha256": "c894d3fbfdd102091ae380017eedebc99fe1d94797f84e19d96c461d59260448",
+    "incremental_bundle_sha256": "109b7004a1882ca43154656114a9c095f9029134211f1bf5f8e2c087c05efba1"
+  },
+  "fail_closed_gate": {
+    "first_attempt_commit": "6dc1b6fe6a7b5292b0f4ad4fa6b7c1cc56ffacd4",
+    "result": "REJECTED_BEFORE_ADOPTION_OR_STATE_MUTATION",
+    "reason": "the incremental contract uses performance_values_available_to_scheduler while the terminal contract uses performance_values_available_to_scheduling",
+    "repair": "schema-specific metric-boundary validation in 2c26c9a",
+    "scientific_failure": false,
+    "failed_attempt_directories_preserved": true
+  },
+  "lanes": {
+    "4090A_amtnc": {
+      "source_exporter_pid_before_and_after": 2274260,
+      "recovery_supervisor_pid": 723432,
+      "health_watcher_pid": 724142,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "child_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "restart_count": 0,
+      "recovery_contract_sha256": "16a9002d3d32cdd4e1a6f0468290ce99feec1af5bf3594f472174dda79e64a74",
+      "adopt_only_python": "/home/yc/anaconda3/envs/unsb_cov/bin/python",
+      "restart_python": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000/bin/python",
+      "restart_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+      "disk_free_gib": 529.8764,
+      "disk_required_gib": 20.0,
+      "health": "HEALTHY_AFTER_TWO_POLLS_ZERO_ALERTS"
+    },
+    "5090A_stcgr": {
+      "source_exporter_pid_before_and_after": 351230,
+      "recovery_supervisor_pid": 975931,
+      "health_watcher_pid": 976097,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "child_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "restart_count": 0,
+      "recovery_contract_sha256": "7938469f1799eadaca2836f460fa41d3d8375d2ec3ba8531fdad59d3fc126745",
+      "disk_free_gib": 182.6623,
+      "disk_required_gib": 20.0,
+      "user_capacity_override": true,
+      "health": "HEALTHY_AFTER_TWO_POLLS_ZERO_ALERTS"
+    },
+    "5090C_proposal": {
+      "source_exporter_pid_before_and_after": 29411,
+      "recovery_supervisor_pid": 458972,
+      "health_watcher_pid": 459098,
+      "recovery_status": "MONITORING_EXISTING_EXPORT",
+      "child_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+      "restart_count": 0,
+      "recovery_contract_sha256": "24e76e3709072830ec179e357e49b466e46da249e237b982142c494b672c4f04",
+      "disk_free_gib": 227.8847,
+      "disk_required_gib": 20.0,
+      "user_capacity_override": true,
+      "health": "HEALTHY_AFTER_TWO_POLLS_ZERO_ALERTS"
+    }
+  },
+  "live_training_snapshot": {
+    "4090A_amtnc": {"data_epoch": 70, "updates": 598710, "trainer_pid": 3446758, "scientific_state_sha256": "81592788ed49ed03b007657d409c0e282038c976829b9f5df4aa54de8250deda"},
+    "5090A_stcgr": {"data_epoch": 86, "updates": 735558, "trainer_pid": 863376, "scientific_state_sha256": "7d91261e4c58e25275aa9552a75e4c3d464b6b1f23b1c51aebbbd30bd9af1e91"},
+    "5090C_proposal": {"data_epoch": 94, "updates": 803982, "trainer_pid": 366768, "scientific_state_sha256": "be3f821280321f4273c8f199373db5e1d6145a79324f1c9ef8045348c9cf844c"},
+    "5090B_cyclegan": {"data_epoch": 195, "updates": 1667835, "trainer_pid": 662728, "scientific_state_sha256": "5e88de5cb6e9d8b6a91f4334fcfb061eb290a2e530d24889887b3e0c393f36ac"},
+    "5090B_matched_plain": {"data_epoch": 36, "updates": 307908, "trainer_pid": 534984, "scientific_state_sha256": "e0e53034b55dbe2680b7d7c09b47166c3eceea5b18da09dee9b1692479465757"},
+    "local_dclgan": {"data_epoch": 57, "updates": 487521, "trainer_pid": 22020, "scientific_state_sha256": "87cbf56d0ef00c2d0f680b2854c1b8a75098e5686c5bc883e3e6342bde6d9c93"}
+  },
+  "boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "protocol_changed": false
+  },
+  "decision": "make the three 2c26c9a recovery supervisors authoritative for incremental audit source export; preserve all live children and continue metric-blind waiting",
+  "next_event": "5090B CycleGAN e200 source-bound export and continued isolated matched-plain throughput"
+}

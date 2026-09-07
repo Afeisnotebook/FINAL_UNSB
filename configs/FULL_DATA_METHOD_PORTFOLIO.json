@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T05:53:00+08:00",
+  "captured_at": "2026-09-08T06:22:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -814,6 +814,22 @@
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json",
     "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
   },
+  "incremental_audit_source_export_recovery": {
+    "status": "deployed_healthy_three_incremental_exporters_adopted_zero_restarts",
+    "control_commit": "2c26c9a0e45f03f4f4c10b9767f69b8d237ea1ca",
+    "source_exporter_pids": {"amtnc": 2274260, "stcgr": 351230, "proposal": 29411},
+    "recovery_supervisor_pids": {"amtnc": 723432, "stcgr": 975931, "proposal": 458972},
+    "health_watcher_pids": {"amtnc": 724142, "stcgr": 976097, "proposal": 459098},
+    "restart_count_total": 0,
+    "amtnc_deleted_runtime_adopt_only": true,
+    "amtnc_future_restart_uses_isolated_runtime": true,
+    "failed_initial_contract_attempt": "fail_closed_before_adoption_not_scientific_failure",
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
+    "decision": "decisions/DEC-20260908-INCREMENTAL-AUDIT-SOURCE-EXPORT-RECOVERY.md"
+  },
   "post_training_delivery": {
     "status": "DYNAMIC_5090B_CONTROL_WAITER_DEPLOYED_HEALTHY_AFTER_MULTIPLE_POLLS",
     "host": "4090A",
@@ -1063,7 +1079,7 @@
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E68_POST_CLEANUP_RISK_REAUDIT_20260908T035300.json",
     "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_SIX_LANE_VERIFIED_WAIT_20260908T004100.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

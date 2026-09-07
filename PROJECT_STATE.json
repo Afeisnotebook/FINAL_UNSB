@@ -983,6 +983,23 @@
       "prior_evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json",
       "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
     },
+    "incremental_audit_source_export_recovery": {
+      "status": "THREE_INCREMENTAL_EXPORTERS_DURABLY_PROTECTED_EXISTING_CHILDREN_UNCHANGED_ZERO_RESTARTS",
+      "control_commit": "2c26c9a0e45f03f4f4c10b9767f69b8d237ea1ca",
+      "source_exporters": {
+        "4090A_amtnc": {"pid": 2274260, "recovery_supervisor_pid": 723432, "health_watcher_pid": 724142},
+        "5090A_stcgr": {"pid": 351230, "recovery_supervisor_pid": 975931, "health_watcher_pid": 976097},
+        "5090C_proposal": {"pid": 29411, "recovery_supervisor_pid": 458972, "health_watcher_pid": 459098}
+      },
+      "restart_count_total": 0,
+      "amtnc_restart_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+      "initial_contract_attempt": "FAIL_CLOSED_BEFORE_ADOPTION_FIELD_NAME_REPAIRED_IN_2C26C9A",
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
+      "decision": "decisions/DEC-20260908-INCREMENTAL-AUDIT-SOURCE-EXPORT-RECOVERY.md"
+    },
     "paper_complexity_interface": {
       "status": "IMPLEMENTED_GPU_SMOKE_VERIFIED_AND_DURABLE_E200_SUCCESSOR_ARMED",
       "schema": "final-unsb-paper-complexity-profile-v1",
@@ -1437,7 +1454,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_POST_AMTNC_EXPORT_RECOVERY_SIX_LANE_VERIFIED_WAIT_20260908T055300.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T05:53:00+08:00",
+  "captured_at": "2026-09-08T06:22:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,9 +11,9 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut"],
       "latest_running_milestones": {
-        "5090C/proposal": "e80_fixed_hash_closed_live_e93_outer_recovery_guard_zero_restarts",
-        "5090A/stcgr": "e80_fixed_hash_closed_live_e85_outer_recovery_guard_zero_restarts",
-        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e70_training_and_export_isolated_recovery_guards_zero_restarts",
+        "5090C/proposal": "e80_fixed_hash_closed_live_e94_outer_recovery_and_incremental_export_guards_zero_restarts",
+        "5090A/stcgr": "e80_fixed_hash_closed_live_e86_outer_recovery_and_incremental_export_guards_zero_restarts",
+        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e70_training_terminal_export_and_incremental_export_isolated_recovery_guards_zero_restarts",
         "5090B/cyclegan": "e190_hash_closed_live_e195_e200_source_export_import_and_fixed_evaluation_chain_preflight_pass",
         "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e36",
         "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e57"
@@ -193,6 +193,21 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
       "prior_evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json"
+    },
+    "incremental_audit_source_export_recovery": {
+      "status": "complete_three_live_children_adopted_durable_restart_and_health_zero_restarts",
+      "required_epochs": [100, 150, 200],
+      "control_commit": "2c26c9a0e45f03f4f4c10b9767f69b8d237ea1ca",
+      "source_exporter_pids": {"4090A_amtnc": 2274260, "5090A_stcgr": 351230, "5090C_proposal": 29411},
+      "recovery_supervisor_pids": {"4090A_amtnc": 723432, "5090A_stcgr": 975931, "5090C_proposal": 458972},
+      "health_watcher_pids": {"4090A_amtnc": 724142, "5090A_stcgr": 976097, "5090C_proposal": 459098},
+      "restart_count_total": 0,
+      "fail_closed_first_attempt": true,
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
+      "decision": "decisions/DEC-20260908-INCREMENTAL-AUDIT-SOURCE-EXPORT-RECOVERY.md"
     },
     "cyclegan_e190_delivery_chain_preflight": {
       "status": "pass_source_e190_hash_closed_e200_export_relay_and_fixed_evaluation_prearmed",
