@@ -1552,8 +1552,8 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-08T04:31:00+08:00",
-      "prompt_integrity": "READABLE_CURRENT_FAIL_CLOSED_E68_RECOVERY_AND_FROZEN_FIGURE_DELIVERY_SYNCED",
+      "last_prompt_update": "2026-09-08T05:15:00+08:00",
+      "prompt_integrity": "READABLE_CURRENT_FAIL_CLOSED_E68_RECOVERY_INCREMENTAL_RELAY_SUPERVISION_AND_FROZEN_FIGURE_DELIVERY_SYNCED",
       "prompt_credentials_persisted": false,
       "5090b_source_export_recovery_pids": [673800, 673803],
       "5090b_source_export_recovery_health_pid": 673880,
@@ -1568,8 +1568,11 @@
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
       "latest_metric_blind_epochs": {"amtnc": 68, "stcgr": 84, "proposal": 92, "cyclegan": 193, "matched_plain": 35, "dclgan": 55},
       "frozen_manuscript_figures_required": true,
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E68_FIGURE_SYNC_20260908T043100.json",
-      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md"
+      "incremental_relay_recovery_supervisor_pids": [16540, 20856],
+      "incremental_relay_combined_health_pid": 27152,
+      "retired_incremental_delivery_pids": [19068, 6152, 18736],
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_INCREMENTAL_RECOVERY_SYNC_20260908T051500.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-INCREMENTAL-RECOVERY-SYNC.md"
     },
     "lease_horizon_action": {
       "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CAPACITY_PASS_REMOVES_IMMEDIATE_EXTENSION_TRIGGER",

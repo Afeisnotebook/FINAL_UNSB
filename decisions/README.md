@@ -415,3 +415,6 @@ authorize compute.
      ST-CGR的两个裸增量checkpoint中继及旧组合health已经停止，但训练、checkpoint和Proposal
      中继均正常。新增哈希锁定、命令精确匹配、保留退出日志和有界自动恢复的只读监督器；两条
      中继已恢复，并以一次ST-CGR子进程故障注入验证自动接管。新组合health覆盖完整终端链且零告警。
+122. `DEC-20260908-GOAL-HEARTBEAT-INCREMENTAL-RECOVERY-SYNC.md`：双小时Goal heartbeat已通过
+     自动化API绑定新的AM-TNC/ST-CGR增量中继恢复监督器和动态子状态，永久退休三个死亡旧PID；
+     保留完整论文北极星、4090A恢复门、冻结后图表和所有科学边界，且不持久化凭据。

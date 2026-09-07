@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-incremental-recovery-sync-v1",
+  "captured_at": "2026-09-08T05:15:00+08:00",
+  "status": "ACTIVE_HEARTBEAT_BOUND_TO_NEW_INCREMENTAL_RELAY_RECOVERY_AUTHORITY",
+  "automation": {
+    "id": "final-unsb-goal",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "updated_at_unix_ms": 1788815893206,
+    "target_thread_unchanged": true,
+    "credentials_persisted": false
+  },
+  "new_authority": {
+    "project_commit": "519e09b95624bf0b4c8078caaac86532e3441d2e",
+    "recovery_control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
+    "amtnc_incremental_recovery_supervisor_pid": 16540,
+    "stcgr_incremental_recovery_supervisor_pid": 20856,
+    "combined_health_pid": 27152,
+    "proposal_incremental_relay_pid": 14528,
+    "retired_pids": [19068, 6152, 18736],
+    "child_pid_change_is_normal_under_supervision": true,
+    "blocked_or_missing_supervisor_requires_frozen_contract_review": true
+  },
+  "monitoring_boundaries": {
+    "state_file_alone_is_not_liveness": true,
+    "transient_observation_failure_is_not_restart_authority": true,
+    "training_process_changed": false,
+    "training_protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  },
+  "source_recovery_evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_DURABLE_RECOVERY_20260908T051100.json"
+}

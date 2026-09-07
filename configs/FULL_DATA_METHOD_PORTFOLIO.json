@@ -407,8 +407,8 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-08T04:31:00+08:00",
-      "prompt_integrity": "readable_current_fail_closed_e68_recovery_and_frozen_figure_delivery_synced",
+      "last_prompt_update": "2026-09-08T05:15:00+08:00",
+      "prompt_integrity": "readable_current_fail_closed_e68_recovery_incremental_relay_supervision_and_frozen_figure_delivery_synced",
       "prompt_credentials_persisted": false,
       "dclgan_addendum_supervisor_pid": 638006,
       "dclgan_addendum_child_pid": 638015,
@@ -420,8 +420,11 @@
       "latest_bound_amtnc_checkpoint_epoch": 68,
       "latest_bound_amtnc_checkpoint_sha256": "737a669d7576a44bb6415a4c212b72b50f4dc139cf305b987e99ba95340d9796",
       "frozen_manuscript_figures_required": true,
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E68_FIGURE_SYNC_20260908T043100.json",
-      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E68-FIGURE-SYNC.md"
+      "incremental_relay_recovery_supervisor_pids": [16540, 20856],
+      "incremental_relay_combined_health_pid": 27152,
+      "retired_incremental_delivery_pids": [19068, 6152, 18736],
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_INCREMENTAL_RECOVERY_SYNC_20260908T051500.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-INCREMENTAL-RECOVERY-SYNC.md"
     },
     "5090b_active_training_continuity_guards": {
       "status": "adopted_existing_supervisors_zero_restarts_healthy",
