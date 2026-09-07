@@ -1,0 +1,92 @@
+{
+  "schema": "final-unsb-paper-aio-5090b-matched-plain-e26-progress-aware-health-replacement-v1",
+  "captured_at": "2026-09-07T16:25:54+08:00",
+  "decision": "REPLACE_FALSE_POSITIVE_RAW_HEARTBEAT_HEALTH_WITH_PROGRESS_AWARE_WATCHER_KEEP_TRAINING",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "gpu": "NVIDIA GeForce RTX 5090"
+  },
+  "false_positive_audit": {
+    "retired_health_watcher_pid": 524155,
+    "retired_watcher_scope": "raw successor state plus raw lane heartbeat",
+    "raw_lane_stale_threshold_seconds": 7200,
+    "alerted_heartbeat_age_seconds": 8926.751901626587,
+    "retired_watcher_status": "ALERT_STATE_STALE",
+    "trainer_pid": 534984,
+    "trainer_state_during_alert": "R",
+    "progress_watcher_status_during_alert": "STALE_EPOCH_HEARTBEAT_BUT_PROCESS_IO_PROGRESSING",
+    "progress_watcher_alert": false,
+    "progress_watcher_alert_count": 0,
+    "thirty_second_cpu_ticks_delta": 13059,
+    "thirty_second_rchar_delta_bytes": 49622943,
+    "e25_epoch_wall_seconds": 7292.465392827988,
+    "adjudication": "THE_RAW_7200_SECOND_THRESHOLD_WAS_SHORTER_THAN_AN_ALREADY_COMPLETED_CO_RESIDENT_EPOCH_AND_CANNOT_BY_ITSELF_PROVE_A_STALL"
+  },
+  "latest_complete_state": {
+    "data_epoch": 26,
+    "step": 222378,
+    "epoch_wall_seconds": 8984.004049062729,
+    "checkpoint": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/lanes/plain/full_state_latest.pt",
+    "checkpoint_sha256_from_sidecar": "bc03e6c25ec4a63947746247646316349a52f87075c92016b47e9f0ac7e4ed8b",
+    "checkpoint_sha256_recomputed": "bc03e6c25ec4a63947746247646316349a52f87075c92016b47e9f0ac7e4ed8b",
+    "sidecar_sha256": "994aa20062446978416bc0590177257e9b54885e5649b33b758293a7e7ffab07",
+    "heartbeat_sha256": "425bb2c912b8c2cae25e40a59574916c22aa6797019946c1574347b06c723235",
+    "scientific_state_sha256": "ce24a3e656e521188e0eb955fd217aab03ed07bae028d8b2b144b1455e06ff83",
+    "cpu_full_state_load": "PASS",
+    "loaded_state": {
+      "networks": ["G", "F", "D", "E"],
+      "optimizers": "PRESENT",
+      "schedulers": "PRESENT",
+      "method_state": "PRESENT",
+      "rng": ["python", "numpy", "torch_cpu", "torch_cuda"],
+      "samplers": ["primary", "secondary"]
+    }
+  },
+  "replacement_health_watcher": {
+    "pid": 667507,
+    "ppid_after_ssh_disconnect": 1,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090B_MATCHED_PROGRESS_AWARE_f8c38c1_v2",
+    "control_git_commit": "f8c38c1e7d0163ec8246b8ddac12fa66b7f7fb7b",
+    "source_sha256": "b899671b0d19d33e0e676d37af6a79ea1acfba1e0582231cd7611f81f47670cd",
+    "contract_sha256": "af66adf51bd458d3b579830b701bf63f23538383508aaba549d0c07a761d25a4",
+    "watched_successor_pid": 523993,
+    "watched_successor_state_max_stale_seconds": 600,
+    "watched_progress_watcher_pid": 524156,
+    "watched_progress_state_max_stale_seconds": 180,
+    "observed_complete_polls": 3,
+    "status_after_ssh_disconnect": "HEALTHY",
+    "alert_count": 0,
+    "disk_free_gib": 224.64325332641602,
+    "disk_required_gib": 24.0,
+    "training_or_recovery_capability": "NONE_OBSERVATION_ONLY"
+  },
+  "process_non_interference": {
+    "successor_pid": 523993,
+    "formal_supervisor_pid": 534983,
+    "formal_trainer_pid": 534984,
+    "export_successor_pid": 534982,
+    "cyclegan_supervisor_pid": 11845,
+    "cyclegan_trainer_pid": 662728,
+    "all_training_pids_unchanged_and_alive_after_replacement": true,
+    "old_health_watcher_command_verified_before_sigterm": true,
+    "only_retired_process": 524155
+  },
+  "identity": {
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "training_restarted_or_interrupted": false,
+    "confirmation20_opened": false
+  }
+}
