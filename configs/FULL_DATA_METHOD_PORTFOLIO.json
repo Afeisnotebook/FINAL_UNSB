@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-07T11:24:00+08:00",
+  "captured_at": "2026-09-07T15:22:28+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -193,7 +193,7 @@
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "formal_e200_running_e20_fixed_milestone_hash_closed_after_metric_blind_capacity_pass",
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
-    "cyclegan_5090B": "running_e152_latest_fixed_e150_hash_closed",
+    "cyclegan_5090B": "exact_resume_running_from_hash_verified_e175_e176_closure_pending_metric_reconstructable_read_only",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
     "dclgan": "running_local_gtx1660_e40_fixed_milestone_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
@@ -874,7 +874,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E40_DELETED_RUNTIME_CONTINUITY_20260907T001540.json",
     "decision": "decisions/DEC-20260907-AMTNC-E40-DELETED-RUNTIME-CONTINUITY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E80_HASH_CLOSURE_20260907T112400.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E175_POST_CHECKPOINT_STALL_EXACT_RESUME_STARTED_20260907T152228.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

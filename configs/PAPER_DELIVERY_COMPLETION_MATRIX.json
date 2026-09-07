@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-07T11:24:00+08:00",
+  "captured_at": "2026-09-07T15:22:28+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -14,7 +14,7 @@
         "5090C/proposal": "e80_hash_closed",
         "5090A/stcgr": "e70_exact_resume_hash_closed",
         "4090A/amtnc_after_plain": "e40_fixed_hash_closed_live_e49",
-        "5090B/cyclegan": "live_e168",
+        "5090B/cyclegan": "e175_checkpoint_hash_verified_exact_resume_to_e176_pending",
         "local/dclgan_extension": "e40_hash_closed"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"

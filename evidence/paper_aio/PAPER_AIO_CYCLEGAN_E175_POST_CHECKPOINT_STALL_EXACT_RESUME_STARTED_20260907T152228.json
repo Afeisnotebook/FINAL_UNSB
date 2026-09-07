@@ -1,0 +1,95 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e175-post-checkpoint-stall-exact-resume-started-v1",
+  "captured_at": "2026-09-07T15:22:28+08:00",
+  "decision": "RECOVER_CYCLEGAN_POST_E175_CHECKPOINT_STALL_WITH_EXISTING_FROZEN_SUPERVISOR",
+  "host": {
+    "label": "5090B",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194"
+  },
+  "stall": {
+    "old_trainer_pid": 493306,
+    "supervisor_pid": 11845,
+    "last_published_heartbeat_epoch": 174,
+    "last_published_heartbeat_step": 1488222,
+    "last_published_scientific_state_sha256": "55a96f3197c624443a43a40bb1ea76eeca0443a790f95d6958b290527af9202a",
+    "e175_checkpoint_was_written_before_stall": true,
+    "e175_metric_was_not_written_before_stall": true,
+    "progress_watch_status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+    "progress_watch_stall_seconds": 10800,
+    "heartbeat_age_seconds_at_alert_audit": 11079.4,
+    "io_delta_at_alert": {
+      "rchar": 0,
+      "wchar": 0,
+      "read_bytes": 0,
+      "write_bytes": 0,
+      "syscr": 0,
+      "syscw": 0
+    },
+    "gpu_samples_percent_at_alert": [3, 2, 3, 3, 4]
+  },
+  "resume_source": {
+    "physical_epoch_completed": 175,
+    "step": 1496775,
+    "latest_checkpoint_sha256": "32e5eb7bea322ad4306b6879c8759bceff6c5b01a5569053c0814ccdf618695d",
+    "latest_sidecar_sha256": "741f0711deefae23d82cf9f3b030abefae860cc26f081278399029a03bd62023",
+    "milestone_checkpoint_sha256": "4c3378629a93f0076ffb5f045f3ca258f8f962d2ce6ef1a9b53836acf45b4018",
+    "milestone_sidecar_sha256": "84a4f8a2b9d9f4014971128ba2f4a31cb06348abbb18b0704c1dd5a0eefb7d68",
+    "scientific_state_sha256": "b6b71ff6e8ccbffb0e63b756f7af33ffcfd4d0bc612c54b9ee91c3b0fde15796",
+    "cpu_load": "PASS",
+    "model_state": ["networks", "optimizers", "schedulers", "method"],
+    "rng_state": ["python", "numpy", "torch_cpu", "torch_cuda"],
+    "sampler_state": ["primary", "secondary"]
+  },
+  "recovery": {
+    "signal": "SIGTERM_CHILD_ONLY",
+    "old_child_returncode": -15,
+    "supervisor_preserved": true,
+    "new_trainer_pid": 662728,
+    "new_child_started_unix_time": 1788765539.388098,
+    "command_uses_resume": true,
+    "supervisor_consecutive_failures": 2,
+    "progress_watch_after_restart": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "post_restart_io_progress": true,
+    "post_restart_gpu_utilization_observed_percent": 94,
+    "status": "EXACT_RESUME_RUNNING_E176_HASH_CLOSURE_PENDING"
+  },
+  "co_resident_control": {
+    "lane_id": "5090B_MATCHED_PLAIN",
+    "trainer_pid": 534984,
+    "checkpoint_step_at_audit": 213825,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "io_progress": true,
+    "interrupted_or_modified": false
+  },
+  "metric_recovery": {
+    "e175_source_metric_missing": true,
+    "training_resume_repeats_e175_evaluation": false,
+    "paper_metric_recovery_path": "source_bound_e175_checkpoint_export_then_unified_read_only_evaluation",
+    "performance_values_read": false,
+    "affects_training_or_scheduling": false
+  },
+  "impact": {
+    "completed_training_epoch_lost": false,
+    "maximum_training_compute_lost": "none_after_e175_checkpoint",
+    "incomplete_e175_evaluation_compute_lost": true,
+    "runtime_cohort_changed": false,
+    "protocol_changed": false,
+    "closure_condition": "new_child_completes_e176_and_writes_hash_verified_full_state"
+  },
+  "repository_validation": {
+    "base_commit": "c934c521ce6c805adcc53fd25e6a68116db09934",
+    "contract_checks": "PASS",
+    "pytest": "713 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
