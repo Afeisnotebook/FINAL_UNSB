@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-proposal-e80-hash-closure-v1",
+  "captured_at": "2026-09-07T11:24:00+08:00",
+  "decision": "ACCEPT_PROPOSAL_E80_FIXED_MILESTONE_CONTINUE_E200",
+  "host": {
+    "label": "5090C",
+    "hostname": "autodl-container-5ymd4xkvsl-95d685bc",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "disk_free_gib": 228
+  },
+  "identity": {
+    "lane_id": "proposal",
+    "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "seed": 2026,
+    "batch_size": 1,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "lane_config_sha256": "719e2affb3263eb381ca49752899fa5659773a1765634b5460f57a10f4ac2aff",
+    "sampling_measure": "official_image_proportional_unpaired"
+  },
+  "milestone": {
+    "physical_epoch_completed": 80,
+    "step": 684240,
+    "epoch_wall_seconds": 4947.044645786285,
+    "checkpoint_sha256": "61c63f18a840e6d50d29f0008dbc6f2329b97ec64dafaeb774a8b0695fb2ba21",
+    "sidecar_sha256": "db737eb74d4b953f6517dd4d0331a73354f953e2548d3f678f60544b42b08dcb",
+    "latest_checkpoint_sha256": "779cd0701bf62e5cd357876aaebc3ff5a86733c7778c9f821e128a3d61f5fc95",
+    "latest_sidecar_sha256": "ed351cb75317f7281d6cfad84b097ae0a18c6a386ef19a5d8404da8f31a94348",
+    "scientific_state_sha256": "cf3cee82a4f9d79c9d99c0f59eb27714ce1e18b1ef9b09ff3774ec39ca01f455",
+    "metric_artifact_sha256": "9922f2bb2747951eb9aedd3f8957bd06686e292f128e697ce3664727265a6f17",
+    "metric_artifact_bytes": 134817,
+    "metric_content_parsed": false,
+    "full_state_cpu_load": "PASS",
+    "model_state": ["networks", "optimizers", "schedulers", "method"],
+    "rng_state": ["python", "numpy", "torch_cpu", "torch_cuda"],
+    "sampler_state": ["primary", "secondary"]
+  },
+  "continuity": {
+    "supervisor_pid": 9729,
+    "trainer_pid": 366768,
+    "export_successor_pid": 9730,
+    "progress_watcher_pid": 89015,
+    "health_watcher_pid": 13587,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "gpu_utilization_percent_after_milestone": 28,
+    "gpu_memory_mib_after_milestone": 2186,
+    "prior_e75_recovery_remains_closed": true,
+    "completed_epoch_lost": false
+  },
+  "projection": {
+    "basis": "conservative_latest_fixed_epoch_wall_seconds_including_milestone_overhead",
+    "projected_e200": "2026-09-14T08:20:00+08:00_rough",
+    "minimum_host_availability_through": "2026-09-15T00:00:00+08:00",
+    "projected_headroom_hours": 15.7,
+    "next_lease_reforecast": "2026-09-11T12:00:00+08:00"
+  },
+  "repository_validation": {
+    "base_commit": "087f012",
+    "contract_checks": "PASS",
+    "pytest": "713 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
