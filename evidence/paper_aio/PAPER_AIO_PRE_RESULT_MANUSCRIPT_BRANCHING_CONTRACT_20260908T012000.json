@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-pre-result-manuscript-branching-contract-evidence-v1",
+  "captured_at": "2026-09-08T01:20:00+08:00",
+  "status": "PRE_RESULT_STRUCTURE_AND_EIGHT_RESULT_BRANCHES_HASH_BOUND",
+  "contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+  "outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+  "method_keys": ["proposal", "stcgr", "amtnc"],
+  "result_branch_count": 8,
+  "all_boolean_result_combinations_covered_exactly_once": true,
+  "source_bindings": {
+    "theory_bundle_sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8",
+    "baseline_portfolio_sha256": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b",
+    "novelty_boundary_sha256": "550db3b3a2b680d3f8c645f25f4faf139cc3daa490af59877599664df6882070"
+  },
+  "post_result_gate": "source exports -> unified evaluation -> runtime relations -> dispositions -> committed claim review -> committed freeze -> deterministic tables",
+  "paper_story_preselected": false,
+  "full_data_benefit_predeclared": false,
+  "unique_winner_predeclared": false,
+  "negative_result_route_preserved": true,
+  "ddsb_reproduction_incomplete_not_negative": true,
+  "hjcgr_deferred_not_falsified": true,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation_authorized": false,
+  "confirmation20_opened": false,
+  "training_process_changed": false,
+  "gpu_queue_changed": false,
+  "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
+}

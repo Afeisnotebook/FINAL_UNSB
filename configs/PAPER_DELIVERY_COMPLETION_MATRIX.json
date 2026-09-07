@@ -296,6 +296,18 @@
       "confirmation20_opened": false
     },
     {
+      "id": "manuscript_result_branching",
+      "status": "pre_result_structure_frozen_all_eight_algorithm_outcome_branches_preserved",
+      "critical_path": false,
+      "contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+      "outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+      "gate": "source-bound e200 -> unified evaluation -> legal runtime relations -> dispositions -> committed claim review and freeze -> deterministic tables",
+      "full_data_benefit_predeclared": false,
+      "unique_winner_predeclared": false,
+      "negative_result_route_preserved": true,
+      "confirmation20_opened": false
+    },
+    {
       "id": "confirmation20",
       "status": "sealed_one_recoverable_session_interface_implemented_not_authorized",
       "critical_path": false,

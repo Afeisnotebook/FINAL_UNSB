@@ -364,3 +364,7 @@ authorize compute.
     ACTIVE，但持久化名称和prompt乱码且AM-TNC证据停在e63。通过自动化API重写为可读、
     当前且不含凭据的完整北极星监控合同，保留两小时频率和失败才通知；更新后重新读取验证，
     没有触碰任何训练、checkpoint或GPU队列。
+108. `DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md`：在不读取性能值的前提下，
+    冻结论文问题、方法关系、实验协议、图表接口与claim gate，并完整保留Proposal、ST-CGR、
+    AM-TNC八种通过/失败组合。结构冻结不预定赢家，防止e200后临时改故事、隐藏负结果或越界
+    使用数学性质；数值仍只能从提交后的claim freeze与确定性表格导出进入稿件。

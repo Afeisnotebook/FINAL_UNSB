@@ -1096,6 +1096,17 @@
     "prior_interface_evidence": "evidence/paper_aio/PAPER_AIO_FROZEN_MANUSCRIPT_TABLE_INTERFACE_20260906T023358.json",
     "decision": "decisions/DEC-20260906-CONTROLLED-COMPLEXITY-TABLE.md"
   },
+  "pre_result_manuscript_branching_contract": {
+    "status": "structure_frozen_no_empirical_claim_all_eight_three_algorithm_outcomes_preserved",
+    "contract": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+    "performance_values_read": false,
+    "unique_winner_predeclared": false,
+    "negative_result_route_preserved": true,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_MANUSCRIPT_BRANCHING_CONTRACT_20260908T012000.json",
+    "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
+  },
   "confirmation20_control_plane": {
     "status": "SEALED_INTERFACE_READY_NOT_AUTHORIZED",
     "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",

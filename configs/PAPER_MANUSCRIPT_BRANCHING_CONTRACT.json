@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-manuscript-branching-contract-v1",
+  "captured_at": "2026-09-08T01:20:00+08:00",
+  "status": "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM",
+  "purpose": "Prevent result-contingent story drift while allowing the manuscript to follow whichever full-data operators actually pass the frozen paper disposition gate.",
+  "source_bindings": {
+    "theory_bundle": {
+      "path": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
+      "sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8"
+    },
+    "baseline_portfolio": {
+      "path": "configs/PAPER_BASELINE_PORTFOLIO.json",
+      "sha256": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b"
+    },
+    "novelty_boundary": {
+      "path": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+      "sha256": "550db3b3a2b680d3f8c645f25f4faf139cc3daa490af59877599664df6882070"
+    }
+  },
+  "method_keys": ["proposal", "stcgr", "amtnc"],
+  "main_table_ids": ["input", "cyclegan", "cut", "plain_unsb", "proposal_only", "stcgr", "amtnc"],
+  "required_post_result_artifacts": [
+    "PAPER_RESULTS.json",
+    "ALGORITHM_SET.json",
+    "PAPER_ALGORITHM_PORTFOLIO.json",
+    "PAPER_ALGORITHM_BASELINE_CLAIM_REVIEW.json",
+    "PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json",
+    "MANUSCRIPT_TABLES_RECEIPT.json"
+  ],
+  "claim_gate_order": [
+    "source_bound_e200_exports",
+    "unified_same_evaluator_results",
+    "legal_matched_control_relations",
+    "algorithm_dispositions",
+    "human_codex_claim_review_committed",
+    "claim_freeze_receipt_committed",
+    "deterministic_manuscript_table_export"
+  ],
+  "branch_matrix": [
+    {"proposal": false, "stcgr": false, "amtnc": false, "route": "long_horizon_negative_results_and_causal_limits_only"},
+    {"proposal": false, "stcgr": false, "amtnc": true, "route": "adam_metric_geometry_only"},
+    {"proposal": false, "stcgr": true, "amtnc": false, "route": "structured_time_coupling_is_empirically_necessary"},
+    {"proposal": false, "stcgr": true, "amtnc": true, "route": "structured_time_coupling_plus_independent_geometry"},
+    {"proposal": true, "stcgr": false, "amtnc": false, "route": "player_selective_conditional_averaging_only"},
+    {"proposal": true, "stcgr": false, "amtnc": true, "route": "conditional_averaging_plus_independent_geometry"},
+    {"proposal": true, "stcgr": true, "amtnc": false, "route": "two_level_conditional_estimator_family"},
+    {"proposal": true, "stcgr": true, "amtnc": true, "route": "two_level_estimator_family_plus_independent_geometry"}
+  ],
+  "section_contract": {
+    "abstract": "No benefit, stability, superiority, or final algorithm count may be written until the committed claim freeze exists.",
+    "introduction": "Frame long-horizon stochastic instability in sequential unpaired UNSB training; do not frame fixed-window handoff as the contribution.",
+    "method": "Present Proposal and ST-CGR as a conditional estimator lineage and AM-TNC as an independent stochastic-geometry line; preserve exact pre-Adam theorem boundaries.",
+    "experiments": "Report frozen e200 and e150/e175/e200 results, legal runtime-scoped controls, absolute trajectories, six-domain coverage, distribution metrics and controlled cost.",
+    "limitations": "Disclose seed2026 first-wave scope, unequal FLOP, unavailable DDSB reproduction, untested convergence and terminal-law claims.",
+    "related_work": "Refresh primary-source collision search before abstract and claim freeze."
+  },
+  "hard_boundaries": {
+    "performance_values_read_while_creating_contract": false,
+    "full_data_benefit_predeclared": false,
+    "unique_winner_predeclared": false,
+    "negative_operator_hidden": false,
+    "best_checkpoint_selection": false,
+    "paired_metrics_control_training_or_scheduling": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "ddsb_missing_reproduction_called_negative_result": false,
+    "hjcgr_deferred_called_mechanism_falsified": false,
+    "terminal_singularity_repair_claimed": false,
+    "multi_seed_stability_claimed": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false
+  },
+  "canonical_outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+  "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
+}
