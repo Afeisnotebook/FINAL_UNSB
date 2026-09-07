@@ -4,6 +4,9 @@ from pathlib import Path
 
 from operations.paper_aio_export_successor_recovery_supervisor import (
     EXPORT_STATE_SCHEMA,
+    INCREMENTAL_EXPORT_CONTRACT_SCHEMA,
+    INCREMENTAL_EXPORT_STATE_SCHEMA,
+    _validate_export_contract,
     command_matches_contract,
     export_state_decision,
     render_export_command,
@@ -35,6 +38,28 @@ def _state(status: str) -> dict:
     }
 
 
+def _incremental_contract(tmp_path: Path) -> dict:
+    value = _contract(tmp_path)
+    value.update({
+        "schema": INCREMENTAL_EXPORT_CONTRACT_SCHEMA,
+        "status": "FROZEN_WAITING",
+        "control_git_commit": "c" * 40,
+        "required_manifest_sha256": "d" * 64,
+        "audit_epochs": [100, 150, 200],
+        "control_source_sha256": {
+            "operations/paper_aio_incremental_audit_export.py": "1" * 64,
+            "research/paper_aio/unified.py": "2" * 64,
+            "research/paper_aio/protocol.py": "3" * 64,
+            "research/local_route1/runtime.py": "4" * 64,
+        },
+        "checkpoint_copy_performed": False,
+        "performance_values_available_to_scheduling": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    })
+    return value
+
+
 def test_export_recovery_state_decision_is_fail_closed_and_metric_blind() -> None:
     assert export_state_decision({}) == "WAIT"
     assert export_state_decision(_state("WAITING_FOR_COMPLETE_E200")) == "WAIT"
@@ -46,6 +71,12 @@ def test_export_recovery_state_decision_is_fail_closed_and_metric_blind() -> Non
     value = _state("WAITING_FOR_COMPLETE_E200")
     value["confirmation20_opened"] = True
     assert export_state_decision(value) == "BLOCK"
+
+    incremental = _state("PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET")
+    incremental["schema"] = INCREMENTAL_EXPORT_STATE_SCHEMA
+    assert export_state_decision(incremental) == "WAIT"
+    incremental["status"] = "COMPLETE_INCREMENTAL_AUDIT_EXPORT_SET"
+    assert export_state_decision(incremental) == "COMPLETE"
 
 
 def test_export_recovery_matches_relative_live_script_and_numeric_spellings(
@@ -101,3 +132,26 @@ def test_adopt_runtime_and_restart_runtime_are_distinct_contract_roles(
     assert render_export_command(restart_python, contract)[0] == str(
         restart_python.resolve()
     )
+
+
+def test_incremental_audit_export_contract_and_command_are_supported(
+    tmp_path: Path,
+) -> None:
+    contract = _incremental_contract(tmp_path)
+    _validate_export_contract(contract)
+    python = tmp_path / "verified" / "bin" / "python"
+    command = render_export_command(python, contract)
+    assert command[1].endswith("paper_aio_incremental_audit_export.py")
+    assert command[command.index("--required-manifest-sha256") + 1] == "d" * 64
+    assert command_matches_contract(
+        command, cwd=Path(contract["control_repo"]), python=python,
+        contract=contract,
+    )
+
+    contract["audit_epochs"] = [100, 200]
+    try:
+        _validate_export_contract(contract)
+    except RuntimeError as error:
+        assert "fixed epoch set changed" in str(error)
+    else:  # pragma: no cover - explicit fail-closed assertion.
+        raise AssertionError("changed incremental audit epochs were accepted")

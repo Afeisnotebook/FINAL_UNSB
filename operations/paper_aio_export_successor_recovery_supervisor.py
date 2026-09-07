@@ -1,4 +1,4 @@
-"""Durably adopt and recover one frozen source-bound export successor.
+"""Durably adopt and recover one frozen source-bound exporter.
 
 Training supervisors protect scientific progress, while an export successor
 turns the completed fixed checkpoints into hash-bound receipts.  This control
@@ -30,10 +30,21 @@ STATE_SCHEMA = "final-unsb-paper-export-successor-recovery-state-v1"
 EXPORT_CONTRACT_SCHEMA = "final-unsb-paper-export-successor-contract-v1"
 EXPORT_STATE_SCHEMA = "final-unsb-paper-export-successor-state-v1"
 COMPLETE_STATUS = "COMPLETE_SOURCE_BOUND_EXPORT_SET"
+INCREMENTAL_EXPORT_CONTRACT_SCHEMA = (
+    "final-unsb-paper-incremental-audit-export-contract-v1"
+)
+INCREMENTAL_EXPORT_STATE_SCHEMA = "final-unsb-paper-incremental-audit-export-state-v1"
+INCREMENTAL_COMPLETE_STATUS = "COMPLETE_INCREMENTAL_AUDIT_EXPORT_SET"
 SOURCE_RELATIVES = (
     "operations/paper_aio_export_successor.py",
     "research/paper_aio/unified.py",
     "research/paper_aio/protocol.py",
+)
+INCREMENTAL_SOURCE_RELATIVES = (
+    "operations/paper_aio_incremental_audit_export.py",
+    "research/paper_aio/unified.py",
+    "research/paper_aio/protocol.py",
+    "research/local_route1/runtime.py",
 )
 
 
@@ -84,15 +95,21 @@ def export_state_decision(value: dict[str, Any]) -> str:
     """Return WAIT, COMPLETE, or BLOCK without consulting metric payloads."""
     if not value:
         return "WAIT"
+    schema = value.get("schema")
     if (
-        value.get("schema") != EXPORT_STATE_SCHEMA
+        schema not in {EXPORT_STATE_SCHEMA, INCREMENTAL_EXPORT_STATE_SCHEMA}
         or value.get("performance_values_read") is not False
         or value.get("paired_metric_control") is not False
         or value.get("confirmation20_opened") is not False
     ):
         return "BLOCK"
     status = str(value.get("status", ""))
-    if status == COMPLETE_STATUS:
+    complete_status = (
+        COMPLETE_STATUS
+        if schema == EXPORT_STATE_SCHEMA
+        else INCREMENTAL_COMPLETE_STATUS
+    )
+    if status == complete_status:
         return "COMPLETE"
     if status.startswith(("BLOCK", "FAIL", "FATAL", "ERROR")):
         return "BLOCK"
@@ -100,28 +117,54 @@ def export_state_decision(value: dict[str, Any]) -> str:
 
 
 def _validate_export_contract(value: dict[str, Any]) -> None:
+    schema = value.get("schema")
+    if schema not in {EXPORT_CONTRACT_SCHEMA, INCREMENTAL_EXPORT_CONTRACT_SCHEMA}:
+        raise RuntimeError("unsupported frozen export successor contract")
     if (
-        value.get("schema") != EXPORT_CONTRACT_SCHEMA
-        or value.get("status") != "FROZEN_WAITING"
+        value.get("status") != "FROZEN_WAITING"
         or value.get("performance_values_available_to_scheduling") is not False
         or value.get("paired_metric_control") is not False
         or value.get("checkpoint_copy_performed") is not False
         or value.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("export successor contract violates the frozen boundary")
-    epochs = value.get("epochs")
-    if epochs != [100, 125, 150, 175, 200]:
-        raise RuntimeError("export successor fixed epoch set changed")
+    if schema == EXPORT_CONTRACT_SCHEMA:
+        if value.get("epochs") != [100, 125, 150, 175, 200]:
+            raise RuntimeError("export successor fixed epoch set changed")
+        expected_sources = set(SOURCE_RELATIVES)
+    else:
+        if value.get("audit_epochs") != [100, 150, 200]:
+            raise RuntimeError("incremental audit fixed epoch set changed")
+        if not str(value.get("required_manifest_sha256", "")):
+            raise RuntimeError("incremental audit manifest identity is absent")
+        expected_sources = set(INCREMENTAL_SOURCE_RELATIVES)
     lane = str(value.get("lane_id", ""))
     if not lane or any(character in lane for character in ("/", "\\", "\n")):
         raise RuntimeError("export successor lane is invalid")
     sources = value.get("control_source_sha256")
-    if not isinstance(sources, dict) or set(sources) != set(SOURCE_RELATIVES):
+    if not isinstance(sources, dict) or set(sources) != expected_sources:
         raise RuntimeError("export successor source hash set is invalid")
 
 
 def render_export_command(python: Path, contract: dict[str, Any]) -> list[str]:
     repo = Path(contract["control_repo"]).resolve()
+    if contract.get("schema") == INCREMENTAL_EXPORT_CONTRACT_SCHEMA:
+        return [
+            str(python.resolve()),
+            str((repo / "operations" / "paper_aio_incremental_audit_export.py").resolve()),
+            "--repo", str(repo),
+            "--required-control-git-commit", str(contract["control_git_commit"]),
+            "--source-output", str(Path(contract["source_output"]).resolve()),
+            "--destination", str(Path(contract["destination"]).resolve()),
+            "--lane", str(contract["lane_id"]),
+            "--source-host-label", str(contract["source_host_label"]),
+            "--required-training-git-commit", str(contract["required_training_git_commit"]),
+            "--required-training-protocol-fingerprint",
+            str(contract["required_training_protocol_fingerprint"]),
+            "--required-manifest-sha256", str(contract["required_manifest_sha256"]),
+            "--poll-seconds", str(int(contract["poll_seconds"])),
+            "--timeout-hours", str(float(contract["timeout_hours"])),
+        ]
     return [
         str(python.resolve()),
         str((repo / "operations" / "paper_aio_export_successor.py").resolve()),
