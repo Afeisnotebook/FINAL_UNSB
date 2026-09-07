@@ -213,6 +213,7 @@ def test_guard_source_contains_no_metric_or_confirmation_reader() -> None:
     assert "PER_IMAGE" not in source
     assert "confirmation20_opened\": True" not in source
     assert '"performance_values_read": False' in source
+    assert 'full_runtime_entry_hashes_verified="runtime_identity" in contract' in source
 
 
 def test_state_contract_flags_are_literal_false() -> None:

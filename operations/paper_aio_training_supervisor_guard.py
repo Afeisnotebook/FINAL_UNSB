@@ -485,7 +485,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             runtime_entry_count=contract.get("runtime_identity", {}).get(
                 "runtime_manifest_entry_count"
             ),
-            full_runtime_entry_hashes_verified=True,
+            full_runtime_entry_hashes_verified="runtime_identity" in contract,
             supervisor_pids=processes["supervisors"],
             trainer_pids=processes["trainers"],
         )
