@@ -380,3 +380,6 @@ authorize compute.
      AM-TNC八分支合同接入最终表格导出器，要求canonical合同与来源绑定均已提交并重哈希，
      三方法必须有终局PASS/FAIL才产生`MANUSCRIPT_RESULT_BRANCH.json`。该后冻结接口不预定
      赢家、不读取训练中性能值，完整回归734项通过。
+112. `DEC-20260908-GOAL-HEARTBEAT-E66-SYNC.md`：直接核验六条活动训练与全部恢复句柄仍健康，
+     本轮裁决为verified wait；通过自动化API把持久heartbeat从e64旧恢复信息同步到e66、e65
+     一步恢复和异机完整状态备份。没有重启、重排或新增实验，下一关键事件仍为CycleGAN e200。

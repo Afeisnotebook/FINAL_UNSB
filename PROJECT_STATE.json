@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-08",
-  "state_snapshot_time": "2026-09-08T01:52:00+08:00",
+  "state_snapshot_time": "2026-09-08T02:18:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1470,15 +1470,18 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-08T01:13:00+08:00",
+      "last_prompt_update": "2026-09-08T02:18:00+08:00",
       "prompt_integrity": "READABLE_CURRENT_FAIL_CLOSED_VERIFIED_AFTER_AUTOMATION_API_REPAIR",
       "prompt_credentials_persisted": false,
       "5090b_source_export_recovery_pids": [673800, 673803],
       "5090b_source_export_recovery_health_pid": 673880,
       "old_fixed_exporter_pid_false_alert_policy_recorded": true,
       "supersedes_missing_automation_id": "final-unsb-route1-result-watch",
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_PROMPT_INTEGRITY_REPAIR_20260908T011300.json",
-      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-PROMPT-INTEGRITY-REPAIR.md"
+      "latest_bound_amtnc_checkpoint_epoch": 66,
+      "latest_bound_amtnc_checkpoint_sha256": "9d05f6b59bb3f67403b9d5f9e6c18fc3535e2faddb4d57f612987be5136e5960",
+      "latest_bound_amtnc_offhost_state": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E66/full_state_latest.pt",
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E66_SYNC_AND_VERIFIED_WAIT_20260908T021800.json",
+      "decision": "decisions/DEC-20260908-GOAL-HEARTBEAT-E66-SYNC.md"
     },
     "lease_horizon_action": {
       "status": "CORE_LANES_PROJECTED_IN_HORIZON_5090B_CAPACITY_PASS_REMOVES_IMMEDIATE_EXTENSION_TRIGGER",

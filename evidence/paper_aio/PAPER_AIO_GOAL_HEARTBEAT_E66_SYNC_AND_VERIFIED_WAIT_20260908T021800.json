@@ -1,0 +1,110 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-sync-and-verified-wait-v1",
+  "captured_at": "2026-09-08T02:18:00+08:00",
+  "status": "ACTIVE_PROMPT_CURRENT_ALL_LIVE_HANDLES_VERIFIED_NO_RECOVERY_REQUIRED",
+  "previous_goal_turn_classification": "VERIFIED_WAIT",
+  "automation": {
+    "id": "final-unsb-goal",
+    "name": "FINAL_UNSB 论文北极星监控",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "updated_via_automation_api": true,
+    "prompt_credentials_persisted": false,
+    "prompt_now_binds_amtnc_e66_recovery_evidence": true,
+    "prompt_now_binds_e66_offhost_full_state": true,
+    "scientific_boundaries_preserved": true
+  },
+  "direct_live_observations": {
+    "4090A_amtnc": {
+      "data_epoch": 66,
+      "updates": 564498,
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "outer_guard_pid": 439182,
+      "outer_guard_health_pid": 439447,
+      "outer_guard_restarts": 0,
+      "outer_guard_alerts": 0
+    },
+    "5090A_stcgr": {
+      "data_epoch": 82,
+      "updates": 701346,
+      "supervisor_pid": 336345,
+      "trainer_pid": 863376,
+      "outer_guard_pid": 942101,
+      "outer_guard_health_pid": 942182,
+      "outer_guard_restarts": 0,
+      "outer_guard_alerts": 0
+    },
+    "5090B_cyclegan": {
+      "data_epoch": 190,
+      "updates": 1625070,
+      "supervisor_pid": 11845,
+      "trainer_pid": 662728,
+      "continuity_guard_pid": 159134,
+      "guard_restarts": 0,
+      "health": "HEALTHY"
+    },
+    "5090B_matched_plain": {
+      "data_epoch": 33,
+      "updates": 282249,
+      "successor_pid": 523993,
+      "supervisor_pid": 534983,
+      "trainer_pid": 534984,
+      "health": "HEALTHY"
+    },
+    "5090C_proposal": {
+      "data_epoch": 90,
+      "updates": 769770,
+      "supervisor_pid": 9729,
+      "trainer_pid": 366768,
+      "outer_guard_pid": 431648,
+      "outer_guard_health_pid": 431712,
+      "outer_guard_restarts": 0,
+      "outer_guard_alerts": 0
+    },
+    "local_dclgan": {
+      "data_epoch": 53,
+      "updates": 453309,
+      "trainer_pid": 22020,
+      "exporter_pid": 23168,
+      "push_supervisor_pid": 26020,
+      "push_child_pid": 24396,
+      "health_pid": 20500,
+      "health": "HEALTHY",
+      "push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK"
+    },
+    "ddsb_source_watch": {
+      "watcher_pid": 20388,
+      "health_pid": 10780,
+      "status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+      "health": "HEALTHY"
+    }
+  },
+  "resource_observations": {
+    "4090A_gpu_utilization_percent": 53,
+    "5090A_gpu_utilization_percent": 56,
+    "5090B_gpu_utilization_percent": 98,
+    "5090C_gpu_utilization_percent": 35,
+    "local_gtx1660_gpu_utilization_percent": 84,
+    "4090A_disk_free_gib": 530,
+    "5090A_disk_free_gib": 182,
+    "5090B_disk_free_gib": 224,
+    "5090C_disk_free_gib": 228,
+    "local_disk_free_gib": 109.99
+  },
+  "decision": {
+    "training_restarted_or_modified": false,
+    "schedule_changed": false,
+    "new_experiment_started": false,
+    "reason": "all active handles and health chains are live; no frozen failure threshold is reached",
+    "next_material_event": "5090B CycleGAN e200 source-bound export and matched-plain transition to exclusive throughput"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false
+  }
+}
