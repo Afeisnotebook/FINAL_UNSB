@@ -486,6 +486,12 @@ python -m operations.paper_aio_manuscript_tables \
 ```
 
 The command revalidates the committed freeze and its external portfolio hash.
+It also revalidates the committed canonical
+`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`, resolves exactly one of the
+eight pre-result Proposal/ST-CGR/AM-TNC outcome branches from terminal
+dispositions, and emits `MANUSCRIPT_RESULT_BRANCH.json`.  A missing disposition,
+changed theory/baseline/novelty binding, incomplete branch matrix, or alternate
+uncommitted branch contract fails closed.
 It emits deterministic CSV/Markdown files plus
 `MANUSCRIPT_TABLES_RECEIPT.json`, which binds every output by SHA256. The
 export is descriptive only: it uses e200 and the fixed late-three epochs, does

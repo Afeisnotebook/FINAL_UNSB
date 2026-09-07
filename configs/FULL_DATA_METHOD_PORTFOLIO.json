@@ -1072,7 +1072,7 @@
     "decision": "decisions/DEC-20260906-POST-FREEZE-256PX-INFERENCE.md"
   },
   "post_freeze_manuscript_table_interface": {
-    "status": "code_ready_tested_fail_closed_reporting_metadata_and_controlled_cost_preserved_awaiting_committed_freeze",
+    "status": "code_ready_tested_fail_closed_reporting_metadata_controlled_cost_and_pre_result_branch_contract_preserved_awaiting_committed_freeze",
     "implementation_commit": "bebfa05b6a66e4c2caf18a2a13fba57364a96ce0",
     "implementation": "operations/paper_aio_manuscript_tables.py",
     "primary_epoch": 200,
@@ -1086,6 +1086,8 @@
     "unaudited_flops_reported": false,
     "committed_freeze_required": true,
     "all_outputs_hash_bound": true,
+    "pre_result_branch_contract_enforced": true,
+    "branch_output": "MANUSCRIPT_RESULT_BRANCH.json",
     "performance_ranking_performed": false,
     "training_fingerprint_scope_changed": false,
     "metric_values_used_for_training_or_scheduling": false,

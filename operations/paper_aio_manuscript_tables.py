@@ -21,8 +21,13 @@ from research.paper_aio.distribution import committed_freeze_identity
 from research.paper_aio.protocol import ROOT, file_sha256, portable_source_sha256
 
 
-SCHEMA = "final-unsb-paper-manuscript-table-receipt-v1"
+SCHEMA = "final-unsb-paper-manuscript-table-receipt-v2"
 STATUS = "COMPLETE_FROZEN_E200_MANUSCRIPT_TABLES"
+BRANCH_SCHEMA = "final-unsb-paper-manuscript-result-branch-v1"
+BRANCH_CONTRACT_SCHEMA = "final-unsb-paper-manuscript-branching-contract-v1"
+BRANCH_CONTRACT_STATUS = "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM"
+BRANCH_FILE = "MANUSCRIPT_RESULT_BRANCH.json"
+CANONICAL_BRANCH_CONTRACT = ROOT / "configs" / "PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json"
 PORTFOLIO_SCHEMAS = {
     "final-unsb-paper-full-data-algorithm-portfolio-v1",
     "final-unsb-paper-full-data-algorithm-portfolio-v2",
@@ -39,6 +44,7 @@ TABLE_FILES = (
     "PAPER_CLAIMS.csv",
     "PAPER_RESULT_SUMMARY.md",
 )
+OUTPUT_FILES = (*TABLE_FILES, BRANCH_FILE)
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -48,28 +54,32 @@ def _read(path: Path) -> dict[str, Any]:
     return value
 
 
-def _committed_script_identity() -> tuple[str, str]:
-    script = Path(__file__).resolve()
-    relative = script.relative_to(ROOT.resolve()).as_posix()
+def _committed_file_identity(path: Path, *, label: str) -> tuple[str, str]:
+    path = Path(path).resolve()
+    relative = path.relative_to(ROOT.resolve()).as_posix()
     status = subprocess.check_output(
         ["git", "status", "--porcelain", "--", relative], cwd=ROOT, text=True,
     ).strip()
     if status:
-        raise RuntimeError("manuscript exporter has uncommitted changes")
+        raise RuntimeError(f"{label} has uncommitted changes")
     commit = subprocess.check_output(
         ["git", "log", "-1", "--format=%H", "--", relative], cwd=ROOT,
         text=True,
     ).strip()
     if len(commit) != 40:
-        raise RuntimeError("manuscript exporter has no committed Git identity")
+        raise RuntimeError(f"{label} has no committed Git identity")
     committed = subprocess.check_output(
         ["git", "show", f"{commit}:{relative}"], cwd=ROOT,
     )
     committed = committed.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     committed_sha256 = hashlib.sha256(committed).hexdigest()
-    if committed_sha256 != portable_source_sha256(script):
-        raise RuntimeError("working manuscript exporter differs from its Git blob")
+    if committed_sha256 != portable_source_sha256(path):
+        raise RuntimeError(f"working {label} differs from its Git blob")
     return commit, committed_sha256
+
+
+def _committed_script_identity() -> tuple[str, str]:
+    return _committed_file_identity(Path(__file__), label="manuscript exporter")
 
 
 def _number(value: Any, *, label: str, optional: bool = False) -> float | None:
@@ -111,6 +121,83 @@ def validate_portfolio(
         if not isinstance(name, str) or not isinstance(digest, str) or len(digest) != 64:
             raise RuntimeError("paper portfolio has an invalid source-artifact hash")
     return value
+
+
+def validate_branch_contract(value: dict[str, Any]) -> dict[str, Any]:
+    method_keys = value.get("method_keys")
+    matrix = value.get("branch_matrix")
+    bindings = value.get("source_bindings")
+    if (
+        value.get("schema") != BRANCH_CONTRACT_SCHEMA
+        or value.get("status") != BRANCH_CONTRACT_STATUS
+        or method_keys != ["proposal", "stcgr", "amtnc"]
+        or not isinstance(matrix, list)
+        or not isinstance(bindings, dict)
+        or value.get("hard_boundaries", {}).get("performance_values_read_while_creating_contract") is not False
+        or value.get("hard_boundaries", {}).get("full_data_benefit_predeclared") is not False
+        or value.get("hard_boundaries", {}).get("unique_winner_predeclared") is not False
+        or value.get("hard_boundaries", {}).get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("manuscript branching contract is incomplete or unsafe")
+    observed: set[tuple[bool, bool, bool]] = set()
+    for row in matrix:
+        if not isinstance(row, dict) or not isinstance(row.get("route"), str) or not row["route"]:
+            raise RuntimeError("manuscript branching contract has an invalid route")
+        key = tuple(row.get(name) for name in method_keys)
+        if any(not isinstance(item, bool) for item in key):
+            raise RuntimeError("manuscript branching contract has a non-boolean disposition")
+        observed.add(key)  # type: ignore[arg-type]
+    expected = {
+        (proposal, stcgr, amtnc)
+        for proposal in (False, True)
+        for stcgr in (False, True)
+        for amtnc in (False, True)
+    }
+    if len(matrix) != 8 or observed != expected:
+        raise RuntimeError("manuscript branching contract does not cover all outcomes exactly once")
+    for name, binding in bindings.items():
+        if not isinstance(binding, dict):
+            raise RuntimeError(f"invalid manuscript source binding: {name}")
+        path = ROOT / str(binding.get("path", ""))
+        digest = binding.get("sha256")
+        if not path.is_file() or not isinstance(digest, str) or file_sha256(path) != digest:
+            raise RuntimeError(f"manuscript source binding changed: {name}")
+    return value
+
+
+def resolve_manuscript_branch(
+    portfolio: dict[str, Any], contract: dict[str, Any],
+) -> dict[str, Any]:
+    dispositions: dict[str, str] = {}
+    outcome: list[bool] = []
+    for key in contract["method_keys"]:
+        method = portfolio["methods"].get(key)
+        if not isinstance(method, dict) or not isinstance(method.get("result"), dict):
+            raise RuntimeError(f"paper portfolio lacks manuscript method: {key}")
+        status = (method["result"].get("scientific_gate") or {}).get("status")
+        if status not in {"PASS", "FAIL"}:
+            raise RuntimeError(f"paper method lacks a terminal disposition: {key}")
+        dispositions[key] = status
+        outcome.append(status == "PASS")
+    matches = [
+        row for row in contract["branch_matrix"]
+        if [row[key] for key in contract["method_keys"]] == outcome
+    ]
+    if len(matches) != 1:
+        raise RuntimeError("paper dispositions do not resolve one manuscript branch")
+    return {
+        "schema": BRANCH_SCHEMA,
+        "status": "COMPLETE_POST_FREEZE_RESULT_BRANCH_RESOLVED",
+        "method_dispositions": dispositions,
+        "route": matches[0]["route"],
+        "branch_was_pre_registered": True,
+        "unique_winner_inferred": False,
+        "negative_result_route_preserved": True,
+        "best_checkpoint_selection": False,
+        "paired_metric_control": False,
+        "confirmation_authorized": False,
+        "confirmation20_opened": False,
+    }
 
 
 def _terminal(entry: dict[str, Any], *, lane: str) -> dict[str, Any]:
@@ -394,8 +481,18 @@ def _immutable_text(path: Path, text: str) -> None:
     os.replace(temporary, path)
 
 
-def run(*, freeze_receipt: Path, output: Path) -> dict[str, Any]:
+def run(
+    *, freeze_receipt: Path, output: Path,
+    branch_contract: Path = CANONICAL_BRANCH_CONTRACT,
+) -> dict[str, Any]:
     script_commit, script_sha256 = _committed_script_identity()
+    branch_contract = Path(branch_contract).resolve()
+    if branch_contract != CANONICAL_BRANCH_CONTRACT.resolve():
+        raise RuntimeError("manuscript exporter requires the canonical branch contract")
+    contract_commit, contract_source_sha256 = _committed_file_identity(
+        branch_contract, label="manuscript branching contract",
+    )
+    branch_contract_value = validate_branch_contract(_read(branch_contract))
     freeze_receipt = Path(freeze_receipt).resolve()
     freeze, freeze_commit = committed_freeze_identity(freeze_receipt, lane_id="input")
     portfolio_path = Path(freeze["source_portfolio_path"]).resolve()
@@ -410,10 +507,21 @@ def run(*, freeze_receipt: Path, output: Path) -> dict[str, Any]:
         portfolio=portfolio, claims=claims,
         portfolio_sha256=freeze["source_portfolio_sha256"],
     )
-    if set(tables) != set(TABLE_FILES):
+    branch = resolve_manuscript_branch(portfolio, branch_contract_value)
+    branch.update({
+        "branch_contract": str(branch_contract),
+        "branch_contract_sha256": file_sha256(branch_contract),
+        "branch_contract_git_commit": contract_commit,
+        "branch_contract_source_sha256": contract_source_sha256,
+        "source_portfolio_sha256": freeze["source_portfolio_sha256"],
+        "freeze_receipt_sha256": file_sha256(freeze_receipt),
+        "paper_claims_sha256": freeze["paper_claims_sha256"],
+    })
+    tables[BRANCH_FILE] = json.dumps(branch, ensure_ascii=False, indent=2) + "\n"
+    if set(tables) != set(OUTPUT_FILES):
         raise RuntimeError("manuscript table set is incomplete")
     output = Path(output).resolve()
-    for name in TABLE_FILES:
+    for name in OUTPUT_FILES:
         _immutable_text(output / name, tables[name])
     receipt = {
         "schema": SCHEMA,
@@ -426,11 +534,12 @@ def run(*, freeze_receipt: Path, output: Path) -> dict[str, Any]:
         "freeze_receipt_sha256": file_sha256(freeze_receipt),
         "freeze_receipt_git_commit": freeze_commit,
         "paper_claims_sha256": freeze["paper_claims_sha256"],
+        "manuscript_branch": branch,
         "exporter_git_commit": script_commit,
         "exporter_source_sha256": script_sha256,
         "outputs": {
             name: {"path": str((output / name).resolve()), "sha256": file_sha256(output / name)}
-            for name in TABLE_FILES
+            for name in OUTPUT_FILES
         },
         "performance_values_read": True,
         "best_checkpoint_selection": False,
@@ -449,13 +558,17 @@ def run(*, freeze_receipt: Path, output: Path) -> dict[str, Any]:
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(description=__doc__)
     value.add_argument("--freeze-receipt", type=Path, required=True)
+    value.add_argument("--branch-contract", type=Path, default=CANONICAL_BRANCH_CONTRACT)
     value.add_argument("--output", type=Path, required=True)
     return value
 
 
 def main() -> int:
     args = parser().parse_args()
-    print(json.dumps(run(freeze_receipt=args.freeze_receipt, output=args.output), ensure_ascii=False, indent=2))
+    print(json.dumps(run(
+        freeze_receipt=args.freeze_receipt, branch_contract=args.branch_contract,
+        output=args.output,
+    ), ensure_ascii=False, indent=2))
     return 0
 
 

@@ -64,5 +64,6 @@ def test_manuscript_contract_cannot_predeclare_results_or_open_confirmation() ->
     }
     required = set(contract["required_post_result_artifacts"])
     assert "PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json" in required
+    assert "MANUSCRIPT_RESULT_BRANCH.json" in required
     assert "MANUSCRIPT_TABLES_RECEIPT.json" in required
     assert (ROOT / contract["canonical_outline"]).is_file()

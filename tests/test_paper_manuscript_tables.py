@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import copy
+import json
+from pathlib import Path
 
 import pytest
 
@@ -8,6 +10,7 @@ from operations import paper_aio_manuscript_tables as tables
 
 
 DOMAINS = ("d1", "d2", "d3", "d4", "d5", "d6")
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _late(method: str, plain_host: str) -> list[dict]:
@@ -214,3 +217,35 @@ def test_immutable_artifact_refuses_drift(tmp_path) -> None:
     tables._immutable_text(path, "a\n")
     with pytest.raises(RuntimeError, match="differs"):
         tables._immutable_text(path, "b\n")
+
+
+def _branch_contract() -> dict:
+    return json.loads(
+        (ROOT / "configs" / "PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+
+def test_resolves_exact_pre_registered_manuscript_branch() -> None:
+    portfolio = tables.validate_portfolio(_portfolio())
+    contract = tables.validate_branch_contract(_branch_contract())
+    branch = tables.resolve_manuscript_branch(portfolio, contract)
+    assert branch["method_dispositions"] == {
+        "proposal": "PASS", "stcgr": "PASS", "amtnc": "PASS",
+    }
+    assert branch["route"] == "two_level_estimator_family_plus_independent_geometry"
+    assert branch["branch_was_pre_registered"] is True
+    assert branch["unique_winner_inferred"] is False
+
+
+def test_branch_resolution_rejects_unadjudicated_method_and_incomplete_matrix() -> None:
+    portfolio = _portfolio()
+    portfolio["methods"]["proposal"]["result"]["scientific_gate"]["status"] = "WAITING"
+    with pytest.raises(RuntimeError, match="terminal disposition: proposal"):
+        tables.resolve_manuscript_branch(portfolio, tables.validate_branch_contract(_branch_contract()))
+
+    contract = _branch_contract()
+    contract["branch_matrix"].pop()
+    with pytest.raises(RuntimeError, match="cover all outcomes"):
+        tables.validate_branch_contract(contract)
