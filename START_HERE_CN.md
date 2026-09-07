@@ -25,12 +25,14 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 
 5090B的两条runtime relation现已完成审核并写入注册表；4090A已从当前commit部署动态
 统一评估、ST-CGR matched评估和最终论文交付链，旧的5090A-plain绑定等待器已在新链
-连续健康后退出。4090A原`unsb_cov`目录缺失也已按运行进程的精确核心版本重建，过程中
-没有中断或重启AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
-权威回执与裁决分别为
-`evidence/paper_aio/PAPER_AIO_4090A_RUNTIME_RECOVERY_AND_DYNAMIC_DELIVERY_20260906T062831.json`
-和`decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。运行环境恢复不
-建立新的训练runtime cohort，matched关系仍只使用已审核注册表。
+连续健康后退出。4090A原完整`unsb_cov`环境仍然缺失，旧`python*`入口只是只读中继；
+可信恢复根是从运行进程映射建立并逐项验哈希的独立只读运行时，过程中没有中断或重启
+AM-TNC；DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
+运行时风险的最新权威回执与裁决分别为
+`evidence/paper_aio/PAPER_AIO_AMTNC_E62_CURRENT_RESUME_REVALIDATION_20260907T223230.json`
+和`decisions/DEC-20260907-AMTNC-E62-CURRENT-RESUME-REVALIDATION.md`；动态交付链仍见
+`decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。恢复资产不建立
+新的训练runtime cohort，matched关系仍只使用已审核注册表。
 
 本地terminal-audit链于2026-09-06发现AM-TNC与ST-CGR两条旧增量relay因引用可变
 `main`工作树而按源码漂移门退出；训练本身不受影响。两条relay已从detached commit
