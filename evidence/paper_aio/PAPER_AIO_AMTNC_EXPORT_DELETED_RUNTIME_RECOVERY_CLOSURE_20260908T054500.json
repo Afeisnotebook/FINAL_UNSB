@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-amtnc-export-deleted-runtime-recovery-closure-v1",
+  "captured_at": "2026-09-08T05:45:00+08:00",
+  "status": "LIVE_DELETED_RUNTIME_EXPORTER_ADOPTED_FUTURE_RESTART_BOUND_TO_ISOLATED_RUNTIME",
+  "incident_scope": {
+    "host": "4090A",
+    "source_lane": "amtnc",
+    "finding": "the live exporter retained a deleted interpreter inode and its prior recovery supervisor would have attempted the absent original Python path after child loss",
+    "training_affected": false,
+    "checkpoint_affected": false,
+    "exporter_affected_now": false
+  },
+  "implementation": {
+    "commit": "767b6d1d520b6622a5efcb07e57d3c55c863fec7",
+    "control_checkout": "/home/yc/FINAL_UNSB_EXPORT_RECOVERY_767b6d1",
+    "source": "operations/paper_aio_export_successor_recovery_supervisor.py",
+    "source_sha256": "ca6e4fe57ac2ead764df70711083680e77878db070627d61e09748d5d495a378",
+    "semantics": "--adopt-python is accepted only when recognising an already-running exporter; every new child launch uses --python",
+    "full_test_result": "749 passed",
+    "remote_targeted_test_result": "4 passed"
+  },
+  "runtime_binding": {
+    "adopt_only_argv_python": "/home/yc/anaconda3/envs/unsb_cov/bin/python",
+    "adopt_only_argv_python_exists": false,
+    "restart_python": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000/bin/python",
+    "restart_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "restart_role": "control_plane_hash_and_receipt_export_only",
+    "creates_training_runtime_cohort": false
+  },
+  "live_handoff": {
+    "exporter_pid_before": 2182586,
+    "exporter_pid_after": 2182586,
+    "exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "new_recovery_supervisor_pid": 706411,
+    "new_recovery_supervisor_status": "MONITORING_EXISTING_EXPORT",
+    "new_recovery_restart_count": 0,
+    "new_health_watcher_pid": 706689,
+    "new_health_status": "HEALTHY_ZERO_ALERTS",
+    "recovery_contract_sha256": "5dc8643714298e00dac239cb9d7b305f8cd623835d28d29b35af92cad2e2912b",
+    "retired_old_recovery_supervisor_pid": 426584,
+    "retired_old_health_watcher_pid": 426612,
+    "old_run_directories_deleted": false
+  },
+  "training_continuity": {
+    "supervisor_pid_before_and_after": 3446757,
+    "trainer_pid_before_and_after": 3446758,
+    "latest_complete_data_epoch": 70,
+    "latest_complete_updates": 598710,
+    "latest_scientific_state_sha256": "81592788ed49ed03b007657d409c0e282038c976829b9f5df4aa54de8250deda",
+    "scientific_process_restarted": false,
+    "protocol_changed": false
+  },
+  "boundaries": {
+    "checkpoint_loaded_by_recovery_supervisor": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "healthy_training_interrupted": false
+  },
+  "decision": "retire only the obsolete recovery control pair after two healthy polls; preserve the live exporter and training, and make the isolated-runtime supervisor authoritative"
+}

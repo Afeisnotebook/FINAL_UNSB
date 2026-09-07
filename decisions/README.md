@@ -418,3 +418,7 @@ authorize compute.
 122. `DEC-20260908-GOAL-HEARTBEAT-INCREMENTAL-RECOVERY-SYNC.md`：双小时Goal heartbeat已通过
      自动化API绑定新的AM-TNC/ST-CGR增量中继恢复监督器和动态子状态，永久退休三个死亡旧PID；
      保留完整论文北极星、4090A恢复门、冻结后图表和所有科学边界，且不持久化凭据。
+123. `DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md`：全量`/proc`审计发现AM-TNC
+     source exporter虽仍健康，但旧恢复器的未来启动命令仍指向已删除Python。新增“旧argv仅认领、
+     隔离runtime只负责未来启动”的哈希锁定恢复语义；在两次健康轮询后只退休旧控制进程，训练、
+     exporter和checkpoint均未改变，AM-TNC已自然推进至e70。

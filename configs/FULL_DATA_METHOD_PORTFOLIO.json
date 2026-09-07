@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T04:31:00+08:00",
+  "captured_at": "2026-09-08T05:45:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -797,16 +797,22 @@
     "decision": "decisions/DEC-20260908-CYCLEGAN-E190-DELIVERY-CHAIN-PREFLIGHT.md"
   },
   "all_active_algorithm_source_export_recovery": {
-    "status": "deployed_healthy_five_exporters_zero_restarts",
+    "status": "deployed_healthy_five_exporters_amtnc_deleted_runtime_restart_gap_closed_zero_restarts",
     "control_commit": "ae897ba1ef78d2c9e59d80b2cbe5e7245b22b3ab",
-    "recovery_supervisor_pids": {"amtnc": 426584, "stcgr": 913443, "proposal": 410165, "cyclegan": 673800, "matched_plain": 673803},
-    "health_watcher_pids": {"amtnc": 426612, "stcgr": 913460, "proposal": 410182, "5090b_shared": 673880},
+    "recovery_supervisor_pids": {"amtnc": 706411, "stcgr": 913443, "proposal": 410165, "cyclegan": 673800, "matched_plain": 673803},
+    "health_watcher_pids": {"amtnc": 706689, "stcgr": 913460, "proposal": 410182, "5090b_shared": 673880},
+    "amtnc_recovery_control_commit": "767b6d1d520b6622a5efcb07e57d3c55c863fec7",
+    "amtnc_exporter_pid_unchanged": 2182586,
+    "amtnc_adopt_python_role": "deleted_argv_identity_only",
+    "amtnc_restart_python_role": "verified_isolated_control_runtime",
+    "retired_amtnc_recovery_pids": [426584, 426612],
     "restart_count_total": 0,
     "training_processes_changed": false,
     "performance_values_read": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json",
-    "decision": "decisions/DEC-20260907-ALL-ACTIVE-ALGORITHM-SOURCE-EXPORT-RECOVERY.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_ALL_ACTIVE_ALGORITHM_SOURCE_EXPORT_RECOVERY_20260907T182725.json",
+    "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
   },
   "post_training_delivery": {
     "status": "DYNAMIC_5090B_CONTROL_WAITER_DEPLOYED_HEALTHY_AFTER_MULTIPLE_POLLS",
@@ -1002,7 +1008,7 @@
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
   "runtime_environment_recovery": {
-    "status": "4090A_active_deleted_inode_preserved_e68_direct_isolated_recovery_and_offhost_full_state_verified",
+    "status": "4090A_active_deleted_inode_preserved_e70_training_and_export_recovery_gaps_closed",
     "active_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
     "previous_rebuild_disposition": "superseded_non_equivalent_numpy_2_1_3_pillow_11_3_0",
     "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
@@ -1039,12 +1045,23 @@
     "outer_recovery_guard_control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
     "outer_recovery_runtime_identity_bound": true,
     "outer_recovery_full_runtime_rehash_before_launch": true,
+    "latest_live_complete_epoch": 70,
+    "latest_live_complete_updates": 598710,
+    "amtnc_exporter_pid_unchanged": 2182586,
+    "amtnc_export_recovery_supervisor_pid": 706411,
+    "amtnc_export_recovery_health_watcher_pid": 706689,
+    "amtnc_export_recovery_control_commit": "767b6d1d520b6622a5efcb07e57d3c55c863fec7",
+    "amtnc_export_restart_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+    "amtnc_export_restart_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "retired_amtnc_export_recovery_supervisor_pid": 426584,
+    "retired_amtnc_export_recovery_health_watcher_pid": 426612,
     "retired_outer_recovery_guard_pid": 3966089,
     "retired_outer_recovery_guard_health_watcher_pid": 3968393,
     "gpu_next_step_bitwise_equivalence_claimed": false,
     "creates_new_runtime_cohort": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E68_POST_CLEANUP_RISK_REAUDIT_20260908T035300.json",
-    "decision": "decisions/DEC-20260908-AMTNC-E68-POST-CLEANUP-RISK-REAUDIT.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E68_POST_CLEANUP_RISK_REAUDIT_20260908T035300.json",
+    "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
   },
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_SIX_LANE_VERIFIED_WAIT_20260908T004100.json",
   "local_dclgan_storage_gate": {
