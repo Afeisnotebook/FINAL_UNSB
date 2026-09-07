@@ -18,7 +18,6 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from operations.paper_aio_export_relay_recovery_supervisor import (
-    _atomic_json,
     _git,
     _read_json,
     _sha256,
@@ -37,6 +36,28 @@ RELAY_CONTRACT_SCHEMA = "final-unsb-paper-incremental-audit-relay-contract-v1"
 RELAY_STATE_SCHEMA = "final-unsb-paper-incremental-audit-relay-state-v1"
 COMPLETE_RELAY_STATUS = "COMPLETE_VERIFIED_INCREMENTAL_AUDIT_IMPORT"
 REQUIRED_EPOCHS = [100, 150, 200]
+
+
+def _atomic_json(path: Path, value: dict[str, Any]) -> None:
+    """Publish state atomically, tolerating short Windows reader handles."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + f".{os.getpid()}.tmp")
+    try:
+        with temporary.open("w", encoding="utf-8", newline="\n") as handle:
+            json.dump(value, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        for attempt in range(10):
+            try:
+                temporary.replace(path)
+                break
+            except PermissionError:
+                if attempt == 9:
+                    raise
+                time.sleep(0.05 * (attempt + 1))
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _pid_alive(pid: int) -> bool:
