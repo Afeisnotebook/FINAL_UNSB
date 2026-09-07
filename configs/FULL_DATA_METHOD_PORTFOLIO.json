@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-07T19:25:45+08:00",
+  "captured_at": "2026-09-07T19:56:16+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -151,7 +151,7 @@
       "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
       "status": "running",
       "host": "4090A",
-      "projected_completion_window": "2026-09-13T14:00:00+08:00_rough_from_e40",
+      "projected_completion_window": "2026-09-13T14:09:00+08:00_rough_from_e60",
       "resume_after": "4090A/plain COMPLETE_E200 satisfied",
       "successor_pid": 2518921,
       "supervisor_pid": 3446757,
@@ -160,25 +160,25 @@
       "successor_contract": "source_lineage_v2_double_checkout_and_control_source_sha_bound",
       "successor_health_watcher_pid": 3885710,
       "first_epoch_status": "complete_full_state_hash_closed",
-      "completed_full_data_epoch": 58,
-      "completed_updates": 496074,
+      "completed_full_data_epoch": 60,
+      "completed_updates": 513180,
       "first_epoch_wall_seconds": 3556.696762084961,
-      "latest_epoch_wall_seconds": 3539.5274906158447,
-      "latest_full_state_sha256": "a708af3cbc1a692a5e527ad22c40fd32b79045931613618dcbc356ce50bc0d37",
-      "latest_sidecar_sha256": "8f7cb38b82eb6d1a573eebf8227a64f60e70c4694f6af71869b117f2b68800a6",
-      "latest_scientific_state_sha256": "e4b3fe2b47091c43ce17d6fba6a95d1e68e4a3a4c457087733b6112a4644e25c",
-      "latest_metric_artifact_sha256": "f368b2a745755bd2310485eb9eb9b81cc52be1a07c8c8a2ba8803ec5329ac526",
-      "latest_fixed_milestone": "e40",
-      "latest_fixed_milestone_checkpoint_sha256": "e94a2cc24e24ec8f32c3203b3d6ed9fbf53f6c05c5586fc04396bf193228f695",
-      "latest_fixed_milestone_scientific_state_sha256": "8fdcaa03d5ded88878ba94c50bdcf6c590d3b35a1cf7e8178e003ed4a06344fb",
+      "latest_epoch_wall_seconds": 3554.4257378578186,
+      "latest_full_state_sha256": "ce87bd35e62753737baaaa84747b79ca0aee7819a82e8d6743e78800b2dc9714",
+      "latest_sidecar_sha256": "dc6a0f81542fe22f8b6a738bff929bc3d8327ac07b9d9c7052946d04b5deb6ee",
+      "latest_scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e",
+      "latest_metric_artifact_sha256": "302e7b0ac064a25b531cac00dd454db2e072a889df49826fce52a028b2370227",
+      "latest_fixed_milestone": "e60",
+      "latest_fixed_milestone_checkpoint_sha256": "c0a83296c37a1a521d5070b0161e95e48e2ff7d8e5c8d79510a3b4cffb4ae858",
+      "latest_fixed_milestone_scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e",
       "resume_gate": "pass_e58_current_checkpoint_cpu_load_and_one_step_496074_to_496075_runtime_identity_fail_closed",
       "zero_intervention_gate": "pass",
       "evaluation_repeat_gate": "pass",
-      "latest_liveness_probe": "e58_current_checkpoint_hash_load_and_isolated_one_step_pass_original_pid_continues_runtime_hash_guard_zero_restarts",
+      "latest_liveness_probe": "e60_fixed_checkpoint_hash_closed_original_pid_continues_runtime_hash_guard_zero_restarts",
       "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500, 3415044],
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified",
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E58_DELETED_RUNTIME_FAIL_CLOSED_RECOVERY_20260907T184945.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E60_HASH_CLOSURE_20260907T195616.json"
     },
     "hjcgr": {
       "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
@@ -200,6 +200,15 @@
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
+    "amtnc_e60": {
+      "status": "checkpoint_sidecar_and_metric_artifact_hash_closed_performance_values_unread_live_continuation",
+      "checkpoint_sha256": "c0a83296c37a1a521d5070b0161e95e48e2ff7d8e5c8d79510a3b4cffb4ae858",
+      "sidecar_sha256": "cf3928f786a0ad627fadab073a9bd0a98227a7408f33a385540c48c57f421595",
+      "scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e",
+      "metric_artifact_sha256": "302e7b0ac064a25b531cac00dd454db2e072a889df49826fce52a028b2370227",
+      "runtime_recovery_guard_total_restarts": 0,
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E60_HASH_CLOSURE_20260907T195616.json"
+    },
     "plain_5090B_e20": {
       "status": "checkpoint_sidecar_and_metric_artifact_hash_closed_full_state_cpu_load_pass_performance_values_unread",
       "checkpoint_sha256": "54b6cf358afb5dfcb1080285f7b684d795bac09f7791d8b82ea36146e03a8aee",
@@ -957,7 +966,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E58_DELETED_RUNTIME_FAIL_CLOSED_RECOVERY_20260907T184945.json",
     "decision": "decisions/DEC-20260907-AMTNC-E58-DELETED-RUNTIME-FAIL-CLOSED-RECOVERY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E58_DELETED_RUNTIME_FAIL_CLOSED_RECOVERY_20260907T184945.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E60_HASH_CLOSURE_20260907T195616.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

@@ -1466,6 +1466,23 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_FIVE_NODE_LEASE_SAFE_REFRESH_20260907T192545.json",
       "decision": "decisions/DEC-20260907-FIVE-NODE-LEASE-SAFE-REFRESH.md"
     },
+    "amtnc_e60_hash_closure": {
+      "status": "FIXED_E60_CHECKPOINT_SIDECAR_METRIC_HASH_CLOSED_LIVE_CONTINUATION",
+      "captured_at": "2026-09-07T19:56:16+08:00",
+      "data_epoch": 60,
+      "updates": 513180,
+      "checkpoint_sha256": "c0a83296c37a1a521d5070b0161e95e48e2ff7d8e5c8d79510a3b4cffb4ae858",
+      "sidecar_sha256": "cf3928f786a0ad627fadab073a9bd0a98227a7408f33a385540c48c57f421595",
+      "metric_artifact_sha256": "302e7b0ac064a25b531cac00dd454db2e072a889df49826fce52a028b2370227",
+      "scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e",
+      "runtime_recovery_guard_pid": 439182,
+      "runtime_recovery_guard_total_restarts": 0,
+      "healthy_training_restarted_or_interrupted": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E60_HASH_CLOSURE_20260907T195616.json",
+      "decision": "decisions/DEC-20260907-AMTNC-E60-HASH-CLOSURE.md"
+    },
     "latest_future_control_chain_audit": "evidence/paper_aio/PAPER_AIO_DYNAMIC_DELIVERY_HASH_CLOSURE_20260903T091723.json",
     "future_dynamic_control_integration_rehearsal": {
       "status": "PASS_REAL_REGISTRY_SHAPE_TO_FUTURE_5090B_FINAL_DELIVERY",

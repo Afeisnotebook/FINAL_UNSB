@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-fixed-milestone-hash-closure-v1",
+  "captured_at": "2026-09-07T19:56:16+08:00",
+  "event": "AMTNC_E60_CHECKPOINT_SIDECAR_METRIC_HASH_CLOSED_LIVE_CONTINUATION",
+  "host": "4090A",
+  "lane_id": "amtnc",
+  "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "run_dir": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c",
+  "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "milestone": {
+    "data_epoch": 60,
+    "updates": 513180,
+    "epoch_wall_seconds": 3554.4257378578186,
+    "checkpoint_sha256": "c0a83296c37a1a521d5070b0161e95e48e2ff7d8e5c8d79510a3b4cffb4ae858",
+    "sidecar_sha256": "cf3928f786a0ad627fadab073a9bd0a98227a7408f33a385540c48c57f421595",
+    "metric_artifact_sha256": "302e7b0ac064a25b531cac00dd454db2e072a889df49826fce52a028b2370227",
+    "scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e"
+  },
+  "latest_epoch_boundary": {
+    "checkpoint_sha256": "ce87bd35e62753737baaaa84747b79ca0aee7819a82e8d6743e78800b2dc9714",
+    "sidecar_sha256": "dc6a0f81542fe22f8b6a738bff929bc3d8327ac07b9d9c7052946d04b5deb6ee",
+    "physical_epoch_completed": 60,
+    "step": 513180,
+    "scientific_state_sha256": "5d252ff0af968d3d28cc246179b693aa4c540c4b6074a09da1c14fb7d8f2856e"
+  },
+  "continuity": {
+    "successor_pid": 2518921,
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "exporter_pid": 2182586,
+    "runtime_recovery_guard_pid": 439182,
+    "runtime_recovery_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "runtime_identity_bound": true,
+    "runtime_recovery_guard_checkpoint_step": 513180,
+    "runtime_recovery_guard_total_restarts": 0,
+    "export_recovery_supervisor_pid": 426584,
+    "export_recovery_status": "MONITORING_EXISTING_EXPORT",
+    "export_recovery_restart_count": 0,
+    "all_required_processes_alive": true,
+    "gpu_utilization_percent_snapshot": 55,
+    "gpu_memory_used_mib_snapshot": 2371,
+    "healthy_training_restarted_or_interrupted": false
+  },
+  "projection": {
+    "method": "latest complete epoch only; informational and metric blind",
+    "projected_e200": "2026-09-13T14:09:00+08:00_rough",
+    "lease_or_queue_change_required": false
+  },
+  "scientific_boundaries": {
+    "metric_artifact_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_configuration_changed": false
+  }
+}
