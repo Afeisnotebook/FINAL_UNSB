@@ -356,3 +356,7 @@ authorize compute.
     `unsb_cov`环境已被清理且活动trainer仍使用deleted inode，但旧Python入口现为可执行只读
     relay而非缺失文件。用e64真实latest full-state在隔离运行时CPU执行一更新成功，111项依赖
     重新哈希全匹配；主训练未触碰，导出与统一评估后继健康，异机运行时归档两端哈希一致。
+106. `DEC-20260908-DDSB-AUTHORITATIVE-SOURCE-RECHECK.md`：重新检查NeurIPS官方页、作者
+    实验室页面和四条GitHub repository查询，仍未发现作者源码、checkpoint或可关闭实现歧义的
+    权威记录。持久守望器与health真实存活、零告警；DDSB继续标为复现未完成而非机制失败，
+    不启动猜测实现且不改变现有GPU队列。

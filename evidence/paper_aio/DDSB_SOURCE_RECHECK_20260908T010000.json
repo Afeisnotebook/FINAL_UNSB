@@ -1,0 +1,81 @@
+{
+  "schema": "final-unsb-ddsb-authoritative-source-recheck-v1",
+  "captured_at": "2026-09-08T01:00:00+08:00",
+  "status": "NO_AUTHORITATIVE_IMPLEMENTATION_FOUND_REPRODUCTION_INCOMPLETE",
+  "publication": {
+    "title": "Degradation-Aware Dynamic Schrodinger Bridge for Unpaired Image Restoration",
+    "venue": "NeurIPS 2025",
+    "official_page": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "author_lab_page": "https://medai.lab.westlake.edu.cn/Publications1.htm"
+  },
+  "authoritative_page_recheck": {
+    "neurips_page_has_code_link": false,
+    "neurips_page_has_github_link": false,
+    "westlake_publication_entry_present": true,
+    "westlake_publication_entry_repository_link_present": false,
+    "westlake_publication_entry_artifact": "paper_link_only",
+    "official_repository_candidates": []
+  },
+  "github_repository_search_recheck": [
+    {
+      "query": "\"Degradation-Aware Dynamic Schrodinger Bridge\" in:name,description,readme",
+      "total_count": 1,
+      "relevant_candidate_count": 0,
+      "observed_repository": "Mondrian-He/awesome-nips-2025-artist",
+      "adjudication": "unrelated_conference_aggregation_not_author_source"
+    },
+    {
+      "query": "DDSB \"unpaired image restoration\" in:name,description,readme",
+      "total_count": 0,
+      "relevant_candidate_count": 0
+    },
+    {
+      "query": "\"Jingjun Yi\" DDSB in:readme",
+      "total_count": 0,
+      "relevant_candidate_count": 0
+    },
+    {
+      "query": "\"Qi Bi\" DDSB in:readme",
+      "total_count": 0,
+      "relevant_candidate_count": 0
+    }
+  ],
+  "durable_watch": {
+    "control_commit": "cd74b2d",
+    "source_watcher_pid": 20388,
+    "source_watcher_pid_alive": true,
+    "source_watcher_status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "health_watcher_pid": 10780,
+    "health_watcher_pid_alive": true,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "network_error_count_last_watch_poll": 0,
+    "automatic_training_authorization": false
+  },
+  "reproducibility_adjudication": {
+    "official_paper_and_supplement_reaudited": false,
+    "prior_complete_official_artifact_audit_reused": "evidence/paper_aio/DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json",
+    "material_implementation_ambiguities_closed_by_new_source": false,
+    "faithful_official_reproduction_currently_unique": false,
+    "guessed_implementation_authorized": false,
+    "gpu_training_authorized": false,
+    "paper_status": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "reopen_condition": "authoritative author source, checkpoint, or author-specified implementation record closes every material ambiguity"
+  },
+  "scheduling_effect": {
+    "existing_gpu_queue_changed": false,
+    "new_gpu_lane_started": false,
+    "fallback_external_baselines_changed": false,
+    "reason": "a guessed DDSB would not be a defensible paper comparator"
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false
+  },
+  "prior_watch_deployment": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
+  "decision": "decisions/DEC-20260908-DDSB-AUTHORITATIVE-SOURCE-RECHECK.md"
+}

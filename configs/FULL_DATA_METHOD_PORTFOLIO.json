@@ -536,8 +536,10 @@
     "official_repository_candidate_count": 0,
     "unverified_repository_candidate_count": 0,
     "automatic_training_authorization": false,
-    "decision": "decisions/DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md",
-    "evidence": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json"
+    "latest_manual_recheck": "2026-09-08T01:00:00+08:00",
+    "latest_manual_recheck_result": "no_authoritative_repository_or_checkpoint_reproduction_incomplete_not_scientific_failure",
+    "decision": "decisions/DEC-20260908-DDSB-AUTHORITATIVE-SOURCE-RECHECK.md",
+    "evidence": "evidence/paper_aio/DDSB_SOURCE_RECHECK_20260908T010000.json"
   },
   "external_second_priority_source_gate": {
     "status": "dclgan_local_e200_running_e10_source_bound_delivery_armed_negcut_deferred",

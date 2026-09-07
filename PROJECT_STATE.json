@@ -554,7 +554,7 @@
     },
     "durable_successor_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_SUCCESSORS_20260902.json",
     "ddsb_status": "REPRODUCTION_INCOMPLETE_DURABLE_FAIL_CLOSED_SOURCE_WATCH_ACTIVE",
-    "ddsb_latest_source_recheck": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
+    "ddsb_latest_source_recheck": "evidence/paper_aio/DDSB_SOURCE_RECHECK_20260908T010000.json",
     "ddsb_durable_source_watch": {
       "status": "HEALTHY_WAITING_FOR_AUTHORITATIVE_SOURCE",
       "control_commit": "cd74b2d",
@@ -565,10 +565,12 @@
       "poll_seconds": 21600,
       "automatic_source_acceptance": false,
       "automatic_training_authorization": false,
+      "latest_manual_recheck": "2026-09-08T01:00:00+08:00",
+      "latest_manual_recheck_result": "NO_AUTHORITATIVE_REPOSITORY_OR_CHECKPOINT_REPRODUCTION_INCOMPLETE_NOT_SCIENTIFIC_FAILURE",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/DDSB_DURABLE_SOURCE_WATCH_DEPLOYED_20260903T104718.json",
-      "decision": "decisions/DEC-20260903-DDSB-DURABLE-SOURCE-WATCH.md"
+      "evidence": "evidence/paper_aio/DDSB_SOURCE_RECHECK_20260908T010000.json",
+      "decision": "decisions/DEC-20260908-DDSB-AUTHORITATIVE-SOURCE-RECHECK.md"
     },
     "external_dclgan_negcut_source_gate": {
       "status": "DCLGAN_LOCAL_E200_RUNNING_FROM_PORTABLE_AUTHORIZED_STATE_5090B_DUPLICATE_QUEUE_RETIRED_NEGCUT_DEFERRED_ENGINEERING_NOT_FALSIFIED",
