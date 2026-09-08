@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import subprocess
 from collections import Counter
 from pathlib import Path
 
@@ -110,6 +111,11 @@ def test_provenance_contract_is_registered_without_changing_training() -> None:
     for record in records:
         assert record["document"] == str(NOTICE.relative_to(ROOT)).replace("\\", "/")
         assert record["contract"] == str(CONTRACT.relative_to(ROOT)).replace("\\", "/")
+        blob = subprocess.check_output(
+            ["git", "show", f"{record['contract_commit']}:configs/PAPER_DATASET_PROVENANCE_CONTRACT.json"],
+            cwd=ROOT,
+        )
+        assert hashlib.sha256(blob).hexdigest() == record["contract_sha256"]
         assert record["training_queue_changed"] is False
         assert record["performance_values_read"] is False
         assert record["confirmation20_opened"] is False

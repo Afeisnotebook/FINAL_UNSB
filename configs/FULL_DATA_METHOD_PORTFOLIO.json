@@ -80,19 +80,23 @@
     "decision": "decisions/DEC-20260908-PRE-RESULT-LIMITATIONS-FREEZE.md"
   },
   "dataset_provenance_and_custom_reuse": {
-    "status": "pre_result_six_domain_lineage_bound_custom_unpaired_reuse_disclosed_redistribution_not_cleared",
+    "status": "pre_result_six_domain_lineage_bound_cityscapes_redistribution_prohibition_verified_other_terms_unresolved",
     "document": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
     "contract": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+    "contract_commit": "e1324cd23e711d6888f19a1b8963ac8b8c29c272",
+    "contract_sha256": "f50ce3d5c3704febfc523b85cd5f298650a3ab76f161b9fb12a92ef449704a6f",
     "lineage_strength": "high_confidence_name_and_protocol_match_not_cryptographic_download_proof",
     "upstream_collections_original_role": "testing_datasets",
     "final_unsb_role": "controlled_custom_unpaired_split",
     "direct_upstream_paired_score_comparison_allowed": false,
     "image_redistribution_allowed": false,
+    "cityscapes_derived_redistribution_prohibition_verified": true,
     "training_queue_changed": false,
     "performance_values_read": false,
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_DATASET_PROVENANCE_AND_REUSE_AUDIT_20260908T090300.json",
-    "decision": "decisions/DEC-20260908-DATASET-PROVENANCE-AND-CUSTOM-REUSE.md"
+    "cityscapes_terms_evidence": "evidence/paper_aio/PAPER_AIO_CITYSCAPES_TERMS_AUDIT_20260908T115000.json",
+    "decision": "decisions/DEC-20260908-CITYSCAPES-REDISTRIBUTION-BOUNDARY.md"
   },
   "related_work_novelty_boundary": {
     "status": "pre_result_primary_source_collision_audit_complete",

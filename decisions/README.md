@@ -469,3 +469,7 @@ authorize compute.
      短哈希错误扩展成不存在的40位对象，立即改为Git真实commit并以`git show`逐字节验签；新增
      递归回归门，要求三份权威状态中的每个branch-contract提交都能解析并复现记录哈希。训练、
      checkpoint、队列、指标和confirmation均未触碰。
+138. `DEC-20260908-CITYSCAPES-REDISTRIBUTION-BOUNDARY.md`：直接复核Cityscapes官方条款，确认
+     禁止向第三方分发数据及可恢复原内容的修改/衍生版本，因此FoggyCityscapes、RainCityscapes、
+     RSCityscapes三条链明确保持不公开图像；其余域与MPMF聚合包仍是许可未核实而非获得授权。
+     该收紧只影响论文披露和发布策略，不改变manifest、训练、指标或confirmation。

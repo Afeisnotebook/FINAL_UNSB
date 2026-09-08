@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-paper-cityscapes-terms-audit-v1",
+  "captured_at": "2026-09-08T11:50:00+08:00",
+  "status": "AUTHORITATIVE_CITYSCAPES_REDISTRIBUTION_PROHIBITION_VERIFIED_OTHER_BUNDLE_TERMS_UNRESOLVED",
+  "source_commit": "e1324cd23e711d6888f19a1b8963ac8b8c29c272",
+  "authoritative_source": {
+    "title": "Cityscapes Dataset Terms and Conditions",
+    "url": "https://www.cityscapes-dataset.com/license/",
+    "accessed_at": "2026-09-08",
+    "relevant_sections": ["4.1", "4.2", "5.2", "License agreement items 2-4"],
+    "observations": {
+      "registered_scientific_use_is_conditionally_authorized": true,
+      "third_party_access_to_dataset_is_prohibited": true,
+      "recoverable_modified_or_derived_distribution_is_prohibited": true,
+      "nonrecoverable_abstract_derivatives_such_as_models_may_be_distributed": true,
+      "commercial_use_is_prohibited": true,
+      "citation_is_required": true
+    }
+  },
+  "affected_local_domains": [
+    "FoggyCityscapes",
+    "RainCityscapes",
+    "RSCityscapes"
+  ],
+  "local_policy": {
+    "publish_affected_image_bytes": false,
+    "publish_recoverable_transformed_copies": false,
+    "publish_trained_models_subject_to_nonrecoverability_and_other_applicable_terms": true,
+    "separate_written_permission_can_supersede_current_release_block": true,
+    "recheck_current_terms_before_public_release": true
+  },
+  "unresolved": [
+    "MPMF-Net aggregate bundle redistribution authority",
+    "LowLightTrafficData governing data terms",
+    "RainDS-syn local subset governing data terms",
+    "SnowTrafficData local packaged-image governing terms",
+    "cryptographic identity between the local corpus and upstream archives"
+  ],
+  "bound_artifacts": {
+    "notice_path": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+    "notice_sha256": "dc4cc95690c1278be6f6c2a665c15c5eb57c5f031c53c1584d48ee2a0773c434",
+    "contract_path": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+    "contract_sha256": "f50ce3d5c3704febfc523b85cd5f298650a3ab76f161b9fb12a92ef449704a6f"
+  },
+  "validation": {
+    "git_blob_equals_working_tree": true,
+    "targeted_tests": "4 passed",
+    "full_pytest": "763 passed in 56.32s",
+    "contract_validator": "ALL CONTRACT CHECKS PASSED",
+    "git_diff_check": "passed"
+  },
+  "hard_boundaries": {
+    "legal_advice_claimed": false,
+    "bundle_wide_permission_claimed": false,
+    "image_redistribution_authorized": false,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260908-CITYSCAPES-REDISTRIBUTION-BOUNDARY.md"
+}
