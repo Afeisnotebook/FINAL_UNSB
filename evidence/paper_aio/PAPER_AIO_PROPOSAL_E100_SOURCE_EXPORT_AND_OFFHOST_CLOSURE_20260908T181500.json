@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-proposal-e100-source-export-offhost-closure-v1",
+  "captured_at": "2026-09-08T18:15:00+08:00",
+  "status": "PROPOSAL_E100_FIXED_MILESTONE_SOURCE_BOUND_EXPORT_AND_OFFHOST_COPY_HASH_CLOSED_LIVE_POST_E100",
+  "host": {
+    "label": "5090C",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "free_disk_gib": 228
+  },
+  "live_training": {
+    "supervisor_pid": 9729,
+    "trainer_pid": 366768,
+    "outer_guard_pid": 431648,
+    "outer_guard_health_pid": 431712,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "latest_observed_data_epoch": 102,
+    "latest_observed_updates": 872406,
+    "latest_observed_scientific_state_sha256": "2c03cb3c733bb346ac5f59ae7975962e8870d2d15de36fd0be5c23897bac32d5",
+    "processes_restarted_signalled_or_migrated_by_this_audit": false
+  },
+  "fixed_e100": {
+    "updates": 855300,
+    "checkpoint_sha256": "4d4f8ecd60810dbe7a832a44919ddf096dc9b0f502deac3a4677bcd36d57a8c6",
+    "sidecar_sha256": "cc09ca931e1f849d886c0e93fc27bf1e612442da41da541fce8f31e77af5e37f",
+    "scientific_state_sha256": "3253aa984dfd11cce894c576a6f333122451a2e898fca8ef672985884d218b76",
+    "source_bound_export_receipt_sha256": "95076de722b70d4db1056b3aaf76278c28323bcbfba4a93543f36e673445091d",
+    "incremental_export_set_sha256": "621bb0f4762c383e2c56f4c1f2cf87e73b02a04edd52062cf657e8ea57554673",
+    "checkpoint_copy_performed_by_exporter": false,
+    "source_checkpoint_mutation": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/5090C_PROPOSAL_20260908_E100",
+    "checkpoint_bytes": 201481899,
+    "checkpoint_sha256": "4d4f8ecd60810dbe7a832a44919ddf096dc9b0f502deac3a4677bcd36d57a8c6",
+    "sidecar_sha256": "cc09ca931e1f849d886c0e93fc27bf1e612442da41da541fce8f31e77af5e37f",
+    "export_receipt_sha256": "95076de722b70d4db1056b3aaf76278c28323bcbfba4a93543f36e673445091d",
+    "export_set_sha256": "621bb0f4762c383e2c56f4c1f2cf87e73b02a04edd52062cf657e8ea57554673",
+    "local_hashes_match_source_receipts": true,
+    "files_read_only": true,
+    "stored_outside_git": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  }
+}

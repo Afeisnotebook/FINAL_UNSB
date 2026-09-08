@@ -11,7 +11,7 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e80_fixed_hash_closed_live_e94_outer_recovery_and_incremental_export_guards_zero_restarts",
+        "5090C/proposal": "e100_fixed_source_export_and_offhost_hash_closed_live_post_e100_outer_recovery_zero_restarts",
         "5090A/stcgr": "e80_fixed_hash_closed_live_e86_outer_recovery_and_incremental_export_guards_zero_restarts",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e74_isolated_recovery_preflight_pass_offhost_hash_closed_guards_zero_restarts",
         "5090B/matched_plain": "e40_hash_closed_first_complete_gpu_exclusive_epoch_zero_restarts",

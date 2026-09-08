@@ -493,3 +493,7 @@ authorize compute.
 143. `DEC-20260908-AMTNC-E80-POST-CLEANUP-MILESTONE.md`：AM-TNC在不触碰deleted-inode
      健康进程的条件下自然完成e80；隔离恢复guard零重启，e80完整状态已逐文件哈希复制到异机
      只读目录。恢复锚点由e76前移至e80，同时继续保留CUDA下一步逐位等价不可证明的披露边界。
+144. `DEC-20260908-PROPOSAL-E100-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md`：Proposal自然越过
+     e100且训练、guard零异常；source-bound exporter生成不复制源状态的e100回执，固定checkpoint、
+     sidecar和回执又被逐文件哈希复制到本机只读目录。该交付保护不产生matched delta，也不打开
+     confirmation20。
