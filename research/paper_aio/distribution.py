@@ -36,6 +36,7 @@ from .protocol import (
     object_sha256,
     protocol_fingerprint,
 )
+from .reference_ledger import validate_reference_ledger_reference
 from .theory_bundle import validate_theory_bundle_reference
 
 
@@ -87,6 +88,7 @@ def validate_freeze_receipt(path: Path, *, lane_id: str) -> dict[str, Any]:
         or not value["paper_claims"]
         or value.get("paper_claims_sha256") != object_sha256(value["paper_claims"])
         or not isinstance(value.get("algorithm_theory_bundle"), dict)
+        or not isinstance(value.get("paper_reference_ledger"), dict)
         or not isinstance(lanes, list)
         or len(lanes) != len(set(lanes))
         or lane_id not in lanes
@@ -132,6 +134,9 @@ def committed_freeze_identity(
     validate_theory_bundle_reference(
         value["algorithm_theory_bundle"], root=ROOT, require_committed=True,
     )
+    validate_reference_ledger_reference(
+        value["paper_reference_ledger"], root=ROOT, require_committed=True,
+    )
     portfolio = Path(value["source_portfolio_path"]).resolve()
     if (
         not portfolio.is_file()
@@ -167,6 +172,8 @@ def committed_freeze_identity(
         or review_current.get("codex_scientific_review_recorded") is not True
         or review_current.get("source_portfolio_sha256")
         != value["source_portfolio_sha256"]
+        or review_current.get("paper_reference_ledger")
+        != value["paper_reference_ledger"]
         or review_current.get("distribution_lanes") != value["distribution_lanes"]
         or review_current.get("paper_claims_sha256") != value["paper_claims_sha256"]
         or review_current.get("algorithm_theory_bundle")

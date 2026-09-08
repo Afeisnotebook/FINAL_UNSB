@@ -271,10 +271,12 @@
       "core_entry_count": 20,
       "submission_day_refresh_count": 11,
       "metadata_lock_is_novelty_proof": false,
+      "claim_freeze_binding": "required_committed_ledger_and_bibliography",
+      "downstream_distribution_revalidates_binding": true,
       "training_queue_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REFERENCE_LEDGER_20260908T124000.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_REFERENCE_LEDGER_CLAIM_FREEZE_INTEGRATION_20260908T133500.json"
     },
     {
       "id": "algorithm_theory_freeze_chain",

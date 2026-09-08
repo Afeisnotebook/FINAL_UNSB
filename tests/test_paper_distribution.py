@@ -7,11 +7,60 @@ import numpy as np
 import pytest
 import torch
 
-from research.paper_aio import distribution, theory_bundle
+from research.paper_aio import distribution, reference_ledger, theory_bundle
 from research.paper_aio.run import parser
 
 
+def _reference_ledger(root):
+    bib_root = root / "research" / "paper_aio"
+    bib_root.mkdir(parents=True, exist_ok=True)
+    bib = bib_root / "references.bib"
+    bib.write_text(
+        "@article{test2026,\n  title={Test},\n  author={Author, A.},\n"
+        "  year={2026},\n  url={https://example.invalid/test}\n}\n",
+        encoding="utf-8",
+    )
+    value = {
+        "schema": reference_ledger.SCHEMA,
+        "status": reference_ledger.STATUS,
+        "bib": {
+            "path": "research/paper_aio/references.bib",
+            "sha256": distribution.file_sha256(bib),
+            "entry_count": 1,
+        },
+        "required_groups": {"test_group": ["test2026"]},
+        "entries": [{
+            "citation_key": "test2026",
+            "roles": ["test"],
+            "metadata_status": "verified_primary",
+            "year": 2026,
+            "primary_url": "https://example.invalid/test",
+        }],
+        "submission_day_refresh_required": [{
+            "working_key": "volatile_test",
+            "status": "volatile_not_in_core_bib",
+            "primary_url": "https://example.invalid/volatile",
+        }],
+        "authority": {
+            "metadata_lock_is_novelty_proof": False,
+            "volatile_entries_require_fresh_primary_source_review_before_submission": True,
+        },
+        "scientific_boundaries": {
+            "performance_values_read": False,
+            "training_or_queue_changed": False,
+            "algorithm_selected": False,
+            "confirmation20_opened": False,
+            "empirical_claim_frozen": False,
+        },
+    }
+    path = root / "configs" / "PAPER_REFERENCE_LEDGER.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value), encoding="utf-8")
+    return path
+
+
 def _theory_bundle(root):
+    _reference_ledger(root)
     artifacts = {
         "map.md": "map",
         "proposal-card.json": "{}",
@@ -115,6 +164,9 @@ def _freeze(tmp_path, **updates):
         "algorithm_theory_bundle": theory_bundle.theory_bundle_reference(
             bundle, root=tmp_path,
         ),
+        "paper_reference_ledger": reference_ledger.reference_ledger_reference(
+            _reference_ledger(tmp_path), root=tmp_path,
+        ),
         "distribution_lanes": ["input", "plain", "proposal"],
         "best_checkpoint_selection": False,
         "paired_metric_control": False,
@@ -145,6 +197,10 @@ def test_distribution_requires_explicit_complete_freeze(tmp_path):
     with pytest.raises(RuntimeError, match="freeze receipt is invalid"):
         distribution.validate_freeze_receipt(path, lane_id="plain")
 
+    _freeze(tmp_path, paper_reference_ledger=None)
+    with pytest.raises(RuntimeError, match="freeze receipt is invalid"):
+        distribution.validate_freeze_receipt(path, lane_id="plain")
+
 
 def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeypatch):
     root = tmp_path / "repo"
@@ -169,6 +225,7 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
         "distribution_lanes": value["distribution_lanes"],
         "paper_claims_sha256": value["paper_claims_sha256"],
         "algorithm_theory_bundle": value["algorithm_theory_bundle"],
+        "paper_reference_ledger": value["paper_reference_ledger"],
     }
     review.write_text(json.dumps(review_value), encoding="utf-8")
     value["review_decision_sha256"] = distribution.file_sha256(review)

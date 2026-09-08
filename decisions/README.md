@@ -486,3 +486,7 @@ authorize compute.
      核验的核心参考文献，覆盖UNSB/受控对手、三类算法的数学邻近工作和六域数据谱系；11条仍会
      变化的2026邻近工作留在投稿日前强制刷新门内。该账本只锁元数据，不冒充新颖性证明，不读取
      性能、不选择算法、不改变训练或队列，且由哈希与回归测试约束。
+142. `DEC-20260908-REFERENCE-LEDGER-CLAIM-FREEZE-INTEGRATION.md`：把已提交的引用账本与
+     BibTeX字节纳入review draft、人工/Codex review、claim-freeze receipt和后续分布评估的同一
+     哈希链；缺失、未提交或漂移一律fail closed。该门只约束结果后的论文交付，不改变训练、算法
+     选择或runtime cohort，也不以元数据账本替代新颖性审计。

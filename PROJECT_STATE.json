@@ -82,12 +82,17 @@
       "core_entry_count": 20,
       "submission_day_refresh_count": 11,
       "metadata_lock_is_novelty_proof": false,
+      "claim_freeze_binding": "REQUIRED_COMMITTED_LEDGER_AND_BIBLIOGRAPHY_FAIL_CLOSED",
+      "claim_freeze_validator": "research/paper_aio/reference_ledger.py",
+      "downstream_distribution_revalidates_committed_reference_binding": true,
       "training_queue_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "full_test_result": "766 passed",
+      "full_test_result": "767 passed",
       "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REFERENCE_LEDGER_20260908T124000.json",
-      "decision": "decisions/DEC-20260908-PRE-RESULT-REFERENCE-LEDGER.md"
+      "freeze_integration_evidence": "evidence/paper_aio/PAPER_AIO_REFERENCE_LEDGER_CLAIM_FREEZE_INTEGRATION_20260908T133500.json",
+      "decision": "decisions/DEC-20260908-PRE-RESULT-REFERENCE-LEDGER.md",
+      "freeze_integration_decision": "decisions/DEC-20260908-REFERENCE-LEDGER-CLAIM-FREEZE-INTEGRATION.md"
     },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",

@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-reference-ledger-claim-freeze-integration-evidence-v1",
+  "captured_at": "2026-09-08T13:35:00+08:00",
+  "event": "REFERENCE_LEDGER_REQUIRED_BY_REVIEW_FREEZE_AND_DOWNSTREAM_DISTRIBUTION",
+  "repository_base_commit": "cb3b5d45ceb142db5fb5d51386c81a5a79e28340",
+  "implementation": {
+    "validator": {
+      "path": "research/paper_aio/reference_ledger.py",
+      "sha256": "31b4f226eacc6d429863f234158d30563d248e83ed035052aa9b74564a136f84"
+    },
+    "freeze": {
+      "path": "research/paper_aio/freeze.py",
+      "sha256": "5aa06edd19f3b987b27acaec8e0f182903fa9557ac195912ec83ba86eff30b76"
+    },
+    "distribution": {
+      "path": "research/paper_aio/distribution.py",
+      "sha256": "10d8ceb6adb95a43976e8f44845f7f1176d4adb871693e81fbcd2e52476215d5"
+    }
+  },
+  "gates": {
+    "review_draft_requires_committed_reference_ledger": true,
+    "review_decision_must_preserve_exact_reference_binding": true,
+    "freeze_receipt_carries_reference_binding": true,
+    "distribution_rejects_missing_reference_binding": true,
+    "distribution_rehashes_committed_ledger_and_bibliography": true,
+    "metadata_lock_claimed_as_novelty_proof": false,
+    "submission_day_volatile_refresh_still_required": true
+  },
+  "metric_blind_live_snapshot": {
+    "4090A_amtnc": {"data_epoch": 77, "updates": 658581, "trainer_pid": 3446758, "recovery_guard_pid": 439182},
+    "5090A_stcgr": {"data_epoch": 91, "updates": 778323, "trainer_pid": 863376, "recovery_guard_pid": 942101},
+    "5090C_proposal": {"data_epoch": 99, "updates": 846747, "trainer_pid": 366768, "recovery_guard_pid": 431648},
+    "5090B_matched_plain": {"data_epoch": 44, "updates": 376332, "trainer_pid": 534984, "supervisor_pid": 534983},
+    "local_dclgan": {"data_epoch": 63, "updates": 538839, "trainer_pid": 22020, "supervisor_pid": 12824}
+  },
+  "validation": {
+    "targeted_pytest": "21 passed",
+    "full_pytest": "767 passed in 88.72s",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "training_processes_changed": false,
+    "training_queue_changed": false,
+    "runtime_cohort_changed": false,
+    "algorithm_selected": false,
+    "confirmation20_opened": false
+  }
+}

@@ -3,6 +3,8 @@ import json
 import re
 from pathlib import Path
 
+from research.paper_aio import reference_ledger
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = ROOT / "configs" / "PAPER_REFERENCE_LEDGER.json"
@@ -67,3 +69,14 @@ def test_volatile_neighbors_are_excluded_and_scientific_boundaries_hold() -> Non
     assert authority["metadata_lock_is_novelty_proof"] is False
     assert authority["volatile_entries_require_fresh_primary_source_review_before_submission"] is True
     assert all(value is False for value in ledger["scientific_boundaries"].values())
+
+
+def test_runtime_reference_validator_binds_ledger_and_bibliography() -> None:
+    reference = reference_ledger.reference_ledger_reference(root=ROOT)
+    assert reference["path"] == "configs/PAPER_REFERENCE_LEDGER.json"
+    assert reference["bibliography_path"] == (
+        "research/paper_aio/PAPER_REFERENCES_CORE_PRE_RESULT.bib"
+    )
+    assert reference["entry_count"] == 20
+    assert reference["submission_day_refresh_count"] == 11
+    assert reference["sha256"] == _sha256(LEDGER_PATH)

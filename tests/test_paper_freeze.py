@@ -49,7 +49,51 @@ def _portfolio(path: Path) -> Path:
     })
 
 
+def _reference_ledger(root: Path) -> Path:
+    bib = root / "research" / "paper_aio" / "references.bib"
+    bib.parent.mkdir(parents=True, exist_ok=True)
+    bib.write_bytes(
+        b"@article{test2026,\n"
+        b"  title={Test},\n  author={Author, A.},\n  year={2026},\n"
+        b"  url={https://example.invalid/test}\n}\n",
+    )
+    return _write(root / "configs" / "PAPER_REFERENCE_LEDGER.json", {
+        "schema": "final-unsb-paper-reference-ledger-v1",
+        "status": "PRE_RESULT_PRIMARY_METADATA_LOCK_CORE_STABLE_VOLATILE_REFRESH_REQUIRED",
+        "bib": {
+            "path": "research/paper_aio/references.bib",
+            "sha256": freeze.file_sha256(bib),
+            "entry_count": 1,
+        },
+        "required_groups": {"test_group": ["test2026"]},
+        "entries": [{
+            "citation_key": "test2026",
+            "roles": ["test"],
+            "metadata_status": "verified_primary",
+            "year": 2026,
+            "primary_url": "https://example.invalid/test",
+        }],
+        "submission_day_refresh_required": [{
+            "working_key": "volatile_test",
+            "status": "volatile_not_in_core_bib",
+            "primary_url": "https://example.invalid/volatile",
+        }],
+        "authority": {
+            "metadata_lock_is_novelty_proof": False,
+            "volatile_entries_require_fresh_primary_source_review_before_submission": True,
+        },
+        "scientific_boundaries": {
+            "performance_values_read": False,
+            "training_or_queue_changed": False,
+            "algorithm_selected": False,
+            "confirmation20_opened": False,
+            "empirical_claim_frozen": False,
+        },
+    })
+
+
 def _theory_bundle(root: Path) -> Path:
+    _reference_ledger(root)
     artifacts = {
         "map.md": "map",
         "proposal-card.json": json.dumps({"candidate_id": "proposal"}),
@@ -147,6 +191,7 @@ def test_freeze_draft_cannot_self_approve(
         theory_bundle=bundle,
     )
     assert draft["status"] == freeze.DRAFT_STATUS
+    assert draft["paper_reference_ledger"]["entry_count"] == 1
     assert draft["human_approval_recorded"] is False
     assert draft["confirmation_authorized"] is False
     assert set(draft["distribution_lanes"]) == {
@@ -175,6 +220,9 @@ def test_freeze_materialization_requires_committed_explicit_review(
         "paper_claims_sha256": freeze.object_sha256(claims),
         "algorithm_theory_bundle": freeze.theory_bundle_reference(
             bundle, root=root,
+        ),
+        "paper_reference_ledger": freeze.reference_ledger_reference(
+            root=root,
         ),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
@@ -289,6 +337,9 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
         "paper_claims_sha256": freeze.object_sha256(claims),
         "algorithm_theory_bundle": freeze.theory_bundle_reference(
             bundle, root=root,
+        ),
+        "paper_reference_ledger": freeze.reference_ledger_reference(
+            root=root,
         ),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
