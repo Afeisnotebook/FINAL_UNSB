@@ -448,3 +448,7 @@ authorize compute.
 131. `DEC-20260908-5090B-MATCHED-PLAIN-E40-EXCLUSIVE-THROUGHPUT.md`：5090B matched
      plain保持原PID自然从CycleGAN共驻转为GPU独占；e40固定状态哈希闭合，首个独占epoch相较
      前一共驻epoch缩短48.4%，只据此刷新工程ETA，不读取paired指标或改变协议。
+132. `DEC-20260908-AMTNC-E74-ISOLATED-RECOVERY-AND-OFFHOST-CLOSURE.md`：再次确认4090A原完整
+     环境确已删除、旧prefix仅是部分残留和fail-closed入口，不覆盖健康deleted-inode进程；
+     AM-TNC自然推进到e74，隔离runtime 111项依赖与最新full-state重新验签通过，并将e74完整
+     状态复制为异机只读哈希闭环备份，最坏风险限制为当前未保存epoch。

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T10:02:00+08:00",
+  "captured_at": "2026-09-08T10:17:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -13,7 +13,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e80_fixed_hash_closed_live_e94_outer_recovery_and_incremental_export_guards_zero_restarts",
         "5090A/stcgr": "e80_fixed_hash_closed_live_e86_outer_recovery_and_incremental_export_guards_zero_restarts",
-        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e73_isolated_recovery_preflight_pass_guards_zero_restarts",
+        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e74_isolated_recovery_preflight_pass_offhost_hash_closed_guards_zero_restarts",
         "5090B/matched_plain": "e40_hash_closed_first_complete_gpu_exclusive_epoch_zero_restarts",
         "local/dclgan_extension": "e60_hash_closed_live_continuation_health_zero_alerts"
       },
@@ -148,7 +148,7 @@
       "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "healthy_deleted_inode_preserved_e72_current_executable_recovery_and_all_critical_successors_verified",
+      "status": "healthy_deleted_inode_preserved_e74_isolated_recovery_preflight_and_offhost_hash_closed",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
       "active_training_pid": 3446758,
@@ -159,15 +159,15 @@
       "runtime_manifest_entries": 111,
       "runtime_entry_rehash": "pass_111_of_111",
       "current_checkpoint_resume_probe": "pass_e72_step_615816_to_615817_cpu_with_111_of_111_runtime_rehash",
-      "current_checkpoint_step": 615816,
-      "current_checkpoint_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+      "current_checkpoint_step": 632922,
+      "current_checkpoint_sha256": "02b5ed187ba369f2ba71371540563212bd7a98d3bc95c0b68d9b76c3da617322",
       "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
-      "offhost_full_state_backup_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+      "offhost_full_state_backup_sha256": "02b5ed187ba369f2ba71371540563212bd7a98d3bc95c0b68d9b76c3da617322",
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E72_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T075200.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E74_ISOLATED_RECOVERY_AND_OFFHOST_CLOSURE_20260908T101700.json"
     },
     "stcgr_proposal_training_outer_recovery": {
       "status": "healthy_both_guards_monitoring_existing_supervisors_zero_restarts",
@@ -477,7 +477,7 @@
   ],
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard bypasses it and directly binds the verified read-only isolated runtime, all 111 mapped files were freshly rehashed again at e73, e72 executed one isolated CPU update, e73 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
+    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard bypasses it and directly binds the verified read-only isolated runtime, all 111 mapped files and the e74 full-state were freshly reverified, e72 executed one isolated CPU update, e74 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "the 2026-09-07 metric-blind refresh projects Proposal near 2026-09-14 07:38 with about 16.4 hours of lease headroom, ST-CGR near 2026-09-14 12:43 with about 35.3 hours, and the two-phase 5090B matched plain near 2026-09-12 21:49 with about 26.2 hours; no extension is currently triggered"
