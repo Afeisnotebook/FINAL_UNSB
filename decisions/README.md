@@ -473,3 +473,7 @@ authorize compute.
      禁止向第三方分发数据及可恢复原内容的修改/衍生版本，因此FoggyCityscapes、RainCityscapes、
      RSCityscapes三条链明确保持不公开图像；其余域与MPMF聚合包仍是许可未核实而非获得授权。
      该收紧只影响论文披露和发布策略，不改变manifest、训练、指标或confirmation。
+139. `DEC-20260908-REMAINING-PUBLIC-DATA-LICENSE-SEARCH.md`：复查MPMF-Net、RainDS_CCN和
+     VideoDesnowing的一手项目页，只找到下载与引用信息，没有找到可据以开放图像再分发的明确
+     数据许可；该结论严格限定为“公开页面未找到”，不证明许可不存在。后续只能以权利人书面确认
+     或独立可验证的数据许可解锁，当前继续发布构建说明与哈希、不发布图像。

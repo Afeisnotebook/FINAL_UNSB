@@ -1,0 +1,55 @@
+{
+  "schema": "final-unsb-paper-public-data-license-search-v1",
+  "captured_at": "2026-09-08T12:00:00+08:00",
+  "status": "NO_ADDITIONAL_PUBLIC_REDISTRIBUTION_AUTHORITY_LOCATED_SCOPE_EXPLICIT",
+  "inspected_primary_project_pages": [
+    {
+      "project": "MPMF-Net",
+      "url": "https://github.com/chdwyb/MPMF-Net",
+      "observed": [
+        "the README supplies download links for all six test datasets",
+        "the README supplies the paper citation and contact address",
+        "the inspected repository tree and README do not state a data redistribution license"
+      ]
+    },
+    {
+      "project": "RainDS_CCN",
+      "url": "https://github.com/Songforrr/RainDS_CCN",
+      "observed": [
+        "the README supplies a RainDS download link",
+        "the inspected README does not state a data redistribution license"
+      ]
+    },
+    {
+      "project": "VideoDesnowing",
+      "url": "https://github.com/haoyuc/VideoDesnowing",
+      "observed": [
+        "the official project page and README supply dataset download and citation links",
+        "the inspected README does not state a data redistribution license"
+      ]
+    }
+  ],
+  "interpretation": {
+    "absence_from_inspected_pages_proves_no_license_exists": false,
+    "download_availability_is_redistribution_permission": false,
+    "code_repository_license_would_automatically_cover_dataset_bytes": false,
+    "current_release_policy": "license_not_verified_do_not_redistribute",
+    "next_valid_resolution": "written_author_or_rights_holder_confirmation_or_a_separately_verified_governing_license",
+    "recheck_before_public_release": true
+  },
+  "scientific_and_runtime_impact": {
+    "manifest_changed": false,
+    "dataset_bytes_changed": false,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "authority": {
+    "provenance_contract": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+    "provenance_contract_sha256": "f50ce3d5c3704febfc523b85cd5f298650a3ab76f161b9fb12a92ef449704a6f",
+    "notice": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+    "notice_sha256": "dc4cc95690c1278be6f6c2a665c15c5eb57c5f031c53c1584d48ee2a0773c434"
+  },
+  "decision": "decisions/DEC-20260908-REMAINING-PUBLIC-DATA-LICENSE-SEARCH.md"
+}
