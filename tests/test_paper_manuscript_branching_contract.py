@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import itertools
 import json
+import subprocess
 from pathlib import Path
 
 
@@ -89,3 +90,39 @@ def test_manuscript_contract_hash_binds_pre_result_limitations() -> None:
     ]
     assert all(boundary in text for boundary in required_boundaries)
     assert "no empirical performance claim" in text
+
+
+def test_live_status_branch_contract_commits_resolve_to_the_bound_blob() -> None:
+    def walk(value: object):
+        if isinstance(value, dict):
+            yield value
+            for child in value.values():
+                yield from walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                yield from walk(child)
+
+    found = 0
+    for relative in (
+        "PROJECT_STATE.json",
+        "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+        "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json",
+    ):
+        for row in walk(_load(relative)):
+            if "branch_contract_commit" not in row:
+                continue
+            expected = row.get("branch_contract_source_sha256") or row.get(
+                "branch_contract_sha256"
+            )
+            assert isinstance(expected, str)
+            blob = subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    f"{row['branch_contract_commit']}:configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+                ],
+                cwd=ROOT,
+            )
+            assert hashlib.sha256(blob).hexdigest() == expected
+            found += 1
+    assert found == 9

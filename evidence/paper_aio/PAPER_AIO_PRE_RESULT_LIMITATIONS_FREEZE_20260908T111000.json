@@ -2,7 +2,7 @@
   "schema": "final-unsb-paper-pre-result-limitations-freeze-v1",
   "captured_at": "2026-09-08T11:10:00+08:00",
   "status": "PRE_RESULT_LIMITATIONS_HASH_BOUND_NO_EMPIRICAL_CLAIM",
-  "source_commit": "4298cb2a261b202dd5f8b66f01b819a8b07e2157",
+  "source_commit": "4298cb2383f5c694b4a63204150002594f1cd71b",
   "limitations_statement": {
     "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
     "sha256": "6db70c44919431332d456660b860ee1ffde172429761fa11bf4283fe958ba450"
@@ -28,7 +28,7 @@
   ],
   "validation": {
     "targeted_tests": "11 passed",
-    "full_pytest": "762 passed in 54.07s",
+    "full_pytest": "763 passed in 66.44s",
     "contract_validator": "ALL CONTRACT CHECKS PASSED",
     "compileall": "passed",
     "git_diff_check": "passed"

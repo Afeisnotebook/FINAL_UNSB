@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-limitations-commit-identity-correction-v1",
+  "captured_at": "2026-09-08T11:22:00+08:00",
+  "status": "COMMIT_IDENTITY_CORRECTED_AND_FAIL_CLOSED_TESTED",
+  "affected_status_commit": "1227377899ef54837d6467cb9b9a6f703d843233",
+  "incorrect_recorded_commit": "4298cb2a261b202dd5f8b66f01b819a8b07e2157",
+  "correct_commit": "4298cb2383f5c694b4a63204150002594f1cd71b",
+  "verification": {
+    "git_object_type": "commit",
+    "git_blob_path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "git_blob_sha256": "6fe0fd12258b7e789bfbe37d495af3f4bbaa516ac87ce739f7e1f5fc8c4c1fec",
+    "working_tree_sha256": "6fe0fd12258b7e789bfbe37d495af3f4bbaa516ac87ce739f7e1f5fc8c4c1fec",
+    "git_blob_equals_working_tree": true,
+    "new_recursive_status_test": "requires every recorded branch_contract_commit in the three authority files to resolve and reproduce its recorded source hash",
+    "targeted_tests": "5 passed",
+    "full_pytest": "763 passed in 66.44s",
+    "contract_validator": "ALL CONTRACT CHECKS PASSED",
+    "git_diff_check": "passed"
+  },
+  "impact": {
+    "training_processes_changed": false,
+    "gpu_queue_changed": false,
+    "checkpoint_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "scientific_result_changed": false,
+    "future_committed_file_gate_would_have_failed_before_correction": true
+  },
+  "decision": "decisions/DEC-20260908-LIMITATIONS-COMMIT-IDENTITY-CORRECTION.md"
+}

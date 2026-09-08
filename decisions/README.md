@@ -465,3 +465,7 @@ authorize compute.
      哈希绑定独立英文limitations，预先披露single-seed、算力不等价、pre-Adam理论边界、无
      terminal-law修复保证、数据许可、DDSB复现缺口、deferred不等于证伪、confirmation20单次门
      和AM-TNC deleted-inode事故边界；不选择算法、不读取性能、不改变任何在飞训练或调度。
+137. `DEC-20260908-LIMITATIONS-COMMIT-IDENTITY-CORRECTION.md`：发现limitations状态提交中把
+     短哈希错误扩展成不存在的40位对象，立即改为Git真实commit并以`git show`逐字节验签；新增
+     递归回归门，要求三份权威状态中的每个branch-contract提交都能解析并复现记录哈希。训练、
+     checkpoint、队列、指标和confirmation均未触碰。

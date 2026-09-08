@@ -8,6 +8,6 @@ Before any full-data outcome is read into the manuscript, the project now has a 
 
 This is a guard against result-contingent omission. It does not select a method, predict a benefit, authorize a cross-runtime delta, open confirmation20, or change any live training process. In particular, an unavailable reproduction, resource deferral, and a negative result for one current implementation remain distinct from mechanism falsification.
 
-The limitations document and updated branching contract are committed at `4298cb2a261b202dd5f8b66f01b819a8b07e2157`. All contract source bindings were revalidated; the full repository test suite reports 762 passing tests.
+The limitations document and updated branching contract are committed at `4298cb2383f5c694b4a63204150002594f1cd71b`. All contract source bindings and the recorded commit identity were revalidated; the full repository test suite reports 763 passing tests.
 
 Evidence: `evidence/paper_aio/PAPER_AIO_PRE_RESULT_LIMITATIONS_FREEZE_20260908T111000.json`.
