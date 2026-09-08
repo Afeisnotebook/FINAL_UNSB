@@ -497,3 +497,6 @@ authorize compute.
      e100且训练、guard零异常；source-bound exporter生成不复制源状态的e100回执，固定checkpoint、
      sidecar和回执又被逐文件哈希复制到本机只读目录。该交付保护不产生matched delta，也不打开
      confirmation20。
+145. `DEC-20260909-STCGR-E100-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md`：ST-CGR自然完成e100，
+     训练与guard零异常；固定checkpoint、sidecar、metric artifact及source-bound回执均完成
+     异机只读哈希保护。性能文件只复制和哈希、未读取数值，matched delta仍等待合法control。

@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-stcgr-e100-source-export-offhost-closure-v1",
+  "captured_at": "2026-09-09T02:20:00+08:00",
+  "status": "STCGR_E100_FIXED_MILESTONE_METRIC_ARTIFACT_SOURCE_BOUND_EXPORT_AND_OFFHOST_COPY_HASH_CLOSED",
+  "host": {
+    "label": "5090A",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "free_disk_gib": 183
+  },
+  "live_training": {
+    "supervisor_pid": 336345,
+    "trainer_pid": 863376,
+    "outer_guard_pid": 942101,
+    "outer_guard_health_pid": 942182,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "checkpoint_step_at_capture": 855300,
+    "processes_restarted_signalled_or_migrated_by_this_audit": false
+  },
+  "fixed_e100": {
+    "updates": 855300,
+    "checkpoint_sha256": "df9c86cbe912633b3811da4b484a814dabfa8ebbd4ac8c24fcc6e46e34d130ff",
+    "sidecar_sha256": "8c0d2f55998f9ccd04aab516981d9824a89fd6917e2fbdbeea0740efe8887b89",
+    "scientific_state_sha256": "24e3501487e6a5780ab0a23800c7a86b41ccf9077994ee30884bd05f6bd62009",
+    "metric_artifact_sha256": "c003fce2af327ffc75982e5130bafa4bf64858fd72a620adcf8a9ccbeb298a2c",
+    "source_bound_export_receipt_sha256": "fff07a89a9f65da58f8c6c7ff93ce6883f490465d2a31e69202ef1f260fd6640",
+    "incremental_export_set_sha256": "ec26d2ce94cedc765b3719bfe271f97a5246e5f359022552491c40902182e3b3",
+    "checkpoint_copy_performed_by_exporter": false,
+    "source_checkpoint_mutation": false,
+    "metric_values_read_by_this_audit": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260909_E100",
+    "checkpoint_bytes": 201482347,
+    "checkpoint_sha256": "df9c86cbe912633b3811da4b484a814dabfa8ebbd4ac8c24fcc6e46e34d130ff",
+    "sidecar_sha256": "8c0d2f55998f9ccd04aab516981d9824a89fd6917e2fbdbeea0740efe8887b89",
+    "metric_artifact_sha256": "c003fce2af327ffc75982e5130bafa4bf64858fd72a620adcf8a9ccbeb298a2c",
+    "export_receipt_sha256": "fff07a89a9f65da58f8c6c7ff93ce6883f490465d2a31e69202ef1f260fd6640",
+    "export_set_sha256": "ec26d2ce94cedc765b3719bfe271f97a5246e5f359022552491c40902182e3b3",
+    "local_hashes_match_source_artifacts": true,
+    "files_read_only": true,
+    "stored_outside_git": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "matched_delta_available": false
+  }
+}
