@@ -1,0 +1,121 @@
+{
+  "schema": "final-unsb-paper-amtnc-e72-post-cleanup-recovery-revalidation-v1",
+  "captured_at": "2026-09-08T07:52:00+08:00",
+  "status": "HEALTHY_CONTINUOUS_E72_ISOLATED_EXECUTABLE_RECOVERY_AND_OFFHOST_STATE_VERIFIED",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib": 2371,
+    "gpu_utilization_percent": 46,
+    "gpu_temperature_c": 50,
+    "free_disk_gib": 530
+  },
+  "incident_truth": {
+    "original_complete_unsb_cov_environment_present": false,
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_processes_restarted_or_signalled": false,
+    "old_prefix_role": "PARTIAL_ENTRYPOINT_PREFIX_NOT_A_COMPLETE_PYTHON_ENVIRONMENT",
+    "python_relay_entrypoints": [
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3",
+      "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10"
+    ],
+    "python_relay_sha256": "a479dc4629533194627c9a6c4802974315c1288f6c3336ff6c53d688ce731cdb",
+    "original_prefix_must_not_be_overwritten": true
+  },
+  "live_training": {
+    "lane": "amtnc",
+    "data_epoch": 72,
+    "step": 615816,
+    "target_step": 1710600,
+    "epoch_wall_seconds": 3534.0642459392548,
+    "full_state_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+    "sidecar_sha256": "15ab43973c9a692b8834c2f2ac81b42ab977941fe3c23d97dc3581b14f68a9b7",
+    "scientific_state_sha256": "febb45acc95b39ac666e79bee95a23781461cda27b0546fd43d954260f129032",
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "guard_pid": 439182,
+    "guard_health_pid": 439447,
+    "guard_restarts": 0
+  },
+  "isolated_training_recovery_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "manifest": "/home/yc/recovery_snapshots/unsb_cov_live_mapped_3446758_20260906T083500/RECOVERY_MANIFEST.json",
+    "manifest_sha256": "a9a6e0b7832384d8b9cfc96ff174f9b99ad7c95c83b3fb70d4c52d275726d537",
+    "runtime_entry_count": 111,
+    "guard_verify_only_status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+    "guard_verify_only_step": 615816,
+    "guard_verify_only_checkpoint_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+    "full_runtime_entry_hashes_verified": true,
+    "guard_recovery_command_uses_isolated_python_directly": true,
+    "guard_rehashes_runtime_and_full_state_immediately_before_launch": true
+  },
+  "isolated_real_one_update_probe": {
+    "output": "/home/yc/recovery_snapshots/AMTNC_RESUME_PROBE_E72_20260908T074800",
+    "device": "CPU",
+    "input_step": 615816,
+    "output_step": 615817,
+    "run_status": "ENGINEERING_PAUSE",
+    "input_checkpoint_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+    "output_checkpoint_sha256": "08152d729bb9d841c805730532a25d3a577410e18ef853e590ce1147460f16ea",
+    "output_sidecar_sha256": "0dc6af2a9caed892502f87da919849702b3839209138be6b487c04bc394f2546",
+    "output_scientific_state_sha256": "8fe77d22ce7ea665c087d721990f5a4b30edee13c9917c4d79ee0869ead078e0",
+    "stderr_bytes": 0,
+    "first_cpu_probe_attempt_disposition": "COMMAND_CONFIGURATION_ERROR_GPU_MINUS_ONE_WITHOUT_CUDA_MASK; NO_CHECKPOINT_WRITE; SUPERSEDED_BY_SUCCESSFUL_MASKED_CPU_PROBE",
+    "main_run_directory_modified": false,
+    "gpu_training_process_modified": false
+  },
+  "offhost_protection": {
+    "runtime_archive": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260907/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
+    "runtime_archive_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
+    "full_state_directory": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E72",
+    "full_state_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+    "sidecar_sha256": "15ab43973c9a692b8834c2f2ac81b42ab977941fe3c23d97dc3581b14f68a9b7",
+    "heartbeat_sha256": "3c1e0ce13ebcebad0bd005abf1be25de7607dfff44c594104212eb6aa5b7270f",
+    "authorization_sha256": "f1b84e7d8bf9dd9ae10a024b2f4be71e2857b0be3d65c1081d052b32c5ab195a",
+    "local_files_read_only": true
+  },
+  "downstream_recovery_inventory": {
+    "training_guard": {"pid": 439182, "restart_count": 0, "restart_runtime_role": "isolated_training_runtime"},
+    "terminal_source_export": {"child_pid": 2182586, "supervisor_pid": 706411, "restart_count": 0, "restart_runtime_role": "isolated_evaluation_runtime"},
+    "incremental_source_export": {"child_pid": 2274260, "supervisor_pid": 723432, "restart_count": 0, "restart_runtime_role": "isolated_evaluation_runtime"},
+    "amtnc_evaluation": {"supervisor_pid": 3879668, "restart_count": 0},
+    "unified_evaluation": {"supervisor_pid": 3879670, "restart_count": 0},
+    "final_delivery": {"supervisor_pid": 3879674, "restart_count": 0},
+    "dclgan_evaluation": {"child_pid": 3587264, "supervisor_pid": 3870693, "restart_count": 0},
+    "all_future_child_commands_use_isolated_evaluation_runtime": true
+  },
+  "loss_assessment": {
+    "completed_epochs_lost": false,
+    "completed_checkpoint_lost": false,
+    "algorithm_state_lost": false,
+    "future_training_resume_blocked": false,
+    "future_export_blocked": false,
+    "future_unified_evaluation_blocked": false,
+    "maximum_compute_at_risk_if_live_trainer_exits": "CURRENT_INCOMPLETE_DATA_EPOCH_ONLY",
+    "recovery_risk_eliminated_completely": false,
+    "remaining_limit": "A CUDA next-step bitwise comparison with the still-running deleted-inode process cannot be performed without interrupting that healthy process."
+  },
+  "persistent_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "prompt_bound_checkpoint_epoch": 72,
+    "prompt_bound_checkpoint_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
+    "credentials_persisted": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}

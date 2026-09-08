@@ -426,3 +426,7 @@ authorize compute.
      健康训练，重新验签隔离runtime 111项依赖和e71 full-state，并从607,263真实执行一个CPU
      恢复update到607,264；e71原始状态同步为异机只读备份。全量PID审计确认训练、终端/增量
      导出及统一评估均有直接使用隔离runtime的恢复层，剩余风险严格收窄为未保存的当前epoch。
+125. `DEC-20260908-AMTNC-E72-POST-CLEANUP-RECOVERY-REVALIDATION.md`：针对“原路径和Python
+     已被误删”的现场质疑重新核验，不以旧回执替代当前状态。AM-TNC原PID自然推进至e72；
+     隔离runtime重新通过111项依赖与full-state门，并从615,816真实执行一项CPU update到
+     615,817。e72原始状态已异机只读备份，训练及全部关键后继零重启、不依赖旧完整环境恢复。

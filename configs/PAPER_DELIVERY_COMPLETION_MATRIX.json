@@ -142,7 +142,7 @@
       "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "healthy_deleted_inode_preserved_e71_current_executable_recovery_and_all_critical_successors_verified",
+      "status": "healthy_deleted_inode_preserved_e72_current_executable_recovery_and_all_critical_successors_verified",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
       "active_training_pid": 3446758,
@@ -152,16 +152,16 @@
       "recovery_health_watcher_pid": 439447,
       "runtime_manifest_entries": 111,
       "runtime_entry_rehash": "pass_111_of_111",
-      "current_checkpoint_resume_probe": "pass_e71_step_607263_to_607264_cpu_with_111_of_111_runtime_rehash",
-      "current_checkpoint_step": 607263,
-      "current_checkpoint_sha256": "07c3d71df2a2cb0fa78f988176a432e74ac2b514734f5eba892f631390c588ce",
+      "current_checkpoint_resume_probe": "pass_e72_step_615816_to_615817_cpu_with_111_of_111_runtime_rehash",
+      "current_checkpoint_step": 615816,
+      "current_checkpoint_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
       "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
-      "offhost_full_state_backup_sha256": "07c3d71df2a2cb0fa78f988176a432e74ac2b514734f5eba892f631390c588ce",
+      "offhost_full_state_backup_sha256": "58b00d7b0b40e82fa11b3262d18d6827fdbdf33daf752ce4a8b6adbf28d71edb",
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E71_POST_CLEANUP_EXECUTABLE_RECOVERY_CLOSURE_20260908T070849.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E72_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T075200.json"
     },
     "stcgr_proposal_training_outer_recovery": {
       "status": "healthy_both_guards_monitoring_existing_supervisors_zero_restarts",
