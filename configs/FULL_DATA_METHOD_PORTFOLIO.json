@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T06:50:00+08:00",
+  "captured_at": "2026-09-08T08:15:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -52,6 +52,18 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_METHODS_PROTOCOL_DRAFT_20260908T065000.json",
     "decision": "decisions/DEC-20260908-PRE-RESULT-METHODS-PROTOCOL-DRAFT.md"
+  },
+  "pre_result_reproducibility_checklist": {
+    "status": "english_reproducibility_and_artifact_checklist_complete_hash_bound_no_empirical_claim",
+    "document": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
+    "contract": "configs/PAPER_REPRODUCIBILITY_CHECKLIST_CONTRACT.json",
+    "authority_order": "hash-bound executable protocol, theory, baseline, runtime and branching authorities override prose",
+    "post_result_release_gate": "claim freeze must close every applicable item or record a lawful omission",
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REPRODUCIBILITY_CHECKLIST_20260908T081500.json",
+    "decision": "decisions/DEC-20260908-PRE-RESULT-REPRODUCIBILITY-CHECKLIST.md"
   },
   "related_work_novelty_boundary": {
     "status": "pre_result_primary_source_collision_audit_complete",

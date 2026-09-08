@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T06:50:00+08:00",
+  "captured_at": "2026-09-08T08:15:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -260,6 +260,20 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_METHODS_PROTOCOL_DRAFT_20260908T065000.json",
       "decision": "decisions/DEC-20260908-PRE-RESULT-METHODS-PROTOCOL-DRAFT.md"
+    },
+    {
+      "id": "pre_result_reproducibility_checklist",
+      "status": "english_reproducibility_and_artifact_checklist_complete_hash_bound_no_empirical_claim",
+      "critical_path": false,
+      "document": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
+      "contract": "configs/PAPER_REPRODUCIBILITY_CHECKLIST_CONTRACT.json",
+      "authority_order": "hash-bound executable protocol, theory, baseline, runtime and branching authorities override prose",
+      "post_result_release_gate": "claim freeze must close every applicable item or record a lawful omission",
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REPRODUCIBILITY_CHECKLIST_20260908T081500.json",
+      "decision": "decisions/DEC-20260908-PRE-RESULT-REPRODUCIBILITY-CHECKLIST.md"
     },
     {
       "id": "related_work_novelty_boundary",

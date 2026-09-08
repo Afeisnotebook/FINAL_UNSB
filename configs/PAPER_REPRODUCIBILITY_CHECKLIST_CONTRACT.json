@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-reproducibility-checklist-contract-v1",
+  "captured_at": "2026-09-08T07:35:36+08:00",
+  "status": "PRE_RESULT_REPRODUCIBILITY_AND_ARTIFACT_CHECKLIST_HASH_BOUND",
+  "checklist": {
+    "path": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
+    "sha256": "a5503a23f92961cf9cbea2b34944a769fb4d93298881fca365389bc8cc0ae129"
+  },
+  "authorities": {
+    "executable_protocol": {
+      "path": "configs/PAPER_AIO_UNPAIRED_V1.json",
+      "sha256": "09f178be8158bf2102ebb241456a113fd8145294d513d503e72eeb2068bcbfcc"
+    },
+    "theory_bundle": {
+      "path": "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json",
+      "sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8"
+    },
+    "baseline_portfolio": {
+      "path": "configs/PAPER_BASELINE_PORTFOLIO.json",
+      "sha256": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b"
+    },
+    "runtime_relations": {
+      "path": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
+      "sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891"
+    },
+    "manuscript_branching": {
+      "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+      "sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065"
+    },
+    "methods_protocol_draft": {
+      "path": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+      "sha256": "7f0c70837ab74b1259cca6f0971f38a96f374288a331c7a5dc45251c19210cd0"
+    }
+  },
+  "required_sections": [
+    "immutable_study_identity",
+    "data_and_split_disclosure",
+    "frozen_training_protocol",
+    "minimum_executable_command_record",
+    "full_state_and_recovery_requirements",
+    "runtime_cohorts_and_legal_comparisons",
+    "frozen_evaluation_and_statistical_reporting",
+    "required_public_artifact_inventory",
+    "pre_submission_audit"
+  ],
+  "release_gate": "The committed post-result claim freeze must bind this checklist and close every applicable item or record a lawful omission before manuscript finalization.",
+  "hard_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "full_data_benefit_claimed": false,
+    "multi_seed_stability_claimed": false,
+    "terminal_singularity_repair_claimed": false,
+    "confirmation20_opened": false,
+    "training_queue_changed": false
+  }
+}

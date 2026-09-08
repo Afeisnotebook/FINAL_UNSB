@@ -430,3 +430,7 @@ authorize compute.
      已被误删”的现场质疑重新核验，不以旧回执替代当前状态。AM-TNC原PID自然推进至e72；
      隔离runtime重新通过111项依赖与full-state门，并从615,816真实执行一项CPU update到
      615,817。e72原始状态已异机只读备份，训练及全部关键后继零重启、不依赖旧完整环境恢复。
+126. `DEC-20260908-PRE-RESULT-REPRODUCIBILITY-CHECKLIST.md`：在结果产生前冻结英文复现与
+     Artifact清单，并以合同绑定可执行协议、理论包、基线组合、runtime关系、结果分支和Methods
+     草稿。固定e200与晚三点、single-seed披露、事故provenance、合法delta、公开产物和
+     confirmation20单次门均在看到结果前写定；不修改训练队列、不预写收益结论。

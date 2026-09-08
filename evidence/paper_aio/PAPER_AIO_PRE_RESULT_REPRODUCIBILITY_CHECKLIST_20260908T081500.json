@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-pre-result-reproducibility-checklist-v1",
+  "captured_at": "2026-09-08T08:15:00+08:00",
+  "status": "PRE_RESULT_REPRODUCIBILITY_AND_ARTIFACT_CHECKLIST_COMPLETE_HASH_BOUND_NO_EMPIRICAL_CLAIM",
+  "document": {
+    "path": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
+    "sha256": "a5503a23f92961cf9cbea2b34944a769fb4d93298881fca365389bc8cc0ae129"
+  },
+  "contract": {
+    "path": "configs/PAPER_REPRODUCIBILITY_CHECKLIST_CONTRACT.json",
+    "sha256": "ce5bbb13ca3931dca24ab85e45d48600eb1ad391170987b5a00abf1374e32534"
+  },
+  "coverage": {
+    "immutable_study_identity": true,
+    "data_split_and_license_disclosure": true,
+    "official_unpaired_sampling": true,
+    "frozen_unsb_and_external_baseline_protocols": true,
+    "public_command_skeletons": true,
+    "full_state_and_exact_resume": true,
+    "runtime_cohort_and_legal_delta_rules": true,
+    "fixed_e200_and_sustained_reporting": true,
+    "stochastic_and_complexity_reporting": true,
+    "public_artifact_inventory": true,
+    "pre_submission_claim_audit": true,
+    "single_seed_limitation": true,
+    "cleanup_incident_disclosure": true,
+    "secret_exclusion": true
+  },
+  "authority_bindings": {
+    "executable_protocol_sha256": "09f178be8158bf2102ebb241456a113fd8145294d513d503e72eeb2068bcbfcc",
+    "theory_bundle_sha256": "0dddf1b552465ec3e8f9ab1674d93a7ad7ac29561802c611f389baa9eb3de4e8",
+    "baseline_portfolio_sha256": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b",
+    "runtime_relations_sha256": "e728492bde895cea3392f64f765e955d3d12bc40fdd5cd65585efa176c60f891",
+    "manuscript_branching_sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065",
+    "methods_protocol_draft_sha256": "7f0c70837ab74b1259cca6f0971f38a96f374288a331c7a5dc45251c19210cd0"
+  },
+  "current_live_non_interference": {
+    "4090a_amtnc": "healthy_e72_recovery_closed",
+    "5090b_cyclegan": "healthy_e198",
+    "5090b_matched_plain": "healthy_e38",
+    "local_dclgan": "healthy_e59",
+    "training_processes_changed": false,
+    "training_queue_changed": false
+  },
+  "validation": {
+    "targeted_tests": "3 passed",
+    "document_and_authorities_hash_bound": true,
+    "protocol_constants_checked_by_test": true,
+    "performance_claim_pattern_absent": true
+  },
+  "release_gate": "The post-result claim freeze must bind this checklist and either close every applicable item or record a lawful omission before manuscript finalization.",
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "full_data_benefit_claimed": false,
+    "multi_seed_stability_claimed": false,
+    "terminal_singularity_repair_claimed": false,
+    "confirmation20_opened": false
+  }
+}
