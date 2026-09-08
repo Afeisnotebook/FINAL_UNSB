@@ -477,3 +477,8 @@ authorize compute.
      VideoDesnowing的一手项目页，只找到下载与引用信息，没有找到可据以开放图像再分发的明确
      数据许可；该结论严格限定为“公开页面未找到”，不证明许可不存在。后续只能以权利人书面确认
      或独立可验证的数据许可解锁，当前继续发布构建说明与哈希、不发布图像。
+140. `DEC-20260908-AMTNC-E76-POST-CLEANUP-EXECUTABLE-RECOVERY-CLOSURE.md`：确认错误清理确实
+     删除了原`unsb_cov`环境，但保持deleted-inode训练不动；从隔离runtime对111项依赖和e76
+     full-state做全量哈希门，并在复制状态上真实执行一条CPU更新。最新e76状态已异机只读备份，
+     guard零重启且只从隔离Python恢复；损失上界收敛为当前未保存epoch，同时保留CUDA逐位等价
+     无法在不中断健康进程时证明的披露边界。
