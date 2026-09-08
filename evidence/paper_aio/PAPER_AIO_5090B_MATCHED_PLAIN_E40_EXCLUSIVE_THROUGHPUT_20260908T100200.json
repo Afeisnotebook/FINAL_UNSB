@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-matched-plain-exclusive-throughput-v1",
+  "captured_at": "2026-09-08T10:02:00+08:00",
+  "status": "MATCHED_PLAIN_E40_HASH_CLOSED_FIRST_GPU_EXCLUSIVE_EPOCH_CONTINUOUS",
+  "host": {
+    "label": "5090B_MATCHED_PLAIN",
+    "endpoint_alias": "connect.weste.seetacloud.com:44804",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "free_disk_gib": 224.1046371459961
+  },
+  "training": {
+    "lane": "plain",
+    "data_epoch": 40,
+    "updates": 342120,
+    "target_updates": 1710600,
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "milestone_checkpoint_sha256": "f72f73f9886b08541242e9556e0b1113a93453fb2806f72f065010d5784e0623",
+    "milestone_sidecar_sha256": "7c7b09ef4fa60bc555e77b3e80567bea90ae68248ef9b6cf1ae29e660eae569a",
+    "rolling_checkpoint_sha256": "6ef79ceffc2f2b73ce1d8105713fa0321fca9aa2c948f23b8430fd300ed6c20f",
+    "rolling_sidecar_sha256": "d257cf7aaf3c9620ada851932aa5ffc2256bf7bced38565977fa398caaafc8e8",
+    "scientific_state_sha256": "5ea9e850444f48c0d8f21e3f70a866fbdb78917f13cf4b735bdef56c73415459",
+    "metric_artifact_sha256": "083193820762ab2f0af13b06bc2f11861232427f8a980926cdbdf406f6dae5e6",
+    "metric_values_read": false,
+    "successor_pid": 523993,
+    "supervisor_pid": 534983,
+    "trainer_pid": 534984,
+    "exporter_pid": 534982,
+    "health_watcher_pid": 667507,
+    "export_recovery_supervisor_pid": 673803,
+    "pids_unchanged_across_transition": true,
+    "restarted_resumed_or_migrated_at_transition": false,
+    "health_status": "HEALTHY_ZERO_ALERTS"
+  },
+  "throughput": {
+    "last_complete_coresident_epoch": 39,
+    "coresident_epoch_seconds": 4656.141878604889,
+    "first_complete_exclusive_epoch": 40,
+    "exclusive_epoch_seconds": 2402.3230073451996,
+    "exclusive_to_coresident_ratio": 0.515947123171642,
+    "wall_time_reduction_fraction": 0.484052876828358,
+    "remaining_epochs": 160,
+    "projected_remaining_seconds_from_single_exclusive_epoch": 384371.68117523193,
+    "projected_e200": "2026-09-12T20:45:00+08:00_rough",
+    "interpretation": "CycleGAN natural completion removed co-resident contention; no training setting changed"
+  },
+  "runtime_relation": {
+    "status": "PASS_EXACT_RUNTIME_COHORT",
+    "proposal_relation": "ADMITTED_BYTE_IDENTICAL_RUNTIME_RELATION",
+    "stcgr_relation": "ADMITTED_TWO_LINK_CROSS_CODE_RUNTIME_RELATION",
+    "matched_delta_available": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "training_protocol_changed": false,
+    "new_experiment_started": false
+  },
+  "decision": "KEEP_EXISTING_PLAIN_CONTINUATION_AND_USE_EXCLUSIVE_THROUGHPUT_FOR_ENGINEERING_ETA_ONLY"
+}

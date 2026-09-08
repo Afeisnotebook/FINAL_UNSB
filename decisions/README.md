@@ -445,3 +445,6 @@ authorize compute.
      由共驻无重启转为5090B独占，跨宿主导入按publish-last合同继续执行。
 130. `DEC-20260908-DCLGAN-E60-HASH-CLOSURE.md`：本地DCLGAN完成e60并闭合固定checkpoint、
      sidecar和scientific-state哈希；1660独占训练与e200导出/推送监督链均健康，继续原协议至e200。
+131. `DEC-20260908-5090B-MATCHED-PLAIN-E40-EXCLUSIVE-THROUGHPUT.md`：5090B matched
+     plain保持原PID自然从CycleGAN共驻转为GPU独占；e40固定状态哈希闭合，首个独占epoch相较
+     前一共驻epoch缩短48.4%，只据此刷新工程ETA，不读取paired指标或改变协议。
