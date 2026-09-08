@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-pre-result-limitations-freeze-v1",
+  "captured_at": "2026-09-08T11:10:00+08:00",
+  "status": "PRE_RESULT_LIMITATIONS_HASH_BOUND_NO_EMPIRICAL_CLAIM",
+  "source_commit": "4298cb2a261b202dd5f8b66f01b819a8b07e2157",
+  "limitations_statement": {
+    "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
+    "sha256": "6db70c44919431332d456660b860ee1ffde172429761fa11bf4283fe958ba450"
+  },
+  "manuscript_branching_contract": {
+    "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+    "sha256": "6fe0fd12258b7e789bfbe37d495af3f4bbaa516ac87ce739f7e1f5fc8c4c1fec",
+    "limitations_binding_verified": true,
+    "all_source_bindings_verified": true
+  },
+  "frozen_disclosures": [
+    "single_seed_2026_first_wave_is_not_seed_stability",
+    "equal_updates_do_not_imply_equal_compute",
+    "theory_is_pre_adam_not_optimizer_or_convergence_guarantee",
+    "no_terminal_singularity_repair_claim",
+    "six_domain_128px_image_proportional_scope",
+    "dataset_redistribution_requires_lawful_authority",
+    "ddsb_reproduction_gap_is_not_a_negative_result",
+    "deferred_hjcgr_and_negcut_are_not_mechanism_falsification",
+    "confirmation20_remains_single_use_and_sealed",
+    "amtnc_deleted_inode_runtime_has_an_explicit_provenance_boundary",
+    "engineering_failure_current_implementation_failure_and_mechanism_falsification_are_distinct"
+  ],
+  "validation": {
+    "targeted_tests": "11 passed",
+    "full_pytest": "762 passed in 54.07s",
+    "contract_validator": "ALL CONTRACT CHECKS PASSED",
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "training_queue_changed": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "full_data_benefit_claimed": false,
+    "multi_seed_stability_claimed": false,
+    "terminal_singularity_repair_claimed": false
+  },
+  "decision": "decisions/DEC-20260908-PRE-RESULT-LIMITATIONS-FREEZE.md"
+}
