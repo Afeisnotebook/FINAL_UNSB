@@ -458,3 +458,6 @@ authorize compute.
 134. `DEC-20260908-POST-RECOVERY-FULL-REPOSITORY-VALIDATION.md`：在AM-TNC恢复与CycleGAN导入
      闭环后对权威commit执行全仓验收；合同检查、761项pytest、compileall和diff检查全部通过，
      证明工程修正未破坏论文交付接口，且不把测试结果冒充科学结论。
+135. `DEC-20260908-KNOWN-CREDENTIAL-NONPERSISTENCE-AUDIT.md`：不回显凭据值地检查四组已知
+     SSH凭据在当前跟踪文件、全部Git历史和Goal heartbeat配置中的持久化情况，命中均为零；
+     该门禁不触碰远端训练，且不替代公开前的一般secret scanner。
