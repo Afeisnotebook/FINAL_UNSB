@@ -73,6 +73,22 @@
       "refresh_decision": "decisions/DEC-20260908-RELATED-WORK-NOVELTY-REFRESH.md",
       "newly_bound_neighbors": ["sbf", "ibcd", "e_bridge", "sampling_without_replacement_gradient_estimation"]
     },
+    "paper_reference_ledger": {
+      "status": "PRE_RESULT_PRIMARY_METADATA_LOCK_CORE_STABLE_VOLATILE_REFRESH_REQUIRED",
+      "ledger": "configs/PAPER_REFERENCE_LEDGER.json",
+      "ledger_sha256": "44917ebe4574530041661bb6d1d2f225c945cf64457621fe91f7b425c6493ff5",
+      "bibliography": "research/paper_aio/PAPER_REFERENCES_CORE_PRE_RESULT.bib",
+      "bibliography_sha256": "ff7479e5a9cde158f97942a3348beebc1e8b47d50a8f4da73dc2830bc0438865",
+      "core_entry_count": 20,
+      "submission_day_refresh_count": 11,
+      "metadata_lock_is_novelty_proof": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "full_test_result": "766 passed",
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REFERENCE_LEDGER_20260908T124000.json",
+      "decision": "decisions/DEC-20260908-PRE-RESULT-REFERENCE-LEDGER.md"
+    },
     "initialization_exposure_and_external_baseline_audit": {
       "status": "CURRENT_FROZEN_RUNS_ACCEPTED_WITH_BOUNDED_DISCLOSURE_FUTURE_FRESH_E0_FIXED",
       "current_unsb_family_policy": "legacy_post_DDI_sampler_snapshot_one_position_offset_on_primary_and_secondary",

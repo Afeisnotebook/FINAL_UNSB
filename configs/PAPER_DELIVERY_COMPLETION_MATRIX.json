@@ -263,6 +263,20 @@
   },
   "nonblocking_extensions": [
     {
+      "id": "pre_result_reference_ledger",
+      "status": "primary_metadata_core_hash_closed_volatile_submission_day_refresh_required",
+      "critical_path": false,
+      "ledger": "configs/PAPER_REFERENCE_LEDGER.json",
+      "bibliography": "research/paper_aio/PAPER_REFERENCES_CORE_PRE_RESULT.bib",
+      "core_entry_count": 20,
+      "submission_day_refresh_count": 11,
+      "metadata_lock_is_novelty_proof": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REFERENCE_LEDGER_20260908T124000.json"
+    },
+    {
       "id": "algorithm_theory_freeze_chain",
       "status": "pre_result_three_operator_bundle_hash_bound_to_review_freeze_and_post_freeze_consumers",
       "critical_path": false,

@@ -1,0 +1,258 @@
+{
+  "schema": "final-unsb-paper-reference-ledger-v1",
+  "captured_at": "2026-09-08T12:30:00+08:00",
+  "status": "PRE_RESULT_PRIMARY_METADATA_LOCK_CORE_STABLE_VOLATILE_REFRESH_REQUIRED",
+  "purpose": "Bind the stable citation core before empirical results are available while keeping volatile 2026 neighbors behind an explicit submission-day refresh gate.",
+  "bib": {
+    "path": "research/paper_aio/PAPER_REFERENCES_CORE_PRE_RESULT.bib",
+    "sha256": "ff7479e5a9cde158f97942a3348beebc1e8b47d50a8f4da73dc2830bc0438865",
+    "entry_count": 20
+  },
+  "required_groups": {
+    "foundations_and_controlled_baselines": [
+      "kim2024unsb",
+      "zhu2017cyclegan",
+      "park2020cut",
+      "han2021dclgan",
+      "wang2021negcut",
+      "yi2025ddsb"
+    ],
+    "theory_and_mechanism_neighbors": [
+      "nichol2021improvedddpm",
+      "yu2020pcgrad",
+      "liu2021cagrad",
+      "zhou2022stochasticgradient",
+      "debortoli2024sbf",
+      "wu2019antithetic"
+    ],
+    "dataset_lineage": [
+      "cordts2016cityscapes",
+      "sakaridis2018foggycityscapes",
+      "li2019reside",
+      "hu2019raincityscapes",
+      "quan2021rainds",
+      "wen2024rscityscapes",
+      "chen2023snowremoval",
+      "wen2025mpmf"
+    ]
+  },
+  "entries": [
+    {
+      "citation_key": "kim2024unsb",
+      "roles": ["foundation", "controlled_baseline"],
+      "metadata_status": "verified_primary",
+      "year": 2024,
+      "primary_url": "https://openreview.net/forum?id=uQBW7ELXfO"
+    },
+    {
+      "citation_key": "zhu2017cyclegan",
+      "roles": ["controlled_baseline"],
+      "metadata_status": "verified_primary",
+      "year": 2017,
+      "primary_url": "https://openaccess.thecvf.com/content_iccv_2017/html/Zhu_Unpaired_Image-To-Image_Translation_ICCV_2017_paper.html"
+    },
+    {
+      "citation_key": "park2020cut",
+      "roles": ["controlled_baseline"],
+      "metadata_status": "verified_primary",
+      "year": 2020,
+      "primary_url": "https://www.ecva.net/papers/eccv_2020/papers_ECCV/html/792_ECCV_2020_paper.php"
+    },
+    {
+      "citation_key": "han2021dclgan",
+      "roles": ["external_extension"],
+      "metadata_status": "verified_primary",
+      "year": 2021,
+      "primary_url": "https://openaccess.thecvf.com/content/CVPR2021W/NTIRE/html/Han_Dual_Contrastive_Learning_for_Unsupervised_Image-to-Image_Translation_CVPRW_2021_paper.html"
+    },
+    {
+      "citation_key": "wang2021negcut",
+      "roles": ["external_deferred"],
+      "metadata_status": "verified_primary",
+      "year": 2021,
+      "primary_url": "https://openaccess.thecvf.com/content/ICCV2021/html/Wang_Instance-Wise_Hard_Negative_Example_Generation_for_Contrastive_Learning_in_Unpaired_ICCV_2021_paper.html"
+    },
+    {
+      "citation_key": "yi2025ddsb",
+      "roles": ["external_reproduction_gate", "degradation_aware_bridge_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2025,
+      "doi": "10.52202/085713-0086",
+      "primary_url": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html"
+    },
+    {
+      "citation_key": "nichol2021improvedddpm",
+      "roles": ["variance_learning_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2021,
+      "primary_url": "https://proceedings.mlr.press/v139/nichol21a.html"
+    },
+    {
+      "citation_key": "yu2020pcgrad",
+      "roles": ["gradient_geometry_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2020,
+      "primary_url": "https://proceedings.neurips.cc/paper/2020/hash/3fe78a8acf5fda99de95303940a2420c-Abstract.html"
+    },
+    {
+      "citation_key": "liu2021cagrad",
+      "roles": ["gradient_geometry_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2021,
+      "primary_url": "https://proceedings.neurips.cc/paper/2021/hash/9d27fdf2477ffbff837d73ef7ae23db9-Abstract.html"
+    },
+    {
+      "citation_key": "zhou2022stochasticgradient",
+      "roles": ["gradient_geometry_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2022,
+      "doi": "10.52202/068431-2761",
+      "primary_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/f91bd64a3620aad8e70a27ad9cb3ca57-Abstract-Conference.html"
+    },
+    {
+      "citation_key": "debortoli2024sbf",
+      "roles": ["schrodinger_bridge_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2024,
+      "doi": "10.52202/079017-3285",
+      "primary_url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/bb3cfcb0284642a973dd631ec9184f2f-Abstract-Conference.html"
+    },
+    {
+      "citation_key": "wu2019antithetic",
+      "roles": ["variance_reduction_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2019,
+      "primary_url": "https://proceedings.mlr.press/v89/wu19c.html"
+    },
+    {
+      "citation_key": "cordts2016cityscapes",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2016,
+      "primary_url": "https://openaccess.thecvf.com/content_cvpr_2016/html/Cordts_The_Cityscapes_Dataset_CVPR_2016_paper.html"
+    },
+    {
+      "citation_key": "sakaridis2018foggycityscapes",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2018,
+      "doi": "10.1007/s11263-018-1072-8",
+      "primary_url": "https://people.ee.ethz.ch/~csakarid/SFSU_synthetic/"
+    },
+    {
+      "citation_key": "li2019reside",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2019,
+      "doi": "10.1109/TIP.2018.2867951",
+      "primary_url": "https://ieeexplore.ieee.org/document/8451944/"
+    },
+    {
+      "citation_key": "hu2019raincityscapes",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2019,
+      "primary_url": "https://openaccess.thecvf.com/content_CVPR_2019/html/Hu_Depth-Attentional_Features_for_Single-Image_Rain_Removal_CVPR_2019_paper.html"
+    },
+    {
+      "citation_key": "quan2021rainds",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2021,
+      "primary_url": "https://openaccess.thecvf.com/content/CVPR2021/html/Quan_Removing_Raindrops_and_Rain_Streaks_in_One_Go_CVPR_2021_paper.html"
+    },
+    {
+      "citation_key": "wen2024rscityscapes",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2024,
+      "doi": "10.1016/j.patcog.2024.110743",
+      "primary_url": "https://www.sciencedirect.com/science/article/abs/pii/S0031320324004941"
+    },
+    {
+      "citation_key": "chen2023snowremoval",
+      "roles": ["dataset_lineage"],
+      "metadata_status": "verified_primary",
+      "year": 2023,
+      "primary_url": "https://openaccess.thecvf.com/content/ICCV2023/html/Chen_Snow_Removal_in_Video_A_New_Dataset_and_A_Novel_ICCV_2023_paper.html"
+    },
+    {
+      "citation_key": "wen2025mpmf",
+      "roles": ["dataset_aggregation_lineage", "paired_ceiling_neighbor"],
+      "metadata_status": "verified_primary",
+      "year": 2025,
+      "doi": "10.1609/aaai.v39i8.32898",
+      "primary_url": "https://ojs.aaai.org/index.php/AAAI/article/view/32898"
+    }
+  ],
+  "submission_day_refresh_required": [
+    {
+      "working_key": "adaptive_timestep_sampling_2411_09998",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2411.09998"
+    },
+    {
+      "working_key": "carv_2605_21489",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2605.21489"
+    },
+    {
+      "working_key": "ibcd_2503_15056",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2503.15056"
+    },
+    {
+      "working_key": "e_bridge_B9JHSksyox",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://openreview.net/forum?id=B9JHSksyox"
+    },
+    {
+      "working_key": "nadb_2605_28962",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2605.28962"
+    },
+    {
+      "working_key": "sddbm_2608_08594",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2608.08594"
+    },
+    {
+      "working_key": "dbim_eghAocvqBk",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://openreview.net/forum?id=eghAocvqBk"
+    },
+    {
+      "working_key": "consistency_diffusion_bridge_FFJFGx78OK",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://openreview.net/forum?id=FFJFGx78OK"
+    },
+    {
+      "working_key": "sampling_without_replacement_2002_06043",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2002.06043"
+    },
+    {
+      "working_key": "conditional_variance_loss_floor_2608_23916",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2608.23916"
+    },
+    {
+      "working_key": "bridge_graphical_models_2608_19144",
+      "status": "volatile_not_in_core_bib",
+      "primary_url": "https://arxiv.org/abs/2608.19144"
+    }
+  ],
+  "authority": {
+    "metadata_lock_is_novelty_proof": false,
+    "related_work_claim_authority": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
+    "dataset_reuse_authority": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+    "volatile_entries_require_fresh_primary_source_review_before_submission": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "training_or_queue_changed": false,
+    "algorithm_selected": false,
+    "confirmation20_opened": false,
+    "empirical_claim_frozen": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-pre-result-reference-ledger-evidence-v1",
+  "captured_at": "2026-09-08T12:40:00+08:00",
+  "event": "PRE_RESULT_PRIMARY_REFERENCE_CORE_HASH_CLOSED",
+  "repository_base_commit": "c1451c6c1bb8930eb0696c1b041943c1b32810df",
+  "artifacts": {
+    "ledger": "configs/PAPER_REFERENCE_LEDGER.json",
+    "ledger_sha256": "44917ebe4574530041661bb6d1d2f225c945cf64457621fe91f7b425c6493ff5",
+    "bibliography": "research/paper_aio/PAPER_REFERENCES_CORE_PRE_RESULT.bib",
+    "bibliography_sha256": "ff7479e5a9cde158f97942a3348beebc1e8b47d50a8f4da73dc2830bc0438865",
+    "test": "tests/test_paper_reference_ledger.py"
+  },
+  "closure": {
+    "core_entries": 20,
+    "foundation_and_controlled_baseline_entries": 6,
+    "theory_and_mechanism_entries": 6,
+    "dataset_lineage_entries": 8,
+    "submission_day_refresh_entries": 11,
+    "core_metadata_source_policy": "primary publisher, proceedings, author-project, or archival paper page",
+    "volatile_2026_neighbors_in_core_bibliography": false,
+    "metadata_lock_claimed_as_novelty_proof": false
+  },
+  "validation": {
+    "contract_validation": "PASS",
+    "targeted_pytest": "3 passed",
+    "full_pytest": "766 passed in 86.73s",
+    "bibtex_smoke": "PASS_WITHOUT_WARNINGS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "training_processes_changed": false,
+    "training_queue_changed": false,
+    "algorithm_selected": false,
+    "empirical_claim_frozen": false,
+    "confirmation20_opened": false
+  },
+  "remaining_gate": "Refresh every submission_day_refresh_required primary source and the complete related-work collision audit immediately before final claim freeze or submission."
+}
