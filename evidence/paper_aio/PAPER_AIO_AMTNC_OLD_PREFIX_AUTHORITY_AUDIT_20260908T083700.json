@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-amtnc-old-prefix-authority-audit-v1",
+  "captured_at": "2026-09-08T08:47:00+08:00",
+  "status": "LIVE_TRAINING_HEALTHY_OLD_PREFIX_NOT_RECOVERY_AUTHORITY_ISOLATED_PREFLIGHT_PASS",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib": 2371,
+    "gpu_utilization_percent_observed_range": [49, 62],
+    "free_disk_gib": 529
+  },
+  "incident_truth": {
+    "original_complete_unsb_cov_environment_present": false,
+    "active_supervisor_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_trainer_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_processes_restarted_or_signalled": false,
+    "old_prefix_role": "PARTIAL_PREFIX_WITH_FAIL_CLOSED_ENTRY_RELAYS_NOT_A_COMPLETE_CONDA_ENVIRONMENT",
+    "old_prefix_must_not_be_overwritten": true
+  },
+  "live_training": {
+    "lane": "amtnc",
+    "latest_complete_data_epoch": 73,
+    "latest_complete_step": 624369,
+    "target_step": 1710600,
+    "full_state_sha256": "8eede384bf9c120f28bbbce138592b088d96a7683a85de76e44e3573934cf53e",
+    "sidecar_sha256": "d4f0acddd0aeb0abb2b4092ce635eebddb33b9421eafe26cb61c3911405a2e0c",
+    "scientific_state_sha256": "d18494c06504e70c81b4a6959c75639f82b4fdbc2f6e2b6fa30d5bda2d01f22b",
+    "supervisor_status": "ALIVE",
+    "trainer_status": "ALIVE_COMPUTING",
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restart_count": 0
+  },
+  "fresh_isolated_recovery_preflight": {
+    "record": "/home/yc/recovery_snapshots/AMTNC_VERIFY_CURRENT_E73_20260908T084300.json",
+    "record_sha256": "6ee43b577a4d6748a9add402fb0b1b15be4d88e2b6295c031e31c85b21ddf5e1",
+    "exit_code": 0,
+    "status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+    "control_git_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "runtime_manifest_sha256": "a9a6e0b7832384d8b9cfc96ff174f9b99ad7c95c83b3fb70d4c52d275726d537",
+    "runtime_entry_count": 111,
+    "all_runtime_entry_hashes_verified": true,
+    "checkpoint_step": 624369,
+    "checkpoint_sha256": "8eede384bf9c120f28bbbce138592b088d96a7683a85de76e44e3573934cf53e"
+  },
+  "restart_command_audit": {
+    "guard_contract": "/home/yc/runs/FINAL_UNSB_AMTNC_RECOVERY_GUARD_C4EED76/TRAINING_SUPERVISOR_GUARD_CONTRACT.json",
+    "guard_contract_status": "FROZEN",
+    "supervisor_command_first_entry": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "training_supervisor_child_python_rule": "sys.executable",
+    "old_prefix_bypassed_for_recovery": true,
+    "full_runtime_rehash_before_launch": true,
+    "latest_checkpoint_rehash_before_launch": true
+  },
+  "old_path_relay_probe": {
+    "command_scope": "CUDA_MASKED_IMPORT_ONLY",
+    "exit_code": 0,
+    "resolved_sys_executable": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "torch_version": "2.5.1+cu121",
+    "paper_training_entrypoint_import": "PASS",
+    "interpretation": "THE_RELAY_CAN_START_THE_PINNED_RUNTIME_BUT_DOES_NOT_RESTORE_THE_OLD_CONDA_PREFIX"
+  },
+  "downstream_recovery": {
+    "terminal_export": {"recovery_supervisor_pid": 706411, "restart_count": 0, "status": "MONITORING_EXISTING_EXPORT"},
+    "incremental_export": {"recovery_supervisor_pid": 723432, "restart_count": 0, "status": "MONITORING_EXISTING_EXPORT"},
+    "amtnc_evaluation": {"recovery_supervisor_pid": 3879668, "restart_count": 0, "status": "MONITORING_EXISTING_CHILD"},
+    "unified_evaluation": {"recovery_supervisor_pid": 3879670, "restart_count": 0, "status": "MONITORING_EXISTING_CHILD"},
+    "final_delivery": {"recovery_supervisor_pid": 3879674, "restart_count": 0, "status": "MONITORING_EXISTING_CHILD"},
+    "dclgan_evaluation": {"recovery_supervisor_pid": 3870693, "restart_count": 0, "status": "MONITORING_EXISTING_CHILD"},
+    "all_recovery_supervisors_execute_from_isolated_evaluation_runtime": true
+  },
+  "offhost_protection": {
+    "runtime_archive": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260907/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
+    "runtime_archive_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
+    "latest_complete_state": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E73/full_state_latest.pt",
+    "latest_complete_state_sha256": "8eede384bf9c120f28bbbce138592b088d96a7683a85de76e44e3573934cf53e",
+    "hash_rechecked_locally": true
+  },
+  "impact_and_loss_bound": {
+    "completed_epochs_lost": false,
+    "completed_checkpoint_lost": false,
+    "algorithm_or_optimizer_state_lost": false,
+    "future_full_state_resume_blocked": false,
+    "future_export_or_evaluation_blocked": false,
+    "maximum_compute_at_risk_if_live_trainer_exits": "CURRENT_INCOMPLETE_DATA_EPOCH_ONLY",
+    "remaining_unprovable_property": "CUDA_NEXT_STEP_BITWISE_EQUIVALENCE_TO_THE_STILL_RUNNING_DELETED_INODE_PROCESS_WITHOUT_INTERRUPT_SYSTEM",
+    "incident_fully_erased": false,
+    "operational_recovery_path_closed": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}

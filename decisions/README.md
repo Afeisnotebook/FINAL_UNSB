@@ -434,3 +434,6 @@ authorize compute.
      Artifact清单，并以合同绑定可执行协议、理论包、基线组合、runtime关系、结果分支和Methods
      草稿。固定e200与晚三点、single-seed披露、事故provenance、合法delta、公开产物和
      confirmation20单次门均在看到结果前写定；不修改训练队列、不预写收益结论。
+127. `DEC-20260908-AMTNC-OLD-PREFIX-RECOVERY-AUTHORITY.md`：确认错误清理删除了原完整环境，
+     但旧prefix不再是恢复权威；重新验签隔离runtime的111项映射与e73 full-state，核对训练、
+     导出和评估后继均由隔离runtime监督，在不中断活训练的前提下将最坏损失限制为当前epoch。

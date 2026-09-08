@@ -432,7 +432,7 @@
   ],
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the training guard bypasses that prefix and directly binds the verified read-only isolated runtime, all 111 mapped files were freshly rehashed, e71 executed one isolated CPU update from the current full state, e71 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
+    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard bypasses it and directly binds the verified read-only isolated runtime, all 111 mapped files were freshly rehashed again at e73, e72 executed one isolated CPU update, e73 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "the 2026-09-07 metric-blind refresh projects Proposal near 2026-09-14 07:38 with about 16.4 hours of lease headroom, ST-CGR near 2026-09-14 12:43 with about 35.3 hours, and the two-phase 5090B matched plain near 2026-09-12 21:49 with about 26.2 hours; no extension is currently triggered"
