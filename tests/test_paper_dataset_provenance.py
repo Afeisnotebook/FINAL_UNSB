@@ -59,20 +59,35 @@ def test_provenance_notice_does_not_overstate_lineage_or_permission() -> None:
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     text = NOTICE.read_text(encoding="utf-8")
     required = [
-        "PRE-RESULT / NO EMPIRICAL CLAIM / REDISTRIBUTION NOT CLEARED",
+        "PRE-RESULT / NO EMPIRICAL CLAIM / CITYSCAPES TERMS VERIFIED / BUNDLE REDISTRIBUTION NOT CLEARED",
         "consistent with the MPMF-Net six-test-set bundle",
         "not directly comparable",
         "license_not_verified_do_not_redistribute",
         "controlled custom split",
         "same-stem targets and domain labels are unavailable to training",
+        "official Cityscapes Terms and Conditions",
+        "must not ship FoggyCityscapes, RainCityscapes, or RSCityscapes",
+        "does not offer legal advice",
     ]
     for phrase in required:
         assert phrase in text
 
     assert contract["upstream_bundle_lineage"]["original_archive_receipt_retained_locally"] is False
+    cityscapes = contract["cityscapes_terms"]
+    assert cityscapes["url"] == "https://www.cityscapes-dataset.com/license/"
+    assert cityscapes["third_party_dataset_access_allowed"] is False
+    assert cityscapes["modified_or_derived_distribution_allowed_when_source_can_be_recovered"] is False
+    assert set(cityscapes["affected_local_domains"]) == {
+        "FoggyCityscapes", "RainCityscapes", "RSCityscapes",
+    }
     assert contract["release_policy"]["image_bytes_allowed_in_public_repository"] is False
     assert all(value is False for value in contract["hard_boundaries"].values())
-    assert all("do_not_redistribute" in item["license_status"] for item in contract["domains"].values())
+    for domain, item in contract["domains"].items():
+        status = item["license_status"]
+        if domain in cityscapes["affected_local_domains"]:
+            assert "redistribut" in status
+        else:
+            assert "do_not_redistribute" in status
 
 
 def test_provenance_contract_is_registered_without_changing_training() -> None:

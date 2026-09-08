@@ -1,10 +1,10 @@
 {
   "schema": "final-unsb-paper-dataset-provenance-contract-v1",
-  "captured_at": "2026-09-08T09:00:00+08:00",
-  "status": "PRE_RESULT_PROVENANCE_BOUND_REDISTRIBUTION_NOT_CLEARED",
+  "captured_at": "2026-09-08T11:40:00+08:00",
+  "status": "PRE_RESULT_PROVENANCE_BOUND_CITYSCAPES_REDISTRIBUTION_PROHIBITION_VERIFIED_OTHER_TERMS_UNRESOLVED",
   "document": {
     "path": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
-    "sha256": "c82a7dc4ca8f8adb1deab3e1830a53039b29509e0ac7e364418ed5c2e450088b"
+    "sha256": "dc4cc95690c1278be6f6c2a665c15c5eb57c5f031c53c1584d48ee2a0773c434"
   },
   "local_authorities": {
     "data_contract": {
@@ -35,13 +35,25 @@
     "github_license_endpoint_status": 404,
     "license_interpretation": "license_not_verified_do_not_redistribute"
   },
+  "cityscapes_terms": {
+    "status": "AUTHORITATIVE_TERMS_VERIFIED_20260908",
+    "url": "https://www.cityscapes-dataset.com/license/",
+    "audited_at": "2026-09-08",
+    "third_party_dataset_access_allowed": false,
+    "modified_or_derived_distribution_allowed_when_source_can_be_recovered": false,
+    "abstract_nonrecoverable_derivatives_such_as_models_may_be_distributed": true,
+    "licensed_use_noncommercial_only": true,
+    "attribution_required": true,
+    "affected_local_domains": ["FoggyCityscapes", "RainCityscapes", "RSCityscapes"],
+    "legal_advice_claimed": false
+  },
   "domains": {
     "FoggyCityscapes": {
       "physical": 4575,
       "train": 4475,
       "role": "haze",
       "citation": "Sakaridis, Dai, and Van Gool, Semantic Foggy Scene Understanding with Synthetic Data, IJCV 2018",
-      "license_status": "cityscapes_derived_terms_must_be_checked_do_not_redistribute"
+      "license_status": "cityscapes_terms_verified_no_dataset_or_recoverable_modified_version_redistribution"
     },
     "LowLightTrafficData": {
       "physical": 736,
@@ -55,7 +67,7 @@
       "train": 1088,
       "role": "rain_by_haze",
       "citation": "Hu et al., Depth-Attentional Features for Single-Image Rain Removal, CVPR 2019",
-      "license_status": "dataset_access_via_cityscapes_code_license_not_data_license_do_not_redistribute"
+      "license_status": "dataset_access_via_cityscapes_code_license_not_data_license_cityscapes_redistribution_prohibited"
     },
     "RainDS-syn": {
       "physical": 200,
@@ -69,7 +81,7 @@
       "train": 1088,
       "role": "rain_by_snow",
       "citation": "Wen et al., Restoring Vision in Rain-by-Snow Weather with Simple Attention-Based Sampling Cross-Hierarchy Transformer, Pattern Recognition 2024",
-      "license_status": "derived_from_raincityscapes_independent_license_not_verified_do_not_redistribute"
+      "license_status": "derived_from_raincityscapes_no_separate_permission_cityscapes_chain_no_redistribution"
     },
     "SnowTrafficData": {
       "physical": 1266,
@@ -90,6 +102,7 @@
   "release_policy": {
     "image_bytes_allowed_in_public_repository": false,
     "repackaged_archive_allowed": false,
+    "cityscapes_derived_image_or_recoverable_modified_copy_distribution_allowed": false,
     "publish_code_and_aggregate_counts": true,
     "publish_stems_or_per_file_hashes_before_terms_check": false,
     "preferred_distribution": "manifest_builder_and_hash_verifier_for_user_obtained_upstream_files",
@@ -102,6 +115,7 @@
     "confirmation20_opened": false,
     "redistribution_permission_claimed": false,
     "upstream_byte_identity_claimed": false,
-    "official_upstream_training_split_claimed": false
+    "official_upstream_training_split_claimed": false,
+    "legal_advice_claimed": false
   }
 }
