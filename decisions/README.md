@@ -490,3 +490,6 @@ authorize compute.
      BibTeX字节纳入review draft、人工/Codex review、claim-freeze receipt和后续分布评估的同一
      哈希链；缺失、未提交或漂移一律fail closed。该门只约束结果后的论文交付，不改变训练、算法
      选择或runtime cohort，也不以元数据账本替代新颖性审计。
+143. `DEC-20260908-AMTNC-E80-POST-CLEANUP-MILESTONE.md`：AM-TNC在不触碰deleted-inode
+     健康进程的条件下自然完成e80；隔离恢复guard零重启，e80完整状态已逐文件哈希复制到异机
+     只读目录。恢复锚点由e76前移至e80，同时继续保留CUDA下一步逐位等价不可证明的披露边界。

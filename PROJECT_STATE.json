@@ -1662,7 +1662,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E80_POST_CLEANUP_MILESTONE_20260908T161300.json",
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",
@@ -1875,7 +1875,7 @@
       "registry_review_evidence": "evidence/paper_aio/PAPER_AIO_DURABLE_RELATION_REGISTRY_REVIEW_DEPLOYED_20260903.json"
     },
     "runtime_environment_recovery": {
-      "status": "ACTIVE_DELETED_INODE_PRESERVED_E76_ISOLATED_FULL_REHASH_REAL_RESUME_AND_OFFHOST_HASH_CLOSED",
+      "status": "ACTIVE_DELETED_INODE_PRESERVED_E80_OFFHOST_HASH_CLOSED_E76_EXECUTABLE_RECOVERY_GATE_VALID",
       "active_runtime_exe_status": "DELETED_INODE_STILL_RUNNING",
       "active_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
       "previous_rebuild_disposition": "SUPERSEDED_AS_NON_EQUIVALENT_NUMPY_2_1_3_PILLOW_11_3_0",
@@ -1907,8 +1907,8 @@
       "isolated_runtime_recovery_authority": true,
       "offhost_runtime_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260907/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
       "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
-      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E76/full_state_latest.pt",
-      "offhost_full_state_backup_sha256": "2a1da1036c75f81efd99933f02a4ece1b0412e1802be6d806362aec5207d1eec",
+      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E80/full_state_latest.pt",
+      "offhost_full_state_backup_sha256": "dd01671c612f5c0afc2433d7367dd1261b3a3adc63ecfea7e05e8c8eabb88fa5",
       "direct_original_python_path_relay_probe": "PASS_ISOLATED_RUNTIME_PYTORCH_CUDA_AND_PAPER_RUNNER_IMPORT",
       "runtime_cuda_smoke": "PASS_RTX_4090_TORCH_2_5_1_CUDA_12_1",
       "recovery_assets_write_protected": true,
@@ -1919,8 +1919,8 @@
       "outer_recovery_guard_control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "outer_recovery_runtime_identity_bound": true,
       "outer_recovery_full_runtime_rehash_before_launch": true,
-      "latest_live_complete_epoch": 76,
-      "latest_live_complete_updates": 650028,
+      "latest_live_complete_epoch": 80,
+      "latest_live_complete_updates": 684240,
       "amtnc_exporter_pid_unchanged": 2182586,
       "amtnc_export_recovery_supervisor_pid": 706411,
       "amtnc_export_recovery_health_watcher_pid": 706689,
@@ -1936,7 +1936,7 @@
       "dclgan_recovery_health_watcher_pid": 3870938,
       "gpu_next_step_bitwise_equivalence_claimed": false,
       "creates_new_runtime_cohort": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E76_POST_CLEANUP_EXECUTABLE_RECOVERY_CLOSURE_20260908T120600.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E80_POST_CLEANUP_MILESTONE_20260908T161300.json",
       "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
       "decision": "decisions/DEC-20260908-AMTNC-OLD-PREFIX-RECOVERY-AUTHORITY.md"
     },

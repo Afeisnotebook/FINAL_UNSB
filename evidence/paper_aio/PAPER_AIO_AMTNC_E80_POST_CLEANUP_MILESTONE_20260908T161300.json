@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-amtnc-e80-post-cleanup-milestone-v1",
+  "captured_at": "2026-09-08T16:13:00+08:00",
+  "status": "AMTNC_E80_COMPLETE_DELETED_INODE_PROCESS_HEALTHY_GUARD_ZERO_RESTARTS_OFFHOST_E80_HASH_CLOSED",
+  "host": {
+    "label": "4090A",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_compute_pid": 3446758,
+    "gpu_memory_used_mib": 2336,
+    "free_disk_gib": 527
+  },
+  "live_training": {
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "active_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "processes_restarted_signalled_or_migrated": false,
+    "data_epoch": 80,
+    "step": 684240,
+    "target_step": 1710600,
+    "epoch_wall_seconds": 3552.604821205139,
+    "full_state_sha256": "dd01671c612f5c0afc2433d7367dd1261b3a3adc63ecfea7e05e8c8eabb88fa5",
+    "scientific_state_sha256": "3d52cb4755902e30be0f99d9b705e153680128a9a597dfa8f7703c1d23aa2697"
+  },
+  "recovery": {
+    "old_prefix_is_recovery_authority": false,
+    "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "runtime_manifest_entries": 111,
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "latest_executable_resume_gate": "PASS_E76_FULL_REHASH_AND_REAL_CPU_UPDATE",
+    "gpu_next_step_bitwise_equivalence_claimed": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260908_E80",
+    "checkpoint_bytes": 201489332,
+    "checkpoint_sha256": "dd01671c612f5c0afc2433d7367dd1261b3a3adc63ecfea7e05e8c8eabb88fa5",
+    "sidecar_sha256": "c4b045d68d637dbe95a92da8ea4040dc9f5330e1cef35c947e0ef603410903b5",
+    "heartbeat_sha256": "e186453b92b4788549298f2e09e5151665fa9b9d94e70d4a35f72d8a9c3f6ae8",
+    "lane_authorization_sha256": "f1b84e7d8bf9dd9ae10a024b2f4be71e2857b0be3d65c1081d052b32c5ab195a",
+    "local_hashes_match_remote": true,
+    "core_files_read_only": true,
+    "stored_outside_git": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  }
+}
