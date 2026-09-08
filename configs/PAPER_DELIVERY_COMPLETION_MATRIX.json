@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T10:17:00+08:00",
+  "captured_at": "2026-09-08T10:20:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -18,7 +18,7 @@
         "local/dclgan_extension": "e60_hash_closed_live_continuation_health_zero_alerts"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
-      "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json"
+      "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
     },
     {
       "id": "legal_matched_control",
@@ -110,20 +110,20 @@
     }
   ],
   "delivery_recovery_control": {
-    "status": "four_hash_pinned_supervisors_healthy_monitoring_existing_relays_zero_restarts",
+    "status": "three_active_hash_pinned_supervisors_healthy_cyclegan_terminal_zero_restarts",
     "critical_path": true,
     "requires": ["source-bound e200 exporters", "frozen relay contracts", "destination 4090A"],
     "proof": "each relay is adopted by one fail-closed recovery supervisor plus one state-freshness health watcher",
     "control_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
     "supervisor_pids": {
       "5090A_stcgr_v4": 400028,
-      "5090B_external_v3": 400037,
+      "5090B_external_v3_retired_complete": 400037,
       "5090B_matched_plain_v3": 400046,
       "5090C_proposal_v4": 400055
     },
     "adopted_relay_pids": {
       "5090A_stcgr_v4": 3414650,
-      "5090B_external_v3": 3414651,
+      "5090B_external_v3_retired_complete": 3414651,
       "5090B_matched_plain_v3": 3414652,
       "5090C_proposal_v4": 3414653
     },
@@ -237,24 +237,28 @@
       "decision": "decisions/DEC-20260908-CYCLEGAN-E190-DELIVERY-CHAIN-PREFLIGHT.md"
     },
     "cyclegan_e200_source_closure": {
-      "status": "complete_source_bound_export_destination_import_in_progress_matched_plain_continuous",
+      "status": "complete_source_bound_export_and_destination_import_matched_plain_continuous",
       "critical_path": true,
       "source_epoch": 200,
       "source_step": 1710600,
       "source_checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
       "source_scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601",
       "source_export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
-      "destination_relay_pid": 3414651,
-      "destination_relay_recovery_supervisor_pid": 400037,
-      "destination_import_status": "transfer_in_progress_publish_last",
-      "matched_plain_latest_complete_epoch": 39,
+      "destination_relay_pid": null,
+      "retired_destination_relay_pid": 3414651,
+      "destination_relay_recovery_supervisor_pid": null,
+      "retired_destination_relay_recovery_supervisor_pid": 400037,
+      "destination_import_status": "complete_verified_imported_lane_publish_last",
+      "destination_import_lane_sha256": "b7c519f63a2b88411efaddc132032d6fd037b5e58d184e60e07ecc7c675c8372",
+      "destination_import_set_sha256": "0a70aed1aadca7162dde9894f33f0a0800a4a15be4117e312252150d9ca33471",
+      "matched_plain_latest_complete_epoch": 40,
       "matched_plain_same_pids_after_transition": true,
-      "matched_plain_first_exclusive_epoch_measurement_pending": true,
+      "matched_plain_first_exclusive_epoch_measurement_pending": false,
       "training_processes_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json",
-      "decision": "decisions/DEC-20260908-CYCLEGAN-E200-SOURCE-CLOSURE-AND-PLAIN-EXCLUSIVE-TRANSITION.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json",
+      "decision": "decisions/DEC-20260908-CYCLEGAN-E200-DESTINATION-IMPORT-CLOSURE.md"
     }
   },
   "nonblocking_extensions": [

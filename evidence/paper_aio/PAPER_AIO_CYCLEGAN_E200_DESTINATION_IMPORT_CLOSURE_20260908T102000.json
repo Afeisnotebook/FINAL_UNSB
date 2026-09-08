@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e200-destination-import-closure-v1",
+  "captured_at": "2026-09-08T10:20:00+08:00",
+  "status": "COMPLETE_VERIFIED_IMPORTED_LANE_PUBLISH_LAST_HASH_CLOSED",
+  "source": {
+    "host": "5090B",
+    "lane": "cyclegan",
+    "epoch": 200,
+    "step": 1710600,
+    "source_export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
+    "scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601"
+  },
+  "destination": {
+    "host": "4090A",
+    "root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+    "import_lane": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/sources/5090B/cyclegan/IMPORT_LANE.json",
+    "import_lane_sha256": "b7c519f63a2b88411efaddc132032d6fd037b5e58d184e60e07ecc7c675c8372",
+    "import_set": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/operations/IMPORT_SET_5090B_external_v3.json",
+    "import_set_sha256": "0a70aed1aadca7162dde9894f33f0a0800a4a15be4117e312252150d9ca33471",
+    "publish_last_status": "COMPLETE_VERIFIED_IMPORTED_LANE"
+  },
+  "imported_checkpoints": {
+    "e100": "a01d0d5243c9f9f8a51ab2834d183a85c539b49ce6560c0407037abfaa9263d8",
+    "e125": "6e4668d909ce33dd38368af9b3a64b78731004f8c263d590804a806fca7a4382",
+    "e150": "9aaa474e15c26a8466806f19ab69b76712d4bd319fcb3915faf52601a73c8a27",
+    "e175": "4c3378629a93f0076ffb5f045f3ca258f8f962d2ce6ef1a9b53836acf45b4018",
+    "e200": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4"
+  },
+  "relay_terminal_state": {
+    "relay_pid": 3414651,
+    "relay_process_alive": false,
+    "relay_status": "COMPLETE_VERIFIED_IMPORT_SET",
+    "recovery_supervisor_pid": 400037,
+    "recovery_supervisor_alive": false,
+    "recovery_status": "COMPLETE_RELAY_TERMINAL",
+    "restart_count": 0,
+    "processes_exited_naturally": true,
+    "must_not_restart": true
+  },
+  "evaluation": {
+    "unified_evaluator_pid": 3802120,
+    "isolated_recovery_supervisor_pid": 3879670,
+    "health_watcher_pid": 3880106,
+    "status": "WAITING_FOR_REMAINING_FIXED_IMPORTS_AND_AMTNC_GPU_RELEASE",
+    "cycle_gan_import_ready": true,
+    "gpu_acquired": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T10:17:00+08:00",
+  "captured_at": "2026-09-08T10:20:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -305,16 +305,18 @@
   },
   "external_fixed_milestones": {
     "cyclegan_e200": {
-      "status": "checkpoint_sidecar_and_source_bound_export_hash_closed_destination_import_in_progress_performance_values_unread",
+      "status": "checkpoint_sidecar_source_export_and_destination_import_hash_closed_performance_values_unread",
       "step": 1710600,
       "checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
       "sidecar_sha256": "39b151df622bd35407d14201ff32e7e6456ea08c03e0c3909c791dccea76d2ad",
       "scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601",
       "source_export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
+      "destination_import_lane_sha256": "b7c519f63a2b88411efaddc132032d6fd037b5e58d184e60e07ecc7c675c8372",
+      "destination_import_set_sha256": "0a70aed1aadca7162dde9894f33f0a0800a4a15be4117e312252150d9ca33471",
       "source_export_recovery_restart_count": 0,
       "destination_relay_recovery_restart_count": 0,
-      "matched_plain_transition": "continuous_same_pids_now_gpu_exclusive_e39",
-      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json"
+      "matched_plain_transition": "continuous_same_pids_gpu_exclusive_e40_hash_closed",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
     },
     "cyclegan_e190": {
       "status": "latest_checkpoint_and_sidecar_hash_closed_e200_delivery_chain_preflight_pass_performance_values_unread",
@@ -545,18 +547,18 @@
       "5090C_proposal_live_progress_sentinel": 89015
     },
     "cross_host_relay_recovery": {
-      "status": "deployed_healthy_four_relays_zero_restarts",
+      "status": "deployed_three_active_relays_one_cyclegan_terminal_zero_restarts",
       "control_commit": "4a61fcaf00f32c1328ccc4e140a19a9eebdc4a09",
       "supervisor_pids": {
         "5090A_stcgr_v4": 400028,
-        "5090B_external_v3": 400037,
+        "5090B_external_v3_retired_complete": 400037,
         "5090B_matched_plain_v3": 400046,
         "5090C_proposal_v4": 400055
       },
       "health_watcher_pid": 401539,
       "all_supervisor_ppids": 1,
-      "all_original_relays_preserved": true,
-      "relay_process_count": 4,
+      "all_nonterminal_original_relays_preserved": true,
+      "relay_process_count": 3,
       "duplicate_relay_processes": false,
       "password_value_persisted": false,
       "scientific_processes_changed": false,
@@ -1148,7 +1150,7 @@
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
     "decision": "decisions/DEC-20260908-AMTNC-OLD-PREFIX-RECOVERY-AUTHORITY.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E74_ISOLATED_RECOVERY_AND_OFFHOST_CLOSURE_20260908T101700.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

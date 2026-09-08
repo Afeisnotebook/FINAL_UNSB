@@ -452,3 +452,6 @@ authorize compute.
      环境确已删除、旧prefix仅是部分残留和fail-closed入口，不覆盖健康deleted-inode进程；
      AM-TNC自然推进到e74，隔离runtime 111项依赖与最新full-state重新验签通过，并将e74完整
      状态复制为异机只读哈希闭环备份，最坏风险限制为当前未保存epoch。
+133. `DEC-20260908-CYCLEGAN-E200-DESTINATION-IMPORT-CLOSURE.md`：CycleGAN五个冻结checkpoint
+     已完成5090B到4090A的publish-last验签导入；relay与恢复监督器零重启自然退出且不得重启，
+     统一评估继续等待其余固定导入和AM-TNC释放GPU，不读取性能或改变训练。
