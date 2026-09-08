@@ -1,0 +1,56 @@
+{
+  "schema": "final-unsb-paper-dataset-provenance-and-reuse-audit-v1",
+  "captured_at": "2026-09-08T09:03:00+08:00",
+  "status": "PRE_RESULT_PROVENANCE_BOUND_CUSTOM_REUSE_DISCLOSED_REDISTRIBUTION_NOT_CLEARED",
+  "document": {
+    "path": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+    "sha256": "c82a7dc4ca8f8adb1deab3e1830a53039b29509e0ac7e364418ed5c2e450088b"
+  },
+  "contract": {
+    "path": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+    "sha256": "5d61057b35b0e4d15c51c1fb161062160477c42853a699f0c2c078da0247276a"
+  },
+  "local_findings": {
+    "canonical_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "physical_identities": 9153,
+    "train_identities": 8553,
+    "discovery_identities": 480,
+    "sealed_confirmation_identities": 120,
+    "six_domain_names_match_upstream_bundle": true,
+    "readme_or_license_retained_beside_local_images": false,
+    "original_download_receipt_or_archive_checksum_retained": false
+  },
+  "primary_source_audit": {
+    "mpmf_repository": "https://github.com/chdwyb/MPMF-Net",
+    "mpmf_commit": "13feb0da6c33cbef3e686b21ef4e34b259c2bcd0",
+    "mpmf_readme_blob_sha": "3e46085aecd80820a5dcc42863afbca531145030",
+    "mpmf_paper_doi": "10.1609/aaai.v39i8.32898",
+    "mpmf_readme_lists_all_six_downloads": true,
+    "mpmf_root_license_file_present": false,
+    "github_license_endpoint_status": 404,
+    "raincityscapes_official_repository_commit": "ebf08cf2f357aa361861e7863942417d9d562b15",
+    "foggy_cityscapes_page_states_cityscapes_licensing_restriction": true
+  },
+  "scientific_interpretation": {
+    "local_bundle_lineage": "CONSISTENT_WITH_MPMF_NET_SIX_TEST_SET_BUNDLE_NOT_BYTE_PROVEN",
+    "upstream_collections_original_role": "TESTING_DATASETS",
+    "final_unsb_role": "CONTROLLED_CUSTOM_UNPAIRED_SPLIT_SHARED_BY_ALL_RETRAINED_METHODS",
+    "direct_comparison_to_original_paired_literature_numbers": false,
+    "controlled_internal_comparisons_invalidated": false
+  },
+  "release_interpretation": {
+    "license_status": "license_not_verified_do_not_redistribute",
+    "image_bytes_or_repackaged_archive_allowed": false,
+    "code_counts_and_hash_identity_allowed": true,
+    "manifest_identifiers_require_terms_review": true,
+    "author_or_license_confirmation_required": true
+  },
+  "execution_effect": {
+    "training_queue_changed": false,
+    "running_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

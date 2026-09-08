@@ -437,3 +437,6 @@ authorize compute.
 127. `DEC-20260908-AMTNC-OLD-PREFIX-RECOVERY-AUTHORITY.md`：确认错误清理删除了原完整环境，
      但旧prefix不再是恢复权威；重新验签隔离runtime的111项映射与e73 full-state，核对训练、
      导出和评估后继均由隔离runtime监督，在不中断活训练的前提下将最坏损失限制为当前epoch。
+128. `DEC-20260908-DATASET-PROVENANCE-AND-CUSTOM-REUSE.md`：绑定六域数据的MPMF-Net与逐域
+     原始引用谱系，同时如实记录缺失的原始archive回执和许可。冻结“既有测试集合的受控自定义
+     无配对split”表述、禁止与上游paired数字直接横比，并在许可确认前禁止重新分发图像。

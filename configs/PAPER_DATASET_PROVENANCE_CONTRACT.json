@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-dataset-provenance-contract-v1",
+  "captured_at": "2026-09-08T09:00:00+08:00",
+  "status": "PRE_RESULT_PROVENANCE_BOUND_REDISTRIBUTION_NOT_CLEARED",
+  "document": {
+    "path": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+    "sha256": "c82a7dc4ca8f8adb1deab3e1830a53039b29509e0ac7e364418ed5c2e450088b"
+  },
+  "local_authorities": {
+    "data_contract": {
+      "path": "DATA_CONTRACT.json",
+      "sha256": "d2944f2b0419b5555926ae4f77699415a085dddf909eb1f1fd5541bfdf33335d"
+    },
+    "canonical_manifest": {
+      "path": "manifests/FULL_DATA_MANIFEST.csv",
+      "sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+    }
+  },
+  "corpus_counts": {
+    "physical_identities": 9153,
+    "train_identities": 8553,
+    "discovery_identities": 480,
+    "sealed_confirmation_identities": 120
+  },
+  "upstream_bundle_lineage": {
+    "status": "HIGH_CONFIDENCE_NAME_AND_PROTOCOL_MATCH_NOT_CRYPTOGRAPHIC_DOWNLOAD_PROOF",
+    "repository": "https://github.com/chdwyb/MPMF-Net",
+    "audited_commit": "13feb0da6c33cbef3e686b21ef4e34b259c2bcd0",
+    "readme_blob_sha": "3e46085aecd80820a5dcc42863afbca531145030",
+    "paper_doi": "10.1609/aaai.v39i8.32898",
+    "repository_lists_all_six_named_downloads": true,
+    "original_archive_receipt_retained_locally": false,
+    "upstream_archive_checksum_available": false,
+    "top_level_license_file_at_audited_commit": false,
+    "github_license_endpoint_status": 404,
+    "license_interpretation": "license_not_verified_do_not_redistribute"
+  },
+  "domains": {
+    "FoggyCityscapes": {
+      "physical": 4575,
+      "train": 4475,
+      "role": "haze",
+      "citation": "Sakaridis, Dai, and Van Gool, Semantic Foggy Scene Understanding with Synthetic Data, IJCV 2018",
+      "license_status": "cityscapes_derived_terms_must_be_checked_do_not_redistribute"
+    },
+    "LowLightTrafficData": {
+      "physical": 736,
+      "train": 636,
+      "role": "low_light",
+      "citation": "Li et al., Benchmarking Single-Image Dehazing and Beyond, TIP 2019; attribution follows MPMF-Net",
+      "license_status": "construction_and_license_not_verified_do_not_redistribute"
+    },
+    "RainCityscapes": {
+      "physical": 1188,
+      "train": 1088,
+      "role": "rain_by_haze",
+      "citation": "Hu et al., Depth-Attentional Features for Single-Image Rain Removal, CVPR 2019",
+      "license_status": "dataset_access_via_cityscapes_code_license_not_data_license_do_not_redistribute"
+    },
+    "RainDS-syn": {
+      "physical": 200,
+      "train": 100,
+      "role": "rain_by_raindrop",
+      "citation": "Quan et al., Removing Raindrops and Rain Streaks in One Go, CVPR 2021",
+      "license_status": "local_subset_license_not_verified_do_not_redistribute"
+    },
+    "RSCityscapes": {
+      "physical": 1188,
+      "train": 1088,
+      "role": "rain_by_snow",
+      "citation": "Wen et al., Restoring Vision in Rain-by-Snow Weather with Simple Attention-Based Sampling Cross-Hierarchy Transformer, Pattern Recognition 2024",
+      "license_status": "derived_from_raincityscapes_independent_license_not_verified_do_not_redistribute"
+    },
+    "SnowTrafficData": {
+      "physical": 1266,
+      "train": 1166,
+      "role": "snow",
+      "citation": "Chen et al., Snow Removal in Video: A New Dataset and A Novel Method, ICCV 2023",
+      "license_status": "local_packaged_images_license_not_verified_do_not_redistribute"
+    }
+  },
+  "custom_reuse_disclosure": {
+    "upstream_collections_described_as_testing_datasets": true,
+    "final_unsb_repurposes_combined_collections": true,
+    "final_unsb_training_is_unpaired": true,
+    "same_stem_target_available_to_training": false,
+    "all_compared_methods_use_same_custom_split": true,
+    "direct_comparison_to_upstream_paired_scores_allowed": false
+  },
+  "release_policy": {
+    "image_bytes_allowed_in_public_repository": false,
+    "repackaged_archive_allowed": false,
+    "publish_code_and_aggregate_counts": true,
+    "publish_stems_or_per_file_hashes_before_terms_check": false,
+    "preferred_distribution": "manifest_builder_and_hash_verifier_for_user_obtained_upstream_files",
+    "requires_author_or_license_confirmation_before_image_redistribution": true
+  },
+  "hard_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_queue_changed": false,
+    "confirmation20_opened": false,
+    "redistribution_permission_claimed": false,
+    "upstream_byte_identity_claimed": false,
+    "official_upstream_training_split_claimed": false
+  }
+}

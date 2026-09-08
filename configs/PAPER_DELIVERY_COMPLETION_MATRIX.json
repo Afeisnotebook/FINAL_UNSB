@@ -276,6 +276,21 @@
       "decision": "decisions/DEC-20260908-PRE-RESULT-REPRODUCIBILITY-CHECKLIST.md"
     },
     {
+      "id": "dataset_provenance_and_custom_reuse",
+      "status": "pre_result_six_domain_lineage_bound_custom_unpaired_reuse_disclosed_redistribution_not_cleared",
+      "critical_path": false,
+      "document": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+      "contract": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+      "lineage_strength": "high_confidence_name_and_protocol_match_not_cryptographic_download_proof",
+      "release_gate": "author_or_license_confirmation_or_lawful_omission_before_public_artifact_release",
+      "direct_upstream_paired_score_comparison_allowed": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DATASET_PROVENANCE_AND_REUSE_AUDIT_20260908T090300.json",
+      "decision": "decisions/DEC-20260908-DATASET-PROVENANCE-AND-CUSTOM-REUSE.md"
+    },
+    {
       "id": "related_work_novelty_boundary",
       "status": "pre_result_primary_source_collision_audit_refreshed_20260908_final_claim_time_refresh_still_required",
       "critical_path": false,

@@ -1300,6 +1300,21 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_PRE_RESULT_REPRODUCIBILITY_CHECKLIST_20260908T081500.json",
       "decision": "decisions/DEC-20260908-PRE-RESULT-REPRODUCIBILITY-CHECKLIST.md"
     },
+    "dataset_provenance_and_custom_reuse": {
+      "status": "PRE_RESULT_SIX_DOMAIN_LINEAGE_BOUND_CUSTOM_UNPAIRED_REUSE_DISCLOSED_REDISTRIBUTION_NOT_CLEARED",
+      "document": "research/paper_aio/DATASET_PROVENANCE_AND_REUSE_NOTICE_EN.md",
+      "contract": "configs/PAPER_DATASET_PROVENANCE_CONTRACT.json",
+      "lineage_strength": "HIGH_CONFIDENCE_NAME_AND_PROTOCOL_MATCH_NOT_CRYPTOGRAPHIC_DOWNLOAD_PROOF",
+      "upstream_collections_original_role": "TESTING_DATASETS",
+      "final_unsb_role": "CONTROLLED_CUSTOM_UNPAIRED_SPLIT",
+      "direct_upstream_paired_score_comparison_allowed": false,
+      "image_redistribution_allowed": false,
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DATASET_PROVENANCE_AND_REUSE_AUDIT_20260908T090300.json",
+      "decision": "decisions/DEC-20260908-DATASET-PROVENANCE-AND-CUSTOM-REUSE.md"
+    },
     "confirmation20_control_plane": {
       "status": "ONE_RECOVERABLE_SESSION_INTERFACE_IMPLEMENTED_TESTED_COMMITTED_NOT_AUTHORIZED",
       "implementation_commit": "cd2651d51af03eb3a9029053d50c1d33777540f7",
