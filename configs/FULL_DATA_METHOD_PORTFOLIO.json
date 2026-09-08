@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T08:15:00+08:00",
+  "captured_at": "2026-09-08T09:31:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -248,7 +248,7 @@
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
     "plain_5090B_matched": "formal_e200_running_e20_fixed_milestone_e26_latest_state_hash_closed_progress_aware_health",
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
-    "cyclegan_5090B": "exact_resume_closed_e190_hash_closed_e200_delivery_chain_preflight_pass_e175_metric_reconstructable_read_only",
+    "cyclegan_5090B": "complete_e200_hash_closed_source_bound_export_complete_destination_import_in_progress_performance_unread",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
     "dclgan": "running_local_gtx1660_e40_fixed_milestone_hash_closed_live_heartbeat_e50_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
@@ -304,6 +304,18 @@
     }
   },
   "external_fixed_milestones": {
+    "cyclegan_e200": {
+      "status": "checkpoint_sidecar_and_source_bound_export_hash_closed_destination_import_in_progress_performance_values_unread",
+      "step": 1710600,
+      "checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
+      "sidecar_sha256": "39b151df622bd35407d14201ff32e7e6456ea08c03e0c3909c791dccea76d2ad",
+      "scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601",
+      "source_export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
+      "source_export_recovery_restart_count": 0,
+      "destination_relay_recovery_restart_count": 0,
+      "matched_plain_transition": "continuous_same_pids_now_gpu_exclusive_e39",
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json"
+    },
     "cyclegan_e190": {
       "status": "latest_checkpoint_and_sidecar_hash_closed_e200_delivery_chain_preflight_pass_performance_values_unread",
       "step": 1625070,

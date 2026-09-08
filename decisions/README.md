@@ -440,3 +440,6 @@ authorize compute.
 128. `DEC-20260908-DATASET-PROVENANCE-AND-CUSTOM-REUSE.md`：绑定六域数据的MPMF-Net与逐域
      原始引用谱系，同时如实记录缺失的原始archive回执和许可。冻结“既有测试集合的受控自定义
      无配对split”表述、禁止与上游paired数字直接横比，并在许可确认前禁止重新分发图像。
+129. `DEC-20260908-CYCLEGAN-E200-SOURCE-CLOSURE-AND-PLAIN-EXCLUSIVE-TRANSITION.md`：CycleGAN
+     按冻结协议自然完成e200并形成五里程碑source-bound export；matched plain保持原PID连续运行，
+     由共驻无重启转为5090B独占，跨宿主导入按publish-last合同继续执行。

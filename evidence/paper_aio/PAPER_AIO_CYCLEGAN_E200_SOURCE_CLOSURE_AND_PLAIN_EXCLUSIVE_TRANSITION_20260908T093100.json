@@ -1,0 +1,89 @@
+{
+  "schema": "final-unsb-paper-cyclegan-e200-source-closure-v1",
+  "captured_at": "2026-09-08T09:31:00+08:00",
+  "status": "CYCLEGAN_E200_HASH_CLOSED_SOURCE_EXPORT_COMPLETE_IMPORT_IN_PROGRESS_MATCHED_PLAIN_CONTINUOUS",
+  "host": {
+    "label": "5090B",
+    "endpoint_alias": "connect.weste.seetacloud.com:44804",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "free_disk_gib": 225
+  },
+  "cyclegan": {
+    "training_status": "COMPLETE_E200",
+    "completed_at_observed": "2026-09-08T09:17:25+08:00",
+    "updates": 1710600,
+    "data_epoch": 200,
+    "target_updates": 1710600,
+    "last_epoch_wall_seconds": 2878.5384011268616,
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "milestone_e200_checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
+    "milestone_e200_sidecar_sha256": "39b151df622bd35407d14201ff32e7e6456ea08c03e0c3909c791dccea76d2ad",
+    "rolling_latest_checkpoint_sha256": "bdfde3f9514e0797e293e1135fd58507a0e28958e2cb2696b69bb0209de8221d",
+    "rolling_latest_sidecar_sha256": "9def92daaa72e49e200907d86bc83de8f6aa5eb6264bf37bd154367d6035f534",
+    "scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601",
+    "rolling_and_milestone_scientific_state_match": true,
+    "former_supervisor_pid": 11845,
+    "former_trainer_pid": 662728,
+    "former_continuity_guard_pid": 159134,
+    "former_processes_present_after_completion": false,
+    "termination": "NATURAL_AFTER_COMPLETE_E200",
+    "processes_signalled_or_restarted_for_closure": false
+  },
+  "source_bound_export": {
+    "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+    "epochs": [100, 125, 150, 175, 200],
+    "e200_export_receipt_sha256": "dc5ea4da4326dbf5bae63965fd1ebb7fd1705d1919f3628c0322a0d479543fb9",
+    "export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
+    "exporter_pid": 9516,
+    "export_recovery_supervisor_pid": 673800,
+    "export_recovery_restart_count": 0,
+    "exporter_and_recovery_supervisor_terminal": true,
+    "checkpoint_copy_performed_on_source": false
+  },
+  "destination_import": {
+    "destination_host": "4090A",
+    "relay_pid": 3414651,
+    "recovery_supervisor_pid": 400037,
+    "recovery_restart_count": 0,
+    "status_at_capture": "TRANSFER_IN_PROGRESS_PUBLISH_LAST_IMPORT_NOT_YET_READY",
+    "first_checkpoint_transferred": "e100",
+    "first_checkpoint_sha256_verified": "a01d0d5243c9f9f8a51ab2834d183a85c539b49ce6560c0407037abfaa9263d8",
+    "next_checkpoint_partial": "e125",
+    "import_lane_published": false,
+    "interpretation": "source closure is complete; destination closure remains an automatic follow-up event"
+  },
+  "matched_plain_continuity": {
+    "run": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "status": "HEALTHY_CONTINUOUS_NOW_GPU_EXCLUSIVE",
+    "latest_complete_data_epoch": 39,
+    "latest_complete_updates": 333567,
+    "latest_epoch_seconds_contains_prior_cyclegan_coresidency": 4656.141878604889,
+    "supervisor_pid": 534983,
+    "trainer_pid": 534984,
+    "exporter_pid": 534982,
+    "recovery_supervisor_pid": 673803,
+    "health_watcher_pid": 667507,
+    "pids_unchanged": true,
+    "restart_or_resume_at_transition": false,
+    "first_gpu_exclusive_epoch_measurement_pending": true,
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "training_protocol_changed": false,
+    "cross_runtime_delta_computed": false
+  },
+  "next_authoritative_events": [
+    "publish-last 4090A CycleGAN IMPORT_LANE after all five checkpoint hashes pass",
+    "record first complete GPU-exclusive matched-plain epoch and refresh e200 projection",
+    "evaluate CycleGAN only in the frozen unified evaluator after 4090A GPU release"
+  ]
+}

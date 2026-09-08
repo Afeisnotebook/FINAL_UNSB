@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T08:15:00+08:00",
+  "captured_at": "2026-09-08T09:31:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -9,16 +9,16 @@
       "status": "running",
       "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
       "proof": "source-bound e200 export sets",
-      "completed": ["4090A/plain", "5090B/cut"],
+      "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
         "5090C/proposal": "e80_fixed_hash_closed_live_e94_outer_recovery_and_incremental_export_guards_zero_restarts",
         "5090A/stcgr": "e80_fixed_hash_closed_live_e86_outer_recovery_and_incremental_export_guards_zero_restarts",
-        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e70_training_terminal_export_and_incremental_export_isolated_recovery_guards_zero_restarts",
-        "5090B/cyclegan": "e190_hash_closed_live_e195_e200_source_export_import_and_fixed_evaluation_chain_preflight_pass",
-        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e36",
+        "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e73_isolated_recovery_preflight_pass_guards_zero_restarts",
+        "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e39_now_gpu_exclusive",
         "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e57"
       },
-      "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json"
+      "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
+      "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json"
     },
     {
       "id": "legal_matched_control",
@@ -35,17 +35,19 @@
       "export_successor_pid": 534982,
       "capacity_gate_receipt_sha256": "7f1d96be51e3731098ecf2b6f1337b4ea61011ccfa06f97c2bb95bd145c83136",
       "capacity_gate_continue_now_saving_seconds": 27954.229284147616,
-      "latest_complete_data_epoch": 28,
-      "latest_complete_updates": 239484,
-      "latest_epoch_seconds": 4681.493355751038,
-      "latest_full_state_checkpoint_sha256": "d0a745a89521bd815954b90f175413d79c77a58c1059bb14f27630a16188ed50",
-      "latest_full_state_sidecar_sha256": "3e1a00c8387a4a7184b90c26ccc2685189e7787b5985dc4bfe6e6fab71aa23fb",
-      "latest_scientific_state_sha256": "bf00ca06c66ad1c7dc81498ad86b88adbdc82ce1d386990c0d2bcd54f5d7513a",
+      "latest_complete_data_epoch": 39,
+      "latest_complete_updates": 333567,
+      "latest_epoch_seconds": 4656.141878604889,
+      "latest_full_state_checkpoint_sha256": "5fd9c97fdc26bd8168179ab876326919e3f41d889e2e2cb3499063a7b18703ca",
+      "latest_full_state_sidecar_sha256": "f56d3006d61657ec97782b5fa2e7e027c5063a1db17afee8caeb7af87c024640",
+      "latest_scientific_state_sha256": "9895ed221644d5dc01533bd6b0bb632bdaac7ef231b2270616a9a803c41d9ee3",
       "latest_full_state_cpu_load": "PASS",
       "health_watcher_pid": 667507,
       "retired_raw_heartbeat_false_positive_health_watcher_pid": 524155,
       "health_contract_sha256": "af66adf51bd458d3b579830b701bf63f23538383508aaba549d0c07a761d25a4",
-      "projected_e200": "2026-09-12T21:48:40+08:00_rough_two_phase",
+      "projected_e200": "PENDING_FIRST_COMPLETE_GPU_EXCLUSIVE_EPOCH_MEASUREMENT",
+      "coresident_predecessor_status": "CYCLEGAN_COMPLETE_E200_NATURAL_EXIT",
+      "gpu_exclusive_transition_restart": false,
       "source_bound_export_successor_pid": 534982,
       "active_import_relay_pid": 3414652,
       "active_import_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
@@ -229,6 +231,26 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json",
       "decision": "decisions/DEC-20260908-CYCLEGAN-E190-DELIVERY-CHAIN-PREFLIGHT.md"
+    },
+    "cyclegan_e200_source_closure": {
+      "status": "complete_source_bound_export_destination_import_in_progress_matched_plain_continuous",
+      "critical_path": true,
+      "source_epoch": 200,
+      "source_step": 1710600,
+      "source_checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
+      "source_scientific_state_sha256": "74892b50135733a9f642245797c3d0c9f65772c44636b55eefc9de46c92a2601",
+      "source_export_set_sha256": "4e91c918dfb73c222efb01bbb1534de1e882e577cb12655a9f92530f522ca56f",
+      "destination_relay_pid": 3414651,
+      "destination_relay_recovery_supervisor_pid": 400037,
+      "destination_import_status": "transfer_in_progress_publish_last",
+      "matched_plain_latest_complete_epoch": 39,
+      "matched_plain_same_pids_after_transition": true,
+      "matched_plain_first_exclusive_epoch_measurement_pending": true,
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json",
+      "decision": "decisions/DEC-20260908-CYCLEGAN-E200-SOURCE-CLOSURE-AND-PLAIN-EXCLUSIVE-TRANSITION.md"
     }
   },
   "nonblocking_extensions": [
