@@ -443,3 +443,5 @@ authorize compute.
 129. `DEC-20260908-CYCLEGAN-E200-SOURCE-CLOSURE-AND-PLAIN-EXCLUSIVE-TRANSITION.md`：CycleGAN
      按冻结协议自然完成e200并形成五里程碑source-bound export；matched plain保持原PID连续运行，
      由共驻无重启转为5090B独占，跨宿主导入按publish-last合同继续执行。
+130. `DEC-20260908-DCLGAN-E60-HASH-CLOSURE.md`：本地DCLGAN完成e60并闭合固定checkpoint、
+     sidecar和scientific-state哈希；1660独占训练与e200导出/推送监督链均健康，继续原协议至e200。

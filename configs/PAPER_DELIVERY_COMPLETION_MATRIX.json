@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-08T09:31:00+08:00",
+  "captured_at": "2026-09-08T09:46:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -15,7 +15,7 @@
         "5090A/stcgr": "e80_fixed_hash_closed_live_e86_outer_recovery_and_incremental_export_guards_zero_restarts",
         "4090A/amtnc_after_plain": "e60_fixed_checkpoint_hash_closed_live_e73_isolated_recovery_preflight_pass_guards_zero_restarts",
         "5090B/matched_plain": "e20_hash_closed_live_heartbeat_e39_now_gpu_exclusive",
-        "local/dclgan_extension": "e40_hash_closed_live_heartbeat_e57"
+        "local/dclgan_extension": "e60_hash_closed_live_continuation_health_zero_alerts"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_SOURCE_CLOSURE_AND_PLAIN_EXCLUSIVE_TRANSITION_20260908T093100.json"
@@ -334,7 +334,7 @@
     },
     {
       "id": "dclgan",
-      "status": "training_running_local_e40_hash_closed_source_bound_push_and_evaluation_armed_nonblocking_portfolio_addendum_durable_healthy",
+      "status": "training_running_local_e60_hash_closed_source_bound_push_and_evaluation_armed_nonblocking_portfolio_addendum_durable_healthy",
       "critical_path": false,
       "reason": "DCLGAN runs independently on local GTX1660 and must not delay the earlier core portfolio",
       "outputs": ["DCLGAN_PAPER_RESULT.json", "complexity/dclgan.json", "PAPER_EXTERNAL_BASELINE_ADDENDUM.json", "PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"],
@@ -352,11 +352,13 @@
       "recovery_supervisor_pid": 3870693,
       "recovery_health_watcher_pid": 3870938,
       "recovery_restart_count": 0,
-      "latest_completed_data_epoch": 40,
-      "latest_completed_updates": 342120,
-      "latest_fixed_milestone_checkpoint_sha256": "1bed30cc4b13e1e6b65d029072c5e6903675f36bc4c63a0360f69fed444f73b2",
-      "latest_fixed_milestone_scientific_state_sha256": "d817597da105ed7a9120c2230bfd73c36cc18c8c352e25b292b524df94f48551",
-      "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E40_HASH_CLOSURE_20260907T095030.json",
+      "latest_completed_data_epoch": 60,
+      "latest_completed_updates": 513180,
+      "latest_epoch_seconds": 3953.4972109794617,
+      "latest_fixed_milestone_checkpoint_sha256": "78d829f345f733b1c420d0112de9a5b450826f4f0be9190f800fe3480526fa80",
+      "latest_fixed_milestone_sidecar_sha256": "075737ddaaf51ad8449c050005a41b07b303522915d62b509fbabdbfcb561bbd",
+      "latest_fixed_milestone_scientific_state_sha256": "bab92997d298f5cee0d2f01e3df6226abbe9d584c72d6439218ad9bdc4c26670",
+      "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E60_HASH_CLOSURE_20260908T094600.json",
       "runtime_role_gate": "PASS_PINNED_READ_ONLY_EVALUATOR_RUNTIME; existing child adopted without restart",
       "retired_runtime_unsafe_control_pids": [3804113, 3804260],
       "local_remaining_write_bound_gib": 5.162,
@@ -364,7 +366,9 @@
       "local_free_gib_at_storage_audit": 115.984,
       "local_headroom_after_combined_bound_gib": 94.822,
       "storage_gate": "PASS_NO_DELETION_OR_QUEUE_CHANGE_REQUIRED",
-      "storage_evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_E200_STORAGE_BOUND_20260906T103400.json"
+      "storage_evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_DCLGAN_E200_STORAGE_BOUND_20260906T103400.json",
+      "current_free_gib": 108.65916442871094,
+      "current_health_alert_count": 0
     },
     {
       "id": "terminal_causal_audit",

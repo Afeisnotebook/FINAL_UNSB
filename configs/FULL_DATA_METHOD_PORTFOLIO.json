@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-08T09:31:00+08:00",
+  "captured_at": "2026-09-08T09:46:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -250,7 +250,7 @@
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
     "cyclegan_5090B": "complete_e200_hash_closed_source_bound_export_complete_destination_import_in_progress_performance_unread",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_e40_fixed_milestone_hash_closed_live_heartbeat_e50_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_e60_fixed_milestone_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -357,6 +357,15 @@
       "checkpoint_sha256": "d0ce9339f44de9164d34d7d7220157b670e26af627e0b3fa35fa649f146a0f10",
       "scientific_state_sha256": "76b9717da9a3a9e868dc417c1fe5b64644c66abcc5fb39465c397f8b819e45f8",
       "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E20_HASH_CLOSURE_20260906T124522.json"
+    },
+    "local_dclgan_e60": {
+      "status": "checkpoint_and_sidecar_hash_closed_performance_values_unread_live_continuation",
+      "checkpoint_sha256": "78d829f345f733b1c420d0112de9a5b450826f4f0be9190f800fe3480526fa80",
+      "sidecar_sha256": "075737ddaaf51ad8449c050005a41b07b303522915d62b509fbabdbfcb561bbd",
+      "scientific_state_sha256": "bab92997d298f5cee0d2f01e3df6226abbe9d584c72d6439218ad9bdc4c26670",
+      "epoch_wall_seconds": 3953.4972109794617,
+      "health_watcher_alert_count": 0,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E60_HASH_CLOSURE_20260908T094600.json"
     },
     "cyclegan_e125": {
       "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",
@@ -465,7 +474,7 @@
       "dclgan_addendum_child_pid": 638015,
       "dclgan_addendum_health_pid": 638474,
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
-      "latest_metric_blind_epochs": {"amtnc": 68, "stcgr": 84, "proposal": 92, "cyclegan": 193, "matched_plain": 35, "dclgan": 55},
+      "latest_metric_blind_epochs": {"amtnc": 73, "stcgr": 88, "proposal": 96, "cyclegan": 200, "matched_plain": 39, "dclgan": 60},
       "5090b_source_export_recovery_authoritative": true,
       "old_fixed_exporter_pid_false_alert_policy_recorded": true,
       "latest_bound_amtnc_checkpoint_epoch": 68,
