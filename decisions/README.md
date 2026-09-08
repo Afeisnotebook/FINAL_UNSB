@@ -455,3 +455,6 @@ authorize compute.
 133. `DEC-20260908-CYCLEGAN-E200-DESTINATION-IMPORT-CLOSURE.md`：CycleGAN五个冻结checkpoint
      已完成5090B到4090A的publish-last验签导入；relay与恢复监督器零重启自然退出且不得重启，
      统一评估继续等待其余固定导入和AM-TNC释放GPU，不读取性能或改变训练。
+134. `DEC-20260908-POST-RECOVERY-FULL-REPOSITORY-VALIDATION.md`：在AM-TNC恢复与CycleGAN导入
+     闭环后对权威commit执行全仓验收；合同检查、761项pytest、compileall和diff检查全部通过，
+     证明工程修正未破坏论文交付接口，且不把测试结果冒充科学结论。

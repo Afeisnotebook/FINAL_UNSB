@@ -1,0 +1,38 @@
+{
+  "schema": "final-unsb-paper-post-recovery-full-repository-validation-v1",
+  "captured_at": "2026-09-08T10:43:00+08:00",
+  "status": "PASS_FULL_REPOSITORY_AFTER_AMTNC_RECOVERY_AND_CYCLEGAN_IMPORT_CLOSURE",
+  "validated_git_commit": "62ec54d",
+  "scope": [
+    "AM-TNC e74 isolated-runtime recovery authority and off-host hash closure",
+    "CycleGAN e200 publish-last destination import closure",
+    "paper delivery completion matrix",
+    "runtime relation and drift-firewall contracts",
+    "full Python test suite"
+  ],
+  "validation": {
+    "contract_validator": "PASS_ALL_CONTRACT_CHECKS",
+    "pytest": {
+      "status": "PASS",
+      "passed": 761,
+      "failed": 0,
+      "duration_seconds": 84.90
+    },
+    "compileall_operations_and_research": "PASS",
+    "git_diff_check": "PASS",
+    "worktree_before_receipt": "CLEAN"
+  },
+  "interpretation": {
+    "recovery_state_compatible_with_delivery_contract": true,
+    "destination_import_state_compatible_with_delivery_contract": true,
+    "scientific_result_claimed": false,
+    "training_or_queue_changed": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "confirmation20_opened": false
+  }
+}
