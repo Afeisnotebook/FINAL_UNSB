@@ -25,7 +25,7 @@
     },
     "manuscript_branching": {
       "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
-      "sha256": "83efe80a255b283419e8d0d5fb5d0928516d7d4e17d194c7520f63a9d1783065"
+      "sha256": "6fe0fd12258b7e789bfbe37d495af3f4bbaa516ac87ce739f7e1f5fc8c4c1fec"
     },
     "methods_protocol_draft": {
       "path": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",

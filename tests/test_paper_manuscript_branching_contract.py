@@ -68,3 +68,24 @@ def test_manuscript_contract_cannot_predeclare_results_or_open_confirmation() ->
     assert "MANUSCRIPT_TABLES_RECEIPT.json" in required
     assert "MANUSCRIPT_FIGURES_RECEIPT.json" in required
     assert (ROOT / contract["canonical_outline"]).is_file()
+
+
+def test_manuscript_contract_hash_binds_pre_result_limitations() -> None:
+    contract = _load("configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json")
+    relative = contract["limitations_statement"]
+    binding = contract["source_bindings"]["limitations_statement"]
+    assert binding["path"] == relative
+    assert _sha256(relative) == binding["sha256"]
+
+    text = (ROOT / relative).read_text(encoding="utf-8").lower()
+    required_boundaries = [
+        "single",
+        "pre-adam",
+        "terminal",
+        "ddsb",
+        "confirmation20",
+        "deleted-inode",
+        "best-checkpoint",
+    ]
+    assert all(boundary in text for boundary in required_boundaries)
+    assert "no empirical performance claim" in text

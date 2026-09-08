@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-manuscript-branching-contract-v1",
-  "captured_at": "2026-09-08T04:20:00+08:00",
+  "captured_at": "2026-09-08T11:00:00+08:00",
   "status": "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM",
   "purpose": "Prevent result-contingent story drift while allowing the manuscript to follow whichever full-data operators actually pass the frozen paper disposition gate.",
   "source_bindings": {
@@ -19,6 +19,10 @@
     "canonical_outline": {
       "path": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
       "sha256": "f365449caca2bcd8c42b0d6c2c7750f6401c5feecb3cd9a6af1eb196a25ff06e"
+    },
+    "limitations_statement": {
+      "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
+      "sha256": "6db70c44919431332d456660b860ee1ffde172429761fa11bf4283fe958ba450"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],
@@ -77,5 +81,6 @@
     "confirmation20_opened": false
   },
   "canonical_outline": "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md",
+  "limitations_statement": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
   "decision": "decisions/DEC-20260908-PRE-RESULT-MANUSCRIPT-BRANCHING-CONTRACT.md"
 }
