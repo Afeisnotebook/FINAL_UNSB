@@ -514,3 +514,7 @@ authorize compute.
      e125并继续至e127，训练与guard零异常；固定checkpoint、sidecar和指标文件在不读取性能值的
      条件下完成哈希并复制为异机只读备份。合法matched delta仍等待5090B plain e200，未打开
      confirmation20，也未据中间里程碑改变训练。
+150. `DEC-20260910-DCLGAN-E100-HASH-CLOSURE.md`：本地DCLGAN自然完成e100并继续至e101，
+     checkpoint与sidecar完成哈希闭环，训练、e200 exporter及到4090A的push/evaluation持久链
+     均健康。中间里程碑没有inline metric是冻结适配器的预期行为，不是交付失败；未读取性能、
+     未改变协议，terminal JVP继续不与6GB训练共驻。

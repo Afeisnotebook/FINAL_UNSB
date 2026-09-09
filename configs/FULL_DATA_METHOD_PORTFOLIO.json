@@ -272,7 +272,7 @@
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
     "cyclegan_5090B": "complete_e200_hash_closed_source_bound_export_complete_destination_import_in_progress_performance_unread",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_e80_fixed_milestone_hash_closed_live_e81_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_e100_fixed_milestone_hash_closed_live_e101_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -399,6 +399,15 @@
       "epoch_wall_seconds": 3850.1471543312073,
       "delivery_waiters_healthy": true,
       "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E80_HASH_CLOSURE_20260909T081700.json"
+    },
+    "local_dclgan_e100": {
+      "status": "checkpoint_and_sidecar_hash_closed_no_inline_metric_expected_live_e101_continuation",
+      "checkpoint_sha256": "2a0dec043aa92e468985a3b12dd6595d8c3c8fd610272b23ac15bc8432389b12",
+      "sidecar_sha256": "b634907a4fdfe5fee75a652bab604c9c6f3f9142f7705d6f14865a1cb754fd50",
+      "scientific_state_sha256": "000eccc7dcd3d0f5ecc3591eba1642e79ab84391c1b30ee90db0a32f79842d5c",
+      "epoch_wall_seconds": 3879.4568083286285,
+      "delivery_waiters_healthy": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E100_HASH_CLOSURE_20260910T063000.json"
     },
     "cyclegan_e125": {
       "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",
@@ -1181,7 +1190,7 @@
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
     "decision": "decisions/DEC-20260910-AMTNC-E113-POST-CLEANUP-RECOVERY-CLOSURE.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E125_HASH_AND_OFFHOST_CLOSURE_20260910T023000.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_E100_HASH_CLOSURE_20260910T063000.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

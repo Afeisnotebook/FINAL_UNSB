@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-dclgan-e100-hash-closure-v1",
+  "captured_at": "2026-09-10T06:30:00+08:00",
+  "status": "DCLGAN_E100_FIXED_MILESTONE_HASH_CLOSED_LIVE_E101_DELIVERY_CHAIN_HEALTHY",
+  "host": {
+    "label": "LOCAL_GTX1660",
+    "run_root": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "free_disk_gib_observed": 104.246
+  },
+  "training_identity": {
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "wrapper_pid": 20832,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "exporter_pid": 23168,
+    "push_recovery_supervisor_pid": 26020,
+    "push_health_pid": 20500,
+    "all_expected_processes_alive": true
+  },
+  "fixed_e100": {
+    "updates": 855300,
+    "checkpoint_bytes": 351608880,
+    "checkpoint_sha256": "2a0dec043aa92e468985a3b12dd6595d8c3c8fd610272b23ac15bc8432389b12",
+    "sidecar_file_sha256": "b634907a4fdfe5fee75a652bab604c9c6f3f9142f7705d6f14865a1cb754fd50",
+    "scientific_state_sha256": "000eccc7dcd3d0f5ecc3591eba1642e79ab84391c1b30ee90db0a32f79842d5c",
+    "metric_artifact_present": false,
+    "metric_artifact_expected_at_this_stage": false,
+    "reason": "DCLGAN fixed checkpoints are evaluated by the post-e200 unified evaluator rather than inline training evaluation."
+  },
+  "live_after_milestone": {
+    "latest_data_epoch": 101,
+    "latest_updates": 863853,
+    "latest_epoch_wall_seconds": 3879.4568083286285,
+    "latest_checkpoint_sha256": "6d1efa124d45e560c72be0b2badfb2bb3d0745c4c79f11e21e0868553fa2035b",
+    "latest_sidecar_file_sha256": "f735f7fb21de9ea12489f489e24a111024eba9c0439b9aba94687c9153f34769",
+    "latest_scientific_state_sha256": "62a64e04af670a2f34e6a9e58d1fe205e84cf8a0bf14ac472d837001dd8dde38",
+    "training_restarted_or_modified_by_this_audit": false
+  },
+  "delivery_chain": {
+    "local_exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "local_export_checkpoint_copy_performed": false,
+    "source_bound_push_status": "WAITING_FOR_E200_EXPORT_SET",
+    "4090A_unified_evaluation_status": "WAITING_FOR_VERIFIED_IMPORT_AND_DYNAMIC_FIRST_WAVE_COHORT",
+    "terminal_jvp_co_resident": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "dclgan_blocks_core_delivery": false
+  }
+}
