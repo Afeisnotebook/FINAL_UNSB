@@ -13,7 +13,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e100_fixed_source_export_and_offhost_hash_closed_live_post_e100_outer_recovery_zero_restarts",
         "5090A/stcgr": "e100_fixed_metric_source_export_and_offhost_hash_closed_outer_recovery_zero_restarts",
-        "4090A/amtnc_after_plain": "e100_fixed_metric_source_export_and_offhost_hash_closed_live_e101_deleted_inode_guard_zero_restarts",
+        "4090A/amtnc_after_plain": "e113_live_full_state_isolated_runtime_and_real_resume_reverified_offhost_hash_closed_deleted_inode_guard_zero_restarts",
         "5090B/matched_plain": "e40_hash_closed_first_complete_gpu_exclusive_epoch_zero_restarts",
         "local/dclgan_extension": "e80_hash_closed_live_e81_continuation_delivery_waiters_healthy"
       },
@@ -148,7 +148,7 @@
       "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "healthy_deleted_inode_preserved_e100_source_export_and_offhost_hash_closed_e76_executable_recovery_gate_valid",
+      "status": "healthy_deleted_inode_preserved_e113_executable_recovery_and_offhost_hash_closed",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
       "active_training_pid": 3446758,
@@ -158,17 +158,17 @@
       "recovery_health_watcher_pid": 439447,
       "runtime_manifest_entries": 111,
       "runtime_entry_rehash": "pass_111_of_111",
-      "current_checkpoint_resume_probe": "pass_e76_step_650028_to_650029_cpu_with_111_of_111_runtime_rehash",
-      "current_checkpoint_step": 855300,
-      "current_checkpoint_sha256": "55508ad70ddc6b3378bf594d46f70f3c15ef954336bf6524a9e6f3bfd36422fa",
+      "current_checkpoint_resume_probe": "pass_e113_step_966489_to_966490_cpu_with_111_of_111_runtime_rehash",
+      "current_checkpoint_step": 966489,
+      "current_checkpoint_sha256": "34d5f2be09d53be6ec0f21a70d718f08ad12c882e036e9648728565abd98cd8f",
       "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
-      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260909_E100/e100.pt",
-      "offhost_full_state_backup_sha256": "55508ad70ddc6b3378bf594d46f70f3c15ef954336bf6524a9e6f3bfd36422fa",
+      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260910_E113/full_state_e113.pt",
+      "offhost_full_state_backup_sha256": "34d5f2be09d53be6ec0f21a70d718f08ad12c882e036e9648728565abd98cd8f",
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E100_SOURCE_EXPORT_AND_OFFHOST_CLOSURE_20260909T122000.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E113_POST_CLEANUP_RECOVERY_CLOSURE_20260910T004500.json"
     },
     "stcgr_proposal_training_outer_recovery": {
       "status": "healthy_both_guards_monitoring_existing_supervisors_zero_restarts",

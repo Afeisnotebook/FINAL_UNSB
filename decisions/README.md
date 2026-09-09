@@ -506,3 +506,7 @@ authorize compute.
 147. `DEC-20260909-AMTNC-E100-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md`：deleted-inode AM-TNC
      在原PID和隔离恢复guard零重启下自然越过e100；固定checkpoint、sidecar、metric artifact及
      source-bound回执全部完成异机只读哈希保护。执行级恢复门仍是e76，CUDA逐位等价边界不变。
+148. `DEC-20260910-AMTNC-E113-POST-CLEANUP-RECOVERY-CLOSURE.md`：不把原环境缺失粉饰为原地
+     恢复；保持deleted-inode健康进程不动，以隔离runtime对当前e113状态重新完成111项全量哈希
+     和真实CPU单步resume，并将e113完整状态异机只读备份。后继不再依赖旧prefix，最坏损失为
+     当前未保存epoch，同时保留CUDA下一步逐位等价无法证明的披露边界。
