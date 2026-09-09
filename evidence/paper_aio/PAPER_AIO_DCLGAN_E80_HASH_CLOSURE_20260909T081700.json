@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-dclgan-e80-hash-closure-v1",
+  "captured_at": "2026-09-09T08:17:00+08:00",
+  "status": "DCLGAN_E80_FIXED_CHECKPOINT_HASH_CLOSED_LIVE_E81_ALL_DELIVERY_WAITERS_HEALTHY",
+  "host": {
+    "label": "LOCAL_GTX1660",
+    "hostname": "DESKTOP-56OTAME",
+    "gpu": "NVIDIA GeForce GTX 1660"
+  },
+  "live_training": {
+    "wrapper_pid": 20832,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "health_watcher_pid": 22088,
+    "latest_data_epoch": 81,
+    "latest_updates": 692793,
+    "latest_epoch_wall_seconds": 3850.1471543312073,
+    "latest_full_state_sha256": "96856ce7fa077d721e02ec690b7dbe50575d3c4fb85440d9b3ff2c3097d1811d",
+    "latest_sidecar_sha256": "bce9a5508b5af7fc9374ad100dbe94bd57195a29829c86ca97f60c41e66edb70",
+    "latest_scientific_state_sha256": "02d1ee6934cd0303edc61d13b959bcb464e29e4ee644adc78fbd1f9dea9f85a4"
+  },
+  "fixed_e80": {
+    "updates": 684240,
+    "checkpoint": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/lanes/dclgan/milestones/e080.pt",
+    "checkpoint_bytes": 351608816,
+    "checkpoint_sha256": "dc5e50a71c9a4e28204e861071602e9728d3e7179465907142d67241968a9d17",
+    "sidecar_sha256": "0a5a1fe76828d5fc168b243f592382f0e9f5d1ed3a1d7865b21d8dc400755dd9",
+    "scientific_state_sha256": "a584660d51425d60cc815a3ceb0dfd2f1a9163d74f2805387ebede4fd524a729"
+  },
+  "delivery": {
+    "exporter_pid": 23168,
+    "exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "push_recovery_supervisor_pid": 26020,
+    "push_health_pid": 20500,
+    "push_child_pid_at_capture": 24396,
+    "push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "destination_identity_and_capacity": "PASS_PINNED_DESTINATION_IDENTITY_AND_CAPACITY",
+    "source_checkpoint_mutated": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  }
+}

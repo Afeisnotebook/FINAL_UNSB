@@ -271,7 +271,7 @@
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
     "cyclegan_5090B": "complete_e200_hash_closed_source_bound_export_complete_destination_import_in_progress_performance_unread",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
-    "dclgan": "running_local_gtx1660_e60_fixed_milestone_hash_closed_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
+    "dclgan": "running_local_gtx1660_e80_fixed_milestone_hash_closed_live_e81_with_source_bound_push_and_recoverable_4090A_unified_evaluation_waiters_not_mechanism_failure",
     "negcut": "author_source_locked_upstream_device_and_resume_gate_deferred_not_mechanism_falsified"
   },
   "control_fixed_milestones": {
@@ -389,6 +389,15 @@
       "epoch_wall_seconds": 3953.4972109794617,
       "health_watcher_alert_count": 0,
       "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E60_HASH_CLOSURE_20260908T094600.json"
+    },
+    "local_dclgan_e80": {
+      "status": "checkpoint_and_sidecar_hash_closed_performance_values_unread_live_e81_continuation",
+      "checkpoint_sha256": "dc5e50a71c9a4e28204e861071602e9728d3e7179465907142d67241968a9d17",
+      "sidecar_sha256": "0a5a1fe76828d5fc168b243f592382f0e9f5d1ed3a1d7865b21d8dc400755dd9",
+      "scientific_state_sha256": "a584660d51425d60cc815a3ceb0dfd2f1a9163d74f2805387ebede4fd524a729",
+      "epoch_wall_seconds": 3850.1471543312073,
+      "delivery_waiters_healthy": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_E80_HASH_CLOSURE_20260909T081700.json"
     },
     "cyclegan_e125": {
       "status": "checkpoint_hash_closed_inline_metric_recovery_deferred_to_unified_evaluator",

@@ -500,3 +500,6 @@ authorize compute.
 145. `DEC-20260909-STCGR-E100-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md`：ST-CGR自然完成e100，
      训练与guard零异常；固定checkpoint、sidecar、metric artifact及source-bound回执均完成
      异机只读哈希保护。性能文件只复制和哈希、未读取数值，matched delta仍等待合法control。
+146. `DEC-20260909-DCLGAN-E80-HASH-CLOSURE.md`：本地DCLGAN自然完成e80并继续至e81；固定
+     checkpoint与sidecar哈希闭环，训练、e200 exporter及到4090A的持久push/evaluation等待链
+     全部健康。该里程碑不提前评估或复制，不与terminal JVP共驻，也不读取性能值。
