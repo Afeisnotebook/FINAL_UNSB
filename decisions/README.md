@@ -510,3 +510,7 @@ authorize compute.
      恢复；保持deleted-inode健康进程不动，以隔离runtime对当前e113状态重新完成111项全量哈希
      和真实CPU单步resume，并将e113完整状态异机只读备份。后继不再依赖旧prefix，最坏损失为
      当前未保存epoch，同时保留CUDA下一步逐位等价无法证明的披露边界。
+149. `DEC-20260910-PROPOSAL-E125-HASH-AND-OFFHOST-CLOSURE.md`：Proposal按冻结协议自然完成
+     e125并继续至e127，训练与guard零异常；固定checkpoint、sidecar和指标文件在不读取性能值的
+     条件下完成哈希并复制为异机只读备份。合法matched delta仍等待5090B plain e200，未打开
+     confirmation20，也未据中间里程碑改变训练。

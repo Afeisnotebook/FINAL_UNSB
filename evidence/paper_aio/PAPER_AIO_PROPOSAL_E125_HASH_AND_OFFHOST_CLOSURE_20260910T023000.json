@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-paper-proposal-e125-hash-offhost-closure-v1",
+  "captured_at": "2026-09-10T02:30:00+08:00",
+  "status": "PROPOSAL_E125_FIXED_MILESTONE_HASH_CLOSED_OFFHOST_LIVE_E127_ZERO_GUARD_RESTARTS",
+  "host": {
+    "label": "5090C",
+    "root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+    "free_disk_gib_observed": 228
+  },
+  "training_identity": {
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "supervisor_pid": 9729,
+    "trainer_pid": 366768,
+    "outer_guard_pid": 431648,
+    "outer_guard_health_pid": 431712,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "engineering_recovery_count": 1
+  },
+  "fixed_e125": {
+    "updates": 1069125,
+    "checkpoint_bytes": 201481835,
+    "checkpoint_sha256": "ae23df047fe1a6eeb46ff88d7b5876a0f47ca6ee28874ac77bceb1510a7562f0",
+    "sidecar_file_sha256": "066d12624e618f8d5d52fc844c4e173c57c862434f05a962e3f542360f9735b3",
+    "scientific_state_sha256": "2359a374d63d911e5866b462ce2a41a03d815f92a44833d5fe6c65a444e084c8",
+    "metric_artifact_sha256": "271dc3b93590312f97f7fda58c4e8ac9a670c3d6e46a12ce4d29cf0589b0cd92",
+    "metric_values_read_by_this_audit": false,
+    "source_checkpoint_mutation": false
+  },
+  "live_after_milestone": {
+    "latest_data_epoch": 127,
+    "latest_updates": 1086231,
+    "latest_epoch_wall_seconds": 4756.303239107132,
+    "latest_scientific_state_sha256": "e2d644391945b1e7c8b59b87b8f95597f4a1470d439d39d737e4406e18273c44",
+    "guard_checkpoint_sha256": "a6c31900ff873e85ffaa0ea16f2ebac32fbab4225c8e742832e40269a97257e5",
+    "training_restarted_or_modified_by_this_audit": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/5090C_PROPOSAL_20260910_E125",
+    "checkpoint_sha256": "ae23df047fe1a6eeb46ff88d7b5876a0f47ca6ee28874ac77bceb1510a7562f0",
+    "sidecar_file_sha256": "066d12624e618f8d5d52fc844c4e173c57c862434f05a962e3f542360f9735b3",
+    "metric_artifact_sha256": "271dc3b93590312f97f7fda58c4e8ac9a670c3d6e46a12ce4d29cf0589b0cd92",
+    "heartbeat_file_sha256": "aad0edc58c47b03da715a1a76f060a573da3a8704612f951914ddcf0b4b0f959",
+    "guard_state_file_sha256": "085a20012c8ec1d4a9195d5caf896da6b6853aa10bb7ba6089f36e644960c081",
+    "local_hashes_match_source_artifacts": true,
+    "local_files_read_only": true,
+    "stored_outside_git": true
+  },
+  "delivery_boundary": {
+    "e125_incremental_source_export_required": false,
+    "next_source_bound_export_milestone": 150,
+    "matched_delta_available": false,
+    "reason": "The admitted matched 5090B plain has not yet completed e200."
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}
