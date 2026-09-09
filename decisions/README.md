@@ -503,3 +503,6 @@ authorize compute.
 146. `DEC-20260909-DCLGAN-E80-HASH-CLOSURE.md`：本地DCLGAN自然完成e80并继续至e81；固定
      checkpoint与sidecar哈希闭环，训练、e200 exporter及到4090A的持久push/evaluation等待链
      全部健康。该里程碑不提前评估或复制，不与terminal JVP共驻，也不读取性能值。
+147. `DEC-20260909-AMTNC-E100-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md`：deleted-inode AM-TNC
+     在原PID和隔离恢复guard零重启下自然越过e100；固定checkpoint、sidecar、metric artifact及
+     source-bound回执全部完成异机只读哈希保护。执行级恢复门仍是e76，CUDA逐位等价边界不变。

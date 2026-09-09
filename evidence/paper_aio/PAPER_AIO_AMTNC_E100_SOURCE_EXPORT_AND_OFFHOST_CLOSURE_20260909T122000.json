@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-amtnc-e100-source-export-offhost-closure-v1",
+  "captured_at": "2026-09-09T12:20:00+08:00",
+  "status": "AMTNC_E100_FIXED_MILESTONE_METRIC_ARTIFACT_SOURCE_BOUND_EXPORT_AND_OFFHOST_COPY_HASH_CLOSED_LIVE_E101",
+  "host": {
+    "label": "4090A",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "free_disk_gib": 527
+  },
+  "live_training": {
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "active_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "latest_data_epoch": 101,
+    "latest_updates": 863853,
+    "latest_scientific_state_sha256": "1d7f9efa818ae938fb4af6fdb23e5ab6de86a7e2b2095c092011c560e08be715",
+    "processes_restarted_signalled_or_migrated_by_this_audit": false
+  },
+  "fixed_e100": {
+    "updates": 855300,
+    "checkpoint_sha256": "55508ad70ddc6b3378bf594d46f70f3c15ef954336bf6524a9e6f3bfd36422fa",
+    "sidecar_sha256": "a2159f6c88aaf75a241ea4962129b19b9d43bc0894c1b68df6f85f92b1727435",
+    "scientific_state_sha256": "6c0b3854933da261622fdf20b289358ef821403d1b834c8661fbbd4fe2b1ea5b",
+    "metric_artifact_sha256": "c1161439d12c7db41c4b4ad528a0113ab083a14594a835174295162dd747d969",
+    "source_bound_export_receipt_sha256": "8f9c4447f2f120b3ab8b23c59d75c5fb1b02303c645f6d90cf0835e0a5963fe3",
+    "incremental_export_set_sha256": "76dc907eec8ab6d6b2ac84f5bb42df70dc188f9f2717635709dbaef597dc5319",
+    "checkpoint_copy_performed_by_exporter": false,
+    "source_checkpoint_mutation": false,
+    "metric_values_read_by_this_audit": false
+  },
+  "recovery": {
+    "old_prefix_is_recovery_authority": false,
+    "isolated_runtime": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "latest_executable_resume_gate": "PASS_E76_FULL_REHASH_AND_REAL_CPU_UPDATE",
+    "gpu_next_step_bitwise_equivalence_claimed": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260909_E100",
+    "checkpoint_bytes": 201481630,
+    "checkpoint_sha256": "55508ad70ddc6b3378bf594d46f70f3c15ef954336bf6524a9e6f3bfd36422fa",
+    "sidecar_sha256": "a2159f6c88aaf75a241ea4962129b19b9d43bc0894c1b68df6f85f92b1727435",
+    "metric_artifact_sha256": "c1161439d12c7db41c4b4ad528a0113ab083a14594a835174295162dd747d969",
+    "export_receipt_sha256": "8f9c4447f2f120b3ab8b23c59d75c5fb1b02303c645f6d90cf0835e0a5963fe3",
+    "export_set_sha256": "76dc907eec8ab6d6b2ac84f5bb42df70dc188f9f2717635709dbaef597dc5319",
+    "local_hashes_match_source_artifacts": true,
+    "files_read_only": true,
+    "stored_outside_git": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "matched_delta_available": false
+  }
+}
