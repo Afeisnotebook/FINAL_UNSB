@@ -522,3 +522,7 @@ authorize compute.
      隔离恢复guard零重启下自然完成e125；固定checkpoint、sidecar与指标文件在不读取性能值的
      条件下完成哈希并复制为异机只读备份。执行级恢复验证仍诚实保留在e113，不虚构CUDA下一步
      逐位等价，也不改变训练或后继协议。
+152. `DEC-20260910-STCGR-E125-HASH-AND-OFFHOST-CLOSURE.md`：ST-CGR按冻结协议自然完成e125，
+     原训练PID与outer guard连续且零重启；固定checkpoint、sidecar和指标文件在不读取性能值的
+     条件下完成哈希并复制为异机只读备份。matched delta仍等待5090B plain e200，未改变训练、
+     调度或confirmation20封存状态。

@@ -1,0 +1,70 @@
+{
+  "schema": "final-unsb-paper-stcgr-e125-hash-offhost-closure-v1",
+  "captured_at": "2026-09-10T14:45:00+08:00",
+  "status": "STCGR_E125_FIXED_MILESTONE_HASH_CLOSED_OFFHOST_LIVE_ZERO_GUARD_RESTARTS",
+  "host": {
+    "label": "5090A",
+    "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+    "gpu_utilization_percent_observed": 53,
+    "gpu_memory_used_mib_observed": 2186,
+    "free_disk_gib_observed": 183
+  },
+  "training_identity": {
+    "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "supervisor_pid": 336345,
+    "trainer_pid": 863376,
+    "outer_guard_pid": 942101,
+    "outer_guard_health_pid": 942182,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "engineering_recovery_count": 2
+  },
+  "fixed_e125": {
+    "updates": 1069125,
+    "checkpoint_bytes": 201482283,
+    "checkpoint_sha256": "4bbbc388c070632512080131741438f8cb4cfbbe658a7880bdd61f42520c19fb",
+    "sidecar_file_sha256": "8068c98a6e684c397c6a1801a08030b41bf8e43c21f37bfc6790597d3192a3d2",
+    "scientific_state_sha256": "c955bdccfdab089828f78e506511a52d8f2821df0b3511786564c1b540fb322e",
+    "metric_artifact_sha256": "a3b5e1b1c5c873edd8ec999c9f4eb0eb9c9746f8085d5cc03a4d77d1b2a4b4ce",
+    "metric_values_read_by_this_audit": false,
+    "source_checkpoint_mutation": false
+  },
+  "live_continuity": {
+    "latest_data_epoch": 125,
+    "latest_updates": 1069125,
+    "latest_epoch_wall_seconds": 5164.522732496262,
+    "latest_full_state_sha256": "e89d28bd2a7407c4715a02e5f6647035d16c46f1f429113c7bbb5ab783b13348",
+    "latest_sidecar_file_sha256": "fa383deb12f66bf438d7e5d27752adc2a05e9b95b651a89aae7438151a369692",
+    "latest_scientific_state_sha256": "c955bdccfdab089828f78e506511a52d8f2821df0b3511786564c1b540fb322e",
+    "training_restarted_or_modified_by_this_audit": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260910_E125",
+    "checkpoint_sha256": "4bbbc388c070632512080131741438f8cb4cfbbe658a7880bdd61f42520c19fb",
+    "sidecar_file_sha256": "8068c98a6e684c397c6a1801a08030b41bf8e43c21f37bfc6790597d3192a3d2",
+    "metric_artifact_sha256": "a3b5e1b1c5c873edd8ec999c9f4eb0eb9c9746f8085d5cc03a4d77d1b2a4b4ce",
+    "heartbeat_file_sha256": "c14db8934c89cc1ae44af75eac7d8977644595fff69b8d1e8dc794c1fb92db5a",
+    "guard_state_file_sha256": "740e3b0c085c236f7448de3bb377eeed0743d3bee9713428527f1ef177740844",
+    "local_hashes_match_source_artifacts": true,
+    "local_files_read_only": true,
+    "stored_outside_git": true
+  },
+  "delivery_boundary": {
+    "e125_incremental_source_export_required": false,
+    "next_source_bound_export_milestone": 150,
+    "matched_delta_available": false,
+    "matched_plain_plan": "5090B_MATCHED_PLAIN/plain_two_link_cross_code_relation_admitted_e200_pending"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  }
+}

@@ -12,7 +12,7 @@
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
         "5090C/proposal": "e125_fixed_hash_and_offhost_closed_live_e127_outer_recovery_zero_restarts",
-        "5090A/stcgr": "e100_fixed_metric_source_export_and_offhost_hash_closed_outer_recovery_zero_restarts",
+        "5090A/stcgr": "e125_fixed_hash_and_offhost_closed_outer_recovery_zero_restarts",
         "4090A/amtnc_after_plain": "e125_fixed_hash_and_offhost_closed_deleted_inode_live_execution_probe_remains_e113_guard_zero_restarts",
         "5090B/matched_plain": "e40_hash_closed_first_complete_gpu_exclusive_epoch_zero_restarts",
         "local/dclgan_extension": "e100_hash_closed_live_e101_continuation_delivery_waiters_healthy"
