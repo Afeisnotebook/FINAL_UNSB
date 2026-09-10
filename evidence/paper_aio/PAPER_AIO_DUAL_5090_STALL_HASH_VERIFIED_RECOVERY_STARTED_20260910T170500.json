@@ -1,0 +1,96 @@
+{
+  "schema": "final-unsb-paper-dual-5090-stall-hash-verified-recovery-started-v1",
+  "captured_at": "2026-09-10T17:05:00+08:00",
+  "status": "PROPOSAL_AND_STCGR_STALLS_RECOVERED_FROM_HASH_VERIFIED_FULL_STATE_GPU_ACTIVE_WAITING_NEXT_EPOCH_CLOSURE",
+  "trigger_policy": {
+    "metric_blind": true,
+    "proposal_stall_bound_seconds": 14400,
+    "stcgr_stall_bound_seconds": 7200,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "proposal": {
+    "host": "5090C",
+    "old_supervisor_pid": 9729,
+    "old_trainer_pid": 366768,
+    "stalled_complete_epoch": 135,
+    "stalled_step": 1154655,
+    "heartbeat_age_seconds_at_signal": 14873,
+    "pre_signal_gpu_samples_percent": [0, 0, 0, 0, 0],
+    "pre_signal_progress_watch_pid": 89015,
+    "pre_signal_progress_watch_alert_count": 7,
+    "preflight": {
+      "status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+      "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+      "checkpoint_sha256": "ebf4226b747454c6041c38da0f621fda77f60aae962fc5432fb35d7007401eed",
+      "sidecar_file_sha256": "49e983708065a7ea09e07df77c6fc5967d83024de8d29d8823a219c9b2a92c00",
+      "scientific_state_sha256": "3efef63b36ac705680bf3dba8e7916f5aa2f6166d06975313bfd464538156c2a",
+      "verify_contract_sha256": "66cdc6065af261a7b328bf36cb24cea0d1dc3dfff7937ed1a386980b87cbe908"
+    },
+    "offhost_backup": {
+      "directory": "E:/UNSB_Expl/recovery_backups/5090C_PROPOSAL_20260910_E135_STALL",
+      "checkpoint_sha256": "ebf4226b747454c6041c38da0f621fda77f60aae962fc5432fb35d7007401eed",
+      "sidecar_file_sha256": "49e983708065a7ea09e07df77c6fc5967d83024de8d29d8823a219c9b2a92c00",
+      "heartbeat_file_sha256": "0bb1d7a01525924a7c36448f36ab8471e2f9488e1810562e61cf1e2c650ae7a8",
+      "guard_state_file_sha256": "0f5877a278df8e3bfbd39f8c26316f962f4439780ed411bb8bdb8b5d39f2ebb0",
+      "local_files_read_only": true
+    },
+    "action": "SIGTERM_EXACT_MATCHED_STALLED_TRAINER_ONLY_AFTER_PREFLIGHT_AND_OFFHOST_BACKUP",
+    "new_supervisor_pid": 9729,
+    "new_trainer_pid": 766090,
+    "supervisor_consecutive_failures": 2,
+    "outer_guard_pid": 431648,
+    "outer_guard_restart_count": 0,
+    "post_resume_gpu_samples_percent": [33, 41, 34, 33, 52],
+    "post_resume_status": "GPU_ACTIVE_PROGRESS_WATCH_HEALTHY_WAITING_E136_FULL_STATE_CLOSURE"
+  },
+  "stcgr": {
+    "host": "5090A",
+    "old_supervisor_pid": 336345,
+    "old_trainer_pid": 863376,
+    "stalled_complete_epoch": 125,
+    "stalled_step": 1069125,
+    "heartbeat_age_seconds_at_signal": 11880,
+    "pre_signal_gpu_samples_percent": [0, 0, 0, 0, 0],
+    "pre_signal_progress_watch_pid": 436478,
+    "pre_signal_progress_watch_status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+    "pre_signal_progress_watch_alert_count": 182,
+    "preflight": {
+      "status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+      "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+      "checkpoint_sha256": "e89d28bd2a7407c4715a02e5f6647035d16c46f1f429113c7bbb5ab783b13348",
+      "scientific_state_sha256": "c955bdccfdab089828f78e506511a52d8f2821df0b3511786564c1b540fb322e",
+      "verify_contract_sha256": "f80cfd0944f72b1acc43f7e8eed8075ca6add93cfee3ab5b99dacb5ca0dd5270"
+    },
+    "offhost_fixed_e125_backup": {
+      "directory": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260910_E125",
+      "checkpoint_sha256": "4bbbc388c070632512080131741438f8cb4cfbbe658a7880bdd61f42520c19fb",
+      "sidecar_file_sha256": "8068c98a6e684c397c6a1801a08030b41bf8e43c21f37bfc6790597d3192a3d2",
+      "local_files_read_only": true
+    },
+    "action": "SIGTERM_EXACT_MATCHED_STALLED_TRAINER_ONLY_AFTER_PREFLIGHT",
+    "old_supervisor_terminal_status": "BLOCKED_AFTER_REPEATED_ENGINEERING_FAILURE",
+    "outer_guard_pid": 942101,
+    "outer_guard_restart_count": 1,
+    "new_supervisor_pid": 357236,
+    "new_trainer_pid": 357237,
+    "post_resume_gpu_samples_percent": [30, 53, 24, 37, 48],
+    "replacement_progress_watch_pid": 358447,
+    "retired_obsolete_progress_watch_pid": 436478,
+    "replacement_progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "post_resume_status": "GPU_ACTIVE_OUTER_GUARD_HASH_BOUND_WAITING_E126_FULL_STATE_CLOSURE"
+  },
+  "loss_and_scientific_boundary": {
+    "last_complete_epochs_preserved": true,
+    "model_optimizer_scheduler_method_rng_and_sampler_state_preserved": true,
+    "maximum_compute_lost_per_lane": "INCOMPLETE_STALLED_EPOCH_ONLY",
+    "training_configuration_changed": false,
+    "runtime_cohort_changed": false,
+    "matched_plain_relation_changed": false,
+    "exact_resume_scientific_closure_pending": ["proposal_e136", "stcgr_e126"],
+    "best_checkpoint_selected": false
+  }
+}

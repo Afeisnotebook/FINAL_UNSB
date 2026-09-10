@@ -526,3 +526,7 @@ authorize compute.
      原训练PID与outer guard连续且零重启；固定checkpoint、sidecar和指标文件在不读取性能值的
      条件下完成哈希并复制为异机只读备份。matched delta仍等待5090B plain e200，未改变训练、
      调度或confirmation20封存状态。
+153. `DEC-20260910-DUAL-5090-STALL-RECOVERY-STARTED.md`：Proposal与ST-CGR分别越过冻结的
+     14400秒和7200秒无完整epoch门，在不读取性能值的前提下先完成commit、协议、唯一进程与
+     full-state哈希预检，再仅终止精确匹配的停滞trainer并从e135/e125恢复。两条新trainer均已
+     恢复GPU计算；科学连续性仍等待e136/e126新full-state哈希闭环。
