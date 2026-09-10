@@ -518,3 +518,7 @@ authorize compute.
      checkpoint与sidecar完成哈希闭环，训练、e200 exporter及到4090A的push/evaluation持久链
      均健康。中间里程碑没有inline metric是冻结适配器的预期行为，不是交付失败；未读取性能、
      未改变协议，terminal JVP继续不与6GB训练共驻。
+151. `DEC-20260910-AMTNC-E125-HASH-AND-OFFHOST-CLOSURE.md`：deleted-inode AM-TNC在原PID和
+     隔离恢复guard零重启下自然完成e125；固定checkpoint、sidecar与指标文件在不读取性能值的
+     条件下完成哈希并复制为异机只读备份。执行级恢复验证仍诚实保留在e113，不虚构CUDA下一步
+     逐位等价，也不改变训练或后继协议。

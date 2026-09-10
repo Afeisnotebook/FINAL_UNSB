@@ -1,0 +1,80 @@
+{
+  "schema": "final-unsb-paper-amtnc-e125-hash-offhost-closure-v1",
+  "captured_at": "2026-09-10T12:35:00+08:00",
+  "status": "AMTNC_E125_FIXED_MILESTONE_HASH_CLOSED_OFFHOST_DELETED_INODE_LIVE_ZERO_GUARD_RESTARTS",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "gpu_utilization_percent_observed": 48,
+    "gpu_memory_used_mib_observed": 2371,
+    "free_disk_gib_observed": 526
+  },
+  "training_identity": {
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "active_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "outer_guard_restarts": 0,
+    "isolated_runtime_recovery_authority": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "old_prefix_is_recovery_authority": false
+  },
+  "fixed_e125": {
+    "updates": 1069125,
+    "checkpoint_bytes": 201481566,
+    "checkpoint_sha256": "d39e56a66f4e1a97257f692e6b029d04322ac118203a39eed013129e38ffee7d",
+    "sidecar_file_sha256": "decfb5699f0e9056adb54dc3ded82ec3365765e279a94c3c880e96fdb004fc9b",
+    "scientific_state_sha256": "5c178e1122784a21b4d4b7cb2a99564b6683b9598f247c7f7e950e0888e0ad0c",
+    "metric_artifact_sha256": "df28a531493f47240f9d9654712fe1be6575618ec2e98827027a4c9d3a20ba66",
+    "metric_values_read_by_this_audit": false,
+    "source_checkpoint_mutation": false
+  },
+  "live_continuity": {
+    "latest_data_epoch": 125,
+    "latest_updates": 1069125,
+    "latest_epoch_wall_seconds": 3554.675445318222,
+    "latest_full_state_sha256": "b7398e437845c2cb120dbc39513357658c4e8231f94a3c19a250569cadae5378",
+    "latest_scientific_state_sha256": "5c178e1122784a21b4d4b7cb2a99564b6683b9598f247c7f7e950e0888e0ad0c",
+    "training_restarted_signalled_migrated_or_modified_by_this_audit": false
+  },
+  "offhost_protection": {
+    "directory": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260910_E125",
+    "checkpoint_sha256": "d39e56a66f4e1a97257f692e6b029d04322ac118203a39eed013129e38ffee7d",
+    "sidecar_file_sha256": "decfb5699f0e9056adb54dc3ded82ec3365765e279a94c3c880e96fdb004fc9b",
+    "metric_artifact_sha256": "df28a531493f47240f9d9654712fe1be6575618ec2e98827027a4c9d3a20ba66",
+    "heartbeat_file_sha256": "f7521dc772b096c9574c8f515b5b700f0e8b6725c6f7f59f15b4c644bac3d762",
+    "lane_authorization_sha256": "f1b84e7d8bf9dd9ae10a024b2f4be71e2857b0be3d65c1081d052b32c5ab195a",
+    "guard_state_file_sha256": "79212d6e780f713f5a0d61a76b95dbedb4a93d459446ded6e3838f6ca323a6cf",
+    "local_hashes_match_source_artifacts": true,
+    "local_files_read_only": true,
+    "stored_outside_git": true
+  },
+  "recovery_boundary": {
+    "latest_execution_level_resume_probe_epoch": 113,
+    "latest_execution_level_resume_probe": "PASS_STEP_966489_TO_966490_CPU_AFTER_111_OF_111_RUNTIME_REHASH",
+    "e125_checkpoint_is_newest_offhost_full_state_anchor": true,
+    "gpu_next_step_bitwise_equivalence_claimed": false,
+    "actual_recovery_triggered": false,
+    "maximum_completed_epoch_loss_if_live_process_exits": 0,
+    "maximum_uncheckpointed_compute_loss": "CURRENT_INCOMPLETE_DATA_EPOCH_ONLY"
+  },
+  "delivery_boundary": {
+    "e125_incremental_source_export_required": false,
+    "next_source_bound_export_milestone": 150,
+    "matched_delta_available": false,
+    "reason": "AM-TNC retains its already-complete matched 4090A plain; performance remains unread until the frozen evaluation stage."
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false
+  }
+}
