@@ -530,3 +530,7 @@ authorize compute.
      14400秒和7200秒无完整epoch门，在不读取性能值的前提下先完成commit、协议、唯一进程与
      full-state哈希预检，再仅终止精确匹配的停滞trainer并从e135/e125恢复。两条新trainer均已
      恢复GPU计算；科学连续性仍等待e136/e126新full-state哈希闭环。
+154. `DEC-20260910-DUAL-5090-EXACT-RESUME-CLOSURE.md`：Proposal与ST-CGR分别自然完成恢复后的
+     e136和e126，新full-state、sidecar及scientific-state哈希闭合，恢复正式升级为
+     `EXACT_RESUME_CLOSURE`。没有已完成epoch损失、协议变化或runtime-cohort变化；两条lane继续
+     e200。同步只读确认AM-TNC e131与本地DCLGAN e112健康，未触碰其进程。
