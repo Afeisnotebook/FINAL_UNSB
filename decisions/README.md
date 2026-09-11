@@ -583,3 +583,8 @@ authorize compute.
      health和后段epoch耗时重新外推e200。所有lane健康且未改协议；ST-CGR与5090B matched plain
      的保守完成时间推迟至9月15日，分别要求核对9月16日00:00及12:00的租期覆盖，5090C应至少
      保留至9月15日12:00以覆盖source-bound export。
+167. `DEC-20260912-AMTNC-E166-POST-CLEANUP-RECOVERY-REAUDIT.md`：保留原环境被误删和活动
+     trainer使用deleted inode的事实，不触碰健康PID；重新验签隔离runtime 111/111项并由其
+     完整加载e166 full-state。e166状态已异机只读备份，guard、terminal/incremental export和
+     统一评估恢复链均健康；进程故障通常只损失当前epoch，整机故障可回退e166，同时不宣称
+     无法在不中断活进程前提下证明的CUDA下一步逐位等价。
