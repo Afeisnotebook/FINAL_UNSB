@@ -538,3 +538,7 @@ authorize compute.
      checkpoint、sidecar与scientific-state哈希闭合，训练和完整持久交付链继续健康。中间
      milestone没有paired指标文件是冻结适配器的预期语义；本次未改训练、未作性能裁决，也未
      打开confirmation20。
+156. `DEC-20260911-AMTNC-PROPOSAL-E150-HASH-OFFHOST-CLOSURE.md`：AM-TNC与Proposal均自然
+     完成e150；固定checkpoint、sidecar、指标文件及增量导出receipt在不读取性能值的条件下完成
+     哈希，并复制成本机只读备份。两条lane与其guard保持健康；未改变协议、matched关系或
+     confirmation20封存。

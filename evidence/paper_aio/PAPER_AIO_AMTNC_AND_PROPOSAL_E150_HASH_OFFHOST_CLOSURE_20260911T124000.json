@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-paper-amtnc-proposal-e150-hash-offhost-closure-v1",
+  "captured_at": "2026-09-11T12:40:00+08:00",
+  "status": "AMTNC_AND_PROPOSAL_E150_FIXED_MILESTONES_HASH_AND_OFFHOST_CLOSED_CONTINUE_E200",
+  "amtnc": {
+    "host": "4090A",
+    "hostname": "Machine",
+    "gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "recovery_guard_pid": 439182,
+    "recovery_guard_total_restarts": 0,
+    "completed_epoch": 150,
+    "completed_step": 1282950,
+    "epoch_wall_seconds": 3575.9466490745544,
+    "milestone_checkpoint_sha256": "e168b4c18e90b8742c71120b87b4f193dcb6be25a862e1530e3c41de6cb5d608",
+    "milestone_sidecar_file_sha256": "f3b789717abb0208ba206edc7adf7f0486d3cc615da23ef82d6c912b5f48c310",
+    "scientific_state_sha256": "c90372ca0f02e7182aa4832233797f921d827b194db277b9c82f1f1c4a28ad11",
+    "metric_artifact_sha256_values_unread": "00d557c7c87f579ea02b32ca37bb30cce65e81daa7a4b089444a3624bb78c6f3",
+    "incremental_export_receipt_sha256": "863e91231c7ca352a52fa66022479b2b736f160aa71e0a3e9f6a571ce29b61b4",
+    "latest_checkpoint_sha256": "ce454ca4a5d719a1c461d1f74f8d09d4fdede08111117b74bf6a78b90ff6bac2",
+    "latest_sidecar_file_sha256": "da777d2cc8d1eb6343cdc00f8a147c8fc8c7ab3a35d25ac3616f358ce6ba046c",
+    "heartbeat_file_sha256": "c10cabbebd2c3c3acc334fc1ff332397f1059d744e950f7744b26cea50735cc3",
+    "offhost_backup": {
+      "directory": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260911_E150",
+      "files": 6,
+      "all_hashes_match_source": true,
+      "all_files_read_only": true
+    },
+    "deleted_inode_process_preserved": true,
+    "isolated_runtime_guard_unchanged": true,
+    "gpu_utilization_percent_observed": 47,
+    "disk_free_gib_observed": 525,
+    "projected_e200": "2026-09-13T14:18:00+08:00_rough_from_e150"
+  },
+  "proposal": {
+    "host": "5090C",
+    "hostname": "autodl-container-5ymd4xkvsl-95d685bc",
+    "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "supervisor_pid": 9729,
+    "trainer_pid": 766090,
+    "recovery_guard_pid": 431648,
+    "recovery_guard_total_restarts": 0,
+    "completed_epoch": 150,
+    "completed_step": 1282950,
+    "epoch_wall_seconds": 4658.093568086624,
+    "milestone_checkpoint_sha256": "2af2c756e8c01e5f5d18ff0afe8fe9e09322e07abf6bf3d6298dae1e1368e995",
+    "milestone_sidecar_file_sha256": "f2c62adb0c4ecbd77bb2a72bad6a582e8f589cd4dbb651afb36986d30acf823a",
+    "scientific_state_sha256": "982fe0eac4b7c0ece1eca36abc875cf41f55d50a4273a86a4c88a43e868d149f",
+    "metric_artifact_sha256_values_unread": "5ede04b88f8d5c12e911ecda505ca9f3218c60ceae0dd021d3712875db2883d1",
+    "incremental_export_receipt_sha256": "642685b1b484ae0d69c364cad4a0422e17636468c3da480a41a5a9247335e51b",
+    "latest_checkpoint_sha256": "5a7c2d403e26e820bd10b10ab928606bc545583a8d38074aac6bf38ee820d609",
+    "latest_sidecar_file_sha256": "6aaaf6423befdc5c94a4027d5a52519e47a88a67d97c9e5ea5c1b712353ab93e",
+    "heartbeat_file_sha256": "8ce5e162065edc1e2a0380ba657c6a3d95dbbfbf21fb847ece049d1a64e7696c",
+    "offhost_backup": {
+      "directory": "E:/UNSB_Expl/recovery_backups/5090C_PROPOSAL_20260911_E150",
+      "files": 6,
+      "all_hashes_match_source": true,
+      "all_files_read_only": true
+    },
+    "gpu_utilization_percent_observed": 56,
+    "disk_free_gib_observed": 228,
+    "projected_e200": "2026-09-14T05:20:00+08:00_rough_from_e150"
+  },
+  "other_frontier_read_only_snapshot": {
+    "5090A_stcgr": {
+      "completed_epoch": 139,
+      "completed_step": 1188867,
+      "status": "HEALTHY_WITHIN_EPOCH_BOUND",
+      "outer_guard_total_restarts": 1
+    },
+    "local_dclgan": {
+      "completed_epoch": 127,
+      "completed_step": 1086231,
+      "status": "HEALTHY_AFTER_E125_FIXED_MILESTONE"
+    }
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "training_protocol_modified": false,
+    "runtime_cohort_changed": false,
+    "matched_plain_relation_changed": false,
+    "confirmation20_opened": false,
+    "fixed_milestones_change_algorithm_selection": false
+  }
+}
