@@ -1291,6 +1291,28 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json",
     "decision": "decisions/DEC-20260912-POST-CLEANUP-CONTROL-CHAIN-RECOVERY.md"
   },
+  "post_cleanup_evaluation_chain_revalidation_20260912": {
+    "status": "pass_all_frozen_command_cwds_pinned_runtime_and_static_dependencies",
+    "unified_evaluator_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+    "unified_evaluator_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "runtime_versions": {"torch": "2.5.1+cu121", "torch_cuda": "12.1", "numpy": "2.1.3", "pillow": "11.3.0"},
+    "command_cwd_commits": {
+      "amtnc_evaluation": "049209741776b66f9881a73b1cfa7c668aeb1da2",
+      "unified_stcgr_and_final": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+      "dclgan_evaluation": "82ca28ad2acc33e4981c42733630c6bfb347698e"
+    },
+    "evaluation_recovery_supervisor_pids": [3879668, 3879670, 3879672, 3879674],
+    "evaluation_recovery_health_pid": 3880106,
+    "dclgan_evaluation_supervisor_pid": 3870693,
+    "dclgan_evaluation_health_pid": 3870938,
+    "all_restart_counts_zero": true,
+    "all_health_watches_healthy": true,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_4090A_POST_CLEANUP_EVALUATOR_COMMAND_REVALIDATION_20260912T064213.json",
+    "decision": "decisions/DEC-20260912-4090A-POST-CLEANUP-EVALUATOR-COMMAND-REVALIDATION.md"
+  },
   "post_cleanup_full_repository_validation_20260912": {
     "status": "pass_all_779_tests_accounted",
     "validated_head": "3662eaade9482363567ce9d2ecf433dfcb238195",

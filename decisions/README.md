@@ -621,3 +621,7 @@ authorize compute.
      链只覆盖e100/e150/e200，而e175在e200前只保存在已发生误清理的4090A。现有两小时
      heartbeat现已持久预置e175完整milestone、sidecar、heartbeat和authorization的只读异机
      复制、逐文件SHA256核对及本地只读封存；不暂停训练，不复制正在写入的latest。
+176. `DEC-20260912-4090A-POST-CLEANUP-EVALUATOR-COMMAND-REVALIDATION.md`：在AM-TNC、统一评估、
+     ST-CGR、最终交付及DCLGAN冻结command的真实cwd中重验隔离evaluator runtime，全部导入通过，
+     checkout commit和静态依赖路径匹配；六个supervisor、两组health均健康且零重启。误清理没有
+     阻断e200后评估链，裸home目录缺少research模块不构成实际command故障。

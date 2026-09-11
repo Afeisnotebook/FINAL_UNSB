@@ -1,0 +1,98 @@
+{
+  "schema": "final-unsb-paper-4090a-post-cleanup-evaluator-command-revalidation-v1",
+  "captured_at": "2026-09-12T06:42:13+08:00",
+  "status": "PASS_ALL_FROZEN_EVALUATION_AND_DELIVERY_COMMANDS_RECOVERABLE",
+  "host": {
+    "label": "4090A",
+    "hostname": "Machine",
+    "free_disk_gib": 524.139
+  },
+  "pinned_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
+    "python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "python_executable_present": true,
+    "versions": {"torch": "2.5.1+cu121", "torch_cuda": "12.1", "numpy": "2.1.3", "pillow": "11.3.0"},
+    "bare_home_cwd_research_import": "EXPECTED_FAIL_MODULE_NOT_ON_SYS_PATH",
+    "frozen_command_cwd_imports": "PASS_ALL_THREE_DISTINCT_CHECKOUTS",
+    "training_runtime_role_reused": false
+  },
+  "commands": [
+    {
+      "role": "amtnc_evaluation",
+      "supervisor_pid": 3879668,
+      "child_pid": 2217242,
+      "child_status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+      "restart_count": 0,
+      "cwd": "/home/yc/FINAL_UNSB_POSTHOC_0492097",
+      "cwd_git_commit": "049209741776b66f9881a73b1cfa7c668aeb1da2",
+      "runtime_import": "PASS"
+    },
+    {
+      "role": "unified_evaluation",
+      "supervisor_pid": 3879670,
+      "child_pid": 3802120,
+      "child_status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+      "restart_count": 0,
+      "cwd": "/home/yc/FINAL_UNSB_DYNAMIC_DELIVERY_2f57f22",
+      "cwd_git_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+      "runtime_import": "PASS"
+    },
+    {
+      "role": "stcgr_evaluation",
+      "supervisor_pid": 3879672,
+      "child_pid": 3802121,
+      "child_status": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+      "restart_count": 0,
+      "cwd": "/home/yc/FINAL_UNSB_DYNAMIC_DELIVERY_2f57f22",
+      "cwd_git_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+      "runtime_import": "PASS"
+    },
+    {
+      "role": "final_delivery",
+      "supervisor_pid": 3879674,
+      "child_pid": 3802122,
+      "child_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+      "restart_count": 0,
+      "cwd": "/home/yc/FINAL_UNSB_DYNAMIC_DELIVERY_2f57f22",
+      "cwd_git_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+      "runtime_import": "PASS"
+    },
+    {
+      "role": "dclgan_evaluation",
+      "supervisor_pid": 3870693,
+      "child_status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+      "restart_count": 0,
+      "cwd": "/home/yc/FINAL_UNSB_DCL_LOCAL_EVAL_82CA28A_BUNDLE",
+      "cwd_git_commit": "82ca28ad2acc33e4981c42733630c6bfb347698e",
+      "runtime_import": "PASS"
+    }
+  ],
+  "health": {
+    "evaluation_health_watcher_pid": 3880106,
+    "evaluation_watch_count": 8,
+    "evaluation_status": "HEALTHY_ZERO_ALERTS",
+    "dclgan_health_watcher_pid": 3870938,
+    "dclgan_watch_count": 2,
+    "dclgan_status": "HEALTHY_ZERO_ALERTS",
+    "all_state_ages_within_bounds": true
+  },
+  "static_dependencies": {
+    "stcgr_authority_present": true,
+    "unified_import_root_present": true,
+    "dclgan_manifest_present": true
+  },
+  "impact": {
+    "original_unsb_cov_removal_blocks_post_e200_evaluation": false,
+    "future_evaluation_recovery_uses_deleted_prefix": false,
+    "common_evaluation_runtime_remains_available": true,
+    "paper_delivery_waiters_remain_recoverable": true
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false
+  },
+  "decision": "decisions/DEC-20260912-4090A-POST-CLEANUP-EVALUATOR-COMMAND-REVALIDATION.md"
+}

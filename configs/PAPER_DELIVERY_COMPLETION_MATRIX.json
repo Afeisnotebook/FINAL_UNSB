@@ -197,6 +197,20 @@
         "confirmation20_opened": false,
         "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E175_OFFHOST_PROTECTION_ARMED_20260912T063742.json"
       },
+      "post_cleanup_evaluator_command_revalidation": {
+        "status": "pass_all_four_commands_in_frozen_cwd",
+        "pinned_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+        "supervisor_pids": [3879668, 3879670, 3879672, 3879674],
+        "health_watcher_pid": 3880106,
+        "dclgan_supervisor_pid": 3870693,
+        "dclgan_health_watcher_pid": 3870938,
+        "restart_count_total": 0,
+        "static_dependency_paths_present": true,
+        "training_processes_changed": false,
+        "performance_values_read": false,
+        "confirmation20_opened": false,
+        "evidence": "evidence/paper_aio/PAPER_AIO_4090A_POST_CLEANUP_EVALUATOR_COMMAND_REVALIDATION_20260912T064213.json"
+      },
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,

@@ -2121,14 +2121,20 @@
       },
       "evaluation_recovery_restart_counts": {"amtnc": 0, "unified": 0, "stcgr": 0, "final_delivery": 0},
       "evaluation_recovery_health_watcher_pid": 3880106,
+      "post_cleanup_command_revalidation": "PASS_ALL_FOUR_EVALUATION_DELIVERY_COMMANDS_IN_FROZEN_CWD",
+      "post_cleanup_command_revalidation_at": "2026-09-12T06:42:13+08:00",
+      "unified_evaluator_python_sha256_reverified": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+      "unified_evaluator_runtime_import_probe": "PASS_TORCH_2_5_1_CU121_NUMPY_2_1_3_PILLOW_11_3_0_IN_EACH_FROZEN_COMMAND_CWD",
+      "evaluation_health_status": "HEALTHY_EIGHT_WATCHES_ZERO_ALERTS",
       "retired_fixed_evaluation_health_watcher_pids": [3802159, 3802160, 3802161, 3802162],
       "retired_runtime_unsafe_control_pids": [3804113, 3804260],
       "healthy_training_restarted": false,
       "healthy_waiter_restarted": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
-      "decision": "decisions/DEC-20260906-4090A-ALL-EVALUATION-RECOVERY-SUPERVISORS.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_4090A_POST_CLEANUP_EVALUATOR_COMMAND_REVALIDATION_20260912T064213.json",
+      "prior_evidence": "evidence/paper_aio/PAPER_AIO_4090A_ALL_EVALUATION_RECOVERY_SUPERVISORS_20260906T101200.json",
+      "decision": "decisions/DEC-20260912-4090A-POST-CLEANUP-EVALUATOR-COMMAND-REVALIDATION.md"
     },
     "next_manual_decision_window": "2026-09-13T10:00:00+08:00 reforecast all remaining lanes, or earlier at any e175 milestone, supervisor recovery, or material throughput regression"
   },
