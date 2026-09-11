@@ -642,3 +642,8 @@ authorize compute.
      runtime重新完成111/111逐文件验签，并用其在CPU完整加载e169 full-state；将e169完整状态、
      sidecar、heartbeat和授权文件逐哈希复制到本机异盘只读封存，把整机故障回退点从e167推进
      到e169。健康训练未被触碰，唯一未证明边界仍是恢复后CUDA下一步与活动进程逐位相同。
+181. `DEC-20260912-FINAL-MULTI-ALGORITHM-OUTPUT-CONTRACT-REAUDIT.md`：复核4090A实际部署的冻结
+     final-delivery脚本与当前审查版本SHA一致，健康等待器零重启。终局强制保留Proposal、
+     ST-CGR、AM-TNC全部PASS/FAIL轨迹、固定e200及六域晚期证据，HJCGR/DDSB分别保持deferred/
+     reproduction-incomplete，DCLGAN以非阻塞e200附表并入；八种论文结果分支已预注册，不存在
+     只留单冠军、最佳checkpoint或跨不等价runtime delta的自动路径。34项针对性测试通过。

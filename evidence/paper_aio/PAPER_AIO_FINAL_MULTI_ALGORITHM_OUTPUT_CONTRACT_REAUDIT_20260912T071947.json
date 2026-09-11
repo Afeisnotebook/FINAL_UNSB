@@ -1,0 +1,88 @@
+{
+  "schema": "final-unsb-paper-final-multi-algorithm-output-contract-reaudit-v1",
+  "captured_at": "2026-09-12T07:19:47+08:00",
+  "status": "PASS_DEPLOYED_FINAL_DELIVERY_PRESERVES_MULTI_ALGORITHM_FRONTIER_AND_FIXED_E200",
+  "deployed_final_delivery": {
+    "host": "4090A",
+    "control_supervisor_pid": 3879674,
+    "child_pid": 3802122,
+    "control_supervisor_status": "MONITORING_EXISTING_CHILD",
+    "child_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+    "restart_count": 0,
+    "child_control_repo": "/home/yc/FINAL_UNSB_DYNAMIC_DELIVERY_2f57f22",
+    "child_control_git_commit": "2f57f220dcb05d2da6cd972d3ae0584ee73accd2",
+    "deployed_script_sha256": "59a87b5c666c9047bd825d86532d773e31c1b9cf09b47530c7bd081cdf5fa6bb",
+    "current_repository_script_sha256": "59a87b5c666c9047bd825d86532d773e31c1b9cf09b47530c7bd081cdf5fa6bb",
+    "script_identity_matches_current_reviewed_implementation": true,
+    "performance_values_in_control_state": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "portfolio_requirements": {
+    "required_first_wave_result_lanes": [
+      "input",
+      "plain",
+      "proposal",
+      "cut",
+      "cyclegan",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    ],
+    "terminal_algorithm_methods": ["proposal", "amtnc", "stcgr"],
+    "all_terminal_methods_retained_regardless_of_gate": true,
+    "pass_methods_reported_as_accepted_algorithms": true,
+    "fail_methods_reported_as_failed_current_implementation_and_protocol": true,
+    "failure_called_mechanism_falsification": false,
+    "deferred_methods_preserved": ["hjcgr"],
+    "reproduction_incomplete_controls_preserved": ["ddsb"],
+    "external_main_results": ["input", "cut", "cyclegan"],
+    "dclgan_delivery": "NONBLOCKING_FIXED_E200_EXTERNAL_BASELINE_ADDENDUM",
+    "complexity_profiled_for": [
+      "plain",
+      "proposal",
+      "cut",
+      "cyclegan",
+      "amtnc",
+      "stcgr"
+    ],
+    "primary_epoch": 200,
+    "sustained_epochs": [150, 175, 200],
+    "multiple_algorithms_allowed": true,
+    "unique_winner_required": false
+  },
+  "paper_reporting_contract": {
+    "baseline_portfolio_sha256": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b",
+    "manuscript_branching_contract_sha256": "6fe0fd12258b7e789bfbe37d495af3f4bbaa516ac87ce739f7e1f5fc8c4c1fec",
+    "manuscript_branching_contract_git_commit": "4298cb2383f5c694b4a63204150002594f1cd71b",
+    "manuscript_table_exporter_sha256": "4dd56367df9fd012d47769dde344ea3dc5827e357afc5977462d88883f6efe34",
+    "dclgan_addendum_sha256": "128eb7c34b809b0c2ffe946444eceae1af89f4494adc75111cc6f7e3930fea06",
+    "all_eight_proposal_stcgr_amtnc_pass_fail_outcomes_pre_registered": true,
+    "negative_result_route_preserved": true,
+    "main_table_fixed_e200_only": true,
+    "six_domain_late_trajectory_required": true,
+    "legal_runtime_relation_required": true,
+    "claim_freeze_required_before_manuscript_export": true,
+    "confirmation_authorized": false
+  },
+  "verification": {
+    "focused_test_files": [
+      "tests/test_paper_final_delivery_successor.py",
+      "tests/test_paper_dclgan_portfolio_addendum_successor.py",
+      "tests/test_paper_manuscript_tables.py",
+      "tests/test_paper_freeze.py",
+      "tests/test_paper_manuscript_branching_contract.py"
+    ],
+    "focused_tests_passed": 34,
+    "focused_tests_failed": 0,
+    "code_patch_required": false,
+    "deployed_waiter_restarted_or_modified": false,
+    "training_processes_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  }
+}
