@@ -10,6 +10,7 @@ import pytest
 from operations.paper_aio_ddsb_source_watch import (
     DEFAULT_AUTHORITY_URLS,
     DEFAULT_GITHUB_QUERIES,
+    atomic_json,
     authority_repository_candidates,
     evaluate_sources,
     freeze_contract,
@@ -130,3 +131,26 @@ def test_contract_is_frozen_and_fail_closed(tmp_path: Path) -> None:
 
 def test_process_liveness_supports_durable_supervision() -> None:
     assert process_alive(os.getpid()) is True
+
+
+def test_atomic_json_retries_transient_windows_sharing_violation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    path = tmp_path / "state.json"
+    path.write_text('{"old": true}\n', encoding="utf-8")
+    original_replace = os.replace
+    attempts = 0
+
+    def transient_replace(source: os.PathLike[str], destination: os.PathLike[str]) -> None:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise PermissionError("transient sharing violation")
+        original_replace(source, destination)
+
+    monkeypatch.setattr(os, "replace", transient_replace)
+    atomic_json(path, {"new": True})
+
+    assert json.loads(path.read_text(encoding="utf-8")) == {"new": True}
+    assert attempts == 2
+    assert list(tmp_path.glob(".*.tmp")) == []

@@ -54,12 +54,29 @@ def bytes_sha256(value: bytes) -> str:
 def atomic_json(path: Path, payload: dict[str, Any]) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
+    temporary = path.with_name(
+        f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp"
     )
-    temporary.replace(path)
+    try:
+        temporary.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        # On Windows the independent health watcher can briefly hold the
+        # destination open while reading it.  A fixed ``.tmp`` name also lets a
+        # stale file from a prior crash collide with the next write.  Preserve
+        # atomic replacement, but use a writer-unique temporary and tolerate a
+        # short sharing violation rather than terminating a month-long watch.
+        for attempt in range(12):
+            try:
+                os.replace(temporary, path)
+                return
+            except PermissionError:
+                if attempt == 11:
+                    raise
+                time.sleep(min(0.05 * (2**attempt), 1.0))
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def read_json(path: Path) -> dict[str, Any]:
