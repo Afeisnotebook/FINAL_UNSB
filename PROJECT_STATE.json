@@ -1298,6 +1298,18 @@
       "matched_plain_incremental_relay_control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9",
       "matched_plain_incremental_relay_recovery_supervisor_pid": 25228,
       "matched_plain_incremental_relay_health_pid": 20796,
+      "matched_plain_e100_prearrival_gate": {
+        "status": "PASS_EMPTY_SET_IS_EXPECTED_AT_E78_SOURCE_AND_RELAY_POLLING",
+        "source_exporter_pid": 107734,
+        "source_recovery_supervisor_pid": 107809,
+        "source_health_pid": 107830,
+        "local_relay_pid": 11704,
+        "local_recovery_supervisor_pid": 25228,
+        "local_health_pid": 20796,
+        "source_and_local_restart_count": 0,
+        "projected_e100_hours": 14.98,
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_E100_PREARRIVAL_GATE_20260912T065533.json"
+      },
       "terminal_audit_successor_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU_3_OF_12_PLAIN_CELLS_COMPLETE",
       "terminal_audit_control_supervisor_pid": 5180,
       "terminal_audit_successor_pid": 1392,

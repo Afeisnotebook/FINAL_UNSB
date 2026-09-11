@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-e100-prearrival-gate-v1",
+  "captured_at": "2026-09-12T06:55:33+08:00",
+  "status": "PASS_WAITING_FOR_E100_NO_PIPELINE_BREAK",
+  "source_host": {
+    "label": "5090B_MATCHED_PLAIN",
+    "hostname": "autodl-container-1qjylxm03k-35c3df8b",
+    "port": 44804,
+    "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "current_complete_epoch": 78,
+    "current_complete_step": 667134,
+    "epoch_seconds": 2451.82,
+    "projected_e100_hours": 14.98,
+    "projected_e200_hours": 83.08
+  },
+  "source_export": {
+    "exporter_pid": 107734,
+    "recovery_supervisor_pid": 107809,
+    "health_pid": 107830,
+    "status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "available_epochs": [],
+    "required_epochs": [100, 150, 200],
+    "empty_set_expected_before_e100": true,
+    "control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9",
+    "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "restart_count": 0,
+    "health": "HEALTHY_ZERO_ALERTS"
+  },
+  "local_relay": {
+    "relay_pid": 11704,
+    "recovery_supervisor_pid": 25228,
+    "health_pid": 20796,
+    "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [],
+    "empty_set_accepted_and_polling": true,
+    "relay_id": "incremental_5090B_matched_plain_v1",
+    "source_host": "connect.weste.seetacloud.com",
+    "source_port": 44804,
+    "source_host_key_sha256": "SHA256:liZ36vNCsNcNdXeWs4f+g5ZIhPM/ZihP834vxs8Ulqc",
+    "remote_export_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/incremental_exports",
+    "destination_root": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports",
+    "restart_count": 0,
+    "health": "HEALTHY_ZERO_ALERTS",
+    "password_persisted_in_contract_or_git": false
+  },
+  "transition_expectation": {
+    "trigger": "IMMUTABLE_E100_CHECKPOINT_AND_SIDECAR_APPEAR",
+    "source_action": "PUBLISH_UPDATED_INCREMENTAL_EXPORT_SET",
+    "relay_action": "VERIFY_HOST_KEY_COMMIT_PROTOCOL_MANIFEST_AND_ALL_FILE_SHA256_THEN_PUBLISH_LAST_IMPORT_LANE",
+    "manual_restart_required": false,
+    "paired_metric_dependency": false
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260912-5090B-MATCHED-E100-PREARRIVAL-GATE.md"
+}

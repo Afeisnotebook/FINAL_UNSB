@@ -1066,6 +1066,14 @@
     "incremental_relay_recovery_control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
     "incremental_relay_recovery_supervisor_pids": {"4090A_amtnc_v3": 16540, "5090A_stcgr_v5": 20856, "5090C_proposal": 5112},
     "matched_plain_incremental_relay_recovery": {"supervisor_pid": 25228, "health_pid": 20796, "control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9"},
+    "matched_plain_e100_prearrival_gate": {
+      "status": "pass_empty_set_expected_at_e78_source_and_relay_polling",
+      "source_pids": [107734, 107809, 107830],
+      "local_pids": [11704, 25228, 20796],
+      "source_and_local_restart_count": 0,
+      "projected_e100_hours": 14.98,
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_E100_PREARRIVAL_GATE_20260912T065533.json"
+    },
     "incremental_relay_recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2, "5090C_proposal": 1},
     "incremental_relay_recovery_restart_count_note": "AM-TNC one initial launch; ST-CGR one initial launch plus one deliberate read-only failure-injection recovery; Proposal one metric-blind recovery launch after old bare relay death",
     "terminal_audit_successor_status": "preflight_ready_waiting_for_fixed_imports_or_gpu_3_of_12_plain_cells_complete_full_rollout_jvp_required",
