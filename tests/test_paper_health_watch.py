@@ -100,6 +100,27 @@ def test_watch_detects_stale_dead_and_boundary_states(tmp_path: Path) -> None:
     )
 
 
+def test_watch_propagates_upstream_alert_status(tmp_path: Path) -> None:
+    path = tmp_path / "progress_state.json"
+    _write(
+        path,
+        {
+            "status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+            "paired_metric_control": False,
+            "confirmation20_opened": False,
+        },
+        mtime=950.0,
+    )
+    row = evaluate_watch(
+        parse_watch(f"progress|123|{path}|100|0"),
+        now=1000.0,
+        watch_started=900.0,
+        alive=lambda _pid: True,
+    )
+    assert row["upstream_status"] == "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS"
+    assert row["health"] == "ALERT_UPSTREAM_BLOCKED"
+
+
 def test_terminal_state_allows_supervisor_to_exit(tmp_path: Path) -> None:
     path = tmp_path / "state.json"
     _write(path, {"data_epoch": 200}, mtime=1.0)

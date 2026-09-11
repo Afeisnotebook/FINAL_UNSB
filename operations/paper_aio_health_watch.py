@@ -23,7 +23,11 @@ from typing import Any, Callable
 CONTRACT_SCHEMA = "final-unsb-paper-health-watch-contract-v1"
 STATE_SCHEMA = "final-unsb-paper-health-watch-state-v1"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
-_BLOCKED_PREFIXES = ("BLOCKED", "FAIL", "FATAL")
+# Control states use ALERT_* for a live process that has stopped making
+# durable progress.  Treat those states as upstream failures just like
+# BLOCKED/FAIL/FATAL; otherwise a wrapper health watch can incorrectly report
+# HEALTHY while the progress watcher is already raising an alert.
+_BLOCKED_PREFIXES = ("BLOCKED", "FAIL", "FATAL", "ALERT")
 
 
 def file_sha256(path: Path) -> str:
