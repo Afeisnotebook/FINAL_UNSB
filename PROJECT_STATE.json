@@ -1747,6 +1747,20 @@
       "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json",
       "decision": "decisions/DEC-20260912-POST-CLEANUP-CONTROL-CHAIN-RECOVERY.md"
     },
+    "post_cleanup_full_repository_validation_20260912": {
+      "status": "PASS_777_PASSED_2_CPU_ONLY_EXPECTED_SKIPPED_0_FAILED",
+      "validated_head": "3662eaade9482363567ce9d2ecf433dfcb238195",
+      "all_collected_tests_accounted": 779,
+      "execution": "CPU_ONLY_BOUNDED_SEGMENTS_AFTER_WINDOWS_NATIVE_LONG_PROCESS_INSTABILITY",
+      "compileall": "PASS",
+      "json_files_validated": 665,
+      "json_duplicate_keys": 0,
+      "training_processes_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json",
+      "decision": "decisions/DEC-20260912-POST-CLEANUP-FULL-REPOSITORY-VALIDATION.md"
+    },
     "5090b_cut_e200_matched_plain_handoff": {
       "status": "CUT_E200_HASH_CLOSED_MATCHED_PLAIN_FORMAL_E200_RUNNING_AFTER_CAPACITY_PASS",
       "captured_at": "2026-09-06T08:14:46+08:00",

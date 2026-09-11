@@ -554,6 +554,14 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json"
   },
+  "post_cleanup_full_repository_validation_20260912": {
+    "status": "pass_777_passed_2_cpu_only_expected_skipped_0_failed",
+    "all_779_tests_accounted": true,
+    "compileall": "pass",
+    "json_validation": "pass_665_zero_duplicate_keys",
+    "long_training_interrupted": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
+  },
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
     "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard directly binds the verified read-only isolated runtime, all 111 mapped files and the e164 full-state were freshly reverified, the prior e154 probe executed one isolated CPU update, e164 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",

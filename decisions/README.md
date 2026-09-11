@@ -571,3 +571,7 @@ authorize compute.
      guard均可恢复，当前自然推进至e165。并行审计发现Proposal只读增量relay死亡；冻结合同恢复
      为supervisor PID 5112/child PID 31764，既有e100/e150导入哈希不变。DCLGAN与terminal控制链
      迁入Windows锁容错监督器，组合health PID 9960零告警；所有训练均未触碰。
+164. `DEC-20260912-POST-CLEANUP-FULL-REPOSITORY-VALIDATION.md`：在显式CPU-only环境中对当前恢复
+     后主仓全部779个测试逐文件或分段验证，结果777通过、2项CUDA预期跳过、0失败；compileall、
+     665个JSON及重复键检查全部通过。两次单进程长套件的Windows原生层异常被单独复现和复跑，
+     未通过修改科学代码掩盖；DCLGAN及控制链保持原PID。

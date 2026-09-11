@@ -1,0 +1,69 @@
+{
+  "schema": "final-unsb-paper-post-cleanup-full-repository-validation-v1",
+  "captured_at": "2026-09-12T04:20:00+08:00",
+  "status": "PASS_ALL_779_TESTS_ACCOUNTED_CPU_ONLY_SEGMENTED_ZERO_ASSERTION_FAILURES",
+  "repository": {
+    "head": "3662eaade9482363567ce9d2ecf433dfcb238195",
+    "origin_main_equal": true,
+    "working_tree_clean_before_validation": true
+  },
+  "cpu_only_runtime": {
+    "python": "3.13.5",
+    "cuda_visible_devices": "-1",
+    "torch_cuda_available": false,
+    "torch_cuda_device_count": 0,
+    "local_training_gpu_used_by_tests": false
+  },
+  "validation": {
+    "tests_directory": {
+      "files": 150,
+      "passed": 765,
+      "skipped": 2,
+      "failed": 0,
+      "execution": "FILES_1_TO_30_INDIVIDUAL_AND_FILES_31_TO_150_IN_FOUR_BOUNDED_CHUNKS"
+    },
+    "src_tests_directory": {
+      "passed": 12,
+      "skipped": 0,
+      "failed": 0
+    },
+    "aggregate": {
+      "collected": 779,
+      "passed": 777,
+      "skipped": 2,
+      "failed": 0
+    },
+    "expected_cpu_only_skips": [
+      "tests/test_hj_zero_intervention.py::CUDA_RNG_invariant",
+      "tests/test_paper_dclgan_adapter.py::CUDA_gate"
+    ],
+    "compileall": "PASS_OPERATIONS_PRODUCTION_RESEARCH_SRC",
+    "json_validation": "PASS_665_FILES_ZERO_PARSE_ERRORS_ZERO_DUPLICATE_KEYS",
+    "git_diff_check": "PASS"
+  },
+  "transient_native_process_observations": {
+    "first_monolithic_attempt": "CUDA_VISIBLE_DEVICES_EMPTY_PRODUCED_TORCH_AVAILABLE_TRUE_DEVICE_COUNT_ZERO;_TWO_INVALID_DEVICE_FAILURES_AND_ONE_BUSY_WINDOWS_CROSS_PROCESS_TIMEOUT",
+    "focused_rerun_of_three": "PASS_3_OF_3",
+    "correct_cpu_only_probe": "CUDA_VISIBLE_DEVICES_MINUS_ONE_PRODUCED_TORCH_AVAILABLE_FALSE_DEVICE_COUNT_ZERO",
+    "second_monolithic_attempt": "WINDOWS_NATIVE_ACCESS_VIOLATION_IN_LONG_LIVED_PYTEST_SUBPROCESS_PATH",
+    "terminal_pathology_entrypoint_focused_rerun": "PASS",
+    "bounded_segmented_result": "PASS_ALL_TEST_FILES_WITH_NO_RETRY_AND_ZERO_ASSERTION_FAILURES",
+    "scientific_code_regression_inferred": false,
+    "code_changed_to_hide_native_runtime_instability": false
+  },
+  "live_workload_noninterference": {
+    "dclgan_training_pids": [20832, 12824, 22020],
+    "dclgan_training_pids_alive_after_validation": true,
+    "dclgan_latest_complete_epoch_after_validation": 141,
+    "dclgan_gpu_memory_mib_after_validation": 2950,
+    "terminal_combined_health_pid": 9960,
+    "terminal_combined_health_status": "HEALTHY_ZERO_ALERTS",
+    "proposal_relay_supervisor_and_child_alive": [5112, 31764],
+    "training_or_protocol_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

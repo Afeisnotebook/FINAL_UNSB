@@ -1250,6 +1250,16 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json",
     "decision": "decisions/DEC-20260912-POST-CLEANUP-CONTROL-CHAIN-RECOVERY.md"
   },
+  "post_cleanup_full_repository_validation_20260912": {
+    "status": "pass_all_779_tests_accounted",
+    "validated_head": "3662eaade9482363567ce9d2ecf433dfcb238195",
+    "passed": 777,
+    "cpu_only_expected_skipped": 2,
+    "failed": 0,
+    "windows_native_long_process_instability_separated_from_code_failure": true,
+    "training_processes_changed": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
+  },
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
