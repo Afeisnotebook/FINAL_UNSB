@@ -554,3 +554,7 @@ authorize compute.
      matched plain在e64后静默停滞约66.9小时；progress watcher虽持续报警，但上层health未传播
      故障。commit、manifest、protocol与e64 full-state通过精确门后，仅终止停滞child并由原
      supervisor恢复为新trainer PID 76358；等待e65哈希闭环，原e200预测失效且租期需复核。
+160. `DEC-20260911-5090B-MATCHED-PLAIN-E66-EXACT-RESUME-CLOSURE.md`：恢复后的matched plain
+     连续完成e65/e66并通过checkpoint、sidecar、scientific state和CPU load闭环，没有已完成
+     epoch损失或runtime变化。通用health watcher新增`ALERT_*`传播测试与实现，5090B部署新
+     watcher PID 83714后才退役旧watcher；训练继续，租期延长建议保持。

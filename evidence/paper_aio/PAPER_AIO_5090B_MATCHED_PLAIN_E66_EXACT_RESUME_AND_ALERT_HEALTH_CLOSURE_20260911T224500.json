@@ -1,0 +1,69 @@
+{
+  "schema": "final-unsb-paper-compact-evidence-v1",
+  "captured_at": "2026-09-11T22:45:00+08:00",
+  "event": "5090B_MATCHED_PLAIN_E66_EXACT_RESUME_AND_ALERT_HEALTH_CLOSURE",
+  "status": "EXACT_RESUME_CLOSED_AT_E66_PROGRESS_ALERT_PROPAGATION_DEPLOYED",
+  "recovery_closure": {
+    "source_data_epoch": 64,
+    "source_step": 547392,
+    "source_checkpoint_sha256": "dcaa116e26e341189ce99ed9a389510adca49a36aa0324d82861fd5c31caf2b8",
+    "source_scientific_state_sha256": "a2da0829de08510aeb4c0fa3384bb47eedbc3bcd7e39e9e273ea98a64ef8b338",
+    "closed_data_epoch": 66,
+    "closed_step": 564498,
+    "advanced_updates": 17106,
+    "closed_checkpoint_sha256": "cbd52bed0c3542755bafba20319776cff1196bec6a5cb641625db6e693eb019f",
+    "closed_sidecar_sha256": "1e90ae851604da8adb01dea67342fa74e462a982c0c93d856f9068a5d7501def",
+    "closed_heartbeat_sha256": "687a399920d386827525be0cfe569f2a6480363e726333f1050e439ea695de3e",
+    "closed_train_trace_sha256": "ecd15693342864821cc53c0e3225f5ddecd3f47f19f3c31f4fc833a45c3c465e",
+    "closed_scientific_state_sha256": "65bae77dae067f57a88017a8430db4c47c46eeeebf00b6998abdba8acc2bd1b1",
+    "checkpoint_cpu_load": "PASS",
+    "physical_epoch_completed": 66,
+    "target_steps": 1710600,
+    "epoch_wall_seconds": 2360.0083355903625,
+    "trainer_pid": 76358,
+    "trainer_parent_pid": 534983,
+    "trainer_gpu_memory_mib": 1752,
+    "trainer_gpu_utilization_percent": 40,
+    "supervisor_consecutive_failures": 1,
+    "completed_epoch_lost": false,
+    "runtime_cohort_changed": false
+  },
+  "monitoring_repair": {
+    "problem": "OUTER_HEALTH_DID_NOT_PROPAGATE_PROGRESS_WATCHER_ALERT_STATUS",
+    "code_commit": "34c39698a365245c23b37fd86946e6f80c14ade",
+    "health_source_sha256": "700adbcf1ee1d7f3496afc565f8590629c5090c66f979e261dcee6f8b0d92025",
+    "targeted_tests": "12_PASSED",
+    "deployment_mode": "READ_ONLY_HASH_VERIFIED_SOURCE_COPY",
+    "deployment_path": "/root/autodl-tmp/FINAL_UNSB_5090B_HEALTH_ALERT_SOURCE_34c3969/paper_aio_health_watch.py",
+    "new_health_watcher_pid": 83714,
+    "new_health_status": "HEALTHY_ZERO_ALERTS",
+    "new_health_contract_sha256": "5a6b94ff2c8d39c2c2d9e8420a4b4d1ebfb91307c4bcd235489f31d8fbc8eaab",
+    "direct_lane_heartbeat_watch_seconds": 7200,
+    "progress_alert_is_now_upstream_blocking": true,
+    "retired_old_health_watcher_pid": 667507,
+    "progress_watcher_pid": 524156,
+    "progress_watcher_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_watcher_cumulative_alert_count": 2598,
+    "training_process_changed_by_monitor_repair": false
+  },
+  "live_portfolio_refresh": {
+    "4090A_amtnc": {"data_epoch": 160, "updates": 1368480, "guard_restarts": 0, "health_alerts": 0},
+    "5090A_stcgr": {"data_epoch": 146, "updates": 1248738, "guard_restarts": 1, "health_alerts": 0},
+    "5090C_proposal": {"data_epoch": 158, "updates": 1351374, "guard_restarts": 0, "health_alerts": 0},
+    "local_dclgan": {"data_epoch": 135, "updates": 1154655, "health_alerts": 0}
+  },
+  "schedule": {
+    "revised_5090B_e200_projection": "2026-09-15T14:15:00+08:00_rough_from_e66",
+    "recommended_5090B_availability_through": "2026-09-16T12:00:00+08:00",
+    "lease_extension_still_recommended": true
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_configuration_changed": false,
+    "cross_host_checkpoint_resume": false
+  },
+  "prior_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E64_STALL_RECOVERY_STARTED_20260911T204955.json"
+}
