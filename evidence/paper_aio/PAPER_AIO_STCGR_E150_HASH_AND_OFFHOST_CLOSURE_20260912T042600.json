@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-paper-stcgr-e150-hash-offhost-closure-v1",
+  "captured_at": "2026-09-12T04:26:00+08:00",
+  "status": "STCGR_E150_SOURCE_HASH_LOCAL_IMPORT_AND_METRIC_BACKUP_CLOSED_CONTINUING_E200",
+  "source": {
+    "host_label": "5090A",
+    "hostname": "autodl-container-8z3ltky94f-1e5af69c",
+    "gpu_uuid": "GPU-9047c16e-2edd-6703-b266-721a094eda7d",
+    "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "training_protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "data_epoch": 150,
+    "updates": 1282950,
+    "target_updates": 1710600,
+    "checkpoint_bytes": 201482347,
+    "checkpoint_sha256": "7a5e775a95c5c68e2d23e392ee893a4898ae4962ff8cb8e48a0b299a6ad522f4",
+    "sidecar_sha256": "0aa180c01f8bbc7cab34f9cede87bcf04d0f2a8329544f1aecd4fc36b9fc10d1",
+    "scientific_state_sha256": "d4aca2911474184e8b0f42219eff7158f4e58a0c998a215feecc78438db4c047",
+    "metric_artifact_sha256": "0bc8c65e9f14e8661987e479e9887dcf30097be3426f986ed11a3f3539b1c658",
+    "incremental_export_receipt_sha256": "d4211eda84dfe6494655cd7eb762ff1ec6ac5f9fe398b1b9b2efc0e00a788854",
+    "incremental_export_set_sha256": "babe6fbe8ca2e834a1edd7458f21c58323c38c1ac51fac800ea779cb5f4671ad"
+  },
+  "local_source_bound_import": {
+    "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [100, 150],
+    "required_epochs": [100, 150, 200],
+    "relay_pid": 16752,
+    "relay_recovery_supervisor_pid": 20856,
+    "relay_recovery_restart_count": 2,
+    "checkpoint": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports/sources/5090A/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e150.pt",
+    "checkpoint_hash_matches_source": true,
+    "sidecar_hash_matches_source": true,
+    "export_receipt_hash_matches_source": true,
+    "incremental_lane_receipt_sha256": "91d5fb50e1237d910462e55e046bf2f9ee78b2c4828a9186e8a383be2d2e10f8",
+    "incremental_import_set_sha256": "c302104ae7f629c3f06682053a3f0c0a1b7bd3801931f6d4aa0b4cfa985a971b"
+  },
+  "full_state_cpu_load": {
+    "status": "PASS",
+    "schema": "final-unsb-paper-aio-full-state-v1",
+    "physical_epoch_completed": 150,
+    "step": 1282950,
+    "sections": ["lane", "metadata", "model", "physical_epoch_completed", "rng", "samplers", "schema", "step", "target_steps"],
+    "model_sections": ["method", "networks", "optimizers", "schedulers"],
+    "rng_sections": ["numpy", "python", "torch_cpu", "torch_cuda"],
+    "sampler_sections": ["primary", "secondary"]
+  },
+  "offhost_protection": {
+    "checkpoint_protected_by_local_source_bound_import": true,
+    "metric_backup": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260912_E150/e150.metrics.json",
+    "metric_backup_bytes": 695085,
+    "metric_backup_sha256": "0bc8c65e9f14e8661987e479e9887dcf30097be3426f986ed11a3f3539b1c658",
+    "metric_backup_read_only": true,
+    "metric_values_parsed": false
+  },
+  "continuity": {
+    "supervisor_pid": 357236,
+    "trainer_pid": 357237,
+    "outer_guard_pid": 942101,
+    "outer_guard_health_pid": 942182,
+    "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "consecutive_no_progress_restarts": 0,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "training_continues_to_e200": true,
+    "training_restarted_or_modified_for_milestone": false
+  },
+  "scientific_interpretation": {
+    "fixed_milestone_not_best_checkpoint": true,
+    "matched_delta_available": false,
+    "matched_delta_blocker": "WAIT_FOR_ADMITTED_5090B_MATCHED_PLAIN_E200_AND_UNIFIED_EVALUATION",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-12T03:50:00+08:00",
+  "captured_at": "2026-09-12T04:26:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -12,7 +12,7 @@
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
         "5090C/proposal": "e161_live_e150_fixed_hash_and_offhost_closed_running_e200",
-        "5090A/stcgr": "e149_live_hash_verified_exact_resume_closure_outer_guard_running_e200",
+        "5090A/stcgr": "e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
         "4090A/amtnc_after_plain": "e165_live_e164_isolated_recovery_and_offhost_closed_deleted_inode_guard_zero_restarts",
         "5090B/matched_plain": "e74_live_e66_exact_resume_closed_alert_propagating_health_deployed",
         "local/dclgan_extension": "e141_live_e125_fixed_hash_closed_delivery_waiters_healthy"

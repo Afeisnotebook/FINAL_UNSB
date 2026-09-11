@@ -575,3 +575,7 @@ authorize compute.
      后主仓全部779个测试逐文件或分段验证，结果777通过、2项CUDA预期跳过、0失败；compileall、
      665个JSON及重复键检查全部通过。两次单进程长套件的Windows原生层异常被单独复现和复跑，
      未通过修改科学代码掩盖；DCLGAN及控制链保持原PID。
+165. `DEC-20260912-STCGR-E150-HASH-AND-OFFHOST-CLOSURE.md`：5090A ST-CGR自然完成固定e150，
+     full-state、sidecar、scientific-state、metric artifact及source-bound export哈希闭环；本地
+     relay自动导入e150且逐文件与来源匹配，CPU加载确认完整恢复状态。metric只做字节级异机备份，
+     未读取数值；训练继续e200，matched delta仍等待5090B plain e200。
