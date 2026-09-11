@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-critical-path-adjudication-v1",
+  "captured_at": "2026-09-12T06:51:05+08:00",
+  "status": "KEEP_LOCAL_TERMINAL_AUDIT_NOT_CRITICAL_PATH",
+  "observed_live_inputs": {
+    "4090A_amtnc": {"epoch": 168, "remaining_epochs": 32, "epoch_seconds": 3529.61, "remaining_hours": 31.37},
+    "5090C_proposal": {"epoch": 164, "remaining_epochs": 36, "epoch_seconds": 4862.94, "remaining_hours": 48.63},
+    "5090A_stcgr": {"epoch": 151, "remaining_epochs": 49, "epoch_seconds": 5155.15, "remaining_hours": 70.17},
+    "local_dclgan": {"epoch": 143, "remaining_epochs": 57, "epoch_seconds": 4336.26, "remaining_hours": 68.66},
+    "5090B_matched_plain": {"epoch": 78, "remaining_epochs": 122, "epoch_seconds": 2451.82, "remaining_hours": 83.08}
+  },
+  "local_terminal_chain": {
+    "audit_supervisor_pid": 5180,
+    "audit_child_pid": 1392,
+    "audit_supervisor_restart_count": 1,
+    "audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "completed_cells": ["4090A_plain:e100", "4090A_plain:e150", "4090A_plain:e200"],
+    "remaining_cell_count": 9,
+    "pathology_supervisor_pid": 23952,
+    "pathology_child_pid": 9400,
+    "pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "combined_health_pid": 9960,
+    "combined_health_status": "HEALTHY_ZERO_ALERTS",
+    "gpu_lock_current_owner_role": "DCLGAN_TRAINING",
+    "terminal_jvp_colocation_forbidden": true
+  },
+  "makespan_calculation": {
+    "measured_terminal_audit_seconds_per_cell_proxy": 777,
+    "remaining_audit_hours": 1.94,
+    "earliest_local_start_hours": 70.17,
+    "estimated_local_finish_hours": 72.11,
+    "matched_plain_finish_hours": 83.08,
+    "local_finish_slack_before_matched_plain_hours": 10.97,
+    "remote_4090a_partial_precompute_cells": 3,
+    "remote_partial_precompute_max_saving_hours": 0.65,
+    "remote_receipt_rebinding_or_new_authority_required": true,
+    "net_scientific_engineering_value": "NEGATIVE_FOR_CURRENT_CRITICAL_PATH"
+  },
+  "decision": {
+    "terminal_audit_execution_host": "LOCAL_GTX1660_AFTER_DCLGAN_RELEASE",
+    "4090A_after_amtnc_role": "UNIFIED_EVALUATION_AND_FIXED_IMPORTS",
+    "new_remote_terminal_pipeline_created": false,
+    "healthy_local_terminal_chain_restarted": false,
+    "reconsideration_condition": "REFRESHED_TERMINAL_AUDIT_FINISH_AT_LEAST_2_HOURS_LATER_THAN_MATCHED_PLAIN_AND_HASH_PRESERVING_RECEIPT_MERGE_ALREADY_GATED"
+  },
+  "persistent_heartbeat": {
+    "automation_id": "final-unsb-goal",
+    "automation_toml_sha256": "e1be1e11498f8029094cc7fa384f5de44d200afc19043916e48ea9b881bc8b57",
+    "decision_synced": true,
+    "credentials_persisted": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_process_changed": false,
+    "protocol_changed": false
+  },
+  "decision_record": "decisions/DEC-20260912-TERMINAL-AUDIT-CRITICAL-PATH-ADJUDICATION.md"
+}

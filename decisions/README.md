@@ -629,3 +629,7 @@ authorize compute.
      `gates/LANE_AUTHORIZATION_amtnc.json`，e175异机触发器不再需要猜路径；source-bound export、
      incremental relay、算法/统一/DCLGAN评估、最终交付和completion matrix八个针对性测试文件
      全部通过。heartbeat保持两小时、仅失败通知，训练与科学协议不变。
+178. `DEC-20260912-TERMINAL-AUDIT-CRITICAL-PATH-ADJUDICATION.md`：按五条实时epoch吞吐重算，
+     本地terminal audit剩余9单元约1.94小时，预计比5090B matched plain e200早约10.97小时完成；
+     迁移AM-TNC三单元到4090A最多节省约0.65小时，却需要新增跨机receipt权威。故保持现有本地
+     健康链，4090A优先统一评估；仅当审计反而晚于关键路径至少2小时且已有哈希保持合并门时复审。
