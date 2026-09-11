@@ -596,3 +596,7 @@ authorize compute.
      删除原完整环境且活动AM-TNC仍依赖deleted inode，但训练已连续到e167；隔离runtime重新验签
      111/111项并完整CPU加载e167科学状态，guard与导出/评估后继均健康。e167已异机只读备份，
      进程故障通常只损失当前未完成epoch，整机盘故障可回退e167；禁止为消除标签盲目重启。
+170. `DEC-20260912-GOAL-HEARTBEAT-E167-AND-5090B-INCREMENTAL-SYNC.md`：修复两小时持久heartbeat
+     仍引用旧Git、AM-TNC e164回退和5090B e75的提示词漂移；同步e167隔离恢复/异机备份、
+     matched plain e77及新e100/e150/e200增量异机链、Proposal e163与DCLGAN e143。频率、通知
+     策略、训练和队列均未改变，配置保持ACTIVE且不含凭据。

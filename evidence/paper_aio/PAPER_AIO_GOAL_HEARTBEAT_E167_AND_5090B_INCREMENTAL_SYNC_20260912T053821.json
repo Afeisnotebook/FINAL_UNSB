@@ -1,0 +1,55 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-e167-and-5090b-incremental-sync-v1",
+  "captured_at": "2026-09-12T05:38:21+08:00",
+  "status": "ACTIVE_TWO_HOUR_HEARTBEAT_SYNCHRONIZED_TO_CURRENT_RECOVERY_AND_DELIVERY_STATE",
+  "automation": {
+    "id": "final-unsb-goal",
+    "kind": "heartbeat",
+    "name": "FINAL_UNSB 论文北极星监控",
+    "status": "ACTIVE",
+    "rrule_semantics": "EVERY_TWO_HOURS",
+    "notification_policy": "failed_runs_only",
+    "target_thread_id": "01a043c5-352f-7ab0-a65b-f97f7a035aa1",
+    "updated_at_unix_ms": 1789162651627,
+    "automation_toml_sha256": "c3e5e230819d3c567b176d22f8e9bcc616d89c8f822f392c5bc82c6ee6757160",
+    "credentials_persisted_in_prompt": false
+  },
+  "drift_repaired": {
+    "previous_git_reference": "93ef100",
+    "current_git_reference": "7f747ac22c3fcb2781969c4a581760b2493deb48",
+    "previous_amtnc_recovery_boundary": "e166_live_with_e164_offhost_fallback",
+    "current_amtnc_recovery_boundary": "e167_live_e167_isolated_load_and_offhost_fallback",
+    "previous_5090b_matched_plain_epoch": 75,
+    "current_5090b_matched_plain_epoch": 77,
+    "new_5090b_incremental_chain_included": true,
+    "proposal_epoch_updated": 163,
+    "dclgan_epoch_updated": 143
+  },
+  "current_metric_blind_state": {
+    "4090a_amtnc": {"epoch": 167, "updates": 1428351, "training_pids": [3446757, 3446758], "guard_pids": [439182, 439447]},
+    "5090a_stcgr": {"epoch": 150, "updates": 1282950, "training_pids": [357236, 357237], "guard_pids": [942101, 942182]},
+    "5090b_matched_plain": {"epoch": 77, "updates": 658581, "training_pids": [534983, 76358], "incremental_source_pids": [107734, 107809, 107830], "incremental_local_pids": [11704, 25228, 20796]},
+    "5090c_proposal": {"epoch": 163, "updates": 1394139, "training_pids": [9729, 766090], "guard_pids": [431648, 431712]},
+    "local_dclgan": {"epoch": 143, "updates": 1223079, "training_pids": [20832, 12824, 22020], "health_status": "HEALTHY_ZERO_ALERTS"}
+  },
+  "prompt_preserves": {
+    "multi_algorithm_paper_north_star": true,
+    "amtnc_deleted_inode_do_not_restart_boundary": true,
+    "5090b_alias_not_new_gpu_boundary": true,
+    "5090b_e100_incremental_delivery_action": true,
+    "full_state_exact_resume_and_fail_closed_rules": true,
+    "source_bound_export_and_unified_evaluation": true,
+    "lease_horizon_checks": true,
+    "ddsbreproduction_incomplete_boundary": true,
+    "confirmation20_lock": true,
+    "paired_metric_control_prohibition": true
+  },
+  "operational_effect": {
+    "heartbeat_frequency_changed": false,
+    "notification_policy_changed": false,
+    "training_processes_changed": false,
+    "queue_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  }
+}
