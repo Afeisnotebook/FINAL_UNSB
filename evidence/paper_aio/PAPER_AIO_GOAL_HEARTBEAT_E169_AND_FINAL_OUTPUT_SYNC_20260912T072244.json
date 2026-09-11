@@ -1,0 +1,39 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-e169-final-output-sync-v1",
+  "captured_at": "2026-09-12T07:22:44+08:00",
+  "status": "ACTIVE_E169_RECOVERY_AND_MULTI_ALGORITHM_FINAL_OUTPUT_CONTRACT_SYNCED",
+  "automation_id": "final-unsb-goal",
+  "kind": "heartbeat",
+  "cadence": "FREQ=HOURLY;INTERVAL=2",
+  "notification_policy": "failed_runs_only",
+  "automation_toml_sha256": "e55176be53f5cc1c4586c205396ee5875e8aa2fc60734e86b4491d84907c4814",
+  "amtnc": {
+    "latest_bound_complete_epoch": 169,
+    "latest_bound_step": 1445457,
+    "latest_bound_checkpoint_sha256": "7c2d5c03c6d4adff8b71be7cb0d5e3437fc0176f24b5aac1922b2e3f4c887af6",
+    "offhost_state": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260912_E169/full_state_latest.pt",
+    "isolated_training_recovery_authority_preserved": true,
+    "healthy_deleted_inode_process_must_not_be_restarted": true,
+    "e175_offhost_action_preserved": true
+  },
+  "final_delivery": {
+    "supervisor_pid": 3879674,
+    "child_pid": 3802122,
+    "restart_count": 0,
+    "required_terminal_methods": ["proposal", "stcgr", "amtnc"],
+    "all_pass_and_fail_trajectories_preserved": true,
+    "hjcgr_deferred_not_falsified": true,
+    "ddsb_reproduction_incomplete_not_negative": true,
+    "dclgan_nonblocking_e200_addendum": true,
+    "unique_winner_required": false
+  },
+  "boundaries": {
+    "credentials_persisted": false,
+    "training_processes_changed": false,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}

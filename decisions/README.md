@@ -647,3 +647,7 @@ authorize compute.
      ST-CGR、AM-TNC全部PASS/FAIL轨迹、固定e200及六域晚期证据，HJCGR/DDSB分别保持deferred/
      reproduction-incomplete，DCLGAN以非阻塞e200附表并入；八种论文结果分支已预注册，不存在
      只留单冠军、最佳checkpoint或跨不等价runtime delta的自动路径。34项针对性测试通过。
+182. `DEC-20260912-GOAL-HEARTBEAT-E169-AND-FINAL-OUTPUT-SYNC.md`：原位同步两小时持久heartbeat
+     到AM-TNC e169异机回退点及已复核的多算法终局合同；保留e175异机动作、deleted-inode禁止
+     重启边界、Proposal/ST-CGR/AM-TNC全部轨迹、HJCGR/DDSB正确状态和DCLGAN非阻塞附表。频率、
+     失败通知策略、训练与队列均未改变，prompt不含凭据。
