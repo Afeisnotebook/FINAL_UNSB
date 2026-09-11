@@ -6,14 +6,17 @@ from types import SimpleNamespace
 
 import pytest
 
+import operations.paper_aio_health_watch as health_watch
 from operations.paper_aio_health_watch import (
     CONTRACT_SCHEMA,
+    atomic_json,
     evaluate_contract,
     evaluate_watch,
     freeze_contract,
     parse_watch,
     proposed_contract,
     process_alive,
+    read_json,
 )
 
 
@@ -40,6 +43,60 @@ def test_parse_watch_requires_safe_absolute_state(tmp_path: Path) -> None:
 
 def test_process_alive_supports_the_current_platform() -> None:
     assert process_alive(os.getpid()) is True
+
+
+def test_state_read_retries_transient_windows_denial(tmp_path, monkeypatch) -> None:
+    path = tmp_path / "state.json"
+    path.write_text(json.dumps({"status": "HEALTHY"}), encoding="utf-8")
+    real_read_text = Path.read_text
+    attempts = 0
+
+    def flaky_read_text(source, *args, **kwargs):
+        nonlocal attempts
+        if source == path:
+            attempts += 1
+            if attempts < 3:
+                raise PermissionError("transient indexer lock")
+        return real_read_text(source, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", flaky_read_text)
+    monkeypatch.setattr(health_watch.time, "sleep", lambda seconds: None)
+    assert read_json(path) == {"status": "HEALTHY"}
+    assert attempts == 3
+
+
+def test_state_read_fails_closed_after_persistent_denial(tmp_path, monkeypatch) -> None:
+    path = tmp_path / "state.json"
+    path.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(
+        Path,
+        "read_text",
+        lambda *args, **kwargs: (_ for _ in ()).throw(PermissionError("locked")),
+    )
+    monkeypatch.setattr(health_watch.time, "sleep", lambda seconds: None)
+    with pytest.raises(PermissionError, match="locked"):
+        read_json(path)
+
+
+def test_atomic_state_write_retries_transient_replace_denial(
+    tmp_path, monkeypatch
+) -> None:
+    path = tmp_path / "state.json"
+    real_replace = Path.replace
+    attempts = 0
+
+    def flaky_replace(source, destination):
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise PermissionError("transient reader lock")
+        return real_replace(source, destination)
+
+    monkeypatch.setattr(Path, "replace", flaky_replace)
+    monkeypatch.setattr(health_watch.time, "sleep", lambda seconds: None)
+    atomic_json(path, {"status": "HEALTHY"})
+    assert json.loads(path.read_text(encoding="utf-8")) == {"status": "HEALTHY"}
+    assert attempts == 3
 
 
 def test_watch_is_healthy_without_copying_losses(tmp_path: Path) -> None:
