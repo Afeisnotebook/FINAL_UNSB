@@ -562,3 +562,7 @@ authorize compute.
      活动AM-TNC继续使用deleted inode，但隔离只读runtime的111项哈希、e164 full-state加载、
      直接绑定的持久guard和异机e164备份全部闭环。健康训练未被触碰；进程故障通常最多重做
      当前未完成epoch，整机存储故障至少可从异机e164恢复，同时保留CUDA下一步非逐位证明边界。
+162. `DEC-20260912-DCLGAN-EXPORTER-WINDOWS-LOCK-RECOVERY.md`：DCLGAN训练持续健康，但旧source
+     exporter supervisor因Windows短暂文件锁退出；修复control-state读取为有界重试且持续拒绝
+     仍fail closed。新supervisor PID 19524原位收养存活child PID 20760、零重复启动，新health
+     watcher PID 27044接管后恢复零告警，既有export→push→import→evaluation链保持不变。
