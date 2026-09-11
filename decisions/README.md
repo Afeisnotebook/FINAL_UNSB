@@ -542,3 +542,7 @@ authorize compute.
      完成e150；固定checkpoint、sidecar、指标文件及增量导出receipt在不读取性能值的条件下完成
      哈希，并复制成本机只读备份。两条lane与其guard保持健康；未改变协议、matched关系或
      confirmation20封存。
+157. `DEC-20260911-AMTNC-E154-ISOLATED-RECOVERY-REVALIDATION.md`：再次确认4090A原完整环境
+     被清理且活动trainer仍使用deleted inode，但隔离只读runtime的111项映射、e154完整状态和
+     持久恢复命令全部重新验签；隔离CPU分支真实完成一步恢复，e154状态另存异机只读备份。
+     健康训练未被触碰，最坏损失收敛为当前未完成epoch，且不虚构CUDA逐位等价。
