@@ -1,0 +1,33 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-terminal-claim-gate-sync-v1",
+  "captured_at": "2026-09-12T07:49:01.6000000+08:00",
+  "status": "ACTIVE_TWO_HOUR_GOAL_MONITOR_BOUND_TO_TERMINAL_PATHOLOGY_CLAIM_FREEZE_GATE",
+  "automation_id": "final-unsb-goal",
+  "automation_toml_sha256": "e436b03eb1f35ccf758893887eb30362a4661b77cc3ce2c4830bd197fbd36edd",
+  "bound_git_commit": "e13ad284c24dd6fcb3ab1755075d17029af537eb",
+  "new_monitoring_invariant": {
+    "terminal_pathology_required_before_claim_freeze": true,
+    "positive_or_negative_terminal_decision_accepted": true,
+    "fixed_cells": 24,
+    "target_blind_audit_receipts": 12,
+    "posthoc_metric_receipts": 12,
+    "metric_binding_required": true,
+    "positive_authority": "DERIVATION_CARD_ONLY",
+    "negative_authority": "DO_NOT_ADD_TERMINAL_MODULE",
+    "training_control_authorized": false
+  },
+  "automation": {
+    "cadence": "every_two_hours",
+    "status": "ACTIVE",
+    "notification_policy": "failed_runs_only",
+    "ordinary_healthy_wait_notified": false,
+    "credentials_persisted": false
+  },
+  "runtime_effect": {
+    "healthy_training_restarted_or_modified": false,
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}

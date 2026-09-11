@@ -656,3 +656,7 @@ authorize compute.
      target-blind审计、12份posthoc指标和metric binding，review、freeze与distribution逐哈希
      保持同一引用；不授权训练控制、自动模块或最佳checkpoint。全仓库788项测试通过，训练与
      队列未改变。
+184. `DEC-20260912-GOAL-HEARTBEAT-TERMINAL-CLAIM-GATE-SYNC.md`：将两小时持久Goal监控原位同步
+     到提交`e13ad28`新增的终端因果claim-freeze硬门；未来正/负结论都必须绑定完整24-cell、
+     12份target-blind审计、12份posthoc指标和metric binding。automation保持ACTIVE、仅失败
+     通知且不含凭据，健康训练、队列和科学协议均未改变。

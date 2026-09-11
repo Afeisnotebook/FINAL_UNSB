@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-12",
-  "state_snapshot_time": "2026-09-12T07:44:54+08:00",
+  "state_snapshot_time": "2026-09-12T07:49:01+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1972,9 +1972,9 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-12T07:22:44+08:00",
-      "prompt_integrity": "READABLE_CURRENT_E169_OFFHOST_BOUND_EXACT_E175_ACTION_MULTI_ALGORITHM_FINAL_OUTPUT_CONTRACT_SYNCED",
-      "automation_toml_sha256": "e55176be53f5cc1c4586c205396ee5875e8aa2fc60734e86b4491d84907c4814",
+      "last_prompt_update": "2026-09-12T07:49:01+08:00",
+      "prompt_integrity": "READABLE_CURRENT_E169_OFFHOST_BOUND_EXACT_E175_ACTION_MULTI_ALGORITHM_FINAL_OUTPUT_AND_TERMINAL_CLAIM_FREEZE_GATE_SYNCED",
+      "automation_toml_sha256": "e436b03eb1f35ccf758893887eb30362a4661b77cc3ce2c4830bd197fbd36edd",
       "prompt_credentials_persisted": false,
       "ddsb_source_watch_pid": 22104,
       "ddsb_source_recovery_supervisor_pid": 26164,
@@ -1999,8 +1999,10 @@
       "incremental_relay_recovery_supervisor_pids": [16540, 20856],
       "incremental_relay_combined_health_pid": 27152,
       "retired_incremental_delivery_pids": [19068, 6152, 18736],
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E169_AND_FINAL_OUTPUT_SYNC_20260912T072244.json",
-      "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-E169-AND-FINAL-OUTPUT-SYNC.md"
+      "terminal_pathology_claim_freeze_gate_commit": "e13ad284c24dd6fcb3ab1755075d17029af537eb",
+      "terminal_pathology_claim_freeze_gate_monitored": true,
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_TERMINAL_CLAIM_GATE_SYNC_20260912T074901.json",
+      "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-TERMINAL-CLAIM-GATE-SYNC.md"
     },
     "lease_horizon_action": {
       "status": "ALL_LIVE_LANES_HEALTHY_LATE_THROUGHPUT_REFORECAST_REQUIRES_LEASE_MARGIN_CHECK",
