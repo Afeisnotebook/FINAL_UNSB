@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-ddsb-supervisor-sync-v1",
+  "captured_at": "2026-09-12T06:31:03+08:00",
+  "status": "ACTIVE_CURRENT_RECOVERY_AUTHORITIES_SYNCED",
+  "automation_id": "final-unsb-goal",
+  "cadence": "FREQ=HOURLY;INTERVAL=2",
+  "notification_policy": "failed_runs_only",
+  "automation_toml_sha256": "54e2ee9d9c08fc52bab91d345f48d756a8b187d5fc39f16aea7367e26cd05cf6",
+  "prompt_credentials_persisted": false,
+  "prompt_authorities": {
+    "origin_main_reference": "746a050",
+    "amtnc_latest_complete_epoch": 168,
+    "amtnc_latest_complete_updates": 1436904,
+    "amtnc_deleted_inode_restart_forbidden": true,
+    "amtnc_isolated_training_recovery_runtime_is_sole_authority": true,
+    "ddsb_source_watcher_pid": 22104,
+    "ddsb_recovery_supervisor_pid": 26164,
+    "ddsb_combined_health_pid": 30196,
+    "ddsb_recovery_restart_count": 0,
+    "ddsb_retired_health_pids": [16220, 31124]
+  },
+  "changes": {
+    "scientific_training_restarted": false,
+    "scientific_queue_changed": false,
+    "algorithm_protocol_changed": false,
+    "heartbeat_schedule_changed": false,
+    "notification_policy_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-DDSB-SUPERVISOR-SYNC.md"
+}

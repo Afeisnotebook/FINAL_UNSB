@@ -613,3 +613,7 @@ authorize compute.
      control/source commit、Python、脚本与contract；替代链连续健康后退役冗余health
      PID `31124/16220`。source watcher PID `22104`及所有科学训练未重启，DDSB仍为
      `REPRODUCTION_INCOMPLETE`而非机制失败。
+174. `DEC-20260912-GOAL-HEARTBEAT-DDSB-SUPERVISOR-SYNC.md`：原位同步两小时持久heartbeat到
+     AM-TNC e168、唯一隔离训练恢复runtime，以及DDSB source/recovery/combined-health
+     PID `22104/26164/30196`；明确禁止恢复旧路径和已退役health PID。automation仍为ACTIVE、
+     仅失败通知、不含凭据，训练和科学队列未变。
