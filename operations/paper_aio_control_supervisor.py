@@ -101,7 +101,19 @@ ROLE_SPECS = {
 
 
 def _read_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8-sig"))
+    # Windows indexers, antivirus scanners, or another process replacing the
+    # state file can retain a short-lived handle and deny an otherwise valid
+    # read.  A transient lock must not kill a long-lived recovery supervisor.
+    # Persistent denial still fails closed after the bounded retry window.
+    for attempt in range(10):
+        try:
+            raw = path.read_text(encoding="utf-8-sig")
+            break
+        except PermissionError:
+            if attempt == 9:
+                raise
+            time.sleep(0.05 * (attempt + 1))
+    value = json.loads(raw)
     if not isinstance(value, dict):
         raise RuntimeError(f"expected JSON object: {path}")
     return value

@@ -109,6 +109,39 @@ def test_atomic_state_write_retries_transient_replace_denial(tmp_path, monkeypat
     assert attempts == 3
 
 
+def test_state_read_retries_transient_windows_denial(tmp_path, monkeypatch):
+    path = tmp_path / "state.json"
+    path.write_text(json.dumps({"status": "HEALTHY"}), encoding="utf-8")
+    real_read_text = Path.read_text
+    attempts = 0
+
+    def flaky_read_text(source, *args, **kwargs):
+        nonlocal attempts
+        if source == path:
+            attempts += 1
+            if attempts < 3:
+                raise PermissionError("transient indexer lock")
+        return real_read_text(source, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", flaky_read_text)
+    monkeypatch.setattr(supervisor.time, "sleep", lambda seconds: None)
+    assert supervisor._read_json(path) == {"status": "HEALTHY"}
+    assert attempts == 3
+
+
+def test_state_read_fails_closed_after_persistent_denial(tmp_path, monkeypatch):
+    path = tmp_path / "state.json"
+    path.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(
+        Path,
+        "read_text",
+        lambda *args, **kwargs: (_ for _ in ()).throw(PermissionError("locked")),
+    )
+    monkeypatch.setattr(supervisor.time, "sleep", lambda seconds: None)
+    with pytest.raises(PermissionError, match="locked"):
+        supervisor._read_json(path)
+
+
 def test_fixed_child_command_rejects_training_or_confirmation(tmp_path):
     path = _command(
         tmp_path,
