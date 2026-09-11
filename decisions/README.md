@@ -605,3 +605,6 @@ authorize compute.
      与有界重试；新source/health PID `22104/16220`从detached commit `40c4b37`连续健康。
      当日权威页面与repository检索仍无作者实现，DDSB保持`REPRODUCTION_INCOMPLETE`，没有
      猜测训练被放行，也没有触碰任何GPU任务。
+172. `DEC-20260912-GOAL-HEARTBEAT-DDSB-RECOVERY-SYNC.md`：原位同步两小时持久heartbeat到主仓
+     `83fdf5b`与DDSB新source/health PID `22104/16220`，明确旧PID已退役及只允许人工来源门复核。
+     automation保持ACTIVE、仅失败通知且不含凭据；训练、队列和科学协议均未改变。

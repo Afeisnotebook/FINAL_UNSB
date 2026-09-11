@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-ddsb-recovery-sync-v1",
+  "captured_at": "2026-09-12T06:09:20+08:00",
+  "status": "ACTIVE_PROMPT_SYNCED_TO_DDSB_RECOVERY",
+  "automation": {
+    "id": "final-unsb-goal",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence": "FREQ=HOURLY;INTERVAL=2",
+    "notification_policy": "failed_runs_only",
+    "target_thread_unchanged": true,
+    "automation_toml_sha256": "7deea3d687609342b150a515d7369b24d914f4b05f9d521f39ab620e04fecf15",
+    "credentials_persisted": false
+  },
+  "prompt_updates": {
+    "authoritative_git_commit": "83fdf5b23af88eab13e23cf794c66fa67639baef",
+    "ddsb_control_commit": "40c4b37916844bb10b456926d8e44f0df8ce66c3",
+    "ddsb_source_watcher_pid": 22104,
+    "ddsb_health_watcher_pid": 16220,
+    "old_ddsb_source_watcher_pid": 20388,
+    "old_ddsb_health_watcher_pid": 10780,
+    "old_health_retirement_recorded": true,
+    "recovery_rule": "inspect fatal/state/health and recover only from the frozen control commit; never auto-authorize DDSB training",
+    "other_training_and_delivery_queues_preserved": true
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "source_recovery_evidence": "evidence/paper_aio/DDSB_SOURCE_WATCH_RECOVERY_AND_RECHECK_20260912T060322.json",
+  "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-DDSB-RECOVERY-SYNC.md"
+}

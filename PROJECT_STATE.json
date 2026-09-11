@@ -1913,10 +1913,11 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-12T05:38:21+08:00",
-      "prompt_integrity": "READABLE_CURRENT_E167_RECOVERY_5090B_INCREMENTAL_OFFHOST_AND_FROZEN_DELIVERY_SYNCED",
-      "automation_toml_sha256": "c3e5e230819d3c567b176d22f8e9bcc616d89c8f822f392c5bc82c6ee6757160",
+      "last_prompt_update": "2026-09-12T06:09:20+08:00",
+      "prompt_integrity": "READABLE_CURRENT_E167_RECOVERY_5090B_INCREMENTAL_OFFHOST_DDSB_RECOVERY_AND_FROZEN_DELIVERY_SYNCED",
+      "automation_toml_sha256": "7deea3d687609342b150a515d7369b24d914f4b05f9d521f39ab620e04fecf15",
       "prompt_credentials_persisted": false,
+      "ddsb_recovery_source_health_pids": [22104, 16220],
       "5090b_source_export_recovery_pids": [673800, 673803],
       "5090b_source_export_recovery_health_pid": 673880,
       "old_fixed_exporter_pid_false_alert_policy_recorded": true,
@@ -1935,8 +1936,8 @@
       "incremental_relay_recovery_supervisor_pids": [16540, 20856],
       "incremental_relay_combined_health_pid": 27152,
       "retired_incremental_delivery_pids": [19068, 6152, 18736],
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_E167_AND_5090B_INCREMENTAL_SYNC_20260912T053821.json",
-      "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-E167-AND-5090B-INCREMENTAL-SYNC.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_DDSB_RECOVERY_SYNC_20260912T060920.json",
+      "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-DDSB-RECOVERY-SYNC.md"
     },
     "lease_horizon_action": {
       "status": "ALL_LIVE_LANES_HEALTHY_LATE_THROUGHPUT_REFORECAST_REQUIRES_LEASE_MARGIN_CHECK",
