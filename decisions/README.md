@@ -608,3 +608,8 @@ authorize compute.
 172. `DEC-20260912-GOAL-HEARTBEAT-DDSB-RECOVERY-SYNC.md`：原位同步两小时持久heartbeat到主仓
      `83fdf5b`与DDSB新source/health PID `22104/16220`，明确旧PID已退役及只允许人工来源门复核。
      automation保持ACTIVE、仅失败通知且不含凭据；训练、队列和科学协议均未改变。
+173. `DEC-20260912-DDSB-SOURCE-WATCH-DURABLE-RECOVERY-SUPERVISOR.md`：为DDSB权威源码守望
+     增加fail-closed recovery supervisor PID `26164`和combined health PID `30196`，绑定冻结
+     control/source commit、Python、脚本与contract；替代链连续健康后退役冗余health
+     PID `31124/16220`。source watcher PID `22104`及所有科学训练未重启，DDSB仍为
+     `REPRODUCTION_INCOMPLETE`而非机制失败。

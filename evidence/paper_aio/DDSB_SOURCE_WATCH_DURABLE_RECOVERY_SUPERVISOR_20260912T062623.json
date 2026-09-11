@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-ddsb-source-watch-durable-recovery-supervisor-v1",
+  "captured_at": "2026-09-12T06:26:23+08:00",
+  "status": "HEALTHY_FAIL_CLOSED_RECOVERY_SUPERVISOR_ACTIVE",
+  "source_watch": {
+    "pid": 22104,
+    "alive": true,
+    "status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "output": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_WATCH_40c4b37",
+    "source_commit": "40c4b37916844bb10b456926d8e44f0df8ce66c3",
+    "script_sha256": "d10eec1aa902702617c39d75f82b0cf05f94fb18f281c0fe0c7f4c66a6898827",
+    "contract_sha256": "64d5109af72ca7bc69c066f8f7f2b9fe54c475601aa9fbc339cefffa1f7bcfdf",
+    "state_sha256": "215e813eeb8b1e8af71377ac53a9a748e21892b955f10b5d89bc208ecc925155"
+  },
+  "recovery_supervisor": {
+    "pid": 26164,
+    "alive": true,
+    "status": "MONITORING_EXISTING_SOURCE_WATCH",
+    "output": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_RECOVERY_1e90905",
+    "control_commit": "1e909055133718a8e0f8c91aa9bfba29262e1b93",
+    "control_script_sha256": "55c52c8ed530b49c18d7e1a9ff928c9c9739f684ab484b55df91b3be8e1f4bfd",
+    "contract_sha256": "cedd4622cb572d8878f770ee3f23d22b69e46fbff805275bbc5f732996e862",
+    "state_sha256": "39e71e569f030af44e83f7c073e4d77614a6b0c2dd6bfd6ff7f9b462441a33fc",
+    "restart_count": 0,
+    "automatic_source_acceptance": false,
+    "automatic_training_authorization": false,
+    "restart_policy": "ONLY_DEAD_WAIT_OR_TRANSIENT_CHILD_WITH_FROZEN_IDENTITIES; OTHERWISE_FAIL_CLOSED"
+  },
+  "combined_health": {
+    "pid": 30196,
+    "alive": true,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "polls_observed_after_deployment": 3,
+    "output": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_RECOVERY_HEALTH_1e90905",
+    "contract_sha256": "c3d99ebea1686e5f7940775fbb4c79270cf18419c3171a2de58287ab2aae01fd",
+    "state_sha256": "292895134261e2e242de92a55e648372df4280e2f94fa09d1f48454f988e26ec"
+  },
+  "retirement": {
+    "superseded_recovery_health_pid": 31124,
+    "superseded_source_only_health_pid": 16220,
+    "identity_checked_before_stop": true,
+    "retired_after_replacement_health_polls": true,
+    "source_watcher_restarted": false,
+    "gpu_training_touched": false
+  },
+  "adjudication": {
+    "paper_status": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "guessed_implementation_authorized": false,
+    "gpu_training_authorized": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260912-DDSB-SOURCE-WATCH-DURABLE-RECOVERY-SUPERVISOR.md"
+}
