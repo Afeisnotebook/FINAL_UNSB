@@ -190,6 +190,7 @@
         "status": "armed_in_existing_bihourly_goal_heartbeat",
         "reason": "incremental audit export covers e100/e150/e200 while terminal e175 export waits for e200 on the cleaned host",
         "source": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt",
+        "authorization_source": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/gates/LANE_AUTHORIZATION_amtnc.json",
         "destination": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E175",
         "required_verification": "immutable source files, source and destination SHA256 equality, local read-only attributes",
         "training_pause_required": false,

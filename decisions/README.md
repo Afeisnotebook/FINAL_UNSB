@@ -625,3 +625,7 @@ authorize compute.
      ST-CGR、最终交付及DCLGAN冻结command的真实cwd中重验隔离evaluator runtime，全部导入通过，
      checkout commit和静态依赖路径匹配；六个supervisor、两组health均健康且零重启。误清理没有
      阻断e200后评估链，裸home目录缺少research模块不构成实际command故障。
+177. `DEC-20260912-POST-CLEANUP-DELIVERY-PREFLIGHT.md`：4090A实盘确认AM-TNC授权文件精确为
+     `gates/LANE_AUTHORIZATION_amtnc.json`，e175异机触发器不再需要猜路径；source-bound export、
+     incremental relay、算法/统一/DCLGAN评估、最终交付和completion matrix八个针对性测试文件
+     全部通过。heartbeat保持两小时、仅失败通知，训练与科学协议不变。

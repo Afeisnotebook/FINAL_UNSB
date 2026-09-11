@@ -1,0 +1,57 @@
+{
+  "schema": "final-unsb-paper-post-cleanup-delivery-preflight-v1",
+  "captured_at": "2026-09-12T06:46:04+08:00",
+  "status": "PASS_EXACT_E175_SOURCES_AND_DELIVERY_SUCCESSOR_TESTS",
+  "e175_source_preflight": {
+    "current_reference_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e150.pt",
+    "current_reference_sidecar": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e150.pt.json",
+    "heartbeat_source": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/HEARTBEAT.json",
+    "authorization_source": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/gates/LANE_AUTHORIZATION_amtnc.json",
+    "all_reference_paths_present": true,
+    "future_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt",
+    "future_sidecar": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt.json",
+    "future_files_expected_only_after_e175": true
+  },
+  "focused_delivery_tests": {
+    "status": "PASS",
+    "files": [
+      "tests/test_paper_algorithm_evaluation_successor.py",
+      "tests/test_paper_unified_evaluation_successor.py",
+      "tests/test_paper_final_delivery_successor.py",
+      "tests/test_paper_dclgan_evaluation_successor.py",
+      "tests/test_paper_delivery_completion_matrix.py",
+      "tests/test_paper_export_successor.py",
+      "tests/test_paper_incremental_audit_export.py",
+      "tests/test_paper_incremental_audit_relay.py"
+    ],
+    "covered_boundaries": [
+      "source_bound_export",
+      "incremental_cross_host_relay",
+      "algorithm_evaluation",
+      "unified_evaluation",
+      "dclgan_evaluation",
+      "final_delivery",
+      "completion_matrix"
+    ]
+  },
+  "persistent_heartbeat": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "FREQ=HOURLY;INTERVAL=2",
+    "notification_policy": "failed_runs_only",
+    "automation_toml_sha256": "4f5377863eb6fc7e81224ec8eddf97635685305532a1d4ffdd92c161ebacdc4b",
+    "exact_e175_authorization_path_present": true,
+    "bare_home_cwd_false_runtime_alarm_rule_present": true,
+    "credentials_persisted": false
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_e175_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E175_OFFHOST_PROTECTION_ARMED_20260912T063742.json",
+  "prior_evaluator_evidence": "evidence/paper_aio/PAPER_AIO_4090A_POST_CLEANUP_EVALUATOR_COMMAND_REVALIDATION_20260912T064213.json",
+  "decision": "decisions/DEC-20260912-POST-CLEANUP-DELIVERY-PREFLIGHT.md"
+}
