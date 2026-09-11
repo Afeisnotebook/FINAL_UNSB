@@ -592,3 +592,7 @@ authorize compute.
      关键控制补上e100/e150/e200的source-bound异机增量保护；source exporter、当地relay及两端
      恢复/health监督均已部署且健康，不触碰e76训练和既有e200五里程碑terminal链。首次带多余
      `-u`的空relay被合同fail closed拒绝并精确替换，未复制checkpoint或影响科学状态。
+169. `DEC-20260912-AMTNC-E167-RECOVERY-IMPACT-AND-OFFHOST-CLOSURE.md`：确认4090A错误清理确实
+     删除原完整环境且活动AM-TNC仍依赖deleted inode，但训练已连续到e167；隔离runtime重新验签
+     111/111项并完整CPU加载e167科学状态，guard与导出/评估后继均健康。e167已异机只读备份，
+     进程故障通常只损失当前未完成epoch，整机盘故障可回退e167；禁止为消除标签盲目重启。
