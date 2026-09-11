@@ -1,10 +1,10 @@
 {
   "schema": "final-unsb-paper-reproducibility-checklist-contract-v1",
-  "captured_at": "2026-09-08T07:35:36+08:00",
+  "captured_at": "2026-09-12T07:42:00+08:00",
   "status": "PRE_RESULT_REPRODUCIBILITY_AND_ARTIFACT_CHECKLIST_HASH_BOUND",
   "checklist": {
     "path": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
-    "sha256": "a5503a23f92961cf9cbea2b34944a769fb4d93298881fca365389bc8cc0ae129"
+    "sha256": "e372dfee18ea1961ddccb75a544dd434b68034b535a848444856ffcf5d54ae71"
   },
   "authorities": {
     "executable_protocol": {

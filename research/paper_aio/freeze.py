@@ -27,6 +27,7 @@ from .theory_bundle import (
     theory_bundle_reference,
     validate_theory_bundle,
 )
+from .terminal_adjudicate import terminal_pathology_reference
 
 
 DRAFT_SCHEMA = "final-unsb-paper-freeze-review-draft-v1"
@@ -130,6 +131,7 @@ def create_review_draft(
     *, portfolio: Path, claims: list[str], destination: Path,
     theory_bundle: Path | None = None,
     reference_ledger: Path | None = None,
+    terminal_pathology: Path,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
     value, lanes = validate_portfolio(portfolio, theory_bundle=theory_bundle)
@@ -144,6 +146,7 @@ def create_review_draft(
     references = committed_reference_ledger_reference(
         reference_ledger, root=ROOT,
     )
+    terminal = terminal_pathology_reference(terminal_pathology)
     result = {
         "schema": DRAFT_SCHEMA,
         "status": DRAFT_STATUS,
@@ -157,12 +160,14 @@ def create_review_draft(
         "paper_claims_sha256": object_sha256(cleaned_claims),
         "algorithm_theory_bundle": theory,
         "paper_reference_ledger": references,
+        "terminal_pathology": terminal,
         "review_requirements": [
             "confirm every named algorithm and baseline configuration is final",
             "confirm every algorithm claim matches the hash-bound derivation, formula-to-source audit and theory boundary",
             "confirm every paper claim is supported by fixed e200 and sustained evidence",
             "confirm failures, deferrals and reproduction-incomplete baselines are labeled honestly",
             "confirm every required baseline and dataset lineage citation is present and every volatile neighbor is refreshed from its primary source before submission",
+            "confirm the hash-bound terminal pathology adjudication is complete and its outcome is reflected without authorizing a posthoc training intervention",
             "confirm no result was selected by best checkpoint or confirmation20",
             "author an explicit committed freeze review decision; this draft cannot self-approve",
         ],
@@ -182,6 +187,7 @@ def materialize_freeze_receipt(
     *, portfolio: Path, review_decision: Path, destination: Path,
     theory_bundle: Path | None = None,
     reference_ledger: Path | None = None,
+    terminal_pathology: Path,
 ) -> dict[str, Any]:
     portfolio = Path(portfolio).resolve()
     _, lanes = validate_portfolio(portfolio, theory_bundle=theory_bundle)
@@ -191,6 +197,7 @@ def materialize_freeze_receipt(
     references = committed_reference_ledger_reference(
         reference_ledger, root=ROOT,
     )
+    terminal = terminal_pathology_reference(terminal_pathology)
     if (
         review.get("schema") != REVIEW_SCHEMA
         or review.get("status") != REVIEW_STATUS
@@ -203,6 +210,7 @@ def materialize_freeze_receipt(
         or review.get("paper_claims_sha256") != object_sha256(claims)
         or review.get("algorithm_theory_bundle") != theory
         or review.get("paper_reference_ledger") != references
+        or review.get("terminal_pathology") != terminal
         or review.get("human_approval_recorded") is not True
         or review.get("codex_scientific_review_recorded") is not True
         or review.get("best_checkpoint_selection") is not False
@@ -232,6 +240,7 @@ def materialize_freeze_receipt(
         "paper_claims_sha256": object_sha256(claims),
         "algorithm_theory_bundle": theory,
         "paper_reference_ledger": references,
+        "terminal_pathology": terminal,
         "review_decision": review_relative,
         "review_decision_sha256": file_sha256(review_decision),
         "review_decision_git_commit": review_commit,

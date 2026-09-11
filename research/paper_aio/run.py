@@ -140,6 +140,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--confirmation-result", type=Path, action="append", default=[])
     value.add_argument("--paper-claim", action="append", default=[])
     value.add_argument("--theory-bundle", type=Path)
+    value.add_argument("--terminal-pathology", type=Path)
     value.add_argument("--method-runtime-receipt", type=Path)
     value.add_argument("--plain-runtime-receipt", type=Path)
     value.add_argument("--method-authorization-receipt", type=Path)
@@ -347,24 +348,33 @@ def main(argv: list[str] | None = None) -> int:
                 gpu=args.gpu,
             )
     elif args.stage == "freeze-draft":
-        if args.portfolio is None or args.receipt_output is None:
-            raise SystemExit("freeze-draft requires --portfolio and --receipt-output")
+        if (
+            args.portfolio is None
+            or args.receipt_output is None
+            or args.terminal_pathology is None
+        ):
+            raise SystemExit(
+                "freeze-draft requires --portfolio, --terminal-pathology and "
+                "--receipt-output"
+            )
         result = create_review_draft(
             portfolio=args.portfolio.resolve(), claims=args.paper_claim,
             destination=args.receipt_output.resolve(),
             theory_bundle=(
                 None if args.theory_bundle is None else args.theory_bundle.resolve()
             ),
+            terminal_pathology=args.terminal_pathology.resolve(),
         )
     elif args.stage == "freeze-materialize":
         if (
             args.portfolio is None
             or args.review_decision is None
             or args.receipt_output is None
+            or args.terminal_pathology is None
         ):
             raise SystemExit(
-                "freeze-materialize requires --portfolio, --review-decision and "
-                "--receipt-output"
+                "freeze-materialize requires --portfolio, --terminal-pathology, "
+                "--review-decision and --receipt-output"
             )
         result = materialize_freeze_receipt(
             portfolio=args.portfolio.resolve(),
@@ -373,6 +383,7 @@ def main(argv: list[str] | None = None) -> int:
             theory_bundle=(
                 None if args.theory_bundle is None else args.theory_bundle.resolve()
             ),
+            terminal_pathology=args.terminal_pathology.resolve(),
         )
     elif args.stage == "distribution-lock":
         if (

@@ -27,6 +27,7 @@ from .protocol import (
     EXPECTED_MANIFEST_SHA256,
     FROZEN_EVALUATION_BUNDLE_FINGERPRINT,
     file_sha256,
+    object_sha256,
 )
 from .unified import UNIFIED_RECEIPT_SCHEMA
 
@@ -47,6 +48,10 @@ AMPLIFICATION_RATIO = 1.10
 FUTURE_DECLINE_DB = -0.05
 MIN_SUPPORT_METHODS = 2
 MIN_SUPPORT_DOMAINS = 3
+ADJUDICATION_STATUSES = {
+    "TERMINAL_PATHOLOGY_CONFIRMED_FOR_DERIVATION",
+    "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+}
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -54,6 +59,162 @@ def _read_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise RuntimeError(f"expected JSON object: {path}")
     return value
+
+
+def validate_terminal_pathology_adjudication(path: Path) -> dict[str, Any]:
+    """Validate the complete posthoc terminal decision and every bound receipt.
+
+    The claim-freeze path uses this validator so that a completed numeric
+    portfolio cannot bypass the preregistered terminal lead/lag audit.  It
+    verifies only fixed structure, artifact hashes and information boundaries;
+    it does not reinterpret the outcome or authorize a training intervention.
+    """
+    path = Path(path).resolve()
+    if not path.is_file():
+        raise RuntimeError("terminal pathology adjudication is missing")
+    value = _read_json(path)
+    status = value.get("status")
+    confirmed = value.get("terminal_pathology_confirmed")
+    mechanisms = value.get("confirmed_mechanisms")
+    support = value.get("mechanism_support")
+    thresholds = value.get("fixed_thresholds") or {}
+    lead_lag = value.get("lead_lag_design") or {}
+    if (
+        value.get("schema") != SCHEMA
+        or status not in ADJUDICATION_STATUSES
+        or not isinstance(confirmed, bool)
+        or not isinstance(mechanisms, list)
+        or any(item not in {"spectral_collapse", "perturbation_amplification"}
+               for item in mechanisms)
+        or len(mechanisms) != len(set(mechanisms))
+        or confirmed != bool(mechanisms)
+        or (status == "TERMINAL_PATHOLOGY_CONFIRMED_FOR_DERIVATION") != confirmed
+        or not isinstance(support, dict)
+        or set(support) != {"spectral_collapse", "perturbation_amplification"}
+        or thresholds.get("spectral_collapse_ratio_max")
+        != SPECTRAL_COLLAPSE_RATIO
+        or thresholds.get("amplification_ratio_min") != AMPLIFICATION_RATIO
+        or thresholds.get("future_psnr_decline_db_max") != FUTURE_DECLINE_DB
+        or thresholds.get("minimum_support_methods") != MIN_SUPPORT_METHODS
+        or thresholds.get("minimum_support_domains") != MIN_SUPPORT_DOMAINS
+        or lead_lag.get("target_blind_diagnostic_window") != "e100_to_e150"
+        or lead_lag.get("paired_future_label_window") != "e150_to_e200"
+        or lead_lag.get("thresholds_fitted_to_results") is not False
+        or value.get("all_target_blind_audits_validated_before_paired_metric_read")
+        is not True
+        or value.get("paired_labels_attached_posthoc") is not True
+        or value.get("training_control_authorized") is not False
+        or value.get("algorithm_or_module_automatically_started") is not False
+        or value.get("best_checkpoint_selection") is not False
+        or value.get("confirmation20_opened") is not False
+    ):
+        raise RuntimeError("terminal pathology adjudication is incomplete or unsafe")
+    passed = sorted(
+        mechanism for mechanism, row in support.items()
+        if isinstance(row, dict) and row.get("status") == "PASS_SHARED_LEADING_SIGNAL"
+    )
+    if passed != sorted(mechanisms) or any(
+        not isinstance(row, dict)
+        or row.get("status") not in {
+            "PASS_SHARED_LEADING_SIGNAL", "INSUFFICIENT_SHARED_SUPPORT",
+        }
+        for row in support.values()
+    ):
+        raise RuntimeError("terminal pathology support and decision disagree")
+
+    cells = value.get("cells")
+    if not isinstance(cells, list) or len(cells) != len(PROBES) * 6:
+        raise RuntimeError("terminal pathology decision lacks 24 fixed cells")
+    identities = set()
+    domains_by_probe: dict[str, set[str]] = {probe: set() for probe in PROBES}
+    for row in cells:
+        if not isinstance(row, dict):
+            raise RuntimeError("terminal pathology cell is invalid")
+        probe_id = str(row.get("probe_id", ""))
+        domain = str(row.get("domain", ""))
+        identity = (probe_id, domain)
+        if (
+            probe_id not in PROBES
+            or not domain
+            or identity in identities
+            or row.get("lane_id") != PROBES[probe_id]["lane_id"]
+            or row.get("diagnostic_window") != "e100_to_e150"
+            or row.get("future_label_window")
+            != "e150_to_e200_common_discovery70_replicate0_nfe5"
+            or not isinstance(row.get("future_decline_label"), bool)
+        ):
+            raise RuntimeError("terminal pathology fixed cell identity changed")
+        identities.add(identity)
+        domains_by_probe[probe_id].add(domain)
+    common_domains = next(iter(domains_by_probe.values()))
+    if len(common_domains) != 6 or any(
+        domains != common_domains for domains in domains_by_probe.values()
+    ):
+        raise RuntimeError("terminal pathology decision lacks common six-domain cells")
+
+    expected_evidence = {
+        (probe_id, epoch) for probe_id in PROBES for epoch in AUDIT_EPOCHS
+    }
+    for field, path_field, sha_field in (
+        ("audit_evidence", "audit_receipt", "audit_receipt_sha256"),
+        ("metric_evidence", "metric_receipt", "metric_receipt_sha256"),
+    ):
+        rows = value.get(field)
+        if not isinstance(rows, list) or len(rows) != len(expected_evidence):
+            raise RuntimeError(f"terminal pathology {field} is incomplete")
+        observed = set()
+        for row in rows:
+            if not isinstance(row, dict):
+                raise RuntimeError(f"terminal pathology {field} row is invalid")
+            identity = (str(row.get("probe_id", "")), int(row.get("epoch", -1)))
+            artifact = Path(str(row.get(path_field, ""))).resolve()
+            if (
+                identity in observed
+                or identity not in expected_evidence
+                or not artifact.is_file()
+                or file_sha256(artifact) != row.get(sha_field)
+            ):
+                raise RuntimeError(f"terminal pathology {field} artifact changed")
+            observed.add(identity)
+        if observed != expected_evidence:
+            raise RuntimeError(f"terminal pathology {field} identities changed")
+
+    binding = Path(str(value.get("metric_binding", ""))).resolve()
+    if (
+        not binding.is_file()
+        or file_sha256(binding) != value.get("metric_binding_sha256")
+    ):
+        raise RuntimeError("terminal pathology metric binding changed")
+    return value
+
+
+def terminal_pathology_reference(path: Path) -> dict[str, Any]:
+    path = Path(path).resolve()
+    value = validate_terminal_pathology_adjudication(path)
+    return {
+        "path": str(path),
+        "sha256": file_sha256(path),
+        "object_sha256": object_sha256(value),
+        "status": value["status"],
+        "terminal_pathology_confirmed": value["terminal_pathology_confirmed"],
+        "confirmed_mechanisms": list(value["confirmed_mechanisms"]),
+        "audit_receipt_count": len(value["audit_evidence"]),
+        "metric_receipt_count": len(value["metric_evidence"]),
+    }
+
+
+def validate_terminal_pathology_reference(
+    reference: object,
+) -> dict[str, Any]:
+    if not isinstance(reference, dict):
+        raise RuntimeError("paper freeze lacks a terminal pathology binding")
+    path = reference.get("path")
+    if not isinstance(path, str) or not path:
+        raise RuntimeError("paper freeze terminal pathology binding has no path")
+    expected = terminal_pathology_reference(Path(path))
+    if reference != expected:
+        raise RuntimeError("paper freeze terminal pathology binding changed")
+    return expected
 
 
 def _safe_ratio(after: float, before: float) -> float:

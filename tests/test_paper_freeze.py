@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from research.paper_aio import freeze
+from research.paper_aio import terminal_adjudicate
 from research.paper_aio.run import parser
 
 
@@ -12,6 +13,84 @@ def _write(path: Path, value: dict) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value), encoding="utf-8")
     return path
+
+
+def _terminal_pathology(root: Path) -> Path:
+    evidence_root = root / "terminal-fixture"
+    binding = _write(evidence_root / "METRIC_BINDINGS.json", {"fixed": True})
+    audit_evidence = []
+    metric_evidence = []
+    for probe_id in terminal_adjudicate.PROBES:
+        for epoch in terminal_adjudicate.AUDIT_EPOCHS:
+            audit = _write(
+                evidence_root / probe_id / f"e{epoch}" / "AUDIT_RECEIPT.json",
+                {"probe_id": probe_id, "epoch": epoch},
+            )
+            metric = _write(
+                evidence_root / probe_id / f"e{epoch}" / "METRIC_RECEIPT.json",
+                {"probe_id": probe_id, "epoch": epoch},
+            )
+            audit_evidence.append({
+                "probe_id": probe_id, "epoch": epoch,
+                "audit_receipt": str(audit.resolve()),
+                "audit_receipt_sha256": freeze.file_sha256(audit),
+                "audit_sha256": "a" * 64,
+            })
+            metric_evidence.append({
+                "probe_id": probe_id, "epoch": epoch,
+                "metric_receipt": str(metric.resolve()),
+                "metric_receipt_sha256": freeze.file_sha256(metric),
+                "metric_sha256": "m" * 64,
+            })
+    cells = [
+        {
+            "probe_id": probe_id,
+            "lane_id": probe["lane_id"],
+            "domain": f"d{domain}",
+            "diagnostic_window": "e100_to_e150",
+            "future_label_window": (
+                "e150_to_e200_common_discovery70_replicate0_nfe5"
+            ),
+            "future_decline_label": False,
+        }
+        for probe_id, probe in terminal_adjudicate.PROBES.items()
+        for domain in range(1, 7)
+    ]
+    return _write(evidence_root / "TERMINAL_PATHOLOGY_DECISION.json", {
+        "schema": terminal_adjudicate.SCHEMA,
+        "status": "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+        "terminal_pathology_confirmed": False,
+        "confirmed_mechanisms": [],
+        "fixed_thresholds": {
+            "spectral_collapse_ratio_max": terminal_adjudicate.SPECTRAL_COLLAPSE_RATIO,
+            "amplification_ratio_min": terminal_adjudicate.AMPLIFICATION_RATIO,
+            "future_psnr_decline_db_max": terminal_adjudicate.FUTURE_DECLINE_DB,
+            "minimum_support_methods": terminal_adjudicate.MIN_SUPPORT_METHODS,
+            "minimum_support_domains": terminal_adjudicate.MIN_SUPPORT_DOMAINS,
+        },
+        "lead_lag_design": {
+            "target_blind_diagnostic_window": "e100_to_e150",
+            "paired_future_label_window": "e150_to_e200",
+            "thresholds_fitted_to_results": False,
+        },
+        "mechanism_support": {
+            "spectral_collapse": {"status": "INSUFFICIENT_SHARED_SUPPORT"},
+            "perturbation_amplification": {
+                "status": "INSUFFICIENT_SHARED_SUPPORT"
+            },
+        },
+        "cells": cells,
+        "audit_evidence": audit_evidence,
+        "metric_binding": str(binding.resolve()),
+        "metric_binding_sha256": freeze.file_sha256(binding),
+        "metric_evidence": metric_evidence,
+        "all_target_blind_audits_validated_before_paired_metric_read": True,
+        "paired_labels_attached_posthoc": True,
+        "training_control_authorized": False,
+        "algorithm_or_module_automatically_started": False,
+        "best_checkpoint_selection": False,
+        "confirmation20_opened": False,
+    })
 
 
 def _portfolio(path: Path) -> Path:
@@ -189,11 +268,13 @@ def test_freeze_draft_cannot_self_approve(
         claims=["Proposal is compared only with its reviewed matched plain."],
         destination=tmp_path / "draft.json",
         theory_bundle=bundle,
+        terminal_pathology=_terminal_pathology(tmp_path),
     )
     assert draft["status"] == freeze.DRAFT_STATUS
     assert draft["paper_reference_ledger"]["entry_count"] == 1
     assert draft["human_approval_recorded"] is False
     assert draft["confirmation_authorized"] is False
+    assert draft["terminal_pathology"]["terminal_pathology_confirmed"] is False
     assert set(draft["distribution_lanes"]) == {
         "input", "plain", "proposal", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
         "amtnc", "cut", "cyclegan", "dclgan",
@@ -210,6 +291,7 @@ def test_freeze_materialization_requires_committed_explicit_review(
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
     claims = ["fixed e200 claim"]
+    pathology = _terminal_pathology(tmp_path)
     review = _write(root / "review.json", {
         "schema": freeze.REVIEW_SCHEMA,
         "status": freeze.REVIEW_STATUS,
@@ -224,6 +306,7 @@ def test_freeze_materialization_requires_committed_explicit_review(
         "paper_reference_ledger": freeze.reference_ledger_reference(
             root=root,
         ),
+        "terminal_pathology": freeze.terminal_pathology_reference(pathology),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
         "best_checkpoint_selection": False,
@@ -238,6 +321,7 @@ def test_freeze_materialization_requires_committed_explicit_review(
     receipt = freeze.materialize_freeze_receipt(
         portfolio=portfolio, review_decision=review,
         destination=root / "freeze.json",
+        terminal_pathology=pathology,
     )
     assert receipt["paper_claims_frozen"] is True
     assert receipt["confirmation_authorized"] is False
@@ -252,14 +336,18 @@ def test_freeze_cli_requires_explicit_stages() -> None:
         "--stage", "freeze-draft", "--portfolio", "portfolio.json",
         "--receipt-output", "draft.json", "--paper-claim", "claim",
         "--theory-bundle", "theory.json",
+        "--terminal-pathology", "terminal.json",
     ])
     materialize = parser().parse_args([
         "--stage", "freeze-materialize", "--portfolio", "portfolio.json",
         "--review-decision", "review.json", "--receipt-output", "freeze.json",
+        "--terminal-pathology", "terminal.json",
     ])
     assert draft.stage == "freeze-draft"
     assert draft.theory_bundle.name == "theory.json"
     assert materialize.stage == "freeze-materialize"
+    assert draft.terminal_pathology.name == "terminal.json"
+    assert materialize.terminal_pathology.name == "terminal.json"
 
 
 def test_freeze_draft_rejects_empty_claim_set(tmp_path: Path) -> None:
@@ -267,6 +355,7 @@ def test_freeze_draft_rejects_empty_claim_set(tmp_path: Path) -> None:
         freeze.create_review_draft(
             portfolio=_portfolio(tmp_path / "portfolio.json"),
             claims=[], destination=tmp_path / "draft.json",
+            terminal_pathology=tmp_path / "missing.json",
         )
 
 
@@ -327,6 +416,7 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
     portfolio = _portfolio(tmp_path / "portfolio.json")
     _, lanes = freeze.validate_portfolio(portfolio)
     claims = ["Every reported comparison uses its frozen e200 protocol."]
+    pathology = _terminal_pathology(tmp_path)
     review = _write(root / "review.json", {
         "schema": freeze.REVIEW_SCHEMA,
         "status": freeze.REVIEW_STATUS,
@@ -341,6 +431,7 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
         "paper_reference_ledger": freeze.reference_ledger_reference(
             root=root,
         ),
+        "terminal_pathology": freeze.terminal_pathology_reference(pathology),
         "human_approval_recorded": True,
         "codex_scientific_review_recorded": True,
         "best_checkpoint_selection": False,
@@ -357,6 +448,7 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
     receipt_path = root / "freeze.json"
     freeze.materialize_freeze_receipt(
         portfolio=portfolio, review_decision=review, destination=receipt_path,
+        terminal_pathology=pathology,
     )
     subprocess.run(["git", "add", "freeze.json"], cwd=root, check=True)
     subprocess.run([
@@ -372,3 +464,12 @@ def test_committed_review_and_freeze_form_a_real_git_chain(
     assert len(commit) == 40
     assert receipt["source_portfolio_sha256"] == freeze.file_sha256(portfolio)
     assert receipt["confirmation_authorized"] is False
+
+
+def test_freeze_rejects_incomplete_terminal_pathology(tmp_path: Path) -> None:
+    pathology = _terminal_pathology(tmp_path)
+    value = json.loads(pathology.read_text(encoding="utf-8"))
+    value["audit_evidence"].pop()
+    pathology.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="audit_evidence is incomplete"):
+        freeze.terminal_pathology_reference(pathology)

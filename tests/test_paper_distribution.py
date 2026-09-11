@@ -7,7 +7,9 @@ import numpy as np
 import pytest
 import torch
 
-from research.paper_aio import distribution, reference_ledger, theory_bundle
+from research.paper_aio import (
+    distribution, reference_ledger, terminal_adjudicate, theory_bundle,
+)
 from research.paper_aio.run import parser
 
 
@@ -135,6 +137,85 @@ def _theory_bundle(root):
     return path
 
 
+def _terminal_pathology(root):
+    evidence_root = root / "terminal-fixture"
+    evidence_root.mkdir(parents=True, exist_ok=True)
+    binding = evidence_root / "METRIC_BINDINGS.json"
+    binding.write_text("{}", encoding="utf-8")
+    audits = []
+    metrics = []
+    for probe_id in terminal_adjudicate.PROBES:
+        for epoch in terminal_adjudicate.AUDIT_EPOCHS:
+            cell_root = evidence_root / probe_id / f"e{epoch}"
+            cell_root.mkdir(parents=True, exist_ok=True)
+            audit = cell_root / "AUDIT_RECEIPT.json"
+            metric = cell_root / "METRIC_RECEIPT.json"
+            audit.write_text("{}", encoding="utf-8")
+            metric.write_text("{}", encoding="utf-8")
+            audits.append({
+                "probe_id": probe_id, "epoch": epoch,
+                "audit_receipt": str(audit.resolve()),
+                "audit_receipt_sha256": distribution.file_sha256(audit),
+                "audit_sha256": "a" * 64,
+            })
+            metrics.append({
+                "probe_id": probe_id, "epoch": epoch,
+                "metric_receipt": str(metric.resolve()),
+                "metric_receipt_sha256": distribution.file_sha256(metric),
+                "metric_sha256": "m" * 64,
+            })
+    cells = [
+        {
+            "probe_id": probe_id, "lane_id": probe["lane_id"],
+            "domain": f"d{domain}", "diagnostic_window": "e100_to_e150",
+            "future_label_window": (
+                "e150_to_e200_common_discovery70_replicate0_nfe5"
+            ),
+            "future_decline_label": False,
+        }
+        for probe_id, probe in terminal_adjudicate.PROBES.items()
+        for domain in range(1, 7)
+    ]
+    value = {
+        "schema": terminal_adjudicate.SCHEMA,
+        "status": "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+        "terminal_pathology_confirmed": False,
+        "confirmed_mechanisms": [],
+        "fixed_thresholds": {
+            "spectral_collapse_ratio_max": terminal_adjudicate.SPECTRAL_COLLAPSE_RATIO,
+            "amplification_ratio_min": terminal_adjudicate.AMPLIFICATION_RATIO,
+            "future_psnr_decline_db_max": terminal_adjudicate.FUTURE_DECLINE_DB,
+            "minimum_support_methods": terminal_adjudicate.MIN_SUPPORT_METHODS,
+            "minimum_support_domains": terminal_adjudicate.MIN_SUPPORT_DOMAINS,
+        },
+        "lead_lag_design": {
+            "target_blind_diagnostic_window": "e100_to_e150",
+            "paired_future_label_window": "e150_to_e200",
+            "thresholds_fitted_to_results": False,
+        },
+        "mechanism_support": {
+            "spectral_collapse": {"status": "INSUFFICIENT_SHARED_SUPPORT"},
+            "perturbation_amplification": {
+                "status": "INSUFFICIENT_SHARED_SUPPORT"
+            },
+        },
+        "cells": cells,
+        "audit_evidence": audits,
+        "metric_binding": str(binding.resolve()),
+        "metric_binding_sha256": distribution.file_sha256(binding),
+        "metric_evidence": metrics,
+        "all_target_blind_audits_validated_before_paired_metric_read": True,
+        "paired_labels_attached_posthoc": True,
+        "training_control_authorized": False,
+        "algorithm_or_module_automatically_started": False,
+        "best_checkpoint_selection": False,
+        "confirmation20_opened": False,
+    }
+    path = evidence_root / "TERMINAL_PATHOLOGY_DECISION.json"
+    path.write_text(json.dumps(value), encoding="utf-8")
+    return path
+
+
 def _freeze(tmp_path, **updates):
     portfolio = tmp_path / "PAPER_ALGORITHM_PORTFOLIO.json"
     portfolio.write_text("{}", encoding="utf-8")
@@ -142,6 +223,7 @@ def _freeze(tmp_path, **updates):
     review.write_text("{}", encoding="utf-8")
     claims = ["frozen paper claim"]
     bundle = _theory_bundle(tmp_path)
+    pathology = _terminal_pathology(tmp_path)
     value = {
         "schema": distribution.FREEZE_SCHEMA,
         "status": distribution.FREEZE_STATUS,
@@ -166,6 +248,9 @@ def _freeze(tmp_path, **updates):
         ),
         "paper_reference_ledger": reference_ledger.reference_ledger_reference(
             _reference_ledger(tmp_path), root=tmp_path,
+        ),
+        "terminal_pathology": terminal_adjudicate.terminal_pathology_reference(
+            pathology
         ),
         "distribution_lanes": ["input", "plain", "proposal"],
         "best_checkpoint_selection": False,
@@ -226,6 +311,7 @@ def test_distribution_requires_the_exact_freeze_receipt_in_git(tmp_path, monkeyp
         "paper_claims_sha256": value["paper_claims_sha256"],
         "algorithm_theory_bundle": value["algorithm_theory_bundle"],
         "paper_reference_ledger": value["paper_reference_ledger"],
+        "terminal_pathology": value["terminal_pathology"],
     }
     review.write_text(json.dumps(review_value), encoding="utf-8")
     value["review_decision_sha256"] = distribution.file_sha256(review)

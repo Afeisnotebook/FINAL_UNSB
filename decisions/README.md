@@ -651,3 +651,8 @@ authorize compute.
      到AM-TNC e169异机回退点及已复核的多算法终局合同；保留e175异机动作、deleted-inode禁止
      重启边界、Proposal/ST-CGR/AM-TNC全部轨迹、HJCGR/DDSB正确状态和DCLGAN非阻塞附表。频率、
      失败通知策略、训练与队列均未改变，prompt不含凭据。
+183. `DEC-20260912-TERMINAL-PATHOLOGY-CLAIM-FREEZE-GATE.md`：关闭长期因果审计可被论文claim
+     freeze绕过的接口缺口。今后正/负terminal-pathology终局均须绑定24个固定cell、12份
+     target-blind审计、12份posthoc指标和metric binding，review、freeze与distribution逐哈希
+     保持同一引用；不授权训练控制、自动模块或最佳checkpoint。全仓库788项测试通过，训练与
+     队列未改变。

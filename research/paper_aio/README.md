@@ -191,6 +191,14 @@ one evaluator runtime with the frozen manifest and CRN bundle. A positive
 decision authorizes writing a derivation card only; it never starts a repair
 module or controls an existing training run.
 
+The resulting `TERMINAL_PATHOLOGY_DECISION.json` is also a mandatory input to
+the later paper claim freeze, regardless of whether the preregistered mechanism
+is confirmed. Freeze validation rehashes the decision, all 12 target-blind
+audit receipts, all 12 posthoc metric receipts, and the metric binding. This
+prevents a numerically complete portfolio from being frozen before the planned
+long-horizon causal question has received an explicit positive or negative
+answer; it does not turn that answer into a training controller.
+
 ```text
 python -m research.paper_aio.terminal_adjudicate \
   --audit-root AUDITS --metric-bindings METRIC_BINDINGS.json \
@@ -393,6 +401,7 @@ process can set for itself. First generate a non-authorizing draft:
 ```bash
 python -m research.paper_aio.run --stage freeze-draft \
   --portfolio /absolute/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json \
+  --terminal-pathology /absolute/TERMINAL_PATHOLOGY_DECISION.json \
   --paper-claim "explicit claim text" \
   --receipt-output /absolute/FREEZE_REVIEW_DRAFT.json
 ```
@@ -404,6 +413,7 @@ approval can materialize the still-uncommitted freeze receipt:
 ```bash
 python -m research.paper_aio.run --stage freeze-materialize \
   --portfolio /absolute/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json \
+  --terminal-pathology /absolute/TERMINAL_PATHOLOGY_DECISION.json \
   --review-decision decisions/PAPER_FREEZE_REVIEW.json \
   --receipt-output configs/PAPER_ALGORITHM_BASELINE_CLAIM_FREEZE.json
 ```

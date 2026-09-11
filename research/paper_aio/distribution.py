@@ -38,6 +38,7 @@ from .protocol import (
 )
 from .reference_ledger import validate_reference_ledger_reference
 from .theory_bundle import validate_theory_bundle_reference
+from .terminal_adjudicate import validate_terminal_pathology_reference
 
 
 SCHEMA = "final-unsb-paper-post-freeze-distribution-metrics-v1"
@@ -89,6 +90,7 @@ def validate_freeze_receipt(path: Path, *, lane_id: str) -> dict[str, Any]:
         or value.get("paper_claims_sha256") != object_sha256(value["paper_claims"])
         or not isinstance(value.get("algorithm_theory_bundle"), dict)
         or not isinstance(value.get("paper_reference_ledger"), dict)
+        or not isinstance(value.get("terminal_pathology"), dict)
         or not isinstance(lanes, list)
         or len(lanes) != len(set(lanes))
         or lane_id not in lanes
@@ -98,6 +100,7 @@ def validate_freeze_receipt(path: Path, *, lane_id: str) -> dict[str, Any]:
         or value.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("paper algorithm/baseline/claim freeze receipt is invalid")
+    validate_terminal_pathology_reference(value["terminal_pathology"])
     return value
 
 
@@ -174,6 +177,8 @@ def committed_freeze_identity(
         != value["source_portfolio_sha256"]
         or review_current.get("paper_reference_ledger")
         != value["paper_reference_ledger"]
+        or review_current.get("terminal_pathology")
+        != value["terminal_pathology"]
         or review_current.get("distribution_lanes") != value["distribution_lanes"]
         or review_current.get("paper_claims_sha256") != value["paper_claims_sha256"]
         or review_current.get("algorithm_theory_bundle")

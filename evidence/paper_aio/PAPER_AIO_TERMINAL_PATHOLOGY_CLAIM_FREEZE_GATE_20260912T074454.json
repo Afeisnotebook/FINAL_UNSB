@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-terminal-pathology-claim-freeze-gate-v1",
+  "captured_at": "2026-09-12T07:44:54+08:00",
+  "status": "PASS_TERMINAL_PATHOLOGY_ADJUDICATION_REQUIRED_BEFORE_CLAIM_FREEZE",
+  "parent_git_commit": "fee766417e8a0cfd2870696fccad5f5e48fa1ba2",
+  "gap_closed": {
+    "previous_state": "the durable terminal audit and pathology successor existed, but the paper claim-freeze implementation did not require its terminal decision",
+    "failure_mode": "a numerically complete portfolio could theoretically be frozen before the preregistered long-horizon causal question received a positive or negative adjudication",
+    "training_or_result_failure": false
+  },
+  "gate": {
+    "required_artifact": "TERMINAL_PATHOLOGY_DECISION.json",
+    "accepted_terminal_statuses": [
+      "TERMINAL_PATHOLOGY_CONFIRMED_FOR_DERIVATION",
+      "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE"
+    ],
+    "fixed_probe_domain_cells": 24,
+    "target_blind_audit_receipts": 12,
+    "posthoc_metric_receipts": 12,
+    "metric_binding_required": true,
+    "every_referenced_artifact_sha256_revalidated": true,
+    "draft_binds_terminal_reference": true,
+    "committed_review_must_preserve_terminal_reference": true,
+    "materialized_freeze_binds_terminal_reference": true,
+    "post_freeze_distribution_revalidates_terminal_reference": true,
+    "positive_result_authority": "DERIVATION_CARD_ONLY",
+    "negative_result_authority": "DO_NOT_ADD_TERMINAL_MODULE",
+    "training_intervention_authorized": false
+  },
+  "implementation": {
+    "research/paper_aio/terminal_adjudicate.py": "6750a4975b3894f703d733bcafccd2efb5d7c0cab2881c7bf88435ab70dec723",
+    "research/paper_aio/freeze.py": "2fc7229f211af82768d2b5dca76a3805c93c50474bc5d27067b52e66f0665b93",
+    "research/paper_aio/distribution.py": "68a2a79a2bfa021852986546e5ba947f65e710eb9997d200e5099f43bbdec53d",
+    "research/paper_aio/run.py": "04c8c54a40be59adc8cd6be5e0bb300f7810187ffd39336e6ca9e921cd881154",
+    "research/paper_aio/README.md": "f77e3d71a91a9d73212cb11ea9885189be0c7f256ee53135b89b6c686c082d9c",
+    "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md": "e372dfee18ea1961ddccb75a544dd434b68034b535a848444856ffcf5d54ae71",
+    "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json": "baa1c57bad055d57fb28fc0e5a989d829ef7fc93effd0a033081ec20e7cb4a78",
+    "configs/PAPER_REPRODUCIBILITY_CHECKLIST_CONTRACT.json": "63c94bd6d6c21beb1457d22c7f3c05de143505d0f9ff838c60798ed34bcd14ab"
+  },
+  "validation": {
+    "focused_tests": "52 passed in 38.12s",
+    "full_repository_tests": "788 passed in 216.85s",
+    "compileall": "PASS",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "runtime_effect": {
+    "healthy_training_restarted_or_modified": false,
+    "training_queue_changed": false,
+    "terminal_pathology_successor_redeployment_required": false,
+    "terminal_pathology_decision_currently_available": false,
+    "claim_freeze_currently_authorized": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "algorithm_or_module_started": false,
+    "confirmation20_opened": false
+  }
+}

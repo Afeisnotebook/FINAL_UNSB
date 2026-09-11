@@ -198,6 +198,8 @@ The final release must contain, or explain the lawful omission of:
 3. fixed checkpoint sidecars and source-bound export/import receipts;
 4. per-image trajectory and terminal metrics with evaluation-bundle identity;
 5. terminal causal-audit records and proof that parent state/RNG were restored;
+   the final terminal-pathology decision must bind all 12 fixed target-blind
+   audit receipts and all 12 posthoc metric receipts before claim freeze;
 6. parameter, memory, optimizer-step, NFE, KID, and FID receipts;
 7. algorithm derivation cards, pseudocode, identity/self-null or unbiasedness
    boundaries, and implementation hashes;
@@ -222,6 +224,9 @@ training scheduler must verify:
 - covariance or unbiasedness statements stay within the frozen pre-Adam scope;
 - no statement implies that variance reduction guarantees image quality,
   convergence, or terminal singularity repair;
+- the committed claim freeze hash-binds a complete positive or negative
+  terminal-pathology adjudication, and that adjudication did not control or
+  modify training;
 - code, protocol, theory, tables, figures, and manuscript claim hashes match the
   committed freeze;
 - confirmation20 was either never opened or was opened exactly once under the
