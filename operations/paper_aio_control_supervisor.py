@@ -34,18 +34,21 @@ ROLE_SPECS = {
         "child_schema": "final-unsb-paper-local-terminal-audit-successor-state-v1",
         "final_status": "COMPLETE_FIXED_FULL_DATA_TARGET_BLIND_TERMINAL_AUDITS",
         "performance_must_remain_false": True,
+        "allow_external_child_repo": True,
     },
     "terminal_pathology": {
         "module": "operations.paper_aio_terminal_pathology_successor",
         "child_schema": "final-unsb-paper-terminal-pathology-successor-state-v1",
         "final_status": "COMPLETE_POSTHOC_TERMINAL_PATHOLOGY_ADJUDICATION",
         "performance_must_remain_false": False,
+        "allow_external_child_repo": True,
     },
     "local_export_push": {
         "module": "operations.paper_aio_local_export_push",
         "child_schema": "final-unsb-paper-local-export-push-state-v1",
         "final_status": "COMPLETE_VERIFIED_REMOTE_IMPORT",
         "performance_must_remain_false": True,
+        "allow_external_child_repo": True,
     },
     "dclgan_source_export": {
         "module": "operations.paper_aio_dclgan_export_successor",
@@ -189,13 +192,16 @@ def validate_child_command(
     )
     if Path(str(payload.get("cwd", ""))).resolve() != child_repo:
         raise RuntimeError("fixed child command repo differs from its cwd")
-    if spec.get("allow_external_child_repo", False):
+    if child_repo == repo:
+        if child_commit != required_commit:
+            raise RuntimeError("fixed child command differs from supervisor commit")
+    elif spec.get("allow_external_child_repo", False):
         if (
             _git(child_repo, "rev-parse", "HEAD") != child_commit
             or _git(child_repo, "status", "--porcelain")
         ):
             raise RuntimeError("fixed child repo is not at its frozen commit")
-    elif child_repo != repo or child_commit != required_commit:
+    else:
         raise RuntimeError("fixed child command differs from supervisor repo or commit")
     if role == "final_delivery":
         nested_python = Path(_argument(command, "--python")).resolve()

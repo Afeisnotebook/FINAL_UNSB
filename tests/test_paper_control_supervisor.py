@@ -440,18 +440,57 @@ def test_explicit_evaluator_role_accepts_frozen_external_child_repo(
     assert result["cwd"] == str(child_repo.resolve())
 
 
-def test_audit_role_rejects_external_child_repo(tmp_path):
+@pytest.mark.parametrize(
+    ("role", "module"),
+    [
+        ("terminal_audit", "operations.paper_aio_local_terminal_audit_successor"),
+        ("terminal_pathology", "operations.paper_aio_terminal_pathology_successor"),
+        ("local_export_push", "operations.paper_aio_local_export_push"),
+    ],
+)
+def test_recovery_roles_accept_frozen_external_child_repo(
+    tmp_path, monkeypatch, role, module
+):
+    path = _command(tmp_path, role, module)
+
+    def frozen_git(repo, *args):
+        if args == ("rev-parse", "HEAD"):
+            return "abc123"
+        if args == ("status", "--porcelain"):
+            return ""
+        raise AssertionError((repo, args))
+
+    monkeypatch.setattr(supervisor, "_git", frozen_git)
+    result = validate_child_command(
+        path,
+        role=role,
+        repo=(tmp_path / "different-control-repo").resolve(),
+        required_commit="supervisor123",
+    )
+    assert result["cwd"] == str((tmp_path / "repo").resolve())
+
+
+def test_recovery_role_rejects_dirty_external_child_repo(tmp_path, monkeypatch):
     path = _command(
         tmp_path,
         "terminal_audit",
         "operations.paper_aio_local_terminal_audit_successor",
     )
-    with pytest.raises(RuntimeError, match="differs from supervisor"):
+
+    def dirty_git(repo, *args):
+        if args == ("rev-parse", "HEAD"):
+            return "abc123"
+        if args == ("status", "--porcelain"):
+            return " M changed.py"
+        raise AssertionError((repo, args))
+
+    monkeypatch.setattr(supervisor, "_git", dirty_git)
+    with pytest.raises(RuntimeError, match="not at its frozen commit"):
         validate_child_command(
             path,
             role="terminal_audit",
             repo=(tmp_path / "different-control-repo").resolve(),
-            required_commit="abc123",
+            required_commit="supervisor123",
         )
 
 
