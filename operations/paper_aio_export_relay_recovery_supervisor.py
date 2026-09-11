@@ -32,7 +32,15 @@ COMPLETE_RELAY_STATUS = "COMPLETE_VERIFIED_IMPORT_SET"
 
 
 def _read_json(path: Path) -> dict[str, Any]:
-    value = json.loads(Path(path).read_text(encoding="utf-8-sig"))
+    path = Path(path)
+    for attempt in range(10):
+        try:
+            value = json.loads(path.read_text(encoding="utf-8-sig"))
+            break
+        except PermissionError:
+            if attempt == 9:
+                raise
+            time.sleep(0.05 * (attempt + 1))
     if not isinstance(value, dict):
         raise RuntimeError(f"expected JSON object: {path}")
     return value

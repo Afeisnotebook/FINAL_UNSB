@@ -1,12 +1,33 @@
 import json
 from pathlib import Path
 
+from operations import paper_aio_export_relay_recovery_supervisor as recovery
 from operations.paper_aio_export_relay_recovery_supervisor import (
     command_matches_contract,
     relay_source_identity,
     relay_state_decision,
     render_relay_command,
 )
+
+
+def test_read_json_retries_transient_windows_permission_error(
+    monkeypatch, tmp_path: Path,
+) -> None:
+    path = tmp_path / "state.json"
+    path.write_text('{"status": "healthy"}', encoding="utf-8")
+    original = Path.read_text
+    attempts = {"count": 0}
+
+    def flaky_read_text(self: Path, *args, **kwargs):
+        if self == path and attempts["count"] < 2:
+            attempts["count"] += 1
+            raise PermissionError("transient reader lock")
+        return original(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", flaky_read_text)
+    monkeypatch.setattr(recovery.time, "sleep", lambda _seconds: None)
+    assert recovery._read_json(path) == {"status": "healthy"}
+    assert attempts["count"] == 2
 
 
 def _relay(tmp_path: Path) -> dict:
