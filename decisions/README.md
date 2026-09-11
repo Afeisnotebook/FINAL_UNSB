@@ -550,3 +550,7 @@ authorize compute.
      source-bound exporter在等待e200时退出；使用冻结source commit、adapter fingerprint和
      child command哈希启动持久supervisor与替代health watcher。旧报警watcher已退役，完整
      export→push→统一评估链恢复为可重启等待状态，未读取性能值或改变科学协议。
+159. `DEC-20260911-5090B-MATCHED-PLAIN-E64-STALL-RECOVERY.md`：只读heartbeat刷新发现5090B
+     matched plain在e64后静默停滞约66.9小时；progress watcher虽持续报警，但上层health未传播
+     故障。commit、manifest、protocol与e64 full-state通过精确门后，仅终止停滞child并由原
+     supervisor恢复为新trainer PID 76358；等待e65哈希闭环，原e200预测失效且租期需复核。
