@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-12T04:26:00+08:00",
+  "captured_at": "2026-09-12T04:36:20+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,11 +11,11 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e161_live_e150_fixed_hash_and_offhost_closed_running_e200",
+        "5090C/proposal": "e162_live_e150_fixed_hash_and_offhost_closed_running_e200",
         "5090A/stcgr": "e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
-        "4090A/amtnc_after_plain": "e165_live_e164_isolated_recovery_and_offhost_closed_deleted_inode_guard_zero_restarts",
-        "5090B/matched_plain": "e74_live_e66_exact_resume_closed_alert_propagating_health_deployed",
-        "local/dclgan_extension": "e141_live_e125_fixed_hash_closed_delivery_waiters_healthy"
+        "4090A/amtnc_after_plain": "e166_live_e164_isolated_recovery_and_offhost_closed_deleted_inode_guard_zero_restarts",
+        "5090B/matched_plain": "e75_live_e66_exact_resume_closed_alert_propagating_health_deployed",
+        "local/dclgan_extension": "e142_live_e125_fixed_hash_closed_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
@@ -51,11 +51,11 @@
       "health_contract_sha256": "5a6b94ff2c8d39c2c2d9e8420a4b4d1ebfb91307c4bcd235489f31d8fbc8eaab",
       "retired_raw_heartbeat_false_positive_health_watcher_pid": 524155,
       "retired_raw_heartbeat_health_contract_sha256": "af66adf51bd458d3b579830b701bf63f23538383508aaba549d0c07a761d25a4",
-      "projected_e200": "2026-09-15T14:15:00+08:00_rough_from_e66",
+      "projected_e200_window": ["2026-09-15T15:32:47+08:00", "2026-09-15T19:26:54+08:00"],
       "recovery_closure_status": "PASS_E66_NEW_FULL_STATE_SIDECAR_SCIENTIFIC_HASH_AND_CPU_LOAD",
       "progress_watcher_alert_count_at_recovery": 2596,
       "outer_health_alert_propagation_gap": false,
-      "lease_extension_risk": "MATERIAL_RECHECK_AND_EXTENSION_LIKELY_REQUIRED",
+      "lease_extension_risk": "KEEP_AVAILABLE_THROUGH_AT_LEAST_2026-09-16T12:00:00_PLUS_PROVIDER_CHECK_REQUIRED",
       "recovery_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E66_EXACT_RESUME_AND_ALERT_HEALTH_CLOSURE_20260911T224500.json",
       "coresident_predecessor_status": "CYCLEGAN_COMPLETE_E200_NATURAL_EXIT",
       "gpu_exclusive_transition_restart": false,
@@ -566,8 +566,9 @@
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
     "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard directly binds the verified read-only isolated runtime, all 111 mapped files and the e164 full-state were freshly reverified, the prior e154 probe executed one isolated CPU update, e164 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
-    "5090C and 5090A lease horizons must cover their projected e200 plus export",
-    "the 2026-09-11 metric-blind refresh found 5090B matched plain stalled at e64 for about 66.9 hours; exact resume has started from the verified e64 full-state, but the revised e200 projection is approximately 2026-09-15 15:25 and the 5090B lease now requires immediate recheck and likely extension"
+    "5090C is projected to finish training on 2026-09-14 morning and should remain available through at least 2026-09-15 12:00 for source-bound export",
+    "5090A ST-CGR is projected to finish training between 2026-09-15 04:35 and 09:46, leaving about 14 hours before the recorded 2026-09-16 00:00 horizon; provider expiry and export tail require recheck",
+    "5090B matched plain is projected to finish training between 2026-09-15 15:33 and 19:27 and should remain available through at least 2026-09-16 12:00"
   ],
   "scientific_boundaries": {
     "intermediate_performance_controls_training_or_scheduling": false,

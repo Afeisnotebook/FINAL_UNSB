@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-metric-blind-lease-reforecast-v1",
+  "captured_at": "2026-09-12T04:36:20+08:00",
+  "status": "ALL_LIVE_LANES_HEALTHY_STCGR_AND_MATCHED_PLAIN_LEASE_MARGIN_TIGHTENED",
+  "scope": "read-only live-handle validation and wall-clock projection; no scientific scheduling decision",
+  "observations": {
+    "4090A_amtnc": {
+      "trainer_pid": 3446758,
+      "completed_data_epoch": 166,
+      "completed_updates": 1419798,
+      "heartbeat_at": "2026-09-12T04:08:00.100869+08:00",
+      "latest_epoch_seconds": 3540.052032470703,
+      "e150_to_e166_mean_epoch_seconds": 3542.877615,
+      "projected_e200_window": ["2026-09-13T13:34:01+08:00", "2026-09-13T13:35:38+08:00"],
+      "health": "HEALTHY_ZERO_ALERTS",
+      "deleted_inode_risk_changed": false
+    },
+    "5090A_stcgr": {
+      "trainer_pid": 357237,
+      "completed_data_epoch": 150,
+      "completed_updates": 1282950,
+      "heartbeat_at": "2026-09-12T04:14:55.065058+08:00",
+      "latest_epoch_seconds": 5209.262877941132,
+      "e125_to_e150_mean_epoch_seconds": 5582.681120120001,
+      "projected_e200_window": ["2026-09-15T04:34:44+08:00", "2026-09-15T09:45:55+08:00"],
+      "minimum_recorded_availability_through": "2026-09-16T00:00:00+08:00",
+      "training_headroom_hours_before_recorded_horizon": [14.235, 19.421],
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "5090B_matched_plain": {
+      "trainer_pid": 76358,
+      "completed_data_epoch": 75,
+      "completed_updates": 641475,
+      "heartbeat_at": "2026-09-12T04:07:56.589350+08:00",
+      "first_exclusive_epoch_seconds": 2402.3230073451996,
+      "latest_epoch_seconds": 2514.6979846954346,
+      "projected_e200_window": ["2026-09-15T15:32:47+08:00", "2026-09-15T19:26:54+08:00"],
+      "recommended_availability_through": "2026-09-16T12:00:00+08:00",
+      "health": "HEALTHY_ZERO_CURRENT_ALERTS",
+      "historical_progress_alert_count_is_not_current_alert": true
+    },
+    "5090C_proposal": {
+      "trainer_pid": 766090,
+      "completed_data_epoch": 162,
+      "completed_updates": 1385586,
+      "heartbeat_at": "2026-09-12T03:49:27.467087+08:00",
+      "latest_epoch_seconds": 4865.847905158997,
+      "e125_to_e162_mean_epoch_seconds": 5097.484623378378,
+      "projected_e200_window": ["2026-09-14T07:11:10+08:00", "2026-09-14T09:37:52+08:00"],
+      "minimum_recorded_availability_through": "2026-09-15T00:00:00+08:00",
+      "training_headroom_hours_before_recorded_horizon": [14.369, 16.814],
+      "health": "HEALTHY_ZERO_ALERTS"
+    },
+    "local_dclgan": {
+      "trainer_pid": 22020,
+      "completed_data_epoch": 142,
+      "completed_updates": 1214526,
+      "heartbeat_at": "2026-09-12T04:22:21+08:00",
+      "latest_epoch_seconds": 4749.33438372612,
+      "e125_to_e142_mean_epoch_seconds": 4255.411764705882,
+      "projected_e200_window": ["2026-09-15T00:55:55+08:00", "2026-09-15T08:53:22+08:00"],
+      "health": "HEALTHY_ZERO_ALERTS"
+    }
+  },
+  "lease_interpretation": {
+    "actual_provider_expiry_readable_over_ssh": false,
+    "5090A": "recorded horizon still covers projected training, but the conservative margin fell to about 14 hours before export and delivery tail",
+    "5090B": "retain the prior recommendation to keep the host available through at least 2026-09-16T12:00:00+08:00",
+    "5090C": "recorded horizon covers projected training, but keep the host through at least 2026-09-15T12:00:00+08:00 to protect source-bound export",
+    "next_manual_reforecast": "2026-09-13T10:00:00+08:00_OR_NEXT_FIXED_MILESTONE",
+    "automatic_training_change": false
+  },
+  "scientific_boundaries": {
+    "training_processes_changed": false,
+    "checkpoint_or_runtime_migrated": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta": false
+  },
+  "decision": "decisions/DEC-20260912-METRIC-BLIND-LEASE-REFRESH.md"
+}

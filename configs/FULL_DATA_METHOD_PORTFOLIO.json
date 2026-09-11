@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-12T04:26:00+08:00",
+  "captured_at": "2026-09-12T04:36:20+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -1150,26 +1150,26 @@
   },
   "frontier_not_shrunk_to": ["proposal", "stcgr"],
   "lease_horizon_action": {
-    "status": "core_lanes_projected_in_horizon_5090b_capacity_pass_removes_immediate_extension_trigger",
+    "status": "all_live_lanes_healthy_late_throughput_reforecast_requires_lease_margin_check",
     "5090C_minimum_availability_through": "2026-09-15T00:00:00+08:00",
-    "5090C_projected_completion": "2026-09-14T07:38:17+08:00_rough",
-    "5090C_projected_headroom_hours": 16.3619,
+    "5090C_projected_completion_window": ["2026-09-14T07:11:10+08:00", "2026-09-14T09:37:52+08:00"],
+    "5090C_projected_headroom_hours": 14.369,
     "5090C_conditional_shortfall_hours": 0.0,
     "5090A_minimum_availability_through": "2026-09-16T00:00:00+08:00",
-    "5090A_stcgr_projected_completion": "2026-09-14T12:43:23+08:00_rough",
-    "5090A_projected_headroom_hours": 35.277,
+    "5090A_stcgr_projected_completion_window": ["2026-09-15T04:34:44+08:00", "2026-09-15T09:45:55+08:00"],
+    "5090A_projected_headroom_hours": 14.235,
     "5090B_core_control_minimum_availability_through": "2026-09-14T00:00:00+08:00",
-    "5090B_core_control_latest_projected_completion": "2026-09-12T21:48:40+08:00_rough_two_phase",
-    "5090B_core_control_projected_headroom_hours": 26.1889,
-    "5090B_recommended_availability_through": "2026-09-14T00:00:00+08:00",
-    "5090B_capacity_extension_recommended": false,
-    "local_dclgan_projected_completion_window": ["2026-09-14T15:56:18+08:00_rough", "2026-09-15T03:22:20+08:00_conservative"],
+    "5090B_core_control_latest_projected_completion_window": ["2026-09-15T15:32:47+08:00", "2026-09-15T19:26:54+08:00"],
+    "5090B_core_control_projected_headroom_hours_against_recommended_horizon": 16.552,
+    "5090B_recommended_availability_through": "2026-09-16T12:00:00+08:00",
+    "5090B_capacity_extension_recommended": true,
+    "local_dclgan_projected_completion_window": ["2026-09-15T00:55:55+08:00", "2026-09-15T08:53:22+08:00"],
     "local_dclgan_remote_gpu_extension_required": false,
     "scientific_protocol_change": false,
     "performance_values_read": false,
-    "next_manual_reforecast": "2026-09-11T12:00:00+08:00",
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CAPACITY_PASS_LEASE_REFORECAST_20260906T083000.json",
-    "decision": "decisions/DEC-20260906-5090B-CAPACITY-PASS-LEASE-REFRESH.md"
+    "next_manual_reforecast": "2026-09-13T10:00:00+08:00_OR_NEXT_FIXED_MILESTONE",
+    "evidence": "evidence/paper_aio/PAPER_AIO_METRIC_BLIND_LEASE_REFORECAST_20260912T043600.json",
+    "decision": "decisions/DEC-20260912-METRIC-BLIND-LEASE-REFRESH.md"
   },
   "latest_four_host_health_evidence": "evidence/paper_aio/PAPER_AIO_LONG_MONITOR_CONTROL_HARDENING_20260905T072700.json",
   "runtime_environment_recovery": {
@@ -1260,7 +1260,7 @@
     "training_processes_changed": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_E150_HASH_AND_OFFHOST_CLOSURE_20260912T042600.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_METRIC_BLIND_LEASE_REFORECAST_20260912T043600.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

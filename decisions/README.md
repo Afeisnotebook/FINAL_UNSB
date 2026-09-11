@@ -579,3 +579,7 @@ authorize compute.
      full-state、sidecar、scientific-state、metric artifact及source-bound export哈希闭环；本地
      relay自动导入e150且逐文件与来源匹配，CPU加载确认完整恢复状态。metric只做字节级异机备份，
      未读取数值；训练继续e200，matched delta仍等待5090B plain e200。
+166. `DEC-20260912-METRIC-BLIND-LEASE-REFRESH.md`：以五条在飞训练的真实PID、heartbeat、
+     health和后段epoch耗时重新外推e200。所有lane健康且未改协议；ST-CGR与5090B matched plain
+     的保守完成时间推迟至9月15日，分别要求核对9月16日00:00及12:00的租期覆盖，5090C应至少
+     保留至9月15日12:00以覆盖source-bound export。
