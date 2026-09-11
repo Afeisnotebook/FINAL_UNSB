@@ -566,3 +566,8 @@ authorize compute.
      exporter supervisor因Windows短暂文件锁退出；修复control-state读取为有界重试且持续拒绝
      仍fail closed。新supervisor PID 19524原位收养存活child PID 20760、零重复启动，新health
      watcher PID 27044接管后恢复零告警，既有export→push→import→evaluation链保持不变。
+163. `DEC-20260912-POST-CLEANUP-CONTROL-CHAIN-RECOVERY.md`：4090A误清理的真实边界保持不变：
+     AM-TNC原PID继续运行于deleted inode，但只读隔离runtime、111项依赖、e164异机full-state和
+     guard均可恢复，当前自然推进至e165。并行审计发现Proposal只读增量relay死亡；冻结合同恢复
+     为supervisor PID 5112/child PID 31764，既有e100/e150导入哈希不变。DCLGAN与terminal控制链
+     迁入Windows锁容错监督器，组合health PID 9960零告警；所有训练均未触碰。

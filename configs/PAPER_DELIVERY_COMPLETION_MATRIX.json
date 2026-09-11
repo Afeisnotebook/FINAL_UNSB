@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-11T22:45:00+08:00",
+  "captured_at": "2026-09-12T03:50:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,11 +11,11 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e150_fixed_hash_and_offhost_closed_running_e200",
-        "5090A/stcgr": "e126_hash_verified_exact_resume_closure_outer_guard_restarts_1_running_e200",
-        "4090A/amtnc_after_plain": "e150_fixed_hash_and_offhost_closed_deleted_inode_isolated_guard_zero_restarts",
-        "5090B/matched_plain": "e66_exact_resume_closed_alert_propagating_health_deployed",
-        "local/dclgan_extension": "e125_fixed_hash_closed_live_continuation_delivery_waiters_healthy"
+        "5090C/proposal": "e161_live_e150_fixed_hash_and_offhost_closed_running_e200",
+        "5090A/stcgr": "e149_live_hash_verified_exact_resume_closure_outer_guard_running_e200",
+        "4090A/amtnc_after_plain": "e165_live_e164_isolated_recovery_and_offhost_closed_deleted_inode_guard_zero_restarts",
+        "5090B/matched_plain": "e74_live_e66_exact_resume_closed_alert_propagating_health_deployed",
+        "local/dclgan_extension": "e141_live_e125_fixed_hash_closed_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
@@ -406,7 +406,7 @@
       "portfolio_addendum_evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_ADDENDUM_DURABLE_DEPLOYMENT_20260908T025845.json",
       "source_exporter_pid": 20760,
       "source_exporter_supervisor_pid": 19524,
-      "source_exporter_health_watcher_pid": 27044,
+      "source_exporter_health_watcher_pid": 8224,
       "source_exporter_control_commit": "c092b9d9a6d469a129c1d7d0c5e8e3fc48335a0b",
       "source_exporter_status": "MONITORING_EXISTING_CHILD_WAITING_FOR_COMPLETE_E200_HEALTHY_ZERO_ALERTS",
       "retired_source_exporter_pid": 23168,
@@ -444,15 +444,16 @@
       "incremental_relay_pids": {
         "4090A_amtnc_v3": 24160,
         "5090A_stcgr_v5": 16752,
-        "5090C_proposal": 14528
+        "5090C_proposal": 31764
       },
       "incremental_relay_recovery_supervisors": {
         "4090A_amtnc_v3": 16540,
-        "5090A_stcgr_v5": 20856
+        "5090A_stcgr_v5": 20856,
+        "5090C_proposal": 5112
       },
       "recovery_control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
-      "recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2},
-      "health_watcher_pid": 27152,
+      "recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2, "5090C_proposal": 1},
+      "health_watcher_pid": 9960,
       "health_status": "healthy_zero_alerts_after_multiple_polls",
       "gpu_exclusion": "DCLGAN holds the same local GPU lock; terminal JVP cannot co-reside",
       "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_DURABLE_RECOVERY_20260908T051100.json"
@@ -537,9 +538,25 @@
       "post_completion_reopen_allowed": false
     }
   ],
+  "post_cleanup_control_chain_recovery_20260912": {
+    "status": "amtnc_continuous_isolated_recovery_ready_proposal_relay_recovered_local_health_zero_alerts",
+    "4090a_amtnc_latest_complete_epoch": 165,
+    "4090a_amtnc_active_executable_deleted": true,
+    "4090a_amtnc_guard_restart_count": 0,
+    "4090a_amtnc_offhost_fallback_epoch": 164,
+    "proposal_incremental_relay_supervisor_pid": 5112,
+    "proposal_incremental_relay_pid": 31764,
+    "proposal_existing_import_hashes_unchanged": true,
+    "local_terminal_health_pid": 9960,
+    "local_terminal_health_status": "healthy_zero_alerts",
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_CONTROL_CHAIN_RECOVERY_20260912T035000.json"
+  },
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard bypasses it and directly binds the verified read-only isolated runtime, all 111 mapped files and the e154 full-state were freshly reverified, e154 executed one isolated CPU update, e154 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
+    "the 4090A active process still owns deleted runtime mappings and the original full environment remains absent; the old prefix is not recovery authority, the training guard directly binds the verified read-only isolated runtime, all 111 mapped files and the e164 full-state were freshly reverified, the prior e154 probe executed one isolated CPU update, e164 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C and 5090A lease horizons must cover their projected e200 plus export",
     "the 2026-09-11 metric-blind refresh found 5090B matched plain stalled at e64 for about 66.9 hours; exact resume has started from the verified e64 full-state, but the revised e200 projection is approximately 2026-09-15 15:25 and the 5090B lease now requires immediate recheck and likely extension"
