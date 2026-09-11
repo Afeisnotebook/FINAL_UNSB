@@ -617,3 +617,7 @@ authorize compute.
      AM-TNC e168、唯一隔离训练恢复runtime，以及DDSB source/recovery/combined-health
      PID `22104/26164/30196`；明确禁止恢复旧路径和已退役health PID。automation仍为ACTIVE、
      仅失败通知、不含凭据，训练和科学队列未变。
+175. `DEC-20260912-AMTNC-E175-OFFHOST-PROTECTION.md`：交付矩阵审计发现AM-TNC常规增量异机
+     链只覆盖e100/e150/e200，而e175在e200前只保存在已发生误清理的4090A。现有两小时
+     heartbeat现已持久预置e175完整milestone、sidecar、heartbeat和authorization的只读异机
+     复制、逐文件SHA256核对及本地只读封存；不暂停训练，不复制正在写入的latest。

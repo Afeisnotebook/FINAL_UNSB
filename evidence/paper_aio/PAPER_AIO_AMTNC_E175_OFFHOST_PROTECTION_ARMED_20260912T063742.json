@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-amtnc-e175-offhost-protection-armed-v1",
+  "captured_at": "2026-09-12T06:37:42+08:00",
+  "status": "ARMED_WAITING_FOR_IMMUTABLE_E175_MILESTONE",
+  "triggering_evidence": {
+    "active_amtnc_complete_epoch": 168,
+    "active_amtnc_complete_step": 1436904,
+    "active_amtnc_checkpoint_sha256": "421f589cef5614e8fe5a838ab0950bb790df3393a0245ec74aa91943e0069d73",
+    "active_supervisor_pid": 3446757,
+    "active_trainer_pid": 3446758,
+    "active_processes_restarted": false,
+    "isolated_recovery_guard_pid": 439182,
+    "isolated_recovery_guard_restart_count": 0,
+    "isolated_recovery_health_pid": 439447,
+    "isolated_recovery_health": "HEALTHY_ZERO_ALERTS",
+    "original_source_root_present": false,
+    "active_executable_status": "DELETED_INODE_STILL_RUNNING"
+  },
+  "delivery_gap": {
+    "incremental_audit_export_epochs": [100, 150, 200],
+    "terminal_export_epochs": [100, 125, 150, 175, 200],
+    "terminal_export_releases_before_e200": false,
+    "e175_remote_milestone_expected": true,
+    "e175_offhost_copy_previously_armed": false,
+    "risk": "E175_EXISTS_ONLY_ON_4090A_DURING_E175_TO_E200_WINDOW"
+  },
+  "persistent_action": {
+    "automation_id": "final-unsb-goal",
+    "automation_status": "ACTIVE",
+    "automation_cadence": "FREQ=HOURLY;INTERVAL=2",
+    "automation_notification_policy": "failed_runs_only",
+    "automation_toml_sha256": "bcb234dcff48db62dd7155519379f987d81aa00d5e55fbd91c25045976a0c9bf",
+    "source_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt",
+    "source_sidecar": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt.json",
+    "destination": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E175",
+    "copy_condition": "ONLY_AFTER_E175_MILESTONE_AND_SIDECAR_ARE_COMPLETE_IMMUTABLE_FILES",
+    "required_companions": ["HEARTBEAT.json", "LANE_AUTHORIZATION.json"],
+    "required_verification": "SOURCE_AND_DESTINATION_SHA256_EQUAL_FOR_EACH_FILE_AND_DESTINATION_READ_ONLY",
+    "copy_in_progress_latest_forbidden": true,
+    "training_pause_required": false,
+    "credentials_persisted": false
+  },
+  "live_portfolio_health": {
+    "4090A_amtnc": "HEALTHY_E168",
+    "5090A_stcgr": "HEALTHY_E151",
+    "5090C_proposal": "HEALTHY_E164",
+    "5090B_matched_plain": "HEALTHY_E78",
+    "local_dclgan": "HEALTHY_E143_COMPUTING_NEXT_EPOCH",
+    "ddsb_source_recovery": "HEALTHY_WAITING_FOR_AUTHORITATIVE_SOURCE"
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "algorithm_protocol_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260912-AMTNC-E175-OFFHOST-PROTECTION.md"
+}
