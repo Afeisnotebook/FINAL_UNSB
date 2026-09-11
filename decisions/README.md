@@ -637,3 +637,8 @@ authorize compute.
      Windows relay均发布空available-epochs，这是e100尚未到达的正确等待态。两端六个进程健康、
      零重启，44804 host key、commit、protocol、manifest和路径均冻结；e100出现后会自动逐文件
      验签并publish-last，无需干预训练。
+180. `DEC-20260912-AMTNC-E169-POST-CLEANUP-RECOVERY-REAUDIT.md`：确认4090A错误清理造成的原
+     环境缺失与deleted-inode风险仍真实存在，但活动AM-TNC已连续到e169且零重启。隔离训练
+     runtime重新完成111/111逐文件验签，并用其在CPU完整加载e169 full-state；将e169完整状态、
+     sidecar、heartbeat和授权文件逐哈希复制到本机异盘只读封存，把整机故障回退点从e167推进
+     到e169。健康训练未被触碰，唯一未证明边界仍是恢复后CUDA下一步与活动进程逐位相同。
