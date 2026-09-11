@@ -600,3 +600,8 @@ authorize compute.
      仍引用旧Git、AM-TNC e164回退和5090B e75的提示词漂移；同步e167隔离恢复/异机备份、
      matched plain e77及新e100/e150/e200增量异机链、Proposal e163与DCLGAN e143。频率、通知
      策略、训练和队列均未改变，配置保持ACTIVE且不含凭据。
+171. `DEC-20260912-DDSB-SOURCE-WATCH-RECOVERY-AND-RECHECK.md`：DDSB源码watcher因Windows固定
+     临时状态文件的共享访问拒绝退出，旧health已正确报警。状态写入改为writer唯一临时文件
+     与有界重试；新source/health PID `22104/16220`从detached commit `40c4b37`连续健康。
+     当日权威页面与repository检索仍无作者实现，DDSB保持`REPRODUCTION_INCOMPLETE`，没有
+     猜测训练被放行，也没有触碰任何GPU任务。

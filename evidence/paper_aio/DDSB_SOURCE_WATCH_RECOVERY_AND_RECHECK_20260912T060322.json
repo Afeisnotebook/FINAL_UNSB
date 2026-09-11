@@ -1,0 +1,81 @@
+{
+  "schema": "final-unsb-ddsb-source-watch-recovery-and-recheck-v1",
+  "captured_at": "2026-09-12T06:03:22+08:00",
+  "status": "WATCH_RECOVERED_NO_AUTHORITATIVE_IMPLEMENTATION_REPRODUCTION_INCOMPLETE",
+  "failure": {
+    "old_control_commit": "cd74b2d",
+    "old_source_watcher_pid": 20388,
+    "old_source_watcher_alive": false,
+    "failed_at": "2026-09-11T16:49:14+08:00",
+    "error_type": "PermissionError",
+    "failure_boundary": "Windows atomic replacement of the fixed DDSB_SOURCE_WATCH_STATE.json.tmp file",
+    "old_health_watcher_pid": 10780,
+    "old_health_status_before_retirement": "ALERT_PID_DEAD",
+    "old_health_alert_count": 1,
+    "old_health_watcher_retired_after_replacement_health": true,
+    "old_output_preserved": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_WATCH_cd74b2d",
+    "fatal_receipt_sha256": "a77e723c8c2f63169977c3638b708f79a495ca9533a0c789caaef3d16559fd70"
+  },
+  "engineering_repair": {
+    "control_commit": "40c4b37916844bb10b456926d8e44f0df8ce66c3",
+    "change": "writer-unique temporary state files plus bounded retry for transient Windows sharing violations while preserving atomic os.replace",
+    "automatic_source_acceptance_changed": false,
+    "automatic_training_authorization_changed": false,
+    "focused_test_result": "8 passed",
+    "compile_result": "pass",
+    "git_diff_check": "pass",
+    "worktree": "E:/UNSB_Expl/FINAL_UNSB_DDSB_WATCH_40C4B37",
+    "script": "operations/paper_aio_ddsb_source_watch.py",
+    "script_sha256": "d10eec1aa902702617c39d75f82b0cf05f94fb18f281c0fe0c7f4c66a6898827"
+  },
+  "replacement_deployment": {
+    "source_watcher_pid": 22104,
+    "source_watcher_alive": true,
+    "source_watcher_output": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_WATCH_40c4b37",
+    "source_contract_sha256": "64d5109af72ca7bc69c066f8f7f2b9fe54c475601aa9fbc339cefffa1f7bcfdf",
+    "source_state_sha256": "215e813eeb8b1e8af71377ac53a9a748e21892b955f10b5d89bc208ecc925155",
+    "source_status": "WAITING_FOR_AUTHORITATIVE_SOURCE",
+    "health_watcher_pid": 16220,
+    "health_watcher_alive": true,
+    "health_watcher_output": "E:/UNSB_Expl/runs/FINAL_UNSB_DDSB_SOURCE_HEALTH_40c4b37",
+    "health_contract_sha256": "64bfd0ac71ba8fc13eee6e3fb033ea9f1bb2cd0584afc08ad1a7fc5ee200821d",
+    "health_state_sha256": "d1d15ca8131d455b069e468d2b967b371595aa8d3cf67a20c5f5525fa71a1f3d",
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "health_polls_observed": 2,
+    "poll_seconds": 21600,
+    "disk_free_gib": 85.97327423095703,
+    "disk_required_gib": 2.1
+  },
+  "authoritative_recheck": {
+    "official_page": "https://papers.nips.cc/paper_files/paper/2025/hash/039c30e9af8039fbd1b58da9d04f38e9-Abstract-Conference.html",
+    "official_page_response_sha256": "dbcc9d883199fe7f7d7df3be21c148306ad890e7d632f4ed4b1a6fc561bbe2a4",
+    "official_page_repository_candidates": [],
+    "author_lab_page": "https://medai.lab.westlake.edu.cn/Publications1.htm",
+    "author_lab_page_response_sha256": "9752c546d181343500c63df9c481b1b4528e95ef3e55ffa246ddc2c755206166",
+    "author_lab_repository_candidates": [],
+    "github_exact_title_total_count": 1,
+    "github_exact_title_relevant_candidates": [],
+    "github_ddsb_unpaired_total_count": 0,
+    "github_ddsb_unpaired_relevant_candidates": [],
+    "network_errors": [],
+    "authoritative_implementation_found": false
+  },
+  "adjudication": {
+    "paper_status": "REPRODUCTION_INCOMPLETE",
+    "scientific_failure": false,
+    "guessed_implementation_authorized": false,
+    "gpu_training_authorized": false,
+    "reopen_condition": "authoritative author source, checkpoint, or author-specified implementation record closes every material formula-to-source and full-state ambiguity",
+    "external_baseline_queue_changed": false
+  },
+  "scientific_boundaries": {
+    "training_process_changed": false,
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_artifact_audit": "evidence/paper_aio/DDSB_OFFICIAL_ARTIFACT_AUDIT_20260903T0742.json",
+  "decision": "decisions/DEC-20260912-DDSB-SOURCE-WATCH-RECOVERY-AND-RECHECK.md"
+}
