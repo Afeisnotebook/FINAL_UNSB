@@ -558,3 +558,7 @@ authorize compute.
      连续完成e65/e66并通过checkpoint、sidecar、scientific state和CPU load闭环，没有已完成
      epoch损失或runtime变化。通用health watcher新增`ALERT_*`传播测试与实现，5090B部署新
      watcher PID 83714后才退役旧watcher；训练继续，租期延长建议保持。
+161. `DEC-20260912-AMTNC-E164-POST-CLEANUP-RECOVERY-CLOSURE.md`：确认4090A原完整环境仍缺失且
+     活动AM-TNC继续使用deleted inode，但隔离只读runtime的111项哈希、e164 full-state加载、
+     直接绑定的持久guard和异机e164备份全部闭环。健康训练未被触碰；进程故障通常最多重做
+     当前未完成epoch，整机存储故障至少可从异机e164恢复，同时保留CUDA下一步非逐位证明边界。

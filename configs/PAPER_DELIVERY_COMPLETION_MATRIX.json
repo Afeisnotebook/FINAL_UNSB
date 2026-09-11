@@ -159,7 +159,7 @@
       "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "healthy_deleted_inode_preserved_e154_executable_recovery_and_offhost_hash_closed",
+      "status": "healthy_deleted_inode_preserved_e164_isolated_recovery_reverified_offhost_hash_closed",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
       "active_training_pid": 3446758,
@@ -169,17 +169,17 @@
       "recovery_health_watcher_pid": 439447,
       "runtime_manifest_entries": 111,
       "runtime_entry_rehash": "pass_111_of_111",
-      "current_checkpoint_resume_probe": "pass_e154_step_1317162_to_1317163_cpu_with_111_of_111_runtime_rehash",
-      "current_checkpoint_step": 1317162,
-      "current_checkpoint_sha256": "57666e9cf9884ef7cc9fd47695217af97c40922cb5a0143051479a53fd88cec5",
+      "current_checkpoint_resume_probe": "e164_full_state_cpu_load_pass_with_111_of_111_runtime_rehash; executable one-update probe remains pass_e154_step_1317162_to_1317163_cpu",
+      "current_checkpoint_step": 1402692,
+      "current_checkpoint_sha256": "f17bc75b26253f34648797e34c00ee8bd224c47e34845ed7469b9f78122e3256",
       "offhost_runtime_backup_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52",
-      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260911_E154/full_state_latest.pt",
-      "offhost_full_state_backup_sha256": "57666e9cf9884ef7cc9fd47695217af97c40922cb5a0143051479a53fd88cec5",
+      "offhost_full_state_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260912_E164/full_state_latest.pt",
+      "offhost_full_state_backup_sha256": "f17bc75b26253f34648797e34c00ee8bd224c47e34845ed7469b9f78122e3256",
       "recovery_policy": "rehash isolated Python, manifest, all mapped entries and latest full-state immediately before any recovery launch",
       "failure_policy": "fail_closed_on_any_identity_mismatch",
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E154_ISOLATED_RECOVERY_REVALIDATION_20260911T165734.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E164_POST_CLEANUP_RECOVERY_CLOSURE_20260912T030445.json"
     },
     "stcgr_proposal_training_outer_recovery": {
       "status": "healthy_both_guards_monitoring_existing_supervisors_zero_restarts",
