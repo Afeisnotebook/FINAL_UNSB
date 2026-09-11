@@ -151,7 +151,7 @@
       "latest_full_test_result": "660 passed"
     },
     "local_incremental_relay_durable_recovery": {
-      "status": "AMTNC_AND_STCGR_RELAYS_RECOVERED_UNDER_HASH_PINNED_SUPERVISION",
+      "status": "AMTNC_STCGR_AND_MATCHED_PLAIN_RELAYS_UNDER_HASH_PINNED_SUPERVISION",
       "control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
       "control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_SUPERVISOR_E066F08",
       "amtnc_supervisor_pid": 16540,
@@ -161,6 +161,13 @@
       "stcgr_child_pid": 16752,
       "stcgr_restart_count": 2,
       "stcgr_failure_injection_passed": true,
+      "matched_plain_control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9",
+      "matched_plain_control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_MATCHED_INCREMENTAL_RELAY_21B2240",
+      "matched_plain_supervisor_pid": 25228,
+      "matched_plain_child_pid": 11704,
+      "matched_plain_health_pid": 20796,
+      "matched_plain_restart_count": 0,
+      "matched_plain_status": "HEALTHY_WAITING_E100_SOURCE_BOUND_IMPORT",
       "combined_health_pid": 27152,
       "combined_health_status": "HEALTHY_ZERO_ALERTS",
       "retired_dead_relay_pids": [19068, 6152],
@@ -169,6 +176,7 @@
       "training_or_checkpoint_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
+      "latest_matched_plain_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_INCREMENTAL_OFFHOST_CHAIN_20260912T051022.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_DURABLE_RECOVERY_20260908T051100.json",
       "decision": "decisions/DEC-20260908-LOCAL-INCREMENTAL-RELAY-DURABLE-RECOVERY.md"
     },
@@ -438,15 +446,15 @@
         "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
       },
       "5090B_matched_plain": {
-        "status": "E66_EXACT_RESUME_CLOSED_ALERT_PROPAGATING_HEALTH_DEPLOYED",
-        "latest_observed_data_epoch": 66,
-        "latest_observed_updates": 564498,
+        "status": "E76_RUNNING_ALERT_PROPAGATING_HEALTH_AND_INCREMENTAL_OFFHOST_CHAIN_DEPLOYED",
+        "latest_observed_data_epoch": 76,
+        "latest_observed_updates": 650028,
         "target_data_epoch": 200,
-        "latest_epoch_seconds": 2360.0083355903625,
-        "latest_milestone_checkpoint_sha256": "cbd52bed0c3542755bafba20319776cff1196bec6a5cb641625db6e693eb019f",
-        "latest_milestone_sidecar_sha256": "1e90ae851604da8adb01dea67342fa74e462a982c0c93d856f9068a5d7501def",
-        "latest_heartbeat_sha256": "687a399920d386827525be0cfe569f2a6480363e726333f1050e439ea695de3e",
-        "latest_scientific_state_sha256": "65bae77dae067f57a88017a8430db4c47c46eeeebf00b6998abdba8acc2bd1b1",
+        "latest_epoch_seconds": 2485.72589802742,
+        "latest_milestone_checkpoint_sha256": "149d49968a6617d07fc91a0a426af69c8cff797dcb4fec6def29f1562f64fbd1",
+        "latest_milestone_sidecar_sha256": "fa3a0f754d7efe87c62b5ae8f19c9644290fe0661d66c9f8ccbd73cf4ef24770",
+        "latest_heartbeat_sha256": "370d7db4fadbef7a470c1b3334be2553f5916f3e5246ba6a8dd67c526009867a",
+        "latest_scientific_state_sha256": "3c4e50cd6d4bfee39cd23e1ead5b2975c50cbbf6f9649164cd710f683b541740",
         "latest_metric_artifact_sha256": "083193820762ab2f0af13b06bc2f11861232427f8a980926cdbdf406f6dae5e6",
         "successor_pid": 523993,
         "supervisor_pid": 534983,
@@ -464,6 +472,13 @@
         "health_source_sha256": "700adbcf1ee1d7f3496afc565f8590629c5090c66f979e261dcee6f8b0d92025",
         "health_contract_sha256": "5a6b94ff2c8d39c2c2d9e8420a4b4d1ebfb91307c4bcd235489f31d8fbc8eaab",
         "export_recovery_supervisor_pid": 673803,
+        "incremental_source_exporter_pid": 107734,
+        "incremental_source_export_recovery_supervisor_pid": 107809,
+        "incremental_source_export_health_pid": 107830,
+        "incremental_offhost_relay_pid": 11704,
+        "incremental_offhost_relay_recovery_supervisor_pid": 25228,
+        "incremental_offhost_relay_health_pid": 20796,
+        "incremental_offhost_status": "HEALTHY_WAITING_E100_SOURCE_BOUND_IMPORT",
         "pids_unchanged_across_cyclegan_exit": true,
         "exclusive_epoch_wall_time_reduction_fraction": 0.484052876828358,
         "projected_e200": "2026-09-15T14:15:00+08:00_rough_from_e66",
@@ -474,7 +489,8 @@
         "matched_delta_available": false,
         "performance_values_read": false,
         "confirmation20_opened": false,
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E66_EXACT_RESUME_AND_ALERT_HEALTH_CLOSURE_20260911T224500.json"
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_INCREMENTAL_OFFHOST_CHAIN_20260912T051022.json",
+        "recovery_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E66_EXACT_RESUME_AND_ALERT_HEALTH_CLOSURE_20260911T224500.json"
       },
       "5090A_stcgr_small25": {
         "status": "STRICT_SMALL25_E200_PASS_FULL_DATA_E1_COMPLETE_WAIT_PARENT",
@@ -1186,12 +1202,14 @@
       "decision": "decisions/DEC-20260908-AMTNC-EXPORT-DELETED-RUNTIME-RECOVERY.md"
     },
     "incremental_audit_source_export_recovery": {
-      "status": "THREE_INCREMENTAL_EXPORTERS_DURABLY_PROTECTED_EXISTING_CHILDREN_UNCHANGED_ZERO_RESTARTS",
+      "status": "FOUR_INCREMENTAL_EXPORTERS_DURABLY_PROTECTED_EXISTING_CHILDREN_UNCHANGED_ZERO_RESTARTS",
       "control_commit": "2c26c9a0e45f03f4f4c10b9767f69b8d237ea1ca",
+      "matched_plain_control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9",
       "source_exporters": {
         "4090A_amtnc": {"pid": 2274260, "recovery_supervisor_pid": 723432, "health_watcher_pid": 724142},
         "5090A_stcgr": {"pid": 351230, "recovery_supervisor_pid": 975931, "health_watcher_pid": 976097},
-        "5090C_proposal": {"pid": 29411, "recovery_supervisor_pid": 458972, "health_watcher_pid": 459098}
+        "5090C_proposal": {"pid": 29411, "recovery_supervisor_pid": 458972, "health_watcher_pid": 459098},
+        "5090B_matched_plain": {"pid": 107734, "recovery_supervisor_pid": 107809, "health_watcher_pid": 107830}
       },
       "restart_count_total": 0,
       "amtnc_restart_runtime": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000",
@@ -1199,6 +1217,7 @@
       "training_processes_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
+      "latest_matched_plain_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_INCREMENTAL_OFFHOST_CHAIN_20260912T051022.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
       "decision": "decisions/DEC-20260908-INCREMENTAL-AUDIT-SOURCE-EXPORT-RECOVERY.md"
     },
@@ -1248,7 +1267,8 @@
         "4090A_plain": 2274259,
         "4090A_amtnc": 2274260,
         "5090A_stcgr": 351230,
-        "5090C_proposal": 29411
+        "5090C_proposal": 29411,
+        "5090B_matched_plain": 107734
       },
       "incremental_checkpoint_relay_pids": {
         "4090A_plain": 6292,
@@ -1260,11 +1280,16 @@
         "5090A_stcgr_v3_retired_after_control_source_change": 23844,
         "5090A_stcgr_v4_retired_after_control_source_change": 18340,
         "5090A_stcgr_v5": 6152,
-        "5090C_proposal": 14528
+        "5090C_proposal": 14528,
+        "5090B_matched_plain": 11704
       },
-      "incremental_checkpoint_relays_status": "PLAIN_COMPLETE_AMTNC_V3_STCGR_V5_AND_PROPOSAL_RELAYS_HEALTHY_FROM_IMMUTABLE_CONTROL_WORKTREE",
+      "incremental_checkpoint_relays_status": "PLAIN_COMPLETE_AMTNC_V3_STCGR_V5_PROPOSAL_AND_MATCHED_PLAIN_RELAYS_HEALTHY_FROM_IMMUTABLE_CONTROL_WORKTREES",
       "incremental_relay_recovery_control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_LOCAL_INCREMENTAL_RECOVERY_46F9077",
       "incremental_relay_recovery_control_commit": "46f90779979427810f6d84cea751d2545f2da5f3",
+      "matched_plain_incremental_relay_control_worktree": "E:\\UNSB_Expl\\FINAL_UNSB_MATCHED_INCREMENTAL_RELAY_21B2240",
+      "matched_plain_incremental_relay_control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9",
+      "matched_plain_incremental_relay_recovery_supervisor_pid": 25228,
+      "matched_plain_incremental_relay_health_pid": 20796,
       "terminal_audit_successor_status": "4090A_PLAIN_E100_E150_E200_COMPLETE_WAITING_REMAINING_FIXED_IMPORTS",
       "terminal_audit_control_supervisor_pid": 6196,
       "terminal_audit_successor_pid": 20244,

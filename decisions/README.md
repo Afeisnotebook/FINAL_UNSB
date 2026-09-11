@@ -588,3 +588,7 @@ authorize compute.
      完整加载e166 full-state。e166状态已异机只读备份，guard、terminal/incremental export和
      统一评估恢复链均健康；进程故障通常只损失当前epoch，整机故障可回退e166，同时不宣称
      无法在不中断活进程前提下证明的CUDA下一步逐位等价。
+168. `DEC-20260912-5090B-MATCHED-PLAIN-INCREMENTAL-OFFHOST-CHAIN.md`：为Proposal/ST-CGR共同
+     关键控制补上e100/e150/e200的source-bound异机增量保护；source exporter、当地relay及两端
+     恢复/health监督均已部署且健康，不触碰e76训练和既有e200五里程碑terminal链。首次带多余
+     `-u`的空relay被合同fail closed拒绝并精确替换，未复制checkpoint或影响科学状态。
