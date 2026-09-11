@@ -15,7 +15,7 @@
         "5090A/stcgr": "e126_hash_verified_exact_resume_closure_outer_guard_restarts_1_running_e200",
         "4090A/amtnc_after_plain": "e125_fixed_hash_and_offhost_closed_live_e131_deleted_inode_isolated_guard_zero_restarts",
         "5090B/matched_plain": "e40_hash_closed_first_complete_gpu_exclusive_epoch_zero_restarts",
-        "local/dclgan_extension": "e100_hash_closed_live_e112_continuation_delivery_waiters_healthy"
+        "local/dclgan_extension": "e125_fixed_hash_closed_live_continuation_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"

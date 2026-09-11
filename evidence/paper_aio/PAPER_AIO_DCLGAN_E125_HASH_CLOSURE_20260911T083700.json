@@ -1,0 +1,70 @@
+{
+  "schema": "final-unsb-paper-dclgan-e125-hash-closure-v1",
+  "captured_at": "2026-09-11T08:37:00+08:00",
+  "status": "DCLGAN_E125_FIXED_MILESTONE_HASH_CLOSED_LIVE_CONTINUATION_DELIVERY_CHAIN_HEALTHY",
+  "host": {
+    "label": "LOCAL_GTX1660",
+    "run_root": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "gpu_uuid": "GPU-22b92065-0a2b-ff50-f2c5-9c9ee65e6b53",
+    "gpu_utilization_percent_observed": 81,
+    "gpu_memory_mib_observed": 2883,
+    "free_disk_gib_observed": 103.36,
+    "disk_health": "HEALTHY"
+  },
+  "training_identity": {
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "wrapper_pid": 20832,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "training_health_watcher_pid": 22088,
+    "exporter_pid": 23168,
+    "push_recovery_supervisor_pid": 26020,
+    "push_health_pid": 20500,
+    "all_expected_processes_alive": true
+  },
+  "fixed_e125": {
+    "updates": 1069125,
+    "epoch_wall_seconds": 3826.269609451294,
+    "checkpoint_bytes": 351608880,
+    "checkpoint_sha256": "48149083e9be971aafb0508239948961185d64090b421909b5991b241d970caa",
+    "sidecar_file_sha256": "b19e7d882bc4fa92138fbc5cfd12ae91b00a90f0a919b1c83fe3c63d73d5a87f",
+    "scientific_state_sha256": "5d2a75c76708d2f1db60a2e1eb4427b34d867f754e854f56b1caab0ad7bbd430",
+    "metric_artifact_present": false,
+    "metric_artifact_expected_at_this_stage": false,
+    "reason": "DCLGAN fixed checkpoints are evaluated by the post-e200 unified evaluator rather than inline training evaluation."
+  },
+  "live_continuation": {
+    "latest_data_epoch": 125,
+    "latest_updates": 1069125,
+    "latest_checkpoint_sha256": "8e8121e585e31a256153345bb9eb4e1885e2bdb6a0106569db634b30eab7554f",
+    "latest_sidecar_file_sha256": "71df58ee83ff8b7e8349e5d3c890cd680e3ca0c2b4541b75d8f85185a70b974a",
+    "latest_scientific_state_sha256": "5d2a75c76708d2f1db60a2e1eb4427b34d867f754e854f56b1caab0ad7bbd430",
+    "trainer_alive_and_gpu_active_after_checkpoint": true,
+    "training_restarted_or_modified_by_this_audit": false
+  },
+  "projection": {
+    "basis_epoch_wall_seconds": 3826.269609451294,
+    "remaining_epochs": 75,
+    "projected_e200": "2026-09-14T16:20:00+08:00_rough_from_e125"
+  },
+  "delivery_chain": {
+    "local_exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "local_export_checkpoint_copy_performed": false,
+    "source_bound_push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "push_recovery_status": "CHILD_RUNNING",
+    "push_recovery_restart_count": 2,
+    "4090A_unified_evaluation_status": "WAITING_FOR_VERIFIED_IMPORT_AND_DYNAMIC_FIRST_WAVE_COHORT",
+    "terminal_jvp_co_resident": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "dclgan_blocks_core_delivery": false
+  }
+}

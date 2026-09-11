@@ -534,3 +534,7 @@ authorize compute.
      e136和e126，新full-state、sidecar及scientific-state哈希闭合，恢复正式升级为
      `EXACT_RESUME_CLOSURE`。没有已完成epoch损失、协议变化或runtime-cohort变化；两条lane继续
      e200。同步只读确认AM-TNC e131与本地DCLGAN e112健康，未触碰其进程。
+155. `DEC-20260911-DCLGAN-E125-HASH-CLOSURE.md`：本地DCLGAN自然完成e125固定里程碑，
+     checkpoint、sidecar与scientific-state哈希闭合，训练和完整持久交付链继续健康。中间
+     milestone没有paired指标文件是冻结适配器的预期语义；本次未改训练、未作性能裁决，也未
+     打开confirmation20。
