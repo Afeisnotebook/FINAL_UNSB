@@ -210,6 +210,74 @@ def test_local_export_push_state_is_recoverable_but_fail_closed() -> None:
     ) == "BLOCK"
 
 
+def test_dclgan_source_export_state_is_recoverable_but_fail_closed() -> None:
+    base = {
+        "schema": "final-unsb-paper-dclgan-export-successor-v1",
+        "status": "WAITING_FOR_COMPLETE_E200",
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    assert child_state_decision("dclgan_source_export", base) == "WAIT"
+    assert child_state_decision(
+        "dclgan_source_export",
+        {**base, "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET"},
+    ) == "COMPLETE"
+    assert child_state_decision(
+        "dclgan_source_export", {**base, "status": "BLOCKED_TEST"},
+    ) == "BLOCK"
+
+
+def test_dclgan_source_export_accepts_frozen_external_training_repo(
+    tmp_path, monkeypatch
+) -> None:
+    supervisor_repo = tmp_path / "supervisor"
+    child_repo = tmp_path / "child"
+    supervisor_repo.mkdir()
+    child_repo.mkdir()
+    python = tmp_path / "python.exe"
+    python.write_bytes(b"runtime")
+    state = tmp_path / "state.json"
+    command_path = tmp_path / "dclgan_source_export.json"
+    command_path.write_text(
+        json.dumps(
+            {
+                "schema": COMMAND_SCHEMA,
+                "role": "dclgan_source_export",
+                "cwd": str(child_repo),
+                "state_path": str(state),
+                "command": [
+                    str(python),
+                    "-u",
+                    "-m",
+                    "operations.paper_aio_dclgan_export_successor",
+                    "--repo",
+                    str(child_repo),
+                    "--required-git-commit",
+                    "child123",
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    def fake_git(repo, *args):
+        if args == ("rev-parse", "HEAD"):
+            return "child123"
+        if args == ("status", "--porcelain"):
+            return ""
+        raise AssertionError((repo, args))
+
+    monkeypatch.setattr(supervisor, "_git", fake_git)
+    result = validate_child_command(
+        command_path,
+        role="dclgan_source_export",
+        repo=supervisor_repo,
+        required_commit="supervisor123",
+    )
+    assert result["state_path"] == str(state.resolve())
+
+
 def test_dclgan_evaluation_wait_and_completion_are_supervisable() -> None:
     base = {
         "schema": "final-unsb-paper-dclgan-evaluation-successor-v1",

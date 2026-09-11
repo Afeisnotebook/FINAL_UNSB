@@ -47,6 +47,14 @@ ROLE_SPECS = {
         "final_status": "COMPLETE_VERIFIED_REMOTE_IMPORT",
         "performance_must_remain_false": True,
     },
+    "dclgan_source_export": {
+        "module": "operations.paper_aio_dclgan_export_successor",
+        "child_schema": "final-unsb-paper-dclgan-export-successor-v1",
+        "final_status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+        "performance_must_remain_false": True,
+        "allow_external_child_repo": True,
+        "required_commit_argument": "--required-git-commit",
+    },
     "dclgan_evaluation": {
         "module": "operations.paper_aio_dclgan_evaluation_successor",
         "child_schema": "final-unsb-paper-dclgan-evaluation-successor-v1",
@@ -163,7 +171,10 @@ def validate_child_command(
     if not python.is_file() or not (module_prefix or unbuffered_omitted):
         raise RuntimeError("fixed child command module/runtime is invalid")
     child_repo = Path(_argument(command, "--repo")).resolve()
-    child_commit = _argument(command, "--required-control-git-commit")
+    child_commit = _argument(
+        command,
+        str(spec.get("required_commit_argument", "--required-control-git-commit")),
+    )
     if Path(str(payload.get("cwd", ""))).resolve() != child_repo:
         raise RuntimeError("fixed child command repo differs from its cwd")
     if spec.get("allow_external_child_repo", False):
