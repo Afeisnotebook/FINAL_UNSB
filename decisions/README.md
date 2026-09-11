@@ -546,3 +546,7 @@ authorize compute.
      被清理且活动trainer仍使用deleted inode，但隔离只读runtime的111项映射、e154完整状态和
      持久恢复命令全部重新验签；隔离CPU分支真实完成一步恢复，e154状态另存异机只读备份。
      健康训练未被触碰，最坏损失收敛为当前未完成epoch，且不虚构CUDA逐位等价。
+158. `DEC-20260911-DCLGAN-EXPORTER-DURABLE-RECOVERY.md`：本地DCLGAN训练未受影响，但原
+     source-bound exporter在等待e200时退出；使用冻结source commit、adapter fingerprint和
+     child command哈希启动持久supervisor与替代health watcher。旧报警watcher已退役，完整
+     export→push→统一评估链恢复为可重启等待状态，未读取性能值或改变科学协议。

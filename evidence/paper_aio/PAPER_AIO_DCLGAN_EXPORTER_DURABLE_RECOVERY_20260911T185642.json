@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-paper-compact-evidence-v1",
+  "captured_at": "2026-09-11T18:56:42+08:00",
+  "event": "DCLGAN_SOURCE_EXPORTER_DURABLE_RECOVERY",
+  "status": "DCLGAN_TRAINING_UNINTERRUPTED_EXPORTER_RECOVERED_UNDER_HASH_PINNED_SUPERVISION",
+  "incident": {
+    "failed_component": "source_bound_export_waiter_only",
+    "retired_exporter_pid": 23168,
+    "retired_health_watcher_pid": 22088,
+    "last_known_child_status": "WAITING_FOR_COMPLETE_E200",
+    "temporary_export_residue_observed": true,
+    "exact_exception_available": false,
+    "training_process_affected": false,
+    "completed_checkpoint_lost": false
+  },
+  "training_continuity": {
+    "host": "LOCAL_GTX1660",
+    "wrapper_pid": 20832,
+    "training_supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "gpu_lock_supplement_pid": 16164,
+    "completed_data_epoch": 133,
+    "completed_updates": 1137549,
+    "target_updates": 1710600,
+    "latest_epoch_wall_seconds": 5461.340251922607,
+    "scientific_state_sha256": "5df324468c428bc70448eaebcfde924f728d5224933485203b3cbcfa20ad6888",
+    "training_restarted": false,
+    "training_protocol_changed": false
+  },
+  "durable_export_recovery": {
+    "control_commit": "3888436cb7884c4acf35336a5d2425ff7c247bbe",
+    "control_checkout": "E:/UNSB_Expl/FINAL_UNSB_DCLGAN_EXPORT_RECOVERY_3888436",
+    "supervisor_pid": 14596,
+    "exporter_child_pid": 20760,
+    "replacement_health_watcher_pid": 17572,
+    "supervisor_status": "CHILD_RUNNING",
+    "child_status": "WAITING_FOR_COMPLETE_E200",
+    "restart_count": 1,
+    "max_restarts": 20,
+    "source_checkout": "E:/UNSB_Expl/FINAL_UNSB_DCLGAN_GATE_E45973A",
+    "required_source_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "required_adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "exporter_source_sha256": "75145af0e17cda63d67cf2c53c42c3c76d29808fd5339da211837ed82f3a3a02",
+    "child_command_sha256": "3244050667127886ae46b04bff06f529d462320a02a0dddb71ac04cc6038e163",
+    "supervisor_contract_sha256": "c301b46969575218d04ffd4642dc387a0dd532d63d9e55895c06ce393b1e0c15",
+    "supervisor_source_sha256": "c6a9bb501ed08fc626872d19ebb0ff7d7b0583936d0d0bac86b2b718b4ecae30",
+    "health_contract_sha256": "b8abe6a41b25d8ee7c895981ada3ffe676d983a712c0c5826692eaa4fcbbe90e",
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "source_output": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "export_destination": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/exports"
+  },
+  "downstream_delivery": {
+    "push_supervisor_pid": 26020,
+    "push_child_pid": 24396,
+    "push_health_watcher_pid": 20500,
+    "push_status": "WAITING_FOR_COMPLETE_LOCAL_EXPORT_OR_TRANSIENT_NETWORK",
+    "destination_identity_status": "PASS_PINNED_DESTINATION_IDENTITY_AND_CAPACITY",
+    "publish_last_preserved": true
+  },
+  "capacity": {
+    "local_free_gib": 102.396,
+    "estimated_remaining_training_and_export_write_gib": 10.8,
+    "minimum_headroom_gib": 20.0,
+    "status": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "runtime_cohort_changed": false,
+    "healthy_training_interrupted": false
+  },
+  "disposition": "KEEP_DCLGAN_TRAINING_CONTINUOUS_AND_USE_DURABLE_HASH_PINNED_EXPORTER_SUPERVISOR"
+}
