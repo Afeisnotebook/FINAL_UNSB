@@ -138,6 +138,34 @@ def source_state_decision(state: dict[str, Any]) -> str:
     return "BLOCK"
 
 
+def initial_source_pid(
+    state: dict[str, Any], *, contract_created: bool, required_initial_pid: int
+) -> int:
+    """Validate first adoption while allowing a later supervisor restart.
+
+    A newly frozen contract must adopt exactly the user-audited live PID.  If
+    the supervisor itself is later restarted, the source watcher may already
+    have a new PID (or may be dead and awaiting recovery), so the frozen
+    initial PID must not become an accidental permanent dependency.
+    """
+    decision = source_state_decision(state)
+    pid = int(state.get("watcher_pid", 0) or 0)
+    if decision == "BLOCK":
+        raise RuntimeError("initial DDSB source state violates a fail-closed boundary")
+    if contract_created and (
+        decision != "WAIT" or pid != int(required_initial_pid) or not _pid_alive(pid)
+    ):
+        raise RuntimeError("initial DDSB source watcher is not uniquely adoptable")
+    return pid
+
+
+def tracked_child_pid(*, state_pid: int, launched_pid: int) -> tuple[int, bool]:
+    """Keep one just-launched child authoritative until it publishes state."""
+    if launched_pid > 0 and launched_pid != state_pid and _pid_alive(launched_pid):
+        return launched_pid, True
+    return state_pid, False
+
+
 def _acquire_lock(handle) -> bool:
     if _fcntl is None:
         import msvcrt
@@ -275,7 +303,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     lock_path = output / "DDSB_SOURCE_WATCH_RECOVERY.lock"
     log_path = output / "DDSB_SOURCE_WATCH_RECOVERY.log"
     contract = _contract(args)
-    if contract_path.is_file():
+    contract_created = not contract_path.is_file()
+    if not contract_created:
         if _read_json(contract_path) != contract:
             raise RuntimeError("DDSB source-watch recovery contract changed")
     else:
@@ -284,12 +313,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
     source_state_path = Path(contract["watch_output"]) / "DDSB_SOURCE_WATCH_STATE.json"
     initial_state = _read_json(source_state_path)
-    if (
-        int(initial_state.get("watcher_pid", 0) or 0) != contract["initial_child_pid"]
-        or not _pid_alive(contract["initial_child_pid"])
-        or source_state_decision(initial_state) != "WAIT"
-    ):
-        raise RuntimeError("initial DDSB source watcher is not uniquely adoptable")
+    launched_pid = initial_source_pid(
+        initial_state,
+        contract_created=contract_created,
+        required_initial_pid=contract["initial_child_pid"],
+    )
 
     started = time.time()
     restart_count = 0
@@ -300,7 +328,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             _verify(contract)
             source_state = _read_json(source_state_path)
             decision = source_state_decision(source_state)
-            child_pid = int(source_state.get("watcher_pid", 0) or 0)
+            state_child_pid = int(source_state.get("watcher_pid", 0) or 0)
+            child_pid, waiting_for_state = tracked_child_pid(
+                state_pid=state_child_pid,
+                launched_pid=launched_pid,
+            )
+            if not waiting_for_state:
+                launched_pid = child_pid
             child_status = str(source_state.get("status", ""))
             if decision == "REVIEW":
                 result = _state(
@@ -337,7 +371,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     state_path,
                     _state(
                         contract,
-                        "MONITORING_EXISTING_SOURCE_WATCH",
+                        (
+                            "WAITING_FOR_RESTARTED_SOURCE_STATE"
+                            if waiting_for_state
+                            else "MONITORING_EXISTING_SOURCE_WATCH"
+                        ),
                         restart_count=restart_count,
                         child_pid=child_pid,
                         child_status=child_status,
@@ -368,6 +406,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
                 )
             restart_count += 1
+            launched_pid = child.pid
             _atomic_json(
                 state_path,
                 _state(
