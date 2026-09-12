@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-12T20:58:08+08:00",
+  "captured_at": "2026-09-12T21:26:00+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "paper_baseline_portfolio": {
@@ -331,7 +331,7 @@
   "controls_and_external": {
     "plain_4090A": "complete_e200_target_blind_audit_closed",
     "plain_5090A": "paused_by_explicit_user_time_priority_at_e9_exact_resume_preserved_automatic_resume_and_export_processes_retired",
-    "plain_5090B_matched": "formal_e200_running_e20_fixed_milestone_e26_latest_state_hash_closed_progress_aware_health",
+    "plain_5090B_matched": "formal_e200_running_e100_fixed_hash_source_bound_offhost_import_closed_progress_aware_health",
     "cut_5090B": "complete_e200_hash_closed_source_bound_export_complete",
     "cyclegan_5090B": "complete_e200_hash_closed_source_bound_export_complete_destination_import_in_progress_performance_unread",
     "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure",
@@ -1121,12 +1121,15 @@
     "incremental_relay_recovery_supervisor_pids": {"4090A_amtnc_v3": 16540, "5090A_stcgr_v5": 20856, "5090C_proposal": 5112},
     "matched_plain_incremental_relay_recovery": {"supervisor_pid": 25228, "health_pid": 20796, "control_commit": "21b224035d7ce296050d0d06ad4b80c0ad873bd9"},
     "matched_plain_e100_prearrival_gate": {
-      "status": "pass_empty_set_expected_at_e78_source_and_relay_polling",
+      "status": "closed_e100_source_export_and_local_import_hash_verified_waiting_e150_e200",
       "source_pids": [107734, 107809, 107830],
       "local_pids": [11704, 25228, 20796],
       "source_and_local_restart_count": 0,
-      "projected_e100_hours": 14.98,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_E100_PREARRIVAL_GATE_20260912T065533.json"
+      "projected_e100_hours": 0.0,
+      "available_epochs": [100],
+      "source_set_sha256": "c61bab39bc9e9b3ac5c8d565a694ead8d6aedc3fb2375f4899280b9aa1a3643f",
+      "local_import_set_sha256": "7b7d5f7479b5efc680d2ae8be3ddc9750a0b77bcc1dd8ec58dd725fcc5c11e68",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E100_HASH_AND_OFFHOST_CLOSURE_20260912T212600.json"
     },
     "incremental_relay_recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2, "5090C_proposal": 2},
     "incremental_relay_recovery_restart_count_note": "AM-TNC one initial launch; ST-CGR one initial launch plus one deliberate read-only failure-injection recovery; Proposal recovered to child 17936 after a transient Windows atomic-publication sharing lock",

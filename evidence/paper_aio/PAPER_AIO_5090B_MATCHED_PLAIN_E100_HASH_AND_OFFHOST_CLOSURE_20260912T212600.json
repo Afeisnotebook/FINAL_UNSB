@@ -1,0 +1,62 @@
+{
+  "schema": "final-unsb-paper-5090b-matched-plain-e100-closure-v1",
+  "captured_at": "2026-09-12T21:26:00+08:00",
+  "status": "MATCHED_PLAIN_E100_HASH_CLOSED_SOURCE_BOUND_INCREMENTAL_IMPORT_VERIFIED_CONTINUING_E200",
+  "host": "5090B",
+  "host_alias_note": "SSH port 44804 is the existing 5090B host, not an additional device",
+  "training": {
+    "status": "PLAIN_SUPERVISOR_RUNNING",
+    "successor_pid": 523993,
+    "supervisor_pid": 534983,
+    "trainer_pid": 76358,
+    "health_watcher_pid": 83714,
+    "progress_watcher_pid": 524156,
+    "latest_complete_epoch": 100,
+    "latest_complete_step": 855300,
+    "latest_epoch_wall_seconds": 2533.551696538925,
+    "heartbeat_sha256": "931697fbce60866d9501ff6a67456efd1d300b21099f769b11ee14886fd9a325",
+    "latest_checkpoint_sha256": "a40d3da7bfe4fbd836cef5c978587b907e0b91e2f9584d96c5a9665edab2fe02",
+    "latest_sidecar_sha256": "6085b281682b9ca78d17c31d151a83528fc0000faf707954499970233a642c9e",
+    "scientific_state_sha256": "0a235a2bef1630e384b8df172025e420c88c5444818c6d8ee510efa727216b5b",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+  },
+  "fixed_e100": {
+    "checkpoint_sha256": "491e47d26c19c097e8b932c7bfd2b6d16ddfedff849a232739ad0a5fd5e6520b",
+    "sidecar_sha256": "b97eaa9d1b431383448f112327b93f1aa095004cd9ce28c402ca926c1df2ab58",
+    "scientific_state_sha256": "0a235a2bef1630e384b8df172025e420c88c5444818c6d8ee510efa727216b5b",
+    "metric_artifact_sha256": "9e9889798b7a3eb77f6b60c3ad2a4ed2467051f31e3fda7343b82515c3c378cc",
+    "source_export_receipt_sha256": "91a50e54cd4bcd463e3d90d4bcc3de9842b68c8f3748e61d8aede171f3c60dd4"
+  },
+  "source_bound_incremental_delivery": {
+    "source_exporter_pid": 107734,
+    "source_export_recovery_supervisor_pid": 107809,
+    "source_export_health_pid": 107830,
+    "source_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "source_available_epochs": [100],
+    "source_set_sha256": "c61bab39bc9e9b3ac5c8d565a694ead8d6aedc3fb2375f4899280b9aa1a3643f",
+    "local_relay_pid": 11704,
+    "local_relay_recovery_supervisor_pid": 25228,
+    "local_relay_health_pid": 20796,
+    "local_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "local_available_epochs": [100],
+    "local_import_set_sha256": "7b7d5f7479b5efc680d2ae8be3ddc9750a0b77bcc1dd8ec58dd725fcc5c11e68",
+    "checkpoint_hash_equal_source_and_destination": true,
+    "sidecar_hash_equal_source_and_destination": true,
+    "export_receipt_hash_equal_source_and_destination": true,
+    "source_checkpoint_mutated": false,
+    "source_and_local_recovery_restart_count": 0
+  },
+  "health": {
+    "source_status": "HEALTHY",
+    "local_relay_status": "HEALTHY",
+    "source_free_disk_gib": 222.35,
+    "local_free_disk_gib": 83.30,
+    "estimated_source_remaining_write_gib": 8.0,
+    "estimated_local_remaining_write_gib": 2.0
+  },
+  "training_processes_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

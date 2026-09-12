@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-12T20:58:08+08:00",
+  "captured_at": "2026-09-12T21:26:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -14,7 +14,7 @@
         "5090C/proposal": "e171_live_e150_fixed_hash_and_offhost_closed_running_e200",
         "5090A/stcgr": "e159_live_e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
         "4090A/amtnc_after_plain": "source_bound_overflow_safe_recovery_running_e178_to_fixed_e200_after_exact_failure_replay_pass",
-        "5090B/matched_plain": "e94_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
+        "5090B/matched_plain": "e100_fixed_hash_source_bound_offhost_import_closed_continuing_e200",
         "local/dclgan_extension": "e152_live_e150_fixed_hash_and_4090a_offhost_recovery_closed_running_e200_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
@@ -346,8 +346,8 @@
       "training_processes_changed": false,
       "performance_values_read": false,
       "confirmation20_opened": false,
-      "matched_plain_offhost_relay": {"relay_pid": 11704, "recovery_supervisor_pid": 25228, "health_watcher_pid": 20796, "status": "healthy_waiting_e100", "existing_terminal_chain_preserved": true},
-      "latest_matched_plain_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_INCREMENTAL_OFFHOST_CHAIN_20260912T051022.json",
+      "matched_plain_offhost_relay": {"relay_pid": 11704, "recovery_supervisor_pid": 25228, "health_watcher_pid": 20796, "status": "e100_verified_waiting_e150_e200", "available_epochs": [100], "existing_terminal_chain_preserved": true},
+      "latest_matched_plain_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E100_HASH_AND_OFFHOST_CLOSURE_20260912T212600.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_SOURCE_EXPORT_RECOVERY_CLOSURE_20260908T062200.json",
       "decision": "decisions/DEC-20260908-INCREMENTAL-AUDIT-SOURCE-EXPORT-RECOVERY.md"
     },
