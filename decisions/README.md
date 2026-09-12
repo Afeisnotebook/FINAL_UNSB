@@ -665,3 +665,8 @@ authorize compute.
      持久化。同步核查AM-TNC e169、ST-CGR e152、matched plain e80、Proposal e165、DCLGAN
      e144均健康。本地terminal-audit一次原子文件读取PermissionError已由冻结supervisor自动
      恢复为child PID `31284`，现健康等待且既有审计未丢失。
+186. `DEC-20260912-AMTNC-E170-POST-CLEANUP-LOSS-AVOIDANCE.md`：确认4090A原环境删除和活动
+     trainer的deleted-inode风险仍真实存在，但AM-TNC已连续到e170且零重启。隔离训练runtime
+     重新完成111/111逐文件验签，并用其在CPU完整加载e170 full-state；将e170状态、sidecar、
+     heartbeat、授权及恢复回执逐哈希复制到本机异盘只读封存。健康训练未被触碰，进程故障最多
+     损失当前未完成epoch；真实恢复后的第一个CUDA update仍须作为非逐位证明边界披露。

@@ -38,6 +38,12 @@ Proposal-only；5090B的CUT已经完成e200，CycleGAN与通过exact-runtime/容
 matched plain正在同卡运行，CycleGAN完成后plain自然转为独占；本地GTX1660独占运行DCLGAN。所有健康
 训练均有full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
 
+4090A有一个必须保留的恢复例外：原`/home/yc/unsb_cov`与完整Conda环境已被误删，当前
+AM-TNC仍运行于deleted inode。健康PID不得为“修复路径”而重启；旧prefix不是恢复权威。唯一
+训练恢复权威是已逐文件验签的只读隔离runtime，guard会在真实故障时先重验runtime和最新
+full-state再恢复。最新异机回退点、PID、哈希与剩余非逐位证明边界以`PROJECT_STATE.json`的
+`runtime_environment_recovery`为准。
+
 论文结论仍未冻结：Proposal与ST-CGR必须等待合法的5090B matched plain关系，AM-TNC只
 使用4090A同宿主plain；所有方法主表使用e200，sustained固定为e150/e175/e200。DDSB因
 权威源码/公式不足保持`reproduction_incomplete`，不能用猜测实现补表。
