@@ -11,11 +11,11 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e168_live_e150_fixed_hash_and_offhost_closed_running_e200",
-        "5090A/stcgr": "e156_live_e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
+        "5090C/proposal": "e171_live_e150_fixed_hash_and_offhost_closed_running_e200",
+        "5090A/stcgr": "e159_live_e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
         "4090A/amtnc_after_plain": "e178_full_state_offhost_hash_closed_after_one_fail_closed_nonfinite_event_recovered_on_fresh_verified_isolated_runtime_running_e200",
-        "5090B/matched_plain": "e88_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
-        "local/dclgan_extension": "e150_fixed_hash_and_4090a_offhost_recovery_closed_running_e200_delivery_waiters_healthy"
+        "5090B/matched_plain": "e94_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
+        "local/dclgan_extension": "e152_live_e150_fixed_hash_and_4090a_offhost_recovery_closed_running_e200_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
