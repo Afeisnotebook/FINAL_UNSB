@@ -65,6 +65,88 @@ def test_same_host_requires_same_training_identity(tmp_path: Path) -> None:
     assert not runtime_pair_passed(mismatch)
 
 
+def _method_recovery_registry(path: Path) -> Path:
+    relation = {
+        "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+        "method_lane": "amtnc",
+        "method_source_host_label": "4090A",
+        "plain_source_host_label": "4090A",
+        "parent_training_protocol_fingerprint": "parent-fp",
+        "recovery_training_protocol_fingerprint": "recovery-fp",
+        "manifest_sha256": "m" * 64,
+        "parent_git_commit": "a" * 40,
+        "recovery_git_commit": "b" * 40,
+        "recovery_parent_git_commit": "a" * 40,
+        "recovery_commit_parent_is_parent": True,
+        "recovery_start_epoch": 178,
+        "recovery_start_updates": 1_522_434,
+        "method_only_changed_paths": [
+            "src/models/route1/amtnc.py",
+            "tests/test_route1_amtnc.py",
+        ],
+        "plain_transition_code_changed": False,
+        "finite_path_bitwise_equal": True,
+        "overflow_fallback_same_metric_higher_precision_only": True,
+        "gradient_samples_changed": False,
+        "projection_formula_changed": False,
+        "hyperparameters_changed": False,
+        "rng_or_sampler_changed": False,
+        "transition_defining_state_changed": False,
+        "source_checkpoint_mutated": False,
+        "parent_dynamics_only_sha256": "d" * 64,
+        "migrated_dynamics_only_sha256": "d" * 64,
+        "parent_checkpoint_sha256": "p" * 64,
+        "migrated_checkpoint_sha256": "q" * 64,
+        "amtnc_source_sha256": "s" * 64,
+        "migration_receipt_sha256": "i" * 64,
+        "localization_receipt_sha256": "l" * 64,
+        "overflow_safe_replay_receipt_sha256": "r" * 64,
+        "recovery_start_evidence_sha256": "e" * 64,
+        "comparison_identity": (
+            "audited_method_only_recovery_not_byte_identical_runtime"
+        ),
+        "provenance_boundary_disclosed": True,
+        "performance_values_read": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+    }
+    path.write_text(json.dumps({
+        "schema": "final-unsb-paper-matched-runtime-relations-v1",
+        "status": "ACTIVE_METRIC_BLIND_RELATIONS",
+        "relations": {"amtnc": relation},
+    }), encoding="utf-8")
+    return path
+
+
+def test_same_host_method_only_recovery_requires_full_metric_blind_proof(
+    tmp_path: Path,
+) -> None:
+    registry = _method_recovery_registry(tmp_path / "recovery.json")
+    result = runtime_pair_status(
+        method=_metric("4090A", "recovery-fp", "m" * 64),
+        plain=_metric("4090A", "parent-fp", "m" * 64),
+        lane_id="amtnc", relations_path=registry,
+    )
+    assert result["status"] == (
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    )
+    assert result["comparison_identity"] == (
+        "audited_method_only_recovery_not_byte_identical_runtime"
+    )
+    assert runtime_pair_passed(result)
+
+    value = json.loads(registry.read_text(encoding="utf-8"))
+    value["relations"]["amtnc"]["transition_defining_state_changed"] = True
+    registry.write_text(json.dumps(value), encoding="utf-8")
+    rejected = runtime_pair_status(
+        method=_metric("4090A", "recovery-fp", "m" * 64),
+        plain=_metric("4090A", "parent-fp", "m" * 64),
+        lane_id="amtnc", relations_path=registry,
+    )
+    assert rejected["status"] == "FAIL_METHOD_ONLY_RECOVERY_RELATION_MISMATCH"
+    assert not runtime_pair_passed(rejected)
+
+
 def test_cross_host_requires_exact_metric_blind_relation(tmp_path: Path) -> None:
     registry = _registry(tmp_path / "relations.json")
     result = runtime_pair_status(

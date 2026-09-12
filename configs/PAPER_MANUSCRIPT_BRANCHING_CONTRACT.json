@@ -1,7 +1,8 @@
 {
   "schema": "final-unsb-paper-manuscript-branching-contract-v1",
-  "captured_at": "2026-09-08T11:00:00+08:00",
+  "captured_at": "2026-09-13T00:18:14+08:00",
   "status": "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM",
+  "revision_reason": "Bind the metric-blind AM-TNC method-only numerical recovery relation before any e200 performance is evaluated.",
   "purpose": "Prevent result-contingent story drift while allowing the manuscript to follow whichever full-data operators actually pass the frozen paper disposition gate.",
   "source_bindings": {
     "theory_bundle": {
@@ -22,7 +23,7 @@
     },
     "limitations_statement": {
       "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
-      "sha256": "6db70c44919431332d456660b860ee1ffde172429761fa11bf4283fe958ba450"
+      "sha256": "8fb315492120c75bc412f44f55236b52df513a07814d5543b3c7f4ac42cbcca8"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],
@@ -62,7 +63,7 @@
     "introduction": "Frame long-horizon stochastic instability in sequential unpaired UNSB training; do not frame fixed-window handoff as the contribution.",
     "method": "Present Proposal and ST-CGR as a conditional estimator lineage and AM-TNC as an independent stochastic-geometry line; preserve exact pre-Adam theorem boundaries.",
     "experiments": "Report frozen e200 and e150/e175/e200 results, legal runtime-scoped controls, absolute trajectories, six-domain coverage, distribution metrics and controlled cost.",
-    "limitations": "Disclose seed2026 first-wave scope, unequal FLOP, unavailable DDSB reproduction, untested convergence and terminal-law claims.",
+    "limitations": "Disclose seed2026 first-wave scope, unequal FLOP, unavailable DDSB reproduction, untested convergence and terminal-law claims, and the AM-TNC method-only numerical recovery provenance boundary.",
     "related_work": "Refresh primary-source collision search before abstract and claim freeze."
   },
   "hard_boundaries": {

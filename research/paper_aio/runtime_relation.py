@@ -18,11 +18,19 @@ from .protocol import ROOT, file_sha256
 RELATIONS_PATH = ROOT / "configs" / "PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json"
 PASS_STATUSES = {
     "PASS_SAME_SOURCE_RUNTIME",
+    "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
     "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
     "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
     "PASS_SAME_HOST_CROSS_CODE_CANDIDATE_GATE",
     "PASS_LEGACY_LOCAL_TEST_METADATA",
 }
+
+METHOD_ONLY_RECOVERY_STATUS = (
+    "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+)
+METHOD_ONLY_RECOVERY_IDENTITY = (
+    "audited_method_only_recovery_not_byte_identical_runtime"
+)
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -73,6 +81,120 @@ def relation_candidates(registry: dict[str, Any], lane_id: str) -> list[dict[str
     if isinstance(raw, list) and all(isinstance(item, dict) for item in raw):
         return raw
     return []
+
+
+def _validated_registry(path: Path) -> dict[str, Any]:
+    registry = _read(path)
+    if (
+        registry.get("schema")
+        != "final-unsb-paper-matched-runtime-relations-v1"
+        or registry.get("status") != "ACTIVE_METRIC_BLIND_RELATIONS"
+        or _contains_performance_field(registry)
+    ):
+        raise RuntimeError(
+            "matched-runtime relation registry is invalid or metric-contaminated"
+        )
+    return registry
+
+
+def _method_only_recovery_relation_status(
+    *, relation: dict[str, Any], left: dict[str, Any], right: dict[str, Any],
+    lane_id: str,
+) -> dict[str, Any]:
+    """Validate a pre-result method-only numerical recovery relation.
+
+    This is deliberately narrower than an exact-runtime relation. It permits
+    one same-host method checkpoint to retain a legal matched plain after a
+    source-bound continuation changed only that method's numerical reduction.
+    The relation must disclose that the runtimes are not byte-identical and
+    bind the unchanged transition state plus the metric-blind localization,
+    replay, and migration evidence.
+    """
+    hash_fields = (
+        "parent_dynamics_only_sha256",
+        "migrated_dynamics_only_sha256",
+        "parent_checkpoint_sha256",
+        "migrated_checkpoint_sha256",
+        "amtnc_source_sha256",
+        "migration_receipt_sha256",
+        "localization_receipt_sha256",
+        "overflow_safe_replay_receipt_sha256",
+        "recovery_start_evidence_sha256",
+    )
+    forty_fields = (
+        "parent_git_commit", "recovery_git_commit",
+        "recovery_parent_git_commit",
+    )
+    passed = (
+        relation.get("status") == METHOD_ONLY_RECOVERY_STATUS
+        and lane_id == "amtnc"
+        and relation.get("method_lane") == lane_id
+        and relation.get("method_source_host_label")
+        == left["source_host_label"]
+        == right["source_host_label"]
+        == relation.get("plain_source_host_label")
+        and relation.get("recovery_training_protocol_fingerprint")
+        == left["training_protocol_fingerprint"]
+        and relation.get("parent_training_protocol_fingerprint")
+        == right["training_protocol_fingerprint"]
+        and relation.get("manifest_sha256")
+        == left["manifest_sha256"]
+        == right["manifest_sha256"]
+        and all(
+            isinstance(relation.get(key), str) and len(relation[key]) == 40
+            for key in forty_fields
+        )
+        and relation.get("parent_git_commit")
+        == relation.get("recovery_parent_git_commit")
+        and relation.get("recovery_commit_parent_is_parent") is True
+        and int(relation.get("recovery_start_epoch", -1)) == 178
+        and int(relation.get("recovery_start_updates", -1)) == 1_522_434
+        and relation.get("method_only_changed_paths") == [
+            "src/models/route1/amtnc.py",
+            "tests/test_route1_amtnc.py",
+        ]
+        and relation.get("plain_transition_code_changed") is False
+        and relation.get("finite_path_bitwise_equal") is True
+        and relation.get("overflow_fallback_same_metric_higher_precision_only")
+        is True
+        and relation.get("gradient_samples_changed") is False
+        and relation.get("projection_formula_changed") is False
+        and relation.get("hyperparameters_changed") is False
+        and relation.get("rng_or_sampler_changed") is False
+        and relation.get("transition_defining_state_changed") is False
+        and relation.get("source_checkpoint_mutated") is False
+        and relation.get("parent_dynamics_only_sha256")
+        == relation.get("migrated_dynamics_only_sha256")
+        and all(
+            isinstance(relation.get(key), str) and len(relation[key]) == 64
+            for key in hash_fields
+        )
+        and relation.get("comparison_identity") == METHOD_ONLY_RECOVERY_IDENTITY
+        and relation.get("provenance_boundary_disclosed") is True
+        and relation.get("performance_values_read") is False
+        and relation.get("paired_metric_control") is False
+        and relation.get("confirmation20_opened") is False
+    )
+    return {
+        "status": (
+            METHOD_ONLY_RECOVERY_STATUS
+            if passed else "FAIL_METHOD_ONLY_RECOVERY_RELATION_MISMATCH"
+        ),
+        "method_source_host_label": left["source_host_label"],
+        "plain_source_host_label": right["source_host_label"],
+        "comparison_identity": relation.get("comparison_identity"),
+        "parent_git_commit": relation.get("parent_git_commit"),
+        "recovery_git_commit": relation.get("recovery_git_commit"),
+        "recovery_start_epoch": relation.get("recovery_start_epoch"),
+        "migration_receipt_sha256": relation.get("migration_receipt_sha256"),
+        "overflow_safe_replay_receipt_sha256": relation.get(
+            "overflow_safe_replay_receipt_sha256"
+        ),
+        "provenance_boundary_disclosed": relation.get(
+            "provenance_boundary_disclosed"
+        ),
+        "performance_values_read": False,
+    }
 
 
 def exact_runtime_relation_payload(
@@ -375,28 +497,50 @@ def runtime_pair_status(
             "plain_source_host_label": plain_host,
         }
     if method_host == plain_host:
-        passed = (
+        exact = (
             same_manifest
             and bool(left["training_protocol_fingerprint"])
             and left["training_protocol_fingerprint"]
             == right["training_protocol_fingerprint"]
         )
+        if exact:
+            return {
+                "status": "PASS_SAME_SOURCE_RUNTIME",
+                "method_source_host_label": method_host,
+                "plain_source_host_label": plain_host,
+                "comparison_identity": "exact_runtime",
+            }
+        # A missing registry cannot turn an otherwise ordinary same-host
+        # identity mismatch into an exception.  Keep the fail-closed result
+        # usable by callers that deliberately supply an absent registry in
+        # unit gates or recovery probes.
+        if not Path(relations_path).is_file():
+            return {
+                "status": "FAIL_SAME_HOST_TRAINING_IDENTITY_MISMATCH",
+                "method_source_host_label": method_host,
+                "plain_source_host_label": plain_host,
+                "comparison_identity": "unproven_runtime_mismatch",
+            }
+        registry = _validated_registry(relations_path)
+        matching = [
+            relation for relation in relation_candidates(registry, lane_id)
+            if relation.get("method_source_host_label") == method_host
+            and relation.get("plain_source_host_label") == plain_host
+            and relation.get("status") == METHOD_ONLY_RECOVERY_STATUS
+        ]
+        if len(matching) == 1:
+            return _method_only_recovery_relation_status(
+                relation=matching[0], left=left, right=right,
+                lane_id=lane_id,
+            )
         return {
-            "status": (
-                "PASS_SAME_SOURCE_RUNTIME" if passed
-                else "FAIL_SAME_HOST_TRAINING_IDENTITY_MISMATCH"
-            ),
+            "status": "FAIL_SAME_HOST_TRAINING_IDENTITY_MISMATCH",
             "method_source_host_label": method_host,
             "plain_source_host_label": plain_host,
+            "comparison_identity": "unproven_runtime_mismatch",
         }
 
-    registry = _read(relations_path)
-    if (
-        registry.get("schema") != "final-unsb-paper-matched-runtime-relations-v1"
-        or registry.get("status") != "ACTIVE_METRIC_BLIND_RELATIONS"
-        or _contains_performance_field(registry)
-    ):
-        raise RuntimeError("matched-runtime relation registry is invalid or metric-contaminated")
+    registry = _validated_registry(relations_path)
     candidates = relation_candidates(registry, lane_id)
     matching = [
         relation for relation in candidates

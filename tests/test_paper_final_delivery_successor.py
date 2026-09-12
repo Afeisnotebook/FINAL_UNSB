@@ -22,6 +22,7 @@ def _sha(path: Path) -> str:
 def _entry(
     lane: str, gate: str = "PASS", *, method_host: str | None = None,
     plain_host: str | None = None, candidate_cross_code: bool = False,
+    method_recovery: bool = False,
 ) -> dict:
     value = {
         "lane_id": lane,
@@ -31,23 +32,46 @@ def _entry(
         "scientific_gate": {"status": gate},
     }
     if method_host is not None and plain_host is not None:
+        if method_recovery:
+            relation = {
+                "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+                "method_source_host_label": method_host,
+                "plain_source_host_label": plain_host,
+                "comparison_identity": (
+                    "audited_method_only_recovery_not_byte_identical_runtime"
+                ),
+                "parent_git_commit": "a" * 40,
+                "recovery_git_commit": "b" * 40,
+                "recovery_start_epoch": 178,
+                "migration_receipt_sha256": "m" * 64,
+                "overflow_safe_replay_receipt_sha256": "r" * 64,
+                "provenance_boundary_disclosed": True,
+                "performance_values_read": False,
+            }
+            value["comparison_scope"] = (
+                "same_host_audited_method_only_recovery"
+            )
+        else:
+            relation = {
+                "status": (
+                    "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION"
+                    if candidate_cross_code else
+                    "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION"
+                ),
+                "method_source_host_label": method_host,
+                "plain_source_host_label": plain_host,
+                "runtime_twin_updates": 2000,
+                "e0_core_sha256": "e" * 64,
+                "step_core_sha256": "s" * 64,
+                "performance_values_read": False,
+            }
         value["late_trajectory"] = [
             {
                 "epoch": epoch,
                 "crn_exact": True,
-                "runtime_relation": {
-                    "status": (
-                        "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION"
-                        if candidate_cross_code else
-                        "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION"
-                    ),
-                    "method_source_host_label": method_host,
-                    "plain_source_host_label": plain_host,
-                    "runtime_twin_updates": 2000,
-                    "e0_core_sha256": "e" * 64,
-                    "step_core_sha256": "s" * 64,
-                    "performance_values_read": False,
-                },
+                "runtime_relation_legal": True,
+                "matched_comparison_legal": True,
+                "runtime_relation": relation,
             }
             for epoch in (150, 175, 200)
         ]
@@ -66,8 +90,11 @@ def _disposition(tmp_path: Path, lane: str, gate: str = "PASS") -> tuple[Path, d
         "primary_epoch": 200,
         "fixed_epochs": [100, 125, 150, 175, 200],
         "entry": _entry(
-            lane, gate, method_host="5090A", plain_host="5090B_MATCHED_PLAIN",
+            lane, gate,
+            method_host=("4090A" if lane == "amtnc" else "5090A"),
+            plain_host=("4090A" if lane == "amtnc" else "5090B_MATCHED_PLAIN"),
             candidate_cross_code=lane == final.STCGR_ID,
+            method_recovery=lane == "amtnc",
         ),
         "evaluation_receipts": receipts,
         "metric_values_used_for_training_or_scheduling": False,
@@ -248,6 +275,15 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     assert value["methods"]["proposal"]["matched_plain"] == "5090B_MATCHED_PLAIN/plain"
     assert value["methods"]["stcgr"]["matched_plain"] == "5090B_MATCHED_PLAIN/plain"
     assert value["methods"]["amtnc"]["matched_plain"] == "4090A/plain"
+    assert value["methods"]["amtnc"]["comparison_scope"] == (
+        "same_host_audited_method_only_recovery"
+    )
+    assert value["methods"]["amtnc"]["runtime_relation"]["status"] == (
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    )
+    assert value["methods"]["amtnc"]["runtime_relation"][
+        "provenance_boundary_disclosed"
+    ] is True
     assert "amtnc" in value["failed_current_implementation_and_protocol"]
     assert value["deferred_or_reproduction_incomplete"]["hjcgr"]["mechanism_falsified"] is False
     assert value["paper_claims_frozen"] is False
@@ -263,6 +299,47 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     )
     assert metadata["plain"]["paper_label"] == "Plain UNSB"
     assert metadata["proposal"]["paper_label"] == "Proposal-only"
+
+
+def test_portfolio_rejects_undisclosed_amtnc_recovery_relation(
+    tmp_path: Path,
+) -> None:
+    _, amtnc = _disposition(tmp_path, "amtnc", "PASS")
+    _, stcgr = _disposition(tmp_path, final.STCGR_ID, "PASS")
+    amtnc["entry"]["late_trajectory"][1]["runtime_relation"][
+        "provenance_boundary_disclosed"
+    ] = False
+    first = {
+        "schema": "final-unsb-paper-results-v1",
+        "status": "FIRST_WAVE_COMPLETE",
+        "best_checkpoint_selection": False,
+        "paired_metric_control": False,
+        "confirmation20_opened": False,
+        "lanes": [
+            _entry("input"), _entry("plain"),
+            _entry(
+                "proposal", method_host="5090C",
+                plain_host="5090B_MATCHED_PLAIN",
+            ),
+            _entry("cut"), _entry("cyclegan"), _entry(final.STCGR_ID),
+        ],
+    }
+    with pytest.raises(RuntimeError, match="frozen matched plain relation"):
+        final.build_portfolio(
+            first_wave_results=first, amtnc_disposition=amtnc,
+            stcgr_disposition=stcgr,
+            complexity={lane: _complexity(lane) for lane in final.COMPLEXITY_LANES},
+            source_hashes={}, baseline_portfolio=_baseline(),
+            method_portfolio={
+                "methods": {"hjcgr": {"status": "deferred"}},
+                "controls_and_external": {"ddsb": "reproduction_incomplete"},
+            },
+            first_wave_lane_sources={
+                "plain": "5090B_MATCHED_PLAIN", "proposal": "5090C",
+                "cut": "5090B", "cyclegan": "5090B",
+            },
+            stcgr_source_host="5090A",
+        )
 
 
 def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:

@@ -133,17 +133,21 @@ epoch. A valid state includes:
 
 Continuous execution and split execution must pass the registered exact-resume
 gate. Recovery must preserve the source host/runtime cohort and use a frozen
-command. A healthy run is never restarted merely to remove a diagnostic label.
+command unless a separately registered method-only numerical recovery relation
+binds the unchanged transition state and discloses the non-identical runtime.
+A healthy run is never restarted merely to remove a diagnostic label.
 If an environment or process is damaged, the artifact record must distinguish
 the incident, preserved state, recovery runtime, executable probe, remaining
 equivalence limit, and any recomputed work.
 
-The 4090A AM-TNC cleanup incident is therefore disclosed as an engineering
-provenance item: the live process retained a deleted interpreter inode; its
-captured isolated runtime and full-state recovery path were verified without
-interrupting the run. This fact neither establishes nor invalidates empirical
-benefit. The final record must not claim bitwise CUDA-next-step equality unless
-that exact counterfactual has actually been demonstrated.
+The 4090A AM-TNC cleanup and epoch-178 overflow incident is therefore disclosed
+as an engineering provenance item. The original process first retained a
+deleted interpreter inode, then stopped when finite Adam-metric vectors
+overflowed only in float32 square/cross-product reductions. The admitted
+continuation uses a hash-audited isolated runtime, unchanged transition state,
+bitwise-identical finite path, and float64 only for a non-finite metric
+reduction. This fact neither establishes nor invalidates empirical benefit and
+must not be described as byte-identical runtime continuation.
 
 ## F. Runtime cohorts and legal comparisons
 
@@ -152,7 +156,8 @@ method/plain pair. The receipt must bind both source commits, protocol
 fingerprints, manifests, e0 scientific states, deterministic flags, hardware
 identity, and the relevant twin or reviewed relation evidence.
 
-- AM-TNC is compared only with its same-host 4090A plain.
+- AM-TNC is compared only with its same-host 4090A plain and, after epoch 178,
+  only through the registered metric-blind method-only recovery relation.
 - Proposal and ST-CGR may use the admitted fresh-e0 5090 relation only after the
   committed registry and imported checkpoint receipts pass.
 - Results from a non-admitted host are absolute trajectories, never silently

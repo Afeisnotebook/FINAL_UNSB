@@ -405,6 +405,7 @@ def _complexity_summary(value: dict[str, Any]) -> dict[str, Any]:
 def _validated_control_relation(
     entry: dict[str, Any], *, lane_id: str, method_source_host: str,
     plain_source_host: str, candidate_cross_code: bool = False,
+    allow_method_only_recovery: bool = False,
 ) -> dict[str, Any]:
     """Bind a reported delta to one reviewed late-epoch runtime relation."""
     trajectory = entry.get("late_trajectory")
@@ -413,14 +414,19 @@ def _validated_control_relation(
     ] != [150, 175, 200]:
         raise RuntimeError(f"{lane_id} lacks the fixed late-three trajectory")
     relations = []
-    allowed_statuses = (
-        {
+    if candidate_cross_code:
+        allowed_statuses = {
             "PASS_SAME_HOST_CROSS_CODE_CANDIDATE_GATE",
             "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
         }
-        if candidate_cross_code else
-        {"PASS_SAME_SOURCE_RUNTIME", "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION"}
-    )
+    else:
+        allowed_statuses = {
+            "PASS_SAME_SOURCE_RUNTIME", "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+        }
+        if allow_method_only_recovery:
+            allowed_statuses.add(
+                "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+            )
     for row in trajectory:
         relation = row.get("runtime_relation") or {}
         cross_host = method_source_host != plain_source_host
@@ -436,25 +442,60 @@ def _validated_control_relation(
                 and relation.get("performance_values_read") is False
             )
         )
+        method_recovery = (
+            relation.get("status")
+            == "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+        )
+        method_recovery_proof = (
+            not method_recovery
+            or (
+                allow_method_only_recovery
+                and not cross_host
+                and relation.get("comparison_identity")
+                == "audited_method_only_recovery_not_byte_identical_runtime"
+                and relation.get("provenance_boundary_disclosed") is True
+                and int(relation.get("recovery_start_epoch", -1)) == 178
+                and all(
+                    isinstance(relation.get(key), str)
+                    and len(relation[key]) == length
+                    for key, length in (
+                        ("parent_git_commit", 40),
+                        ("recovery_git_commit", 40),
+                        ("migration_receipt_sha256", 64),
+                        ("overflow_safe_replay_receipt_sha256", 64),
+                    )
+                )
+            )
+        )
+        relation_legal = row.get("runtime_relation_legal")
+        if relation_legal is None:
+            relation_legal = runtime_pair_passed(relation)
+        matched_legal = row.get("matched_comparison_legal")
+        if matched_legal is None:
+            matched_legal = row.get("crn_exact") is True and relation_legal
         if (
             row.get("crn_exact") is not True
+            or relation_legal is not True
+            or matched_legal is not True
             or not runtime_pair_passed(relation)
             or relation.get("status") not in allowed_statuses
             or relation.get("method_source_host_label") != method_source_host
             or relation.get("plain_source_host_label") != plain_source_host
             or not cross_host_proof
+            or not method_recovery_proof
         ):
             raise RuntimeError(
                 f"{lane_id} is not bound to the frozen matched plain relation"
             )
         relations.append(relation)
-    identity = {
-        key: relations[0].get(key)
-        for key in (
-            "status", "method_source_host_label", "plain_source_host_label",
-            "runtime_twin_updates", "e0_core_sha256", "step_core_sha256",
-        )
-    }
+    identity_keys = (
+        "status", "method_source_host_label", "plain_source_host_label",
+        "runtime_twin_updates", "e0_core_sha256", "step_core_sha256",
+        "comparison_identity", "parent_git_commit", "recovery_git_commit",
+        "recovery_start_epoch", "migration_receipt_sha256",
+        "overflow_safe_replay_receipt_sha256", "provenance_boundary_disclosed",
+    )
+    identity = {key: relations[0].get(key) for key in identity_keys}
     if any(
         {
             key: relation.get(key) for key in identity
@@ -501,6 +542,11 @@ def build_portfolio(
         plain_source_host=plain_source_host,
         candidate_cross_code=True,
     )
+    amtnc_relation = _validated_control_relation(
+        amtnc_disposition["entry"], lane_id="amtnc",
+        method_source_host="4090A", plain_source_host="4090A",
+        allow_method_only_recovery=True,
+    )
     methods = {
         "proposal": {
             "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
@@ -512,7 +558,10 @@ def build_portfolio(
         "amtnc": {
             "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
             "matched_plain": "4090A/plain",
-            "comparison_scope": "same_source_runtime",
+            "comparison_scope": amtnc_disposition["entry"].get(
+                "comparison_scope"
+            ),
+            "runtime_relation": amtnc_relation,
             "result": amtnc_disposition["entry"],
         },
         "stcgr": {

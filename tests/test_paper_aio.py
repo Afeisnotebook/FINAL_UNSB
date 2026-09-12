@@ -327,6 +327,54 @@ def test_adjudication_is_terminal_and_incomplete_safe(tmp_path: Path) -> None:
     assert result["algorithm_set"]["accepted_algorithms"] == ["proposal"]
 
 
+def test_amtnc_recovery_uses_disclosed_method_only_runtime_relation(
+    tmp_path: Path,
+) -> None:
+    parent_fingerprint = (
+        "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+    )
+    recovery_fingerprint = (
+        "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0"
+    )
+    manifest = (
+        "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+    )
+    for epoch in (150, 175, 200):
+        plain = _metric(10.0)
+        plain["training_protocol_fingerprint"] = parent_fingerprint
+        plain["manifest_sha256"] = manifest
+        method = _metric(10.2)
+        method["training_protocol_fingerprint"] = recovery_fingerprint
+        method["manifest_sha256"] = manifest
+        plain_path = (
+            tmp_path / "lanes" / "plain" / "metrics" / f"e{epoch:03d}.json"
+        )
+        method_path = (
+            tmp_path / "lanes" / "amtnc" / "metrics" / f"e{epoch:03d}.json"
+        )
+        plain_path.parent.mkdir(parents=True, exist_ok=True)
+        method_path.parent.mkdir(parents=True, exist_ok=True)
+        plain_path.write_text(json.dumps(plain), encoding="utf-8")
+        method_path.write_text(json.dumps(method), encoding="utf-8")
+
+    result = adjudicate(tmp_path)
+    row = next(
+        value for value in result["results"]["lanes"]
+        if value["lane_id"] == "amtnc"
+    )
+    assert row["comparison_scope"] == "same_host_audited_method_only_recovery"
+    assert row["scientific_gate"]["status"] == "PASS"
+    assert row["scientific_gate"]["crn_exact_at_all_late_points"] is True
+    assert row["scientific_gate"]["runtime_relation_legal_at_all_late_points"] is True
+    assert row["scientific_gate"]["runtime_relation_exact_at_all_late_points"] is False
+    assert row["scientific_gate"]["provenance_boundary_disclosed"] is True
+    assert all(
+        point["runtime_relation"]["status"]
+        == "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+        for point in row["late_trajectory"]
+    )
+
+
 def test_first_wave_completion_requires_unified_cohort_and_four_lanes(tmp_path: Path) -> None:
     input_path = tmp_path / "lanes" / "input" / "metrics" / "e200.json"
     input_path.parent.mkdir(parents=True, exist_ok=True)

@@ -250,9 +250,14 @@ are all one; \(\tau=0.01\); \(T=5\); PatchNCE uses layers
 0, 4, 8, 12, and 16, temperature 0.07, and 256 sampled patches.
 
 Proposal, ST-CGR, and their admitted matched plain share a reviewed runtime
-cohort and fresh initialization relation.  AM-TNC is compared only with its
-same-host 4090A plain trajectory.  A result without an admitted runtime relation
-is reported as an absolute trajectory, not as a matched delta.
+cohort and fresh initialization relation. AM-TNC is compared only with its
+same-host 4090A plain trajectory. After the epoch-178 float32 metric-reduction
+overflow, that comparison is no longer described as byte-identical runtime
+identity: it requires the pre-result, metric-blind method-only recovery relation
+that binds the unchanged transition state, finite-path bitwise identity,
+float64-only overflow fallback, and the localization/replay/migration receipts.
+A result without an admitted exact or explicitly disclosed recovery relation is
+reported as an absolute trajectory, not as a matched delta.
 
 CycleGAN, CUT, and DCLGAN retain their method-specific official objectives.
 The controlled external schedule uses Adam with learning rate \(2\times10^{-4}\)
@@ -270,7 +275,8 @@ every complete epoch.  A recoverable state contains G/F/D/E or the corresponding
 external networks, optimizers, schedulers, image pools where applicable,
 method state, Python/NumPy/CPU/CUDA RNG, independent A/B sampler state, global
 update, and physical data epoch.  Recovery is permitted only through the
-source-bound exact-resume path on the same host/runtime cohort.
+source-bound exact-resume path on the same host/runtime cohort, except for the
+separately disclosed AM-TNC method-only numerical recovery described above.
 
 Every lane uses an isolated writable run directory.  Exporters publish hashes
 and receipts after a complete checkpoint is stable.  Read-only virtual audits
