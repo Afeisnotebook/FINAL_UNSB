@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T00:52:13+08:00",
+  "captured_at": "2026-09-13T01:00:19+08:00",
   "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AND_DURABLY_QUEUED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1511,7 +1511,7 @@
     "training_processes_changed": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_RECOVERY_RELATION_AND_V5_DELIVERY_GATE_20260913T005213.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_AMTNC_V5_SYNC_20260913T010019.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "running_e182_method_only_recovery_relation_bound_v5_delivery_healthy",
     "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",

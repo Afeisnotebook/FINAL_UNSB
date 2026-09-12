@@ -1,0 +1,86 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-amtnc-v5-sync-v1",
+  "captured_at": "2026-09-13T01:00:19+08:00",
+  "status": "ACTIVE_TWO_HOUR_GOAL_MONITOR_SYNCHRONIZED_TO_AMTNC_V5",
+  "live_frontier": {
+    "4090A_amtnc": {
+      "status": "healthy",
+      "physical_epoch_completed": 182,
+      "updates_completed": 1556646,
+      "supervisor_pid": 3764454,
+      "trainer_pid": 3764455,
+      "gpu_utilization_percent": 57,
+      "gpu_memory_mib": 2337,
+      "free_disk_gib_rounded": 525
+    },
+    "5090A_stcgr": {
+      "status": "healthy",
+      "physical_epoch_completed": 164,
+      "updates_completed": 1402692,
+      "supervisor_pid": 357236,
+      "trainer_pid": 357237,
+      "gpu_utilization_percent": 44,
+      "gpu_memory_mib": 2186,
+      "free_disk_gib_rounded": 181
+    },
+    "5090C_proposal": {
+      "status": "healthy",
+      "physical_epoch_completed": 177,
+      "updates_completed": 1513881,
+      "supervisor_pid": 9729,
+      "trainer_pid": 766090,
+      "gpu_utilization_percent": 42,
+      "gpu_memory_mib": 2186,
+      "free_disk_gib_rounded": 227
+    },
+    "5090B_matched_plain": {
+      "status": "healthy",
+      "physical_epoch_completed": 105,
+      "updates_completed": 898065,
+      "supervisor_pid": 534983,
+      "trainer_pid": 76358,
+      "gpu_utilization_percent": 28,
+      "gpu_memory_mib": 1764,
+      "free_disk_gib_rounded": 223
+    },
+    "local_dclgan": {
+      "status": "healthy",
+      "physical_epoch_completed": 158,
+      "updates_completed": 1351374,
+      "trainer_pid": 22020,
+      "health_status": "HEALTHY",
+      "health_alert_count": 0,
+      "gpu_utilization_percent": 57,
+      "gpu_memory_mib": 3024,
+      "free_disk_gib": 82.53
+    }
+  },
+  "amtnc_delivery_authority": {
+    "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "active_chain": "V5_9214838",
+    "retired_chains_must_not_be_restarted": ["V2_2B45F88", "V3_A738846", "V4_DE1DD82"],
+    "evaluation_supervisor_pid": 3858726,
+    "evaluation_child_pid": 3858745,
+    "final_delivery_supervisor_pid": 3858727,
+    "final_delivery_child_pid": 3858744,
+    "health_watcher_pid": 3858782,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0
+  },
+  "automation": {
+    "id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "frequency": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "dynamic_pid_authority": true,
+    "old_amtnc_waiter_absence_is_not_failure": true,
+    "credentials_embedded": false
+  },
+  "decision": "KEEP_ALL_HEALTHY_FIXED_PROTOCOL_RUNS_CONTINUOUS",
+  "training_processes_changed": false,
+  "training_queue_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

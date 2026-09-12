@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-13",
-  "state_snapshot_time": "2026-09-13T00:52:13+08:00",
+  "state_snapshot_time": "2026-09-13T01:00:19+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1914,7 +1914,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_RECOVERY_RELATION_AND_V5_DELIVERY_GATE_20260913T005213.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_AMTNC_V5_SYNC_20260913T010019.json",
     "amtnc_recovery_relation_and_v5_delivery_20260913": {
       "status": "PASS_METHOD_ONLY_RECOVERY_RELATION_V5_DELIVERY_HEALTHY_AMTNC_E182_CONTINUING",
       "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",

@@ -710,3 +710,7 @@ authorize compute.
      e100/e125/e150/e175仅元数据重物化时的dynamics-only恒等性，并明确禁止byte-identical声明；
      真实晚三点身份探针和远端51项测试通过。V5评估/终局等待器固定到`9214838`且健康，旧V2–V4
      等待器只在替代链健康后退休，AM训练已连续到e182且未被触碰，paired指标和confirmation20未读。
+199. `DEC-20260913-GOAL-HEARTBEAT-AMTNC-V5-SYNC.md`：两小时持久监控已同步到AM-TNC V5权威链，
+     明确旧V2–V4等待器为正常退休、不得因历史PID缺失而恢复。同步时AM e182、ST-CGR e164、
+     Proposal e177、matched plain e105、DCLGAN e158均由活进程和最新full-state共同验证健康；
+     监控保持仅失败通知，不改训练、队列或科学协议，也不读取paired指标。
