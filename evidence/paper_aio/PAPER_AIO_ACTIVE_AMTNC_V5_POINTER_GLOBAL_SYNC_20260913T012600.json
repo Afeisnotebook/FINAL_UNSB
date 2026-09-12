@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-active-amtnc-v5-pointer-global-sync-v1",
+  "captured_at": "2026-09-13T01:26:00+08:00",
+  "status": "PASS_ALL_THREE_AUTHORITATIVE_ENTRIES_BIND_ACTIVE_AMTNC_V5_CHAIN",
+  "scope": [
+    "PROJECT_STATE.json current 4090A AM-TNC run",
+    "configs/FULL_DATA_METHOD_PORTFOLIO.json current AM-TNC entry",
+    "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json active recovery and delivery cells"
+  ],
+  "active_training": {
+    "supervisor_pid": 3764454,
+    "trainer_pid": 3764455,
+    "guard_pid": 3764845,
+    "health_pid": 3766094,
+    "completed_epoch": 182,
+    "completed_updates": 1556646,
+    "full_state_sha256": "9473841b943a8ddb2e1420d835d8d78af7cf8de45927ef7e2588c22b1907412d",
+    "sidecar_sha256": "e7d5bdf9ac25611d580a978018f83b4fc3464c6fdb235296994953c5d9224f83",
+    "scientific_state_sha256": "a18b705fddd7d9272c9ab4f44f6f1c1fe190298c08e1a246307b88324e143b4b"
+  },
+  "active_delivery": {
+    "generation": "V5_9214838",
+    "evaluation_supervisor_pid": 3858726,
+    "evaluation_child_pid": 3858745,
+    "final_supervisor_pid": 3858727,
+    "final_child_pid": 3858744,
+    "health_pid": 3858782,
+    "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "retired_generations": ["V2_2B45F88", "V3_A738846", "V4_DE1DD82"],
+    "retired_generations_are_recovery_authority": false
+  },
+  "semantic_note": {
+    "latest_live_state": "e182 heartbeat and sidecar verified",
+    "latest_full_cpu_reaudit_may_be_earlier": true,
+    "historical_reaudited_fields_preserved": true,
+    "historical_e180_evidence_rewritten": false
+  },
+  "verification": {
+    "stale_active_v2_pid_search": "PASS_ZERO_MATCHES_IN_THREE_AUTHORITATIVE_ENTRIES",
+    "json_parse": "PASS",
+    "targeted_tests": "36_PASSED",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "training_processes_changed": false,
+    "waiters_restarted": false,
+    "checkpoint_or_runtime_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260913-ACTIVE-AMTNC-V5-POINTER-GLOBAL-SYNC.md"
+}
