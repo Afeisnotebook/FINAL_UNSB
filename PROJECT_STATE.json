@@ -1,8 +1,20 @@
 {
   "schema_version": 1,
   "updated": "2026-09-12",
-  "state_snapshot_time": "2026-09-12T23:19:33+08:00",
+  "state_snapshot_time": "2026-09-12T23:40:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
+  "active_control_entrypoint": {
+    "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
+    "primary": "paper_aio_20260902",
+    "companions": [
+      "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+      "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json"
+    ],
+    "historical_top_level_sections_are_scheduling_authority": false,
+    "historical_route1_successors_must_not_be_started_from_archived_fields": true,
+    "evidence": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DRIFT_CORRECTION_20260912T234000.json",
+    "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
+  },
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_AMTNC_OVERFLOW_SAFE_RECOVERY_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
@@ -1902,7 +1914,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_STCGR_RECOVERED_SOURCE_EXPORT_CHAIN_20260912T231933.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DRIFT_CORRECTION_20260912T234000.json",
     "post_cleanup_control_chain_recovery_20260912": {
       "status": "AMTNC_OVERFLOW_SAFE_SOURCE_BOUND_RECOVERY_HEALTHY_AT_E180",
       "4090a_amtnc_active_pids": [3764454, 3764455],
@@ -3336,5 +3348,5 @@
     },
     "status": "STRICT_PASS_PRIMARY_TWO_NUMERICAL_REPAIRS_E200_RUNNING_MULTI_CANDIDATE_TERMINAL_ARMED"
   },
-  "next_gate": "Let RF-AMMCRB and RF-MCRB complete their common-5090-e0 seed2026 batch1 e200 trajectories without intermediate paired routing. Preserve every strict, causally repairable near-boundary or evidence-backed alternate repaired parent and its source-bound proposal/observable streams. Up to two complete valid repairs in those classes replay from the 4090 common e0; a current operator with both late-three and e200 nonpositive remains excluded. G3-02 may run only if the strict sampling and RF-AMMCRB parents plus the target-blind compatibility gate pass; G3-03 independently requires strict sampling and RF-MCRB plus the same gate. After both G3 terminal outcomes, the complete 4090 frontier successor reranks the old primary and every new same-host complete-e200 receipt. Final delivery must publish both an action-priority CANDIDATE.json and the full RESEARCH_FRONTIER.json; no mechanism-bearing algorithm is discarded merely because its single-seed gain differs by a small amount. Old G3-01 must never run, and seeds 2027/2028 remain deferred."
+  "next_gate": "Keep every healthy fixed-protocol run continuous to e200: 4090A AM-TNC, 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. Then complete source-bound export and hash verification, legal same-runtime matched comparisons, fixed-e100/e125/e150/e175/e200 unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, and 4090A plain are already complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

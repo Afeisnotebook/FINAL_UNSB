@@ -1,0 +1,31 @@
+{
+  "schema": "final-unsb-paper-control-entrypoint-drift-correction-v1",
+  "captured_at": "2026-09-12T23:40:00+08:00",
+  "status": "PASS_CURRENT_PAPER_AIO_ACTION_AUTHORITY_RESTORED",
+  "finding": {
+    "project_phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
+    "stale_top_level_next_gate_sha256": "deda0d77c5ae37fdcfd3c60bfc52d8cde9cd0119d1cee70165747abe553695e6",
+    "stale_next_gate_scope": "archived RF-AMMCRB/RF-MCRB/G3 route1 successor chain",
+    "risk": "a new controller could treat a stale same-level next_gate as current scheduling authority and silently leave the paper full-data critical path"
+  },
+  "resolution": {
+    "primary_authority": "PROJECT_STATE.json:paper_aio_20260902",
+    "companion_authorities": [
+      "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+      "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json"
+    ],
+    "current_next_gate": "complete all healthy fixed-protocol e200 runs, source-bound exports, legal matched comparisons, unified fixed-epoch evaluation, target-blind terminal audit, complexity accounting, and multi-algorithm paper delivery",
+    "archived_route1_fields_are_scheduling_authority": false,
+    "archived_route1_successors_started": false
+  },
+  "current_scientific_boundaries": {
+    "intermediate_paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "healthy_training_processes_changed": false,
+    "algorithm_protocol_changed": false
+  },
+  "prior_latest_live_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_RECOVERED_SOURCE_EXPORT_CHAIN_20260912T231933.json",
+  "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
+}
