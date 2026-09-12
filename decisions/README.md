@@ -679,3 +679,16 @@ authorize compute.
      在原子发布lane receipt时遭遇一次Windows `WinError 5`共享锁，冻结supervisor自动恢复为
      child PID `17936`。e100/e150共六个导入文件逐哈希不变，combined health零告警，5090C训练
      未受影响。canonical writer/reader均已有有界重试；当前健康冻结child不热替换。
+189. `DEC-20260912-AMTNC-E175-OFFHOST-PROTECTION-COMPLETE.md`：将4090A AM-TNC固定e175状态、
+     sidecar、heartbeat和授权逐哈希复制到本地只读封存，不触碰deleted-inode健康训练。
+190. `DEC-20260912-LOCAL-TERMINAL-AUDIT-READ-RECOVERY-CONTINUITY.md`：记录terminal audit原子读取
+     瞬时锁的自动恢复连续性；保留健康child，canonical有界重试仅作未来正式恢复实现。
+191. `DEC-20260912-DCLGAN-E150-HASH-OFFHOST-CLOSURE.md`：DCLGAN固定e150完整状态和4090A异机
+     交付链哈希闭环，不与GTX1660 terminal JVP共驻。
+192. `DEC-20260912-AMTNC-E178-NUMERICAL-FAILURE-ISOLATED-RECOVERY.md`：AM-TNC原trainer在e178后
+     fail closed；监督器从哈希闭合e178状态在111/111验签隔离runtime上恢复，且离机保护e178。
+193. `DEC-20260912-TERMINAL-AUDIT-ADDITIONAL-READ-RECOVERY.md`：记录terminal audit另外两次同类
+     Windows瞬时读取锁与冻结监督器恢复；三个已完成plain审计单元保持不变。
+194. `DEC-20260912-AMTNC-E178-REPEATED-NUMERICAL-BLOCK.md`：同一e178状态、同一协议与验签隔离
+     runtime上第二次复现相同非有限几何，正式裁决当前实现数值受阻而非机制证伪。保留e178/e175
+     证据；第三个冻结child是合同内最后尝试，再失败即允许监督器阻塞，禁止重启或临时改算法。

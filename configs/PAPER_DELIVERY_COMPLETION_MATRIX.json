@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-12T17:00:08+08:00",
+  "captured_at": "2026-09-12T17:37:22+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -13,7 +13,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e171_live_e150_fixed_hash_and_offhost_closed_running_e200",
         "5090A/stcgr": "e159_live_e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
-        "4090A/amtnc_after_plain": "e178_full_state_offhost_hash_closed_after_one_fail_closed_nonfinite_event_recovered_on_fresh_verified_isolated_runtime_running_e200",
+        "4090A/amtnc_after_plain": "e178_full_state_offhost_hash_closed_after_two_identical_nonfinite_failures_current_implementation_numerically_blocked_final_frozen_attempt_running",
         "5090B/matched_plain": "e94_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
         "local/dclgan_extension": "e152_live_e150_fixed_hash_and_4090a_offhost_recovery_closed_running_e200_delivery_waiters_healthy"
       },
@@ -213,13 +213,13 @@
       "latest_cyclegan_e190_delivery_preflight_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E190_DELIVERY_CHAIN_PREFLIGHT_20260908T023445.json"
     },
     "4090a_amtnc_runtime_recovery": {
-      "status": "original_supervisor_deleted_inode_active_trainer_recovered_from_e178_on_verified_isolated_runtime_repeat_numerical_failure_monitoring",
+      "status": "current_implementation_numerically_blocked_after_two_identical_e178_to_e179_failures_final_frozen_supervisor_attempt_running",
       "control_commit": "c4eed76e1e55e02e7508a5c57722430448307ae6",
       "active_training_supervisor_pid": 3446757,
-      "active_training_pid": 3645974,
-      "retired_failed_training_pid": 3446758,
+      "active_training_pid": 3698062,
+      "retired_failed_training_pids": [3446758, 3645974],
       "active_training_restarted": true,
-      "restart_reason": "fail_closed_amtnc_replica_geometry_nonfinite_after_e178",
+      "restart_reason": "two_identical_fail_closed_amtnc_replica_geometry_nonfinite_events_at_e178_to_e179",
       "recovery_supervisor_pid": 439182,
       "recovery_supervisor_restart_count": 0,
       "recovery_health_watcher_pid": 439447,
@@ -236,7 +236,10 @@
       "latest_live_complete_step": 1522434,
       "fresh_e178_verify_only_status": "pass_runtime_and_checkpoint_recovery_preflight_111_of_111",
       "fresh_e178_verify_only_contract_sha256": "af69f5a2c542766e4e920f714b57694d5d97d1c18066f6c9f737ed0dcce355f9",
-      "supervisor_consecutive_failures": 1,
+      "supervisor_consecutive_failures": 2,
+      "implementation_disposition": "current_implementation_numerically_blocked_not_mechanism_falsified",
+      "final_frozen_attempt_started_at": "2026-09-12T17:33:34+08:00",
+      "third_failure_policy": "allow_frozen_supervisor_to_block_without_relaunch_or_algorithm_change",
       "completed_epochs_lost": 0,
       "maximum_uncheckpointed_updates_lost": 8552,
       "e175_offhost_protection": {
@@ -640,13 +643,15 @@
     }
   ],
   "post_cleanup_control_chain_recovery_20260912": {
-    "status": "amtnc_e178_fail_closed_numerical_event_recovered_on_verified_isolated_runtime_e178_offhost_hash_closed",
+    "status": "amtnc_current_implementation_numerically_blocked_after_two_identical_e178_to_e179_failures_final_frozen_attempt_running",
     "4090a_amtnc_latest_complete_epoch": 178,
     "4090a_amtnc_original_supervisor_executable_deleted": true,
     "4090a_amtnc_active_trainer_executable_isolated": true,
-    "4090a_amtnc_active_trainer_pid": 3645974,
+    "4090a_amtnc_active_trainer_pid": 3698062,
     "4090a_amtnc_guard_restart_count": 0,
-    "4090a_amtnc_supervisor_consecutive_failures": 1,
+    "4090a_amtnc_supervisor_consecutive_failures": 2,
+    "4090a_amtnc_failed_trainer_pids": [3446758, 3645974],
+    "4090a_amtnc_implementation_disposition": "current_implementation_numerically_blocked_not_mechanism_falsified",
     "4090a_amtnc_offhost_fallback_epoch": 178,
     "4090a_amtnc_fresh_verify_only": "pass_111_of_111_runtime_and_e178_checkpoint",
     "proposal_incremental_relay_supervisor_pid": 5112,
@@ -657,7 +662,7 @@
     "training_processes_changed": false,
     "performance_values_read": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_NUMERICAL_FAILURE_ISOLATED_RECOVERY_20260912T170008.json"
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_REPEATED_NUMERICAL_BLOCK_20260912T173722.json"
   },
   "post_cleanup_full_repository_validation_20260912": {
     "status": "pass_777_passed_2_cpu_only_expected_skipped_0_failed",
@@ -669,7 +674,7 @@
   },
   "known_completion_risks": [
     "Proposal and ST-CGR matched deltas remain unavailable until the admitted 5090B fresh-e0 matched plain completes e200 and is exported",
-    "the 4090A original supervisor still owns a deleted interpreter and the original full environment remains absent; the old prefix is not recovery authority. After the original trainer failed closed on nonfinite AM-TNC replica geometry, the supervisor recovered a new trainer directly on the isolated runtime from e178. A fresh verify-only gate passed all 111 runtime entries and the e178 checkpoint, e178 is hash-closed off host, and every critical export/evaluation child has a pinned isolated-runtime recovery supervisor. Repeated failure at the same e178-to-e179 transition would block the current implementation without implying mechanism falsification",
+    "the 4090A original supervisor still owns a deleted interpreter and the original full environment remains absent; the old prefix is not recovery authority. Two trainers have now failed closed with identical nonfinite AM-TNC replica geometry at the same e178-to-e179 transition despite a verified isolated runtime and unchanged e178 state. The current implementation is numerically blocked, not mechanism-falsified. One final frozen supervisor attempt is already running; a third identical failure must be allowed to block without relaunch or silent algorithm change. e178 remains hash-closed off host and fixed e175 evidence remains admissible",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C is projected to finish training on 2026-09-14 morning and should remain available through at least 2026-09-15 12:00 for source-bound export",
     "5090A ST-CGR is projected to finish training between 2026-09-15 04:35 and 09:46, leaving about 14 hours before the recorded 2026-09-16 00:00 horizon; provider expiry and export tail require recheck",

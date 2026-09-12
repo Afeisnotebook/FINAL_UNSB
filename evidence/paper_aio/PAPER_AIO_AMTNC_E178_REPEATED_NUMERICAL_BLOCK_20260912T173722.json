@@ -1,0 +1,115 @@
+{
+  "schema": "final-unsb-paper-aio-amtnc-e178-repeated-numerical-block-v1",
+  "observed_at": "2026-09-12T17:37:22+08:00",
+  "host": "4090A",
+  "lane": "amtnc",
+  "status": "CURRENT_IMPLEMENTATION_NUMERICALLY_BLOCKED_AFTER_TWO_IDENTICAL_E178_TO_E179_FAILURES_FINAL_FROZEN_SUPERVISOR_ATTEMPT_RUNNING",
+  "incident": {
+    "exception": "RuntimeError: AM-TNC replica geometry is nonfinite",
+    "exception_source": "src/models/route1/amtnc.py:92",
+    "failed_transition": "e178_to_e179",
+    "identical_failure_count": 2,
+    "first_failed_trainer_pid": 3446758,
+    "second_failed_trainer_pid": 3645974,
+    "second_attempt_started_unix_time": 1789202806.850,
+    "third_attempt_started_unix_time": 1789205614.690,
+    "second_attempt_elapsed_seconds_to_repeat": 2807.84,
+    "classification": "CURRENT_IMPLEMENTATION_NUMERICALLY_BLOCKED_NOT_MECHANISM_FALSIFIED",
+    "e200_reached": false
+  },
+  "last_complete_state": {
+    "physical_epoch": 178,
+    "step": 1522434,
+    "target_step": 1710600,
+    "checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "sidecar_sha256": "5970a3e5ec60499a5b1da56bb79070cf63747854f2ceae3ad8bd672b9d24b2e4",
+    "heartbeat_sha256": "895ce17d1c2fa31481c7192cb10f78bfaa5605aaf44c75b888147a4e5f05e9c0",
+    "scientific_state_sha256": "2a05c7b44c946c3480a0f8796f049d19a319708ef3d7cd652f4c96a8a6d548a0",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "offhost_checkpoint": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E178_NUMERICAL_FAILURE/full_state_latest.pt",
+    "offhost_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b"
+  },
+  "automatic_final_attempt": {
+    "trainer_pid": 3698062,
+    "trainer_started_at": "2026-09-12T17:33:34+08:00",
+    "trainer_executable": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "trainer_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "supervisor_pid": 3446757,
+    "supervisor_status": "CHILD_RUNNING",
+    "supervisor_consecutive_failures": 2,
+    "supervisor_maximum_consecutive_failures": 3,
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_total_restarts": 0,
+    "action": "KEEP_EXISTING_AUTOMATIC_ATTEMPT_RUNNING_WITHOUT_MANUAL_RESTART_OR_MUTATION",
+    "expected_terminal_policy": "ON_THIRD_IDENTICAL_FAILURE_ALLOW_FROZEN_SUPERVISOR_TO_BLOCK_AND_DO_NOT_RELAUNCH"
+  },
+  "integrity": {
+    "fresh_e178_verify_only_status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+    "fresh_e178_verify_only_contract_sha256": "af69f5a2c542766e4e920f714b57694d5d97d1c18066f6c9f737ed0dcce355f9",
+    "runtime_manifest_entries_verified": 111,
+    "supervisor_log_sha256_at_observation": "0a90b100d1a66a3158d1a2b7ea40baf4863471cfe9b49e9e9b20634aef124d34",
+    "supervisor_state_sha256_at_observation": "c2978381d65dcf952f10efb66e1f87b20733c20f2635a36005a2618acf4e666b",
+    "completed_epochs_lost": 0,
+    "maximum_uncheckpointed_updates_lost_per_attempt": 8552
+  },
+  "read_only_checkpoint_numerical_audit": {
+    "all_network_parameters_finite": true,
+    "network_parameter_absmax": {
+      "G": 3.6020989418029785,
+      "F": 10.794788360595703,
+      "D": 3.682389497756958,
+      "E": 18.557905197143555
+    },
+    "all_adam_moments_finite": true,
+    "adam_exp_avg_sq_ranges": {
+      "G": [7.006492321624085e-43, 1.1500501858254848e16],
+      "D": [5.833005642814182e-29, 0.23234854638576508],
+      "E": [1.914813480233149e-15, 3.490237979624223e26],
+      "F": [7.006492321624085e-43, 0.17676520347595215]
+    },
+    "largest_adam_exp_avg_abs": {
+      "G": 0.8490434288978577,
+      "D": 0.28578391671180725,
+      "E": 11134.3486328125,
+      "F": 0.33171799778938293
+    },
+    "last_complete_geometry_all_finite": true,
+    "interpretation": "THE_E178_CHECKPOINT_IS_FINITE_BUT_THE_ADAM_METRIC_IS_EXTREMELY_ILL_CONDITIONED;_THE_LINE_92_GUARD_PROVES_NONFINITE_WEIGHTED_REPLICA_GEOMETRY_DURING_E179_BUT_DOES_NOT_YET_DISTINGUISH_NONFINITE_SOURCE_GRADIENTS_FROM_SCALE_TIMES_GRADIENT_OVERFLOW",
+    "next_safe_diagnostic": "AFTER_THE_FINAL_FROZEN_ATTEMPT_RELEASES_THE_GPU_REPLAY_FROM_THE_PROTECTED_E178_STATE_WITH_READ_ONLY_PLAYER_AND_PARAMETER_LOCALIZATION;_DO_NOT_PATCH_THE_SCIENTIFIC_LANE"
+  },
+  "scientific_disposition": {
+    "mechanism_falsified": false,
+    "full_data_e200_result_available": false,
+    "fixed_e175_evidence_retained": true,
+    "algorithm_modified": false,
+    "training_protocol_modified": false,
+    "paired_performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "forbidden_actions": [
+      "clamp_nonfinite_geometry",
+      "skip_failing_update",
+      "retune_hyperparameters",
+      "resume_from_a_different_checkpoint_to_bypass_the_failure",
+      "treat_e178_as_e200",
+      "label_the_mechanism_falsified"
+    ]
+  },
+  "co_resident_user_proof_experiment": {
+    "status": "USER_AUTHORIZED_AND_NATURALLY_COMPLETE",
+    "interrupted": false,
+    "causal_attribution_to_amtnc_failure": "NOT_CLAIMED",
+    "future_policy": "DO_NOT_STOP_OR_MODIFY_USER_PROOF_EXPERIMENTS"
+  },
+  "durable_monitor": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "every_30_minutes_until_final_frozen_attempt_adjudication",
+    "updated_at_unix_ms": 1789206392872,
+    "automation_toml_sha256": "2f3df26b5dbd722f314e361337f58e3f91c172dc3430c485db7817a6a5d40cde",
+    "third_identical_failure_action": "RECORD_BLOCK_DO_NOT_RELAUNCH_AND_NOTIFY_USER"
+  },
+  "goal_impact": "AMTNC_CURRENT_IMPLEMENTATION_IS_NUMERICALLY_BLOCKED_UNLESS_THE_ALREADY_RUNNING_FINAL_ATTEMPT_ADVANCES;_OTHER_ALGORITHM_AND_BASELINE_LANES_CONTINUE_AND_THE_MULTI_ALGORITHM_PAPER_GOAL_REMAINS_ACTIVE"
+}
