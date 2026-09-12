@@ -1,0 +1,37 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-current-authority-sync-v1",
+  "captured_at": "2026-09-12T23:47:13+08:00",
+  "status": "PASS_ACTIVE_TWO_HOUR_CURRENT_AUTHORITY_BOUND_HEARTBEAT",
+  "automation_id": "final-unsb-goal",
+  "automation_status": "ACTIVE",
+  "cadence": "FREQ=HOURLY;INTERVAL=2",
+  "notification_policy": "failed_runs_only",
+  "target_thread_preserved": true,
+  "automation_toml_sha256": "1b4167823e9f6263b14e31c9044da620429b84aab1312daa2819496ef3a32323",
+  "prompt_guards": {
+    "project_state_active_control_entrypoint_first": true,
+    "historical_route1_successors_archive_only": true,
+    "dynamic_pid_resolution_required": true,
+    "amtnc_overflow_is_engineering_not_performance_adjudication": true,
+    "user_independent_proof_experiments_untouched": true,
+    "ordinary_healthy_wait_is_quiet": true
+  },
+  "metric_blind_snapshot": {
+    "amtnc": 180,
+    "stcgr": 163,
+    "proposal": 176,
+    "matched_plain": 103,
+    "dclgan": 157,
+    "cut": 200,
+    "cyclegan": 200
+  },
+  "previous_cadence": "FREQ=MINUTELY;INTERVAL=10",
+  "previous_prompt_issue": "emergency e179 crossing and fixed exporter PID instructions remained after e180 stabilization",
+  "training_processes_changed": false,
+  "algorithm_protocol_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "prior_document_sync_evidence": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DOCUMENT_SYNC_20260912T234320.json",
+  "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-CURRENT-AUTHORITY-SYNC.md"
+}

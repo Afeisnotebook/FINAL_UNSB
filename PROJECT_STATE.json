@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-12",
-  "state_snapshot_time": "2026-09-12T23:43:20+08:00",
+  "state_snapshot_time": "2026-09-12T23:47:13+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1914,7 +1914,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DOCUMENT_SYNC_20260912T234320.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_CURRENT_AUTHORITY_SYNC_20260912T234713.json",
     "post_cleanup_control_chain_recovery_20260912": {
       "status": "AMTNC_OVERFLOW_SAFE_SOURCE_BOUND_RECOVERY_HEALTHY_AT_E180",
       "4090a_amtnc_active_pids": [3764454, 3764455],
@@ -2095,13 +2095,13 @@
     "codex_goal_heartbeat": {
       "status": "ACTIVE",
       "automation_id": "final-unsb-goal",
-      "cadence": "every_10_minutes_until_amtnc_final_frozen_attempt_adjudication_then_restore_low_frequency",
+      "cadence": "every_2_hours_low_frequency",
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-12T18:05:20+08:00",
-      "prompt_integrity": "READABLE_FINAL_FROZEN_AMTNC_ATTEMPT_HASH_BOUND_LOCALIZER_AND_NO_RELAUNCH_POLICY_SYNCED",
-      "automation_toml_sha256": "8de2b58875465e338be63e80f7406e45c24090ad9254e1ed979eebc46cb3196f",
+      "last_prompt_update": "2026-09-12T23:47:13+08:00",
+      "prompt_integrity": "CURRENT_PAPER_AIO_AUTHORITY_ARCHIVE_ONLY_DRIFT_GUARD_AND_DYNAMIC_PID_POLICY_SYNCED",
+      "automation_toml_sha256": "1b4167823e9f6263b14e31c9044da620429b84aab1312daa2819496ef3a32323",
       "prompt_credentials_persisted": false,
       "5090c_ssh_alias": "final-unsb-5090c",
       "5090c_strict_host_key_batchmode": "PASS",
@@ -2122,7 +2122,7 @@
       "dclgan_addendum_child_pid": 638015,
       "dclgan_addendum_health_pid": 638474,
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
-      "latest_metric_blind_epochs": {"amtnc": 179, "stcgr": 162, "proposal": 175, "cyclegan": 200, "matched_plain": 101, "dclgan": 156},
+      "latest_metric_blind_epochs": {"amtnc": 180, "stcgr": 163, "proposal": 176, "cyclegan": 200, "matched_plain": 103, "dclgan": 157},
       "5090b_matched_incremental_source_pids": [107734, 107809, 107830],
       "5090b_matched_incremental_local_pids": [11704, 25228, 20796],
       "frozen_manuscript_figures_required": true,
@@ -2136,8 +2136,8 @@
       "proposal_incremental_relay_restart_count": 2,
       "proposal_incremental_relay_status": "HEALTHY_AFTER_AUTOMATIC_WINDOWS_PUBLISH_RECOVERY_E100_E150_HASHES_UNCHANGED",
       "latest_control_recovery_evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_INCREMENTAL_RELAY_WINDOWS_PUBLISH_RECOVERY_20260912T084800.json",
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_NUMERICAL_FAILURE_ISOLATED_RECOVERY_20260912T170008.json",
-      "decision": "decisions/DEC-20260912-AMTNC-E178-NUMERICAL-FAILURE-ISOLATED-RECOVERY.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_CURRENT_AUTHORITY_SYNC_20260912T234713.json",
+      "decision": "decisions/DEC-20260912-GOAL-HEARTBEAT-CURRENT-AUTHORITY-SYNC.md"
     },
     "proposal_incremental_relay_windows_publish_recovery_20260912": {
       "status": "HEALTHY_AUTO_RECOVERED_IMPORT_HASHES_UNCHANGED",
