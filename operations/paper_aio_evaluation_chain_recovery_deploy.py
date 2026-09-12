@@ -333,9 +333,11 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
     commit, python_sha = _validate_inputs(args)
     control_root = args.control_output.resolve()
     commands = build_child_commands(args, commit)
+    selected_roles = list(commands) if not args.role else list(dict.fromkeys(args.role))
     command_paths: dict[str, Path] = {}
     command_hashes: dict[str, str] = {}
-    for role, command in commands.items():
+    for role in selected_roles:
+        command = commands[role]
         payload = {
             "schema": COMMAND_SCHEMA,
             "role": role,
@@ -350,7 +352,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
 
     supervisor_pids: dict[str, int] = {}
     supervisor_states: dict[str, Path] = {}
-    for role in commands:
+    for role in selected_roles:
         output = control_root / "supervisors" / role
         state = output / "CONTROL_SUPERVISOR_STATE.json"
         if state.exists():
@@ -482,6 +484,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
             "amtnc_evaluation": str(args.amtnc_evaluation_output.resolve()),
             "final_delivery": str(args.final_delivery_output.resolve()),
         },
+        "selected_roles": selected_roles,
         "command_sha256": command_hashes,
         "roles": observed,
         "health_watcher_pid": health_pid,
@@ -526,6 +529,17 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--poll-seconds", type=int, default=60)
     value.add_argument("--timeout-hours", type=float, default=720)
     value.add_argument("--startup-timeout-seconds", type=int, default=30)
+    value.add_argument(
+        "--role",
+        action="append",
+        choices=(
+            "unified_evaluation",
+            "amtnc_evaluation",
+            "stcgr_evaluation",
+            "final_delivery",
+        ),
+        help="Deploy only the selected role(s); omission deploys the complete chain.",
+    )
     return value
 
 

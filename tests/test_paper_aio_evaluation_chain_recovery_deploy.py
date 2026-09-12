@@ -33,6 +33,7 @@ def _args(tmp_path: Path) -> Namespace:
         gpu=0,
         poll_seconds=60,
         timeout_hours=720,
+        role=None,
     )
 
 
