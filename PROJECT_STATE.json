@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-12",
-  "state_snapshot_time": "2026-09-12T08:00:36+08:00",
+  "state_snapshot_time": "2026-09-12T08:48:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "paper_aio_20260902": {
     "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED",
@@ -1813,7 +1813,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_SSH_MONITORING_RECOVERY_AND_FIVE_LANE_HEALTH_20260912T080036.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_PROPOSAL_INCREMENTAL_RELAY_WINDOWS_PUBLISH_RECOVERY_20260912T084800.json",
     "post_cleanup_control_chain_recovery_20260912": {
       "status": "AMTNC_CONTINUOUS_E169_ISOLATED_RECOVERY_REVERIFIED_OFFHOST_BACKUP_LOCAL_CONTROL_CHAIN_HEALTHY",
       "4090a_amtnc_active_pids": [3446757, 3446758],
@@ -2012,7 +2012,7 @@
       "dclgan_addendum_child_pid": 638015,
       "dclgan_addendum_health_pid": 638474,
       "dclgan_addendum_normal_wait_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
-      "latest_metric_blind_epochs": {"amtnc": 170, "stcgr": 152, "proposal": 165, "cyclegan": 200, "matched_plain": 80, "dclgan": 144},
+      "latest_metric_blind_epochs": {"amtnc": 170, "stcgr": 153, "proposal": 165, "cyclegan": 200, "matched_plain": 81, "dclgan": 145},
       "5090b_matched_incremental_source_pids": [107734, 107809, 107830],
       "5090b_matched_incremental_local_pids": [11704, 25228, 20796],
       "frozen_manuscript_figures_required": true,
@@ -2021,8 +2021,31 @@
       "retired_incremental_delivery_pids": [19068, 6152, 18736],
       "terminal_pathology_claim_freeze_gate_commit": "e13ad284c24dd6fcb3ab1755075d17029af537eb",
       "terminal_pathology_claim_freeze_gate_monitored": true,
+      "proposal_incremental_relay_supervisor_pid": 5112,
+      "proposal_incremental_relay_child_pid": 17936,
+      "proposal_incremental_relay_restart_count": 2,
+      "proposal_incremental_relay_status": "HEALTHY_AFTER_AUTOMATIC_WINDOWS_PUBLISH_RECOVERY_E100_E150_HASHES_UNCHANGED",
+      "latest_control_recovery_evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_INCREMENTAL_RELAY_WINDOWS_PUBLISH_RECOVERY_20260912T084800.json",
       "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E170_POST_CLEANUP_LOSS_AVOIDANCE_20260912T081011.json",
       "decision": "decisions/DEC-20260912-AMTNC-E170-POST-CLEANUP-LOSS-AVOIDANCE.md"
+    },
+    "proposal_incremental_relay_windows_publish_recovery_20260912": {
+      "status": "HEALTHY_AUTO_RECOVERED_IMPORT_HASHES_UNCHANGED",
+      "supervisor_pid": 5112,
+      "replacement_child_pid": 17936,
+      "restart_count": 2,
+      "available_epochs": [100, 150],
+      "combined_health_pid": 9960,
+      "combined_health_alert_count": 0,
+      "canonical_writer_retry_commit": "b85b692fd998c276c54ecdd5fd738b57d9509933",
+      "canonical_reader_retry_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+      "current_frozen_child_hot_patched": false,
+      "proposal_training_processes_changed": false,
+      "performance_values_read": false,
+      "paired_metric_control": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_INCREMENTAL_RELAY_WINDOWS_PUBLISH_RECOVERY_20260912T084800.json",
+      "decision": "decisions/DEC-20260912-PROPOSAL-INCREMENTAL-RELAY-WINDOWS-PUBLISH-RECOVERY.md"
     },
     "lease_horizon_action": {
       "status": "ALL_LIVE_LANES_HEALTHY_LATE_THROUGHPUT_REFORECAST_REQUIRES_LEASE_MARGIN_CHECK",

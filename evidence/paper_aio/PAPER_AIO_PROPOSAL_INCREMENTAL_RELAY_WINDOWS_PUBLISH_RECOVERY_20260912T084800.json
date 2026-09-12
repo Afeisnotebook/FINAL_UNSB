@@ -1,0 +1,76 @@
+{
+  "schema": "final-unsb-paper-proposal-incremental-relay-windows-publish-recovery-v1",
+  "captured_at": "2026-09-12T08:48:00+08:00",
+  "status": "HEALTHY_AFTER_AUTOMATIC_WINDOWS_PUBLISH_RECOVERY_IMPORT_HASHES_UNCHANGED",
+  "incident": {
+    "scope": "local read-only incremental checkpoint relay for 5090C Proposal",
+    "training_scope": false,
+    "recovery_supervisor_pid": 5112,
+    "retired_child_pid": 31764,
+    "replacement_child_pid": 17936,
+    "replacement_child_started_at": "2026-09-12T06:55:17+08:00",
+    "recovery_restart_count": 2,
+    "error_class": "PermissionError_WinError_5",
+    "failed_operation": "atomic replace of INCREMENTAL_IMPORT_LANE.json.tmp onto the published lane receipt",
+    "cause_classification": "transient_windows_reader_writer_sharing_lock",
+    "source_checkpoint_or_training_failure": false
+  },
+  "recovery": {
+    "supervisor_status": "MONITORING_EXISTING_RELAY",
+    "child_status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "available_epochs": [100, 150],
+    "health_watcher_pid": 9960,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "remaining_supervisor_restart_budget": 18,
+    "hot_patch_or_manual_restart_performed": false
+  },
+  "import_integrity": {
+    "source_host_label": "5090C",
+    "lane_id": "proposal",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "training_protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "source_export_set_sha256": "aac8f7e2154e997f72f6ea68647f2f4986c87aa61eb223bb2f08380baff57143",
+    "verified_files": [
+      {"epoch": 100, "role": "export_receipt", "sha256": "95076de722b70d4db1056b3aaf76278c28323bcbfba4a93543f36e673445091d"},
+      {"epoch": 100, "role": "checkpoint", "sha256": "4d4f8ecd60810dbe7a832a44919ddf096dc9b0f502deac3a4677bcd36d57a8c6"},
+      {"epoch": 100, "role": "sidecar", "sha256": "cc09ca931e1f849d886c0e93fc27bf1e612442da41da541fce8f31e77af5e37f"},
+      {"epoch": 150, "role": "export_receipt", "sha256": "642685b1b484ae0d69c364cad4a0422e17636468c3da480a41a5a9247335e51b"},
+      {"epoch": 150, "role": "checkpoint", "sha256": "2af2c756e8c01e5f5d18ff0afe8fe9e09322e07abf6bf3d6298dae1e1368e995"},
+      {"epoch": 150, "role": "sidecar", "sha256": "f2c62adb0c4ecbd77bb2a72bad6a582e8f589cd4dbb651afb36986d30acf823a"}
+    ],
+    "all_advertised_hashes_match_local_files": true,
+    "existing_import_progress_lost": false,
+    "source_checkpoint_mutated": false
+  },
+  "canonical_hardening": {
+    "writer_retry_commit": "b85b692fd998c276c54ecdd5fd738b57d9509933",
+    "writer_script_sha256": "df58cf76b8c5f7d6d503a8b83e6e05ea0f2c5b857a151b08a418da50a3336254",
+    "reader_retry_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "reader_script_sha256": "6ebe9c30b42c209fd4f3db50423ddbdffdde2dc514cb7adb893a349ebe07ade6",
+    "current_frozen_child_contains_canonical_writer_retry": false,
+    "disposition": "keep the healthy frozen relay; use canonical bounded writer and reader retries for future formal deployment or recovery"
+  },
+  "live_training_boundary": {
+    "proposal_supervisor_pid": 9729,
+    "proposal_trainer_pid": 766090,
+    "latest_complete_data_epoch": 165,
+    "latest_complete_updates": 1411245,
+    "proposal_outer_guard_pids": [431648, 431712],
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "portfolio_snapshot": {
+    "captured_between": ["2026-09-12T08:38:21+08:00", "2026-09-12T08:47:00+08:00"],
+    "4090A_amtnc": {"epoch": 170, "supervisor_pid": 3446757, "trainer_pid": 3446758, "live": true, "guard_restarts": 0, "e175_milestone_present": false},
+    "5090A_stcgr": {"epoch": 153, "supervisor_pid": 357236, "trainer_pid": 357237, "live": true},
+    "5090C_proposal": {"epoch": 165, "supervisor_pid": 9729, "trainer_pid": 766090, "live": true},
+    "5090B_matched_plain": {"epoch": 81, "supervisor_pid": 534983, "trainer_pid": 76358, "live": true},
+    "local_dclgan": {"epoch": 145, "wrapper_pid": 20832, "supervisor_pid": 12824, "trainer_pid": 22020, "live": true},
+    "5090B_cut": "complete_e200",
+    "5090B_cyclegan": "complete_e200"
+  }
+}

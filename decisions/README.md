@@ -675,3 +675,7 @@ authorize compute.
      仅限该异常的10次有界重试，并将解析与SHA绑定同一份bytes以消除二次打开TOCTOU。永久锁及
      缺失、格式、身份、哈希错误继续fail closed；81项相邻测试通过。当前冻结audit链健康，未
      热替换或重启，修复留给未来正式部署/恢复版本。
+188. `DEC-20260912-PROPOSAL-INCREMENTAL-RELAY-WINDOWS-PUBLISH-RECOVERY.md`：本地Proposal增量relay
+     在原子发布lane receipt时遭遇一次Windows `WinError 5`共享锁，冻结supervisor自动恢复为
+     child PID `17936`。e100/e150共六个导入文件逐哈希不变，combined health零告警，5090C训练
+     未受影响。canonical writer/reader均已有有界重试；当前健康冻结child不热替换。

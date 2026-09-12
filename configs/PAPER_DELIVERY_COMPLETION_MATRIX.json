@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-12T08:10:11+08:00",
+  "captured_at": "2026-09-12T08:48:00+08:00",
   "status": "CORE_RUNNING_POST_FREEZE_AND_ONE_SESSION_CONFIRMATION_CODE_READY",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "core_completion_path": [
@@ -11,11 +11,11 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e162_live_e150_fixed_hash_and_offhost_closed_running_e200",
-        "5090A/stcgr": "e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
+        "5090C/proposal": "e165_live_e150_fixed_hash_and_offhost_closed_running_e200",
+        "5090A/stcgr": "e153_live_e150_fixed_hash_local_import_and_offhost_metric_closed_running_e200",
         "4090A/amtnc_after_plain": "e170_live_isolated_recovery_reverified_e170_offhost_closed_deleted_inode_guard_zero_restarts",
-        "5090B/matched_plain": "e76_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
-        "local/dclgan_extension": "e142_live_e125_fixed_hash_closed_delivery_waiters_healthy"
+        "5090B/matched_plain": "e81_live_e66_exact_resume_closed_alert_health_and_e100_e150_e200_incremental_offhost_chain_deployed",
+        "local/dclgan_extension": "e145_live_e125_fixed_hash_closed_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
@@ -529,7 +529,7 @@
       "incremental_relay_pids": {
         "4090A_amtnc_v3": 24160,
         "5090A_stcgr_v5": 16752,
-        "5090C_proposal": 31764
+        "5090C_proposal": 17936
       },
       "incremental_relay_recovery_supervisors": {
         "4090A_amtnc_v3": 16540,
@@ -537,11 +537,13 @@
         "5090C_proposal": 5112
       },
       "recovery_control_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
-      "recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2, "5090C_proposal": 1},
+      "recovery_restart_counts": {"4090A_amtnc_v3": 1, "5090A_stcgr_v5": 2, "5090C_proposal": 2},
+      "proposal_recovery_control_commit": "170042f33d9e3f09eed5e59f0d035fa14c169db4",
+      "proposal_windows_publish_recovery": "automatic_restart_to_child_17936_imports_e100_e150_rehashed_unchanged",
       "health_watcher_pid": 9960,
-      "health_status": "healthy_zero_alerts_after_multiple_polls",
+      "health_status": "healthy_zero_alerts_after_automatic_proposal_windows_publish_recovery",
       "gpu_exclusion": "DCLGAN holds the same local GPU lock; terminal JVP cannot co-reside",
-      "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_INCREMENTAL_RELAY_DURABLE_RECOVERY_20260908T051100.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_INCREMENTAL_RELAY_WINDOWS_PUBLISH_RECOVERY_20260912T084800.json"
     },
     {
       "id": "distribution_metrics",
