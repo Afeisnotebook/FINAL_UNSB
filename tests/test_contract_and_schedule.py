@@ -97,7 +97,9 @@ def test_amtnc_overflow_safe_replay_is_diagnostic_and_source_bound():
     contract = common.load_json(
         "configs/AMTNC_E178_OVERFLOW_SAFE_REPLAY_CONTRACT.json"
     )
-    assert contract["status"] == "AUTHORIZED_NOT_STARTED"
+    assert contract["status"] == (
+        "V2_AUTHORIZED_AFTER_PARENT_FINGERPRINT_GATE_REJECTION"
+    )
     assert contract["source_checkpoint"]["physical_epoch"] == 178
     assert contract["replay_updates"] == 6250
     assert contract["required_first_fallback_offset"] == 6245

@@ -1,10 +1,22 @@
 {
   "schema": "final-unsb-paper-amtnc-e178-overflow-safe-replay-contract-v1",
-  "status": "AUTHORIZED_NOT_STARTED",
+  "status": "V2_AUTHORIZED_AFTER_PARENT_FINGERPRINT_GATE_REJECTION",
   "host": "4090A",
   "parent_scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
   "overflow_safe_git_commit": "0cad0c92621f86ee3e709ca4bb011fe4a059b7af",
+  "replay_control_git_commit": "4f5bda256a65241a89518a9fbc187a0c4249dfba",
   "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "overflow_safe_protocol_fingerprint": "8153735f31053dde94a4b32f1ff2da6d7a26df4836cab259b93c74eeca6b4ed2",
+  "first_launch_incident": {
+    "status": "REJECTED_BEFORE_SOURCE_STATE_LOAD",
+    "reason": "DIAGNOSTIC_LOADER_CORRECTLY_REJECTED_PARENT_PROTOCOL_FINGERPRINT_UNTIL_EXPLICIT_CROSS_VERSION_BINDING_EXISTED",
+    "runner_pid": 3742329,
+    "child_pid": 3742333,
+    "child_returncode": 1,
+    "wall_seconds": 2.5323023796081543,
+    "source_checkpoint_loaded": false,
+    "scientific_lane_modified": false
+  },
   "source_checkpoint": {
     "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e178_full_state.pt",
     "sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
@@ -31,15 +43,15 @@
     },
     "replay_runner": {
       "relative_path": "operations/paper_aio_amtnc_nonfinite_localizer.py",
-      "sha256": "ff09e60382808b835374861b3865d30824071afdb72e66aebf7dda248ebace0a"
+      "sha256": "a598e56fa20f888ebd77593756ee46be46152afda91226ce96944cfc9455cd37"
     },
     "exclusive_gpu_runner": {
       "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/paper_aio_exclusive_gpu_runner.py",
       "sha256": "b88e8722631bd15cdc0a265551597c7a92bc76200d4c3c0b6d0a1a58146f7e4c"
     }
   },
-  "patched_checkout": "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
-  "diagnostic_output": "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9",
+  "patched_checkout": "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2",
+  "diagnostic_output": "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_4f5bda2",
   "replay_updates": 6250,
   "required_first_fallback_offset": 6245,
   "required_first_fallback_player": "GF",
@@ -56,7 +68,7 @@
     "no AM-TNC scientific trainer or recovery guard exists",
     "source-bound successor remains terminal blocked",
     "all source and implementation hashes match this contract",
-    "patched checkout is clean at overflow_safe_git_commit",
+    "patched checkout is clean at replay_control_git_commit and contains the exact overflow_safe_git_commit operator source",
     "shared GPU lock is available and no unregistered compute process is displaced",
     "confirmation20 remains sealed"
   ],
@@ -66,22 +78,22 @@
     "--gpu-lock",
     "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
     "--state",
-    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9/EXCLUSIVE_GPU_STATE.json",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_4f5bda2/EXCLUSIVE_GPU_STATE.json",
     "--log",
-    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9/replay.log",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_4f5bda2/replay.log",
     "--cwd",
-    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
+    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2",
     "--",
     "/usr/bin/env",
-    "PYTHONPATH=/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9/src:/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
+    "PYTHONPATH=/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2/src:/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2",
     "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
-    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9/operations/paper_aio_amtnc_nonfinite_localizer.py",
+    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2/operations/paper_aio_amtnc_nonfinite_localizer.py",
     "--checkpoint",
     "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e178_full_state.pt",
     "--e0",
     "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e0.pt",
     "--diagnostic-output",
-    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_4f5bda2",
     "--manifest",
     "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/FULL_DATA_MANIFEST.csv",
     "--data-root",
@@ -96,7 +108,11 @@
     "--required-first-fallback-offset",
     "6245",
     "--required-first-fallback-player",
-    "GF"
+    "GF",
+    "--required-parent-git-commit",
+    "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "--required-parent-protocol-fingerprint",
+    "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
   ],
   "paired_metric_control": false,
   "confirmation20_opened": false,
