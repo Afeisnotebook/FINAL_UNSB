@@ -1,12 +1,14 @@
-"""Deploy a read-only source view for a second source-bound export identity.
+"""Deploy an approved read-only source view for a recovered paper lane.
 
 The paper exporter freezes its contract, state and lock below ``source-output``.
 That intentionally prevents two exporter identities from sharing one writable
-control root.  A recovered lane can nevertheless need a second *physical-host*
-label for comparison with its same-host plain.  This helper creates a fresh
-control root whose scientific lane and live supervisor entries are absolute
+control root.  A recovered lane can nevertheless need a replacement exporter
+after its original control state has terminated.  This helper creates a fresh
+control root whose scientific lane and supervisor entries are absolute
 read-only symlinks to the original run, then deploys the existing exporter,
-its recovery supervisor and a metric-blind health watcher there.
+its recovery supervisor and a metric-blind health watcher there.  Supported
+lane/host pairs are explicit so this cannot become an unrestricted provenance
+rewriter.
 
 It never loads a checkpoint, changes training, copies model weights, reads a
 performance value, or opens confirmation20.
@@ -26,6 +28,23 @@ from typing import Any
 
 SCHEMA = "final-unsb-paper-source-bound-export-view-deployment-v1"
 VIEW_SCHEMA = "final-unsb-paper-read-only-source-view-v1"
+RECOVERY_VIEW_PROFILES = {
+    ("4090A", "amtnc"): {
+        "profile": "4090A_AMTNC_OVERFLOW_RECOVERY",
+        "health_label": "4090A_AMTNC_NORMALIZED_EXPORT",
+    },
+    ("5090A", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"): {
+        "profile": "5090A_STCGR_EXACT_RESUME_RECOVERY",
+        "health_label": "5090A_STCGR_RECOVERY_SOURCE_EXPORT",
+    },
+}
+
+
+def recovery_view_profile(source_host_label: str, lane: str) -> dict[str, str]:
+    key = (str(source_host_label), str(lane))
+    if key not in RECOVERY_VIEW_PROFILES:
+        raise RuntimeError(f"unsupported recovery source-view pair: {key!r}")
+    return dict(RECOVERY_VIEW_PROFILES[key])
 
 
 def _sha256(path: Path) -> str:
@@ -147,7 +166,9 @@ def build_recovery_command(
     ]
 
 
-def _validate(args: argparse.Namespace) -> tuple[str, str, Path, Path, dict[str, Any]]:
+def _validate(
+    args: argparse.Namespace,
+) -> tuple[str, str, Path, Path, dict[str, Any], dict[str, str]]:
     if os.name == "nt":
         raise RuntimeError("source-view deployment is supported only on Linux hosts")
     repo = args.repo.resolve()
@@ -160,10 +181,7 @@ def _validate(args: argparse.Namespace) -> tuple[str, str, Path, Path, dict[str,
     python_sha = _sha256(python)
     if python_sha != args.required_python_sha256:
         raise RuntimeError("pinned exporter runtime hash changed")
-    if args.source_host_label != "4090A":
-        raise RuntimeError("this recovery view must expose the physical host label 4090A")
-    if args.lane != "amtnc":
-        raise RuntimeError("this deployment is restricted to the recovered AM-TNC lane")
+    profile = recovery_view_profile(args.source_host_label, args.lane)
 
     source = args.source_output.resolve()
     lane = (source / "lanes" / args.lane).resolve()
@@ -174,7 +192,7 @@ def _validate(args: argparse.Namespace) -> tuple[str, str, Path, Path, dict[str,
     if supervisor_state.get("schema") != "final-unsb-paper-supervisor-v1":
         raise RuntimeError("recovered supervisor schema changed")
     if supervisor_state.get("status") not in {"CHILD_RUNNING", "COMPLETE_E200"}:
-        raise RuntimeError("recovered AM-TNC lane is not live or complete")
+        raise RuntimeError("recovered source lane is not live or complete")
     if (
         supervisor_state.get("paired_metric_control") is not False
         or supervisor_state.get("confirmation20_opened") is not False
@@ -183,18 +201,20 @@ def _validate(args: argparse.Namespace) -> tuple[str, str, Path, Path, dict[str,
 
     latest = lane / "full_state_latest.pt.json"
     if not latest.is_file():
-        raise RuntimeError("recovered AM-TNC latest sidecar is absent")
+        raise RuntimeError("recovered source latest sidecar is absent")
     metadata = _read_json(latest).get("metadata", {})
     if metadata.get("git_commit") != args.required_training_git_commit:
-        raise RuntimeError("recovered AM-TNC training commit differs")
+        raise RuntimeError("recovered source training commit differs")
     if (
         metadata.get("protocol_fingerprint")
         != args.required_training_protocol_fingerprint
     ):
-        raise RuntimeError("recovered AM-TNC training protocol differs")
+        raise RuntimeError("recovered source training protocol differs")
+    if metadata.get("lane_id") != args.lane:
+        raise RuntimeError("recovered source lane metadata differs")
     if metadata.get("confirmation20_opened") is not False:
-        raise RuntimeError("recovered AM-TNC sidecar opened confirmation20")
-    return commit, python_sha, lane, supervisor, supervisor_state
+        raise RuntimeError("recovered source sidecar opened confirmation20")
+    return commit, python_sha, lane, supervisor, supervisor_state, profile
 
 
 def _make_link(link: Path, target: Path) -> None:
@@ -207,7 +227,14 @@ def _make_link(link: Path, target: Path) -> None:
 
 
 def deploy(args: argparse.Namespace) -> dict[str, Any]:
-    commit, python_sha, source_lane, source_supervisor, supervisor_state = _validate(args)
+    (
+        commit,
+        python_sha,
+        source_lane,
+        source_supervisor,
+        supervisor_state,
+        profile,
+    ) = _validate(args)
     view = args.view_output.resolve()
     if view.exists():
         raise RuntimeError("source view output already exists; refusing ambiguous redeployment")
@@ -225,6 +252,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
         "view_output": str(view),
         "lane_id": args.lane,
         "physical_source_host_label": args.source_host_label,
+        "recovery_profile": profile["profile"],
         "source_lane_target": str(source_lane),
         "source_supervisor_target": str(source_supervisor),
         "source_supervisor_status": supervisor_state.get("status"),
@@ -287,7 +315,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
         "--output",
         str(view / "health"),
         "--host-label",
-        "4090A_AMTNC_NORMALIZED_EXPORT",
+        profile["health_label"],
         "--watch",
         f"normalized_export_recovery|{recovery_pid}|{recovery_state}|600|0",
         "--watch",
@@ -320,6 +348,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
         "destination": str(args.destination.resolve()),
         "lane_id": args.lane,
         "source_host_label": args.source_host_label,
+        "recovery_profile": profile["profile"],
         "training_git_commit": args.required_training_git_commit,
         "training_protocol_fingerprint": args.required_training_protocol_fingerprint,
         "exporter_pid": exporter_pid,

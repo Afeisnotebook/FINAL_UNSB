@@ -6,7 +6,9 @@ from pathlib import Path
 from operations.paper_aio_source_bound_export_view_deploy import (
     build_export_command,
     build_recovery_command,
+    recovery_view_profile,
 )
+import pytest
 
 
 def _args(tmp_path: Path) -> Namespace:
@@ -46,3 +48,14 @@ def test_recovery_command_is_bound_to_view_contract_and_state(tmp_path: Path):
     assert command[command.index("--export-state") + 1] == str(state.resolve())
     assert command[command.index("--required-control-git-commit") + 1] == "a" * 40
     assert str(args.view_output.resolve() / "export_recovery") in command
+
+
+def test_only_registered_recovery_source_views_are_supported():
+    assert recovery_view_profile("4090A", "amtnc")["profile"] == (
+        "4090A_AMTNC_OVERFLOW_RECOVERY"
+    )
+    assert recovery_view_profile(
+        "5090A", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    )["profile"] == "5090A_STCGR_EXACT_RESUME_RECOVERY"
+    with pytest.raises(RuntimeError, match="unsupported recovery source-view pair"):
+        recovery_view_profile("5090A", "unregistered-candidate")
