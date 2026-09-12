@@ -670,3 +670,8 @@ authorize compute.
      重新完成111/111逐文件验签，并用其在CPU完整加载e170 full-state；将e170状态、sidecar、
      heartbeat、授权及恢复回执逐哈希复制到本机异盘只读封存。健康训练未被触碰，进程故障最多
      损失当前未完成epoch；真实恢复后的第一个CUDA update仍须作为非逐位证明边界披露。
+187. `DEC-20260912-INCREMENTAL-AUDIT-WINDOWS-PUBLISH-READ-HARDENING.md`：针对本地terminal audit
+     曾因读取原子替换中的import-set而触发瞬时Windows `PermissionError`，canonical reader新增
+     仅限该异常的10次有界重试，并将解析与SHA绑定同一份bytes以消除二次打开TOCTOU。永久锁及
+     缺失、格式、身份、哈希错误继续fail closed；81项相邻测试通过。当前冻结audit链健康，未
+     热替换或重启，修复留给未来正式部署/恢复版本。

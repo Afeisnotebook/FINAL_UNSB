@@ -180,7 +180,18 @@
       "cross_host_receipt_rebinding_required_for_remote_partial_offload": true,
       "decision": "KEEP_LOCAL_NO_NEW_REMOTE_PIPELINE",
       "reconsideration": "only_if refreshed audit finish becomes at least 2 hours later than matched plain and hash-preserving receipt merge is already gated",
-      "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRITICAL_PATH_ADJUDICATION_20260912T065105.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_CRITICAL_PATH_ADJUDICATION_20260912T065105.json",
+      "canonical_publish_read_hardening": {
+        "status": "implemented_tested_not_hot_deployed_to_healthy_frozen_child",
+        "git_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+        "permission_error_attempts": 10,
+        "persistent_error_policy": "fail_closed",
+        "parse_and_hash_same_bytes": true,
+        "live_supervisor_pid": 5180,
+        "live_child_pid": 31284,
+        "live_restart_count": 2,
+        "evidence": "evidence/paper_aio/PAPER_AIO_INCREMENTAL_AUDIT_WINDOWS_PUBLISH_READ_HARDENING_20260912T082500.json"
+      }
     },
     "training_processes_changed": false,
     "performance_values_read": false,

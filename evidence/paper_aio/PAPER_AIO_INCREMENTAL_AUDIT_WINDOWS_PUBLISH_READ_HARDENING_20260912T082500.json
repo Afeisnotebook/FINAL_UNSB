@@ -1,0 +1,73 @@
+{
+  "schema": "final-unsb-paper-incremental-audit-windows-publish-read-hardening-v1",
+  "captured_at": "2026-09-12T08:25:00+08:00",
+  "status": "CANONICAL_READER_HARDENED_LIVE_FROZEN_CHAIN_UNCHANGED",
+  "incident": {
+    "host": "local_GTX1660_control_node",
+    "failure_class": "TRANSIENT_WINDOWS_PERMISSION_ERROR_DURING_ATOMIC_IMPORT_SET_REPLACE",
+    "failed_child_pid": 1392,
+    "automatic_recovery_child_pid": 31284,
+    "automatic_recovery_supervisor_pid": 5180,
+    "control_restart_count": 2,
+    "audit_progress_lost": false,
+    "performance_values_read": false
+  },
+  "canonical_fix": {
+    "git_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "path": "operations/paper_aio_incremental_audit_relay.py",
+    "sha256": "6ebe9c30b42c209fd4f3db50423ddbdffdde2dc514cb7adb893a349ebe07ade6",
+    "retryable_exception": "PermissionError_only",
+    "maximum_attempts": 10,
+    "backoff_seconds": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45],
+    "maximum_added_wait_seconds": 2.25,
+    "file_not_found_retryable": false,
+    "malformed_json_retryable": false,
+    "identity_mismatch_retryable": false,
+    "persistent_permission_error_disposition": "FAIL_CLOSED",
+    "lane_receipt_parse_and_hash_same_bytes": true,
+    "import_set_parse_and_hash_same_bytes": true,
+    "second_open_toctou_removed": true
+  },
+  "tests": {
+    "focused_incremental_relay": "12_passed",
+    "adjacent_relay_recovery_control_health_and_terminal_audit": "81_passed",
+    "transient_lane_lock_first_two_attempts": "PASS_THIRD_READ_SUCCEEDS",
+    "transient_import_set_lock_first_two_attempts": "PASS_THIRD_READ_SUCCEEDS",
+    "persistent_import_set_lock": "PASS_TEN_ATTEMPTS_THEN_PERMISSION_ERROR",
+    "git_diff_check": "PASS"
+  },
+  "live_chain": {
+    "audit_supervisor_pid": 5180,
+    "audit_child_pid": 31284,
+    "audit_child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "audit_control_restart_count": 2,
+    "pathology_supervisor_pid": 23952,
+    "pathology_child_pid": 9400,
+    "combined_health_pid": 9960,
+    "combined_health_status": "HEALTHY_ZERO_ALERTS",
+    "frozen_audit_checkout": "E:/UNSB_Expl/FINAL_UNSB_LOCAL_CONTROL_8D422DC",
+    "frozen_audit_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "wrapper_control_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "canonical_fix_hot_deployed": false,
+    "live_process_restarted_or_modified": false,
+    "reason_not_hot_deployed": "PRESERVE_FROZEN_SOURCE_IDENTITY_AND_HEALTHY_WAITING_CHAIN"
+  },
+  "persistent_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "updated_at": "2026-09-12T08:26:23+08:00",
+    "automation_toml_sha256": "93d03fdfe5a0f4ae234e9b74be93a8f8798caefcbdd4ae1c4f3ff78f2ca2d5e1",
+    "prompt_bound_canonical_fix_commit": "f2a601a",
+    "prompt_forbids_hot_deploy_to_healthy_frozen_child": true,
+    "credentials_persisted": false
+  },
+  "scientific_boundaries": {
+    "training_processes_changed": false,
+    "training_protocol_changed": false,
+    "audit_observables_changed": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "current_completed_audit_cells_changed": false
+  }
+}
