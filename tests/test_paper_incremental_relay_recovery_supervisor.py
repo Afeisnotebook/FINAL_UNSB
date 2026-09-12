@@ -104,3 +104,26 @@ def test_contract_rejects_boundary_violation(tmp_path: Path) -> None:
         assert "frozen boundary" in str(error)
     else:
         raise AssertionError("unsafe incremental relay contract was accepted")
+
+
+def test_atomic_state_publish_survives_extended_windows_reader_lock(
+    monkeypatch, tmp_path: Path,
+) -> None:
+    path = tmp_path / "STATE.json"
+    path.write_text('{"old": true}\n', encoding="utf-8")
+    original = Path.replace
+    attempts = {"count": 0}
+
+    def transient_replace(self: Path, target: Path) -> Path:
+        attempts["count"] += 1
+        if attempts["count"] <= 12:
+            raise PermissionError("simulated Windows delete-sharing lock")
+        return original(self, target)
+
+    monkeypatch.setattr(Path, "replace", transient_replace)
+    monkeypatch.setattr(recovery.time, "sleep", lambda _seconds: None)
+    recovery._atomic_json(path, {"new": True})
+
+    assert attempts["count"] == 13
+    assert json.loads(path.read_text(encoding="utf-8")) == {"new": True}
+    assert list(tmp_path.glob("*.tmp")) == []

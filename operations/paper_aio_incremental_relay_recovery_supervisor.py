@@ -36,6 +36,7 @@ RELAY_CONTRACT_SCHEMA = "final-unsb-paper-incremental-audit-relay-contract-v1"
 RELAY_STATE_SCHEMA = "final-unsb-paper-incremental-audit-relay-state-v1"
 COMPLETE_RELAY_STATUS = "COMPLETE_VERIFIED_INCREMENTAL_AUDIT_IMPORT"
 REQUIRED_EPOCHS = [100, 150, 200]
+STATE_REPLACE_ATTEMPTS = 120
 
 
 def _atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -48,14 +49,19 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
             handle.write("\n")
             handle.flush()
             os.fsync(handle.fileno())
-        for attempt in range(10):
+        # Windows readers do not necessarily request delete sharing.  A health
+        # watcher, indexer, or antivirus scan can therefore hold the previous
+        # state path longer than the old 2.75-second retry window even though
+        # the relay child is healthy.  Keep the publish atomic and bounded, but
+        # tolerate a full short-lived scanner hold before failing closed.
+        for attempt in range(STATE_REPLACE_ATTEMPTS):
             try:
                 temporary.replace(path)
                 break
             except PermissionError:
-                if attempt == 9:
+                if attempt + 1 == STATE_REPLACE_ATTEMPTS:
                     raise
-                time.sleep(0.05 * (attempt + 1))
+                time.sleep(min(0.05 * (attempt + 1), 0.5))
     finally:
         temporary.unlink(missing_ok=True)
 
