@@ -1,0 +1,52 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-additional-read-recovery-v1",
+  "captured_at": "2026-09-12T17:19:38+08:00",
+  "host": "local_GTX1660_control_node",
+  "status": "AUTO_RECOVERED_FOUR_TOTAL_PERMISSION_ERRORS_CURRENT_CHILD_HEALTHY",
+  "supervisor": {
+    "pid": 5180,
+    "control_git_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "contract_sha256": "0ab630ce13fcd6bdb8ca2155b2a80b7d7013d9b039518ac96b7a979a34efdc7c",
+    "reported_restart_count": 5,
+    "configured_max_restarts": 20,
+    "status": "CHILD_RUNNING"
+  },
+  "child": {
+    "pid": 18588,
+    "started_at": "2026-09-12T16:59:21+08:00",
+    "status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "state_sha256": "8ceac7f97399cc3e5ee1ff8713433d92abb2712b3c73816e792297d38024d585",
+    "completed_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200"
+    ]
+  },
+  "failure": {
+    "total_permission_error_tracebacks": 4,
+    "new_failures_since_prior_record": 2,
+    "exception": "PermissionError while reading INCREMENTAL_IMPORT_SET_incremental_4090A_amtnc_v3.json during Windows atomic replacement",
+    "classification": "TRANSIENT_CONTROL_PLANE_READ_RACE_NOT_A_TRAINING_OR_SCIENTIFIC_FAILURE",
+    "audit_progress_lost": false
+  },
+  "health": {
+    "combined_health_pid": 9960,
+    "combined_health_status": "HEALTHY",
+    "alert_count": 0,
+    "health_state_sha256": "da505b95ff8299a6f6abdc1e0362942a4ec0876e7ef203a4cdff90e2a93c33b1",
+    "disk_free_gib": 83.52531433105469,
+    "disk_required_gib": 66.0
+  },
+  "canonical_recovery": {
+    "retry_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "retry_scope": "PermissionError-only bounded same-bytes read retry",
+    "hot_deployed": false,
+    "current_healthy_frozen_child_restarted_or_modified": false,
+    "policy": "Keep the current frozen child. If supervisor 5180 genuinely terminates or exhausts its bounded budget, recover from the canonical retry implementation after revalidating command and state identities."
+  },
+  "training_processes_changed": false,
+  "training_protocol_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

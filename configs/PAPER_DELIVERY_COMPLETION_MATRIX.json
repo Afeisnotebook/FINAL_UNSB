@@ -188,10 +188,11 @@
         "persistent_error_policy": "fail_closed",
         "parse_and_hash_same_bytes": true,
         "live_supervisor_pid": 5180,
-        "live_child_pid": 30948,
-        "live_restart_count": 3,
-        "latest_recovery": "two_transient_permission_errors_auto_recovered_current_child_healthy_since_2026_09_12T09_09_58_plus_08",
-        "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_TERMINAL_AUDIT_READ_RECOVERY_CONTINUITY_20260912T132032.json"
+        "live_child_pid": 18588,
+        "live_restart_count": 5,
+        "total_permission_error_tracebacks": 4,
+        "latest_recovery": "four_total_transient_permission_errors_auto_recovered_current_child_healthy_since_2026_09_12T16_59_21_plus_08",
+        "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_ADDITIONAL_READ_RECOVERY_20260912T171938.json"
       }
     },
     "training_processes_changed": false,
