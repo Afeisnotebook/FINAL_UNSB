@@ -241,7 +241,9 @@
       "final_frozen_attempt_started_at": "2026-09-12T17:33:34+08:00",
       "third_failure_policy": "allow_frozen_supervisor_to_block_without_relaunch_or_algorithm_change",
       "nonfinite_localizer": "operations/paper_aio_amtnc_nonfinite_localizer.py",
-      "nonfinite_localizer_status": "prepared_and_tested_not_running_wait_gpu_release",
+      "nonfinite_localizer_status": "deployed_hash_closed_not_running_wait_gpu_release",
+      "nonfinite_localizer_contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
+      "nonfinite_localizer_deployment_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_NONFINITE_LOCALIZER_DEPLOYED_20260912T175934.json",
       "completed_epochs_lost": 0,
       "maximum_uncheckpointed_updates_lost": 8552,
       "e175_offhost_protection": {

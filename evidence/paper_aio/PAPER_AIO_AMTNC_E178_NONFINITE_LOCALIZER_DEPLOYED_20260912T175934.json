@@ -1,0 +1,35 @@
+{
+  "schema": "final-unsb-paper-amtnc-e178-nonfinite-localizer-deployment-v1",
+  "observed_at": "2026-09-12T17:59:34+08:00",
+  "host": "4090A",
+  "status": "DEPLOYED_HASH_CLOSED_NOT_STARTED_WAIT_FINAL_FROZEN_ATTEMPT",
+  "contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
+  "control_git_commit": "0bdcf787c9d13fb14c33891c249e1e3ed14cc9fc",
+  "deployment_root": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78",
+  "deployed_files": {
+    "e178_full_state.pt": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "e0.pt": "5cf7d95469d9e83ffed5954e9b313022c2879189de79791c84c914f437f30ec4",
+    "FULL_DATA_MANIFEST.csv": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "paper_aio_amtnc_nonfinite_localizer.py": "6884ad291151dd8ab13a795af300403384f762c58b5bdf4886e52b6be24a5fd0",
+    "paper_aio_exclusive_gpu_runner.py": "b88e8722631bd15cdc0a265551597c7a92bc76200d4c3c0b6d0a1a58146f7e4c"
+  },
+  "deployed_files_read_only": true,
+  "isolated_runtime_python": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+  "import_and_cli_gate": "PASS_AFTER_EXPLICIT_TRAINING_ROOT_AND_SRC_PYTHONPATH",
+  "initial_missing_src_pythonpath_probe": "EXPECTED_GATE_FAILURE_CORRECTED_BEFORE_CONTRACT_FREEZE",
+  "free_disk_gib_at_deployment": 525,
+  "active_final_attempt": {
+    "trainer_pid": 3698062,
+    "elapsed": "00:25:59",
+    "supervisor_pid": 3446757,
+    "consecutive_failures": 2,
+    "traceback_count": 2,
+    "interrupted": false
+  },
+  "launch_status": "NOT_STARTED",
+  "launch_reason": "FINAL_FROZEN_AMTNC_ATTEMPT_STILL_RUNNING",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "scientific_lane_modified": false
+}
