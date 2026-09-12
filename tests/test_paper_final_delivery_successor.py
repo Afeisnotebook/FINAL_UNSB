@@ -33,7 +33,7 @@ def _entry(
     }
     if method_host is not None and plain_host is not None:
         if method_recovery:
-            relation = {
+            recovery_relation = {
                 "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
                 "method_source_host_label": method_host,
                 "plain_source_host_label": plain_host,
@@ -51,6 +51,13 @@ def _entry(
             value["comparison_scope"] = (
                 "same_host_audited_method_only_recovery"
             )
+            exact_relation = {
+                "status": "PASS_SAME_SOURCE_RUNTIME",
+                "method_source_host_label": method_host,
+                "plain_source_host_label": plain_host,
+                "comparison_identity": "exact_runtime",
+                "performance_values_read": False,
+            }
         else:
             relation = {
                 "status": (
@@ -65,16 +72,20 @@ def _entry(
                 "step_core_sha256": "s" * 64,
                 "performance_values_read": False,
             }
-        value["late_trajectory"] = [
-            {
+        value["late_trajectory"] = []
+        for epoch in (150, 175, 200):
+            epoch_relation = (
+                recovery_relation
+                if method_recovery and epoch == 200
+                else exact_relation if method_recovery else relation
+            )
+            value["late_trajectory"].append({
                 "epoch": epoch,
                 "crn_exact": True,
                 "runtime_relation_legal": True,
                 "matched_comparison_legal": True,
-                "runtime_relation": relation,
-            }
-            for epoch in (150, 175, 200)
-        ]
+                "runtime_relation": epoch_relation,
+            })
     return value
 
 
@@ -284,6 +295,13 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     assert value["methods"]["amtnc"]["runtime_relation"][
         "provenance_boundary_disclosed"
     ] is True
+    assert value["methods"]["amtnc"]["runtime_relation"][
+        "late_epoch_statuses"
+    ] == {
+        "150": "PASS_SAME_SOURCE_RUNTIME",
+        "175": "PASS_SAME_SOURCE_RUNTIME",
+        "200": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+    }
     assert "amtnc" in value["failed_current_implementation_and_protocol"]
     assert value["deferred_or_reproduction_incomplete"]["hjcgr"]["mechanism_falsified"] is False
     assert value["paper_claims_frozen"] is False
@@ -306,7 +324,7 @@ def test_portfolio_rejects_undisclosed_amtnc_recovery_relation(
 ) -> None:
     _, amtnc = _disposition(tmp_path, "amtnc", "PASS")
     _, stcgr = _disposition(tmp_path, final.STCGR_ID, "PASS")
-    amtnc["entry"]["late_trajectory"][1]["runtime_relation"][
+    amtnc["entry"]["late_trajectory"][2]["runtime_relation"][
         "provenance_boundary_disclosed"
     ] = False
     first = {
@@ -339,6 +357,22 @@ def test_portfolio_rejects_undisclosed_amtnc_recovery_relation(
                 "cut": "5090B", "cyclegan": "5090B",
             },
             stcgr_source_host="5090A",
+        )
+
+
+def test_amtnc_recovery_relation_must_begin_after_e175() -> None:
+    entry = _entry(
+        "amtnc", method_host="4090A", plain_host="4090A",
+        method_recovery=True,
+    )
+    trajectory = entry["late_trajectory"]
+    trajectory[1]["runtime_relation"], trajectory[2]["runtime_relation"] = (
+        trajectory[2]["runtime_relation"], trajectory[1]["runtime_relation"]
+    )
+    with pytest.raises(RuntimeError, match="runtime relation changed"):
+        final._validated_control_relation(
+            entry, lane_id="amtnc", method_source_host="4090A",
+            plain_source_host="4090A", allow_method_only_recovery=True,
         )
 
 

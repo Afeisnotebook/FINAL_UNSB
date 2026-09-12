@@ -488,6 +488,41 @@ def _validated_control_relation(
                 f"{lane_id} is not bound to the frozen matched plain relation"
             )
         relations.append(relation)
+    relation_statuses = [relation.get("status") for relation in relations]
+    if allow_method_only_recovery and relation_statuses == [
+        "PASS_SAME_SOURCE_RUNTIME",
+        "PASS_SAME_SOURCE_RUNTIME",
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+    ]:
+        # AM-TNC recovered after e175.  Its first two sustained checkpoints
+        # remain exact parent-runtime observations, while e200 is the only
+        # checkpoint produced by the audited method-only continuation.  This
+        # segmented relation is intentional and must not be flattened into a
+        # false claim that all three checkpoints share one byte-identical
+        # runtime.
+        recovery = relations[-1]
+        return {
+            "status": recovery["status"],
+            "method_source_host_label": method_source_host,
+            "plain_source_host_label": plain_source_host,
+            "comparison_identity": recovery.get("comparison_identity"),
+            "late_epoch_statuses": {
+                str(epoch): relation.get("status")
+                for epoch, relation in zip((150, 175, 200), relations)
+            },
+            "parent_git_commit": recovery.get("parent_git_commit"),
+            "recovery_git_commit": recovery.get("recovery_git_commit"),
+            "recovery_start_epoch": recovery.get("recovery_start_epoch"),
+            "migration_receipt_sha256": recovery.get(
+                "migration_receipt_sha256"
+            ),
+            "overflow_safe_replay_receipt_sha256": recovery.get(
+                "overflow_safe_replay_receipt_sha256"
+            ),
+            "provenance_boundary_disclosed": recovery.get(
+                "provenance_boundary_disclosed"
+            ),
+        }
     identity_keys = (
         "status", "method_source_host_label", "plain_source_host_label",
         "runtime_twin_updates", "e0_core_sha256", "step_core_sha256",
