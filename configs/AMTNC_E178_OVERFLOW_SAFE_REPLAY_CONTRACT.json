@@ -1,0 +1,104 @@
+{
+  "schema": "final-unsb-paper-amtnc-e178-overflow-safe-replay-contract-v1",
+  "status": "AUTHORIZED_NOT_STARTED",
+  "host": "4090A",
+  "parent_scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "overflow_safe_git_commit": "0cad0c92621f86ee3e709ca4bb011fe4a059b7af",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "source_checkpoint": {
+    "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e178_full_state.pt",
+    "sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "physical_epoch": 178,
+    "step": 1522434,
+    "read_only": true
+  },
+  "source_e0": {
+    "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e0.pt",
+    "sha256": "5cf7d95469d9e83ffed5954e9b313022c2879189de79791c84c914f437f30ec4",
+    "read_only": true
+  },
+  "localization_receipt": {
+    "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_REPLAY_0bdcf78_v2/AMTNC_NONFINITE_LOCALIZATION.json",
+    "sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+    "failure_category": "FLOAT32_GEOMETRY_PRODUCT_OVERFLOW",
+    "failure_player": "GF",
+    "failure_replay_update_offset": 6245
+  },
+  "sources": {
+    "amtnc_operator": {
+      "relative_path": "src/models/route1/amtnc.py",
+      "sha256": "05cc55194c0408dbd6ad452fecc818146de65e9d192a946b46c8f7255714f3ad"
+    },
+    "replay_runner": {
+      "relative_path": "operations/paper_aio_amtnc_nonfinite_localizer.py",
+      "sha256": "ff09e60382808b835374861b3865d30824071afdb72e66aebf7dda248ebace0a"
+    },
+    "exclusive_gpu_runner": {
+      "path": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/paper_aio_exclusive_gpu_runner.py",
+      "sha256": "b88e8722631bd15cdc0a265551597c7a92bc76200d4c3c0b6d0a1a58146f7e4c"
+    }
+  },
+  "patched_checkout": "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
+  "diagnostic_output": "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9",
+  "replay_updates": 6250,
+  "required_first_fallback_offset": 6245,
+  "required_first_fallback_player": "GF",
+  "acceptance": {
+    "status": "OVERFLOW_SAFE_REPLAY_COMPLETE",
+    "completed_replay_updates": 6250,
+    "post_replay_state_finite": true,
+    "source_checkpoint_unchanged": true,
+    "scientific_lane_modified": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  },
+  "launch_prerequisites": [
+    "no AM-TNC scientific trainer or recovery guard exists",
+    "source-bound successor remains terminal blocked",
+    "all source and implementation hashes match this contract",
+    "patched checkout is clean at overflow_safe_git_commit",
+    "shared GPU lock is available and no unregistered compute process is displaced",
+    "confirmation20 remains sealed"
+  ],
+  "command": [
+    "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/paper_aio_exclusive_gpu_runner.py",
+    "--gpu-lock",
+    "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "--state",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9/EXCLUSIVE_GPU_STATE.json",
+    "--log",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9/replay.log",
+    "--cwd",
+    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
+    "--",
+    "/usr/bin/env",
+    "PYTHONPATH=/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9/src:/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9",
+    "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_0cad0c9/operations/paper_aio_amtnc_nonfinite_localizer.py",
+    "--checkpoint",
+    "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e178_full_state.pt",
+    "--e0",
+    "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/e0.pt",
+    "--diagnostic-output",
+    "/home/yc/recovery_snapshots/AMTNC_E178_OVERFLOW_SAFE_REPLAY_0cad0c9",
+    "--manifest",
+    "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78/FULL_DATA_MANIFEST.csv",
+    "--data-root",
+    "/home/yc/dataset",
+    "--train-view",
+    "/home/yc/paper_views/FINAL_UNSB_FULL_AIO_V1_6a68e2c",
+    "--gpu",
+    "0",
+    "--max-updates",
+    "6250",
+    "--expect-overflow-safe",
+    "--required-first-fallback-offset",
+    "6245",
+    "--required-first-fallback-player",
+    "GF"
+  ],
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "scientific_lane_write_authorized": false
+}

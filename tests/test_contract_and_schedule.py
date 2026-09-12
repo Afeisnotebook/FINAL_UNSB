@@ -93,6 +93,22 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert state["paper_aio_20260902"]["confirmation20_opened"] is False
 
 
+def test_amtnc_overflow_safe_replay_is_diagnostic_and_source_bound():
+    contract = common.load_json(
+        "configs/AMTNC_E178_OVERFLOW_SAFE_REPLAY_CONTRACT.json"
+    )
+    assert contract["status"] == "AUTHORIZED_NOT_STARTED"
+    assert contract["source_checkpoint"]["physical_epoch"] == 178
+    assert contract["replay_updates"] == 6250
+    assert contract["required_first_fallback_offset"] == 6245
+    assert contract["required_first_fallback_player"] == "GF"
+    assert contract["acceptance"]["status"] == "OVERFLOW_SAFE_REPLAY_COMPLETE"
+    assert contract["acceptance"]["source_checkpoint_unchanged"] is True
+    assert contract["paired_metric_control"] is False
+    assert contract["confirmation20_opened"] is False
+    assert contract["scientific_lane_write_authorized"] is False
+
+
 def test_paper_baseline_tiers_cannot_silently_mix_protocols():
     baseline = common.load_json("configs/PAPER_BASELINE_PORTFOLIO.json")
     core = {row["id"]: row for row in baseline["core_controlled_main_table"]}
