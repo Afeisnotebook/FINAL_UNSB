@@ -39,6 +39,50 @@ from research.paper_aio.runtime import (
 
 
 PLAYERS = ("D", "E", "GF")
+IDENTITY_KEYS = (
+    "project_id", "lane_id", "lane_config_sha256", "seed",
+    "manifest_sha256", "protocol_fingerprint", "e0_scientific_state_sha256",
+    "git_commit", "steps_per_data_epoch", "target_updates", "batch_size",
+    "sampling_measure", "paired_controller_access", "confirmation20_opened",
+)
+
+
+def replay_expected_metadata(
+    payload: dict[str, Any],
+    current_metadata: dict[str, Any],
+    *,
+    required_parent_git_commit: str | None = None,
+    required_parent_protocol_fingerprint: str | None = None,
+) -> dict[str, Any]:
+    """Bind a diagnostic replay across an explicitly named source transition.
+
+    The ordinary path remains strict against the current checkout.  A patched
+    diagnostic may admit a parent checkpoint only when both changing identity
+    fields are supplied and every scientific/data identity outside those two
+    fields still equals the current checkout.
+    """
+    if (required_parent_git_commit is None) != (
+        required_parent_protocol_fingerprint is None
+    ):
+        raise RuntimeError(
+            "parent git commit and protocol fingerprint must be supplied together"
+        )
+    parent = payload.get("metadata", {})
+    if required_parent_git_commit is None:
+        return {key: current_metadata[key] for key in IDENTITY_KEYS}
+    if parent.get("git_commit") != required_parent_git_commit:
+        raise RuntimeError("diagnostic parent git commit mismatch")
+    if (
+        parent.get("protocol_fingerprint")
+        != required_parent_protocol_fingerprint
+    ):
+        raise RuntimeError("diagnostic parent protocol fingerprint mismatch")
+    for key in IDENTITY_KEYS:
+        if key in {"git_commit", "protocol_fingerprint"}:
+            continue
+        if parent.get(key) != current_metadata.get(key):
+            raise RuntimeError(f"diagnostic cross-version identity mismatch for {key}")
+    return {key: parent[key] for key in IDENTITY_KEYS}
 
 
 def _finite_summary(value: torch.Tensor) -> dict[str, Any]:
@@ -197,11 +241,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         train_view=args.train_view.resolve(),
         data_root=args.data_root.resolve(),
     )
-    identity_keys = (
-        "project_id", "lane_id", "lane_config_sha256", "seed",
-        "manifest_sha256", "protocol_fingerprint", "e0_scientific_state_sha256",
-        "git_commit", "steps_per_data_epoch", "target_updates", "batch_size",
-        "sampling_measure", "paired_controller_access", "confirmation20_opened",
+    expected_metadata = replay_expected_metadata(
+        payload,
+        current_metadata,
+        required_parent_git_commit=args.required_parent_git_commit,
+        required_parent_protocol_fingerprint=(
+            args.required_parent_protocol_fingerprint
+        ),
     )
     load_full_state(
         source_checkpoint,
@@ -209,7 +255,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         spec=spec,
         primary=primary,
         secondary=secondary,
-        expected_metadata={key: current_metadata[key] for key in identity_keys},
+        expected_metadata=expected_metadata,
     )
     source_scientific_sha = full_state_hash(payload)
     parameter_names = _player_parameter_names(model)
@@ -369,6 +415,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--expect-overflow-safe", action="store_true")
     value.add_argument("--required-first-fallback-offset", type=int)
     value.add_argument("--required-first-fallback-player", choices=PLAYERS)
+    value.add_argument("--required-parent-git-commit")
+    value.add_argument("--required-parent-protocol-fingerprint")
     return value
 
 
