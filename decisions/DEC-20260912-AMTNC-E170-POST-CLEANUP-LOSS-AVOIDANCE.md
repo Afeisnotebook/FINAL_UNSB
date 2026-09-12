@@ -23,6 +23,7 @@ supervisor/trainer PID `3446757/3446758` 连续健康，guard/health PID `439182
   `E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260912_E170`，逐文件与远端源重验 SHA256 后设为只读。
 - 保留既有 e175 永久 milestone 异机备份动作；没有向任何训练进程发送信号，也没有修改算法、
   数据顺序或训练协议。
+- 两小时 Goal heartbeat 已原位更新到 e170 回退点和提交 `c5815af`，保持仅失败通知；未写入凭据。
 
 ## 影响边界
 
