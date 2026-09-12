@@ -4,7 +4,7 @@
   "status": "PRE_RESULT_REPRODUCIBILITY_AND_ARTIFACT_CHECKLIST_HASH_BOUND",
   "checklist": {
     "path": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
-    "sha256": "6b24a9d5dcfbe3b81c6d78df41f16157475c9515143d7dab6fbe4d1e82ce15cf"
+    "sha256": "323ea332bb3ce772bdc617a5cfa0ada9eeb72c4f4f23a7c44a7935b30bb2b0c8"
   },
   "authorities": {
     "executable_protocol": {
@@ -21,15 +21,15 @@
     },
     "runtime_relations": {
       "path": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
-      "sha256": "a876a7352ad7b8d019847000b9f98475626bd6f4f1587e4023ec38566a04a36a"
+      "sha256": "d68c284f042736ccf73b16a18ad80504496f5e84bd96edd6bef6e64a60b0fe90"
     },
     "manuscript_branching": {
       "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
-      "sha256": "a869049af511ad46730809be892eb8c7f3684455c53e41f20ee1789a7b50e63b"
+      "sha256": "c6e120a49405fa3a7744032fca13701267af87ad6657d180a32a0309ffdc2cf0"
     },
     "methods_protocol_draft": {
       "path": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
-      "sha256": "6fa681ae01bd7bd6c58dcbf7d151ec8c86f5d8779be23537a5ba6475207d07b8"
+      "sha256": "7f363d176bf79c8050d2d9c46837e0c350f4543e0a021c4fb839a76611ae08bf"
     }
   },
   "revision_reason": "Bind the disclosed AM-TNC recovery comparison before any e200 outcome is available.",

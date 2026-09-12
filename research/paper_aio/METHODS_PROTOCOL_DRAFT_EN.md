@@ -256,6 +256,10 @@ overflow, that comparison is no longer described as byte-identical runtime
 identity: it requires the pre-result, metric-blind method-only recovery relation
 that binds the unchanged transition state, finite-path bitwise identity,
 float64-only overflow fallback, and the localization/replay/migration receipts.
+The recovery export rematerializes e100/e125/e150/e175 with new provenance
+metadata only; the migration receipt binds dynamics-only identity for every
+such fixed checkpoint, so this artifact normalization is not represented as
+retraining under the recovery code.
 A result without an admitted exact or explicitly disclosed recovery relation is
 reported as an absolute trajectory, not as a matched delta.
 

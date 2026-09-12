@@ -147,7 +147,11 @@ overflowed only in float32 square/cross-product reductions. The admitted
 continuation uses a hash-audited isolated runtime, unchanged transition state,
 bitwise-identical finite path, and float64 only for a non-finite metric
 reduction. This fact neither establishes nor invalidates empirical benefit and
-must not be described as byte-identical runtime continuation.
+must not be described as byte-identical runtime continuation. The single
+recovery export namespace rematerializes e100/e125/e150/e175 only after the
+migration gate proves a dynamics-only hash identity for each source checkpoint;
+the new provenance fingerprint must not be mistaken for recovery-code training
+at those earlier epochs.
 
 ## F. Runtime cohorts and legal comparisons
 

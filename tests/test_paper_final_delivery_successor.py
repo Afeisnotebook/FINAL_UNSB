@@ -46,18 +46,16 @@ def _entry(
                 "migration_receipt_sha256": "m" * 64,
                 "overflow_safe_replay_receipt_sha256": "r" * 64,
                 "provenance_boundary_disclosed": True,
+                "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": True,
+                "pre_recovery_milestone_dynamics_only_sha256": {
+                    str(epoch): str(index) * 64
+                    for index, epoch in enumerate((100, 125, 150, 175), start=1)
+                },
                 "performance_values_read": False,
             }
             value["comparison_scope"] = (
                 "same_host_audited_method_only_recovery"
             )
-            exact_relation = {
-                "status": "PASS_SAME_SOURCE_RUNTIME",
-                "method_source_host_label": method_host,
-                "plain_source_host_label": plain_host,
-                "comparison_identity": "exact_runtime",
-                "performance_values_read": False,
-            }
         else:
             relation = {
                 "status": (
@@ -74,11 +72,7 @@ def _entry(
             }
         value["late_trajectory"] = []
         for epoch in (150, 175, 200):
-            epoch_relation = (
-                recovery_relation
-                if method_recovery and epoch == 200
-                else exact_relation if method_recovery else relation
-            )
+            epoch_relation = recovery_relation if method_recovery else relation
             value["late_trajectory"].append({
                 "epoch": epoch,
                 "crn_exact": True,
@@ -298,8 +292,8 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
     assert value["methods"]["amtnc"]["runtime_relation"][
         "late_epoch_statuses"
     ] == {
-        "150": "PASS_SAME_SOURCE_RUNTIME",
-        "175": "PASS_SAME_SOURCE_RUNTIME",
+        "150": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+        "175": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
         "200": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
     }
     assert "amtnc" in value["failed_current_implementation_and_protocol"]
@@ -360,16 +354,15 @@ def test_portfolio_rejects_undisclosed_amtnc_recovery_relation(
         )
 
 
-def test_amtnc_recovery_relation_must_begin_after_e175() -> None:
+def test_amtnc_recovery_relation_requires_milestone_identity_proof() -> None:
     entry = _entry(
         "amtnc", method_host="4090A", plain_host="4090A",
         method_recovery=True,
     )
-    trajectory = entry["late_trajectory"]
-    trajectory[1]["runtime_relation"], trajectory[2]["runtime_relation"] = (
-        trajectory[2]["runtime_relation"], trajectory[1]["runtime_relation"]
-    )
-    with pytest.raises(RuntimeError, match="runtime relation changed"):
+    entry["late_trajectory"][1]["runtime_relation"][
+        "pre_recovery_milestones_rematerialized_with_dynamics_only_identity"
+    ] = False
+    with pytest.raises(RuntimeError, match="frozen matched plain relation"):
         final._validated_control_relation(
             entry, lane_id="amtnc", method_source_host="4090A",
             plain_source_host="4090A", allow_method_only_recovery=True,

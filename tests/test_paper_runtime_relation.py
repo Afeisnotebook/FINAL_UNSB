@@ -93,6 +93,11 @@ def _method_recovery_registry(path: Path) -> Path:
         "rng_or_sampler_changed": False,
         "transition_defining_state_changed": False,
         "source_checkpoint_mutated": False,
+        "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": True,
+        "pre_recovery_milestone_dynamics_only_sha256": {
+            str(epoch): chr(96 + index) * 64
+            for index, epoch in enumerate((100, 125, 150, 175), start=1)
+        },
         "parent_dynamics_only_sha256": "d" * 64,
         "migrated_dynamics_only_sha256": "d" * 64,
         "parent_checkpoint_sha256": "p" * 64,

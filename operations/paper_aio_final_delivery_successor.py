@@ -455,6 +455,23 @@ def _validated_control_relation(
                 == "audited_method_only_recovery_not_byte_identical_runtime"
                 and relation.get("provenance_boundary_disclosed") is True
                 and int(relation.get("recovery_start_epoch", -1)) == 178
+                and relation.get(
+                    "pre_recovery_milestones_rematerialized_with_dynamics_only_identity"
+                ) is True
+                and isinstance(
+                    relation.get(
+                        "pre_recovery_milestone_dynamics_only_sha256"
+                    ), dict,
+                )
+                and list(
+                    relation["pre_recovery_milestone_dynamics_only_sha256"]
+                ) == ["100", "125", "150", "175"]
+                and all(
+                    isinstance(value, str) and len(value) == 64
+                    for value in relation[
+                        "pre_recovery_milestone_dynamics_only_sha256"
+                    ].values()
+                )
                 and all(
                     isinstance(relation.get(key), str)
                     and len(relation[key]) == length
@@ -489,17 +506,22 @@ def _validated_control_relation(
             )
         relations.append(relation)
     relation_statuses = [relation.get("status") for relation in relations]
-    if allow_method_only_recovery and relation_statuses == [
-        "PASS_SAME_SOURCE_RUNTIME",
-        "PASS_SAME_SOURCE_RUNTIME",
+    segmented_recovery = relation_statuses == [
+        "PASS_SAME_SOURCE_RUNTIME", "PASS_SAME_SOURCE_RUNTIME",
         "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
-    ]:
-        # AM-TNC recovered after e175.  Its first two sustained checkpoints
-        # remain exact parent-runtime observations, while e200 is the only
-        # checkpoint produced by the audited method-only continuation.  This
-        # segmented relation is intentional and must not be flattened into a
-        # false claim that all three checkpoints share one byte-identical
-        # runtime.
+    ]
+    rematerialized_recovery = relation_statuses == [
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    ] * 3
+    if allow_method_only_recovery and (
+        segmented_recovery or rematerialized_recovery
+    ):
+        # The source-bound recovery exporter can expose the pre-e178
+        # milestones either with their original parent metadata or as audited
+        # rematerializations carrying the recovery fingerprint.  In the latter
+        # case the migration receipt proves dynamics-only identity for every
+        # fixed pre-recovery milestone.  Both encodings preserve the true
+        # e178 provenance boundary without claiming byte-identical runtimes.
         recovery = relations[-1]
         return {
             "status": recovery["status"],
@@ -521,6 +543,14 @@ def _validated_control_relation(
             ),
             "provenance_boundary_disclosed": recovery.get(
                 "provenance_boundary_disclosed"
+            ),
+            "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": (
+                recovery.get(
+                    "pre_recovery_milestones_rematerialized_with_dynamics_only_identity"
+                )
+            ),
+            "pre_recovery_milestone_dynamics_only_sha256": recovery.get(
+                "pre_recovery_milestone_dynamics_only_sha256"
             ),
         }
     identity_keys = (

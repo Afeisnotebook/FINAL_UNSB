@@ -23,7 +23,7 @@
     },
     "limitations_statement": {
       "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
-      "sha256": "8fb315492120c75bc412f44f55236b52df513a07814d5543b3c7f4ac42cbcca8"
+      "sha256": "cd56f28f3a37e8b278974b9498af2d9c3ef39505aa2175d43384a2c6f78a345f"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],

@@ -87,6 +87,13 @@
       "rng_or_sampler_changed": false,
       "transition_defining_state_changed": false,
       "source_checkpoint_mutated": false,
+      "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+      "pre_recovery_milestone_dynamics_only_sha256": {
+        "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+        "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+        "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+        "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+      },
       "parent_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
       "migrated_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
       "parent_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",

@@ -125,6 +125,9 @@ def _method_only_recovery_relation_status(
         "parent_git_commit", "recovery_git_commit",
         "recovery_parent_git_commit",
     )
+    milestone_hashes = relation.get(
+        "pre_recovery_milestone_dynamics_only_sha256"
+    )
     passed = (
         relation.get("status") == METHOD_ONLY_RECOVERY_STATUS
         and lane_id == "amtnc"
@@ -163,6 +166,15 @@ def _method_only_recovery_relation_status(
         and relation.get("rng_or_sampler_changed") is False
         and relation.get("transition_defining_state_changed") is False
         and relation.get("source_checkpoint_mutated") is False
+        and relation.get(
+            "pre_recovery_milestones_rematerialized_with_dynamics_only_identity"
+        ) is True
+        and isinstance(milestone_hashes, dict)
+        and list(milestone_hashes) == ["100", "125", "150", "175"]
+        and all(
+            isinstance(value, str) and len(value) == 64
+            for value in milestone_hashes.values()
+        )
         and relation.get("parent_dynamics_only_sha256")
         == relation.get("migrated_dynamics_only_sha256")
         and all(
@@ -193,6 +205,12 @@ def _method_only_recovery_relation_status(
         "provenance_boundary_disclosed": relation.get(
             "provenance_boundary_disclosed"
         ),
+        "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": (
+            relation.get(
+                "pre_recovery_milestones_rematerialized_with_dynamics_only_identity"
+            )
+        ),
+        "pre_recovery_milestone_dynamics_only_sha256": milestone_hashes,
         "performance_values_read": False,
     }
 
