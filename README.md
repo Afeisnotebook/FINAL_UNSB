@@ -31,18 +31,19 @@ All-in-One 无配对论文阶段：每侧8553张、batch1、seed2026、真实200
 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`、`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`和
 `configs/LOCAL_ROUTE1_PROBES.json`。
 
-## 当前阶段（2026-09-08）
+## 当前阶段（2026-09-12）
 
 4090A的full plain已经完成并封存，现在运行AM-TNC；5090A运行ST-CGR；5090C运行
-Proposal-only；5090B的CUT已经完成e200，CycleGAN与通过exact-runtime/容量门的fresh-e0
-matched plain正在同卡运行，CycleGAN完成后plain自然转为独占；本地GTX1660独占运行DCLGAN。所有健康
-训练均有full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
+Proposal-only；5090B的CUT与CycleGAN均已完成e200，通过exact-runtime/容量门的fresh-e0
+matched plain现已独占该卡继续到e200；本地GTX1660独占运行DCLGAN。所有健康训练均有
+full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
 
-4090A有一个必须保留的恢复例外：原`/home/yc/unsb_cov`与完整Conda环境已被误删，当前
-AM-TNC仍运行于deleted inode。健康PID不得为“修复路径”而重启；旧prefix不是恢复权威。唯一
-训练恢复权威是已逐文件验签的只读隔离runtime，guard会在真实故障时先重验runtime和最新
-full-state再恢复。最新异机回退点、PID、哈希与剩余非逐位证明边界以`PROJECT_STATE.json`的
-`runtime_environment_recovery`为准。
+4090A原`/home/yc/unsb_cov`与完整Conda环境曾被误删，随后AM-TNC在e178暴露float32
+中间度量归约溢出。当前健康训练已经迁入源码绑定的`478211c`恢复run和真实存在、逐文件
+验签的隔离runtime；只在原float32归约产生非有限值时用float64重算该度量，不修改有限路径、
+算法公式、超参、采样或恢复状态。训练已越过原故障点，guard会在真实故障时重验runtime和
+最新full-state后exact resume。旧prefix和deleted inode都不是当前恢复权威；最新PID、哈希、
+边界与交付链只看`PROJECT_STATE.json`及其`latest_live_status`。
 
 论文结论仍未冻结：Proposal与ST-CGR必须等待合法的5090B matched plain关系，AM-TNC只
 使用4090A同宿主plain；所有方法主表使用e200，sustained固定为e150/e175/e200。DDSB因
@@ -93,5 +94,5 @@ derivation card、已登记实现和可执行门禁，不能仅凭候选名称�
 
 旧UNSB的网络/数据代码保留在 `src/` 作为嵌入式库；旧 `train.py/test.py` 已移除。
 服务器安装、运行、评估和回传脚本保留在 `scripts/` 与 `server_tasks/` 作为
-provenance；当前仅执行后来明确授权且记录于`decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md`
-和`decisions/DEC-20260830-ROUTE1-REMOTE5090.md`的路线一任务。
+provenance。旧route1远端队列及其嵌入式successor只作历史证据，不再是调度权威；当前行动
+严格从`PROJECT_STATE.json`的`active_control_entrypoint`和`next_gate`进入。

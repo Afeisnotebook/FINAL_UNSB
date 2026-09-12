@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-control-entrypoint-document-sync-v1",
+  "captured_at": "2026-09-12T23:43:20+08:00",
+  "status": "PASS_FIRST_READ_DOCUMENTS_ALIGNED_TO_CURRENT_PAPER_AIO_AUTHORITY",
+  "updated_documents": [
+    "README.md",
+    "AGENTS.md",
+    "START_HERE_CN.md",
+    "CONTEXT_CAPSULE_CN.md",
+    "ACTIVE_PAPER_AIO_PLAN_CN.md"
+  ],
+  "corrections": [
+    "5090B CUT and CycleGAN are complete and matched plain now runs exclusively",
+    "AM-TNC recovery authority is the source-bound 478211c run and verified isolated runtime rather than a deleted interpreter",
+    "terminal audit waits behind the local DCLGAN GPU lock and resumes through durable supervisors",
+    "archived RF-AMMCRB/RF-MCRB/G3 route1 successors are evidence only and not current scheduling authority"
+  ],
+  "realtime_values_delegated_to": [
+    "PROJECT_STATE.json",
+    "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+    "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json"
+  ],
+  "training_processes_changed": false,
+  "algorithm_protocol_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "prior_control_entrypoint_evidence": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DRIFT_CORRECTION_20260912T234000.json",
+  "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DOCUMENT-SYNC.md"
+}

@@ -1,10 +1,10 @@
 # ACTIVE：FINAL_UNSB 全量论文实验与下一阶段算法重构
 
 状态：`FIRST_WAVE_RUNNING / THREE_ALGORITHM_PATHS_RUNNING / CONFIRMATION_LOCKED`
-日期：2026-09-06
+日期：2026-09-12
 
-资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与正在运行
-CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此
+资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与此前完成
+CUT/CycleGAN且当前运行matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此
 改变；真正新增宿主必须先通过GPU UUID主键的host-identity gate、空闲GPU和独立可写状态
 门。AutoDL多个容器的machine-id相同，不能单独用于判定宿主唯一性。
 
@@ -31,15 +31,15 @@ CUT/CycleGAN及等待matched plain的宿主完全相同，不增加GPU数量。�
 |---|---|---|---|
 | 4090A | full AM-TNC e200；plain已完成封存 | 当前live commit/fp见`PROJECT_STATE.json` | AM-TNC后terminal audit与统一评估 |
 | 5090A | full ST-CGR e200 | candidate `656670c` / fp `2fbdd6f...` | e200后source-bound export；plain无自动恢复授权 |
-| 5090B | full CUT + CycleGAN e200同卡 | 各自冻结外部基线协议 | CUT后先exact twin，再fresh-e0 matched plain |
+| 5090B | CUT与CycleGAN均已完成e200；fresh-e0 matched plain独占运行 | 冻结外部基线协议与已审核runtime relation | plain e200后source-bound export与统一评估 |
 | 5090C | full Proposal e200 | commit `e4a5eed` / fp `e5704e...` | source-bound export |
 | 本地1660 | full DCLGAN e200独占 | source-bound adapter `e45973a` | e200后export并推送4090A统一评估 |
 
 进度以各宿主`HEARTBEAT.json`为唯一工程事实，不在计划文档中冻结会迅速过时的epoch；
 这些心跳不是科学结论。所有训练均由持久监督器执行。5090A plain停在e9完整状态且不会
 自动重启；旧plain恢复状态文件只作历史留档，关联PID均已退出，不能被解释为仍在等待的
-有效继任器；5090B的plain继任器只在CUT完成和精确runtime门通过后启动。ST-CGR与Proposal
-均有独立source-bound exporter。此前等待ST-CGR e200后恢复5090A plain的metric-blind
+有效继任器；5090B的plain已经通过CUT前驱和精确runtime门并从其现有full-state持续运行。
+ST-CGR与Proposal均有独立source-bound exporter。此前等待ST-CGR e200后恢复5090A plain的metric-blind
 继任器已退役，未来恢复必须有新的明确决策。任何relay或关系候选都不能自动改Git registry
 或授权结论。
 

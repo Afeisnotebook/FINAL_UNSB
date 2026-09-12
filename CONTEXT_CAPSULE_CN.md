@@ -11,7 +11,7 @@ confirmation20继续封存；paired指标不能控制训练；不同宿主delta�
 不得跨宿主续接；一个action-priority候选不等于唯一科学算法。
 
 当前4090A的full plain已完成并封存，现运行同宿主AM-TNC；5090B的CUT已完成e200，
-CycleGAN与通过exact-runtime门的fresh-e0 matched plain正在同卡运行；5090C运行Proposal；
+CycleGAN也已完成e200，通过exact-runtime门的fresh-e0 matched plain现已独占运行；5090C运行Proposal；
 5090A的plain完整暂停于e9且所有自动恢复链均已退役，当前只运行新构造ST-CGR的
 full-data/e200。终端低方差奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；
 ST-CGR来自已确认的time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB
@@ -25,6 +25,10 @@ DCLGAN；算法公式与论文主张边界见`research/paper_aio/ALGORITHM_THEOR
 `PAPER_AIO_RESEARCH_CONTRACT_CN.md`，执行状态见`ACTIVE_PAPER_AIO_PLAN_CN.md`。
 持久heartbeat `final-unsb-goal`已在2026-09-08修复乱码和e63旧恢复语义，保持两小时低频、
 仅失败通知且不保存服务器凭据。
+
+当前行动权威是`PROJECT_STATE.json:active_control_entrypoint`及同级`next_gate`。文件后部
+保留的RF-AMMCRB/RF-MCRB/G3等旧route1字段是历史证据，不得据此恢复旧successor；这一
+防漂移边界已在2026-09-12明确提交。
 
 ## 0. 2026-08-29 历史优先级覆盖
 

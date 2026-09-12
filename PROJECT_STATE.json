@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-12",
-  "state_snapshot_time": "2026-09-12T23:40:00+08:00",
+  "state_snapshot_time": "2026-09-12T23:43:20+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1914,7 +1914,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DRIFT_CORRECTION_20260912T234000.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DOCUMENT_SYNC_20260912T234320.json",
     "post_cleanup_control_chain_recovery_20260912": {
       "status": "AMTNC_OVERFLOW_SAFE_SOURCE_BOUND_RECOVERY_HEALTHY_AT_E180",
       "4090a_amtnc_active_pids": [3764454, 3764455],

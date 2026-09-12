@@ -46,10 +46,9 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
   valuable AM-TNC path; unified evaluation follows after e200.
   **5090C** runs Proposal. **5090A** has paused its recoverable plain at e9 by
   explicit user time-priority and now runs the authorized full-data ST-CGR from
-  its exact e1 state. **5090B** has completed CUT e200 and now co-runs CycleGAN
-  with the admitted fresh-e0 matched plain; after CycleGAN e200, plain must
-  continue from its current full state without a restart. **Local GTX1660**
-  runs DCLGAN exclusively.
+  its exact e1 state. **5090B** has completed both CUT and CycleGAN e200; the
+  admitted fresh-e0 matched plain now continues exclusively from its existing
+  full state. **Local GTX1660** runs DCLGAN exclusively.
 - Every live scientific checkout remains pinned to the per-lane commit and
   protocol fingerprint recorded in `PROJECT_STATE.json`.  Newer commits may
   orchestrate, relay and evaluate, but must not mutate those live transitions.
@@ -57,6 +56,9 @@ route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
 
 ## Drift firewall
 
+- `PROJECT_STATE.json:active_control_entrypoint` and its top-level `next_gate`
+  are the current scheduling authority. Older route-1 sections remain evidence
+  only; never launch RF-AMMCRB/RF-MCRB/G3 successors from archived fields.
 - The active goal is algorithm discovery, not validation of a frozen lane list.
 - The active paper stage also requires defensible external baselines; guessed
   reproductions are forbidden. DDSB remains `reproduction_incomplete` until an

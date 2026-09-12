@@ -1,6 +1,6 @@
 # 先从这里开始
 
-## 当前最高优先级覆盖（2026-09-08）
+## 当前最高优先级覆盖（2026-09-12）
 
 用户已明确启动“全量论文实验 + 下一阶段算法重构”。这项授权覆盖本文旧段落中的
 “full-data未激活/服务器仅限small25”，但不改写small25路线一的历史证据。
@@ -13,8 +13,8 @@
 - 维持confirmation20封存、禁止paired在线控制、禁止跨宿主delta。
 
 当前在线分配为：4090A的full plain已经完成并封存，现运行AM-TNC；5090C运行Proposal；
-5090B的CUT已经完成e200，CycleGAN与通过exact-runtime和metric-blind容量门的fresh-e0
-matched plain正在同卡运行；CycleGAN完成后plain自然转为独占。5090A按用户时间优先授权把plain暂停在e9，只运行full-data
+5090B的CUT与CycleGAN均已完成e200，通过exact-runtime和metric-blind容量门的fresh-e0
+matched plain现已独占运行。5090A按用户时间优先授权把plain暂停在e9，只运行full-data
 ST-CGR；本地GTX1660独占运行DCLGAN，并已部署source-bound export、推送及4090A统一
 评估等待链。DDSB因没有权威公开实现保持`reproduction_incomplete`，不得跑猜测版。
 
@@ -23,17 +23,14 @@ AM-TNC只使用4090A同宿主plain。实时epoch、PID、磁盘与租期外推�
 `configs/FULL_DATA_METHOD_PORTFOLIO.json`和`configs/PAPER_DELIVERY_COMPLETION_MATRIX.json`，
 不要从本文件的历史段落恢复旧队列。
 
-5090B的两条runtime relation现已完成审核并写入注册表；4090A已从当前commit部署动态
-统一评估、ST-CGR matched评估和最终论文交付链，旧的5090A-plain绑定等待器已在新链
-连续健康后退出。4090A原完整`unsb_cov`环境仍然缺失，旧`python*`入口只是只读中继；
-可信恢复根是从运行进程映射建立并逐项验哈希的独立只读运行时，过程中没有中断或重启
-AM-TNC；e64真实full-state已在隔离运行时完成CPU单步恢复，原进程随后继续保存到e65。
-DCLGAN恢复监督器已收养原评估子进程且`restart_count=0`。
-运行时风险的最新权威回执与裁决分别为
-`evidence/paper_aio/PAPER_AIO_AMTNC_E64_POST_CLEANUP_RECOVERY_REVALIDATION_20260908T003100.json`
-和`decisions/DEC-20260908-AMTNC-E64-POST-CLEANUP-RECOVERY-REVALIDATION.md`；动态交付链仍见
-`decisions/DEC-20260906-4090A-RUNTIME-RECOVERY-AND-DYNAMIC-DELIVERY.md`。恢复资产不建立
-新的训练runtime cohort，matched关系仍只使用已审核注册表。
+5090B的两条runtime relation现已完成审核并写入注册表；4090A已部署动态统一评估、
+ST-CGR matched评估和最终论文交付链。4090A原完整`unsb_cov`环境虽仍缺失，但AM-TNC已在
+e178工程故障后迁入源码绑定恢复run和真实存在、逐文件验签的隔离runtime，越过原float32
+度量归约溢出点继续训练；旧deleted解释器和旧prefix不再承担恢复职责。恢复没有改变有限
+训练路径、算法公式、超参、采样或matched关系。最新AM恢复与终端审计链见
+`evidence/paper_aio/PAPER_AIO_AMTNC_RECOVERY_TERMINAL_AUDIT_CHAIN_20260912T224845.json`，
+控制入口修正见
+`evidence/paper_aio/PAPER_AIO_CONTROL_ENTRYPOINT_DRIFT_CORRECTION_20260912T234000.json`。
 
 ST-CGR与Proposal内层supervisor分别累计2次和1次工程故障且计数不会自动清零。为避免
 下一次故障令长训静默停止，现已由commit `db16096`的candidate-aware外层guard收养：
@@ -41,11 +38,10 @@ ST-CGR guard/health为`942101/942182`，Proposal为`431648/431712`；原训练PI
 两组均为零重启、零告警。恢复前必须重新验签代码、协议、授权、解释器和latest full-state。
 权威回执见`evidence/paper_aio/PAPER_AIO_STCGR_PROPOSAL_OUTER_RECOVERY_GUARDS_20260908T000000.json`。
 
-本地terminal-audit链于2026-09-06发现AM-TNC与ST-CGR两条旧增量relay因引用可变
-`main`工作树而按源码漂移门退出；训练本身不受影响。两条relay已从detached commit
-`46f9077`重新部署并连续健康，综合监视器PID为`18736`。DCLGAN仍持有和terminal JVP
-相同的本地GPU锁，因此审计不会误与其在GTX1660上共驻。详见
-`decisions/DEC-20260906-LOCAL-INCREMENTAL-RELAY-RECOVERY.md`。
+本地terminal-audit链已经导入plain的固定e100/e150/e200，并持续等待AM-TNC、ST-CGR和
+Proposal剩余source-bound checkpoint。DCLGAN仍独占和terminal JVP相同的本地GPU锁，
+因此审计不会误与其在GTX1660上共驻；DCLGAN结束后审计会由持久监督器自动接棒。实时
+supervisor、child与health PID只从`PROJECT_STATE.json`读取，不从本说明恢复旧PID。
 
 2026-09-03 09:49新增提供的`connect.weste.seetacloud.com:44804`经GPU UUID、hostname、
 run inode、PID和heartbeat核验证明是上述5090B的另一个入口，不是第五张GPU。不得把它
