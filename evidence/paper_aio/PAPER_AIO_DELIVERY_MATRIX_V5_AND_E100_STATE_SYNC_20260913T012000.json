@@ -1,0 +1,49 @@
+{
+  "schema": "final-unsb-paper-delivery-matrix-v5-and-e100-state-sync-v1",
+  "captured_at": "2026-09-13T01:20:00+08:00",
+  "status": "PASS_DELIVERY_MATRIX_CURRENT_V5_AND_MATCHED_E100_STATE_SYNCHRONIZED",
+  "problem": {
+    "active_training_affected": false,
+    "stale_control_metadata": [
+      "core algorithm-disposition cell still named the retired AM-TNC V2 waiter",
+      "core final-portfolio cell still named the retired V2 final waiter",
+      "5090B matched-plain cell still described the already-superseded pre-e100 state"
+    ],
+    "risk": "a future operator could mistake retired waiters for current recovery authority even though latest_live_status already pointed to V5"
+  },
+  "synchronized_authority": {
+    "amtnc_v5_evaluation_supervisor_pid": 3858726,
+    "amtnc_v5_evaluation_child_pid": 3858745,
+    "v5_final_supervisor_pid": 3858727,
+    "v5_final_child_pid": 3858744,
+    "v5_health_watcher_pid": 3858782,
+    "v5_control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "retired_waiter_versions": ["V2_2B45F88", "V3_A738846", "V4_DE1DD82"],
+    "retired_waiters_must_not_be_restarted": true,
+    "matched_plain_latest_complete_epoch": 105,
+    "matched_plain_latest_complete_updates": 898065,
+    "matched_plain_e100_source_and_local_import": "PASS_HASH_VERIFIED",
+    "matched_plain_incremental_waiting_epochs": [150, 200]
+  },
+  "other_live_milestones_synchronized": {
+    "4090A_amtnc": 182,
+    "5090A_stcgr": 164,
+    "5090C_proposal": 177,
+    "local_dclgan": 158
+  },
+  "verification": {
+    "json_parse": "PASS",
+    "targeted_tests": "33_PASSED",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "training_processes_changed": false,
+    "waiters_restarted": false,
+    "runtime_or_checkpoint_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260913-DELIVERY-MATRIX-V5-AND-E100-STATE-SYNC.md"
+}
