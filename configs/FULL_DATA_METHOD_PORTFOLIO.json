@@ -279,7 +279,10 @@
       "implementation_disposition": "current_implementation_numerically_blocked_not_mechanism_falsified",
       "third_failure_policy": "satisfied_terminal_block_no_relaunch",
       "nonfinite_localizer": "operations/paper_aio_amtnc_nonfinite_localizer.py",
-      "nonfinite_localizer_status": "v1_aborted_no_result_due_to_stale_guard_toctou_v2_authorized_after_guard_retirement",
+      "nonfinite_localizer_status": "v2_read_only_replay_running_exclusive_gpu_lock",
+      "nonfinite_localizer_runner_pid": 3722887,
+      "nonfinite_localizer_child_pid": 3722889,
+      "nonfinite_localizer_deployed_contract_sha256": "1da6a6a660584bb88e39ab1af5f3c5a9412881907c3c395775f4bfdd632b50d1",
       "nonfinite_localizer_contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
       "nonfinite_localizer_deployment_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_NONFINITE_LOCALIZER_DEPLOYED_20260912T175934.json",
       "fresh_e178_verify_only_contract_sha256": "af69f5a2c542766e4e920f714b57694d5d97d1c18066f6c9f737ed0dcce355f9",
@@ -292,7 +295,7 @@
       "retired_stale_health_watcher_pids": [2519397, 2922943, 3404791, 3405736, 2237500, 3415044],
       "scientific_role": "independent Adam-metric optimization geometry",
       "small25_status": "positive_but_fragile_not_falsified",
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_THIRD_FAILURE_GUARD_TOCTOU_RETIREMENT_20260912T182039.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_NONFINITE_LOCALIZER_V2_STARTED_20260912T183708.json"
     },
     "hjcgr": {
       "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
@@ -1342,7 +1345,10 @@
     "stale_guard_fourth_attempt_checkpoint_write": false,
     "repeat_failure_policy": "satisfied_terminal_block_no_relaunch_or_silent_algorithm_change",
     "nonfinite_localizer": "operations/paper_aio_amtnc_nonfinite_localizer.py",
-    "nonfinite_localizer_status": "v1_aborted_no_result_v2_authorized_after_stale_guard_retirement",
+    "nonfinite_localizer_status": "v2_read_only_replay_running_exclusive_gpu_lock",
+    "nonfinite_localizer_runner_pid": 3722887,
+    "nonfinite_localizer_child_pid": 3722889,
+    "nonfinite_localizer_deployed_contract_sha256": "1da6a6a660584bb88e39ab1af5f3c5a9412881907c3c395775f4bfdd632b50d1",
     "nonfinite_localizer_decision": "decisions/DEC-20260912-AMTNC-NONFINITE-LOCALIZER-PREPARED.md",
     "nonfinite_localizer_contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
     "nonfinite_localizer_deployment_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E178_NONFINITE_LOCALIZER_DEPLOYED_20260912T175934.json",
@@ -1363,7 +1369,7 @@
     "retired_outer_recovery_guard_health_watcher_pid": 3968393,
     "gpu_next_step_bitwise_equivalence_claimed": false,
     "creates_new_runtime_cohort": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_THIRD_FAILURE_GUARD_TOCTOU_RETIREMENT_20260912T182039.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_NONFINITE_LOCALIZER_V2_STARTED_20260912T183708.json",
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_EXPORT_DELETED_RUNTIME_RECOVERY_CLOSURE_20260908T054500.json",
     "decision": "decisions/DEC-20260912-AMTNC-TERMINAL-BLOCK-AND-GUARD-RETIREMENT.md"
   },
@@ -1414,7 +1420,7 @@
     "training_processes_changed": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_E150_HASH_OFFHOST_CLOSURE_20260912T140025.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_NONFINITE_LOCALIZER_V2_STARTED_20260912T183708.json",
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
     "dclgan_additional_bound_gib": 5.162,

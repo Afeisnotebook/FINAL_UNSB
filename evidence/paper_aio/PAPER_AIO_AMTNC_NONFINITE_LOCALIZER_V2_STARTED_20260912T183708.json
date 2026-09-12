@@ -1,0 +1,40 @@
+{
+  "schema": "final-unsb-paper-amtnc-nonfinite-localizer-v2-start-v1",
+  "observed_at": "2026-09-12T18:38:39+08:00",
+  "host": "4090A",
+  "status": "READ_ONLY_NONFINITE_REPLAY_RUNNING_EXCLUSIVE_GPU_LOCK",
+  "protected_state": {
+    "physical_epoch": 178,
+    "step": 1522434,
+    "isolated_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "live_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "e179_or_higher_checkpoint_exists": false,
+    "scientific_lane_write_authorized": false
+  },
+  "terminal_training_disposition": {
+    "successor_status": "BLOCKED_SUCCESSOR_SUPERVISOR_EXIT",
+    "supervisor_status": "BLOCKED_AFTER_REPEATED_ENGINEERING_FAILURE",
+    "source_bound_successor_state_sha256": "4f4ef06b93d378bdc630664a245b96e1df34332919efa50e981c91e70164f72f",
+    "active_amtnc_training_pids": [],
+    "retired_stale_guard_pids": [439182, 439447, 3716027, 3716028]
+  },
+  "localizer": {
+    "runner_pid": 3722887,
+    "child_pid": 3722889,
+    "started_at": "2026-09-12T18:37:08+08:00",
+    "output": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_REPLAY_0bdcf78_v2",
+    "state_sha256_first_heartbeat": "74d181d635decf73ce95449e9b6a8b73a2660af031c0b843f4ef9ac5d2e583f8",
+    "deployed_contract_sha256": "1da6a6a660584bb88e39ab1af5f3c5a9412881907c3c395775f4bfdd632b50d1",
+    "localizer_source_sha256": "6884ad291151dd8ab13a795af300403384f762c58b5bdf4886e52b6be24a5fd0",
+    "exclusive_runner_source_sha256": "b88e8722631bd15cdc0a265551597c7a92bc76200d4c3c0b6d0a1a58146f7e4c",
+    "gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "gpu_memory_mib_first_heartbeat": 2302,
+    "unknown_compute_processes": []
+  },
+  "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+  "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "mechanism_falsified": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
