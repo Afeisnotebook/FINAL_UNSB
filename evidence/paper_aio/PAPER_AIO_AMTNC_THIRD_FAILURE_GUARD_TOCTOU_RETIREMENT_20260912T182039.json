@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-amtnc-third-failure-guard-toctou-retirement-v1",
+  "observed_at": "2026-09-12T18:20:39+08:00",
+  "host": "4090A",
+  "status": "AMTNC_CURRENT_IMPLEMENTATION_TERMINAL_BLOCK_E178_OLD_RECOVERY_GUARD_RETIRED_LOCALIZER_V2_AUTHORIZED",
+  "third_identical_failure": {
+    "occurred_at": "2026-09-12T18:16:46+08:00",
+    "failed_trainer_pid": 3698062,
+    "exception": "RuntimeError: AM-TNC replica geometry is nonfinite",
+    "same_transition": "e178_to_e179",
+    "total_identical_failures": 3,
+    "supervisor_terminal_status": "BLOCKED_AFTER_REPEATED_ENGINEERING_FAILURE",
+    "source_bound_successor_status": "BLOCKED_SUCCESSOR_SUPERVISOR_EXIT",
+    "source_bound_successor_state_sha256": "4f4ef06b93d378bdc630664a245b96e1df34332919efa50e981c91e70164f72f",
+    "supervisor_log_sha256": "d17487a0e43aff896afecdf5ad87b3e8fb6e766c800ff37f29454293aa78ab74"
+  },
+  "toctou_incident": {
+    "gpu_idle_check_at": "2026-09-12T18:17:26+08:00",
+    "old_outer_guard_pid": 439182,
+    "old_outer_guard_health_pid": 439447,
+    "replacement_supervisor_pid": 3716027,
+    "replacement_trainer_pid": 3716028,
+    "replacement_started_at": "2026-09-12T18:17:44+08:00",
+    "classification": "STALE_RECOVERY_POLICY_RELAUNCH_AFTER_TERMINAL_SCIENTIFIC_DISPOSITION",
+    "outer_guard_state_sha256": "a66cd252ef67ce2d9ce2ca137d37e592b395467e5e9192231e4511abc8e3e3aa",
+    "replacement_reached_new_complete_epoch": false,
+    "replacement_checkpoint_write": false
+  },
+  "first_localizer_attempt": {
+    "runner_pid": 3716115,
+    "child_pid": 3716116,
+    "started_at": "2026-09-12T18:17:44+08:00",
+    "stopped_after_unknown_compute_process_identified": true,
+    "child_returncode": -15,
+    "wall_seconds": 91.8079445362091,
+    "receipt_produced": false,
+    "exclusive_runner_state_sha256": "12bc8d86bb031fd0b10b1530ce0e1612446087f72aa3486064755f71a54cd85c",
+    "result_admissible": false
+  },
+  "retirement": {
+    "retired_pids": [439182, 439447, 3716027, 3716028, 3716115, 3716116],
+    "all_absent_at": "2026-09-12T18:20:39+08:00",
+    "gpu_compute_processes_after_retirement": [],
+    "retirement_reason": "PREVENT_STALE_GUARD_FROM_EXPANDING_THE_FROZEN_THREE_FAILURE_BUDGET_AND_REMOVE_DIAGNOSTIC_CORESIDENCY",
+    "other_training_processes_touched": false
+  },
+  "protected_state": {
+    "physical_epoch": 178,
+    "step": 1522434,
+    "live_checkpoint_sha256_after_retirement": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "isolated_checkpoint_sha256_after_retirement": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "completed_epochs_lost": 0,
+    "e179_or_higher_checkpoint_exists": false
+  },
+  "v2_localizer": {
+    "contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
+    "diagnostic_output": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_REPLAY_0bdcf78_v2",
+    "authorization": "RUN_ONLY_AFTER_REHASH_AND_ZERO_AMTNC_RECOVERY_PIDS",
+    "scientific_lane_write_authorized": false
+  },
+  "mechanism_falsified": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

@@ -695,3 +695,7 @@ authorize compute.
 195. `DEC-20260912-AMTNC-NONFINITE-LOCALIZER-PREPARED.md`：预先实现受保护e178副本的只读故障
      重放定位器，可逐player/参数区分原始gradient、Adam scale、度量乘法和float32几何乘积溢出。
      当前只完成代码与纯张量测试，等待冻结尝试释放GPU后运行，不触碰或修复科学lane。
+196. `DEC-20260912-AMTNC-TERMINAL-BLOCK-AND-GUARD-RETIREMENT.md`：第三次相同e178→e179
+     非有限故障后，AM-TNC当前实现终端阻塞。旧外层guard在TOCTOU窗口误启第4次训练并与首次
+     localizer共驻；立即停止无结果诊断并退休旧guard/第4次链，e178哈希不变。V2新增全部恢复
+     PID缺席门后才允许独立重放，机制仍未被证伪。

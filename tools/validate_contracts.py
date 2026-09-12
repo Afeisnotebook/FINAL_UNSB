@@ -113,7 +113,7 @@ def main() -> int:
     check(
         state.get("phase") == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
         and current.get("status")
-        == "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_CONFIRMATION_LOCKED"
+        == "FIRST_WAVE_AND_TWO_ALGORITHM_PATHS_RUNNING_AMTNC_CURRENT_IMPLEMENTATION_BLOCKED_CONFIRMATION_LOCKED"
         and current.get("paired_metric_control") is False
         and current.get("cross_host_deltas_merged") is False
         and current.get("confirmation20_opened") is False,
