@@ -52,6 +52,17 @@
     "current_frozen_child_contains_canonical_writer_retry": false,
     "disposition": "keep the healthy frozen relay; use canonical bounded writer and reader retries for future formal deployment or recovery"
   },
+  "persistent_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "updated_at": "2026-09-12T08:52:24+08:00",
+    "automation_toml_sha256": "c5bef6921d488eee58d93de276ea0317c9cbeeaa86e792d8319a3f79aba41db6",
+    "prompt_tracks_replacement_child_and_restart_count": true,
+    "frequency_or_notification_changed": false,
+    "credentials_persisted": false
+  },
   "live_training_boundary": {
     "proposal_supervisor_pid": 9729,
     "proposal_trainer_pid": 766090,

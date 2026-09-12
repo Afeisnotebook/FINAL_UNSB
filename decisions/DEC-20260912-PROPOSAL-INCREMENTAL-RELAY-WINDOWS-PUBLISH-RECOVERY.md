@@ -18,6 +18,9 @@ canonical reader又由提交`f2a601a`加入同类读取重试与same-bytes解析
 的控制版本，但已健康恢复且尚有18次restart预算；不为采用修复而热替换或重启它。未来正式
 部署或真实恢复必须使用同时含writer与reader hardening的canonical版本。
 
+两小时`final-unsb-goal`监控已原位同步到replacement child、restart count和提交`b724bd5`；
+频率及仅失败通知策略保持不变，prompt未持久化凭据。
+
 这是一次已自动闭环的工程恢复，不是算法、训练或结果事件；不得据此调整训练、读取paired指标
 或打开confirmation20。
 
