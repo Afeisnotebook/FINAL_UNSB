@@ -1,0 +1,116 @@
+{
+  "schema": "final-unsb-paper-5090c-ssh-monitoring-recovery-and-five-lane-health-v1",
+  "captured_at": "2026-09-12T08:00:36.7340000+08:00",
+  "status": "PASS_5090C_BATCHMODE_RESTORED_FIVE_ACTIVE_LANES_AND_DELIVERY_CHAINS_HEALTHY",
+  "parent_git_commit": "f5f4343e26debea418a5b6a15a25fac7a8da797b",
+  "5090c_access_incident": {
+    "initial_batchmode_result": "PERMISSION_DENIED_PUBLICKEY_PASSWORD",
+    "training_or_storage_failure": false,
+    "interactive_login_used_only_for_access_repair": true,
+    "existing_route1_public_key_fingerprint": "SHA256:Qs263QcWm3OGkdTGiJn2HlTH4QlTHb6kOf5l7bKs2mQ",
+    "authorized_key_comment_matches": 1,
+    "remote_ssh_directory_mode": "700",
+    "remote_authorized_keys_mode": "600",
+    "local_alias": "final-unsb-5090c",
+    "strict_host_key_checking": "PASS",
+    "post_repair_batchmode": "PASS",
+    "remote_hostname": "autodl-container-5ymd4xkvsl-95d685bc",
+    "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "password_persisted": false
+  },
+  "active_lanes": {
+    "4090A_amtnc": {
+      "supervisor_pid": 3446757,
+      "trainer_pid": 3446758,
+      "complete_data_epoch": 169,
+      "updates": 1445457,
+      "checkpoint_sha256": "7c2d5c03c6d4adff8b71be7cb0d5e3437fc0176f24b5aac1922b2e3f4c887af6",
+      "scientific_state_sha256": "85d4549ea650d839bddc7f2d924b38d5cb240cd3d11f27800c3d50ee17b99d00",
+      "guard_status": "HEALTHY_ZERO_RESTARTS",
+      "active_deleted_inode_boundary_unchanged": true
+    },
+    "5090A_stcgr": {
+      "supervisor_pid": 357236,
+      "trainer_pid": 357237,
+      "complete_data_epoch": 152,
+      "updates": 1300056,
+      "checkpoint_sha256": "9965769657dc87ddd77b113f5624b1bbcb3a12e10755a5efbc278c8558ee88ac",
+      "scientific_state_sha256": "bc2fbb3b79d1f263bfa3be4c9a60a8b2e435ed7cd54648cc60ddfeb6e547a9c9",
+      "guard_status": "HEALTHY_CONSECUTIVE_NO_PROGRESS_RESTARTS_ZERO"
+    },
+    "5090B_matched_plain": {
+      "supervisor_pid": 534983,
+      "trainer_pid": 76358,
+      "complete_data_epoch": 80,
+      "updates": 684240,
+      "checkpoint_sha256": "6cc7b71162524937ac2b5efa7a0308ff1a218856b02f8f078040a1cb7e9b8273",
+      "scientific_state_sha256": "582582b5345372baeb49e4fdd04ea244b56f5cc0f95127dc1950e5930bfad649",
+      "source_export_recovery_status": "HEALTHY_ZERO_RESTARTS"
+    },
+    "5090C_proposal": {
+      "supervisor_pid": 9729,
+      "trainer_pid": 766090,
+      "complete_data_epoch": 165,
+      "updates": 1411245,
+      "checkpoint_sha256": "df2aa5f677f6a61ea04601316d7eb2937a23d89ca3405b2d9a4de80728ab9edd",
+      "scientific_state_sha256": "cfc4fd1c75c846fc84849c3e0bbff141f2ba3aa253a09176a3be6101d5e055c3",
+      "guard_status": "HEALTHY_ZERO_RESTARTS",
+      "pids_unchanged_across_access_repair": true,
+      "free_disk_gib": 227.3
+    },
+    "LOCAL_GTX1660_dclgan": {
+      "wrapper_pid": 20832,
+      "supervisor_pid": 12824,
+      "trainer_pid": 22020,
+      "complete_data_epoch": 144,
+      "updates": 1231632,
+      "checkpoint_sha256": "5dd882596bf859f7fef19ddf37a37d182f2a2642fa2206b741903f9f4cc379ec",
+      "scientific_state_sha256": "4a68db80aed181fe4b34c36f41900f5583ac03731e9dd38a80d8802b3ae5d4c6",
+      "exclusive_gpu_state": "CHILD_RUNNING"
+    }
+  },
+  "local_delivery_recovery_event": {
+    "component": "terminal_audit_successor",
+    "control_supervisor_pid": 5180,
+    "retired_child_pid": 1392,
+    "current_child_pid": 31284,
+    "control_supervisor_cumulative_restart_count": 2,
+    "observed_failure": "TRANSIENT_PERMISSION_ERROR_READING_ATOMICALLY_REPLACED_INCREMENTAL_IMPORT_SET",
+    "failed_path_currently_readable": true,
+    "recovery": "FROZEN_COMMAND_AUTOMATIC_RELAUNCH",
+    "current_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "completed_target_blind_audits": 3,
+    "expected_target_blind_audits": 12,
+    "parent_training_or_checkpoint_modified": false,
+    "manual_restart_performed": false,
+    "combined_health_pid": 9960,
+    "combined_health_status": "HEALTHY_ZERO_ALERTS"
+  },
+  "other_delivery_chains": {
+    "terminal_pathology_supervisor_pid": 23952,
+    "terminal_pathology_child_pid": 9400,
+    "terminal_pathology_status": "WAITING_FOR_COMPLETE_TARGET_BLIND_AUDITS",
+    "ddsb_source_watcher_pid": 22104,
+    "ddsb_recovery_supervisor_pid": 26164,
+    "ddsb_health_pid": 30196,
+    "ddsb_status": "WAITING_FOR_AUTHORITATIVE_SOURCE_REPRODUCTION_INCOMPLETE",
+    "ddsb_automatic_training_authorized": false
+  },
+  "goal_monitor": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "cadence": "every_two_hours",
+    "notification_policy": "failed_runs_only",
+    "automation_toml_sha256": "6193ff9d90c0f91d62b2ffe4bf6c96c6c73391580da5c60890da0c05c04591ea",
+    "5090c_alias_bound": true,
+    "terminal_audit_recovery_state_bound": true
+  },
+  "scientific_boundaries": {
+    "paired_performance_values_read": false,
+    "intermediate_paired_metric_control": false,
+    "training_queue_changed": false,
+    "healthy_training_restarted_or_modified": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false
+  }
+}

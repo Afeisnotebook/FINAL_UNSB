@@ -660,3 +660,8 @@ authorize compute.
      到提交`e13ad28`新增的终端因果claim-freeze硬门；未来正/负结论都必须绑定完整24-cell、
      12份target-blind审计、12份posthoc指标和metric binding。automation保持ACTIVE、仅失败
      通知且不含凭据，健康训练、队列和科学协议均未改变。
+185. `DEC-20260912-5090C-SSH-MONITORING-RECOVERY-AND-FIVE-LANE-HEALTH.md`：修复5090C BatchMode
+     运维入口，仅安装既有route1公钥并新增严格host-key别名，不触碰e165 Proposal训练；密码未
+     持久化。同步核查AM-TNC e169、ST-CGR e152、matched plain e80、Proposal e165、DCLGAN
+     e144均健康。本地terminal-audit一次原子文件读取PermissionError已由冻结supervisor自动
+     恢复为child PID `31284`，现健康等待且既有审计未丢失。
