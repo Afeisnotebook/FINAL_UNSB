@@ -1,5 +1,7 @@
 # Decision order
 
+- `DEC-20260912-AMTNC-OVERFLOW-SAFE-E178-TO-E200-RECOVERY.md`: localizes the e178 failure to float32 metric-product overflow, records the accepted read-only replay, and starts a source-bound e178-to-e200 recovery without mutating the failed run.
+
 Read decisions numerically. A later accepted decision may supersede an earlier
 one only when it names the superseded fields explicitly. Proposal files do not
 authorize compute.
