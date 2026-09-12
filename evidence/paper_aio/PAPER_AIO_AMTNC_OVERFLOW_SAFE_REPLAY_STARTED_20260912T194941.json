@@ -1,0 +1,39 @@
+{
+  "schema": "final-unsb-paper-amtnc-overflow-safe-replay-start-v1",
+  "observed_at": "2026-09-12T19:49:41+08:00",
+  "host": "4090A",
+  "status": "V2_READ_ONLY_REPLAY_RUNNING_THROUGH_EXACT_FAILURE_OFFSET",
+  "first_launch": {
+    "runner_pid": 3742329,
+    "child_pid": 3742333,
+    "child_returncode": 1,
+    "wall_seconds": 2.5323023796081543,
+    "disposition": "REJECTED_BEFORE_SOURCE_STATE_LOAD_PARENT_PROTOCOL_FINGERPRINT_NOT_EXPLICITLY_BOUND",
+    "scientific_lane_modified": false
+  },
+  "v2": {
+    "runner_pid": 3745153,
+    "child_pid": 3745156,
+    "started_at": "2026-09-12T19:49:21+08:00",
+    "status_first_heartbeat": "CHILD_RUNNING",
+    "patched_checkout": "/home/yc/FINAL_UNSB_AMTNC_OVERFLOW_SAFE_4f5bda2",
+    "replay_control_git_commit": "4f5bda256a65241a89518a9fbc187a0c4249dfba",
+    "overflow_safe_operator_sha256": "05cc55194c0408dbd6ad452fecc818146de65e9d192a946b46c8f7255714f3ad",
+    "replay_runner_sha256": "a598e56fa20f888ebd77593756ee46be46152afda91226ce96944cfc9455cd37",
+    "deployed_contract_sha256": "a66621c338e7abfb9665fde024205cbd4ab16e8c6127ef34a86a6f37ffabc0a3",
+    "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "parent_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "patched_protocol_fingerprint": "8153735f31053dde94a4b32f1ff2da6d7a26df4836cab259b93c74eeca6b4ed2",
+    "source_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "localized_receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+    "requested_updates": 6250,
+    "required_first_fallback_offset": 6245,
+    "required_first_fallback_player": "GF",
+    "gpu_memory_mib_first_heartbeat": 2302
+  },
+  "ordinary_resume_gate_relaxed": false,
+  "scientific_lane_write_authorized": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
