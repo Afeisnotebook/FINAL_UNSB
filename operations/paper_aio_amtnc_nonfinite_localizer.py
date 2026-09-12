@@ -17,7 +17,13 @@ from typing import Any, Iterable
 import torch
 
 from models.route1 import amtnc as amtnc_module
-from research.local_route1.runtime import file_sha256, full_state_hash, write_json
+from research.local_route1.runtime import (
+    assert_finite,
+    file_sha256,
+    full_state_hash,
+    model_state,
+    write_json,
+)
 from research.paper_aio.protocol import (
     ROOT,
     lane_spec,
@@ -242,6 +248,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     started = time.time()
     attempted = 0
     caught: RuntimeError | None = None
+    precision_fallback_count = 0
+    first_precision_fallback: dict[str, Any] | None = None
     try:
         for offset in range(args.max_updates):
             current_zero_step = int(payload["step"]) + offset
@@ -249,6 +257,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             model.set_search_step(current_zero_step, int(payload["target_steps"]))
             optimizer_step(model, spec, primary, secondary)
             attempted += 1
+            for player, diagnostics in model._amtnc_last_geometry.items():
+                if diagnostics.get("metric_product_precision") != (
+                    "float64_overflow_fallback"
+                ):
+                    continue
+                precision_fallback_count += 1
+                if first_precision_fallback is None:
+                    first_precision_fallback = {
+                        "player": player,
+                        "zero_based_update": current_zero_step,
+                        "replay_update_offset": offset,
+                        "diagnostics": dict(diagnostics),
+                    }
     except RuntimeError as error:
         caught = error
         if failure is None:
@@ -265,9 +286,46 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         amtnc_module._combine_optional_gradients = original_combine
 
     source_sha_after = file_sha256(source_checkpoint)
+    overflow_safe_mismatch = None
+    if args.expect_overflow_safe:
+        if failure is not None:
+            overflow_safe_mismatch = "UNEXPECTED_RUNTIME_FAILURE"
+        elif attempted != int(args.max_updates):
+            overflow_safe_mismatch = "REPLAY_DID_NOT_REACH_REQUESTED_LIMIT"
+        elif first_precision_fallback is None:
+            overflow_safe_mismatch = "EXPECTED_PRECISION_FALLBACK_NOT_OBSERVED"
+        elif (
+            args.required_first_fallback_offset is not None
+            and first_precision_fallback["replay_update_offset"]
+            != int(args.required_first_fallback_offset)
+        ):
+            overflow_safe_mismatch = "FIRST_PRECISION_FALLBACK_OFFSET_MISMATCH"
+        elif (
+            args.required_first_fallback_player is not None
+            and first_precision_fallback["player"]
+            != args.required_first_fallback_player
+        ):
+            overflow_safe_mismatch = "FIRST_PRECISION_FALLBACK_PLAYER_MISMATCH"
+
+    if failure is not None:
+        status = "FAILURE_LOCALIZED"
+    elif args.expect_overflow_safe and overflow_safe_mismatch is None:
+        status = "OVERFLOW_SAFE_REPLAY_COMPLETE"
+    elif args.expect_overflow_safe:
+        status = "OVERFLOW_SAFE_REPLAY_MISMATCH"
+    else:
+        status = "NOT_REPRODUCED_WITHIN_LIMIT"
+
+    post_replay_state_finite = None
+    if status == "OVERFLOW_SAFE_REPLAY_COMPLETE":
+        replay_state = model_state(model)
+        assert_finite(replay_state)
+        post_replay_state_finite = True
+        del replay_state
+
     receipt = {
         "schema": "final-unsb-paper-amtnc-nonfinite-localization-v1",
-        "status": "FAILURE_LOCALIZED" if failure is not None else "NOT_REPRODUCED_WITHIN_LIMIT",
+        "status": status,
         "source_checkpoint": str(source_checkpoint),
         "source_checkpoint_sha256_before": source_sha_before,
         "source_checkpoint_sha256_after": source_sha_after,
@@ -278,6 +336,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "completed_replay_updates": attempted,
         "elapsed_seconds": time.time() - started,
         "failure": failure,
+        "precision_fallback_count": precision_fallback_count,
+        "first_precision_fallback": first_precision_fallback,
+        "overflow_safe_mismatch": overflow_safe_mismatch,
+        "post_replay_state_finite": post_replay_state_finite,
         "caught_expected_geometry_failure": bool(
             caught is not None and "replica geometry is nonfinite" in str(caught)
         ),
@@ -304,6 +366,9 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--train-view", type=Path, required=True)
     value.add_argument("--gpu", type=int, default=0)
     value.add_argument("--max-updates", type=int, default=8553)
+    value.add_argument("--expect-overflow-safe", action="store_true")
+    value.add_argument("--required-first-fallback-offset", type=int)
+    value.add_argument("--required-first-fallback-player", choices=PLAYERS)
     return value
 
 
@@ -313,7 +378,9 @@ def main() -> int:
         raise SystemExit("--max-updates must be positive")
     result = run(args)
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
-    return 0 if result["status"] == "FAILURE_LOCALIZED" else 2
+    return 0 if result["status"] in {
+        "FAILURE_LOCALIZED", "OVERFLOW_SAFE_REPLAY_COMPLETE",
+    } else 2
 
 
 if __name__ == "__main__":

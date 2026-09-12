@@ -9,6 +9,7 @@ component and removes only radial step-length noise.
 
 from __future__ import annotations
 
+import math
 from typing import Iterable
 
 import torch
@@ -59,7 +60,18 @@ def adam_metric_tangential_gradient(
             ).item())
             for value, scale in zip(first, scales)
         )
-        return first, {
+        high_precision_fallback = not math.isfinite(consensus)
+        if high_precision_fallback:
+            consensus = sum(
+                float(torch.sum(
+                    (scale.to(torch.float64) * value.to(torch.float64)).square(),
+                    dtype=torch.float64,
+                ).item())
+                for value, scale in zip(first, scales)
+            )
+        if not math.isfinite(consensus):
+            raise RuntimeError("AM-TNC replica geometry is nonfinite")
+        diagnostics = {
             "consensus_update_energy": consensus,
             "disagreement_update_energy": 0.0,
             "radial_disagreement_energy": 0.0,
@@ -67,6 +79,9 @@ def adam_metric_tangential_gradient(
             "radial_fraction": 0.0,
             "projection_coefficient": 0.0,
         }
+        if high_precision_fallback:
+            diagnostics["metric_product_precision"] = "float64_overflow_fallback"
+        return first, diagnostics
 
     means = tuple((left + right) * 0.5 for left, right in zip(first, second))
     differences = tuple((left - right) * 0.5 for left, right in zip(first, second))
@@ -86,10 +101,34 @@ def adam_metric_tangential_gradient(
             adam_mean * adam_difference, dtype=torch.float64,
         )
 
+    high_precision_fallback = not bool(torch.isfinite(
+        consensus_energy + disagreement_energy + cross,
+    ).item())
+    if high_precision_fallback:
+        consensus_energy = torch.zeros(
+            (), dtype=torch.float64, device=first[0].device,
+        )
+        disagreement_energy = torch.zeros_like(consensus_energy)
+        cross = torch.zeros_like(consensus_energy)
+        for mean, difference, scale in zip(means, differences, scales):
+            scale64 = scale.to(torch.float64)
+            adam_mean64 = scale64 * mean.to(torch.float64)
+            adam_difference64 = scale64 * difference.to(torch.float64)
+            consensus_energy = consensus_energy + torch.sum(
+                adam_mean64 * adam_mean64, dtype=torch.float64,
+            )
+            disagreement_energy = disagreement_energy + torch.sum(
+                adam_difference64 * adam_difference64, dtype=torch.float64,
+            )
+            cross = cross + torch.sum(
+                adam_mean64 * adam_difference64, dtype=torch.float64,
+            )
+    if not bool(torch.isfinite(
+        consensus_energy + disagreement_energy + cross,
+    ).item()):
+        raise RuntimeError("AM-TNC replica geometry is nonfinite")
     consensus_value = float(consensus_energy.item())
     disagreement_value = float(disagreement_energy.item())
-    if not torch.isfinite(consensus_energy + disagreement_energy + cross).item():
-        raise RuntimeError("AM-TNC replica geometry is nonfinite")
     if consensus_value == 0.0:
         # Here m is zero in the positive diagonal metric, hence g1=d.  Keeping
         # the ordered first draw is exchange-antisymmetric and unbiased.
@@ -109,7 +148,7 @@ def adam_metric_tangential_gradient(
             max(disagreement_value, 0.0),
         )
     tangential = max(disagreement_value - radial, 0.0)
-    return result, {
+    diagnostics = {
         "consensus_update_energy": consensus_value,
         "disagreement_update_energy": disagreement_value,
         "radial_disagreement_energy": radial,
@@ -119,6 +158,9 @@ def adam_metric_tangential_gradient(
         ),
         "projection_coefficient": coefficient,
     }
+    if high_precision_fallback:
+        diagnostics["metric_product_precision"] = "float64_overflow_fallback"
+    return result, diagnostics
 
 
 def _network_parameters(*networks) -> tuple[torch.nn.Parameter, ...]:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 
 import torch
 
@@ -69,6 +70,77 @@ def test_zero_consensus_keeps_exchange_antisymmetric_native_draw():
     assert torch.equal(forward[0], first[0])
     assert torch.equal(reverse[0], second[0])
     assert torch.equal((forward[0] + reverse[0]) * 0.5, torch.zeros(2))
+
+
+def _legacy_finite_amtnc(first, second, scales):
+    means = tuple((left + right) * 0.5 for left, right in zip(first, second))
+    differences = tuple((left - right) * 0.5 for left, right in zip(first, second))
+    consensus = torch.zeros((), dtype=torch.float64)
+    disagreement = torch.zeros_like(consensus)
+    cross = torch.zeros_like(consensus)
+    for mean, difference, scale in zip(means, differences, scales):
+        adam_mean = scale * mean
+        adam_difference = scale * difference
+        consensus += torch.sum(adam_mean * adam_mean, dtype=torch.float64)
+        disagreement += torch.sum(
+            adam_difference * adam_difference, dtype=torch.float64,
+        )
+        cross += torch.sum(adam_mean * adam_difference, dtype=torch.float64)
+    coefficient = float((cross / consensus).item())
+    return tuple(
+        mean + difference - coefficient * mean
+        for mean, difference in zip(means, differences)
+    )
+
+
+def test_finite_path_remains_bitwise_equal_to_frozen_operator():
+    generator = torch.Generator().manual_seed(2026)
+    first = (torch.randn(31, generator=generator), torch.randn(7, generator=generator))
+    second = (torch.randn(31, generator=generator), torch.randn(7, generator=generator))
+    scales = (
+        torch.rand(31, generator=generator) + 0.25,
+        torch.rand(7, generator=generator) + 0.25,
+    )
+    expected = _legacy_finite_amtnc(first, second, scales)
+    observed, diagnostics = adam_metric_tangential_gradient(first, second, scales)
+    assert all(torch.equal(left, right) for left, right in zip(expected, observed))
+    assert "metric_product_precision" not in diagnostics
+
+
+def test_float32_metric_product_overflow_uses_equivalent_float64_reduction():
+    first = (torch.tensor([1.0e10, -2.0e10], dtype=torch.float32),)
+    second = (torch.tensor([5.0e16, -3.0e16], dtype=torch.float32),)
+    scales = (torch.full((2,), 1.0e8, dtype=torch.float32),)
+    forward, diagnostics = adam_metric_tangential_gradient(first, second, scales)
+    reverse, reverse_diagnostics = adam_metric_tangential_gradient(
+        second, first, scales,
+    )
+    assert torch.isfinite(forward[0]).all()
+    assert torch.isfinite(reverse[0]).all()
+    assert diagnostics["metric_product_precision"] == "float64_overflow_fallback"
+    assert reverse_diagnostics["metric_product_precision"] == (
+        "float64_overflow_fallback"
+    )
+    assert torch.allclose(
+        (forward[0] + reverse[0]) * 0.5,
+        (first[0] + second[0]) * 0.5,
+        rtol=1e-6,
+        atol=0.0,
+    )
+    assert all(math.isfinite(float(value)) for key, value in diagnostics.items()
+               if key != "metric_product_precision")
+
+
+def test_identical_replica_overflow_retains_exact_identity():
+    first = (torch.tensor([5.0e16], dtype=torch.float32),)
+    result, diagnostics = adam_metric_tangential_gradient(
+        first, (first[0].clone(),),
+        (torch.tensor([1.0e8], dtype=torch.float32),),
+    )
+    assert result is first
+    assert torch.equal(result[0], first[0])
+    assert diagnostics["metric_product_precision"] == "float64_overflow_fallback"
+    assert math.isfinite(diagnostics["consensus_update_energy"])
 
 
 def test_revision_card_request_and_source_spec_are_frozen():

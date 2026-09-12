@@ -1,0 +1,60 @@
+{
+  "schema": "final-unsb-paper-amtnc-e178-overflow-localization-v1",
+  "observed_at": "2026-09-12T19:22:12+08:00",
+  "host": "4090A",
+  "status": "FAILURE_LOCALIZED_FLOAT32_GEOMETRY_PRODUCT_OVERFLOW",
+  "source": {
+    "physical_epoch": 178,
+    "step": 1522434,
+    "checkpoint_sha256_before": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "checkpoint_sha256_after": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "checkpoint_unchanged": true,
+    "scientific_state_sha256": "2a05c7b44c946c3480a0f8796f049d19a319708ef3d7cd652f4c96a8a6d548a0"
+  },
+  "execution": {
+    "runner_pid": 3722887,
+    "child_pid": 3722889,
+    "child_returncode": 0,
+    "completed_replay_updates": 6245,
+    "elapsed_seconds": 2583.085380077362,
+    "receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+    "exclusive_runner_state_sha256": "1450e898c7501c44ce92b8f82f2254a54e9f4d991b2a7127470be9530e041681",
+    "localizer_log_sha256": "6f9c86b43d716a6cf49811ea899b68988480f8eea7311cdd32c00d3d103422f2"
+  },
+  "failure": {
+    "player": "GF",
+    "zero_based_update": 1528679,
+    "replay_update_offset": 6245,
+    "parameter_count": 134,
+    "category_counts": {
+      "FINITE_TENSOR_CONTRIBUTION": 131,
+      "FLOAT32_GEOMETRY_PRODUCT_OVERFLOW": 3
+    },
+    "affected_parameters": [
+      "G.module.model_res.0.conv_fin.2.weight",
+      "G.module.model_res.0.conv_fin.2.bias",
+      "G.module.model_res.0.adaptive.style_net.weight"
+    ],
+    "source_gradients_finite": true,
+    "adam_scales_finite": true,
+    "replica_mean_and_difference_finite": true,
+    "adam_scaled_vectors_finite": true,
+    "float32_square_and_cross_products_finite": false,
+    "largest_second_gradient_absmax": 5.295076630174106e16,
+    "largest_adam_scale_absmax": 1.0e8,
+    "largest_finite_scaled_vector_absmax": 1.378516830451006e22
+  },
+  "adjudication": {
+    "environment_or_checkpoint_cause": false,
+    "source_gradient_nonfinite_cause": false,
+    "adam_scale_nonfinite_cause": false,
+    "current_implementation_numerical_defect": true,
+    "amtnc_mechanism_falsified": false,
+    "performance_claim_supported": false,
+    "authorized_next_action": "READ_ONLY_OVERFLOW_SAFE_E178_REPLAY_THROUGH_EXACT_FAILURE_OFFSET"
+  },
+  "scientific_lane_modified": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

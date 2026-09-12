@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-amtnc-e178-nonfinite-localizer-contract-v1",
-  "status": "V2_AUTHORIZED_AFTER_RECOVERY_GUARD_RETIREMENT_FIRST_LAUNCH_ABORTED_WITHOUT_RESULT",
+  "status": "V2_COMPLETE_FAILURE_LOCALIZED_FLOAT32_GEOMETRY_PRODUCT_OVERFLOW",
   "host": "4090A",
   "control_git_commit": "0bdcf787c9d13fb14c33891c249e1e3ed14cc9fc",
   "scientific_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
@@ -90,6 +90,17 @@
     "8553"
   ],
   "expected_receipt": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_REPLAY_0bdcf78_v2/AMTNC_NONFINITE_LOCALIZATION.json",
+  "completed_execution": {
+    "runner_pid": 3722887,
+    "child_pid": 3722889,
+    "child_returncode": 0,
+    "wall_seconds": 2585.7888281345367,
+    "receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+    "source_checkpoint_unchanged": true,
+    "failure_player": "GF",
+    "failure_replay_update_offset": 6245,
+    "failure_category": "FLOAT32_GEOMETRY_PRODUCT_OVERFLOW"
+  },
   "performance_values_read": false,
   "paired_controller_access": false,
   "confirmation20_opened": false,

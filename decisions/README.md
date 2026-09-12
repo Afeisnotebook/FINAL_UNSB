@@ -699,3 +699,7 @@ authorize compute.
      非有限故障后，AM-TNC当前实现终端阻塞。旧外层guard在TOCTOU窗口误启第4次训练并与首次
      localizer共驻；立即停止无结果诊断并退休旧guard/第4次链，e178哈希不变。V2新增全部恢复
      PID缺席门后才允许独立重放，机制仍未被证伪。
+197. `DEC-20260912-AMTNC-OVERFLOW-SAFE-METRIC-RECOVERY-GATE.md`：只读e178重放把故障定位为
+     G/F三个参数块的float32几何乘积溢出；源gradient、Adam scale及缩放向量均有限。批准仅在
+     冻结归约产生非有限值时回退到float64计算同一内积，并先以同一e178副本跨过精确故障点；
+     门禁通过前不恢复科学主lane，也不把数值定位解释成机制或性能结论。
