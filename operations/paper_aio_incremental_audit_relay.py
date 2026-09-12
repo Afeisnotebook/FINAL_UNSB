@@ -51,6 +51,27 @@ class IncrementalImportNotReady(Exception):
     """A partial lane receipt is not yet atomically bound by its relay set."""
 
 
+def _read_published_bytes(path: Path, *, attempts: int = 10) -> bytes:
+    """Read a concurrently published receipt across transient Windows locks.
+
+    Publish-last files are replaced atomically.  On Windows, a reader can still
+    briefly observe ``PermissionError`` while another process completes the
+    replace.  Retry only that transient sharing violation; missing or malformed
+    authority files continue to fail closed.
+    """
+    if attempts < 1:
+        raise ValueError("published receipt read requires at least one attempt")
+    path = Path(path)
+    for attempt in range(attempts):
+        try:
+            return path.read_bytes()
+        except PermissionError:
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(0.05 * (attempt + 1))
+    raise AssertionError("unreachable published receipt read")
+
+
 def _inside(path: Path, root: Path, label: str) -> Path:
     path = Path(path).resolve()
     try:
@@ -133,13 +154,14 @@ def _open_sftp(client):
 
 def _matching_incremental_sets(
     import_root: Path, lane_id: str, host_label: str, lane_path: Path,
+    lane_sha256: str,
 ) -> list[dict[str, Any]]:
     root = Path(import_root).resolve()
     lane_path = _inside(lane_path, root, "incremental lane receipt")
-    lane_sha = file_sha256(lane_path)
     matches = []
     for path in sorted((root / "operations").glob("INCREMENTAL_IMPORT_SET_*.json")):
-        value = _read_json_bytes(path.read_bytes(), str(path))
+        raw = _read_published_bytes(path)
+        value = _read_json_bytes(raw, str(path))
         advertised = Path(str(value.get("lane_import_receipt", "")))
         try:
             advertised = _inside(advertised, root, "advertised incremental lane")
@@ -155,14 +177,14 @@ def _matching_incremental_sets(
             and value.get("lane_id") == lane_id
             and value.get("required_epochs") == list(AUDIT_EPOCHS)
             and advertised == lane_path
-            and value.get("lane_import_receipt_sha256") == lane_sha
+            and value.get("lane_import_receipt_sha256") == lane_sha256
             and value.get("checkpoint_copy_performed") is True
             and value.get("source_checkpoint_mutation") is False
             and value.get("performance_values_read") is False
             and value.get("paired_metric_control") is False
             and value.get("confirmation20_opened") is False
         ):
-            matches.append({"path": path, "sha256": file_sha256(path)})
+            matches.append({"path": path, "sha256": _bytes_sha256(raw)})
     return matches
 
 
@@ -171,8 +193,11 @@ def validate_incremental_import_lane(
 ) -> list[dict[str, Any]]:
     root = Path(import_root).resolve()
     path = _inside(path, root, "incremental lane receipt")
-    value = _read_json_bytes(path.read_bytes(), str(path))
-    memberships = _matching_incremental_sets(root, lane_id, host_label, path)
+    raw = _read_published_bytes(path)
+    value = _read_json_bytes(raw, str(path))
+    memberships = _matching_incremental_sets(
+        root, lane_id, host_label, path, _bytes_sha256(raw),
+    )
     if not memberships:
         raise IncrementalImportNotReady(
             "incremental lane lacks a verified relay-set binding"

@@ -1,10 +1,12 @@
 import json
 from io import BytesIO
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 import torch
 
+from operations import paper_aio_incremental_audit_relay as relay
 from operations.paper_aio_incremental_audit_export import (
     available_exports,
     export_set,
@@ -166,6 +168,61 @@ def test_incremental_import_is_source_bound_and_terminal_ready(tmp_path) -> None
         {"import_lane": "plain", "host_label": "hostA"},
     )
     assert list(ready) == [100]
+
+
+@pytest.mark.parametrize("published_file", ["lane", "import_set"])
+def test_incremental_import_retries_transient_windows_publish_lock(
+    tmp_path, monkeypatch, published_file,
+) -> None:
+    lane_path = _write_incremental_import(tmp_path)
+    target = (
+        lane_path
+        if published_file == "lane"
+        else tmp_path / "operations" / "INCREMENTAL_IMPORT_SET_test.json"
+    ).resolve()
+    original_read_bytes = Path.read_bytes
+    calls = 0
+
+    def flaky_read_bytes(path):
+        nonlocal calls
+        if path.resolve() == target:
+            calls += 1
+            if calls <= 2:
+                raise PermissionError("transient Windows sharing violation")
+        return original_read_bytes(path)
+
+    monkeypatch.setattr(Path, "read_bytes", flaky_read_bytes)
+    monkeypatch.setattr(relay.time, "sleep", lambda _seconds: None)
+    rows = validate_incremental_import_lane(
+        lane_path, import_root=tmp_path, lane_id="plain", host_label="hostA",
+    )
+    assert [row["epoch"] for row in rows] == [100]
+    assert calls == 3
+
+
+def test_incremental_import_persistent_publish_lock_fails_closed(
+    tmp_path, monkeypatch,
+) -> None:
+    lane_path = _write_incremental_import(tmp_path)
+    target = (tmp_path / "operations" / "INCREMENTAL_IMPORT_SET_test.json").resolve()
+    original_read_bytes = Path.read_bytes
+    calls = 0
+
+    def locked_read_bytes(path):
+        nonlocal calls
+        if path.resolve() == target:
+            calls += 1
+            raise PermissionError("persistent Windows sharing violation")
+        return original_read_bytes(path)
+
+    monkeypatch.setattr(Path, "read_bytes", locked_read_bytes)
+    monkeypatch.setattr(relay.time, "sleep", lambda _seconds: None)
+    with pytest.raises(PermissionError, match="persistent Windows"):
+        validate_incremental_import_lane(
+            lane_path, import_root=tmp_path,
+            lane_id="plain", host_label="hostA",
+        )
+    assert calls == 10
 
 
 def test_incremental_import_rejects_confirmation(tmp_path) -> None:
