@@ -1,0 +1,97 @@
+{
+  "schema": "final-unsb-paper-aio-amtnc-e178-isolated-recovery-v1",
+  "observed_at": "2026-09-12T17:00:08+08:00",
+  "host": "4090A",
+  "lane": "amtnc",
+  "status": "RECOVERED_FROM_E178_FULL_STATE_ON_VERIFIED_ISOLATED_RUNTIME_MONITORING_FOR_REPEAT_NUMERICAL_FAILURE",
+  "incident": {
+    "original_trainer_pid": 3446758,
+    "original_trainer_status": "EXITED",
+    "original_supervisor_pid": 3446757,
+    "original_supervisor_executable": "/home/yc/anaconda3/envs/unsb_cov/bin/python3.10 (deleted)",
+    "traceback_count": 1,
+    "exception": "RuntimeError: AM-TNC replica geometry is nonfinite",
+    "exception_source": "src/models/route1/amtnc.py:92",
+    "classification": "FAIL_CLOSED_NUMERICAL_ENGINEERING_EVENT_CURRENT_IMPLEMENTATION_NOT_A_MECHANISM_ADJUDICATION",
+    "e200_reached": false
+  },
+  "last_complete_state": {
+    "physical_epoch": 178,
+    "step": 1522434,
+    "target_step": 1710600,
+    "checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "sidecar_sha256": "5970a3e5ec60499a5b1da56bb79070cf63747854f2ceae3ad8bd672b9d24b2e4",
+    "heartbeat_sha256": "895ce17d1c2fa31481c7192cb10f78bfaa5605aaf44c75b888147a4e5f05e9c0",
+    "scientific_state_sha256": "2a05c7b44c946c3480a0f8796f049d19a319708ef3d7cd652f4c96a8a6d548a0",
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+  },
+  "recovery": {
+    "restarted_trainer_pid": 3645974,
+    "restarted_at": "2026-09-12T16:46:46+08:00",
+    "restarted_trainer_executable": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000/bin/python",
+    "restarted_trainer_python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "supervisor_status": "CHILD_RUNNING",
+    "supervisor_consecutive_failures": 1,
+    "outer_guard_pid": 439182,
+    "outer_guard_health_pid": 439447,
+    "outer_guard_total_restarts": 0,
+    "outer_guard_consecutive_no_progress_restarts": 0,
+    "runtime_manifest_entries": 111,
+    "fresh_verify_only_status": "PASS_RUNTIME_AND_CHECKPOINT_RECOVERY_PREFLIGHT",
+    "fresh_verify_only_at": "2026-09-12T16:59:44+08:00",
+    "fresh_verify_only_contract": "/home/yc/recovery_snapshots/AMTNC_E178_VERIFY_ONLY_20260912T165700/TRAINING_SUPERVISOR_GUARD_CONTRACT.json",
+    "fresh_verify_only_contract_sha256": "af69f5a2c542766e4e920f714b57694d5d97d1c18066f6c9f737ed0dcce355f9",
+    "full_runtime_entry_hashes_verified": true,
+    "checkpoint_hash_verified": true,
+    "training_protocol_modified": false,
+    "algorithm_modified": false,
+    "original_prefix_recovery_authority": false,
+    "isolated_runtime_recovery_authority": true,
+    "gpu_next_step_bitwise_equivalence_claimed": false
+  },
+  "offhost_protection": {
+    "destination": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E178_NUMERICAL_FAILURE",
+    "checkpoint_bytes": 201489332,
+    "source_hash_before_transfer": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "source_hash_after_transfer": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "destination_checkpoint_sha256": "b723b396167279998a6a74b28bf0c5a86d48f6e6c73b77202d63ab3d4a28805b",
+    "destination_sidecar_sha256": "5970a3e5ec60499a5b1da56bb79070cf63747854f2ceae3ad8bd672b9d24b2e4",
+    "destination_heartbeat_sha256": "895ce17d1c2fa31481c7192cb10f78bfaa5605aaf44c75b888147a4e5f05e9c0",
+    "files_read_only": true,
+    "scope": "RECOVERY_ONLY_NOT_A_UNIFIED_EVALUATION_IMPORT"
+  },
+  "co_resident_audit": {
+    "user_authorized": true,
+    "queue_pid": 3614317,
+    "queue_status": "COMPLETE",
+    "completed_at": "2026-09-12T16:55:59+08:00",
+    "completed_jobs": [
+      "formal_framework_plain_e100_b0",
+      "formal_framework_plain_e175_b0",
+      "formal_framework_AM_e175_b0"
+    ],
+    "interrupted": false,
+    "causal_attribution_to_amtnc_failure": "NOT_CLAIMED_TEMPORAL_COINCIDENCE_ONLY"
+  },
+  "downstream_delivery": {
+    "export_recovery_supervisor_pid": 706411,
+    "export_recovery_health_pid": 706689,
+    "export_child_pid": 2182586,
+    "export_child_status": "WAITING_FOR_COMPLETE_E200",
+    "evaluation_control_supervisors": [3879668, 3879670, 3879672, 3879674],
+    "evaluation_control_restart_counts": [0, 0, 0, 0],
+    "pinned_evaluation_runtime_present": true
+  },
+  "loss_bound": {
+    "completed_epochs_lost": 0,
+    "maximum_uncheckpointed_updates_lost": 8552,
+    "maximum_uncheckpointed_data_epochs_lost": "less_than_1",
+    "prior_offhost_fallback_epoch": 175,
+    "new_offhost_fallback_epoch": 178
+  },
+  "next_adjudication": "If the same e178-to-e179 transition fails repeatedly from the same state, classify the current implementation as numerically blocked and do not silently clamp, skip, retune, or call it mechanism falsification.",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
