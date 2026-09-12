@@ -705,3 +705,8 @@ authorize compute.
      G/F三个参数块的float32几何乘积溢出；源gradient、Adam scale及缩放向量均有限。批准仅在
      冻结归约产生非有限值时回退到float64计算同一内积，并先以同一e178副本跨过精确故障点；
      门禁通过前不恢复科学主lane，也不把数值定位解释成机制或性能结论。
+198. `DEC-20260913-AMTNC-RECOVERY-RELATION-AND-V5-DELIVERY-GATE.md`：关闭AM-TNC恢复轨迹在
+     e200后会被旧交付器误判为同宿主指纹不一致的缺口。新门禁逐哈希绑定e178方法专属数值恢复、
+     e100/e125/e150/e175仅元数据重物化时的dynamics-only恒等性，并明确禁止byte-identical声明；
+     真实晚三点身份探针和远端51项测试通过。V5评估/终局等待器固定到`9214838`且健康，旧V2–V4
+     等待器只在替代链健康后退休，AM训练已连续到e182且未被触碰，paired指标和confirmation20未读。

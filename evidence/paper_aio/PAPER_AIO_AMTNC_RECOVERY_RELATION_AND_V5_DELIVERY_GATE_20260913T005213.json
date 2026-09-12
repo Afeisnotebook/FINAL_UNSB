@@ -1,0 +1,100 @@
+{
+  "schema": "final-unsb-paper-amtnc-recovery-relation-and-v5-delivery-gate-v1",
+  "captured_at": "2026-09-13T00:52:13+08:00",
+  "status": "PASS_AMTNC_METHOD_ONLY_RECOVERY_RELATION_AND_DELIVERY_CHAIN_READY",
+  "problem_closed": {
+    "deleted_environment_risk": "training already continues in the hash-audited isolated recovery runtime",
+    "post_e200_failure_prevented": "the prior evaluator would have rejected the recovery protocol fingerprint as an unexplained same-host mismatch",
+    "scientific_interpretation": "implementation-level float32 metric-product overflow; algorithm performance remains unadjudicated"
+  },
+  "control": {
+    "git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "parent_relation_commit": "a738846ffa1649d4648b82e3b1be5ede57575552",
+    "segmented_relation_fix_commit": "de1dd8275180ee935f9ade4a29d0ced03cb06e58",
+    "runtime_relation_registry_sha256": "d68c284f042736ccf73b16a18ad80504496f5e84bd96edd6bef6e64a60b0fe90",
+    "runtime_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "recovery_relation": {
+    "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+    "method_source_host_label": "4090A",
+    "plain_source_host_label": "4090A",
+    "parent_training_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "recovery_training_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+    "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "recovery_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+    "recovery_start_epoch": 178,
+    "recovery_start_updates": 1522434,
+    "transition_defining_state_changed": false,
+    "finite_path_bitwise_equal": true,
+    "overflow_fallback": "same Adam-metric reduction recomputed with float64 operands only when the frozen float32 reduction is non-finite",
+    "gradient_samples_changed": false,
+    "projection_formula_changed": false,
+    "hyperparameters_changed": false,
+    "rng_or_sampler_changed": false,
+    "migration_receipt_sha256": "5c90f17fb359a2f8a28168e4da359de03100d129c6899fbbacf8e04ff106ec6b",
+    "overflow_safe_replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+    "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+    "pre_recovery_milestone_dynamics_only_sha256": {
+      "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+      "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+      "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+      "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+    },
+    "observed_fixed_late_relation_statuses": {
+      "150": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+      "175": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+      "200": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    },
+    "provenance_boundary_disclosed": true
+  },
+  "live_training": {
+    "host": "4090A",
+    "run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_OVERFLOW_RECOVERY_478211c",
+    "supervisor_pid": 3764454,
+    "trainer_pid": 3764455,
+    "physical_epoch_completed": 182,
+    "updates_completed": 1556646,
+    "full_state_sha256": "9473841b943a8ddb2e1420d835d8d78af7cf8de45927ef7e2588c22b1907412d",
+    "scientific_state_sha256": "a18b705fddd7d9272c9ab4f44f6f1c1fe190298c08e1a246307b88324e143b4b",
+    "sidecar_sha256": "e7d5bdf9ac25611d580a978018f83b4fc3464c6fdb235296994953c5d9224f83",
+    "status": "HEALTHY_CONTINUING_E200",
+    "training_processes_changed_by_delivery_repair": false
+  },
+  "v5_delivery_chain": {
+    "control_repo": "/home/yc/FINAL_UNSB_AMTNC_RELATION_9214838",
+    "control_output": "/home/yc/runs/FINAL_UNSB_EVALUATION_CHAIN_RECOVERY_V5_9214838",
+    "deployment_receipt_sha256": "d3804f6f0bbb3f01388a554602060a3b961de08e58af450c3d055241b9d3f690",
+    "retirement_receipt_sha256": "234ffd755bf361f10e9365138e44df4a3f4296a7295c27592584cb50a6aa5a3f",
+    "amtnc_evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RECOVERY_MATCHED_EVAL_V5_9214838",
+    "amtnc_supervisor_pid": 3858726,
+    "amtnc_child_pid": 3858745,
+    "amtnc_status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+    "amtnc_state_sha256": "fd88d9417b49e56a2a2a13f08565ac7f97339085c4e5e01f93aad32d130130de",
+    "final_delivery_output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_RECOVERY_V5_9214838",
+    "final_supervisor_pid": 3858727,
+    "final_child_pid": 3858744,
+    "final_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+    "final_state_sha256": "97fd433515019ce2099840b8a24ebe3b9e5f77a81c786898959ec0437c061b1b",
+    "health_watcher_pid": 3858782,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0,
+    "health_state_sha256": "c2091cc15800782b55921b18af8477f2a7e2d6732726a4f7f477724f454bf68f",
+    "preserved_unified_supervisor_pid": 3779719,
+    "preserved_stcgr_supervisor_pid": 3779721,
+    "retired_waiter_versions": ["V2_2B45F88", "V3_A738846", "V4_DE1DD82"],
+    "old_outputs_deleted": false
+  },
+  "verification": {
+    "remote_targeted_tests": "51 passed",
+    "actual_e150_e175_e200_identity_probe": "PASS",
+    "actual_final_relation_probe": "PASS",
+    "local_full_test_result": "814 passed",
+    "git_diff_check": "PASS"
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "training_queue_changed": false,
+  "confirmation20_opened": false
+}
