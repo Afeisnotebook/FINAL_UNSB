@@ -1,0 +1,96 @@
+{
+  "schema": "final-unsb-paper-aio-dclgan-fixed-milestone-closure-v1",
+  "event": "DCLGAN_E150_FIXED_MILESTONE_HASH_AND_OFFHOST_RECOVERY_CLOSURE",
+  "captured_at": "2026-09-12T14:00:25+08:00",
+  "source_host": "LOCAL_GTX1660",
+  "source_hostname": "DESKTOP-56OTAME",
+  "lane_id": "dclgan",
+  "status": "E150_HASH_CLOSED_OFFHOST_RECOVERY_COPY_VERIFIED_TRAINING_CONTINUES",
+  "milestone": {
+    "physical_epoch_completed": 150,
+    "step": 1282950,
+    "target_updates": 1710600,
+    "epoch_wall_seconds": 4260.270150899887,
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "scientific_state_sha256": "479d8cd08441d9eb7973682b23060cc487cf963de8874fd3761c7ca4306ef7a1"
+  },
+  "source_files": {
+    "checkpoint": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/lanes/dclgan/milestones/e150.pt",
+    "sidecar": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/lanes/dclgan/milestones/e150.pt.json",
+    "heartbeat": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/lanes/dclgan/HEARTBEAT.json",
+    "supervisor_receipt": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A/gates/SUPERVISOR_dclgan.json"
+  },
+  "files": {
+    "e150.pt": {
+      "bytes": 351608880,
+      "source_sha256": "8fefd45fec342670da04f99f7d041763190a6af5f59014d98e7bcfa3fd1ff744",
+      "destination_sha256": "8fefd45fec342670da04f99f7d041763190a6af5f59014d98e7bcfa3fd1ff744"
+    },
+    "e150.pt.json": {
+      "bytes": 1609,
+      "source_sha256": "68871269674b5bb8fe66002f3f7ab77d1a2099ee593d1224c44874fce51a0082",
+      "destination_sha256": "68871269674b5bb8fe66002f3f7ab77d1a2099ee593d1224c44874fce51a0082"
+    },
+    "HEARTBEAT.json": {
+      "bytes": 649,
+      "source_sha256": "b92862d43d5c701c918ac5a7edddeace03282fa2097bd6753de3e2224b5e0e24",
+      "destination_sha256": "b92862d43d5c701c918ac5a7edddeace03282fa2097bd6753de3e2224b5e0e24"
+    },
+    "SUPERVISOR_dclgan.json": {
+      "bytes": 616,
+      "source_sha256": "ee4a5a3abe11c55a7596dc0b15effe05a1a8d15d9fedb8c58a682cceda6983e0",
+      "destination_sha256": "ee4a5a3abe11c55a7596dc0b15effe05a1a8d15d9fedb8c58a682cceda6983e0"
+    }
+  },
+  "offhost_recovery_copy": {
+    "destination_host": "4090A",
+    "destination_hostname": "Machine",
+    "destination_gpu_uuid": "GPU-a9d28b4b-e8d6-3e4d-5cb1-82b4862f37ab",
+    "destination": "/home/yc/recovery_backups/FINAL_UNSB_DCLGAN_E150_20260912",
+    "receipt": "/home/yc/recovery_backups/FINAL_UNSB_DCLGAN_E150_20260912/OFFHOST_BACKUP_RECEIPT.json",
+    "receipt_sha256": "8fb8a9b934bfe275c3fc1493b1e9d94740f49944fa82123fae551b940453ec41",
+    "source_hashes_rechecked_after_transfer": true,
+    "destination_hashes_match_source": true,
+    "destination_file_mode": "0444",
+    "destination_directory_mode": "0555",
+    "recovery_only_not_evaluation_import": true
+  },
+  "live_processes_after_transfer": {
+    "exclusive_gpu_wrapper_pid": 20832,
+    "training_supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "source_export_supervisor_pid": 19524,
+    "source_export_child_pid": 20760,
+    "source_export_health_pid": 8224,
+    "push_supervisor_pid": 17152,
+    "push_child_pid": 24396,
+    "push_health_pid": 32148,
+    "training_status": "CHILD_RUNNING",
+    "all_required_processes_alive": true,
+    "training_processes_changed": false
+  },
+  "delivery_boundary": {
+    "authoritative_evaluation_transfer": "existing_e200_source_bound_export_push_and_publish_last_import_chain",
+    "e150_recovery_copy_must_not_create_cross_runtime_metric_relation": true,
+    "next_fixed_milestones": [175, 200],
+    "projected_e200_window": "2026-09-14T22:00:00+08:00_to_2026-09-15T02:00:00+08:00_rough_from_e149_e150_throughput"
+  },
+  "durable_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "prompt_updated_at": "2026-09-12T14:00:25+08:00",
+    "automation_toml_sha256": "c39fa7bd066dd8b5d7c610da14ed236f4c24e0c30c5976b601191ff539f8e1f7",
+    "next_material_dclgan_event": "e175_fixed_milestone"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selection": false,
+    "training_or_algorithm_protocol_changed": false,
+    "scientific_benefit_claimed": false
+  }
+}
