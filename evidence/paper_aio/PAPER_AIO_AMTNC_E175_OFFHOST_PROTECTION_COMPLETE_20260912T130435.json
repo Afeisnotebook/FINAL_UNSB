@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-aio-amtnc-offhost-protection-v1",
+  "event": "AMTNC_E175_FIXED_MILESTONE_OFFHOST_PROTECTION_COMPLETE",
+  "captured_at": "2026-09-12T13:04:35+08:00",
+  "host": "4090A",
+  "hostname": "Machine",
+  "lane_id": "amtnc",
+  "status": "HASH_VERIFIED_OFFHOST_RECOVERY_AUTHORITY_WITH_LIVE_TRAINING_UNCHANGED",
+  "milestone": {
+    "physical_epoch_completed": 175,
+    "step": 1496775,
+    "target_steps": 1710600,
+    "training_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "scientific_state_sha256": "cf16bdff6730cbdff45c19973092ea75f7312b9e66d8b05c410051e0755e0ecf",
+    "epoch_wall_seconds": 3555.639710664749
+  },
+  "source": {
+    "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt",
+    "sidecar": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt.json",
+    "heartbeat": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/HEARTBEAT.json",
+    "authorization": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/gates/LANE_AUTHORIZATION_amtnc.json"
+  },
+  "offhost_destination": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E175",
+  "files": {
+    "e175.pt": {
+      "bytes": 201481758,
+      "source_sha256": "3d4ff5e0090b9e7603a9b3d0d9d5c40808b6f4c0c1ebc680e963d488fdded6e4",
+      "destination_sha256": "3d4ff5e0090b9e7603a9b3d0d9d5c40808b6f4c0c1ebc680e963d488fdded6e4"
+    },
+    "e175.pt.json": {
+      "bytes": 1231,
+      "source_sha256": "a664ade7d9ec7caa1a028e320e537e2046b8badc60734021ff619808953bb589",
+      "destination_sha256": "a664ade7d9ec7caa1a028e320e537e2046b8badc60734021ff619808953bb589"
+    },
+    "HEARTBEAT.json": {
+      "bytes": 612,
+      "source_sha256": "bf18eb3032e25967c0895270f87a017b6dff40b4e184df0fe4922cf7590f7c8a",
+      "destination_sha256": "bf18eb3032e25967c0895270f87a017b6dff40b4e184df0fe4922cf7590f7c8a"
+    },
+    "LANE_AUTHORIZATION_amtnc.json": {
+      "bytes": 669,
+      "source_sha256": "f1b84e7d8bf9dd9ae10a024b2f4be71e2857b0be3d65c1081d052b32c5ab195a",
+      "destination_sha256": "f1b84e7d8bf9dd9ae10a024b2f4be71e2857b0be3d65c1081d052b32c5ab195a"
+    }
+  },
+  "offhost_backup_receipt": {
+    "path": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E175/OFFHOST_BACKUP_RECEIPT.json",
+    "sha256": "b4bed47d91a5eb6ac76d172d1de82ce3a347084f9dcae1062806707c380735ef"
+  },
+  "recovery_runtime": {
+    "path": "/home/yc/recovery_snapshots/unsb_cov_runtime_candidate_exact_3446758_20260906T090000",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "runtime_entry_count": 111,
+    "full_runtime_entry_hashes_verified": true,
+    "offhost_archive": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_20260907/unsb_cov_runtime_exact_3446758_20260907T2315.tar",
+    "offhost_archive_sha256": "6396a1f2f74109a87867379f4b65d101efd89d53d16f43c76070927b042b2a52"
+  },
+  "live_processes_after_transfer": {
+    "training_supervisor_pid": 3446757,
+    "trainer_pid": 3446758,
+    "trainer_state": "Rl",
+    "outer_recovery_guard_pid": 439182,
+    "outer_recovery_guard_health_pid": 439447,
+    "outer_recovery_guard_restart_count": 0,
+    "export_recovery_supervisor_pid": 706411,
+    "export_recovery_health_pid": 706689,
+    "final_delivery_supervisor_pid": 3879674,
+    "final_delivery_child_pid": 3802122,
+    "all_required_processes_alive": true
+  },
+  "verification": {
+    "source_hashes_rechecked_after_transfer": true,
+    "destination_hashes_match_source": true,
+    "destination_files_read_only": true,
+    "training_processes_changed": false,
+    "active_deleted_inode_process_preserved": true,
+    "old_prefix_is_recovery_authority": false,
+    "isolated_runtime_is_recovery_authority": true
+  },
+  "durable_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "prompt_updated_at": "2026-09-12T13:14:44+08:00",
+    "automation_toml_sha256": "fbbbe8d86ce14095b2764f639eebb848660a7e9df08e09623dd368d27c157f1d",
+    "next_material_amtnc_event": "e200_source_bound_export_and_unified_evaluation",
+    "repeat_e175_copy_forbidden": true
+  },
+  "loss_exposure_after_closure": {
+    "ordinary_process_exit": "at_most_the_current_incomplete_epoch_after_e175",
+    "whole_host_or_storage_loss": "recoverable_from_offhost_e175_full_state_and_offhost_runtime_archive",
+    "remaining_unprovable_boundary": "the_first_cuda_update_after_an_actual_recovery_cannot_be_claimed_bitwise_identical_to_the_current_deleted_inode_process_without_interrupting_that_healthy_process"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "creates_new_runtime_cohort": false,
+    "scientific_benefit_claimed": false
+  },
+  "authorized_next": [
+    "continue_the_existing_amtnc_process_unchanged_to_e200",
+    "on_e200_complete_run_the_existing_source_bound_export_and_unified_evaluation_chain",
+    "move_terminal_audit_to_4090A_only_after_amtnc_releases_the_gpu"
+  ]
+}
