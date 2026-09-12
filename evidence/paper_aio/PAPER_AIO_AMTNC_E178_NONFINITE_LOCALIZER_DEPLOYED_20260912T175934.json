@@ -4,6 +4,8 @@
   "host": "4090A",
   "status": "DEPLOYED_HASH_CLOSED_NOT_STARTED_WAIT_FINAL_FROZEN_ATTEMPT",
   "contract": "configs/AMTNC_E178_NONFINITE_LOCALIZER_CONTRACT.json",
+  "contract_sha256": "775025ab1e3a0a1890b3a0b2d88297733655c25064081d3d0f5112be1bf67218",
+  "contract_copied_to_deployment_root_read_only": true,
   "control_git_commit": "0bdcf787c9d13fb14c33891c249e1e3ed14cc9fc",
   "deployment_root": "/home/yc/recovery_snapshots/AMTNC_E178_NONFINITE_LOCALIZER_0bdcf78",
   "deployed_files": {
