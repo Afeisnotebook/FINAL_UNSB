@@ -692,3 +692,6 @@ authorize compute.
 194. `DEC-20260912-AMTNC-E178-REPEATED-NUMERICAL-BLOCK.md`：同一e178状态、同一协议与验签隔离
      runtime上第二次复现相同非有限几何，正式裁决当前实现数值受阻而非机制证伪。保留e178/e175
      证据；第三个冻结child是合同内最后尝试，再失败即允许监督器阻塞，禁止重启或临时改算法。
+195. `DEC-20260912-AMTNC-NONFINITE-LOCALIZER-PREPARED.md`：预先实现受保护e178副本的只读故障
+     重放定位器，可逐player/参数区分原始gradient、Adam scale、度量乘法和float32几何乘积溢出。
+     当前只完成代码与纯张量测试，等待冻结尝试释放GPU后运行，不触碰或修复科学lane。

@@ -240,6 +240,8 @@
       "implementation_disposition": "current_implementation_numerically_blocked_not_mechanism_falsified",
       "final_frozen_attempt_started_at": "2026-09-12T17:33:34+08:00",
       "third_failure_policy": "allow_frozen_supervisor_to_block_without_relaunch_or_algorithm_change",
+      "nonfinite_localizer": "operations/paper_aio_amtnc_nonfinite_localizer.py",
+      "nonfinite_localizer_status": "prepared_and_tested_not_running_wait_gpu_release",
       "completed_epochs_lost": 0,
       "maximum_uncheckpointed_updates_lost": 8552,
       "e175_offhost_protection": {
