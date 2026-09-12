@@ -1,0 +1,96 @@
+{
+  "schema": "final-unsb-paper-aio-local-terminal-audit-recovery-v1",
+  "event": "LOCAL_TERMINAL_AUDIT_TRANSIENT_WINDOWS_READ_FAILURES_AUTO_RECOVERED",
+  "captured_at": "2026-09-12T13:20:32+08:00",
+  "status": "HEALTHY_WAITING_WITH_FROZEN_COMMAND_AFTER_AUTOMATIC_RECOVERY",
+  "scope": "terminal_audit_control_only",
+  "control_supervisor": {
+    "pid": 5180,
+    "status": "CHILD_RUNNING",
+    "control_git_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "frozen_child_command_sha256": "44d1ec113e50fb58795bb816292bbccf81792e845a9ec0adf1539dc4e4d9cb6b",
+    "restart_count": 3,
+    "maximum_restarts": 20,
+    "remaining_restart_budget": 17,
+    "current_child_pid": 30948,
+    "current_child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU"
+  },
+  "observed_failures": [
+    {
+      "launch_time": "2026-09-12T04:38:26+08:00",
+      "exception": "PermissionError",
+      "operation": "read_incremental_import_set_during_windows_atomic_publication",
+      "training_affected": false
+    },
+    {
+      "launch_time": "2026-09-12T07:34:02+08:00",
+      "exception": "PermissionError",
+      "operation": "read_incremental_import_set_during_windows_atomic_publication",
+      "training_affected": false
+    }
+  ],
+  "latest_recovery": {
+    "child_launch_time": "2026-09-12T09:09:58+08:00",
+    "child_pid": 30948,
+    "child_state_fresh": true,
+    "completed_target_blind_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200"
+    ],
+    "combined_health_watcher_pid": 9960,
+    "combined_health": "HEALTHY",
+    "combined_health_alert_count": 0
+  },
+  "current_incremental_import_sets": {
+    "4090A_amtnc_v3": {
+      "sha256": "f298d40867a130f1f47ce056d5a4b0cce9b86ce4ad69fc5f1bbcd49a477af1b5",
+      "json_parse": "PASS"
+    },
+    "5090A_stcgr_v5": {
+      "sha256": "c302104ae7f629c3f06682053a3f0c0a1b7bd3801931f6d4aa0b4cfa985a971b",
+      "json_parse": "PASS"
+    },
+    "5090C_proposal": {
+      "sha256": "4525a615f67fde38acc4ea391a827e17f4ce3fdd99d4717571ab15160a55c662",
+      "json_parse": "PASS"
+    }
+  },
+  "canonical_read_hardening": {
+    "git_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "script_sha256": "6ebe9c30b42c209fd4f3db50423ddbdffdde2dc514cb7adb893a349ebe07ade6",
+    "permission_error_attempts": 10,
+    "maximum_added_wait_seconds": 2.25,
+    "parse_and_hash_same_bytes": true,
+    "persistent_error_policy": "FAIL_CLOSED",
+    "deployed_to_current_healthy_child": false
+  },
+  "decision": {
+    "current_healthy_child_hot_replaced": false,
+    "reason": "the_waiter_is_healthy_and_does_not_hold_the_gpu;_replacing_it_would_add_more_state_transition_risk_than_wall_clock_value",
+    "on_real_supervisor_death": "recover_from_the_frozen_command_using_the_canonical_f2a601a_reader_hardening_after_revalidating_command_and_state",
+    "training_processes_changed": false,
+    "gpu_training_changed": false
+  },
+  "metric_blind_live_snapshot": {
+    "4090A_amtnc_epoch": 175,
+    "5090A_stcgr_epoch": 156,
+    "5090B_matched_plain_epoch": 88,
+    "5090C_proposal_epoch": 168,
+    "local_dclgan_epoch": 149
+  },
+  "durable_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "prompt_updated_at": "2026-09-12T13:20:32+08:00",
+    "automation_toml_sha256": "128783f991f715c664c03167d8dd3995b84967c0f438f3abf024f5f5a90bf89c",
+    "dynamic_child_pid_is_authoritative": true
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "algorithm_or_training_protocol_changed": false
+  }
+}
