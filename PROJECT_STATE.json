@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-13",
-  "state_snapshot_time": "2026-09-13T16:15:43+08:00",
+  "state_snapshot_time": "2026-09-13T16:43:22+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -417,6 +417,13 @@
         "e195_capture_script_sha256": "fc421a12d81e98c815ab129a9b2ce26f9000b9a9bff4b22b13abf7e9f4bb8f37",
         "e195_capture_destination": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/precision_gate/e195.pt",
         "e195_capture_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_TRANSIENT_CHECKPOINT_CAPTURE_DEPLOYED_20260913T162307.json",
+        "e195_precision_successor_pid": 73612,
+        "e195_precision_successor_status": "HEALTHY_WAITING_FOR_HASH_BOUND_E195",
+        "e195_precision_successor_control_commit": "0e29fb5e7ec24ed004965a414a6726c36cd51dc4",
+        "e195_precision_successor_script_sha256": "517da4857139ca2c48cb5f9acc6a0c6c3baf044071d9773c86d01f32efff9da2",
+        "e195_precision_successor_state": "/home/yc/runs/FINAL_UNSB_AMTNC_PRECISION_SUCCESSOR_0e29fb5/PRECISION_GATE_SUCCESSOR_STATE.json",
+        "e195_precision_successor_probe_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_E195_PLUS1_PROBE_5676c91",
+        "e195_precision_successor_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_GATE_SUCCESSOR_DEPLOYED_20260913T164322.json",
         "d8_normalized_exporter_pid": 31173,
         "d8_normalized_export_recovery_supervisor_pid": 31211,
         "d8_normalized_export_health_pid": 31234,
@@ -1989,7 +1996,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_RAW_SQUARE_INTERMEDIATE_RECOVERY_STARTED_20260913T161543.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_GATE_SUCCESSOR_DEPLOYED_20260913T164322.json",
     "amtnc_recovery_relation_and_v5_delivery_20260913": {
       "status": "PASS_METHOD_ONLY_RECOVERY_RELATION_V5_DELIVERY_HEALTHY_AMTNC_E192_CONTINUING",
       "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",

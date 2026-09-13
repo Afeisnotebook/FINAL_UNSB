@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-paper-amtnc-e195-precision-gate-successor-deployment-v1",
+  "captured_at": "2026-09-13T16:43:22+08:00",
+  "status": "HEALTHY_WAITING_FOR_HASH_BOUND_E195",
+  "purpose": "durably advance the repaired AM-TNC trajectory from publish-last e195 capture through an isolated one-update exact-resume probe and the finite precision checkpoint gate without signalling or changing live training",
+  "control_git_commit": "0e29fb5e7ec24ed004965a414a6726c36cd51dc4",
+  "successor_pid": 73612,
+  "successor_script": "/home/yc/runs/FINAL_UNSB_AMTNC_PRECISION_PROBE_8e8f860/paper_aio_amtnc_precision_gate_successor.py",
+  "successor_script_sha256": "517da4857139ca2c48cb5f9acc6a0c6c3baf044071d9773c86d01f32efff9da2",
+  "resume_probe_script_sha256": "853f4a20f6e7ba7e69e799b89621b036383e05d5c25119ed64184a4f4d64ed49",
+  "checkpoint_gate_script_sha256": "1e70297d8d7407088e4df1972295a7a9578833a63ad2acd5813e72a15e475ac7",
+  "successor_state": "/home/yc/runs/FINAL_UNSB_AMTNC_PRECISION_SUCCESSOR_0e29fb5/PRECISION_GATE_SUCCESSOR_STATE.json",
+  "source_run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91",
+  "captured_e195_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/precision_gate/e195.pt",
+  "isolated_probe_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_E195_PLUS1_PROBE_5676c91",
+  "required_epoch": 195,
+  "required_step": 1667835,
+  "probe_stop_step": 1667836,
+  "required_training_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+  "required_training_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+  "deployment_checks": {
+    "fresh_isolated_probe_output": true,
+    "deployed_scripts_match_committed_sha256": true,
+    "target_python_cli_preflight_passed": true,
+    "successor_process_alive": true,
+    "successor_contract_frozen": true,
+    "successor_initial_state": "WAITING_FOR_HASH_BOUND_E195"
+  },
+  "successor_semantics": {
+    "capture_receipt_publish_last_required": true,
+    "source_checkpoint_verified_before_and_after_probe": true,
+    "probe_updates": 1,
+    "probe_output_isolated": true,
+    "live_training_signalled": false,
+    "live_training_repo_modified": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "other_healthy_trainings_changed": false
+}
