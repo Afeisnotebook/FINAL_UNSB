@@ -723,3 +723,8 @@ authorize compute.
      但e195若再次失败应被视为新的因果证据而非盲重跑。部署metric-blind首故障联锁PID `28640`，
      只观察supervisor状态；健康时绝不发信号，首次失败时先停外层guard再停supervisor，保留现场
      等待取证，不直接触碰trainer、checkpoint、paired指标或科学协议。
+202. `DEC-20260913-AMTNC-E195-RAW-SQUARE-INTERMEDIATE-RECOVERY.md`：首版精度守卫遗漏了
+     PyTorch Adam在乘`1-beta2`前先计算float32 `g*g`的中间溢出区间；首故障联锁成功阻止盲重跑。
+     新实现同时检查raw square与加权递推，只提升受影响的`exp_avg_sq`，不裁剪、跳步或改公式。
+     4090 CUDA反例、14项原环境测试、两次逐位一致e194+1重放及跨版本dynamics恒等门均通过，
+     `5676c91`从不可变e194状态重跑决定性e195；性能仍未裁决，confirmation20保持封存。
