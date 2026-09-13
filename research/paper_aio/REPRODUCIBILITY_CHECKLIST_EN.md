@@ -140,18 +140,27 @@ If an environment or process is damaged, the artifact record must distinguish
 the incident, preserved state, recovery runtime, executable probe, remaining
 equivalence limit, and any recomputed work.
 
-The 4090A AM-TNC cleanup and epoch-178 overflow incident is therefore disclosed
-as an engineering provenance item. The original process first retained a
-deleted interpreter inode, then stopped when finite Adam-metric vectors
-overflowed only in float32 square/cross-product reductions. The admitted
-continuation uses a hash-audited isolated runtime, unchanged transition state,
-bitwise-identical finite path, and float64 only for a non-finite metric
-reduction. This fact neither establishes nor invalidates empirical benefit and
-must not be described as byte-identical runtime continuation. The single
-recovery export namespace rematerializes e100/e125/e150/e175 only after the
-migration gate proves a dynamics-only hash identity for each source checkpoint;
-the new provenance fingerprint must not be mistaken for recovery-code training
-at those earlier epochs.
+The 4090A AM-TNC cleanup and its two numerical incidents are therefore
+disclosed as engineering provenance items. The original process first retained
+a deleted interpreter inode. At epoch 178, finite Adam-metric vectors overflowed
+only in float32 square/cross-product reductions; the first recovery uses
+float64 only for the same non-finite reduction and preserves every finite path
+bitwise. At epoch 194, a raw gradient square overflowed before Adam applied the
+weighted `exp_avg_sq` recurrence. The second recovery promotes only an affected
+`exp_avg_sq` state to float64 before computing the raw square and the unchanged
+recurrence. It neither clips gradients nor skips updates, and it changes no
+projection, hyperparameter, RNG state, sampler state, or sampled gradient. The
+epoch-195 gate recorded six precision promotions, proved all model and
+optimizer tensors finite, and proved that exact full-state reload preserves the
+promoted dtype.
+
+The registered `sequential_method_only_recovery_v1` relation composes the two
+unchanged-state recoveries. It neither establishes nor invalidates empirical
+benefit and must not be described as byte-identical runtime continuation. The
+single recovery export namespace rematerializes e100/e125/e150/e175 only after
+the migration gate proves a dynamics-only hash identity for each source
+checkpoint; the new provenance fingerprint must not be mistaken for
+recovery-code training at those earlier epochs.
 
 ## F. Runtime cohorts and legal comparisons
 
@@ -160,8 +169,9 @@ method/plain pair. The receipt must bind both source commits, protocol
 fingerprints, manifests, e0 scientific states, deterministic flags, hardware
 identity, and the relevant twin or reviewed relation evidence.
 
-- AM-TNC is compared only with its same-host 4090A plain and, after epoch 178,
-  only through the registered metric-blind method-only recovery relation.
+- AM-TNC is compared only with its same-host 4090A plain and, after the
+  epoch-178 and epoch-194 incidents, only through the registered two-stage,
+  metric-blind `sequential_method_only_recovery_v1` relation.
 - Proposal and ST-CGR may use the admitted fresh-e0 5090 relation only after the
   committed registry and imported checkpoint receipts pass.
 - Results from a non-admitted host are absolute trajectories, never silently

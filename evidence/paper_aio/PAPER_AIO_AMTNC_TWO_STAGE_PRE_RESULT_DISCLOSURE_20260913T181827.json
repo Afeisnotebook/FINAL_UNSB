@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-amtnc-two-stage-pre-result-disclosure-v1",
+  "captured_at": "2026-09-13T18:18:27+08:00",
+  "status": "PASS_TWO_STAGE_RECOVERY_DISCLOSED_BEFORE_E200_RESULT_REVIEW",
+  "classification": "PRE_RESULT_PROVENANCE_AND_REPRODUCIBILITY_REFRESH_NOT_PERFORMANCE_ADJUDICATION",
+  "trigger": "The runtime-relation registry contained the admitted epoch-178 and epoch-194 recovery stages, while the manuscript-facing Methods, Limitations, and Reproducibility prose disclosed only the epoch-178 stage.",
+  "runtime_authority": {
+    "path": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
+    "sha256": "d4209abf6d587f0f3bab5a9ec3e7748dc94ee5d391bf3f3735814c19ab5b9ebb",
+    "recovery_chain_version": "sequential_method_only_recovery_v1",
+    "stage_epochs": [178, 194],
+    "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime"
+  },
+  "stage_1_disclosure": {
+    "failure_boundary": "float32 Adam-metric square/cross-product reduction overflow",
+    "preserved_property": "finite representable path remains bitwise identical",
+    "allowed_change": "same non-finite metric reduction in float64"
+  },
+  "stage_2_disclosure": {
+    "failure_boundary": "raw gradient square overflow before the weighted Adam exp_avg_sq recurrence",
+    "preserved_property": "same Adam recurrence with no clipping, skipped update, hyperparameter change, projection change, RNG change, sampler change, or sampled-gradient change",
+    "allowed_change": "promote only affected exp_avg_sq state to float64 before raw-square and weighted-recurrence evaluation",
+    "e195_precision_promotions": 6,
+    "e195_all_model_and_optimizer_tensors_finite": true,
+    "full_state_reload_preserves_promoted_dtype": true
+  },
+  "hash_refresh": {
+    "methods_draft": {
+      "path": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
+      "previous_sha256": "7f363d176bf79c8050d2d9c46837e0c350f4543e0a021c4fb839a76611ae08bf",
+      "sha256": "a21b6313297db847cea424b90f05fac0cdb04c9b06ee5eaf51ae7fcc680e83dd"
+    },
+    "methods_contract": {
+      "path": "configs/PAPER_METHODS_PROTOCOL_DRAFT_CONTRACT.json",
+      "sha256": "fc06f23f69fe30a1d22cf0e438251294bbdacddb1dc62145aaf02c86b6f3c413"
+    },
+    "reproducibility_checklist": {
+      "path": "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md",
+      "previous_sha256": "323ea332bb3ce772bdc617a5cfa0ada9eeb72c4f4f23a7c44a7935b30bb2b0c8",
+      "sha256": "e9bed57305206d455fec71b650259ebb25064436d012d5264866b6fe301bc04d"
+    },
+    "reproducibility_contract": {
+      "path": "configs/PAPER_REPRODUCIBILITY_CHECKLIST_CONTRACT.json",
+      "sha256": "c776796165abd4b298c3781ea91c590287b91c0ee21da1584dac98204754f717"
+    },
+    "limitations_statement": {
+      "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
+      "previous_sha256": "cd56f28f3a37e8b278974b9498af2d9c3ef39505aa2175d43384a2c6f78a345f",
+      "sha256": "3f1bb8f19dd4d7b034362ca9badd2de612be77826265757d0dbfb19232a46bff"
+    },
+    "manuscript_branching_contract": {
+      "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
+      "previous_sha256": "c6e120a49405fa3a7744032fca13701267af87ad6657d180a32a0309ffdc2cf0",
+      "sha256": "386d793c4390db558492a6c4114964d9ed0bf45f17c9f7696a4d1f7418ccd9a7"
+    }
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "training_or_queue_changed": false,
+    "comparison_upgraded_to_byte_identical": false,
+    "confirmation20_opened": false
+  },
+  "state_integrity_cleanup": {
+    "path": "PROJECT_STATE.json",
+    "issue": "pre-existing duplicate latest_scientific_state_sha256 key inside the same AM-TNC run object",
+    "values_were_identical": true,
+    "resolution": "removed only the later duplicate key; retained value and parsed semantics are unchanged",
+    "training_or_queue_changed": false
+  },
+  "source_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_CLOSURE_AND_STAGED_V6_DELIVERY_20260913T173026.json",
+  "decision": "decisions/DEC-20260913-AMTNC-TWO-STAGE-PRE-RESULT-DISCLOSURE.md"
+}

@@ -81,3 +81,66 @@ def test_methods_draft_contains_no_numeric_performance_claim() -> None:
         "terminal_singularity_repair_claimed": False,
         "confirmation20_opened": False,
     }
+
+
+def test_methods_draft_discloses_both_amtnc_numerical_recovery_stages() -> None:
+    draft = (ROOT / "research" / "paper_aio" / "METHODS_PROTOCOL_DRAFT_EN.md").read_text(
+        encoding="utf-8"
+    )
+    required = [
+        "epoch 178",
+        "epoch 194",
+        "raw gradient square",
+        "`exp_avg_sq`",
+        "epoch-195 precision gate",
+        "six such state promotions",
+        "`sequential_method_only_recovery_v1`",
+        "does not clip a gradient",
+        "skip an update",
+        "full-state reload preserves",
+    ]
+    for phrase in required:
+        assert phrase in draft
+
+
+def test_two_stage_disclosure_is_registered_in_current_paper_authorities() -> None:
+    project = json.loads((ROOT / "PROJECT_STATE.json").read_text(encoding="utf-8"))
+    portfolio = json.loads(
+        (ROOT / "configs" / "FULL_DATA_METHOD_PORTFOLIO.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    matrix = json.loads(
+        (ROOT / "configs" / "PAPER_DELIVERY_COMPLETION_MATRIX.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    records = [
+        project["paper_aio_20260902"][
+            "amtnc_two_stage_pre_result_disclosure_20260913"
+        ],
+        portfolio["amtnc_two_stage_pre_result_disclosure_20260913"],
+        matrix["amtnc_two_stage_pre_result_disclosure_20260913"],
+    ]
+    expected = {
+        "methods_draft_sha256": _sha256(
+            ROOT / "research" / "paper_aio" / "METHODS_PROTOCOL_DRAFT_EN.md"
+        ),
+        "reproducibility_checklist_sha256": _sha256(
+            ROOT / "research" / "paper_aio" / "REPRODUCIBILITY_CHECKLIST_EN.md"
+        ),
+        "limitations_statement_sha256": _sha256(
+            ROOT / "research" / "paper_aio" / "LIMITATIONS_PRE_RESULT_EN.md"
+        ),
+        "manuscript_branching_contract_sha256": _sha256(
+            ROOT / "configs" / "PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json"
+        ),
+    }
+    for record in records:
+        assert record["recovery_chain_version"] == "sequential_method_only_recovery_v1"
+        assert record["recovery_stage_epochs"] == [178, 194]
+        for key, digest in expected.items():
+            assert record[key] == digest
+        assert record["training_queue_changed"] is False
+        assert record["performance_values_read"] is False
+        assert record["confirmation20_opened"] is False

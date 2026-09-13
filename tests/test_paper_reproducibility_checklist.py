@@ -68,6 +68,12 @@ def test_reproducibility_checklist_covers_release_and_scientific_boundaries() ->
         "confirmation20",
         "DDSB remains `REPRODUCTION_INCOMPLETE`",
         "deleted interpreter inode",
+        "epoch 178",
+        "epoch 194",
+        "raw gradient square",
+        "`exp_avg_sq`",
+        "epoch-195 gate recorded six precision promotions",
+        "`sequential_method_only_recovery_v1`",
         "Secrets, SSH passwords, and private host keys must never appear",
     ]
     for phrase in required:

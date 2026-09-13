@@ -251,15 +251,27 @@ are all one; \(\tau=0.01\); \(T=5\); PatchNCE uses layers
 
 Proposal, ST-CGR, and their admitted matched plain share a reviewed runtime
 cohort and fresh initialization relation. AM-TNC is compared only with its
-same-host 4090A plain trajectory. After the epoch-178 float32 metric-reduction
-overflow, that comparison is no longer described as byte-identical runtime
-identity: it requires the pre-result, metric-blind method-only recovery relation
-that binds the unchanged transition state, finite-path bitwise identity,
-float64-only overflow fallback, and the localization/replay/migration receipts.
-The recovery export rematerializes e100/e125/e150/e175 with new provenance
-metadata only; the migration receipt binds dynamics-only identity for every
-such fixed checkpoint, so this artifact normalization is not represented as
-retraining under the recovery code.
+same-host 4090A plain trajectory. That comparison is no longer described as
+byte-identical runtime identity after two metric-blind, method-only numerical
+recoveries. At epoch 178, three finite Adam-metric vectors overflowed only in
+float32 square/cross-product reductions; the first recovery recomputes the same
+non-finite reductions in float64 while preserving bitwise identity on every
+finite path. At epoch 194, the replay exposed a second representability limit:
+the raw gradient square used by Adam could overflow before the weighted
+`exp_avg_sq` recurrence. The second recovery promotes only an affected
+`exp_avg_sq` state to float64 before evaluating that raw square and the same
+Adam recurrence. It does not clip a gradient, skip an update, retune a
+hyperparameter, change the projection, or change RNG or sampler order. The
+epoch-195 precision gate observed six such state promotions, proved every
+model and optimizer tensor finite, and proved that full-state reload preserves
+the promoted dtype.
+
+The composed `sequential_method_only_recovery_v1` relation binds both stages to
+unchanged transition-defining states and to their localization, replay,
+migration, and precision-gate receipts. The recovery export rematerializes
+e100/e125/e150/e175 with new provenance metadata only; the migration receipt
+binds dynamics-only identity for every such fixed checkpoint, so this artifact
+normalization is not represented as retraining under the recovery code.
 A result without an admitted exact or explicitly disclosed recovery relation is
 reported as an absolute trajectory, not as a matched delta.
 

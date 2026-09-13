@@ -1,8 +1,8 @@
 {
   "schema": "final-unsb-paper-manuscript-branching-contract-v1",
-  "captured_at": "2026-09-13T00:18:14+08:00",
+  "captured_at": "2026-09-13T18:18:27+08:00",
   "status": "PRE_RESULT_STRUCTURE_FROZEN_NO_EMPIRICAL_CLAIM",
-  "revision_reason": "Bind the metric-blind AM-TNC method-only numerical recovery relation before any e200 performance is evaluated.",
+  "revision_reason": "Bind both stages of the metric-blind AM-TNC method-only numerical recovery relation before any e200 performance is evaluated.",
   "purpose": "Prevent result-contingent story drift while allowing the manuscript to follow whichever full-data operators actually pass the frozen paper disposition gate.",
   "source_bindings": {
     "theory_bundle": {
@@ -23,7 +23,7 @@
     },
     "limitations_statement": {
       "path": "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md",
-      "sha256": "cd56f28f3a37e8b278974b9498af2d9c3ef39505aa2175d43384a2c6f78a345f"
+      "sha256": "3f1bb8f19dd4d7b034362ca9badd2de612be77826265757d0dbfb19232a46bff"
     }
   },
   "method_keys": ["proposal", "stcgr", "amtnc"],
@@ -63,7 +63,7 @@
     "introduction": "Frame long-horizon stochastic instability in sequential unpaired UNSB training; do not frame fixed-window handoff as the contribution.",
     "method": "Present Proposal and ST-CGR as a conditional estimator lineage and AM-TNC as an independent stochastic-geometry line; preserve exact pre-Adam theorem boundaries.",
     "experiments": "Report frozen e200 and e150/e175/e200 results, legal runtime-scoped controls, absolute trajectories, six-domain coverage, distribution metrics and controlled cost.",
-    "limitations": "Disclose seed2026 first-wave scope, unequal FLOP, unavailable DDSB reproduction, untested convergence and terminal-law claims, and the AM-TNC method-only numerical recovery provenance boundary.",
+    "limitations": "Disclose seed2026 first-wave scope, unequal FLOP, unavailable DDSB reproduction, untested convergence and terminal-law claims, and both stages of the AM-TNC method-only numerical recovery provenance boundary.",
     "related_work": "Refresh primary-source collision search before abstract and claim freeze."
   },
   "hard_boundaries": {

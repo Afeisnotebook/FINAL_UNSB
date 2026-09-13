@@ -474,7 +474,6 @@
         "latest_complete_updates": 1667835,
         "latest_full_state_checkpoint_sha256": "47caea3942dbd1fe2abd17a5ccdee130a3d0c38eab6f1bb3d253d21d06c7d286",
         "latest_full_state_sidecar_sha256": "2c5b2d3d045be777771af685059d899b52855b7e33b745655bc5513eddec5cdb",
-        "latest_scientific_state_sha256": "964a681444c60b4a3bf5893e7fb732c631702301913cd06ce4369620d9a4c0e6",
         "staged_runtime_relation_status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
         "staged_runtime_relation_version": "sequential_method_only_recovery_v1",
         "staged_runtime_relation_and_v6_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_CLOSURE_AND_STAGED_V6_DELIVERY_20260913T173026.json",
@@ -2070,6 +2069,21 @@
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_CLOSURE_AND_STAGED_V6_DELIVERY_20260913T173026.json",
       "decision": "decisions/DEC-20260913-AMTNC-E195-PRECISION-CLOSURE-AND-STAGED-V6-DELIVERY.md"
+    },
+    "amtnc_two_stage_pre_result_disclosure_20260913": {
+      "status": "PASS_TWO_STAGE_RECOVERY_DISCLOSED_BEFORE_E200_RESULT_REVIEW",
+      "recovery_chain_version": "sequential_method_only_recovery_v1",
+      "recovery_stage_epochs": [178, 194],
+      "methods_draft_sha256": "a21b6313297db847cea424b90f05fac0cdb04c9b06ee5eaf51ae7fcc680e83dd",
+      "reproducibility_checklist_sha256": "e9bed57305206d455fec71b650259ebb25064436d012d5264866b6fe301bc04d",
+      "limitations_statement_sha256": "3f1bb8f19dd4d7b034362ca9badd2de612be77826265757d0dbfb19232a46bff",
+      "manuscript_branching_contract_sha256": "386d793c4390db558492a6c4114964d9ed0bf45f17c9f7696a4d1f7418ccd9a7",
+      "comparison_identity": "AUDITED_SAME_HOST_SEQUENTIAL_METHOD_ONLY_RECOVERY_NOT_BYTE_IDENTICAL_RUNTIME",
+      "training_queue_changed": false,
+      "performance_values_read": false,
+      "confirmation20_opened": false,
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_TWO_STAGE_PRE_RESULT_DISCLOSURE_20260913T181827.json",
+      "decision": "decisions/DEC-20260913-AMTNC-TWO-STAGE-PRE-RESULT-DISCLOSURE.md"
     },
     "post_cleanup_control_chain_recovery_20260912": {
       "status": "AMTNC_OVERFLOW_SAFE_SOURCE_BOUND_RECOVERY_HEALTHY_AT_E182",

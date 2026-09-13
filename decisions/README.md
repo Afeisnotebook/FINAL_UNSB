@@ -736,3 +736,7 @@ authorize compute.
      Windows原子发布读冲突，控制监督器已自动启动第9个child且连续健康约5小时，3个plain审计单元
      保持不变。当前不替换健康child；若再次自然退出，才切到已测试的`f2a601a`重试读取实现，避免
      继续消耗剩余11次启动预算。训练、paired指标与confirmation20均未触碰。
+205. `DEC-20260913-AMTNC-TWO-STAGE-PRE-RESULT-DISCLOSURE.md`：在任何e200性能审阅前，将Methods、
+     Limitations与Reproducibility从只披露e178几何归约修复，补齐为e178归约与e194 Adam原始平方/
+     二阶矩表示两阶段恢复；明确6次精度提升、完整有限状态及恢复dtype，并继续限定为非字节同构的
+     `sequential_method_only_recovery_v1`。训练、队列、算法和paired边界均未改变。

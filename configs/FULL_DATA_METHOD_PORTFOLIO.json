@@ -1602,6 +1602,21 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_EIGHT_TRANSIENT_READ_RECOVERIES_20260913T175755.json",
     "decision": "decisions/DEC-20260913-TERMINAL-AUDIT-READ-RECOVERY-REFRESH.md"
   },
+  "amtnc_two_stage_pre_result_disclosure_20260913": {
+    "status": "pass_two_stage_recovery_disclosed_before_e200_result_review",
+    "recovery_chain_version": "sequential_method_only_recovery_v1",
+    "recovery_stage_epochs": [178, 194],
+    "methods_draft_sha256": "a21b6313297db847cea424b90f05fac0cdb04c9b06ee5eaf51ae7fcc680e83dd",
+    "reproducibility_checklist_sha256": "e9bed57305206d455fec71b650259ebb25064436d012d5264866b6fe301bc04d",
+    "limitations_statement_sha256": "3f1bb8f19dd4d7b034362ca9badd2de612be77826265757d0dbfb19232a46bff",
+    "manuscript_branching_contract_sha256": "386d793c4390db558492a6c4114964d9ed0bf45f17c9f7696a4d1f7418ccd9a7",
+    "comparison_identity": "audited_same_host_sequential_method_only_recovery_not_byte_identical_runtime",
+    "training_queue_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_TWO_STAGE_PRE_RESULT_DISCLOSURE_20260913T181827.json",
+    "decision": "decisions/DEC-20260913-AMTNC-TWO-STAGE-PRE-RESULT-DISCLOSURE.md"
+  },
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "running_e192_hash_closed_method_only_recovery_relation_bound_v5_delivery_healthy",

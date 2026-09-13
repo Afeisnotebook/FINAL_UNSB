@@ -1,10 +1,10 @@
 {
   "schema": "final-unsb-paper-methods-protocol-draft-contract-v1",
-  "captured_at": "2026-09-13T00:18:14+08:00",
+  "captured_at": "2026-09-13T18:18:27+08:00",
   "status": "PRE_RESULT_ENGLISH_METHODS_AND_PROTOCOL_DRAFT_HASH_BOUND",
   "draft": {
     "path": "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md",
-    "sha256": "7f363d176bf79c8050d2d9c46837e0c350f4543e0a021c4fb839a76611ae08bf"
+    "sha256": "a21b6313297db847cea424b90f05fac0cdb04c9b06ee5eaf51ae7fcc680e83dd"
   },
   "authorities": {
     "executable_protocol": {
@@ -17,14 +17,14 @@
     },
     "manuscript_branching": {
       "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
-      "sha256": "c6e120a49405fa3a7744032fca13701267af87ad6657d180a32a0309ffdc2cf0"
+      "sha256": "386d793c4390db558492a6c4114964d9ed0bf45f17c9f7696a4d1f7418ccd9a7"
     },
     "novelty_boundary": {
       "path": "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md",
       "sha256": "0e6ed53cf7a44caead5e4b06bd70e6ffacf5665436a3dd185a6ebb72bed93585"
     }
   },
-  "revision_reason": "Disclose the AM-TNC method-only numerical recovery relation without adding an empirical claim.",
+  "revision_reason": "Disclose both stages of the AM-TNC method-only numerical recovery relation without adding an empirical claim.",
   "allowed_scope": [
     "problem formulation",
     "operator definitions and pre-Adam properties",
