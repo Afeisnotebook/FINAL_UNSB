@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T23:17:31+08:00",
+  "captured_at": "2026-09-13T23:29:00+08:00",
   "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E131_ALL_43172_RELAYS_HEALTHY",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1767,6 +1767,24 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E131_AND_FINAL_RELAY_REBIND_20260913T231731.json",
     "decision": "decisions/DEC-20260913-5090B-CLONE-E131-AND-FINAL-RELAY-REBIND.md"
+  },
+  "amtnc_final_terminal_audit_import_20260913": {
+    "status": "complete_e100_e150_e200_target_blind_import_amtnc_dependency_closed",
+    "training_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+    "available_epochs": [100, 150, 200],
+    "import_set_sha256": "6833296211e0c75751c0b7ad450efdfddd435f82909dcd97179d561d07f5ce2a",
+    "lane_receipt_sha256": "a39a73463832729935642cf3bc4584c15fd9ddb41248a5d725d8978ec687f8ba",
+    "retired_old_relay_pids": [26880, 27668],
+    "old_import_archive": "E:/UNSB_Expl/paper_eval_node/retired_imports/4090A_amtnc_478211c_20260913T2320",
+    "old_import_deleted": false,
+    "terminal_audit_status": "waiting_proposal_stcgr_e200_imports_and_local_gpu_release",
+    "replacement_aggregate_health_pid": 6816,
+    "retired_aggregate_health_pid": 21764,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_FINAL_TERMINAL_AUDIT_IMPORT_20260913T232900.json",
+    "decision": "decisions/DEC-20260913-AMTNC-FINAL-TERMINAL-AUDIT-IMPORT.md"
   },
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",

@@ -789,3 +789,7 @@ authorize compute.
      checkpoint和其他健康lane未被本次操作触碰。4090A及本地incremental relay均已指向43172；仅退休
      仍指向停机44804的本地最终relay，并以`f412083`修复Windows恢复监督器后部署43172持久relay。
      全链健康等待e200 source-bound export，未读取paired性能，confirmation20继续封存。
+218. `DEC-20260913-AMTNC-FINAL-TERMINAL-AUDIT-IMPORT.md`：退役只能提供旧`478211c` e100/e150的
+     AM增量relay，将其7个文件完整移入归档而未删除；最终`5676c91` e100/e150/e200导出已逐哈希导入，
+     AM终端审计输入依赖闭合。新聚合health PID `6816`连续两轮健康后退休旧PID `21764`；audit仍按预期
+     等待Proposal/ST-CGR e200及DCLGAN释放本地GPU，训练和audit进程均未重启，confirmation20封存。

@@ -1,0 +1,67 @@
+{
+  "schema": "final-unsb-paper-amtnc-final-terminal-audit-import-v1",
+  "status": "COMPLETE_AMTNC_E100_E150_E200_TARGET_BLIND_AUDIT_IMPORT",
+  "captured_at": "2026-09-13T23:29:00+08:00",
+  "source": {
+    "host_label": "4090A",
+    "training_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+    "protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "epochs": [100, 150, 200],
+    "source_export_set_sha256": "b313f9adad659906e89ec94078a5edb66200fe7a970f77b3290f2e1c831b8a72"
+  },
+  "import": {
+    "relay_id": "incremental_4090A_amtnc_final_5676c91_v1",
+    "status": "COMPLETE_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "state_sha256": "b8690c3f1dbd1db499b87e28930f580ebff0b3be32f1633c042420867a014fa2",
+    "import_set_sha256": "6833296211e0c75751c0b7ad450efdfddd435f82909dcd97179d561d07f5ce2a",
+    "lane_receipt_sha256": "a39a73463832729935642cf3bc4584c15fd9ddb41248a5d725d8978ec687f8ba",
+    "checkpoint_sha256": {
+      "e100": "a9cdcd4ddbb93cd2f9732be1b5fda7921ca7431076bf07c71e9df4f284fd6488",
+      "e150": "92fd7765f61a20f8952040b2598ae6f4dce14fb69d92b17555fbe3373183321b",
+      "e200": "935bc2d0773aa843cc5351f383dc3d2db9714fd2f582b4d05e21ff180d5f1544"
+    },
+    "scientific_state_sha256": {
+      "e100": "53c3838e169c37593f41ae0346938c9b96765ec7d1f092c6d50cca538c3de707",
+      "e150": "c6f80cc277ef2cb8f4e9a00143af2b2e533dfd76a8758e31b30bc9e1d4fed001",
+      "e200": "ca7c8e9821f1d17ce40a1a6270f46706b0c75fbd6df2b7a350406fc928a0364e"
+    }
+  },
+  "retired_source": {
+    "training_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+    "old_relay_pid": 27668,
+    "old_recovery_supervisor_pid": 26880,
+    "old_available_epochs": [100, 150],
+    "archive": "E:/UNSB_Expl/paper_eval_node/retired_imports/4090A_amtnc_478211c_20260913T2320",
+    "archived_file_count": 7,
+    "deleted": false
+  },
+  "terminal_chain": {
+    "audit_supervisor_pid": 5180,
+    "audit_child_pid": 16424,
+    "audit_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "amtnc_dependency_closed": true,
+    "remaining_expected_dependencies": [
+      "5090C proposal e200 incremental import",
+      "5090A ST-CGR e200 incremental import",
+      "local GTX1660 release after DCLGAN e200"
+    ],
+    "replacement_health_pid": 6816,
+    "replacement_health_status": "HEALTHY_AFTER_TWO_POLLS_ZERO_ALERTS",
+    "retired_old_health_pid": 21764,
+    "training_or_audit_process_restarted": false
+  },
+  "validation": {
+    "targeted_tests": "40 passed",
+    "initial_system_temp_capacity_failure": "rerun on workspace-backed temporary directory passed unchanged",
+    "json_validation": "pass",
+    "git_diff_check": "pass"
+  },
+  "boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "source_checkpoint_mutation": false,
+    "old_evidence_deleted": false
+  }
+}
