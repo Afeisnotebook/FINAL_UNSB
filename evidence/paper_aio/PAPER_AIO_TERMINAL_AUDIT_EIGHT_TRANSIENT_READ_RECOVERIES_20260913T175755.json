@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-control-refresh-v1",
+  "captured_at": "2026-09-13T17:57:55+08:00",
+  "status": "PASS_HEALTHY_CURRENT_CHILD_AFTER_EIGHT_TRANSIENT_READ_FAILURES",
+  "control": {
+    "supervisor_pid": 5180,
+    "current_child_pid": 16424,
+    "control_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "audit_authority_commit": "8d422dc56e8abbfb20550a02b44bf9749a67b59d",
+    "launch_count": 9,
+    "failed_child_count": 8,
+    "maximum_launches": 20,
+    "remaining_launch_budget": 11,
+    "current_child_healthy_since": "2026-09-13T12:32:58+08:00",
+    "current_child_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU"
+  },
+  "failure_classification": {
+    "permission_error_tracebacks": 8,
+    "all_same_class": "WINDOWS_INCREMENTAL_IMPORT_ATOMIC_PUBLICATION_READ_CONFLICT",
+    "nan_or_oom_observed": false,
+    "checkpoint_corruption_observed": false,
+    "scientific_state_write_by_auditor": false,
+    "completed_target_blind_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200"
+    ]
+  },
+  "adjudication": {
+    "healthy_child_replaced": false,
+    "tested_hardened_reader_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "next_natural_child_exit_action": "DEPLOY_TESTED_CANONICAL_READER_RETRY_BEFORE_RELAUNCH",
+    "gtx1660_co_residency_with_dclgan": false,
+    "training_processes_changed": false,
+    "algorithm_protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "validation": {
+    "targeted_tests": "9 passed",
+    "full_repository_tests": "841 passed",
+    "full_repository_test_basetemp": "E:/UNSB_Expl/.pytest-codex-terminal-audit-20260913",
+    "default_windows_temp_capacity_failure": "EXPECTED_FAIL_CLOSED_BECAUSE_C_VOLUME_AVAILABLE_BYTES_WERE_BELOW_THE_EXISTING_2_GIB_RELAY_TEST_RESERVE",
+    "test_logic_or_capacity_guard_changed": false
+  }
+}

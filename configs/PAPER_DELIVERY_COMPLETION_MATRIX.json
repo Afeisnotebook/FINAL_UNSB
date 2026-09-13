@@ -665,9 +665,13 @@
       "amtnc_recovery_import_set_sha256": "0729257d111cd0be23da1df3196d3c3ec111e97928651e8004b2c4cf907772cc",
       "amtnc_old_original_import_archived_not_deleted": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports/archive/4090A_amtnc_original_31f2fb8_20260912T2235",
       "terminal_audit_supervisor_pid": 5180,
-      "terminal_audit_child_pid": 8720,
+      "terminal_audit_child_pid": 16424,
+      "terminal_audit_launch_count": 9,
+      "terminal_audit_failed_child_count": 8,
+      "terminal_audit_remaining_launch_budget": 11,
+      "terminal_audit_next_failure_policy": "deploy_tested_f2a601a_reader_on_next_natural_child_exit_do_not_replace_healthy_child",
       "amtnc_audit_cells_executed": 0,
-      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_RECOVERY_TERMINAL_AUDIT_CHAIN_20260912T224845.json"
+      "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_EIGHT_TRANSIENT_READ_RECOVERIES_20260913T175755.json"
     },
     {
       "id": "distribution_metrics",
@@ -782,6 +786,24 @@
     "json_validation": "pass_665_zero_duplicate_keys",
     "long_training_interrupted": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
+  },
+  "terminal_audit_read_recovery_refresh_20260913": {
+    "status": "healthy_current_child_after_eight_transient_read_failures",
+    "control_supervisor_pid": 5180,
+    "current_child_pid": 16424,
+    "launch_count": 9,
+    "failed_child_count": 8,
+    "remaining_launch_budget": 11,
+    "current_child_healthy_since": "2026-09-13T12:32:58+08:00",
+    "current_status": "WAITING_FOR_PREFLIGHT_IMPORTS_OR_GPU",
+    "completed_target_blind_cells": ["4090A_plain:e100", "4090A_plain:e150", "4090A_plain:e200"],
+    "tested_hardened_reader_commit": "f2a601a0e74d8a0000fe8e641f6c64bc532c3378",
+    "healthy_child_replaced": false,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_EIGHT_TRANSIENT_READ_RECOVERIES_20260913T175755.json",
+    "decision": "decisions/DEC-20260913-TERMINAL-AUDIT-READ-RECOVERY-REFRESH.md"
   },
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "ready_waiting_for_fixed_e200_exports_no_training_mutation",

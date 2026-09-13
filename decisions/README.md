@@ -732,3 +732,7 @@ authorize compute.
      真实记录6个Adam二阶矩精度提升，隔离e195+1恢复保留float64状态。把e178几何归约修复与e194
      Adam表示修复登记为两段可审计、非字节同构的method-only关系，并部署绑定最终`5676c91`
      source-bound export的V6评估/终局链；V5旧等待器在替代链健康后退休，训练和paired协议未动。
+204. `DEC-20260913-TERMINAL-AUDIT-READ-RECOVERY-REFRESH.md`：terminal-audit冻结child累计出现8次
+     Windows原子发布读冲突，控制监督器已自动启动第9个child且连续健康约5小时，3个plain审计单元
+     保持不变。当前不替换健康child；若再次自然退出，才切到已测试的`f2a601a`重试读取实现，避免
+     继续消耗剩余11次启动预算。训练、paired指标与confirmation20均未触碰。
