@@ -780,3 +780,7 @@ authorize compute.
      命名冲突，而非算法或checkpoint失败。`7881b07`分离参数名，`f643036`以完成run-state和导出集
      双证据闭合metric-blind释放边界；V8 matched评估已在4090A真实运行，旧失败产物保留，
      confirmation20仍封存，算法性能尚待固定epoch事后裁决。
+216. `DEC-20260913-AMTNC-FULL-DATA-POSTHOC-DISPOSITION.md`：V8完成十个固定plain/AM只读评估
+     后首次事后读取结果。AM-TNC仅e100为`+0.066 dB`，e125起转负，晚三点均值`-2.108 dB`，
+     e200为`-4.072 dB`且0/6域正，SSIM/LPIPS同时退化。当前持续实现因此关闭，不选早期最佳点、
+     不补seed；CLI故障与科学失败严格分开，广义几何机制未被一并宣判证伪，其他算法前沿不变。

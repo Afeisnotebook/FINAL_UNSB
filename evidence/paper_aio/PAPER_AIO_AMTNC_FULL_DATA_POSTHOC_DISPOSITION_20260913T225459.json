@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-amtnc-full-data-posthoc-disposition-v1",
+  "captured_at": "2026-09-13T22:54:59+08:00",
+  "status": "COMPLETE_E200_SCIENTIFIC_GATE_FAIL_CLOSED_CURRENT_IMPLEMENTATION",
+  "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+  "seed": 2026,
+  "training": {
+    "data_epoch": 200,
+    "updates": 1710600,
+    "full_state_sha256": "6a076ecc60e7f943e04088a93db52928921b0edb66966b706a9b775c2e382e6f",
+    "scientific_state_sha256": "ca7c8e9821f1d17ce40a1a6270f46706b0c75fbd6df2b7a350406fc928a0364e",
+    "all_tensors_finite": true
+  },
+  "evaluation": {
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_V8_F643036",
+    "control_commit": "f64303666dcf8b9efd55f4e07a7ac6782a42ce3e",
+    "status": "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+    "completed_read_only_evaluations": 10,
+    "fixed_epochs": [100, 125, 150, 175, 200],
+    "disposition_sha256": "5ca45a107cf4fd7283641ad3e507d45a801a7153e1032ffdf154e40f7fc82b2a",
+    "crn_exact_at_all_late_points": true,
+    "runtime_relation_legal_at_all_late_points": true,
+    "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+    "source_checkpoints_unchanged_after_evaluation": true
+  },
+  "trajectory": [
+    {
+      "epoch": 100,
+      "amtnc_macro_psnr": 19.700899,
+      "plain_macro_psnr": 19.634775,
+      "macro_psnr_delta": 0.066124,
+      "macro_ssim_delta": -0.004352,
+      "macro_lpips_delta": 0.008713,
+      "positive_domains": 5
+    },
+    {
+      "epoch": 125,
+      "amtnc_macro_psnr": 19.529238,
+      "plain_macro_psnr": 19.948203,
+      "macro_psnr_delta": -0.418964,
+      "macro_ssim_delta": -0.011263,
+      "macro_lpips_delta": 0.014158,
+      "positive_domains": 2
+    },
+    {
+      "epoch": 150,
+      "amtnc_macro_psnr": 19.633820981603336,
+      "plain_macro_psnr": 19.76778722108095,
+      "macro_psnr_delta": -0.13396623947761555,
+      "macro_ssim_delta": -0.003410631879454451,
+      "macro_lpips_delta": 0.008633208443366291,
+      "positive_domains": 3,
+      "worst_domain_delta": -0.7228216730087489
+    },
+    {
+      "epoch": 175,
+      "amtnc_macro_psnr": 17.679801413941785,
+      "plain_macro_psnr": 19.796678993219874,
+      "macro_psnr_delta": -2.116877579278089,
+      "macro_ssim_delta": -0.05637768620536432,
+      "macro_lpips_delta": 0.06892787420767402,
+      "positive_domains": 0,
+      "worst_domain_delta": -3.442569048459127
+    },
+    {
+      "epoch": 200,
+      "amtnc_macro_psnr": 14.069762144494652,
+      "plain_macro_psnr": 18.14178559533791,
+      "macro_psnr_delta": -4.072023450843259,
+      "macro_ssim_delta": -0.13341193562373516,
+      "macro_lpips_delta": 0.12852401930838825,
+      "positive_domains": 0,
+      "worst_domain_delta": -5.611952955646592,
+      "replicates": 5,
+      "count_per_domain": 80
+    }
+  ],
+  "pre_registered_gate": {
+    "status": "FAIL",
+    "late_three_macro_psnr_delta": -2.1076224231996545,
+    "e200_macro_psnr_delta": -4.072023450843259,
+    "candidate_e150_to_e200_change_db": -5.564058837108684,
+    "plain_e150_to_e200_change_db": -1.62600162574304,
+    "late_positive_domain_requirement_met": false,
+    "ssim_guard_met": false,
+    "lpips_guard_met": false,
+    "plain_collapse_explains_result": false
+  },
+  "interpretation": {
+    "engineering_chain_normal": true,
+    "current_implementation_sustained_gain": false,
+    "current_implementation_closed": true,
+    "broader_adam_metric_geometry_mechanism_falsified": false,
+    "reason": "A small e100 PSNR advantage reversed before the late window, then deteriorated on all six domains. The candidate fell substantially more than plain from e150 to e200.",
+    "additional_seed_authorized": false,
+    "other_algorithm_frontier_changed": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read_only_after_complete_fixed_evaluation": true,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "prior_operational_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E200_AND_EVALUATION_MODE_RECOVERY_20260913T224802.json"
+}

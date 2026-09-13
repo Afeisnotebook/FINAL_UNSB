@@ -3657,7 +3657,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_PRE_E200_FINAL_DELIVERY_READINESS_RECHECK_20260913T133500.json"
   },
   "amtnc_e200_and_v8_evaluation_recovery_20260913": {
-    "status": "complete_e200_source_bound_export_complete_v8_matched_evaluation_running",
+    "status": "complete_e200_v8_posthoc_scientific_gate_fail_closed_current_implementation",
     "amtnc_epoch": 200,
     "amtnc_updates": 1710600,
     "amtnc_full_state_sha256": "6a076ecc60e7f943e04088a93db52928921b0edb66966b706a9b775c2e382e6f",
@@ -3668,17 +3668,28 @@
     "release_proof_commit": "f64303666dcf8b9efd55f4e07a7ac6782a42ce3e",
     "evaluation_supervisor_pid": 246338,
     "evaluation_child_pid": 246356,
-    "evaluation_status": "EVALUATING_FIXED_ALGORITHM_CHECKPOINT",
+    "evaluation_status": "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
     "final_supervisor_pid": 246339,
     "final_child_pid": 246357,
     "aggregate_health_pid": 248074,
     "health_status": "HEALTHY_ZERO_ALERTS_AFTER_MULTIPLE_POLLS",
+    "scientific_gate": "FAIL",
+    "late_three_macro_psnr_delta": -2.1076224231996545,
+    "e200_macro_psnr_delta": -4.072023450843259,
+    "e200_positive_domains": 0,
+    "e200_macro_ssim_delta": -0.13341193562373516,
+    "e200_macro_lpips_delta": 0.12852401930838825,
+    "disposition_sha256": "5ca45a107cf4fd7283641ad3e507d45a801a7153e1032ffdf154e40f7fc82b2a",
+    "closed_current_implementation": true,
     "mechanism_falsified": false,
-    "performance_adjudicated": false,
-    "performance_values_read": false,
+    "performance_adjudicated": true,
+    "performance_values_read_posthoc": true,
+    "performance_values_used_for_training_or_scheduling": false,
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E200_AND_EVALUATION_MODE_RECOVERY_20260913T224802.json",
-    "decision": "decisions/DEC-20260913-AMTNC-E200-AND-EVALUATION-MODE-RECOVERY.md"
+    "decision": "decisions/DEC-20260913-AMTNC-E200-AND-EVALUATION-MODE-RECOVERY.md",
+    "posthoc_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_FULL_DATA_POSTHOC_DISPOSITION_20260913T225459.json",
+    "posthoc_decision": "decisions/DEC-20260913-AMTNC-FULL-DATA-POSTHOC-DISPOSITION.md"
   },
-  "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC is complete e200 with source-bound exports and its repaired V8 same-host matched evaluation is running. Then complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
