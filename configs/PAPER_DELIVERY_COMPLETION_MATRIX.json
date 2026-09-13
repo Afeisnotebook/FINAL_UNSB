@@ -1058,21 +1058,26 @@
     "posthoc_decision": "decisions/DEC-20260913-AMTNC-FULL-DATA-POSTHOC-DISPOSITION.md"
   },
   "new_5090_endpoint_pending_identity_20260914": {
-    "status": "pending_tcp_reachability_not_yet_part_of_compute_dag",
+    "status": "pending_tcp_reachability_persistent_watch_healthy_not_yet_part_of_compute_dag",
     "endpoint": "connect.weste.seetacloud.com:44804",
-    "last_probe_at": "2026-09-14T00:58:34+08:00",
+    "last_probe_at": "2026-09-14T01:15:22+08:00",
     "identity_gate_status": "WAITING_FOR_TCP_REACHABILITY",
     "runtime_gate_status": "NOT_STARTED_IDENTITY_REQUIRED",
     "task_selection_status": "NOT_PRESELECTED_REFRESH_DAG_AFTER_GATES",
     "existing_healthy_training_changed": false,
     "new_long_training_started": false,
     "goal_heartbeat_status": "ACTIVE_HOURLY_ENDPOINT_RECHECK",
+    "persistent_watch_status": "CHILD_RUNNING_WAITING_FOR_TCP_REACHABILITY",
+    "persistent_watch_commit": "967a785b488167582dcb689ce022f30037d606da",
+    "persistent_watch_supervisor_pid": 27236,
+    "persistent_watch_child_pid": 5592,
+    "persistent_watch_can_authenticate_or_launch_training": false,
     "credentials_recorded": false,
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PENDING_REACHABILITY_AND_GOAL_ARMING_20260914T005834.json",
-    "decision": "decisions/DEC-20260914-NEW-5090-44804-PENDING-REACHABILITY-AND-GOAL-ARMING.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
   "known_completion_risks": [
     "5090B matched plain now runs on a different physical GPU via an admitted segmented exact-runtime-cohort continuation from e116; the first post-clone e117 checkpoint and scientific hash closed exactly, but final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",

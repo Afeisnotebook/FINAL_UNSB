@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-new-5090-endpoint-persistent-reachability-watch-v1",
+  "captured_at": "2026-09-14T01:16:01+08:00",
+  "status": "PASS_PERSISTENT_FAIL_CLOSED_REACHABILITY_WATCH_RUNNING_ENDPOINT_STILL_UNREACHABLE",
+  "endpoint": "connect.weste.seetacloud.com:44804",
+  "latest_probe": {
+    "status": "WAITING_FOR_TCP_REACHABILITY",
+    "observed_at": "2026-09-14T01:15:22+08:00",
+    "resolved_address": "116.172.94.204",
+    "error_type": "ConnectionRefusedError",
+    "authentication_attempted": false,
+    "gpu_identity_collected": false,
+    "new_physical_gpu_claimed": false
+  },
+  "implementation": {
+    "git_commit": "967a785b488167582dcb689ce022f30037d606da",
+    "module": "operations.paper_aio_endpoint_reachability_watch",
+    "frozen_checkout": "E:/UNSB_Expl/FINAL_UNSB_ENDPOINT_WATCH_967A785",
+    "output": "E:/UNSB_Expl/paper_eval_node/endpoint_reachability_44804_967a785",
+    "poll_seconds": 60,
+    "connect_timeout_seconds": 7,
+    "timeout_hours": 720,
+    "final_status": "REACHABLE_REVIEW_REQUIRED",
+    "action_on_reachable": "STOP_AND_REQUIRE_GPU_IDENTITY_REVIEW"
+  },
+  "processes": {
+    "control_supervisor_pid": 27236,
+    "watch_child_pid": 5592,
+    "control_supervisor_status": "CHILD_RUNNING",
+    "child_status": "WAITING_FOR_TCP_REACHABILITY",
+    "control_restart_count_including_initial_launch": 1
+  },
+  "tests": {
+    "focused_pytest": "36 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "existing_compute_dag": {
+    "healthy_training_changed": false,
+    "new_long_training_started": false,
+    "task_preselected": false,
+    "goal_heartbeat_updated_to_watch_dynamic_state": true
+  },
+  "credentials_recorded": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

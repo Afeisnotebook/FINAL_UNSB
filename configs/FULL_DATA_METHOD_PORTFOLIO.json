@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
   "captured_at": "2026-09-14T00:46:25+08:00",
-  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E134_ALL_43172_RELAYS_HEALTHY_NEW5090_ENDPOINT_PENDING_REACHABILITY",
+  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E134_ALL_43172_RELAYS_HEALTHY_NEW5090_ENDPOINT_PERSISTENT_REACHABILITY_WATCH",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -2015,15 +2015,25 @@
     "posthoc_decision": "decisions/DEC-20260913-AMTNC-FULL-DATA-POSTHOC-DISPOSITION.md"
   },
   "new_5090_endpoint_pending_identity_20260914": {
-    "status": "pending_tcp_reachability_identity_not_claimed_no_task_started",
+    "status": "pending_tcp_reachability_persistent_fail_closed_watch_healthy_identity_not_claimed_no_task_started",
     "endpoint": "connect.weste.seetacloud.com:44804",
     "dns_address": "116.172.94.204",
-    "last_probe_at": "2026-09-14T00:58:34+08:00",
+    "last_probe_at": "2026-09-14T01:15:22+08:00",
     "tcp_reachable": false,
     "authentication_attempt_reached": false,
     "previous_endpoint_identity_requires_revalidation": true,
     "new_physical_gpu_claimed": false,
     "goal_heartbeat_interval": "hourly_until_onboarded_then_bihourly",
+    "persistent_endpoint_watch": {
+      "implementation_commit": "967a785b488167582dcb689ce022f30037d606da",
+      "supervisor_pid": 27236,
+      "child_pid": 5592,
+      "child_status": "WAITING_FOR_TCP_REACHABILITY",
+      "poll_seconds": 60,
+      "fail_closed_on_reachability": "REACHABLE_REVIEW_REQUIRED_BEFORE_GPU_IDENTITY_GATE",
+      "credentials_recorded": false,
+      "can_launch_training": false
+    },
     "candidate_task_preselection": false,
     "long_training_started": false,
     "existing_queue_changed": false,
@@ -2031,8 +2041,8 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PENDING_REACHABILITY_AND_GOAL_ARMING_20260914T005834.json",
-    "decision": "decisions/DEC-20260914-NEW-5090-44804-PENDING-REACHABILITY-AND-GOAL-ARMING.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
