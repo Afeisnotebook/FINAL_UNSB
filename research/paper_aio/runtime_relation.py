@@ -31,6 +31,120 @@ METHOD_ONLY_RECOVERY_STATUS = (
 METHOD_ONLY_RECOVERY_IDENTITY = (
     "audited_method_only_recovery_not_byte_identical_runtime"
 )
+STAGED_RECOVERY_VERSION = "sequential_method_only_recovery_v1"
+
+
+def _fixed_length_string(value: Any, length: int) -> bool:
+    return isinstance(value, str) and len(value) == length
+
+
+def _staged_method_only_recovery_passed(relation: dict[str, Any]) -> bool:
+    """Validate the two metric-blind AM-TNC numerical recovery boundaries."""
+    stages = relation.get("recovery_stages")
+    if (
+        relation.get("recovery_chain_version") != STAGED_RECOVERY_VERSION
+        or not isinstance(stages, list)
+        or len(stages) != 2
+        or not all(isinstance(stage, dict) for stage in stages)
+    ):
+        return False
+    geometry, moment = stages
+    common_false = (
+        "plain_transition_code_changed",
+        "gradient_samples_changed",
+        "projection_formula_changed",
+        "hyperparameters_changed",
+        "rng_or_sampler_changed",
+        "transition_defining_state_changed",
+        "source_checkpoint_mutated",
+        "performance_values_read",
+        "paired_metric_control",
+        "confirmation20_opened",
+    )
+    common = all(
+        stage.get(key) is False for stage in stages for key in common_false
+    )
+    chain = (
+        geometry.get("stage") == 1
+        and moment.get("stage") == 2
+        and geometry.get("parent_git_commit") == relation.get("parent_git_commit")
+        and geometry.get("recovery_git_commit") == moment.get("parent_git_commit")
+        and moment.get("recovery_git_commit") == relation.get("recovery_git_commit")
+        and geometry.get("parent_protocol_fingerprint")
+        == relation.get("parent_training_protocol_fingerprint")
+        and geometry.get("recovery_protocol_fingerprint")
+        == moment.get("parent_protocol_fingerprint")
+        and moment.get("recovery_protocol_fingerprint")
+        == relation.get("recovery_training_protocol_fingerprint")
+        and all(
+            _fixed_length_string(stage.get(key), 40)
+            for stage in stages
+            for key in ("parent_git_commit", "recovery_git_commit")
+        )
+        and all(
+            _fixed_length_string(stage.get(key), 64)
+            for stage in stages
+            for key in (
+                "parent_dynamics_only_sha256",
+                "migrated_dynamics_only_sha256",
+                "migration_receipt_sha256",
+            )
+        )
+        and all(
+            stage.get("parent_dynamics_only_sha256")
+            == stage.get("migrated_dynamics_only_sha256")
+            for stage in stages
+        )
+        and common
+    )
+    geometry_passed = (
+        int(geometry.get("start_epoch", -1)) == 178
+        and int(geometry.get("start_updates", -1)) == 1_522_434
+        and geometry.get("repair_kind")
+        == "float32_metric_reduction_overflow_preserving_higher_precision"
+        and geometry.get("method_only_changed_paths") == [
+            "src/models/route1/amtnc.py",
+        ]
+        and geometry.get("finite_path_bitwise_equal") is True
+        and geometry.get("higher_precision_same_metric_reduction_only") is True
+        and all(
+            _fixed_length_string(geometry.get(key), 64)
+            for key in (
+                "localization_receipt_sha256",
+                "replay_receipt_sha256",
+            )
+        )
+    )
+    moment_passed = (
+        int(moment.get("start_epoch", -1)) == 194
+        and int(moment.get("start_updates", -1)) == 1_659_282
+        and moment.get("repair_kind")
+        == "float32_adam_second_moment_overflow_preserving_higher_precision"
+        and moment.get("method_only_changed_paths") == [
+            "research/local_route1/runtime.py",
+            "src/models/route1/amtnc.py",
+        ]
+        and moment.get("finite_representable_path_bitwise_equal") is True
+        and moment.get("promote_only_unrepresentable_exp_avg_sq") is True
+        and moment.get("optimizer_update_skipped") is False
+        and moment.get("gradient_clipped") is False
+        and moment.get("precision_promotion_observed") is True
+        and moment.get("promoted_state_dtype") == "float64"
+        and moment.get("e195_checkpoint_all_finite") is True
+        and moment.get("full_state_reload_preserves_promoted_dtype") is True
+        and all(
+            _fixed_length_string(moment.get(key), 64)
+            for key in (
+                "incident_receipt_sha256",
+                "one_update_gate_checkpoint_sha256",
+                "one_update_gate_scientific_state_sha256",
+                "e195_gate_receipt_sha256",
+                "method_source_sha256",
+                "runtime_source_sha256",
+            )
+        )
+    )
+    return chain and geometry_passed and moment_passed
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -128,6 +242,19 @@ def _method_only_recovery_relation_status(
     milestone_hashes = relation.get(
         "pre_recovery_milestone_dynamics_only_sha256"
     )
+    direct_recovery = (
+        relation.get("recovery_chain_version") is None
+        and relation.get("parent_git_commit")
+        == relation.get("recovery_parent_git_commit")
+        and relation.get("recovery_commit_parent_is_parent") is True
+        and int(relation.get("recovery_start_epoch", -1)) == 178
+        and int(relation.get("recovery_start_updates", -1)) == 1_522_434
+        and relation.get("method_only_changed_paths") == [
+            "src/models/route1/amtnc.py",
+            "tests/test_route1_amtnc.py",
+        ]
+    )
+    staged_recovery = _staged_method_only_recovery_passed(relation)
     passed = (
         relation.get("status") == METHOD_ONLY_RECOVERY_STATUS
         and lane_id == "amtnc"
@@ -147,15 +274,7 @@ def _method_only_recovery_relation_status(
             isinstance(relation.get(key), str) and len(relation[key]) == 40
             for key in forty_fields
         )
-        and relation.get("parent_git_commit")
-        == relation.get("recovery_parent_git_commit")
-        and relation.get("recovery_commit_parent_is_parent") is True
-        and int(relation.get("recovery_start_epoch", -1)) == 178
-        and int(relation.get("recovery_start_updates", -1)) == 1_522_434
-        and relation.get("method_only_changed_paths") == [
-            "src/models/route1/amtnc.py",
-            "tests/test_route1_amtnc.py",
-        ]
+        and (direct_recovery or staged_recovery)
         and relation.get("plain_transition_code_changed") is False
         and relation.get("finite_path_bitwise_equal") is True
         and relation.get("overflow_fallback_same_metric_higher_precision_only")
@@ -211,6 +330,8 @@ def _method_only_recovery_relation_status(
             )
         ),
         "pre_recovery_milestone_dynamics_only_sha256": milestone_hashes,
+        "recovery_chain_version": relation.get("recovery_chain_version"),
+        "recovery_stages": relation.get("recovery_stages"),
         "performance_values_read": False,
     }
 
@@ -545,6 +666,8 @@ def runtime_pair_status(
             if relation.get("method_source_host_label") == method_host
             and relation.get("plain_source_host_label") == plain_host
             and relation.get("status") == METHOD_ONLY_RECOVERY_STATUS
+            and relation.get("recovery_training_protocol_fingerprint")
+            == left["training_protocol_fingerprint"]
         ]
         if len(matching) == 1:
             return _method_only_recovery_relation_status(

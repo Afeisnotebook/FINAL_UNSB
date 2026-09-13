@@ -152,6 +152,132 @@ def test_same_host_method_only_recovery_requires_full_metric_blind_proof(
     assert not runtime_pair_passed(rejected)
 
 
+def _staged_method_recovery_registry(path: Path) -> Path:
+    base = json.loads(
+        _method_recovery_registry(path).read_text(encoding="utf-8")
+    )
+    legacy = base["relations"]["amtnc"]
+    staged = {
+        **legacy,
+        "recovery_training_protocol_fingerprint": "final-fp",
+        "recovery_git_commit": "c" * 40,
+        "recovery_parent_git_commit": "b" * 40,
+        "recovery_commit_parent_is_parent": False,
+        "method_only_changed_paths": [
+            "research/local_route1/runtime.py",
+            "src/models/route1/amtnc.py",
+        ],
+        "recovery_chain_version": "sequential_method_only_recovery_v1",
+        "recovery_stages": [
+            {
+                "stage": 1,
+                "start_epoch": 178,
+                "start_updates": 1_522_434,
+                "parent_git_commit": "a" * 40,
+                "recovery_git_commit": "b" * 40,
+                "parent_protocol_fingerprint": "parent-fp",
+                "recovery_protocol_fingerprint": "recovery-fp",
+                "repair_kind": "float32_metric_reduction_overflow_preserving_higher_precision",
+                "method_only_changed_paths": ["src/models/route1/amtnc.py"],
+                "finite_path_bitwise_equal": True,
+                "higher_precision_same_metric_reduction_only": True,
+                "parent_dynamics_only_sha256": "1" * 64,
+                "migrated_dynamics_only_sha256": "1" * 64,
+                "migration_receipt_sha256": "2" * 64,
+                "localization_receipt_sha256": "3" * 64,
+                "replay_receipt_sha256": "4" * 64,
+                "plain_transition_code_changed": False,
+                "gradient_samples_changed": False,
+                "projection_formula_changed": False,
+                "hyperparameters_changed": False,
+                "rng_or_sampler_changed": False,
+                "transition_defining_state_changed": False,
+                "source_checkpoint_mutated": False,
+                "performance_values_read": False,
+                "paired_metric_control": False,
+                "confirmation20_opened": False,
+            },
+            {
+                "stage": 2,
+                "start_epoch": 194,
+                "start_updates": 1_659_282,
+                "parent_git_commit": "b" * 40,
+                "recovery_git_commit": "c" * 40,
+                "parent_protocol_fingerprint": "recovery-fp",
+                "recovery_protocol_fingerprint": "final-fp",
+                "repair_kind": "float32_adam_second_moment_overflow_preserving_higher_precision",
+                "method_only_changed_paths": [
+                    "research/local_route1/runtime.py",
+                    "src/models/route1/amtnc.py",
+                ],
+                "finite_representable_path_bitwise_equal": True,
+                "promote_only_unrepresentable_exp_avg_sq": True,
+                "optimizer_update_skipped": False,
+                "gradient_clipped": False,
+                "precision_promotion_observed": True,
+                "promoted_state_dtype": "float64",
+                "e195_checkpoint_all_finite": True,
+                "full_state_reload_preserves_promoted_dtype": True,
+                "parent_dynamics_only_sha256": "5" * 64,
+                "migrated_dynamics_only_sha256": "5" * 64,
+                "migration_receipt_sha256": "6" * 64,
+                "incident_receipt_sha256": "7" * 64,
+                "one_update_gate_checkpoint_sha256": "8" * 64,
+                "one_update_gate_scientific_state_sha256": "9" * 64,
+                "e195_gate_receipt_sha256": "0" * 64,
+                "method_source_sha256": "a" * 64,
+                "runtime_source_sha256": "b" * 64,
+                "plain_transition_code_changed": False,
+                "gradient_samples_changed": False,
+                "projection_formula_changed": False,
+                "hyperparameters_changed": False,
+                "rng_or_sampler_changed": False,
+                "transition_defining_state_changed": False,
+                "source_checkpoint_mutated": False,
+                "performance_values_read": False,
+                "paired_metric_control": False,
+                "confirmation20_opened": False,
+            },
+        ],
+    }
+    base["relations"]["amtnc"] = [legacy, staged]
+    path.write_text(json.dumps(base), encoding="utf-8")
+    return path
+
+
+def test_staged_method_only_recovery_selects_final_protocol_and_fails_closed(
+    tmp_path: Path,
+) -> None:
+    registry = _staged_method_recovery_registry(tmp_path / "staged.json")
+    result = runtime_pair_status(
+        method=_metric("4090A", "final-fp", "m" * 64),
+        plain=_metric("4090A", "parent-fp", "m" * 64),
+        lane_id="amtnc", relations_path=registry,
+    )
+    assert result["status"] == (
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    )
+    assert result["recovery_chain_version"] == (
+        "sequential_method_only_recovery_v1"
+    )
+    assert [stage["start_epoch"] for stage in result["recovery_stages"]] == [
+        178, 194,
+    ]
+
+    value = json.loads(registry.read_text(encoding="utf-8"))
+    value["relations"]["amtnc"][1]["recovery_stages"][1][
+        "full_state_reload_preserves_promoted_dtype"
+    ] = False
+    registry.write_text(json.dumps(value), encoding="utf-8")
+    rejected = runtime_pair_status(
+        method=_metric("4090A", "final-fp", "m" * 64),
+        plain=_metric("4090A", "parent-fp", "m" * 64),
+        lane_id="amtnc", relations_path=registry,
+    )
+    assert rejected["status"] == "FAIL_METHOD_ONLY_RECOVERY_RELATION_MISMATCH"
+    assert not runtime_pair_passed(rejected)
+
+
 def test_cross_host_requires_exact_metric_blind_relation(tmp_path: Path) -> None:
     registry = _registry(tmp_path / "relations.json")
     result = runtime_pair_status(
