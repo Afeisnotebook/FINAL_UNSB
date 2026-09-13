@@ -740,3 +740,7 @@ authorize compute.
      Limitations与Reproducibility从只披露e178几何归约修复，补齐为e178归约与e194 Adam原始平方/
      二阶矩表示两阶段恢复；明确6次精度提升、完整有限状态及恢复dtype，并继续限定为非字节同构的
      `sequential_method_only_recovery_v1`。训练、队列、算法和paired边界均未改变。
+206. `DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md`：只读关键路径审计发现统一评估仍等待
+     已被第二阶段恢复取代的`478211c`释放状态，会造成AM正常e200后永久等待。部署绑定当前
+     `5676c91`状态的V7统一/AM/ST-CGR/终局四角色恢复链，连续健康后只退休9个旧等待进程；训练、
+     checkpoint、旧证据、paired边界与confirmation20均未改变。

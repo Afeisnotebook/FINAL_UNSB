@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-amtnc-v7-post-training-chain-rebind-v1",
+  "captured_at": "2026-09-13T18:37:27+08:00",
+  "status": "PASS_CURRENT_RELEASE_BOUND_V7_CHAIN_HEALTHY_STALE_WAITERS_RETIRED",
+  "classification": "NON_SCIENTIFIC_CONTROL_PLANE_RECOVERY_BEFORE_E200",
+  "incident": {
+    "detected_by": "read-only post-AM-TNC critical-path audit",
+    "stale_unified_successor_status": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+    "stale_release_state": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_OVERFLOW_RECOVERY_478211c/gates/SUPERVISOR_amtnc.json",
+    "stale_release_state_status": "CHILD_RUNNING",
+    "cause": "The unified evaluation successor remained bound to the first AM-TNC numerical-recovery run after the authoritative training moved to the second-stage 5676c91 run; the old supervisor state could never certify the current run's COMPLETE_E200 event.",
+    "failure_if_unrepaired": "AM-TNC could finish normally while first-wave unified evaluation remained indefinitely blocked on an obsolete release state."
+  },
+  "replacement": {
+    "generation": "V7_DA41652",
+    "control_repo": "/home/yc/FINAL_UNSB_EVAL_CHAIN_V7_DA41652",
+    "control_git_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "control_repo_clean": true,
+    "runtime_python": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000/bin/python",
+    "runtime_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "current_release_state": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/gates/SUPERVISOR_amtnc.json",
+    "amtnc_export_root": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838",
+    "gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "outputs": {
+      "first_wave": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652",
+      "amtnc": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_V7_DA41652",
+      "final_delivery": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V7_DA41652"
+    },
+    "supervisor_pids": {
+      "unified_evaluation": 125400,
+      "amtnc_evaluation": 125401,
+      "stcgr_evaluation": 125402,
+      "final_delivery": 125403
+    },
+    "child_pids": {
+      "unified_evaluation": 125436,
+      "amtnc_evaluation": 125440,
+      "stcgr_evaluation": 125437,
+      "final_delivery": 125444
+    },
+    "health_watcher_pid": 125502,
+    "health_status_after_two_polls": "HEALTHY_ZERO_ALERTS",
+    "child_statuses": {
+      "unified_evaluation": "WAITING_FOR_FIXED_IMPORTS_OR_GPU_RELEASE",
+      "amtnc_evaluation": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+      "stcgr_evaluation": "WAITING_FOR_CANDIDATE_IMPORT_METADATA_OR_COHORT",
+      "final_delivery": "WAITING_FOR_ALL_FIXED_E200_RESULTS"
+    },
+    "command_sha256": {
+      "unified_evaluation": "f8d1a891089f5f77da8efb73b201dc44dd98ab6e5bdaa8bbb55b51a2d2aade8e",
+      "amtnc_evaluation": "78689ca6a67da66360319f80e1d5a49125b82d0e5911abe94c980d994ca83cae",
+      "stcgr_evaluation": "20d0f5143ca3999fc45253f8bc5549874de150d1f200c44b156e217377ad78fd",
+      "final_delivery": "b79ca6247e278857bdea3574696d602c70b447c64fe938796bcb21c65bc62078"
+    },
+    "deployment_identity_sha256": "57c633a7ea7dadd446ab0e5090056f7387f4b7d906d243df426505f7598c7ded",
+    "deployment_receipt_sha256": "7314cf7433d64d63b276bd104ac50db38d027a78bca323f461fc2ee686a358b5",
+    "remote_control_tests": "53 passed"
+  },
+  "retirement": {
+    "retired_wait_only_pids": [3779719, 3779721, 3779755, 3779756, 94857, 94858, 94875, 94877, 94907],
+    "all_absent_after_sigterm": true,
+    "retirement_receipt_sha256": "76bcea41f3eded598cda7d6f9cfe0439edcaeb1c7b714d73fdfcab5a8d4b0c90",
+    "old_outputs_deleted": false,
+    "checkpoints_deleted": false
+  },
+  "protected_live_training": {
+    "amtnc_latest_complete_epoch_at_audit": 196,
+    "amtnc_latest_complete_updates_at_audit": 1676388,
+    "amtnc_scientific_state_sha256": "6e9c739adc4fc6692166210913092795999dd5b2b595bca7705157c8a28a6219",
+    "protected_pids": [59933, 59936, 60323, 60777, 60985, 61459, 61630, 61787],
+    "all_alive_after_retirement": true,
+    "training_or_export_state_changed": false
+  },
+  "scientific_boundary": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "algorithm_or_hyperparameter_changed": false,
+    "confirmation20_opened": false
+  },
+  "decision": "decisions/DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md"
+}

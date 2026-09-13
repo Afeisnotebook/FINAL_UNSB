@@ -1617,6 +1617,24 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_TWO_STAGE_PRE_RESULT_DISCLOSURE_20260913T181827.json",
     "decision": "decisions/DEC-20260913-AMTNC-TWO-STAGE-PRE-RESULT-DISCLOSURE.md"
   },
+  "amtnc_v7_post_training_chain_rebind_20260913": {
+    "status": "pass_current_release_bound_v7_chain_healthy_stale_waiters_retired",
+    "cause": "unified_evaluation_waited_on_obsolete_478211c_release_state",
+    "current_amtnc_release_state": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/gates/SUPERVISOR_amtnc.json",
+    "control_git_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "control_output": "/home/yc/runs/FINAL_UNSB_EVALUATION_CHAIN_V7_DA41652",
+    "supervisor_pids": [125400, 125401, 125402, 125403],
+    "child_pids": [125436, 125440, 125437, 125444],
+    "health_watcher_pid": 125502,
+    "health_status": "healthy_zero_alerts_after_two_polls",
+    "retired_wait_only_pids": [3779719, 3779721, 3779755, 3779756, 94857, 94858, 94875, 94877, 94907],
+    "old_outputs_deleted": false,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_V7_POST_TRAINING_CHAIN_REBIND_20260913T183727.json",
+    "decision": "decisions/DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md"
+  },
   "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "running_e192_hash_closed_method_only_recovery_relation_bound_v5_delivery_healthy",
