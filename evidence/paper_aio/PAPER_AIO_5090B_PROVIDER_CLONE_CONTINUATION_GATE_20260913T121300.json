@@ -1,0 +1,64 @@
+{
+  "schema": "final-unsb-paper-provider-clone-continuation-decision-v1",
+  "status": "PASS_EXACT_RUNTIME_CLONE_CONTINUATION_MAIN_RESUME_AUTHORIZED",
+  "captured_at": "2026-09-13T12:13:00+08:00",
+  "incident": {
+    "source_host_label": "5090B",
+    "cause": "provider_instance_stopped_for_billing_renewal",
+    "scientific_failure": false,
+    "checkpoint_loss": false,
+    "last_complete_data_epoch": 116,
+    "last_complete_updates": 992148,
+    "maximum_discarded_work": "the incomplete e117 only"
+  },
+  "source_checkpoint": {
+    "path": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed/lanes/plain/full_state_latest.pt",
+    "sha256": "fd2808e2a3bc1fceffe6e9ec99033925423065679641249de4c03d993baf58ab",
+    "scientific_state_sha256": "5f5b8e85f400e402f466a273dcf5debb7086e10a6b8c37495d3f1bf89d05ca88",
+    "hash_verified_before_and_after_isolated_probes": true
+  },
+  "physical_identity": {
+    "source_gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "replacement_label": "5090B_CLONE",
+    "replacement_gpu_uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+    "replacement_hostname": "autodl-container-2ba7efw2s1-92e55f03",
+    "same_physical_host_claimed": false,
+    "host_identity_receipt_sha256": "f0c966568ece36c6b794ee552919166fe1992bd46ae242d2b816171180d0f7e4"
+  },
+  "runtime_gate": {
+    "status": "PASS_EXACT_RUNTIME_COHORT",
+    "updates": 2000,
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "source_5090b_runtime_receipt_sha256": "c1471a79edf16e79e528b6b878c405ea9fe08989b280348beebe2cb424320b82",
+    "replacement_runtime_receipt_sha256": "4abbde9a2988169cd2f98af95ab6d8532da352a31a9307acab843de258eb20c8",
+    "replacement_wall_seconds": 487.72679924964905,
+    "exact_differences": {}
+  },
+  "resume_gate": {
+    "status": "PASS_ENGINEERING_CLONE_CONTINUATION_GATE",
+    "probe_updates": 8,
+    "probe_final_step": 992156,
+    "branch_a_checkpoint_sha256": "dc92d6126be7b2437cb759817b0b1d09d7ad10f6ea3d9748f22aeab6a3228281",
+    "branch_b_checkpoint_sha256": "dc92d6126be7b2437cb759817b0b1d09d7ad10f6ea3d9748f22aeab6a3228281",
+    "branch_a_scientific_state_sha256": "6cf7aabfddbdb2ed1af879d6dd7f6838e36f3b04c7b2481ff35d79e19aef9168",
+    "branch_b_scientific_state_sha256": "6cf7aabfddbdb2ed1af879d6dd7f6838e36f3b04c7b2481ff35d79e19aef9168",
+    "branches_exact": true,
+    "source_checkpoint_preserved": true,
+    "receipt_sha256": "c15836d28afe245e0c2adadc952ecde3d74418878e8ff9ed2fd3fc5999c1d957"
+  },
+  "authorization": {
+    "user_requested_provider_clone_recovery": true,
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "control_gate_git_commit": "074eb208dcdf44411b583e244937a913852d4e8a",
+    "main_resume_from_step": 992148,
+    "algorithm_or_protocol_changed": false,
+    "comparison_disposition": "segmented_exact_runtime_cohort_pending_final_relation_admission_and_manuscript_disclosure",
+    "automatic_same_host_relabel_allowed": false
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

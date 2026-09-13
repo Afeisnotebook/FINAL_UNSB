@@ -28,6 +28,17 @@
       "gpu_memory_total_mib": 32607,
       "driver_version": "595.71.05"
     },
+    "5090B_CLONE": {
+      "hostname": "autodl-container-2ba7efw2s1-92e55f03",
+      "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
+      "gpu_uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+      "gpu_name": "NVIDIA GeForce RTX 5090",
+      "gpu_memory_total_mib": 32607,
+      "driver_version": "595.71.05",
+      "role": "provider-clone continuation segment for 5090B matched plain",
+      "same_physical_host_as_5090B": false,
+      "continuation_gate": "PASS_EXACT_RUNTIME_CLONE_CONTINUATION"
+    },
     "5090C": {
       "hostname": "autodl-container-5ymd4xkvsl-95d685bc",
       "machine_id": "5d04e104cf744bddb12c08eb61a501e9",
