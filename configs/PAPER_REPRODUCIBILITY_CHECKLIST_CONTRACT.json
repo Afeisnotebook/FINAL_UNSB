@@ -21,7 +21,7 @@
     },
     "runtime_relations": {
       "path": "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json",
-      "sha256": "d68c284f042736ccf73b16a18ad80504496f5e84bd96edd6bef6e64a60b0fe90"
+      "sha256": "d4209abf6d587f0f3bab5a9ec3e7748dc94ee5d391bf3f3735814c19ab5b9ebb"
     },
     "manuscript_branching": {
       "path": "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json",
@@ -32,7 +32,7 @@
       "sha256": "7f363d176bf79c8050d2d9c46837e0c350f4543e0a021c4fb839a76611ae08bf"
     }
   },
-  "revision_reason": "Bind the disclosed AM-TNC recovery comparison before any e200 outcome is available.",
+  "revision_reason": "Bind the disclosed two-stage AM-TNC recovery comparison before any e200 outcome is available.",
   "required_sections": [
     "immutable_study_identity",
     "data_and_split_disclosure",

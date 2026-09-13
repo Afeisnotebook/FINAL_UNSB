@@ -65,37 +65,42 @@ def test_active_amtnc_recovery_authority_is_consistent_across_control_entries() 
     project_run = project_paper["runs"]["4090A_amtnc"]
     portfolio_run = portfolio["methods"]["amtnc"]
     project_relation = project_paper[
-        "amtnc_recovery_relation_and_v5_delivery_20260913"
+        "amtnc_staged_recovery_relation_and_v6_delivery_20260913"
     ]
-    portfolio_relation = portfolio[
-        "amtnc_recovery_relation_and_v5_delivery_20260913"
+    matrix_relation = matrix[
+        "amtnc_staged_recovery_relation_and_v6_delivery_20260913"
     ]
-    matrix_relation = matrix["amtnc_recovery_relation_and_v5_delivery_20260913"]
     matrix_core = {row["id"]: row for row in matrix["core_completion_path"]}
     disposition = matrix_core["algorithm_dispositions"]
     final_delivery = matrix_core["core_final_portfolio"]
 
-    expected_control_commit = "9214838dec1b1e0ab82ded943c21d247d7ab62a8"
-    expected_retired = ["V2_2B45F88", "V3_A738846", "V4_DE1DD82"]
+    expected_control_commit = "83d4b062d4c25da4575e6220a14c9bcbfb35a411"
+    expected_retired = [
+        "V2_2B45F88",
+        "V3_A738846",
+        "V4_DE1DD82",
+        "V5_9214838",
+    ]
     expected_pids = {
         "evaluation_supervisor": project_relation[
-            "v5_amtnc_evaluation_supervisor_pid"
+            "v6_amtnc_evaluation_supervisor_pid"
         ],
-        "evaluation_child": project_relation["v5_amtnc_evaluation_child_pid"],
-        "final_supervisor": project_relation["v5_final_delivery_supervisor_pid"],
-        "final_child": project_relation["v5_final_delivery_child_pid"],
-        "health": project_relation["v5_health_watcher_pid"],
+        "evaluation_child": project_relation["v6_amtnc_evaluation_child_pid"],
+        "final_supervisor": project_relation["v6_final_delivery_supervisor_pid"],
+        "final_child": project_relation["v6_final_delivery_child_pid"],
+        "health": project_relation["v6_health_watcher_pid"],
     }
 
-    assert project_run["replacement_generation"] == "V5_9214838"
-    assert portfolio_run["replacement_generation"] == "V5_9214838"
+    assert project_run["replacement_generation"] == "STAGED_V6_83D4B06"
+    assert portfolio_run["replacement_generation"] == "STAGED_V6_83D4B06"
     assert project_run["retired_replacement_generations"] == expected_retired
     assert portfolio_run["retired_replacement_generations"] == expected_retired
     assert disposition["retired_waiter_versions"] == expected_retired
 
     assert project_relation["control_git_commit"] == expected_control_commit
-    assert portfolio_relation["control_git_commit"] == expected_control_commit
     assert matrix_relation["control_git_commit"] == expected_control_commit
+    assert project_run["replacement_control_commit"] == expected_control_commit
+    assert portfolio_run["replacement_control_commit"] == expected_control_commit
 
     assert project_run["replacement_evaluation_supervisor_pid"] == expected_pids[
         "evaluation_supervisor"
@@ -153,8 +158,7 @@ def test_active_amtnc_recovery_authority_is_consistent_across_control_entries() 
     assert final_delivery["health_watcher_pid"] == expected_pids["health"]
 
     expected_epoch = project_relation["4090a_amtnc_latest_complete_epoch"]
-    assert expected_epoch >= 182
-    assert portfolio_relation["latest_complete_epoch"] == expected_epoch
+    assert expected_epoch >= 195
     assert matrix_relation["amtnc_latest_complete_epoch"] == expected_epoch
-    assert project_run["latest_observed_data_epoch"] == expected_epoch
+    assert project_run["latest_complete_epoch"] == expected_epoch
     assert portfolio_run["completed_full_data_epoch"] == expected_epoch

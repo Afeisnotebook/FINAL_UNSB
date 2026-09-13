@@ -728,3 +728,7 @@ authorize compute.
      新实现同时检查raw square与加权递推，只提升受影响的`exp_avg_sq`，不裁剪、跳步或改公式。
      4090 CUDA反例、14项原环境测试、两次逐位一致e194+1重放及跨版本dynamics恒等门均通过，
      `5676c91`从不可变e194状态重跑决定性e195；性能仍未裁决，confirmation20保持封存。
+203. `DEC-20260913-AMTNC-E195-PRECISION-CLOSURE-AND-STAGED-V6-DELIVERY.md`：e195完整状态全有限，
+     真实记录6个Adam二阶矩精度提升，隔离e195+1恢复保留float64状态。把e178几何归约修复与e194
+     Adam表示修复登记为两段可审计、非字节同构的method-only关系，并部署绑定最终`5676c91`
+     source-bound export的V6评估/终局链；V5旧等待器在替代链健康后退休，训练和paired协议未动。
