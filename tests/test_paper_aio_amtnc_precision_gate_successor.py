@@ -8,6 +8,7 @@ import pytest
 from operations.paper_aio_amtnc_precision_gate_successor import (
     _capture_ready,
     _contract,
+    _subprocess_environment,
     _validate_scripts,
 )
 
@@ -81,3 +82,12 @@ def test_contract_records_metric_blind_firewalls(tmp_path):
     assert contract["performance_values_read"] is False
     assert contract["paired_metric_control"] is False
     assert contract["confirmation20_opened"] is False
+
+
+def test_subprocess_environment_prepends_training_repo(tmp_path, monkeypatch):
+    monkeypatch.setenv("PYTHONPATH", "inherited-path")
+    environment = _subprocess_environment(tmp_path)
+    assert environment["PYTHONPATH"].split(__import__("os").pathsep) == [
+        str(tmp_path), "inherited-path",
+    ]
+    assert environment["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"

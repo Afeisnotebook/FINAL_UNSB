@@ -119,11 +119,19 @@ def _capture_ready(args: argparse.Namespace) -> dict[str, Any] | None:
     return receipt
 
 
-def _run(command: list[str], *, cwd: Path, log: Path) -> None:
+def _subprocess_environment(cwd: Path) -> dict[str, str]:
     environment = dict(os.environ)
     environment["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+    inherited = environment.get("PYTHONPATH")
+    environment["PYTHONPATH"] = (
+        str(cwd) if not inherited else str(cwd) + os.pathsep + inherited
+    )
+    return environment
+
+
+def _run(command: list[str], *, cwd: Path, log: Path) -> None:
     completed = subprocess.run(
-        command, cwd=cwd, env=environment, stdout=subprocess.PIPE,
+        command, cwd=cwd, env=_subprocess_environment(cwd), stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT, text=True, check=False,
     )
     log.write_text(completed.stdout, encoding="utf-8", newline="\n")
