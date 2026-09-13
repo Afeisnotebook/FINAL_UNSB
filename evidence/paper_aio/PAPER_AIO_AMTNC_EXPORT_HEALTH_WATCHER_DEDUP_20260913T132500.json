@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-amtnc-export-health-watcher-dedup-v1",
+  "captured_at": "2026-09-13T13:25:00+08:00",
+  "status": "PASS_STALE_FALSE_ALERT_WATCHERS_RETIRED_AUTHORITATIVE_EXPORT_CHAIN_HEALTHY",
+  "retired_watchers": [
+    {
+      "pid": 706689,
+      "monitored_dead_pid": 706411,
+      "last_status": "ALERT_UPSTREAM_BLOCKED",
+      "state_sha256": "3cff17376a9c679d13bf7ded303a0219219aeffdbae80a4716a39ac93aa144a7"
+    },
+    {
+      "pid": 724142,
+      "monitored_dead_pid": 723432,
+      "last_status": "ALERT_UPSTREAM_BLOCKED",
+      "state_sha256": "76b51bb12670fae947aa7e3548979014396747f66f30a37bd2676aebf23e1dbb"
+    }
+  ],
+  "authoritative_export_chain": {
+    "direct_exporter_pid": 3768856,
+    "direct_export_recovery_pid": 3769069,
+    "normalized_exporter_pid": 3785061,
+    "normalized_export_recovery_pid": 3785099,
+    "normalized_export_health_pid": 3785120,
+    "normalized_export_health_status": "HEALTHY_ZERO_ALERTS",
+    "normalized_export_health_state_sha256": "92af8abb5e863c2ce645a0bcb2faa4c08600235cacadd105ed094ac85d9c6bc4",
+    "normalized_export_state": "WAITING_FOR_COMPLETE_E200",
+    "normalized_export_state_sha256": "bbab7d1795261a6eae4cc0d92a2b644ba01d719ce3b28fd78d3f945ebfdd39b3",
+    "incremental_export_recovery_pid": 3800224,
+    "incremental_exporter_pid": 3800241,
+    "incremental_export_health_pid": 3802961,
+    "incremental_export_health_status": "HEALTHY_ZERO_ALERTS",
+    "incremental_export_health_state_sha256": "c931fb7f6d1f6314acaa16aec2690b8691743c69d51868c731b1b4b58bdf4e18",
+    "incremental_export_state": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "incremental_export_state_sha256": "79fa25652d495bc699f4fadf1dd687cbe609a80bd829a39f4a6275f879b16f15"
+  },
+  "post_retirement": {
+    "retired_pids_absent": true,
+    "authoritative_pids_alive": true,
+    "training_supervisor_pid": 3764454,
+    "training_trainer_pid": 3764455,
+    "training_processes_touched": false,
+    "files_deleted": false,
+    "checkpoints_deleted": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "training_or_algorithm_protocol_changed": false
+  }
+}
