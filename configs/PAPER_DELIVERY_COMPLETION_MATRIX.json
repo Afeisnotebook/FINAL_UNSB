@@ -147,7 +147,7 @@
     },
     {
       "id": "core_final_portfolio",
-      "status": "v5_dynamic_successor_deployed_healthy_waiting_for_all_fixed_e200_results",
+      "status": "v5_dynamic_successor_deployed_healthy_actual_contract_reverified_six_complexity_profiles_waiting_for_all_fixed_e200_results",
       "requires": ["first-wave result", "AM-TNC disposition", "ST-CGR disposition", "six fixed complexity profiles"],
       "proof": "PAPER_ALGORITHM_PORTFOLIO.json",
       "blocks_confirmation": true,
@@ -155,7 +155,8 @@
       "recovery_supervisor_pid": 3858727,
       "recovery_restart_count": 0,
       "health_watcher_pid": 3858782,
-      "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_RECOVERY_V5_9214838"
+      "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_RECOVERY_V5_9214838",
+      "readiness_evidence": "evidence/paper_aio/PAPER_AIO_PRE_E200_FINAL_DELIVERY_READINESS_RECHECK_20260913T133500.json"
     }
   ],
   "delivery_recovery_control": {

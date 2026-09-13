@@ -1,0 +1,39 @@
+{
+  "schema": "final-unsb-paper-pre-e200-final-delivery-readiness-recheck-v1",
+  "captured_at": "2026-09-13T13:35:00+08:00",
+  "status": "PASS_ACTUAL_V5_CONTRACT_BINDS_SIX_COMPLEXITY_PROFILES_AND_PAPER_TAIL",
+  "contract": {
+    "path": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_RECOVERY_V5_9214838/operations/FINAL_DELIVERY_CONTRACT.json",
+    "sha256": "6f911c9106b95e1b5b31f97bac5c26558ec170483b70c047f4a944f91afb6ef8",
+    "schema": "final-unsb-paper-final-delivery-successor-contract-v3",
+    "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "primary_epoch": 200,
+    "complexity_lanes": ["plain", "proposal", "cut", "cyclegan", "amtnc", "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"],
+    "same_evaluator_runtime_required": true,
+    "metric_values_available_to_scheduler": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "code_path": {
+    "complexity_stage": "research.paper_aio.run --stage complexity",
+    "final_delivery_successor": "operations/paper_aio_final_delivery_successor.py",
+    "checkpoint_read_only_enforced": true,
+    "target_path_read": false,
+    "flops_claimed": false,
+    "measured_outputs": ["training median and p90 latency", "training peak allocated memory", "inference latency and peak memory", "parameter inventory", "relative-to-plain training cost"]
+  },
+  "validation": {
+    "tests": ["tests/test_paper_complexity.py", "tests/test_paper_final_delivery_successor.py", "tests/test_paper_manuscript_tables.py", "tests/test_paper_manuscript_figures.py", "tests/test_paper_manuscript_branching_contract.py"],
+    "result": "33 passed",
+    "missing_pre_e200_engineering_dependency_found": false
+  },
+  "scientific_effect": {
+    "training_process_changed": false,
+    "algorithm_or_training_protocol_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  }
+}
