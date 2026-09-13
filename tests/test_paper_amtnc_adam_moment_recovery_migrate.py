@@ -8,6 +8,10 @@ from operations.paper_aio_amtnc_adam_moment_recovery_migrate import (
     dynamics_only_hash,
     migrate_payloads,
 )
+from operations.paper_aio_amtnc_adam_moment_incident import (
+    EXCEPTION_LINE,
+    repeated_failure_count,
+)
 
 
 def _payloads():
@@ -57,3 +61,13 @@ def test_migration_changes_only_source_lineage_metadata():
     )
     assert e0["metadata"]["git_commit"] == "a" * 40
     assert checkpoint["metadata"]["protocol_fingerprint"] == "b" * 64
+
+
+def test_incident_counter_requires_identical_complete_exception_lines():
+    text = "\n".join((
+        EXCEPTION_LINE,
+        "RuntimeError: a different failure",
+        EXCEPTION_LINE,
+        "prefix " + EXCEPTION_LINE,
+    ))
+    assert repeated_failure_count(text) == 2
