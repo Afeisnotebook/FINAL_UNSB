@@ -332,6 +332,41 @@ def _optimizer_to(optimizer, device) -> None:
                 state[key] = value.to(device)
 
 
+def _restore_saved_optimizer_precision(optimizer, saved: dict) -> None:
+    """Undo Optimizer.load_state_dict's implicit float-to-parameter cast.
+
+    PyTorch normally casts floating optimizer state to the parameter dtype on
+    load.  A source-bound numerical recovery may deliberately store a
+    float64 Adam second moment for a float32 parameter after the corresponding
+    mathematical value has exceeded float32's representable range.  Restore
+    only such explicitly saved dtypes; ordinary checkpoints are untouched.
+    """
+    if len(saved["param_groups"]) != len(optimizer.param_groups):
+        raise RuntimeError("optimizer parameter-group count mismatch")
+    for saved_group, current_group in zip(
+        saved["param_groups"], optimizer.param_groups,
+    ):
+        saved_parameters = saved_group["params"]
+        current_parameters = current_group["params"]
+        if len(saved_parameters) != len(current_parameters):
+            raise RuntimeError("optimizer parameter count mismatch")
+        for saved_id, parameter in zip(saved_parameters, current_parameters):
+            saved_state = saved["state"].get(saved_id, {})
+            current_state = optimizer.state.get(parameter, {})
+            for key, saved_value in saved_state.items():
+                current_value = current_state.get(key)
+                if not (
+                    torch.is_tensor(saved_value)
+                    and torch.is_floating_point(saved_value)
+                    and torch.is_tensor(current_value)
+                    and current_value.dtype != saved_value.dtype
+                ):
+                    continue
+                current_state[key] = saved_value.to(
+                    device=parameter.device, dtype=saved_value.dtype,
+                )
+
+
 def load_model_state(model, state: dict, *, load_method: bool = True) -> None:
     for name in model.model_names:
         inner(getattr(model, "net" + name)).load_state_dict(state["networks"][name], strict=True)
@@ -339,6 +374,7 @@ def load_model_state(model, state: dict, *, load_method: bool = True) -> None:
         raise RuntimeError("optimizer count mismatch")
     for optimizer, saved in zip(model.optimizers, state["optimizers"]):
         optimizer.load_state_dict(saved)
+        _restore_saved_optimizer_precision(optimizer, saved)
         _optimizer_to(optimizer, model.device)
     if len(model.schedulers) != len(state["schedulers"]):
         raise RuntimeError("scheduler count mismatch")

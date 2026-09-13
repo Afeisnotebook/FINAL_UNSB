@@ -247,6 +247,96 @@ def _assign_gradients(
         parameter.grad = None if gradient is None else gradient.detach()
 
 
+def _ensure_adam_second_moment_capacity(
+    parameters: tuple[torch.nn.Parameter, ...],
+    optimizers: tuple[torch.optim.Optimizer, ...],
+) -> int:
+    """Promote only Adam second moments whose next exact update exceeds fp32.
+
+    AM-TNC can produce a finite, very large tangential gradient when the
+    frozen Adam metric is extremely ill-conditioned.  Mathematically Adam's
+    normalized displacement is still finite, but the conventional float32
+    ``grad * grad`` intermediate can overflow.  This guard leaves every
+    representable update untouched and promotes only the affected
+    ``exp_avg_sq`` tensor to float64 before ``Optimizer.step``.
+
+    The test uses a conservative per-parameter upper bound in float64.  It
+    neither clips nor rescales the gradient and does not change Adam's
+    recurrence, betas, epsilon, learning rate, parameter dtype or step order.
+    """
+    records: dict[int, tuple[torch.optim.Optimizer, dict, float]] = {}
+    for optimizer in optimizers:
+        for group in optimizer.param_groups:
+            beta2 = float(group["betas"][1])
+            for parameter in group["params"]:
+                if id(parameter) in records:
+                    raise RuntimeError("AM-TNC parameter appears in two optimizers")
+                records[id(parameter)] = (optimizer, group, beta2)
+
+    pending = []
+    for parameter in parameters:
+        if id(parameter) not in records:
+            raise RuntimeError("AM-TNC trainable parameter has no optimizer")
+        gradient = parameter.grad
+        if gradient is None:
+            continue
+        optimizer, _group, beta2 = records[id(parameter)]
+        state = optimizer.state.get(parameter, {})
+        second_moment = state.get("exp_avg_sq")
+        if second_moment is not None and second_moment.dtype == torch.float64:
+            continue
+        if second_moment is not None and second_moment.dtype != torch.float32:
+            raise RuntimeError("AM-TNC Adam second moment has unsupported dtype")
+        gradient_peak = gradient.detach().abs().amax().to(torch.float64)
+        second_peak = (
+            torch.zeros((), dtype=torch.float64, device=gradient.device)
+            if second_moment is None
+            else second_moment.detach().abs().amax().to(torch.float64)
+        )
+        next_peak_bound = (
+            beta2 * second_peak
+            + (1.0 - beta2) * gradient_peak.square()
+        )
+        pending.append((
+            parameter, optimizer, state, gradient_peak, next_peak_bound,
+        ))
+
+    if not pending:
+        return 0
+    summary = torch.stack([
+        torch.stack((gradient_peak, next_peak_bound))
+        for _parameter, _optimizer, _state, gradient_peak, next_peak_bound
+        in pending
+    ]).detach().cpu()
+    if not bool(torch.isfinite(summary[:, 0]).all().item()):
+        raise RuntimeError("AM-TNC optimizer gradient is nonfinite")
+
+    limit = float(torch.finfo(torch.float32).max)
+    promoted = 0
+    for record, values in zip(pending, summary):
+        parameter, optimizer, state, _gradient_peak, _next_peak_bound = record
+        if float(values[1].item()) <= limit:
+            continue
+        if not state:
+            state["step"] = torch.tensor(0.0)
+            state["exp_avg"] = torch.zeros_like(parameter)
+            state["exp_avg_sq"] = torch.zeros_like(
+                parameter, dtype=torch.float64,
+            )
+            optimizer.state[parameter] = state
+        else:
+            second_moment = state.get("exp_avg_sq")
+            if second_moment is None:
+                raise RuntimeError("AM-TNC initialized Adam state lacks exp_avg_sq")
+            state["exp_avg_sq"] = second_moment.to(torch.float64)
+            if "max_exp_avg_sq" in state:
+                state["max_exp_avg_sq"] = state["max_exp_avg_sq"].to(
+                    torch.float64,
+                )
+        promoted += 1
+    return promoted
+
+
 class AMTNCMixin:
     def _amtnc_replicates(self) -> int:
         return int(getattr(self.opt, "amtnc_replicates", 2))
@@ -308,6 +398,18 @@ class AMTNCMixin:
         for optimizer in optimizers:
             optimizer.zero_grad()
         _assign_gradients(parameters, gradients)
+        promotions = _ensure_adam_second_moment_capacity(parameters, optimizers)
+        self._amtnc_second_moment_precision_promotions += promotions
+        diagnostics["adam_second_moment_precision_promotions"] = promotions
+        if (
+            promotions
+            and self._amtnc_first_second_moment_precision_promotion is None
+        ):
+            self._amtnc_first_second_moment_precision_promotion = {
+                "player": player,
+                "zero_based_update": int(self._search_global_step),
+                "parameter_count": promotions,
+            }
         if player == "GF":
             self._before_generator_optimizer_step()
             self._generator_optimizer_step()
@@ -411,6 +513,14 @@ class AMTNCMixin:
             "gf_bundle_count": int(self._amtnc_gf_bundle_count),
             "last_schedule": list(self._amtnc_last_schedule),
             "last_geometry": dict(self._amtnc_last_geometry),
+            "second_moment_precision_promotions": int(
+                self._amtnc_second_moment_precision_promotions
+            ),
+            "first_second_moment_precision_promotion": (
+                None
+                if self._amtnc_first_second_moment_precision_promotion is None
+                else dict(self._amtnc_first_second_moment_precision_promotion)
+            ),
         }
         return state
 
@@ -430,6 +540,13 @@ class AMTNCMixin:
         self._amtnc_gf_bundle_count = int(saved["gf_bundle_count"])
         self._amtnc_last_schedule = list(saved["last_schedule"])
         self._amtnc_last_geometry = dict(saved.get("last_geometry", {}))
+        self._amtnc_second_moment_precision_promotions = int(
+            saved.get("second_moment_precision_promotions", 0)
+        )
+        first_promotion = saved.get("first_second_moment_precision_promotion")
+        self._amtnc_first_second_moment_precision_promotion = (
+            None if first_promotion is None else dict(first_promotion)
+        )
         if self._amtnc_last_schedule and (
             tuple(self._amtnc_last_schedule) != EXPECTED_AMTNC_SCHEDULE
         ):
@@ -442,3 +559,5 @@ class AMTNCMixin:
         self._amtnc_gf_bundle_count = 0
         self._amtnc_last_schedule = []
         self._amtnc_last_geometry = {}
+        self._amtnc_second_moment_precision_promotions = 0
+        self._amtnc_first_second_moment_precision_promotion = None

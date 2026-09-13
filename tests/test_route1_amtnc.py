@@ -5,7 +5,10 @@ import math
 
 import torch
 
-from models.route1.amtnc import adam_metric_tangential_gradient
+from models.route1.amtnc import (
+    _ensure_adam_second_moment_capacity,
+    adam_metric_tangential_gradient,
+)
 from operations.local_route1_freeze_amtnc_revision import (
     CANDIDATE_ID,
     PARENT_ID,
@@ -13,6 +16,7 @@ from operations.local_route1_freeze_amtnc_revision import (
 )
 from research.local_route1.candidates import CARD_REQUIRED_FIELDS, CARD_SCHEMA
 from research.local_route1.protocol import ROOT, file_sha256
+from research.local_route1.runtime import load_model_state
 
 
 def test_radial_disagreement_is_cancelled_and_tangent_is_retained():
@@ -141,6 +145,89 @@ def test_identical_replica_overflow_retains_exact_identity():
     assert torch.equal(result[0], first[0])
     assert diagnostics["metric_product_precision"] == "float64_overflow_fallback"
     assert math.isfinite(diagnostics["consensus_update_energy"])
+
+
+def test_adam_second_moment_guard_leaves_representable_step_bitwise_unchanged():
+    left = torch.nn.Parameter(torch.tensor([1.0, -2.0]))
+    right = torch.nn.Parameter(left.detach().clone())
+    left_optimizer = torch.optim.Adam([left], lr=1e-4, betas=(0.5, 0.999))
+    right_optimizer = torch.optim.Adam([right], lr=1e-4, betas=(0.5, 0.999))
+    for parameter, optimizer in (
+        (left, left_optimizer), (right, right_optimizer),
+    ):
+        parameter.grad = torch.tensor([0.25, -0.5])
+        optimizer.step()
+        parameter.grad = torch.tensor([2.0, -3.0])
+
+    assert _ensure_adam_second_moment_capacity(
+        (left,), (left_optimizer,),
+    ) == 0
+    left_optimizer.step()
+    right_optimizer.step()
+
+    assert torch.equal(left, right)
+    for key in ("step", "exp_avg", "exp_avg_sq"):
+        assert torch.equal(
+            left_optimizer.state[left][key], right_optimizer.state[right][key],
+        )
+
+
+def test_adam_second_moment_guard_promotes_only_unrepresentable_recurrence():
+    parameter = torch.nn.Parameter(torch.tensor([1.0]))
+    optimizer = torch.optim.Adam(
+        [parameter], lr=1e-4, betas=(0.5, 0.999), eps=1e-8,
+    )
+    parameter.grad = torch.tensor([1.0])
+    optimizer.step()
+    previous = optimizer.state[parameter]["exp_avg_sq"].double().clone()
+    gradient = torch.tensor([1.0e21])
+    parameter.grad = gradient
+
+    assert _ensure_adam_second_moment_capacity(
+        (parameter,), (optimizer,),
+    ) == 1
+    assert optimizer.state[parameter]["exp_avg_sq"].dtype == torch.float64
+    optimizer.step()
+
+    expected = previous.mul(0.999).addcmul(
+        gradient.double(), gradient.double(), value=1.0 - 0.999,
+    )
+    assert torch.equal(optimizer.state[parameter]["exp_avg_sq"], expected)
+    assert torch.isfinite(parameter).all()
+    assert torch.isfinite(optimizer.state[parameter]["exp_avg_sq"]).all()
+
+
+def test_full_state_loader_preserves_explicit_float64_adam_second_moment():
+    source_parameter = torch.nn.Parameter(torch.tensor([1.0]))
+    source_optimizer = torch.optim.Adam([source_parameter], lr=1e-4)
+    source_parameter.grad = torch.tensor([1.0])
+    source_optimizer.step()
+    source_optimizer.state[source_parameter]["exp_avg_sq"] = torch.tensor(
+        [1.0e40], dtype=torch.float64,
+    )
+
+    target_parameter = torch.nn.Parameter(torch.tensor([1.0]))
+    target_optimizer = torch.optim.Adam([target_parameter], lr=1e-4)
+
+    class DummyModel:
+        model_names = []
+        optimizers = [target_optimizer]
+        schedulers = []
+        device = torch.device("cpu")
+
+        @staticmethod
+        def load_extra_training_state(_state):
+            return None
+
+    load_model_state(DummyModel(), {
+        "networks": {},
+        "optimizers": [source_optimizer.state_dict()],
+        "schedulers": [],
+        "method": {},
+    })
+    restored = target_optimizer.state[target_parameter]["exp_avg_sq"]
+    assert restored.dtype == torch.float64
+    assert torch.equal(restored, torch.tensor([1.0e40], dtype=torch.float64))
 
 
 def test_revision_card_request_and_source_spec_are_frozen():
