@@ -369,6 +369,115 @@ def test_amtnc_recovery_relation_requires_milestone_identity_proof() -> None:
         )
 
 
+def _staged_amtnc_entry() -> dict:
+    entry = _entry(
+        "amtnc", method_host="4090A", plain_host="4090A",
+        method_recovery=True,
+    )
+    for row in entry["late_trajectory"]:
+        relation = row["runtime_relation"]
+        relation.update({
+            "recovery_git_commit": "c" * 40,
+            "migration_receipt_sha256": "6" * 64,
+            "recovery_chain_version": "sequential_method_only_recovery_v1",
+            "recovery_stages": [
+                {
+                    "stage": 1,
+                    "start_epoch": 178,
+                    "start_updates": 1_522_434,
+                    "parent_git_commit": "a" * 40,
+                    "recovery_git_commit": "b" * 40,
+                    "repair_kind": (
+                        "float32_metric_reduction_overflow_preserving_higher_precision"
+                    ),
+                    "method_only_changed_paths": ["src/models/route1/amtnc.py"],
+                    "finite_path_bitwise_equal": True,
+                    "higher_precision_same_metric_reduction_only": True,
+                    "parent_dynamics_only_sha256": "1" * 64,
+                    "migrated_dynamics_only_sha256": "1" * 64,
+                    "migration_receipt_sha256": "2" * 64,
+                    "localization_receipt_sha256": "3" * 64,
+                    "replay_receipt_sha256": "r" * 64,
+                    "plain_transition_code_changed": False,
+                    "gradient_samples_changed": False,
+                    "projection_formula_changed": False,
+                    "hyperparameters_changed": False,
+                    "rng_or_sampler_changed": False,
+                    "transition_defining_state_changed": False,
+                    "source_checkpoint_mutated": False,
+                    "performance_values_read": False,
+                    "paired_metric_control": False,
+                    "confirmation20_opened": False,
+                },
+                {
+                    "stage": 2,
+                    "start_epoch": 194,
+                    "start_updates": 1_659_282,
+                    "parent_git_commit": "b" * 40,
+                    "recovery_git_commit": "c" * 40,
+                    "repair_kind": (
+                        "float32_adam_second_moment_overflow_preserving_higher_precision"
+                    ),
+                    "method_only_changed_paths": [
+                        "research/local_route1/runtime.py",
+                        "src/models/route1/amtnc.py",
+                    ],
+                    "finite_representable_path_bitwise_equal": True,
+                    "promote_only_unrepresentable_exp_avg_sq": True,
+                    "optimizer_update_skipped": False,
+                    "gradient_clipped": False,
+                    "precision_promotion_observed": True,
+                    "promoted_state_dtype": "float64",
+                    "e195_checkpoint_all_finite": True,
+                    "full_state_reload_preserves_promoted_dtype": True,
+                    "parent_dynamics_only_sha256": "5" * 64,
+                    "migrated_dynamics_only_sha256": "5" * 64,
+                    "migration_receipt_sha256": "6" * 64,
+                    "incident_receipt_sha256": "7" * 64,
+                    "one_update_gate_checkpoint_sha256": "8" * 64,
+                    "one_update_gate_scientific_state_sha256": "9" * 64,
+                    "e195_gate_receipt_sha256": "0" * 64,
+                    "method_source_sha256": "d" * 64,
+                    "runtime_source_sha256": "e" * 64,
+                    "plain_transition_code_changed": False,
+                    "gradient_samples_changed": False,
+                    "projection_formula_changed": False,
+                    "hyperparameters_changed": False,
+                    "rng_or_sampler_changed": False,
+                    "transition_defining_state_changed": False,
+                    "source_checkpoint_mutated": False,
+                    "performance_values_read": False,
+                    "paired_metric_control": False,
+                    "confirmation20_opened": False,
+                },
+            ],
+        })
+    return entry
+
+
+def test_amtnc_staged_recovery_is_preserved_and_revalidated() -> None:
+    entry = _staged_amtnc_entry()
+    relation = final._validated_control_relation(
+        entry, lane_id="amtnc", method_source_host="4090A",
+        plain_source_host="4090A", allow_method_only_recovery=True,
+    )
+    assert relation["recovery_chain_version"] == (
+        "sequential_method_only_recovery_v1"
+    )
+    assert [stage["start_epoch"] for stage in relation["recovery_stages"]] == [
+        178, 194,
+    ]
+
+    entry["late_trajectory"][1]["runtime_relation"]["recovery_stages"][1][
+        "full_state_reload_preserves_promoted_dtype"
+    ] = False
+    with pytest.raises(RuntimeError, match="frozen matched plain relation"):
+        final._validated_control_relation(
+            entry, lane_id="amtnc", method_source_host="4090A",
+            plain_source_host="4090A", allow_method_only_recovery=True,
+        )
+
+
 def test_portfolio_rejects_a_mismatched_control_host(tmp_path: Path) -> None:
     _, amtnc = _disposition(tmp_path, "amtnc", "PASS")
     _, stcgr = _disposition(tmp_path, final.STCGR_ID, "PASS")

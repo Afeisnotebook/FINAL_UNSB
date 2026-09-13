@@ -278,6 +278,41 @@ def test_staged_method_only_recovery_selects_final_protocol_and_fails_closed(
     assert not runtime_pair_passed(rejected)
 
 
+def test_repository_amtnc_staged_recovery_registry_is_admitted() -> None:
+    registry = (
+        Path(__file__).resolve().parents[1]
+        / "configs"
+        / "PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json"
+    )
+    manifest = "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+    method = _metric(
+        "4090A",
+        "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+        manifest,
+    )
+    plain = _metric(
+        "4090A",
+        "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+        manifest,
+    )
+    result = runtime_pair_status(
+        method=method, plain=plain, lane_id="amtnc", relations_path=registry,
+    )
+    assert result["status"] == (
+        "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+    )
+    assert result["recovery_git_commit"] == (
+        "5676c91c99a7fe1beb45c8c281733c2594795d02"
+    )
+    assert result["recovery_chain_version"] == (
+        "sequential_method_only_recovery_v1"
+    )
+    assert [stage["start_epoch"] for stage in result["recovery_stages"]] == [
+        178, 194,
+    ]
+    assert runtime_pair_passed(result)
+
+
 def test_cross_host_requires_exact_metric_blind_relation(tmp_path: Path) -> None:
     registry = _registry(tmp_path / "relations.json")
     result = runtime_pair_status(

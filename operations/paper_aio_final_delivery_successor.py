@@ -38,7 +38,10 @@ from research.paper_aio.protocol import (
     file_sha256,
     protocol_fingerprint,
 )
-from research.paper_aio.runtime_relation import runtime_pair_passed
+from research.paper_aio.runtime_relation import (
+    STAGED_RECOVERY_VERSION,
+    runtime_pair_passed,
+)
 
 
 CONTRACT_SCHEMA = "final-unsb-paper-final-delivery-successor-contract-v3"
@@ -402,6 +405,116 @@ def _complexity_summary(value: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _staged_recovery_result_proof(relation: dict[str, Any]) -> bool:
+    """Revalidate the two AM-TNC recovery boundaries in terminal artifacts.
+
+    ``runtime_pair_status`` already validates the registry before it emits a
+    relation into an evaluation receipt.  The final delivery nevertheless
+    treats that receipt as untrusted input and binds the staged fields again,
+    so a copied PASS label cannot erase or weaken either numerical boundary.
+    """
+    if relation.get("recovery_chain_version") is None:
+        return True
+    stages = relation.get("recovery_stages")
+    if (
+        relation.get("recovery_chain_version") != STAGED_RECOVERY_VERSION
+        or not isinstance(stages, list)
+        or len(stages) != 2
+        or not all(isinstance(stage, dict) for stage in stages)
+    ):
+        return False
+    geometry, moment = stages
+    common_false = (
+        "plain_transition_code_changed", "gradient_samples_changed",
+        "projection_formula_changed", "hyperparameters_changed",
+        "rng_or_sampler_changed", "transition_defining_state_changed",
+        "source_checkpoint_mutated", "performance_values_read",
+        "paired_metric_control", "confirmation20_opened",
+    )
+    common = all(
+        stage.get(key) is False for stage in stages for key in common_false
+    )
+    chain = (
+        geometry.get("stage") == 1
+        and moment.get("stage") == 2
+        and geometry.get("parent_git_commit")
+        == relation.get("parent_git_commit")
+        and geometry.get("recovery_git_commit")
+        == moment.get("parent_git_commit")
+        and moment.get("recovery_git_commit")
+        == relation.get("recovery_git_commit")
+        and int(geometry.get("start_epoch", -1)) == 178
+        and int(geometry.get("start_updates", -1)) == 1_522_434
+        and int(moment.get("start_epoch", -1)) == 194
+        and int(moment.get("start_updates", -1)) == 1_659_282
+        and all(
+            isinstance(stage.get(key), str) and len(stage[key]) == 40
+            for stage in stages
+            for key in ("parent_git_commit", "recovery_git_commit")
+        )
+        and all(
+            isinstance(stage.get(key), str) and len(stage[key]) == 64
+            for stage in stages
+            for key in (
+                "parent_dynamics_only_sha256",
+                "migrated_dynamics_only_sha256",
+                "migration_receipt_sha256",
+            )
+        )
+        and all(
+            stage.get("parent_dynamics_only_sha256")
+            == stage.get("migrated_dynamics_only_sha256")
+            for stage in stages
+        )
+        and relation.get("migration_receipt_sha256")
+        == moment.get("migration_receipt_sha256")
+        and relation.get("overflow_safe_replay_receipt_sha256")
+        == geometry.get("replay_receipt_sha256")
+        and common
+    )
+    geometry_passed = (
+        geometry.get("repair_kind")
+        == "float32_metric_reduction_overflow_preserving_higher_precision"
+        and geometry.get("method_only_changed_paths") == [
+            "src/models/route1/amtnc.py",
+        ]
+        and geometry.get("finite_path_bitwise_equal") is True
+        and geometry.get("higher_precision_same_metric_reduction_only") is True
+        and all(
+            isinstance(geometry.get(key), str) and len(geometry[key]) == 64
+            for key in ("localization_receipt_sha256", "replay_receipt_sha256")
+        )
+    )
+    moment_passed = (
+        moment.get("repair_kind")
+        == "float32_adam_second_moment_overflow_preserving_higher_precision"
+        and moment.get("method_only_changed_paths") == [
+            "research/local_route1/runtime.py",
+            "src/models/route1/amtnc.py",
+        ]
+        and moment.get("finite_representable_path_bitwise_equal") is True
+        and moment.get("promote_only_unrepresentable_exp_avg_sq") is True
+        and moment.get("optimizer_update_skipped") is False
+        and moment.get("gradient_clipped") is False
+        and moment.get("precision_promotion_observed") is True
+        and moment.get("promoted_state_dtype") == "float64"
+        and moment.get("e195_checkpoint_all_finite") is True
+        and moment.get("full_state_reload_preserves_promoted_dtype") is True
+        and all(
+            isinstance(moment.get(key), str) and len(moment[key]) == 64
+            for key in (
+                "incident_receipt_sha256",
+                "one_update_gate_checkpoint_sha256",
+                "one_update_gate_scientific_state_sha256",
+                "e195_gate_receipt_sha256",
+                "method_source_sha256",
+                "runtime_source_sha256",
+            )
+        )
+    )
+    return chain and geometry_passed and moment_passed
+
+
 def _validated_control_relation(
     entry: dict[str, Any], *, lane_id: str, method_source_host: str,
     plain_source_host: str, candidate_cross_code: bool = False,
@@ -482,6 +595,7 @@ def _validated_control_relation(
                         ("overflow_safe_replay_receipt_sha256", 64),
                     )
                 )
+                and _staged_recovery_result_proof(relation)
             )
         )
         relation_legal = row.get("runtime_relation_legal")
@@ -552,6 +666,8 @@ def _validated_control_relation(
             "pre_recovery_milestone_dynamics_only_sha256": recovery.get(
                 "pre_recovery_milestone_dynamics_only_sha256"
             ),
+            "recovery_chain_version": recovery.get("recovery_chain_version"),
+            "recovery_stages": recovery.get("recovery_stages"),
         }
     identity_keys = (
         "status", "method_source_host_label", "plain_source_host_label",
