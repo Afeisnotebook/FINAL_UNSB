@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-13",
-  "state_snapshot_time": "2026-09-13T23:29:00+08:00",
+  "updated": "2026-09-14",
+  "state_snapshot_time": "2026-09-14T00:17:09+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -3718,6 +3718,28 @@
     "decision": "decisions/DEC-20260913-AMTNC-E200-AND-EVALUATION-MODE-RECOVERY.md",
     "posthoc_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_FULL_DATA_POSTHOC_DISPOSITION_20260913T225459.json",
     "posthoc_decision": "decisions/DEC-20260913-AMTNC-FULL-DATA-POSTHOC-DISPOSITION.md"
+  },
+  "proposal_stale_health_watcher_retirement_20260914": {
+    "status": "pass_stale_false_alert_watcher_retired_current_chain_healthy",
+    "latest_complete_epoch": 191,
+    "latest_complete_updates": 1633623,
+    "supervisor_pid": 90767,
+    "trainer_pid": 90768,
+    "training_guard_pid": 431648,
+    "training_guard_health_pid": 431712,
+    "progress_watch_pid": 91595,
+    "progress_health_pid": 91762,
+    "retired_legacy_health_pid": 13587,
+    "retired_stale_bound_supervisor_pid": 9729,
+    "final_export_pid": 9730,
+    "final_export_recovery_pid": 410165,
+    "incremental_export_recovery_pid": 458972,
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_STALE_HEALTH_WATCHER_RETIREMENT_20260914T001709.json",
+    "decision": "decisions/DEC-20260914-PROPOSAL-STALE-HEALTH-WATCHER-RETIREMENT.md"
   },
   "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

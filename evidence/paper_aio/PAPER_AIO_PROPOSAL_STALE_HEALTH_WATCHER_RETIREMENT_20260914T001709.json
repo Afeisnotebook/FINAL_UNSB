@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-proposal-stale-health-watcher-retirement-v1",
+  "captured_at": "2026-09-14T00:17:09+08:00",
+  "status": "PASS_STALE_FALSE_ALERT_WATCHER_RETIRED_CURRENT_CHAIN_HEALTHY",
+  "host_label": "5090C",
+  "lane_id": "proposal",
+  "training_state": {
+    "data_epoch": 191,
+    "updates": 1633623,
+    "full_state_sha256": "b8e50a3254d06c12484557a13f08aa9648c51031e55226dc1fa3af15fc8188db",
+    "scientific_state_sha256": "2a29e3861d8ee0dc74d680dc15ee6b86f40982665ae1c087e6a4b3bb6e68071f",
+    "supervisor_pid": 90767,
+    "trainer_pid": 90768,
+    "training_process_changed": false
+  },
+  "retired_watcher": {
+    "pid": 13587,
+    "output": "/root/autodl-tmp/runs/FINAL_UNSB_HEALTH_5090C_a51d4cd",
+    "stale_bound_supervisor_pid": 9729,
+    "reason": "The legacy watcher continued to emit ALERT_PID_DEAD after the e181 exact-resume supervisor replacement. It did not supervise the current trainer and had become a false-alert source.",
+    "retirement": "SIGTERM_AFTER_EXACT_CMDLINE_AND_REPLACEMENT_COVERAGE_CHECK",
+    "retired_process_absent": true,
+    "historical_state_files_deleted": false
+  },
+  "authoritative_coverage": {
+    "training_guard_pid": 431648,
+    "training_guard_health_pid": 431712,
+    "progress_watch_pid": 91595,
+    "progress_health_pid": 91762,
+    "final_export_pid": 9730,
+    "final_export_recovery_pid": 410165,
+    "final_export_health_pid": 410182,
+    "incremental_export_recovery_pid": 458972,
+    "incremental_export_health_pid": 459098,
+    "all_processes_live_after_retirement": true,
+    "training_guard_health": "HEALTHY_ZERO_ALERTS",
+    "progress_health": "HEALTHY_ZERO_ALERTS",
+    "export_status": "WAITING_FOR_COMPLETE_E200"
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "algorithm_or_protocol_changed": false
+  },
+  "decision": "decisions/DEC-20260914-PROPOSAL-STALE-HEALTH-WATCHER-RETIREMENT.md"
+}
