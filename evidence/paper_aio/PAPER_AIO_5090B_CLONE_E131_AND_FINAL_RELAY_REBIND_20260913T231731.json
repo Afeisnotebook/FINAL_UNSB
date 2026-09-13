@@ -1,0 +1,107 @@
+{
+  "schema": "final-unsb-paper-5090b-clone-continuation-and-relay-rebind-v1",
+  "status": "PASS_CLONE_CONTINUATION_E131_AND_ALL_E200_DELIVERY_RELAYS_BOUND_TO_43172",
+  "captured_at": "2026-09-13T23:17:31+08:00",
+  "logical_host_label": "5090B_MATCHED_PLAIN",
+  "physical_host_label": "5090B_CLONE",
+  "endpoint": {
+    "host": "connect.weste.seetacloud.com",
+    "port": 43172,
+    "hostname": "autodl-container-2ba7efw2s1-92e55f03",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+    "free_data_disk_gib": 221.34,
+    "credentials_persisted": false
+  },
+  "scientific_identity": {
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "runtime_twin": "PASS_EXACT_RUNTIME_COHORT_2000_UPDATES",
+    "runtime_twin_receipt_sha256": "4abbde9a2988169cd2f98af95ab6d8532da352a31a9307acab843de258eb20c8",
+    "clone_continuation_gate": "PASS_ENGINEERING_CLONE_CONTINUATION_GATE",
+    "source_checkpoint_step": 992148,
+    "source_checkpoint_preserved": true,
+    "double_resume_probe_step": 992156,
+    "double_resume_exact": true,
+    "same_physical_gpu_claimed": false,
+    "comparison_disposition": "SEGMENTED_EXACT_RUNTIME_COHORT_REQUIRES_EXPLICIT_GIT_ADMISSION_AND_MANUSCRIPT_DISCLOSURE"
+  },
+  "live_training": {
+    "status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "source_exporter_pid": 3560,
+    "incremental_source_exporter_pid": 3561,
+    "latest_complete_data_epoch": 131,
+    "latest_complete_updates": 1120443,
+    "latest_epoch_seconds": 2533.328026533127,
+    "latest_full_state_sha256": "639f0cb816e6b519fee6111b4629a06143fff21facc1f9deeeffc9ae7c8c9c26",
+    "latest_sidecar_sha256": "9be548ca0f4517020d36b972a474223c798faedef3aa64c4c22671a7dfa424db",
+    "latest_scientific_state_sha256": "5d60164d46f2ece6e535d6a0bebb1a4d2694db233a2fc21d8b86278b5d8610c5",
+    "supervisor_consecutive_failures": 0,
+    "guard_total_restarts": 0,
+    "projected_e200_window": [
+      "2026-09-15T22:30:00+08:00",
+      "2026-09-16T01:00:00+08:00"
+    ],
+    "training_restarted_by_this_operation": false,
+    "checkpoint_migrated_by_this_operation": false,
+    "scientific_protocol_changed": false
+  },
+  "completed_5090b_lanes": {
+    "cut": "COMPLETE_E200_SOURCE_BOUND_EXPORT_SET",
+    "cyclegan": "COMPLETE_E200_SOURCE_BOUND_EXPORT_SET"
+  },
+  "delivery_chain": {
+    "source_bound_export_status": "WAITING_FOR_E200_AS_EXPECTED",
+    "incremental_local_relay": {
+      "endpoint_port": 43172,
+      "relay_pid": 22036,
+      "recovery_supervisor_pid": 23472,
+      "health_watch_pid": 5936,
+      "status": "E100_VERIFIED_WAITING_E150_E200"
+    },
+    "unified_4090a_relay": {
+      "endpoint_port": 43172,
+      "relay_pid": 4152746,
+      "recovery_supervisor_pid": 4153056,
+      "health_watch_pid": 4153378,
+      "aggregate_health_pid": 4162277,
+      "status": "HEALTHY_WAITING_COMPLETE_E200_SOURCE_EXPORT"
+    },
+    "local_final_relay": {
+      "retired_old_endpoint_relay_pid": 19496,
+      "retired_old_endpoint_port": 44804,
+      "relay_id": "5090B_clone43172_matched_plain_v1",
+      "endpoint_port": 43172,
+      "relay_pid": 6396,
+      "recovery_supervisor_pid": 32592,
+      "health_watch_pid": 18828,
+      "relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+      "recovery_status": "MONITORING_EXISTING_RELAY",
+      "health_status": "HEALTHY",
+      "recovery_restart_count": 1,
+      "relay_source_git_commit": "56156c947e29af22e8feec4f2f7d2f631657822d",
+      "recovery_control_git_commit": "f4120834c5ac1fafced7d7bb95522cb6e2afc17c"
+    }
+  },
+  "engineering_fix": {
+    "status": "WINDOWS_EXPORT_RELAY_RECOVERY_PROCESS_DISCOVERY_SUPPORTED",
+    "git_commit": "f4120834c5ac1fafced7d7bb95522cb6e2afc17c",
+    "tests": "16 passed",
+    "reason": "the pre-existing full export relay recovery supervisor enumerated only /proc and therefore could not durably supervise a Windows evaluation-node relay",
+    "algorithm_impact": false
+  },
+  "boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "best_checkpoint_selected": false,
+    "other_healthy_training_touched": false,
+    "old_artifacts_deleted": false
+  }
+}

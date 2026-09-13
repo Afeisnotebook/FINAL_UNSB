@@ -784,3 +784,8 @@ authorize compute.
      后首次事后读取结果。AM-TNC仅e100为`+0.066 dB`，e125起转负，晚三点均值`-2.108 dB`，
      e200为`-4.072 dB`且0/6域正，SSIM/LPIPS同时退化。当前持续实现因此关闭，不选早期最佳点、
      不补seed；CLI故障与科学失败严格分开，广义几何机制未被一并宣判证伪，其他算法前沿不变。
+217. `DEC-20260913-5090B-CLONE-E131-AND-FINAL-RELAY-REBIND.md`：5090B供应商克隆已通过2000-update
+     runtime twin和两条8-update精确resume探针，matched plain从保留的step 992148继续到e131，训练、
+     checkpoint和其他健康lane未被本次操作触碰。4090A及本地incremental relay均已指向43172；仅退休
+     仍指向停机44804的本地最终relay，并以`f412083`修复Windows恢复监督器后部署43172持久relay。
+     全链健康等待e200 source-bound export，未读取paired性能，confirmation20继续封存。

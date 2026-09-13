@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T19:29:00+08:00",
-  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AMTNC_E197_PROPOSAL_E187_STCGR_E177_DCLGAN_E173_5090B_CLONE_MATCHED_E126",
+  "captured_at": "2026-09-13T23:17:31+08:00",
+  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E131_ALL_43172_RELAYS_HEALTHY",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1710,7 +1710,7 @@
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
   },
   "5090b_provider_clone_continuation_20260913": {
-    "status": "running_e118_segmented_exact_runtime_continuation_dual_offhost_delivery_healthy",
+    "status": "running_e131_segmented_exact_runtime_continuation_all_43172_delivery_relays_healthy",
     "method_role": "strict_matched_plain_control_for_admitted_runtime_relations",
     "mechanism_falsified": false,
     "performance_adjudicated": false,
@@ -1721,12 +1721,12 @@
     "first_post_clone_epoch_seconds": 2351.924072742462,
     "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
     "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
-    "latest_post_clone_epoch": 118,
-    "latest_post_clone_updates": 1009254,
-    "latest_post_clone_epoch_seconds": 2425.6971526145935,
-    "latest_post_clone_full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
-    "latest_post_clone_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
-    "latest_post_clone_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
+    "latest_post_clone_epoch": 131,
+    "latest_post_clone_updates": 1120443,
+    "latest_post_clone_epoch_seconds": 2533.328026533127,
+    "latest_post_clone_full_state_sha256": "639f0cb816e6b519fee6111b4629a06143fff21facc1f9deeeffc9ae7c8c9c26",
+    "latest_post_clone_scientific_state_sha256": "5d60164d46f2ece6e535d6a0bebb1a4d2694db233a2fc21d8b86278b5d8610c5",
+    "latest_post_clone_sidecar_sha256": "9be548ca0f4517020d36b972a474223c798faedef3aa64c4c22671a7dfa424db",
     "continuation_class": "segmented_exact_runtime_cohort",
     "same_physical_host_claimed": false,
     "runtime_twin_exact_2000_updates": true,
@@ -1743,21 +1743,30 @@
       "relay_pid": 22036,
       "recovery_supervisor_pid": 23472,
       "health_watch_pid": 5936,
-      "status": "e100_reverified_waiting_e150_e200"
+      "status": "e100_reverified_waiting_e150_e200_on_43172"
     },
     "unified_4090a_relay": {
       "relay_pid": 4152746,
       "recovery_supervisor_pid": 4153056,
       "dedicated_health_watch_pid": 4153378,
       "aggregate_health_watch_pid": 4162277,
-      "status": "healthy_waiting_complete_e200_export"
+      "status": "healthy_waiting_complete_e200_export_on_43172"
     },
-    "projected_e200": "2026-09-15T20:00:00+08:00_rough_from_e117_e118",
+    "local_final_relay": {
+      "retired_old_endpoint_relay_pid": 19496,
+      "relay_pid": 6396,
+      "recovery_supervisor_pid": 32592,
+      "health_watch_pid": 18828,
+      "endpoint_port": 43172,
+      "status": "healthy_waiting_complete_e200_export",
+      "recovery_control_commit": "f4120834c5ac1fafced7d7bb95522cb6e2afc17c"
+    },
+    "projected_e200": "2026-09-15T22:30:00+08:00_TO_2026-09-16T01:00:00+08:00",
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
-    "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E131_AND_FINAL_RELAY_REBIND_20260913T231731.json",
+    "decision": "decisions/DEC-20260913-5090B-CLONE-E131-AND-FINAL-RELAY-REBIND.md"
   },
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",
