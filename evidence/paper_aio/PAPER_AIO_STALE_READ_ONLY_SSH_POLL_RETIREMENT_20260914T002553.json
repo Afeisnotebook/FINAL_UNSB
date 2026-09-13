@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-paper-stale-read-only-ssh-poll-retirement-v1",
+  "captured_at": "2026-09-14T00:25:53+08:00",
+  "status": "PASS_STALE_READ_ONLY_SSH_POLLS_RETIRED_FORMAL_CHAINS_UNCHANGED",
+  "retired_processes": {
+    "powershell_pids": [22796, 3008, 17264, 27172],
+    "ssh_pids": [5748, 24728, 24064, 12372],
+    "created_between": [
+      "2026-09-12T07:56:06+08:00",
+      "2026-09-13T19:29:08+08:00"
+    ],
+    "roles": [
+      "read_4090A_AM_state",
+      "read_5090A_STCGR_state",
+      "read_5090C_Proposal_state",
+      "read_4090A_AM_recovery_state"
+    ],
+    "command_scope_verified_read_only": true,
+    "remaining_process_count": 0
+  },
+  "preserved_authoritative_processes": {
+    "local_dclgan_trainer_pid": 22020,
+    "local_5090b_incremental_relay_pid": 22036,
+    "local_5090b_final_relay_pid": 6396,
+    "remote_stcgr_trainer_pid": 357237,
+    "remote_proposal_trainer_pid": 90768,
+    "remote_matched_plain_trainer_pid": 3005,
+    "all_live_after_retirement": true
+  },
+  "post_retirement_scan": {
+    "stale_final_unsb_ssh_poll_count": 0,
+    "remaining_matching_long_processes": [
+      "formal_5090B_incremental_python_relay",
+      "formal_5090B_final_python_relay"
+    ]
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "training_or_delivery_process_changed": false,
+    "algorithm_or_protocol_changed": false
+  },
+  "decision": "decisions/DEC-20260914-STALE-READ-ONLY-SSH-POLL-RETIREMENT.md"
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T00:23:49+08:00",
+  "state_snapshot_time": "2026-09-14T00:25:53+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -3780,6 +3780,20 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_5090B_STALE_INTERACTIVE_SESSION_RETIREMENT_20260914T002349.json",
     "decision": "decisions/DEC-20260914-5090B-STALE-INTERACTIVE-SESSION-RETIREMENT.md"
+  },
+  "stale_read_only_ssh_poll_retirement_20260914": {
+    "status": "pass_stale_read_only_ssh_polls_retired_formal_chains_unchanged",
+    "retired_local_powershell_pids": [22796, 3008, 17264, 27172],
+    "retired_local_ssh_pids": [5748, 24728, 24064, 12372],
+    "remaining_stale_final_unsb_ssh_poll_count": 0,
+    "formal_relays_preserved": true,
+    "all_four_remaining_trainers_live": true,
+    "training_or_delivery_process_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STALE_READ_ONLY_SSH_POLL_RETIREMENT_20260914T002553.json",
+    "decision": "decisions/DEC-20260914-STALE-READ-ONLY-SSH-POLL-RETIREMENT.md"
   },
   "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
