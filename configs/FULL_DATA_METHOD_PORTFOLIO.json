@@ -1579,7 +1579,7 @@
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
   },
   "5090b_provider_clone_continuation_20260913": {
-    "status": "running_e117_segmented_exact_runtime_continuation_dual_offhost_delivery_healthy",
+    "status": "running_e118_segmented_exact_runtime_continuation_dual_offhost_delivery_healthy",
     "method_role": "strict_matched_plain_control_for_admitted_runtime_relations",
     "mechanism_falsified": false,
     "performance_adjudicated": false,
@@ -1590,6 +1590,12 @@
     "first_post_clone_epoch_seconds": 2351.924072742462,
     "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
     "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
+    "latest_post_clone_epoch": 118,
+    "latest_post_clone_updates": 1009254,
+    "latest_post_clone_epoch_seconds": 2425.6971526145935,
+    "latest_post_clone_full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
+    "latest_post_clone_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
+    "latest_post_clone_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
     "continuation_class": "segmented_exact_runtime_cohort",
     "same_physical_host_claimed": false,
     "runtime_twin_exact_2000_updates": true,
@@ -1615,11 +1621,11 @@
       "aggregate_health_watch_pid": 4162277,
       "status": "healthy_waiting_complete_e200_export"
     },
-    "projected_e200": "2026-09-15T19:10:00+08:00_rough_from_first_post_clone_epoch",
+    "projected_e200": "2026-09-15T20:00:00+08:00_rough_from_e117_e118",
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
     "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
   },
   "local_dclgan_storage_gate": {

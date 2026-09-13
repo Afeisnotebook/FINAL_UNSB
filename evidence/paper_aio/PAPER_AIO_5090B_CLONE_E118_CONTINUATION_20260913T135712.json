@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-paper-provider-clone-continuation-milestone-v1",
+  "captured_at": "2026-09-13T13:57:12+08:00",
+  "status": "PASS_E118_SEGMENTED_EXACT_RUNTIME_CONTINUATION_HEALTHY",
+  "logical_host_label": "5090B_MATCHED_PLAIN",
+  "physical_host_label": "5090B_CLONE",
+  "continuation_class": "SEGMENTED_EXACT_RUNTIME_COHORT",
+  "same_physical_host_claimed": false,
+  "source_epoch": 116,
+  "first_post_clone_epoch": 117,
+  "latest_post_clone_epoch": {
+    "epoch": 118,
+    "updates": 1009254,
+    "epoch_wall_seconds": 2425.6971526145935,
+    "full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
+    "scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
+    "full_state_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
+    "actual_checkpoint_matches_sidecar": true,
+    "guard_checkpoint_matches_sidecar": true
+  },
+  "exact_gates": {
+    "runtime_twin_exact_2000_updates": true,
+    "runtime_twin_e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "runtime_twin_step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "double_resume_exact": true,
+    "source_parent_unchanged": true,
+    "complete_epoch_loss": false
+  },
+  "runtime": {
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "full_exporter_pid": 3560,
+    "incremental_exporter_pid": 3561,
+    "all_expected_processes_alive": true,
+    "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "restart_count": 0,
+    "consecutive_no_progress_restarts": 0,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "gpu_utilization_percent_snapshot": 47,
+    "gpu_memory_mib_snapshot": 1762,
+    "gpu_temperature_c_snapshot": 46,
+    "free_disk_gib": 221.5289,
+    "remaining_write_and_delivery_bound_gib": 44.0,
+    "user_capacity_override": true
+  },
+  "delivery": {
+    "local_incremental_relay_status": "E100_REVERIFIED_WAITING_E150_E200",
+    "unified_4090a_relay_status": "HEALTHY_WAITING_COMPLETE_E200_EXPORT",
+    "source_bound_exporters_healthy": true
+  },
+  "projected_e200": "2026-09-15T20:00:00+08:00_rough_from_e117_e118",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "other_healthy_trainings_changed": false
+}

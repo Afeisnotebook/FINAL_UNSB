@@ -552,17 +552,17 @@
         "evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
       },
       "5090B_matched_plain": {
-        "status": "PROVIDER_CLONE_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E117_DUAL_OFFHOST_RELAY_HEALTHY",
-        "latest_observed_data_epoch": 117,
-        "latest_observed_updates": 1000701,
+        "status": "PROVIDER_CLONE_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E118_DUAL_OFFHOST_RELAY_HEALTHY",
+        "latest_observed_data_epoch": 118,
+        "latest_observed_updates": 1009254,
         "target_data_epoch": 200,
-        "latest_epoch_seconds": 2351.924072742462,
-        "latest_full_state_checkpoint_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
-        "latest_full_state_sidecar_sha256": "47d1e87031cbe8fdd9aa005825db7b0d96e013b418a46797c81437e951c40d14",
+        "latest_epoch_seconds": 2425.6971526145935,
+        "latest_full_state_checkpoint_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
+        "latest_full_state_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
         "latest_milestone_checkpoint_sha256": "491e47d26c19c097e8b932c7bfd2b6d16ddfedff849a232739ad0a5fd5e6520b",
         "latest_milestone_sidecar_sha256": "b97eaa9d1b431383448f112327b93f1aa095004cd9ce28c402ca926c1df2ab58",
         "latest_heartbeat_sha256": "7317d7e67ed854bfa030a04067cb64f80383b38318e00b6a648aa93ffe78bad3",
-        "latest_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
+        "latest_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
         "latest_metric_artifact_sha256": "9e9889798b7a3eb77f6b60c3ad2a4ed2467051f31e3fda7343b82515c3c378cc",
         "successor_pid": null,
         "supervisor_pid": 3004,
@@ -589,7 +589,7 @@
         "incremental_offhost_status": "E100_SOURCE_BOUND_IMPORT_HASH_VERIFIED_WAITING_E150_E200",
         "pids_unchanged_across_cyclegan_exit": true,
         "exclusive_epoch_wall_time_reduction_fraction": 0.484052876828358,
-        "projected_e200": "2026-09-15T19:10:00+08:00_rough_from_first_post_clone_epoch",
+        "projected_e200": "2026-09-15T20:00:00+08:00_rough_from_e117_e118",
         "lease_extension_risk": "PROVIDER_CLONE_AVAILABILITY_MUST_COVER_E200_AND_EXPORT_TAIL",
         "physical_host_transition": "ORIGINAL_GPU_TO_PROVIDER_CLONE_DIFFERENT_GPU_UUID",
         "continuation_class": "SEGMENTED_EXACT_RUNTIME_COHORT",
@@ -604,7 +604,7 @@
         "matched_delta_available": false,
         "performance_values_read": false,
         "confirmation20_opened": false,
-        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+        "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
         "recovery_evidence": "evidence/paper_aio/PAPER_AIO_5090B_MATCHED_PLAIN_E66_EXACT_RESUME_AND_ALERT_HEALTH_CLOSURE_20260911T224500.json"
       },
       "5090A_stcgr_small25": {
@@ -2463,7 +2463,7 @@
       "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
     },
     "5090b_provider_clone_continuation_20260913": {
-      "status": "PASS_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E117_DUAL_OFFHOST_RELAY_HEALTHY",
+      "status": "PASS_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E118_DUAL_OFFHOST_RELAY_HEALTHY",
       "logical_host_label": "5090B_MATCHED_PLAIN",
       "physical_host_label": "5090B_CLONE",
       "source_epoch": 116,
@@ -2471,6 +2471,12 @@
       "first_post_clone_updates": 1000701,
       "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
       "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
+      "latest_post_clone_epoch": 118,
+      "latest_post_clone_updates": 1009254,
+      "latest_post_clone_epoch_seconds": 2425.6971526145935,
+      "latest_post_clone_full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
+      "latest_post_clone_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
+      "latest_post_clone_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
       "same_physical_host_claimed": false,
       "complete_epoch_loss": false,
       "runtime_twin_exact": true,
@@ -2480,7 +2486,7 @@
       "performance_values_read": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
       "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
     },
     "next_manual_decision_window": "AM-TNC e200, Proposal e200, ST-CGR fixed milestone/e200, 5090B clone e150/e200 export, or any health event"
