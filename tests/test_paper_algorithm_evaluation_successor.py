@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -22,6 +23,45 @@ def _write(path: Path, value: dict) -> Path:
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_evaluation_mode_cli_does_not_collide_with_unsb_model_mode(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    argv = [
+        "--repo", str(tmp_path / "repo"),
+        "--required-control-git-commit", "a" * 40,
+        "--evaluation-mode", "static_pair",
+        "--method-lane", "amtnc",
+        "--method-source-root", str(tmp_path / "method"),
+        "--method-source-host", "4090A",
+        "--plain-source-root", str(tmp_path / "plain"),
+        "--plain-source-host", "4090A",
+        "--output", str(tmp_path / "output"),
+        "--manifest", str(tmp_path / "manifest.csv"),
+        "--data-root", str(tmp_path / "data"),
+        "--train-view", str(tmp_path / "view"),
+        "--gpu-lock", str(tmp_path / "gpu.lock"),
+        "--gpu", "-1",
+    ]
+    parsed = successor.parser().parse_args(argv)
+    assert parsed.mode == "static_pair"
+
+    # Reproduce the real nested-parser condition: the outer successor argv is
+    # still process-global while the inner UNSB TrainOptions builds ``mode=sb``.
+    # ``--evaluation-mode`` must remain unknown to that legacy hook instead of
+    # being mistaken for the model's own ``--mode`` flag.
+    monkeypatch.setattr(
+        sys, "argv", ["paper_aio_algorithm_evaluation_successor.py", *argv],
+    )
+    from research.paper_aio.protocol import lane_spec
+    from research.paper_aio.runtime import build_options
+
+    options = build_options(
+        lane_spec("plain"), dataroot=tmp_path / "view",
+        option_root=tmp_path / "options", seed=2026, gpu=-1,
+    )
+    assert options.mode == "sb"
 
 
 def _authority(tmp_path: Path) -> tuple[Path, dict]:

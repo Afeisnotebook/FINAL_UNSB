@@ -481,7 +481,18 @@ def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(description=__doc__)
     value.add_argument("--repo", type=Path, required=True)
     value.add_argument("--required-control-git-commit", required=True)
-    value.add_argument("--mode", choices=("static_pair", "dynamic_candidate"), required=True)
+    # Do not call this control-plane flag ``--mode``.  The legacy UNSB
+    # ``SBModel.modify_commandline_options`` hook calls ``parse_known_args``
+    # against the process-wide argv while an evaluation model is being
+    # materialized.  Reusing the model's ``--mode`` spelling here therefore
+    # leaks ``static_pair``/``dynamic_candidate`` into the model parser even
+    # though ``TrainOptions`` was given its own explicit argv list.
+    value.add_argument(
+        "--evaluation-mode",
+        dest="mode",
+        choices=("static_pair", "dynamic_candidate"),
+        required=True,
+    )
     value.add_argument("--method-lane", required=True)
     value.add_argument("--method-source-root", type=Path, required=True)
     value.add_argument("--method-source-host", required=True)

@@ -348,11 +348,11 @@ algorithm disposition after the terminal adjudicator runs:
 
 ```text
 python -m operations.paper_aio_algorithm_evaluation_successor \
-  --mode static_pair --method-lane amtnc \
+  --evaluation-mode static_pair --method-lane amtnc \
   --plain-source-host 4090A --method-source-host 4090A ...
 
 python -m operations.paper_aio_algorithm_evaluation_successor \
-  --mode dynamic_candidate \
+  --evaluation-mode dynamic_candidate \
   --method-lane G4-01-STRATIFIED-TIME-CONDITIONAL-GF \
   --method-source-host 5090A --candidate-authority AUTHORITY.json \
   --candidate-metadata-receipt METADATA_IMPORT.json \

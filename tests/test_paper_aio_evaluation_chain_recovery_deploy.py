@@ -46,11 +46,15 @@ def test_recovery_commands_bind_new_amtnc_paths_and_new_cohort(tmp_path: Path):
     assert str(args.first_wave_output.resolve()) in unified
 
     amtnc = commands["amtnc_evaluation"]
+    assert "--evaluation-mode" in amtnc
+    assert "--mode" not in amtnc
     assert str(args.amtnc_export_root.resolve()) in amtnc
     assert "4090A_AMTNC_OVERFLOW_RECOVERY" in amtnc
     assert str(args.plain_export_root.resolve()) in amtnc
 
     stcgr = commands["stcgr_evaluation"]
+    assert "--evaluation-mode" in stcgr
+    assert "--mode" not in stcgr
     assert STCGR_LANE in stcgr
     assert str(
         args.first_wave_output.resolve() / "gates" / "UNIFIED_EVALUATION_COHORT.json"
