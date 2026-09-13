@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-5090b-clone-health-and-authority-repair-v1",
+  "captured_at": "2026-09-14T00:46:25+08:00",
+  "status": "PASS_CLONE_CONTINUATION_E134_AND_DELIVERY_CHAINS_HEALTHY",
+  "logical_host_label": "5090B_MATCHED_PLAIN",
+  "physical_host_label": "5090B_CLONE",
+  "endpoint": "connect.weste.seetacloud.com:43172",
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5090",
+    "uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+    "memory_used_mib": 1762,
+    "memory_total_mib": 32607,
+    "utilization_percent": 30,
+    "temperature_c": 45
+  },
+  "continuation": {
+    "source_epoch": 116,
+    "source_updates": 992148,
+    "first_post_clone_epoch": 117,
+    "latest_epoch": 134,
+    "latest_updates": 1146102,
+    "target_updates": 1710600,
+    "latest_epoch_wall_seconds": 2570.7676956653595,
+    "heartbeat_sha256": "33390b145dcc00c0c0e8aff76982235a1cd7140b6d90560b8ca70520eaf9a2e2",
+    "full_state_sha256": "931eb75d696fd3ed68a9f40b898b90d4cb2d630612917073acea35352ef2ce95",
+    "full_state_sidecar_sha256": "b6eb04c0f60745c99f17ded41d4cdfab064ec576c03440405d049485474b0a26",
+    "scientific_state_sha256": "67b0140ec5f146dcbb30a835d229459812e68dc00c19183aa3679af9a1eba876",
+    "complete_epoch_loss": false,
+    "maximum_completed_epoch_loss": 0,
+    "possible_partial_epoch_replay": "bounded_below_one_epoch_and_not_part_of_sealed_progress"
+  },
+  "gates": {
+    "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
+    "runtime_twin_updates": 2000,
+    "resume_probe_updates": 8,
+    "resume_probe_branches_exact": true,
+    "continuation_status": "PASS_ENGINEERING_CLONE_CONTINUATION_GATE",
+    "same_physical_host_claimed": false,
+    "comparison_disposition": "SEGMENTED_EXACT_RUNTIME_COHORT_REQUIRES_EXPLICIT_GIT_ADMISSION_AND_MANUSCRIPT_DISCLOSURE"
+  },
+  "training_processes": {
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "source_exporter_pid": 3560,
+    "incremental_source_exporter_pid": 3561,
+    "guard_restarts": 0,
+    "health_alerts": 0,
+    "status": "HEALTHY_WITHIN_EPOCH_BOUND"
+  },
+  "delivery": {
+    "local_incremental_relay_pid": 22036,
+    "local_incremental_recovery_supervisor_pid": 23472,
+    "local_incremental_health_pid": 5936,
+    "local_incremental_available_epochs": [100],
+    "local_full_relay_pid": 6396,
+    "local_full_recovery_supervisor_pid": 32592,
+    "local_full_health_pid": 18828,
+    "local_full_relay_status": "WAITING_FOR_COMPLETE_SOURCE_EXPORTS_OR_TRANSIENT_NETWORK",
+    "local_relay_health": "HEALTHY"
+  },
+  "capacity": {
+    "filesystem_size_gib_approx": 250,
+    "filesystem_available_gib_approx": 222,
+    "run_size_gib_approx": 2.8,
+    "estimated_remaining_write_gib": 24,
+    "capacity_gate": "PASS_USER_CAPACITY_OVERRIDE_WITH_REAL_HEADROOM"
+  },
+  "authority_json_repair": {
+    "file": "configs/FULL_DATA_METHOD_PORTFOLIO.json",
+    "historical_object": "amtnc_recovery_relation_and_v5_delivery_20260913",
+    "issue": "duplicate_performance_adjudicated_key_and_later_terminal_fields_polluted_event_time_v5_record",
+    "repair": "restore_v5_event_time_state_and_leave_terminal_science_in_amtnc_e200_and_v8_evaluation_recovery_20260913",
+    "training_impact": false,
+    "regression_test": "tests/test_authority_json_unique_keys.py"
+  },
+  "training_processes_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

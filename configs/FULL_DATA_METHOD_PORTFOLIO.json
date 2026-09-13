@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T23:29:00+08:00",
-  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E131_ALL_43172_RELAYS_HEALTHY",
+  "captured_at": "2026-09-14T00:46:25+08:00",
+  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E134_ALL_43172_RELAYS_HEALTHY",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1646,21 +1646,11 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_V7_POST_TRAINING_CHAIN_REBIND_20260913T183727.json",
     "decision": "decisions/DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E134_HEALTH_AND_AUTHORITY_REPAIR_20260914T004625.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
-    "status": "running_e192_hash_closed_method_only_recovery_relation_bound_v5_delivery_healthy",
+    "status": "ready_waiting_for_fixed_e200_exports_no_training_mutation",
     "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
     "mechanism_falsified": false,
-    "closed_current_implementation": true,
-    "scientific_gate": "FAIL",
-    "late_three_macro_psnr_delta": -2.1076224231996545,
-    "e200_macro_psnr_delta": -4.072023450843259,
-    "e200_positive_domains": 0,
-    "e200_macro_ssim_delta": -0.13341193562373516,
-    "e200_macro_lpips_delta": 0.12852401930838825,
-    "full_data_disposition_sha256": "5ca45a107cf4fd7283641ad3e507d45a801a7153e1032ffdf154e40f7fc82b2a",
-    "additional_seed_authorized": false,
-    "performance_adjudicated": true,
     "performance_adjudicated": false,
     "comparison_scope": "same_host_audited_method_only_recovery",
     "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
@@ -1710,7 +1700,7 @@
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
   },
   "5090b_provider_clone_continuation_20260913": {
-    "status": "running_e131_segmented_exact_runtime_continuation_all_43172_delivery_relays_healthy",
+    "status": "running_e134_segmented_exact_runtime_continuation_all_43172_delivery_relays_healthy",
     "method_role": "strict_matched_plain_control_for_admitted_runtime_relations",
     "mechanism_falsified": false,
     "performance_adjudicated": false,
@@ -1721,12 +1711,11 @@
     "first_post_clone_epoch_seconds": 2351.924072742462,
     "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
     "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
-    "latest_post_clone_epoch": 131,
-    "latest_post_clone_updates": 1120443,
-    "latest_post_clone_epoch_seconds": 2533.328026533127,
-    "latest_post_clone_full_state_sha256": "639f0cb816e6b519fee6111b4629a06143fff21facc1f9deeeffc9ae7c8c9c26",
-    "latest_post_clone_scientific_state_sha256": "5d60164d46f2ece6e535d6a0bebb1a4d2694db233a2fc21d8b86278b5d8610c5",
-    "latest_post_clone_sidecar_sha256": "9be548ca0f4517020d36b972a474223c798faedef3aa64c4c22671a7dfa424db",
+    "latest_post_clone_epoch": 134,
+    "latest_post_clone_updates": 1146102,
+    "latest_post_clone_epoch_seconds": 2570.7676956653595,
+    "latest_post_clone_full_state_sha256": "931eb75d696fd3ed68a9f40b898b90d4cb2d630612917073acea35352ef2ce95",
+    "latest_post_clone_scientific_state_sha256": "67b0140ec5f146dcbb30a835d229459812e68dc00c19183aa3679af9a1eba876",
     "continuation_class": "segmented_exact_runtime_cohort",
     "same_physical_host_claimed": false,
     "runtime_twin_exact_2000_updates": true,
@@ -1765,8 +1754,8 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E131_AND_FINAL_RELAY_REBIND_20260913T231731.json",
-    "decision": "decisions/DEC-20260913-5090B-CLONE-E131-AND-FINAL-RELAY-REBIND.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E134_HEALTH_AND_AUTHORITY_REPAIR_20260914T004625.json",
+    "decision": "decisions/DEC-20260914-5090B-CLONE-E134-HEALTH-AND-AUTHORITY-REPAIR.md"
   },
   "amtnc_final_terminal_audit_import_20260913": {
     "status": "complete_e100_e150_e200_target_blind_import_amtnc_dependency_closed",
