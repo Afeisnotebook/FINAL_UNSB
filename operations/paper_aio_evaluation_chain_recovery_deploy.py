@@ -293,7 +293,79 @@ def _launch(command: list[str], *, cwd: Path, log: Path) -> int:
     return process.pid
 
 
-def _validate_inputs(args: argparse.Namespace) -> tuple[str, str]:
+def _validate_amtnc_release_boundary(args: argparse.Namespace) -> dict[str, Any]:
+    """Validate the metric-blind release without rewriting historical state.
+
+    Older training supervisors record the paired-access invariant inside the
+    completed child ``run_state.metadata`` instead of duplicating the newer
+    ``paired_metric_control`` field at the supervisor root.  A completed run may
+    use that legacy representation only when the source-bound export set
+    independently records the stricter paper-delivery invariants.  Live runs
+    keep the original fail-closed requirement on the supervisor root.
+    """
+
+    release = _read_json(args.amtnc_release_state)
+    if release.get("schema") != "final-unsb-paper-supervisor-v1":
+        raise RuntimeError("AM-TNC release state schema changed")
+    status = release.get("status")
+    if status not in {"CHILD_RUNNING", "COMPLETE_E200"}:
+        raise RuntimeError("AM-TNC recovery is not a live or complete release dependency")
+    if release.get("confirmation20_opened") is not False:
+        raise RuntimeError("confirmation20 is not sealed")
+
+    if release.get("paired_metric_control") is False:
+        return {
+            "proof": "supervisor_root",
+            "release_status": status,
+            "paired_metric_control": False,
+            "confirmation20_opened": False,
+        }
+    if status != "COMPLETE_E200" or "paired_metric_control" in release:
+        raise RuntimeError("AM-TNC release state permits paired control")
+
+    run_state = release.get("run_state")
+    metadata = run_state.get("metadata") if isinstance(run_state, dict) else None
+    if not isinstance(metadata, dict) or metadata.get("paired_controller_access") is not False:
+        raise RuntimeError("completed AM-TNC release lacks a metric-blind run-state proof")
+    if metadata.get("confirmation20_opened") is not False:
+        raise RuntimeError("completed AM-TNC run state did not seal confirmation20")
+    if run_state.get("status") != "COMPLETE_E200" or run_state.get("final_data_epoch") != 200.0:
+        raise RuntimeError("completed AM-TNC run-state proof is not an e200 terminal state")
+
+    export_set_path = args.amtnc_export_root.resolve() / "amtnc" / "EXPORT_SET.json"
+    if not export_set_path.is_file():
+        raise RuntimeError("completed AM-TNC release lacks its source-bound export proof")
+    export_set = _read_json(export_set_path)
+    if export_set.get("schema") != "final-unsb-paper-source-export-set-v1":
+        raise RuntimeError("AM-TNC export-set schema changed")
+    if export_set.get("status") != "COMPLETE_SOURCE_BOUND_EXPORT_SET":
+        raise RuntimeError("AM-TNC source-bound export is incomplete")
+    if export_set.get("lane_id") != "amtnc":
+        raise RuntimeError("AM-TNC source-bound export lane changed")
+    if export_set.get("source_host_label") != args.amtnc_source_host:
+        raise RuntimeError("AM-TNC source-bound export host changed")
+    if export_set.get("epochs") != [100, 125, 150, 175, 200]:
+        raise RuntimeError("AM-TNC source-bound export fixed epochs changed")
+    if export_set.get("paired_metric_control") is not False:
+        raise RuntimeError("AM-TNC source-bound export permits paired control")
+    if export_set.get("performance_values_read") is not False:
+        raise RuntimeError("AM-TNC source-bound export read performance values")
+    if export_set.get("confirmation20_opened") is not False:
+        raise RuntimeError("AM-TNC source-bound export opened confirmation20")
+
+    return {
+        "proof": "completed_run_state_plus_source_bound_export",
+        "release_status": status,
+        "paired_controller_access": False,
+        "paired_metric_control": False,
+        "performance_values_read": False,
+        "confirmation20_opened": False,
+        "export_set": str(export_set_path),
+        "export_set_sha256": _sha256(export_set_path),
+    }
+
+
+def _validate_inputs(args: argparse.Namespace) -> tuple[str, str, dict[str, Any]]:
     repo = args.repo.resolve()
     commit = _git(repo, "rev-parse", "HEAD")
     if commit != args.required_control_git_commit:
@@ -317,20 +389,12 @@ def _validate_inputs(args: argparse.Namespace) -> tuple[str, str]:
     ):
         if not path.exists():
             raise RuntimeError(f"required input is missing: {path}")
-    release = _read_json(args.amtnc_release_state)
-    if release.get("schema") != "final-unsb-paper-supervisor-v1":
-        raise RuntimeError("AM-TNC release state schema changed")
-    if release.get("status") not in {"CHILD_RUNNING", "COMPLETE_E200"}:
-        raise RuntimeError("AM-TNC recovery is not a live or complete release dependency")
-    if release.get("paired_metric_control") is not False:
-        raise RuntimeError("AM-TNC release state permits paired control")
-    if release.get("confirmation20_opened") is not False:
-        raise RuntimeError("confirmation20 is not sealed")
-    return commit, python_sha
+    release_boundary = _validate_amtnc_release_boundary(args)
+    return commit, python_sha, release_boundary
 
 
 def deploy(args: argparse.Namespace) -> dict[str, Any]:
-    commit, python_sha = _validate_inputs(args)
+    commit, python_sha, release_boundary = _validate_inputs(args)
     control_root = args.control_output.resolve()
     commands = build_child_commands(args, commit)
     selected_roles = list(commands) if not args.role else list(dict.fromkeys(args.role))
@@ -477,6 +541,7 @@ def deploy(args: argparse.Namespace) -> dict[str, Any]:
         "runtime_python_sha256": python_sha,
         "manifest_sha256": MANIFEST_SHA256,
         "amtnc_release_state": str(args.amtnc_release_state.resolve()),
+        "amtnc_release_boundary": release_boundary,
         "amtnc_export_root": str(args.amtnc_export_root.resolve()),
         "plain_export_root": str(args.plain_export_root.resolve()),
         "outputs": {
