@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-new-5090-pending-reachability-and-goal-arming-v1",
+  "captured_at": "2026-09-14T00:58:34+08:00",
+  "status": "PENDING_TCP_REACHABILITY_IDENTITY_NOT_CLAIMED",
+  "endpoint": {
+    "host": "connect.weste.seetacloud.com",
+    "port": 44804,
+    "resolved_address": "116.172.94.204",
+    "tcp_probe_result": "CONNECTION_REFUSED_OR_UNREACHABLE",
+    "authentication_attempt_reached": false,
+    "credential_recorded": false
+  },
+  "identity_boundary": {
+    "previous_identity_at_same_endpoint": {
+      "registered_label": "5090B",
+      "gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194"
+    },
+    "current_identity_claimed": false,
+    "new_physical_gpu_claimed": false,
+    "required_next_gate": "RECOLLECT_GPU_UUID_AFTER_ENDPOINT_BECOMES_REACHABLE",
+    "port_identity_is_sufficient": false
+  },
+  "continuity": {
+    "current_5090b_clone_endpoint": "connect.weste.seetacloud.com:43172",
+    "current_5090b_clone_gpu_uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+    "current_clone_matched_plain_unchanged": true,
+    "existing_training_or_delivery_process_changed": false,
+    "new_long_training_started": false
+  },
+  "goal_monitor": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE",
+    "temporary_interval": "HOURLY",
+    "return_to_low_frequency_condition": "FIRST_STABLE_EPOCH_AND_ALL_RECOVERY_EXPORT_CHAINS_HEALTHY",
+    "endpoint_action": "RETRY_NONDESTRUCTIVELY_THEN_RUN_IDENTITY_GATE_AND_REFRESH_CURRENT_DAG",
+    "task_preselected": false,
+    "task_selection_boundary": "EVIDENCE_AUTHORIZED_NON_DUPLICATE_AND_CLOSABLE_WITHIN_REAL_LEASE"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "ddsb_guessed_reproduction_allowed": false,
+    "archived_successor_launch_allowed": false
+  }
+}
