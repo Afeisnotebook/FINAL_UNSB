@@ -1,0 +1,50 @@
+{
+  "schema": "final-unsb-paper-dclgan-stale-launch-wrapper-retirement-v1",
+  "captured_at": "2026-09-14T00:21:32+08:00",
+  "status": "PASS_STALE_LOCAL_SSH_LAUNCH_WRAPPERS_RETIRED_AUTHORITATIVE_CHAINS_UNCHANGED",
+  "local_training": {
+    "lane_id": "dclgan",
+    "latest_complete_epoch": 177,
+    "latest_complete_updates": 1513881,
+    "wrapper_pid": 20832,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "source_export_supervisor_pid": 19524,
+    "push_supervisor_pid": 17152,
+    "push_child_pid": 24396,
+    "training_health_pid": 8224,
+    "push_health_pid": 32148,
+    "all_authoritative_processes_live_after_retirement": true,
+    "health": "HEALTHY_ZERO_ALERTS",
+    "training_process_changed": false
+  },
+  "remote_4090a_delivery": {
+    "evaluation_supervisor_pid": 135947,
+    "evaluation_child_pid": 135956,
+    "evaluation_status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "addendum_supervisor_pid": 136368,
+    "addendum_child_pid": 136377,
+    "addendum_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "health_pid": 136765,
+    "health": "HEALTHY_ZERO_ALERTS",
+    "all_authoritative_processes_live_after_retirement": true
+  },
+  "retired_local_launch_wrappers": {
+    "powershell_pids": [16332, 31488, 11956],
+    "ssh_pids": [31220, 29152, 16828],
+    "bound_output": "/home/yc/runs/FINAL_UNSB_DCLGAN_CHAIN_V2_DA41652",
+    "reason": "The detached remote supervisors had already been created and were healthy, while their original local SSH launch wrappers remained blocked. Leaving them alive created a duplicate-launch risk if the SSH commands later completed again.",
+    "retirement": "STOP_AFTER_EXACT_CMDLINE_AND_REMOTE_CHAIN_IDENTITY_CHECK",
+    "remaining_wrapper_count": 0,
+    "remote_processes_stopped": false,
+    "historical_outputs_deleted": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "algorithm_or_protocol_changed": false
+  },
+  "decision": "decisions/DEC-20260914-DCLGAN-STALE-LAUNCH-WRAPPER-RETIREMENT.md"
+}

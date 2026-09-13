@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T00:17:09+08:00",
+  "state_snapshot_time": "2026-09-14T00:21:32+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -3740,6 +3740,27 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_STALE_HEALTH_WATCHER_RETIREMENT_20260914T001709.json",
     "decision": "decisions/DEC-20260914-PROPOSAL-STALE-HEALTH-WATCHER-RETIREMENT.md"
+  },
+  "dclgan_stale_launch_wrapper_retirement_20260914": {
+    "status": "pass_stale_local_ssh_launch_wrappers_retired_authoritative_chains_unchanged",
+    "latest_complete_epoch": 177,
+    "latest_complete_updates": 1513881,
+    "retired_local_powershell_pids": [16332, 31488, 11956],
+    "retired_local_ssh_pids": [31220, 29152, 16828],
+    "remaining_stale_wrapper_count": 0,
+    "local_trainer_pid": 22020,
+    "remote_evaluation_supervisor_pid": 135947,
+    "remote_evaluation_child_pid": 135956,
+    "remote_addendum_supervisor_pid": 136368,
+    "remote_addendum_child_pid": 136377,
+    "remote_health_pid": 136765,
+    "local_and_remote_authoritative_health": "HEALTHY_ZERO_ALERTS",
+    "training_process_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_STALE_LAUNCH_WRAPPER_RETIREMENT_20260914T002132.json",
+    "decision": "decisions/DEC-20260914-DCLGAN-STALE-LAUNCH-WRAPPER-RETIREMENT.md"
   },
   "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
