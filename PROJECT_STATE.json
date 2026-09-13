@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-13",
-  "state_snapshot_time": "2026-09-13T18:56:29+08:00",
+  "state_snapshot_time": "2026-09-13T19:29:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_AMTNC_E196_DCLGAN_V7_DELIVERY_REBOUND_PROPOSAL_STCGR_5090B_CLONE_MATCHED_PLAIN_CONFIRMATION_LOCKED",
+    "status": "FIRST_WAVE_AND_THREE_ALGORITHM_PATHS_RUNNING_AMTNC_E197_PROPOSAL_E187_STCGR_E177_DCLGAN_E173_5090B_CLONE_MATCHED_PLAIN_E126_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -310,23 +310,23 @@
       "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
     },
     "current_algorithm_progress_coverage": {
-      "status": "AMTNC_E194_REPLAYING_E195_PROPOSAL_E185_STCGR_E175_DCLGAN_E171_HEALTHY_5090B_PROVIDER_CLONE_EXACT_CONTINUATION_E122",
+      "status": "AMTNC_E197_PROPOSAL_E187_STCGR_E177_DCLGAN_E173_HEALTHY_5090B_PROVIDER_CLONE_EXACT_CONTINUATION_E126",
       "4090A_plain_watch_pid": 2613987,
       "4090A_future_amtnc_watch_pid": 2613988,
       "5090C_proposal_watch_pid": 91595,
       "5090C_proposal_watch_health_pid": 91762,
       "5090C_retired_proposal_watch_pid": 89015,
       "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
-      "training_processes_changed": true,
-      "training_process_change_scope": "5090C_PROPOSAL_STALLED_TRAINER_ONLY_HASH_VERIFIED_EXACT_RECOVERY",
-      "5090B_endpoint_status": "PROVIDER_CLONE_ADMITTED_EXACT_CONTINUATION_RUNNING_E122",
+      "training_processes_changed": false,
+      "training_process_change_scope": "NONE_READ_ONLY_FIVE_LANE_REFRESH_PROPOSAL_RECOVERY_CLOSURE",
+      "5090B_endpoint_status": "PROVIDER_CLONE_ADMITTED_EXACT_CONTINUATION_RUNNING_E126",
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_MULTI_LANE_HASH_VERIFIED_REFRESH_20260913T165526.json",
-      "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
+      "decision": "decisions/DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md"
     },
     "latest_5090c_proposal_recovery": {
-      "status": "E181_STALL_HASH_VERIFIED_EXACT_RESUME_CLOSED_CONTINUING_E185",
+      "status": "E181_STALL_HASH_VERIFIED_EXACT_RESUME_CLOSED_BY_E182_CONTINUING_E187",
       "stall_threshold_seconds": 14400,
       "stall_event_at": "2026-09-13T10:33:32+08:00",
       "retired_supervisor_pid": 9729,
@@ -340,9 +340,13 @@
       "first_post_recovery_data_epoch": 182,
       "first_post_recovery_updates": 1556646,
       "first_post_recovery_epoch_seconds": null,
-      "latest_full_state_sha256": "6b3f95f6471801b49a46d1bb9fd8d202aed3728d1424f08cf5f53b4b99085c61",
-      "latest_sidecar_sha256": "906abbaf09993d8a3a6c74e4e9afc98edb4841b079eba3a71db6fe5e4837609c",
-      "latest_scientific_state_sha256": "fa1f700e9922c43d697dcfb290075090d248ba0be5fcd796c43507edaef39d8b",
+      "latest_recovery_closed_by_epoch": 182,
+      "latest_observed_data_epoch": 187,
+      "latest_observed_updates": 1599411,
+      "latest_epoch_seconds": 4813.080894947052,
+      "latest_full_state_sha256": "bdce5b9d59f9c836e9339e32882f79fddb1040958b6a3f65110ffce08a22b84d",
+      "latest_sidecar_sha256": "c2e4a20369ea3e6d7c73d82f00067a975eaa2badcb5e8fb882605683a74c04af",
+      "latest_scientific_state_sha256": "068e98ef09fc5425a05b2d8259c2e6d497946d310a2b6cad9c387d808ef06f2d",
       "post_recovery_full_state_cpu_load": "PREVIOUS_EXACT_RESUME_GATE_AND_CURRENT_FILE_HASH_PASS",
       "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
       "progress_watch_pid": 91595,
@@ -354,10 +358,10 @@
       "root_cause_status": "RECURRING_PROCESS_COMPUTE_STALL_NOT_LOCALIZED_NOT_MECHANISM_FALSIFIED",
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "projected_e200": "2026-09-14T13:00:00+08:00_ROUGH_FROM_E185",
+      "projected_e200": "2026-09-14T12:30:00+08:00_TO_2026-09-14T13:30:00+08:00_ROUGH_FROM_E187",
       "projected_lease_headroom_hours": 11.5,
-      "evidence": "evidence/paper_aio/PAPER_AIO_MULTI_LANE_HASH_VERIFIED_REFRESH_20260913T165526.json",
-      "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
+      "decision": "decisions/DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md"
     },
     "progress_aware_supervisor_failure_budget": {
       "status": "IMPLEMENTED_TESTED_AND_DEPLOYED_FOR_FUTURE_5090B_MATCHED_PLAIN_ONLY",

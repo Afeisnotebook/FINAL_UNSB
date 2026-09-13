@@ -748,3 +748,7 @@ authorize compute.
      仍依赖已经fail-closed的旧dynamic cohort/base portfolio。新监督链保持冻结adapter、上游、
      manifest、固定epoch和统一GPU锁不变，只重绑当前V7 cohort与终局；两轮健康后退休旧等待器，
      DCLGAN/AM-TNC训练、checkpoint、paired边界与confirmation20均未改变。
+208. `DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md`：Proposal在e181
+     精确恢复后已连续形成e182–e187完整哈希状态，工程恢复正式闭环而不作机制裁决；同次只读审计
+     确认AM-TNC e197、ST-CGR e177、DCLGAN e173及5090B克隆matched plain e126均健康。
+     所有当前checkpoint逐哈希匹配sidecar，未读取paired性能、未改训练，confirmation20继续封存。

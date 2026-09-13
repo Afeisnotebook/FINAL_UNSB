@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-13T18:56:29+08:00",
-  "status": "CORE_RUNNING_AMTNC_E196_DCLGAN_V7_DELIVERY_REBOUND_AND_5090B_PROVIDER_CLONE_CONTINUATION",
+  "captured_at": "2026-09-13T19:29:00+08:00",
+  "status": "CORE_RUNNING_AMTNC_E197_PROPOSAL_E187_STCGR_E177_DCLGAN_E173_AND_5090B_PROVIDER_CLONE_E126",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_EVERY_2_HOURS_AFTER_AMTNC_E195_PRECISION_GATE_CLOSED",
@@ -13,18 +13,18 @@
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan"],
       "latest_running_milestones": {
-        "5090C/proposal": "e182_first_post_recovery_checkpoint_hash_closed_continuing_e200",
-        "5090A/stcgr": "e171_complete_recovered_five_milestone_export_chain_waiting_e200",
-        "4090A/amtnc_after_plain": "e196_complete_all_finite_continuing_e200",
-        "5090B/matched_plain": "provider_clone_segmented_exact_runtime_continuation_e121_dual_offhost_delivery_healthy",
-        "local/dclgan_extension": "e172_complete_running_e200_v7_delivery_waiters_healthy"
+        "5090C/proposal": "e181_recovery_closed_by_e182_now_e187_continuing_e200",
+        "5090A/stcgr": "e177_complete_recovered_five_milestone_export_chain_waiting_e200",
+        "4090A/amtnc_after_plain": "e197_complete_all_finite_continuing_e200",
+        "5090B/matched_plain": "provider_clone_segmented_exact_runtime_continuation_e126_dual_offhost_delivery_healthy",
+        "local/dclgan_extension": "e173_complete_running_e200_v7_delivery_waiters_healthy"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
     },
     {
       "id": "legal_matched_control",
-      "status": "provider_clone_segmented_exact_runtime_continuation_e118_running",
+      "status": "provider_clone_segmented_exact_runtime_continuation_e126_running",
       "requires": ["5090B exact 2000-update runtime twin", "fresh-e0 5090B matched plain e200", "reviewed Git runtime relations"],
       "proof": "wait-only recovery guard, runtime receipt, and committed relation registry",
       "predecessor": "5090B CUT COMPLETE_E200 source-bound export hash closed",
@@ -928,16 +928,16 @@
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
   },
   "5090b_provider_clone_continuation_20260913": {
-    "status": "pass_exact_continuation_e121_and_delivery_chain_rebound",
+    "status": "pass_exact_continuation_e126_and_delivery_chain_rebound",
     "source_epoch": 116,
     "first_post_clone_epoch": 117,
     "first_post_clone_updates": 1000701,
-    "latest_post_clone_epoch": 121,
-    "latest_post_clone_updates": 1034913,
-    "latest_post_clone_epoch_seconds": 2543.8655529022217,
-    "latest_post_clone_full_state_sha256": "13ed8b93d989ff28d564e3a98d6c6a9b1eb155e76dcf0a693dc7957075f5a008",
-    "latest_post_clone_scientific_state_sha256": "06575eb21cea0590d64be8fc1c2ba4082ef1340e4fa358880359ee4850b848dd",
-    "latest_post_clone_sidecar_sha256": "73eca4e482d328e6af43b72608606ecc0ba7f9e65cbbda1931f43309ef5923d9",
+    "latest_post_clone_epoch": 126,
+    "latest_post_clone_updates": 1077678,
+    "latest_post_clone_epoch_seconds": 2550.8420510292053,
+    "latest_post_clone_full_state_sha256": "ea5ab3950d6120b4f0c9a5e80d24e5dfde667ed3c529214a200e6dcb850990c7",
+    "latest_post_clone_scientific_state_sha256": "83a638990827d88c77b6cbde4f8656606ac24a9447b57b617d50bfc3560f5e14",
+    "latest_post_clone_sidecar_sha256": "69dfb716ed5bb1cad9f5d28329d8a33c689096c8e73541ac895091605841ca74",
     "continuation_class": "segmented_exact_runtime_cohort",
     "same_physical_host_claimed": false,
     "runtime_twin_exact": true,
@@ -959,8 +959,8 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E121_CONTINUATION_20260913T155252.json",
-    "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
+    "decision": "decisions/DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md"
   },
   "dclgan_v7_delivery_rebind_20260913": {
     "status": "pass_current_v7_cohort_bound_dclgan_delivery_healthy",
@@ -983,6 +983,24 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_V7_DELIVERY_REBIND_20260913T185629.json",
     "decision": "decisions/DEC-20260913-DCLGAN-V7-DELIVERY-REBIND.md"
+  },
+  "five_lane_metric_blind_refresh_20260913T192900": {
+    "status": "healthy_proposal_recovery_closed_5090b_clone_continuing",
+    "epochs": {
+      "4090A_amtnc": 197,
+      "5090C_proposal": 187,
+      "5090A_stcgr": 177,
+      "local_dclgan": 173,
+      "5090B_matched_plain_provider_clone": 126
+    },
+    "proposal_recovery_closed_by_epoch": 182,
+    "all_current_checkpoint_hashes_match_sidecars": true,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
+    "decision": "decisions/DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md"
   },
   "known_completion_risks": [
     "5090B matched plain now runs on a different physical GPU via an admitted segmented exact-runtime-cohort continuation from e116; the first post-clone e117 checkpoint and scientific hash closed exactly, but final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",

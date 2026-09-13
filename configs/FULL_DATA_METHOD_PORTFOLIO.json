@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T18:56:29+08:00",
-  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AMTNC_E196_DCLGAN_E172_V7_DELIVERY_REBOUND",
+  "captured_at": "2026-09-13T19:29:00+08:00",
+  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_AMTNC_E197_PROPOSAL_E187_STCGR_E177_DCLGAN_E173_5090B_CLONE_MATCHED_E126",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1922,6 +1922,24 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_DCLGAN_V7_DELIVERY_REBIND_20260913T185629.json",
     "decision": "decisions/DEC-20260913-DCLGAN-V7-DELIVERY-REBIND.md"
+  },
+  "latest_metric_blind_live_refresh_20260913T192900": {
+    "status": "five_long_trajectories_healthy_proposal_recovery_closed",
+    "epochs": {
+      "4090A_amtnc": 197,
+      "5090C_proposal": 187,
+      "5090A_stcgr": 177,
+      "local_dclgan": 173,
+      "5090B_matched_plain_provider_clone": 126
+    },
+    "proposal_e181_recovery_closed_by_epoch": 182,
+    "5090B_continuation_class": "segmented_exact_runtime_cohort",
+    "matched_delta_available": false,
+    "training_processes_changed": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
+    "decision": "decisions/DEC-20260913-PROPOSAL-E181-RECOVERY-CLOSURE-AND-FIVE-LANE-REFRESH.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
