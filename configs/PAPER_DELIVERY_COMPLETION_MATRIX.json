@@ -817,16 +817,16 @@
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
   },
   "5090b_provider_clone_continuation_20260913": {
-    "status": "pass_exact_continuation_e118_and_delivery_chain_rebound",
+    "status": "pass_exact_continuation_e121_and_delivery_chain_rebound",
     "source_epoch": 116,
     "first_post_clone_epoch": 117,
     "first_post_clone_updates": 1000701,
-    "latest_post_clone_epoch": 118,
-    "latest_post_clone_updates": 1009254,
-    "latest_post_clone_epoch_seconds": 2425.6971526145935,
-    "latest_post_clone_full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
-    "latest_post_clone_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
-    "latest_post_clone_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
+    "latest_post_clone_epoch": 121,
+    "latest_post_clone_updates": 1034913,
+    "latest_post_clone_epoch_seconds": 2543.8655529022217,
+    "latest_post_clone_full_state_sha256": "13ed8b93d989ff28d564e3a98d6c6a9b1eb155e76dcf0a693dc7957075f5a008",
+    "latest_post_clone_scientific_state_sha256": "06575eb21cea0590d64be8fc1c2ba4082ef1340e4fa358880359ee4850b848dd",
+    "latest_post_clone_sidecar_sha256": "73eca4e482d328e6af43b72608606ecc0ba7f9e65cbbda1931f43309ef5923d9",
     "continuation_class": "segmented_exact_runtime_cohort",
     "same_physical_host_claimed": false,
     "runtime_twin_exact": true,
@@ -848,7 +848,7 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E121_CONTINUATION_20260913T155252.json",
     "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
   },
   "known_completion_risks": [
@@ -857,7 +857,7 @@
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
     "5090C recovered Proposal from hash-verified e181 after a third recurring process stall and is projected to finish around 2026-09-14 midday; keep it available through at least 2026-09-15 12:00 for source-bound export",
     "5090A ST-CGR is projected to finish training between 2026-09-15 04:35 and 09:46, leaving about 14 hours before the recorded 2026-09-16 00:00 horizon; provider expiry and export tail require recheck",
-    "5090B provider clone matched plain is projected to finish near 2026-09-15 19:10 from the first post-clone epoch; keep the clone available through at least 2026-09-16 12:00 for e200 export and unified evaluation handoff"
+    "5090B provider clone matched plain reached e121 with zero recovery restarts and is projected to finish during 2026-09-15 20:50-23:30; keep the clone available through at least 2026-09-16 12:00 for e200 export and unified evaluation handoff"
   ],
   "scientific_boundaries": {
     "intermediate_performance_controls_training_or_scheduling": false,

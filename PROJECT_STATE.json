@@ -1983,7 +1983,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E121_CONTINUATION_20260913T155252.json",
     "amtnc_recovery_relation_and_v5_delivery_20260913": {
       "status": "PASS_METHOD_ONLY_RECOVERY_RELATION_V5_DELIVERY_HEALTHY_AMTNC_E192_CONTINUING",
       "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
@@ -2498,7 +2498,7 @@
       "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
     },
     "5090b_provider_clone_continuation_20260913": {
-      "status": "PASS_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E118_DUAL_OFFHOST_RELAY_HEALTHY",
+      "status": "PASS_SEGMENTED_EXACT_RUNTIME_CONTINUATION_E121_DUAL_OFFHOST_RELAY_HEALTHY",
       "logical_host_label": "5090B_MATCHED_PLAIN",
       "physical_host_label": "5090B_CLONE",
       "source_epoch": 116,
@@ -2506,12 +2506,12 @@
       "first_post_clone_updates": 1000701,
       "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
       "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
-      "latest_post_clone_epoch": 118,
-      "latest_post_clone_updates": 1009254,
-      "latest_post_clone_epoch_seconds": 2425.6971526145935,
-      "latest_post_clone_full_state_sha256": "c5abfa1eb70a60a265cfcf3eb1c84232369058cd1638a70125e38e27773356e3",
-      "latest_post_clone_scientific_state_sha256": "88b8d437b761591ef1515a40e447dfcfac401b5f298762cd7f9ddc4509a4ee0d",
-      "latest_post_clone_sidecar_sha256": "641c854fa734e148752bbe76f8e5c401985749229de2bc2aeff4f925aebfd74b",
+      "latest_post_clone_epoch": 121,
+      "latest_post_clone_updates": 1034913,
+      "latest_post_clone_epoch_seconds": 2543.8655529022217,
+      "latest_post_clone_full_state_sha256": "13ed8b93d989ff28d564e3a98d6c6a9b1eb155e76dcf0a693dc7957075f5a008",
+      "latest_post_clone_scientific_state_sha256": "06575eb21cea0590d64be8fc1c2ba4082ef1340e4fa358880359ee4850b848dd",
+      "latest_post_clone_sidecar_sha256": "73eca4e482d328e6af43b72608606ecc0ba7f9e65cbbda1931f43309ef5923d9",
       "same_physical_host_claimed": false,
       "complete_epoch_loss": false,
       "runtime_twin_exact": true,
@@ -2521,7 +2521,7 @@
       "performance_values_read": false,
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E118_CONTINUATION_20260913T135712.json",
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_E121_CONTINUATION_20260913T155252.json",
       "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
     },
     "next_manual_decision_window": "AM-TNC e200, Proposal e200, ST-CGR fixed milestone/e200, 5090B clone e150/e200 export, or any health event"

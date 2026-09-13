@@ -1,0 +1,71 @@
+{
+  "schema": "final-unsb-paper-provider-clone-live-continuation-v1",
+  "captured_at": "2026-09-13T15:52:52+08:00",
+  "status": "PASS_E121_SEGMENTED_EXACT_RUNTIME_CONTINUATION_HEALTHY",
+  "logical_host_label": "5090B_MATCHED_PLAIN",
+  "physical_host_label": "5090B_CLONE",
+  "continuation_class": "SEGMENTED_EXACT_RUNTIME_COHORT",
+  "same_physical_host_claimed": false,
+  "source_epoch": 116,
+  "first_post_clone_epoch": 117,
+  "latest_post_clone_epoch": {
+    "epoch": 121,
+    "updates": 1034913,
+    "target_updates": 1710600,
+    "epoch_wall_seconds": 2543.8655529022217,
+    "full_state_sha256": "13ed8b93d989ff28d564e3a98d6c6a9b1eb155e76dcf0a693dc7957075f5a008",
+    "scientific_state_sha256": "06575eb21cea0590d64be8fc1c2ba4082ef1340e4fa358880359ee4850b848dd",
+    "full_state_sidecar_sha256": "73eca4e482d328e6af43b72608606ecc0ba7f9e65cbbda1931f43309ef5923d9",
+    "actual_checkpoint_matches_sidecar": true,
+    "guard_checkpoint_matches_sidecar": true
+  },
+  "exact_gates": {
+    "runtime_twin_exact_2000_updates": true,
+    "double_resume_exact": true,
+    "source_parent_unchanged": true,
+    "complete_epoch_loss": false,
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "runtime": {
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "full_exporter_pid": 3560,
+    "incremental_exporter_pid": 3561,
+    "all_expected_processes_alive": true,
+    "supervisor_status": "CHILD_RUNNING",
+    "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "restart_count": 0,
+    "consecutive_no_progress_restarts": 0,
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "gpu_utilization_percent_snapshot": 34,
+    "gpu_memory_mib_snapshot": 1762,
+    "gpu_temperature_c_snapshot": 46,
+    "free_disk_gib": 221.5287,
+    "remaining_write_and_delivery_bound_gib": 44.0,
+    "user_capacity_override": true
+  },
+  "delivery": {
+    "full_exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "incremental_exporter_status": "PARTIAL_INCREMENTAL_AUDIT_EXPORT_SET",
+    "incremental_epochs_available": [100],
+    "incremental_epochs_required": [100, 150, 200],
+    "source_bound_exporters_healthy": true
+  },
+  "projected_e200_window": [
+    "2026-09-15T20:50:00+08:00",
+    "2026-09-15T23:30:00+08:00"
+  ],
+  "recommended_provider_availability_through": "2026-09-16T12:00:00+08:00",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "other_healthy_trainings_changed": false
+}
