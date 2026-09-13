@@ -1,0 +1,99 @@
+{
+  "schema": "final-unsb-paper-amtnc-e200-and-evaluation-mode-recovery-v1",
+  "captured_at": "2026-09-13T22:48:02+08:00",
+  "status": "AMTNC_COMPLETE_E200_SOURCE_BOUND_EXPORT_COMPLETE_V8_MATCHED_EVALUATION_RUNNING",
+  "training_terminal": {
+    "lane": "amtnc",
+    "source_host": "4090A",
+    "data_epoch": 200.0,
+    "updates": 1710600,
+    "full_state_checkpoint_sha256": "6a076ecc60e7f943e04088a93db52928921b0edb66966b706a9b775c2e382e6f",
+    "scientific_state_sha256": "ca7c8e9821f1d17ce40a1a6270f46706b0c75fbd6df2b7a350406fc928a0364e",
+    "full_state_sidecar_sha256": "ee9f9b5b0f3c845fb4aaaeaf4a69c4189845de314f772cc6083dbc5746895839",
+    "tensor_count": 554,
+    "nonfinite_value_count": 0,
+    "float64_adam_second_moment_tensor_count": 6,
+    "supervisor_status": "COMPLETE_E200",
+    "child_returncode": 0
+  },
+  "source_bound_export": {
+    "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+    "root": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838",
+    "epochs": [100, 125, 150, 175, 200],
+    "export_set_sha256": "65512701a4a1c596644c116a36b48f0b7673a3c3883d918175d96496b4a30524",
+    "paired_metric_control": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  },
+  "evaluation_start_failure": {
+    "classification": "engineering_cli_namespace_collision_not_algorithm_failure",
+    "cause": "The outer evaluation successor exposed --mode=static_pair while the nested UNSB SBModel parser also consumed process-wide --mode and accepts only FastCUT, fastcut, or sb.",
+    "failure_stage": "before_checkpoint_evaluation",
+    "scientific_checkpoint_changed": false,
+    "performance_result_generated": false,
+    "old_control_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "old_amtnc_supervisor_status": "CHILD_EXITED_CHECKING_RECOVERY",
+    "old_amtnc_launch_count": 3,
+    "old_amtnc_state_sha256": "171e11bf511f0998ff191d36c3cb279b08145b8effbc37a7fb3561bb7b4acdd0",
+    "old_amtnc_log_sha256": "ddf04ebf2db7a9943f619d3c53192c7ff5d6b60fdb916ef0137ee3abf7f7fbea",
+    "old_output_deleted": false
+  },
+  "repair": {
+    "cli_fix_commit": "7881b072e5974c45144f7af8e12bf6f9a165e80b",
+    "release_proof_commit": "f64303666dcf8b9efd55f4e07a7ac6782a42ce3e",
+    "control_repo": "/home/yc/FINAL_UNSB_RELEASE_PROOF_F643036",
+    "control_repo_clean": true,
+    "control_bundle_sha256": "2a507641435ba283185fdf7570c5d8b584641a4aba25378dcb0d1228dcbf76ef",
+    "pinned_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "outer_argument": "--evaluation-mode=static_pair",
+    "legacy_outer_mode_present": false,
+    "nested_unsb_mode": "sb",
+    "release_boundary_proof": "completed_run_state_plus_source_bound_export",
+    "release_boundary_export_set_sha256": "65512701a4a1c596644c116a36b48f0b7673a3c3883d918175d96496b4a30524",
+    "tests": "41 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "replacement_chain": {
+    "status": "HEALTHY_EVALUATING_FIXED_ALGORITHM_CHECKPOINT",
+    "control_output": "/home/yc/runs/FINAL_UNSB_EVALUATION_MODE_FIX_V8_F643036",
+    "deployment_receipt_sha256": "7c0507fe39d0901819e20b969b7514b1b33bdbdd60c0124e1e0a10aac2e3d045",
+    "amtnc_output": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_MATCHED_EVAL_V8_F643036",
+    "amtnc_supervisor_pid": 246338,
+    "amtnc_child_pid": 246356,
+    "amtnc_initial_child_launches": 1,
+    "amtnc_child_status": "EVALUATING_FIXED_ALGORITHM_CHECKPOINT",
+    "amtnc_gpu_memory_mib": 1490,
+    "final_output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V8_F643036",
+    "final_supervisor_pid": 246339,
+    "final_child_pid": 246357,
+    "final_child_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+    "selected_role_health_pid": 246425,
+    "aggregate_health_pid": 248074,
+    "health_status": "HEALTHY_ZERO_ALERTS_AFTER_MULTIPLE_POLLS"
+  },
+  "preserved_v7_roles": {
+    "unified_supervisor_pid": 125400,
+    "unified_child_pid": 125436,
+    "stcgr_supervisor_pid": 125402,
+    "stcgr_child_pid": 125437
+  },
+  "retired_v7_roles": {
+    "amtnc_supervisor_pid": 125401,
+    "final_supervisor_pid": 125403,
+    "final_child_pid": 125444,
+    "aggregate_health_pid": 125502,
+    "reason": "The AM evaluator used the colliding CLI and the old final/health chain depended on that failed state. Artifacts remain immutable."
+  },
+  "adjudication": {
+    "algorithm_training_failed": false,
+    "algorithm_mechanism_falsified": false,
+    "algorithm_performance_adjudicated": false,
+    "safe_to_continue_matched_evaluation": true,
+    "training_processes_changed": false,
+    "paired_metric_control": false,
+    "performance_values_read_for_scheduling": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  }
+}

@@ -3656,5 +3656,29 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_PRE_E200_FINAL_DELIVERY_READINESS_RECHECK_20260913T133500.json"
   },
-  "next_gate": "Keep every healthy fixed-protocol run continuous to e200: 4090A AM-TNC, 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. Then complete source-bound export and hash verification, legal same-runtime matched comparisons, fixed-e100/e125/e150/e175/e200 unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, and 4090A plain are already complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "amtnc_e200_and_v8_evaluation_recovery_20260913": {
+    "status": "complete_e200_source_bound_export_complete_v8_matched_evaluation_running",
+    "amtnc_epoch": 200,
+    "amtnc_updates": 1710600,
+    "amtnc_full_state_sha256": "6a076ecc60e7f943e04088a93db52928921b0edb66966b706a9b775c2e382e6f",
+    "amtnc_scientific_state_sha256": "ca7c8e9821f1d17ce40a1a6270f46706b0c75fbd6df2b7a350406fc928a0364e",
+    "amtnc_export_set_sha256": "65512701a4a1c596644c116a36b48f0b7673a3c3883d918175d96496b4a30524",
+    "incident_class": "evaluation_cli_namespace_collision_not_algorithm_failure",
+    "cli_fix_commit": "7881b072e5974c45144f7af8e12bf6f9a165e80b",
+    "release_proof_commit": "f64303666dcf8b9efd55f4e07a7ac6782a42ce3e",
+    "evaluation_supervisor_pid": 246338,
+    "evaluation_child_pid": 246356,
+    "evaluation_status": "EVALUATING_FIXED_ALGORITHM_CHECKPOINT",
+    "final_supervisor_pid": 246339,
+    "final_child_pid": 246357,
+    "aggregate_health_pid": 248074,
+    "health_status": "HEALTHY_ZERO_ALERTS_AFTER_MULTIPLE_POLLS",
+    "mechanism_falsified": false,
+    "performance_adjudicated": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E200_AND_EVALUATION_MODE_RECOVERY_20260913T224802.json",
+    "decision": "decisions/DEC-20260913-AMTNC-E200-AND-EVALUATION-MODE-RECOVERY.md"
+  },
+  "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. AM-TNC is complete e200 with source-bound exports and its repaired V8 same-host matched evaluation is running. Then complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

@@ -775,3 +775,8 @@ authorize compute.
      脚本与当前审计实现SHA256完全一致；Proposal、AM-TNC、ST-CGR无论PASS/FAIL均保留完整结果，
      HJCGR继续deferred、DDSB继续reproduction incomplete、DCLGAN继续非阻塞addendum，不存在单冠军
      过滤或最佳checkpoint路径。12项针对性测试通过，未改任何训练或交付进程。
+215. `DEC-20260913-AMTNC-E200-AND-EVALUATION-MODE-RECOVERY.md`：AM-TNC已完整到e200并完成
+     source-bound导出；首次评估失败定位为外层`--mode static_pair`与UNSB内部模型`--mode`的CLI
+     命名冲突，而非算法或checkpoint失败。`7881b07`分离参数名，`f643036`以完成run-state和导出集
+     双证据闭合metric-blind释放边界；V8 matched评估已在4090A真实运行，旧失败产物保留，
+     confirmation20仍封存，算法性能尚待固定epoch事后裁决。
