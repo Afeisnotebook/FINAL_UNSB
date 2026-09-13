@@ -1,0 +1,61 @@
+{
+  "schema": "final-unsb-paper-multi-lane-hash-verified-live-refresh-v1",
+  "captured_at": "2026-09-13T16:55:26+08:00",
+  "status": "FIVE_LONG_HORIZON_LANES_LIVE_STCGR_E175_FIXED_MILESTONE_HASH_CLOSED",
+  "lanes": {
+    "4090A_amtnc": {
+      "completed_epoch": 194,
+      "status": "GPU_ACTIVE_REPLAYING_E195_RAW_SQUARE_PRECISION_RECOVERY",
+      "trainer_pid": 59936,
+      "capture_pid": 65251,
+      "precision_successor_pid": 73612,
+      "first_failure_interlock_status": "MONITORING_ZERO_FAILURE_RECOVERY"
+    },
+    "5090A_stcgr": {
+      "completed_epoch": 175,
+      "completed_updates": 1496775,
+      "trainer_pid": 357237,
+      "latest_checkpoint_sha256": "e068218123bdf46152d7316bdcff035afd7b5c81c752207d8b1f2049a66cebc6",
+      "latest_sidecar_sha256": "84babe34ffd9c6615b17d53a40a88af2a8ce4230b1479de86183818fa5489fd1",
+      "fixed_e175_checkpoint_sha256": "91770d7486a7cd0fd7835b5b341e765ff8e0938b2471f851412b5e47f8e369a4",
+      "fixed_e175_sidecar_sha256": "869310bf6e320a45c50f1302d2ce1a676b13eedf2519959075fbf79be693ba86",
+      "scientific_state_sha256": "1a547e65534a4edf4c4ec0e03ea2eb453be270f3e5b17e2a1d414c520b5dfbad",
+      "fixed_milestone_hash_verified": true,
+      "status": "HEALTHY_CONTINUING_E200"
+    },
+    "5090C_proposal": {
+      "completed_epoch": 185,
+      "completed_updates": 1582305,
+      "trainer_pid": 90768,
+      "checkpoint_sha256": "6b3f95f6471801b49a46d1bb9fd8d202aed3728d1424f08cf5f53b4b99085c61",
+      "sidecar_sha256": "906abbaf09993d8a3a6c74e4e9afc98edb4841b079eba3a71db6fe5e4837609c",
+      "scientific_state_sha256": "fa1f700e9922c43d697dcfb290075090d248ba0be5fcd796c43507edaef39d8b",
+      "status": "E181_EXACT_RECOVERY_CLOSED_HEALTHY_CONTINUING_E200"
+    },
+    "local_gtx1660_dclgan": {
+      "completed_epoch": 171,
+      "completed_updates": 1462563,
+      "trainer_pid": 22020,
+      "checkpoint_sha256": "03e2032e35494ef036b8b559c88cf37719761703caecfc6e79a75b6198dea741",
+      "sidecar_sha256": "a6373ad83b8707f2de580ae96e3d08f7732e03d3adfe0cdfacea10a73d09bc41",
+      "scientific_state_sha256": "d381c0095617466a0db37d137d9f2d3daa45e6f55055a475b3097c2dcb313a8e",
+      "status": "HEALTHY_EXCLUSIVE_GPU_CONTINUING_E200"
+    },
+    "5090B_clone_matched_plain": {
+      "completed_epoch": 122,
+      "completed_updates": 1043466,
+      "trainer_pid": 3005,
+      "checkpoint_sha256": "542d865c79fc5d48ad50272aad7fd07728618ffc3f48fcc35d73d58bf0a79cb5",
+      "sidecar_sha256": "feffa29a60be9974368c12edde2fa6a45dbd1d3cd6719c8ab74c575221d30d91",
+      "scientific_state_sha256": "e2044e4b25d81d129c9acaa63dcf2fc992fe30b2b7e50c4f9dd49e1e319dd043",
+      "runtime_continuation": "SEGMENTED_EXACT_RUNTIME_COHORT",
+      "status": "HEALTHY_CONTINUING_E200"
+    }
+  },
+  "checkpoint_bytes_rehashed_for_reported_current_states": true,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "training_processes_signalled_or_restarted_by_refresh": false,
+  "multi_algorithm_frontier_preserved": true
+}
