@@ -1,0 +1,47 @@
+{
+  "schema": "final-unsb-paper-5090b-stale-interactive-session-retirement-v1",
+  "captured_at": "2026-09-14T00:23:49+08:00",
+  "status": "PASS_STALE_INTERACTIVE_SESSIONS_RETIRED_FORMAL_RELAYS_AND_TRAINING_HEALTHY",
+  "host_label": "5090B_MATCHED_PLAIN",
+  "endpoint": "connect.weste.seetacloud.com:43172",
+  "retired_local_sessions": {
+    "powershell_pids": [27908, 21444],
+    "child_pids": [19844, 30852],
+    "types": ["interactive_openssh", "interactive_paramiko_getpass"],
+    "reason": "Unsupervised interactive sessions had no training or relay role and could retain an unnecessary connection or credential-bearing process.",
+    "remaining_session_count": 0,
+    "credential_value_recorded": false
+  },
+  "preserved_formal_relays": {
+    "incremental_relay_pid": 22036,
+    "incremental_recovery_pid": 23472,
+    "incremental_health_pid": 5936,
+    "final_relay_pid": 6396,
+    "final_recovery_pid": 32592,
+    "final_health_pid": 18828,
+    "all_processes_live_after_retirement": true
+  },
+  "remote_training": {
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_pid": 3348,
+    "all_processes_live_after_retirement": true,
+    "trainer_gpu_process_present": true,
+    "training_process_changed": false
+  },
+  "old_endpoint": {
+    "port": 44804,
+    "live_local_process_count": 0,
+    "must_not_be_restarted": true
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "algorithm_or_protocol_changed": false
+  },
+  "decision": "decisions/DEC-20260914-5090B-STALE-INTERACTIVE-SESSION-RETIREMENT.md"
+}
