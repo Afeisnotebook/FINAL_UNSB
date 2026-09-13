@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-paper-amtnc-d8-source-bound-normalized-export-deployed-v1",
+  "captured_at": "2026-09-13T15:13:08+08:00",
+  "status": "PASS_NORMALIZED_SOURCE_BOUND_EXPORT_CHAIN_WAITING_E200",
+  "purpose": "Remove post-e200 tail latency and normalize the second AM-TNC recovery source to physical host label 4090A without changing training.",
+  "source": {
+    "run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_ADAM_MOMENT_RECOVERY_d8ee501",
+    "lane": "amtnc",
+    "training_git_commit": "d8ee5011998e9f69ae0308d22ee258eb7023be64",
+    "training_protocol_fingerprint": "0277004aad82c0d0d37390ad828deacaabfceb75c08b5a108b5eab1a419c9db6",
+    "physical_source_host_label": "4090A"
+  },
+  "control": {
+    "repo": "/home/yc/FINAL_UNSB_AMTNC_RELATION_9214838",
+    "git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
+    "runtime_python_sha256": "40dce5922786c10046c262c038a9c74fc7d6bb0ae3fdc189449a07687269b0fd",
+    "view": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_ADAM_MOMENT_EXPORT_VIEW_4090A_9214838",
+    "destination": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_ADAM_MOMENT_NORMALIZED_EXPORTS_4090A_9214838",
+    "export_contract_sha256": "dd8078603dec68bcb0393d9725cc003b4ec04061ef782042572e9e55b815ec8e"
+  },
+  "live_chain": {
+    "exporter_pid": 31173,
+    "exporter_status": "WAITING_FOR_COMPLETE_E200",
+    "recovery_supervisor_pid": 31211,
+    "recovery_status": "MONITORING_EXISTING_EXPORT",
+    "recovery_restart_count": 0,
+    "health_watcher_pid": 31234,
+    "health_status": "HEALTHY",
+    "health_alert_count": 0
+  },
+  "boundaries": {
+    "source_files_modified": false,
+    "training_processes_changed": false,
+    "checkpoint_loaded": false,
+    "checkpoint_copy_performed": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "next_dependency": "Complete e195 finite precision-promotion gate, freeze staged method-only runtime relation, then deploy the V6 AM-TNC evaluator/final-delivery waiters against this export root."
+}
