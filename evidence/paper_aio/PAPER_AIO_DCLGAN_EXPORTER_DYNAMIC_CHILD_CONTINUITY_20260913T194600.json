@@ -1,0 +1,58 @@
+{
+  "schema": "final-unsb-paper-dclgan-exporter-dynamic-child-continuity-v1",
+  "captured_at": "2026-09-13T19:46:00+08:00",
+  "status": "HEALTHY_DYNAMIC_CHILD_AFTER_KNOWN_WINDOWS_ATOMIC_PUBLISH_RECOVERY",
+  "training": {
+    "lane": "dclgan",
+    "data_epoch": 173,
+    "updates": 1479669,
+    "supervisor_pid": 12824,
+    "trainer_pid": 22020,
+    "training_changed": false
+  },
+  "source_export": {
+    "control_commit": "c092b9d9a6d469a129c1d7d0c5e8e3fc48335a0b",
+    "supervisor_pid": 19524,
+    "current_child_pid": 3944,
+    "current_child_started_at": "2026-09-12T22:25:13+08:00",
+    "current_status": "WAITING_FOR_COMPLETE_E200",
+    "restart_count": 2,
+    "maximum_restarts": 20,
+    "previous_child_pid": 20760,
+    "previous_exit_cause": "WINDOWS_ATOMIC_JSON_REPLACE_PERMISSION_ERROR_WINERROR_5",
+    "checkpoint_copy_performed": false,
+    "hot_replacement_performed": false
+  },
+  "local_health": {
+    "health_pid": 8224,
+    "status": "HEALTHY",
+    "alert_count": 0,
+    "free_gib": 81.09429550170898,
+    "estimated_remaining_write_gib": 10.8,
+    "minimum_headroom_gib": 20.0
+  },
+  "push_chain": {
+    "control_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "supervisor_pid": 17152,
+    "child_pid": 24396,
+    "health_pid": 32148,
+    "status": "HEALTHY_WAITING_FOR_COMPLETE_LOCAL_EXPORT",
+    "restart_count": 0,
+    "destination_identity_and_capacity": "PASS"
+  },
+  "4090a_v7_delivery": {
+    "evaluation_supervisor_pid": 135947,
+    "evaluation_child_pid": 135956,
+    "addendum_supervisor_pid": 136368,
+    "addendum_child_pid": 136377,
+    "health_pid": 136765,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "evaluation_status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "addendum_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT"
+  },
+  "adjudication": "KNOWN_ENGINEERING_PUBLISH_LOCK_RECOVERED_NOT_ALGORITHM_OR_TRAINING_FAILURE",
+  "next_action": "KEEP_CURRENT_CHILD; IF_IT_EXITS_USE_EXISTING_FROZEN_SUPERVISOR_AND_DYNAMIC_STATE; DO_NOT_RESTART_FROM_STALE_PID",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

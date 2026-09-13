@@ -756,3 +756,7 @@ authorize compute.
      Proposal e181恢复闭环、5090B克隆43172分段精确续训以及AM-TNC/DCLGAN当前V7交付链；旧告警
      与已退休等待器不得再触发恢复，单次SSH或观察超时不作终止证据。训练、paired边界和
      confirmation20均未改变。
+210. `DEC-20260913-DCLGAN-EXPORTER-DYNAMIC-CHILD-CONTINUITY.md`：DCLGAN本地source exporter
+     的旧child `20760`因已知Windows原子发布锁退出，冻结监督器已自动恢复为PID `3944`并连续健康。
+     Git改为记录动态child且禁止从旧PID误恢复；本地→4090A推送和V7评估链均健康等待，训练、
+     checkpoint、paired边界和confirmation20未改变。
