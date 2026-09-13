@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-13T10:58:19+08:00",
-  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_PROPOSAL_E181_EXACT_RECOVERY_5090B_MATCHED_CONTROL_ENDPOINT_ALERT",
+  "captured_at": "2026-09-13T12:58:00+08:00",
+  "status": "MULTI_ALGORITHM_FRONTIER_RUNNING_PROPOSAL_E182_5090B_MATCHED_CONTROL_CLONE_E117_EXACT_CONTINUATION",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1519,7 +1519,7 @@
     "training_processes_changed": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_POST_CLEANUP_FULL_REPOSITORY_VALIDATION_20260912T042000.json"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_STALL_EXACT_RECOVERY_AND_CONTROL_ENDPOINT_ALERT_20260913T105819.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "running_e192_hash_closed_method_only_recovery_relation_bound_v5_delivery_healthy",
     "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -1571,6 +1571,50 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_STALL_EXACT_RECOVERY_AND_CONTROL_ENDPOINT_ALERT_20260913T105819.json",
     "decision": "decisions/DEC-20260913-PROPOSAL-E181-STALL-RECOVERY-AND-5090B-ENDPOINT.md"
+  },
+  "5090b_provider_clone_continuation_20260913": {
+    "status": "running_e117_segmented_exact_runtime_continuation_dual_offhost_delivery_healthy",
+    "method_role": "strict_matched_plain_control_for_admitted_runtime_relations",
+    "mechanism_falsified": false,
+    "performance_adjudicated": false,
+    "source_epoch": 116,
+    "source_updates": 992148,
+    "first_post_clone_epoch": 117,
+    "first_post_clone_updates": 1000701,
+    "first_post_clone_epoch_seconds": 2351.924072742462,
+    "first_post_clone_full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
+    "first_post_clone_scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
+    "continuation_class": "segmented_exact_runtime_cohort",
+    "same_physical_host_claimed": false,
+    "runtime_twin_exact_2000_updates": true,
+    "double_resume_exact": true,
+    "complete_epoch_loss": false,
+    "training_supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "source_exporter_pid": 3560,
+    "incremental_source_exporter_pid": 3561,
+    "local_incremental_relay": {
+      "relay_pid": 22036,
+      "recovery_supervisor_pid": 23472,
+      "health_watch_pid": 5936,
+      "status": "e100_reverified_waiting_e150_e200"
+    },
+    "unified_4090a_relay": {
+      "relay_pid": 4152746,
+      "recovery_supervisor_pid": 4153056,
+      "dedicated_health_watch_pid": 4153378,
+      "aggregate_health_watch_pid": 4162277,
+      "status": "healthy_waiting_complete_e200_export"
+    },
+    "projected_e200": "2026-09-15T19:10:00+08:00_rough_from_first_post_clone_epoch",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_E117_AND_RELAY_CLOSURE_20260913T125800.json",
+    "decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-RECOVERY-CLOSURE.md"
   },
   "local_dclgan_storage_gate": {
     "status": "pass_local_e200_and_delivery_storage_headroom",

@@ -1,0 +1,113 @@
+{
+  "schema": "final-unsb-paper-provider-clone-recovery-closure-v1",
+  "captured_at": "2026-09-13T12:58:00+08:00",
+  "status": "PASS_EXACT_PROVIDER_CLONE_CONTINUATION_E117_AND_DUAL_OFFHOST_RELAY_HEALTHY",
+  "logical_host_label": "5090B_MATCHED_PLAIN",
+  "physical_host_label": "5090B_CLONE",
+  "provider_event": "original_instance_stopped_for_billing_and_disk_clone_attached_to_new_instance",
+  "scientific_effect": "no_complete_epoch_loss_no_protocol_change_segmented_exact_runtime_continuation",
+  "source_segment": {
+    "last_complete_epoch": 116,
+    "last_complete_updates": 992148,
+    "full_state_sha256": "fd2808e2a3bc1fceffe6e9ec99033925423065679641249de4c03d993baf58ab",
+    "scientific_state_sha256": "5f5b8e85f400e402f466a273dcf5debb7086e10a6b8c37495d3f1bf89d05ca88",
+    "source_checkpoint_sidecar_match": true,
+    "maximum_discarded_uncheckpointed_updates": 8552
+  },
+  "clone_identity": {
+    "hostname": "autodl-container-2ba7efw2s1-92e55f03",
+    "gpu_model": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "GPU-5e2af3f3-1c6a-dc13-ddbb-df50123f6325",
+    "original_gpu_uuid": "GPU-578d4047-4c22-8c6a-d216-0f7938e99194",
+    "same_physical_host_claimed": false,
+    "continuation_class": "SEGMENTED_EXACT_RUNTIME_COHORT",
+    "training_repo_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "python_sha256": "a01c515c6b1597bb46028f8d7dfc98c1fb5419dbc74d8b211bbbb98f26ea1f29"
+  },
+  "exact_gates": {
+    "admission_evidence": "evidence/paper_aio/PAPER_AIO_5090B_PROVIDER_CLONE_CONTINUATION_GATE_20260913T121300.json",
+    "admission_decision": "decisions/DEC-20260913-5090B-PROVIDER-CLONE-CONTINUATION.md",
+    "runtime_twin_status": "PASS_EXACT_RUNTIME_COHORT",
+    "runtime_twin_steps": 2000,
+    "runtime_twin_e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "runtime_twin_step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "double_resume_steps": 8,
+    "double_resume_full_state_sha256": "dc92d6126be7b2437cb759817b0b1d09d7ad10f6ea3d9748f22aeab6a3228281",
+    "double_resume_scientific_state_sha256": "6cf7aabfddbdb2ed1af879d6dd7f6838e36f3b04c7b2481ff35d79e19aef9168",
+    "source_parent_unchanged": true
+  },
+  "first_post_clone_epoch": {
+    "epoch": 117,
+    "updates": 1000701,
+    "epoch_wall_seconds": 2351.924072742462,
+    "full_state_sha256": "401bd608c3e9aea25489eb81c7d2f7f33ab2ff38fa894e45befe9842e30ecd6d",
+    "scientific_state_sha256": "9172dfa8d4b21e60f76568ab50f5fedc18e9d61e294f7f785c07c7fa52b9fc32",
+    "actual_checkpoint_matches_sidecar": true,
+    "actual_scientific_hash_matches_sidecar": true,
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "clone_runtime": {
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+    "supervisor_pid": 3004,
+    "trainer_pid": 3005,
+    "outer_guard_pid": 3205,
+    "progress_watch_pid": 3261,
+    "health_watch_pid": 3348,
+    "full_exporter_pid": 3560,
+    "incremental_exporter_pid": 3561,
+    "supervisor_status": "CHILD_RUNNING",
+    "guard_status": "MONITORING_EXISTING_SUPERVISOR",
+    "progress_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "restart_count": 0,
+    "free_disk_gib": 221.52899169921875,
+    "remaining_write_bound_gib": 24.0,
+    "minimum_headroom_gib": 20.0,
+    "user_capacity_override": true
+  },
+  "local_incremental_relay": {
+    "status": "PARTIAL_VERIFIED_INCREMENTAL_AUDIT_IMPORT_E100_HEALTHY",
+    "relay_id": "incremental_5090B_clone43172_matched_plain_v1",
+    "relay_pid": 22036,
+    "recovery_supervisor_pid": 23472,
+    "health_watch_pid": 5936,
+    "recovery_restart_count": 0,
+    "available_epochs": [100],
+    "relay_contract_sha256": "867735c17b1c55657e6d2b7bf270e5b52011329cf78b26c3593403309f985dc5",
+    "import_lane_sha256": "73a6b476d169caa4023a1ccbe3d1cb2bce2ec3eb5dd1c12f3c279c28bdd5037d",
+    "old_endpoint_processes_retired": [11704, 25228, 20796],
+    "imported_files_deleted": false
+  },
+  "unified_4090a_relay": {
+    "status": "HEALTHY_WAITING_FOR_COMPLETE_E200_SOURCE_EXPORT",
+    "relay_id": "5090B_clone43172_matched_plain_v1",
+    "relay_pid": 4152746,
+    "recovery_supervisor_pid": 4153056,
+    "dedicated_health_watch_pid": 4153378,
+    "aggregate_health_watch_pid": 4162277,
+    "recovery_restart_count": 0,
+    "relay_contract_sha256": "a3393fb36873df66bc23d547910e2f86709ef71a540f82d675e74b4619214cb2",
+    "old_endpoint_processes_retired": [3414652, 400046, 401539, 3885710],
+    "unified_imports_deleted": false,
+    "unified_evaluation_successor_changed": false
+  },
+  "credential_handling": {
+    "authentication_mode": "dedicated_ed25519_private_key",
+    "password_persisted": false,
+    "private_key_contents_persisted_in_git_or_receipts": false,
+    "relay_key_support_commits": [
+      "f9450fdc88c0a8db211d7fbe2a11891630089742",
+      "808be247f1eea0442fff1029ed0fcbb456e82d74",
+      "9d0fb9c75edcf50f20979d434df42749596b2ba5"
+    ]
+  },
+  "projected_e200": "2026-09-15T19:10:00+08:00_rough_from_first_post_clone_epoch",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "other_healthy_trainings_changed": false
+}
