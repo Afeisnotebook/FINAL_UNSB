@@ -16,7 +16,7 @@ import os
 import subprocess
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 try:  # pragma: no cover - Linux deployment path.
     import fcntl as _fcntl
@@ -99,6 +99,16 @@ def relay_source_identity(repo: Path) -> dict[str, Any]:
 def _pid_alive(pid: int) -> bool:
     if pid <= 0:
         return False
+    if os.name == "nt":
+        try:
+            import psutil
+        except ImportError:
+            return False
+        try:
+            process = psutil.Process(pid)
+            return process.is_running() and process.status() != psutil.STATUS_ZOMBIE
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            return False
     try:
         os.kill(pid, 0)
     except (OSError, ProcessLookupError):
@@ -217,29 +227,50 @@ def command_matches_contract(command: list[str], python: Path, relay: dict[str, 
         return False
     observed.pop("--timeout-hours")
     expected.pop("--timeout-hours")
+    if os.name == "nt":
+        for key in ("python", "script", "--destination-root", "--private-key"):
+            if key in observed and key in expected:
+                observed[key] = str(observed[key]).casefold()
+                expected[key] = str(expected[key]).casefold()
     return observed == expected
 
 
-def _proc_command(pid: int) -> list[str]:
-    raw = Path(f"/proc/{pid}/cmdline").read_bytes()
-    return [part.decode("utf-8") for part in raw.split(b"\0") if part]
+def _process_commands() -> Iterable[tuple[int, list[str]]]:
+    if os.name == "nt":  # psutil is part of the pinned local evaluation runtime.
+        try:
+            import psutil
+        except ImportError as error:  # pragma: no cover - fail closed on deployment.
+            raise RuntimeError("Windows relay recovery requires psutil") from error
+        for process in psutil.process_iter(["pid", "cmdline"]):
+            try:
+                command = process.info.get("cmdline") or []
+                if command:
+                    yield int(process.info["pid"]), [str(part) for part in command]
+            except (psutil.AccessDenied, psutil.NoSuchProcess, psutil.ZombieProcess):
+                continue
+        return
+    proc = Path("/proc")
+    if not proc.is_dir():
+        return
+    for item in proc.iterdir():
+        if not item.name.isdigit():
+            continue
+        try:
+            command = [
+                part.decode("utf-8")
+                for part in (item / "cmdline").read_bytes().split(b"\0") if part
+            ]
+        except (FileNotFoundError, PermissionError, ProcessLookupError, UnicodeError):
+            continue
+        if command:
+            yield int(item.name), command
 
 
 def _matching_processes(python: Path, relay: dict[str, Any]) -> list[int]:
-    found = []
-    proc = Path("/proc")
-    if not proc.is_dir():
-        return found
-    for item in proc.iterdir():
-        if not item.name.isdigit() or int(item.name) == os.getpid():
-            continue
-        try:
-            command = _proc_command(int(item.name))
-        except (FileNotFoundError, PermissionError, ProcessLookupError, UnicodeError):
-            continue
-        if command_matches_contract(command, python, relay):
-            found.append(int(item.name))
-    return sorted(found)
+    return sorted(
+        pid for pid, command in _process_commands()
+        if pid != os.getpid() and command_matches_contract(command, python, relay)
+    )
 
 
 def _freeze(args: argparse.Namespace) -> dict[str, Any]:

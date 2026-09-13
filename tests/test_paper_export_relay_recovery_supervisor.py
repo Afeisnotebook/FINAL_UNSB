@@ -119,6 +119,21 @@ def test_private_key_is_rendered_without_password_argument(tmp_path: Path) -> No
     assert str(key.resolve()) in command
 
 
+def test_matching_processes_requires_exact_command(monkeypatch, tmp_path: Path) -> None:
+    relay = _relay(tmp_path)
+    python = tmp_path / "python"
+    python.write_text("", encoding="utf-8")
+    matching = render_relay_command(python, relay)
+    changed = matching.copy()
+    changed[changed.index("44804")] = "43172"
+    monkeypatch.setattr(
+        recovery,
+        "_process_commands",
+        lambda: iter(((101, matching), (102, changed))),
+    )
+    assert recovery._matching_processes(python, relay) == [101]
+
+
 def test_non_git_hardened_source_uses_contract_script_hash_identity(tmp_path: Path) -> None:
     source = tmp_path / "immutable-copy"
     source.mkdir()
