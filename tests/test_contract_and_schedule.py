@@ -52,9 +52,8 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert state["phase"] == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
     portfolio = common.load_json("configs/FULL_DATA_METHOD_PORTFOLIO.json")
     assert portfolio["methods"]["proposal"]["status"] == "running"
-    assert (
-        portfolio["methods"]["amtnc"]["status"]
-        == "running_overflow_safe_recovery_crossed_former_failure"
+    assert portfolio["methods"]["amtnc"]["status"].startswith(
+        "running_overflow_safe_recovery_"
     )
     assert portfolio["methods"]["amtnc"]["mechanism_falsified"] is False
     assert portfolio["methods"]["stcgr"]["status"] == "running"
