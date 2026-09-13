@@ -767,3 +767,7 @@ authorize compute.
      `5676c91`恢复视图的e150/e175固定点；网络、优化器、调度器、方法状态、全部RNG和两套sampler
      完全一致，哈希差异仅来自commit、protocol与e0来源元数据重绑定。V7继续使用恢复视图并报告其
      实际哈希，原哈希保留为来源锚点；未读取paired性能、未改训练，confirmation20仍封存。
+213. `DEC-20260913-DELIVERY-MATRIX-V7-ROOT-AUTHORITY-SYNC.md`：修正完成矩阵根级关键路径仍指向
+     已退休BC99604/V6等待器和克隆前5090B relay的控制面漂移；根路径现统一指向V7监督器、当前
+     43172 relay及分段精确runtime-cohort e127状态。只修改Git权威元数据，未启动、停止或恢复任何
+     进程，未读取paired性能，confirmation20仍封存。
