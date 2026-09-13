@@ -139,8 +139,11 @@ def _validate_relay_contract(value: dict[str, Any]) -> None:
     lanes = value.get("lanes")
     if not isinstance(lanes, list) or not lanes or len(lanes) != len(set(lanes)):
         raise RuntimeError("relay contract lane set is invalid")
-    password_env = str(value.get("password_env", ""))
-    if not password_env.startswith("FINAL_UNSB_"):
+    password_env = value.get("password_env")
+    private_key = value.get("private_key")
+    if bool(password_env) == bool(private_key):
+        raise RuntimeError("relay requires exactly one authentication source")
+    if password_env and not str(password_env).startswith("FINAL_UNSB_"):
         raise RuntimeError("relay password variable is not namespaced")
 
 
@@ -159,8 +162,11 @@ def render_relay_command(python: Path, relay: dict[str, Any]) -> list[str]:
     ]
     for lane in relay["lanes"]:
         command.extend(["--lane", str(lane)])
+    if relay.get("password_env"):
+        command.extend(["--password-env", str(relay["password_env"])])
+    else:
+        command.extend(["--private-key", str(Path(relay["private_key"]).resolve())])
     command.extend([
-        "--password-env", str(relay["password_env"]),
         "--poll-seconds", str(int(relay["poll_seconds"])),
         "--timeout-hours", str(float(relay["timeout_hours"])),
     ])
@@ -253,9 +259,20 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("relay source differs from its frozen contract")
     child_repo = script.parents[1]
     child_identity = relay_source_identity(child_repo)
-    password_env = str(relay["password_env"])
-    if not os.environ.get(password_env):
-        raise RuntimeError(f"missing relay password environment: {password_env}")
+    password_env = relay.get("password_env")
+    private_key = relay.get("private_key")
+    if password_env:
+        if not os.environ.get(str(password_env)):
+            raise RuntimeError(f"missing relay password environment: {password_env}")
+        authentication_mode = "password_environment"
+        private_key_path = None
+        private_key_sha256 = None
+    else:
+        private_key_path = Path(str(private_key)).resolve()
+        if not private_key_path.is_file():
+            raise RuntimeError("relay private key is unavailable")
+        authentication_mode = "private_key"
+        private_key_sha256 = _sha256(private_key_path)
     source = repo / "operations" / "paper_aio_export_relay_recovery_supervisor.py"
     return {
         "schema": CONTRACT_SCHEMA,
@@ -274,7 +291,10 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         "relay_source_sha256": relay["control_script_sha256"],
         "python": str(python),
         "command": render_relay_command(python, relay),
-        "password_env": password_env,
+        "authentication_mode": authentication_mode,
+        "password_env": str(password_env) if password_env else None,
+        "private_key": str(private_key_path) if private_key_path else None,
+        "private_key_sha256": private_key_sha256,
         "password_value_persisted": False,
         "poll_seconds": int(args.poll_seconds),
         "restart_delay_seconds": int(args.restart_delay_seconds),
@@ -310,8 +330,15 @@ def _verify(contract: dict[str, Any]) -> dict[str, Any]:
         raise RuntimeError("relay source hash changed")
     if render_relay_command(Path(contract["python"]), relay) != contract["command"]:
         raise RuntimeError("relay command changed")
-    if not os.environ.get(contract["password_env"]):
-        raise RuntimeError("relay password environment disappeared")
+    if contract["authentication_mode"] == "password_environment":
+        if not os.environ.get(str(contract["password_env"])):
+            raise RuntimeError("relay password environment disappeared")
+    elif contract["authentication_mode"] == "private_key":
+        key = Path(str(contract["private_key"]))
+        if not key.is_file() or _sha256(key) != contract["private_key_sha256"]:
+            raise RuntimeError("relay private key binding changed")
+    else:
+        raise RuntimeError("relay authentication mode changed")
     return relay
 
 

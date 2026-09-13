@@ -49,6 +49,7 @@ def _relay(tmp_path: Path) -> dict:
         "destination_root": str(tmp_path / "imports"),
         "lanes": ["cut", "cyclegan"],
         "password_env": "FINAL_UNSB_TEST_PASSWORD",
+        "private_key": None,
         "poll_seconds": 60,
         "timeout_hours": 480.0,
         "password_persisted": False,
@@ -101,6 +102,21 @@ def test_password_value_is_not_part_of_rendered_command(tmp_path: Path) -> None:
     command = render_relay_command(python, relay)
     assert relay["password_env"] in command
     assert "secret" not in json.dumps(command)
+
+
+def test_private_key_is_rendered_without_password_argument(tmp_path: Path) -> None:
+    relay = _relay(tmp_path)
+    key = tmp_path / "relay_key"
+    key.write_text("test-only-key", encoding="utf-8")
+    relay["password_env"] = None
+    relay["private_key"] = str(key)
+    recovery._validate_relay_contract(relay)
+    python = tmp_path / "python"
+    python.write_text("", encoding="utf-8")
+    command = render_relay_command(python, relay)
+    assert "--private-key" in command
+    assert "--password-env" not in command
+    assert str(key.resolve()) in command
 
 
 def test_non_git_hardened_source_uses_contract_script_hash_identity(tmp_path: Path) -> None:
