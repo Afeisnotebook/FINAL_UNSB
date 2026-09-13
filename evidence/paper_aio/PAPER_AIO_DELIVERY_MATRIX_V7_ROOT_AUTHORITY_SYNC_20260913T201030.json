@@ -46,6 +46,17 @@
     "checkpoint_or_queue_changed": false,
     "runtime_relation_changed": false
   },
+  "verification": {
+    "strict_json_duplicate_key_check": "PASS",
+    "targeted_tests": "44 passed",
+    "first_full_suite_attempt": "847 passed, 1 environment-capacity failure",
+    "first_failure": "pytest temporary directory on C drive had about 0.4 GiB free while the relay test correctly required 2 GiB headroom",
+    "repository_regression_claimed": false,
+    "files_deleted_to_make_space": false,
+    "isolated_failed_test_on_e_drive": "1 passed",
+    "full_suite_on_e_drive": "848 passed in 299.29s",
+    "git_diff_check": "PASS"
+  },
   "performance_values_read": false,
   "paired_metric_control": false,
   "best_checkpoint_selection": false,

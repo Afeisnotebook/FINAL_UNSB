@@ -29,5 +29,12 @@ No paired performance value was read and `confirmation20` remains sealed.
 Retired outputs remain available as historical evidence but are no longer
 presented as the root execution authority.
 
+The complete repository suite passed all 848 tests when pytest temporary files
+were placed on the E drive.  An earlier run produced 847 passes and one relay
+capacity-gate failure because the default C-drive temporary directory had only
+about 0.4 GiB free while the test intentionally requires 2 GiB headroom.  No
+file was deleted; the isolated test and then the full suite passed unchanged on
+E.  This is recorded as a test-environment capacity event, not a code failure.
+
 Compact evidence:
 `evidence/paper_aio/PAPER_AIO_DELIVERY_MATRIX_V7_ROOT_AUTHORITY_SYNC_20260913T201030.json`.
