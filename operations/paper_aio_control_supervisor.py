@@ -29,6 +29,12 @@ CONTRACT_SCHEMA = "final-unsb-paper-control-supervisor-contract-v1"
 STATE_SCHEMA = "final-unsb-paper-control-supervisor-state-v1"
 COMMAND_SCHEMA = "final-unsb-paper-control-child-command-v1"
 ROLE_SPECS = {
+    "endpoint_reachability": {
+        "module": "operations.paper_aio_endpoint_reachability_watch",
+        "child_schema": "final-unsb-paper-endpoint-reachability-state-v1",
+        "final_status": "REACHABLE_REVIEW_REQUIRED",
+        "performance_must_remain_false": True,
+    },
     "terminal_audit": {
         "module": "operations.paper_aio_local_terminal_audit_successor",
         "child_schema": "final-unsb-paper-local-terminal-audit-successor-state-v1",
