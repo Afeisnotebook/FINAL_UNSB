@@ -719,3 +719,7 @@ authorize compute.
      超出float32表示能力时提升对应状态到float64，不裁剪、不跳步、不改算法或超参；迁移前后
      dynamics-only哈希一致且真实一步恢复门通过。新监督/导出链正重跑e195，完整有限checkpoint
      仍是决定性门；故障是数值实现容量问题，不是paired性能或机制证伪。
+201. `DEC-20260913-AMTNC-E195-FIRST-FAILURE-INTERLOCK.md`：新恢复链沿用了普通工程故障三次预算，
+     但e195若再次失败应被视为新的因果证据而非盲重跑。部署metric-blind首故障联锁PID `28640`，
+     只观察supervisor状态；健康时绝不发信号，首次失败时先停外层guard再停supervisor，保留现场
+     等待取证，不直接触碰trainer、checkpoint、paired指标或科学协议。

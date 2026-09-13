@@ -1,0 +1,46 @@
+{
+  "schema": "final-unsb-paper-amtnc-e195-first-failure-interlock-deployed-v1",
+  "captured_at": "2026-09-13T15:07:18+08:00",
+  "status": "PASS_MONITORING_ZERO_FAILURE_RECOVERY",
+  "purpose": "Prevent an unexamined post-repair failure from consuming another full e195 replay before forensic review.",
+  "control": {
+    "git_commit": "cb082ef",
+    "script": "operations/paper_aio_first_failure_interlock.py",
+    "script_sha256": "94dfd576c6ae61bde7af4632d2f97265c4b553f221f8c8b1d097a14c42a8a8cf",
+    "remote_script": "/home/yc/runs/FINAL_UNSB_AMTNC_FIRST_FAILURE_INTERLOCK_cb082ef/paper_aio_first_failure_interlock.py",
+    "output": "/home/yc/runs/FINAL_UNSB_AMTNC_FIRST_FAILURE_INTERLOCK_cb082ef",
+    "pid": 28640,
+    "poll_seconds": 1,
+    "timeout_hours": 24
+  },
+  "bound_chain": {
+    "lane": "amtnc",
+    "training_git_commit": "d8ee5011998e9f69ae0308d22ee258eb7023be64",
+    "supervisor_pid": 18703,
+    "guard_pid": 19523,
+    "initial_supervisor_status": "CHILD_RUNNING",
+    "initial_consecutive_failures": 0,
+    "initial_interlock_status": "MONITORING_ZERO_FAILURE_RECOVERY"
+  },
+  "action_contract": {
+    "healthy_training_signalled": false,
+    "trigger": "first supervisor state with consecutive_failures > 0 or WAITING_TO_EXACT_RESUME",
+    "action": "SIGSTOP recovery guard, then SIGSTOP lane supervisor",
+    "scientific_trainer_signalled_directly": false,
+    "automatic_relaunch_after_new_failure": false,
+    "manual_forensic_review_required_after_trigger": true
+  },
+  "deployment_cleanup": {
+    "stalled_incomplete_git_clone": "/home/yc/FINAL_UNSB_AMTNC_INTERLOCK_cb082ef",
+    "stalled_clone_processes_retired": [27502, 27503],
+    "incomplete_clone_removed": true,
+    "training_or_checkpoint_files_removed": false
+  },
+  "scientific_boundaries": {
+    "checkpoint_loaded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "training_protocol_changed": false,
+    "confirmation20_opened": false
+  }
+}
