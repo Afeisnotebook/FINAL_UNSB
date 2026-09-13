@@ -1,0 +1,75 @@
+{
+  "schema": "final-unsb-paper-dclgan-v7-delivery-rebind-evidence-v1",
+  "status": "PASS_CURRENT_V7_COHORT_BOUND_DCLGAN_DELIVERY_HEALTHY",
+  "captured_at": "2026-09-13T18:56:29+08:00",
+  "finding": {
+    "old_evaluation_reference": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_DYNAMIC_V1",
+    "old_reference_status": "FAIL_CLOSED_REQUIRES_CODEX_AUDIT",
+    "old_reference_error": "GPU release dependency is blocked",
+    "old_completed_evaluations": 0,
+    "old_addendum_status": "FAIL_CLOSED_REQUIRES_CODEX_AUDIT",
+    "latent_stop": "DCLGAN could complete training and import while its evaluator could never obtain a valid first-wave cohort from the obsolete reference"
+  },
+  "replacement": {
+    "control_git_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "control_checkout": "/home/yc/FINAL_UNSB_EVAL_CHAIN_V7_DA41652",
+    "pinned_python": "/home/yc/recovery_snapshots/unsb_cov_unified_evaluator_candidate_20260906T094000/bin/python",
+    "pinned_python_exists": true,
+    "reference_output": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652",
+    "base_delivery_output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V7_DA41652",
+    "evaluation_output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V2_DA41652",
+    "addendum_output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V2_DA41652",
+    "shared_gpu_lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "evaluation_command_sha256": "804861679f0c15c818770cbf41a44043b5458b1e6b9d592af0c6547b297afeff",
+    "addendum_command_sha256": "eec04fc50c77a5927010fa7828081dae8adc5274b23642d87846b42b228afcf7",
+    "evaluation_contract_sha256": "8add9b79db5169e83428cb746c2e9a2b31b422240f06bafbae93d3d61ae31d8e",
+    "addendum_contract_sha256": "debd3b999e624091fa2454032a7576f58fac763e18b09055af79eceb2c4ecdbf",
+    "health_contract_sha256": "e94dc11c8798633facda9884da4ca374ca0b720aa651c567167645e2a2cafb2f",
+    "evaluation_supervisor_pid": 135947,
+    "evaluation_child_pid": 135956,
+    "addendum_supervisor_pid": 136368,
+    "addendum_child_pid": 136377,
+    "health_watcher_pid": 136765,
+    "evaluation_status": "WAITING_FOR_DCLGAN_IMPORT_AND_FIRST_WAVE_COHORT",
+    "addendum_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "health_status_after_two_polls": "HEALTHY_ZERO_ALERTS",
+    "free_disk_gib": 519.7766,
+    "remaining_write_bound_gib": 8.0,
+    "minimum_headroom_gib": 16.0
+  },
+  "source_identity": {
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "evaluation_source_sha256": "c4814679e74138ece04773f71615feed49014e105c1c44d18ce4dc31884156c0",
+    "addendum_source_sha256": "128eb7c34b809b0c2ffe946444eceae1af89f4494adc75111cc6f7e3930fea06",
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "adapter_source_sha256": "d84353e5da247a37723c506886f53c9fda8c248ef7cac025832773cd2ed2f4b7",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "upstream_git_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "remote_directed_tests": "39 passed"
+  },
+  "retirement": {
+    "retired_wait_only_pids": [3587264, 3870693, 3870938, 638474],
+    "already_absent_blocked_pids": [638006, 638015],
+    "all_listed_old_pids_absent_after_replacement": true,
+    "old_outputs_deleted": false,
+    "old_results_existed_before_retirement": false
+  },
+  "continuity": {
+    "local_dclgan_trainer_pid": 22020,
+    "local_dclgan_latest_complete_epoch": 172,
+    "local_dclgan_training_changed": false,
+    "amtnc_supervisor_pid": 59933,
+    "amtnc_trainer_pid": 59936,
+    "amtnc_training_changed": false,
+    "checkpoint_moved_or_deleted": false
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "performance_values_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false,
+    "algorithm_or_hyperparameter_changed": false
+  }
+}

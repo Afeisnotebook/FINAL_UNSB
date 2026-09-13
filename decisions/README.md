@@ -744,3 +744,7 @@ authorize compute.
      已被第二阶段恢复取代的`478211c`释放状态，会造成AM正常e200后永久等待。部署绑定当前
      `5676c91`状态的V7统一/AM/ST-CGR/终局四角色恢复链，连续健康后只退休9个旧等待进程；训练、
      checkpoint、旧证据、paired边界与confirmation20均未改变。
+207. `DEC-20260913-DCLGAN-V7-DELIVERY-REBIND.md`：关键路径审计发现DCLGAN评估与非阻塞addendum
+     仍依赖已经fail-closed的旧dynamic cohort/base portfolio。新监督链保持冻结adapter、上游、
+     manifest、固定epoch和统一GPU锁不变，只重绑当前V7 cohort与终局；两轮健康后退休旧等待器，
+     DCLGAN/AM-TNC训练、checkpoint、paired边界与confirmation20均未改变。
