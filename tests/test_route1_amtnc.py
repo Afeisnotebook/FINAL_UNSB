@@ -197,6 +197,38 @@ def test_adam_second_moment_guard_promotes_only_unrepresentable_recurrence():
     assert torch.isfinite(optimizer.state[parameter]["exp_avg_sq"]).all()
 
 
+def test_adam_second_moment_guard_promotes_unrepresentable_raw_square():
+    parameter = torch.nn.Parameter(torch.tensor([1.0]))
+    optimizer = torch.optim.Adam(
+        [parameter], lr=1e-4, betas=(0.5, 0.999), eps=1e-8,
+    )
+    parameter.grad = torch.tensor([1.0])
+    optimizer.step()
+    previous = optimizer.state[parameter]["exp_avg_sq"].double().clone()
+    gradient = torch.tensor([2.0e19])
+    parameter.grad = gradient
+
+    float32_limit = float(torch.finfo(torch.float32).max)
+    raw_square = gradient.double().square()
+    weighted_recurrence = previous.mul(0.999).add(
+        raw_square, alpha=1.0 - 0.999,
+    )
+    assert float(raw_square.item()) > float32_limit
+    assert float(weighted_recurrence.item()) < float32_limit
+
+    assert _ensure_adam_second_moment_capacity(
+        (parameter,), (optimizer,),
+    ) == 1
+    assert optimizer.state[parameter]["exp_avg_sq"].dtype == torch.float64
+    optimizer.step()
+
+    assert torch.equal(
+        optimizer.state[parameter]["exp_avg_sq"], weighted_recurrence,
+    )
+    assert torch.isfinite(parameter).all()
+    assert torch.isfinite(optimizer.state[parameter]["exp_avg_sq"]).all()
+
+
 def test_full_state_loader_preserves_explicit_float64_adam_second_moment():
     source_parameter = torch.nn.Parameter(torch.tensor([1.0]))
     source_optimizer = torch.optim.Adam([source_parameter], lr=1e-4)

@@ -251,14 +251,18 @@ def _ensure_adam_second_moment_capacity(
     parameters: tuple[torch.nn.Parameter, ...],
     optimizers: tuple[torch.optim.Optimizer, ...],
 ) -> int:
-    """Promote only Adam second moments whose next exact update exceeds fp32.
+    """Promote Adam second moments before either fp32 square path can overflow.
 
     AM-TNC can produce a finite, very large tangential gradient when the
     frozen Adam metric is extremely ill-conditioned.  Mathematically Adam's
     normalized displacement is still finite, but the conventional float32
     ``grad * grad`` intermediate can overflow.  This guard leaves every
     representable update untouched and promotes only the affected
-    ``exp_avg_sq`` tensor to float64 before ``Optimizer.step``.
+    ``exp_avg_sq`` tensor to float64 before ``Optimizer.step``.  The raw
+    ``grad * grad`` intermediate must be checked separately from the weighted
+    recurrence: Adam evaluates that product before multiplying it by
+    ``1 - beta2``, so the product can overflow even when the final weighted
+    contribution is representable in float32.
 
     The test uses a conservative per-parameter upper bound in float64.  It
     neither clips nor rescales the gradient and does not change Adam's
@@ -293,20 +297,24 @@ def _ensure_adam_second_moment_capacity(
             if second_moment is None
             else second_moment.detach().abs().amax().to(torch.float64)
         )
+        raw_square_peak = gradient_peak.square()
         next_peak_bound = (
             beta2 * second_peak
-            + (1.0 - beta2) * gradient_peak.square()
+            + (1.0 - beta2) * raw_square_peak
         )
         pending.append((
-            parameter, optimizer, state, gradient_peak, next_peak_bound,
+            parameter, optimizer, state, gradient_peak, raw_square_peak,
+            next_peak_bound,
         ))
 
     if not pending:
         return 0
     summary = torch.stack([
-        torch.stack((gradient_peak, next_peak_bound))
-        for _parameter, _optimizer, _state, gradient_peak, next_peak_bound
-        in pending
+        torch.stack((gradient_peak, raw_square_peak, next_peak_bound))
+        for (
+            _parameter, _optimizer, _state, gradient_peak, raw_square_peak,
+            next_peak_bound,
+        ) in pending
     ]).detach().cpu()
     if not bool(torch.isfinite(summary[:, 0]).all().item()):
         raise RuntimeError("AM-TNC optimizer gradient is nonfinite")
@@ -314,8 +322,14 @@ def _ensure_adam_second_moment_capacity(
     limit = float(torch.finfo(torch.float32).max)
     promoted = 0
     for record, values in zip(pending, summary):
-        parameter, optimizer, state, _gradient_peak, _next_peak_bound = record
-        if float(values[1].item()) <= limit:
+        (
+            parameter, optimizer, state, _gradient_peak, _raw_square_peak,
+            _next_peak_bound,
+        ) = record
+        if (
+            float(values[1].item()) <= limit
+            and float(values[2].item()) <= limit
+        ):
             continue
         if not state:
             state["step"] = torch.tensor(0.0)
