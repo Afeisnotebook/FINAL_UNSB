@@ -760,3 +760,6 @@ authorize compute.
      的旧child `20760`因已知Windows原子发布锁退出，冻结监督器已自动恢复为PID `3944`并连续健康。
      Git改为记录动态child且禁止从旧PID误恢复；本地→4090A推送和V7评估链均健康等待，训练、
      checkpoint、paired边界和confirmation20未改变。
+211. `DEC-20260913-GOAL-HEARTBEAT-DYNAMIC-AUTHORITY.md`：heartbeat改为每次动态获取并读取
+     `origin/main`，历史提示中的提交号不再覆盖Git权威；同时以DCLGAN exporter监督器和动态state
+     判断child，不因旧PID `20760`缺失误恢复。两小时节奏和失败通知策略不变，训练与科学边界未动。

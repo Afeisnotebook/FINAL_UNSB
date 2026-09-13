@@ -1,0 +1,24 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-dynamic-authority-v1",
+  "captured_at": "2026-09-13T19:50:00+08:00",
+  "status": "ACTIVE_DYNAMIC_ORIGIN_MAIN_AUTHORITY_AND_DCLGAN_CHILD_POLICY_SYNCED",
+  "automation_id": "final-unsb-goal",
+  "project_state_at_sync_commit": "0691fec8e92320d778e05f0fd49ea4f35a4aec47",
+  "automation_toml_sha256": "0d283e56827eff8bd2129f2796a6f742eedab7999102eff45e6eed17f7e4e140",
+  "cadence": "FREQ=HOURLY;INTERVAL=2",
+  "notification_policy": "failed_runs_only",
+  "authority_policy": "FETCH_AND_READ_ORIGIN_MAIN_LATEST_EACH_WAKE_NO_HARDCODED_GIT_OVERRIDE",
+  "dclgan_export_policy": {
+    "supervisor_pid_at_sync": 19524,
+    "dynamic_child_pid_at_sync": 3944,
+    "retired_child_pid": 20760,
+    "stale_pid_does_not_trigger_recovery": true,
+    "dynamic_state_is_authoritative": true
+  },
+  "single_observation_failure_is_terminal": false,
+  "credentials_persisted": false,
+  "training_processes_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

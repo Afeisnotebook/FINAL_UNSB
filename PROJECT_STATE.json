@@ -2340,9 +2340,9 @@
       "notification_policy": "failed_runs_only",
       "normal_wake_policy": "lightweight_metric_blind_health_only",
       "scope": "five_node_full_data_multi_algorithm_paper_delivery",
-      "last_prompt_update": "2026-09-13T19:40:00+08:00",
-      "prompt_integrity": "CURRENT_PAPER_AIO_AUTHORITY_PROPOSAL_RECOVERY_CLOSED_5090B_CLONE_AND_V7_DELIVERY_SYNCED",
-      "automation_toml_sha256": "4fe68b7d534f8640d430f8af46ce3661c0131076e6f058015ad15160e8cc7e73",
+      "last_prompt_update": "2026-09-13T19:50:00+08:00",
+      "prompt_integrity": "DYNAMIC_ORIGIN_MAIN_AUTHORITY_PROPOSAL_5090B_V7_AND_DCLGAN_CHILD_POLICY_SYNCED",
+      "automation_toml_sha256": "0d283e56827eff8bd2129f2796a6f742eedab7999102eff45e6eed17f7e4e140",
       "prompt_credentials_persisted": false,
       "5090c_ssh_alias": "final-unsb-5090c",
       "5090c_strict_host_key_batchmode": "PASS",
@@ -2383,8 +2383,8 @@
       "proposal_incremental_relay_restart_count": 2,
       "proposal_incremental_relay_status": "HEALTHY_AFTER_AUTOMATIC_WINDOWS_PUBLISH_RECOVERY_E100_E150_HASHES_UNCHANGED",
       "latest_control_recovery_evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E181_RECOVERY_CLOSURE_AND_FIVE_LANE_REFRESH_20260913T192900.json",
-      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_PROPOSAL_AND_5090B_SYNC_20260913T194000.json",
-      "decision": "decisions/DEC-20260913-GOAL-HEARTBEAT-PROPOSAL-AND-5090B-SYNC.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_GOAL_HEARTBEAT_DYNAMIC_AUTHORITY_20260913T195000.json",
+      "decision": "decisions/DEC-20260913-GOAL-HEARTBEAT-DYNAMIC-AUTHORITY.md"
     },
     "proposal_incremental_relay_windows_publish_recovery_20260912": {
       "status": "HEALTHY_AUTO_RECOVERED_IMPORT_HASHES_UNCHANGED",
