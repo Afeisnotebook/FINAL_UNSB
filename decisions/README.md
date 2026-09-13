@@ -771,3 +771,7 @@ authorize compute.
      已退休BC99604/V6等待器和克隆前5090B relay的控制面漂移；根路径现统一指向V7监督器、当前
      43172 relay及分段精确runtime-cohort e127状态。只修改Git权威元数据，未启动、停止或恢复任何
      进程，未读取paired性能，confirmation20仍封存。
+214. `DEC-20260913-V7-MULTI-ALGORITHM-PORTFOLIO-RUNTIME-AUDIT.md`：核验4090A实际部署的V7终局
+     脚本与当前审计实现SHA256完全一致；Proposal、AM-TNC、ST-CGR无论PASS/FAIL均保留完整结果，
+     HJCGR继续deferred、DDSB继续reproduction incomplete、DCLGAN继续非阻塞addendum，不存在单冠军
+     过滤或最佳checkpoint路径。12项针对性测试通过，未改任何训练或交付进程。

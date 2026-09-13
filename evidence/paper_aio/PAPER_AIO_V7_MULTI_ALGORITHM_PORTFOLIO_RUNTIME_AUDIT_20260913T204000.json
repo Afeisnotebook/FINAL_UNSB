@@ -1,0 +1,68 @@
+{
+  "schema": "final-unsb-paper-v7-multi-algorithm-portfolio-runtime-audit-v1",
+  "captured_at": "2026-09-13T20:40:00+08:00",
+  "status": "PASS_DEPLOYED_V7_PRESERVES_COMPLETE_MULTI_ALGORITHM_FRONTIER",
+  "deployed_authority": {
+    "control_git_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "final_delivery_supervisor_pid": 125403,
+    "final_delivery_child_pid": 125444,
+    "aggregate_health_pid": 125502,
+    "aggregate_health_status": "HEALTHY_ZERO_ALERTS",
+    "local_source_sha256": "40074454154813de75e81a844d97a4665e95db259bb2135eff0ab9a0985d5d9e",
+    "deployed_source_sha256": "40074454154813de75e81a844d97a4665e95db259bb2135eff0ab9a0985d5d9e",
+    "source_identity_exact": true
+  },
+  "portfolio_semantics": {
+    "required_first_wave_rows": [
+      "input",
+      "plain",
+      "proposal",
+      "cut",
+      "cyclegan",
+      "G4-01-STRATIFIED-TIME-CONDITIONAL-GF"
+    ],
+    "complete_internal_algorithm_rows": [
+      "proposal",
+      "amtnc",
+      "stcgr"
+    ],
+    "failed_algorithm_retained_with_complete_result": true,
+    "failed_label": "failed_current_implementation_and_protocol",
+    "accepted_and_failed_are_partitions_not_row_filters": true,
+    "multiple_algorithms_allowed": true,
+    "hjcgr_remains_deferred_not_falsified": true,
+    "ddsb_remains_reproduction_incomplete": true,
+    "dclgan_delivery_is_nonblocking_addendum": true,
+    "single_winner_inference_present": false,
+    "best_checkpoint_selection": false,
+    "primary_epoch": 200,
+    "sustained_epochs": [150, 175, 200]
+  },
+  "live_metric_blind_snapshot": {
+    "amtnc_last_complete_epoch": 198,
+    "proposal_last_complete_epoch": 188,
+    "stcgr_last_complete_epoch": 177,
+    "dclgan_last_complete_epoch": 174,
+    "matched_plain_clone_last_complete_epoch": 128,
+    "all_observed_training_handles_live": true,
+    "all_current_health_watchers_zero_alerts": true,
+    "performance_values_read": false
+  },
+  "verification": {
+    "targeted_test_file": "tests/test_paper_final_delivery_successor.py",
+    "targeted_tests": "12 passed in 2.18s",
+    "failure_retention_case_covered": true,
+    "runtime_relation_separation_covered": true,
+    "confirmation_lock_covered": true
+  },
+  "change_scope": {
+    "training_processes_changed": false,
+    "delivery_processes_changed": false,
+    "checkpoint_or_queue_changed": false,
+    "algorithm_or_protocol_changed": false,
+    "git_compact_evidence_only": true
+  },
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "decision": "decisions/DEC-20260913-V7-MULTI-ALGORITHM-PORTFOLIO-RUNTIME-AUDIT.md"
+}
