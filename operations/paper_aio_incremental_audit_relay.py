@@ -277,7 +277,11 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("relay and lane identifiers must be safe")
     if not _SAFE_ID.fullmatch(args.source_host_label):
         raise ValueError("source host label must be safe")
-    if not str(args.password_env).startswith("FINAL_UNSB_"):
+    password_env = getattr(args, "password_env", None)
+    private_key = getattr(args, "private_key", None)
+    if bool(password_env) == bool(private_key):
+        raise ValueError("relay requires exactly one authentication source")
+    if password_env and not str(password_env).startswith("FINAL_UNSB_"):
         raise ValueError("password environment must use FINAL_UNSB_ prefix")
     if not str(args.expected_host_key_sha256).startswith("SHA256:"):
         raise ValueError("relay requires a pinned SSH host key")
@@ -306,7 +310,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         ),
         "required_manifest_sha256": str(args.required_manifest_sha256),
         "required_epochs": list(AUDIT_EPOCHS),
-        "password_env": str(args.password_env),
+        "password_env": str(password_env) if password_env else None,
+        "private_key": str(Path(private_key).resolve()) if private_key else None,
         "poll_seconds": int(args.poll_seconds),
         "timeout_hours": float(args.timeout_hours),
         "password_persisted": False,
@@ -518,7 +523,9 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--required-training-git-commit", required=True)
     value.add_argument("--required-training-protocol-fingerprint", required=True)
     value.add_argument("--required-manifest-sha256", required=True)
-    value.add_argument("--password-env", required=True)
+    authentication = value.add_mutually_exclusive_group(required=True)
+    authentication.add_argument("--password-env")
+    authentication.add_argument("--private-key", type=Path)
     value.add_argument("--poll-seconds", type=int, default=60)
     value.add_argument("--timeout-hours", type=float, default=720)
     return value

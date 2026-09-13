@@ -164,13 +164,36 @@ def test_contract_never_persists_password(tmp_path, monkeypatch) -> None:
         timeout_hours=480, source_host="example", source_port=44804,
         source_user="root", remote_export_root="/runs/exports",
         destination_root=tmp_path / "destination",
+        private_key=None,
     )
     contract = _contract(args)
     encoded = json.dumps(contract)
     assert contract["password_persisted"] is False
     assert contract["relay_id"] == "external5090B"
     assert contract["password_env"] == "FINAL_UNSB_PAPER_RELAY_5090B_PASSWORD"
+    assert contract["private_key"] is None
     assert "secret-value" not in encoded
+
+
+def test_contract_accepts_private_key_without_password(tmp_path, monkeypatch) -> None:
+    import operations.paper_aio_export_relay as relay
+
+    monkeypatch.setattr(relay, "__file__", str(tmp_path / "relay.py"))
+    (tmp_path / "relay.py").write_text("frozen", encoding="utf-8")
+    key = tmp_path / "relay_key"
+    key.write_text("test-only-key", encoding="utf-8")
+    args = SimpleNamespace(
+        lane=["plain"], relay_id="clone5090B",
+        source_host_label="5090B_MATCHED_PLAIN", password_env=None,
+        private_key=key, expected_host_key_sha256="SHA256:fixed",
+        poll_seconds=60, timeout_hours=480, source_host="example",
+        source_port=43172, source_user="root",
+        remote_export_root="/runs/exports",
+        destination_root=tmp_path / "destination",
+    )
+    contract = _contract(args)
+    assert contract["password_env"] is None
+    assert contract["private_key"] == str(key.resolve())
 
 
 def test_download_missing_remote_is_waiting_not_local_io(monkeypatch, tmp_path) -> None:

@@ -3,7 +3,8 @@
 The relay is deliberately metric-blind.  It waits for source-side export sets,
 copies only their immutable receipts, checkpoints and sidecars, and verifies
 every advertised SHA256 before publishing a local import set.  Authentication
-is supplied through an environment variable and is never persisted.
+uses either an environment-only password or a dedicated private-key path;
+credential contents are never persisted.
 """
 
 from __future__ import annotations
@@ -232,11 +233,15 @@ def _connect(contract: dict[str, Any]):
         import paramiko
     except ImportError as error:
         raise RuntimeError("paper export relay requires paramiko") from error
-    password = os.environ.get(contract["password_env"])
-    if not password:
+    password_env = contract.get("password_env")
+    private_key = contract.get("private_key")
+    password = os.environ.get(password_env) if password_env else None
+    if password_env and not password:
         raise RuntimeError(
-            f"missing relay password environment: {contract['password_env']}"
+            f"missing relay password environment: {password_env}"
         )
+    if private_key and not Path(private_key).is_file():
+        raise RuntimeError(f"relay private key is unavailable: {private_key}")
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(
         PinnedHostKeyPolicy(contract["expected_host_key_sha256"])
@@ -245,6 +250,7 @@ def _connect(contract: dict[str, Any]):
         client.connect(
             hostname=contract["source_host"], port=int(contract["source_port"]),
             username=contract["source_user"], password=password,
+            key_filename=private_key,
             look_for_keys=False, allow_agent=False, timeout=30,
             banner_timeout=30, auth_timeout=30,
         )
@@ -336,7 +342,11 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("source host label must be a safe identifier")
     if not _SAFE_ID.fullmatch(relay_id):
         raise ValueError("relay id must be a safe identifier")
-    if not str(args.password_env).startswith("FINAL_UNSB_"):
+    password_env = getattr(args, "password_env", None)
+    private_key = getattr(args, "private_key", None)
+    if bool(password_env) == bool(private_key):
+        raise ValueError("relay requires exactly one authentication source")
+    if password_env and not str(password_env).startswith("FINAL_UNSB_"):
         raise ValueError("relay password environment must use a FINAL_UNSB_ prefix")
     if not str(args.expected_host_key_sha256).startswith("SHA256:"):
         raise ValueError("relay requires a pinned SHA256 SSH host key")
@@ -362,7 +372,8 @@ def _contract(args: argparse.Namespace) -> dict[str, Any]:
         "destination_root": str(args.destination_root.resolve()),
         "lanes": lanes,
         "epochs": list(UNIFIED_EPOCHS),
-        "password_env": str(args.password_env),
+        "password_env": str(password_env) if password_env else None,
+        "private_key": str(Path(private_key).resolve()) if private_key else None,
         "poll_seconds": int(args.poll_seconds),
         "timeout_hours": float(args.timeout_hours),
         "password_persisted": False,
@@ -590,7 +601,9 @@ def main() -> int:
     parser.add_argument("--expected-host-key-sha256", required=True)
     parser.add_argument("--remote-export-root", required=True)
     parser.add_argument("--lane", action="append", required=True)
-    parser.add_argument("--password-env", required=True)
+    authentication = parser.add_mutually_exclusive_group(required=True)
+    authentication.add_argument("--password-env")
+    authentication.add_argument("--private-key", type=Path)
     parser.add_argument("--poll-seconds", type=int, default=60)
     parser.add_argument("--timeout-hours", type=float, default=480)
     args = parser.parse_args()

@@ -252,6 +252,7 @@ def test_incremental_relay_contract_never_persists_password(tmp_path) -> None:
     args = SimpleNamespace(
         lane="plain", relay_id="plain5090C", source_host_label="5090C",
         password_env="FINAL_UNSB_INCREMENTAL_5090C_PASSWORD",
+        private_key=None,
         expected_host_key_sha256="SHA256:fixed", poll_seconds=60,
         timeout_hours=720, source_host="example", source_port=36525,
         source_user="root", remote_export_root="/runs/exports",
@@ -262,6 +263,25 @@ def test_incremental_relay_contract_never_persists_password(tmp_path) -> None:
     contract = _contract(args)
     assert contract["password_persisted"] is False
     assert "secret-value" not in json.dumps(contract)
+
+
+def test_incremental_relay_contract_accepts_private_key(tmp_path) -> None:
+    key = tmp_path / "relay_key"
+    key.write_text("test-only-key", encoding="utf-8")
+    args = SimpleNamespace(
+        lane="plain", relay_id="clone5090B",
+        source_host_label="5090B_MATCHED_PLAIN", password_env=None,
+        private_key=key, expected_host_key_sha256="SHA256:fixed",
+        poll_seconds=60, timeout_hours=720, source_host="example",
+        source_port=43172, source_user="root",
+        remote_export_root="/runs/exports", destination_root=tmp_path,
+        required_training_git_commit="a" * 40,
+        required_training_protocol_fingerprint="b" * 64,
+        required_manifest_sha256="c" * 64,
+    )
+    contract = _contract(args)
+    assert contract["password_env"] is None
+    assert contract["private_key"] == str(key.resolve())
 
 
 class _FixtureSftp:
