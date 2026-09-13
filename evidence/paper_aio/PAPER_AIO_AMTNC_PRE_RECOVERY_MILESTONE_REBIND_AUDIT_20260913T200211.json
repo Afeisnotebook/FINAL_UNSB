@@ -1,0 +1,87 @@
+{
+  "schema": "final-unsb-paper-amtnc-pre-recovery-milestone-rebind-audit-v1",
+  "captured_at": "2026-09-13T20:02:11+08:00",
+  "status": "PASS_E150_E175_TRANSITION_STATE_EXACT_METADATA_REBIND_ONLY",
+  "classification": "PRE_RESULT_PROVENANCE_AUDIT_NOT_PERFORMANCE_ADJUDICATION",
+  "source_relation": "sequential_method_only_recovery_v1",
+  "comparison_scope": [
+    "step",
+    "physical_epoch_completed",
+    "target_steps",
+    "lane",
+    "model.networks",
+    "model.optimizers",
+    "model.schedulers",
+    "model.method",
+    "rng.python",
+    "rng.numpy",
+    "rng.torch_cpu",
+    "rng.torch_cuda",
+    "samplers.primary",
+    "samplers.secondary"
+  ],
+  "epochs": {
+    "150": {
+      "original": {
+        "path": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e150.pt",
+        "checkpoint_sha256": "e168b4c18e90b8742c71120b87b4f193dcb6be25a862e1530e3c41de6cb5d608",
+        "sidecar_sha256": "f3b789717abb0208ba206edc7adf7f0486d3cc615da23ef82d6c912b5f48c310",
+        "scientific_state_sha256": "c90372ca0f02e7182aa4832233797f921d827b194db277b9c82f1f1c4a28ad11",
+        "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+        "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+        "e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591"
+      },
+      "recovery_view": {
+        "path": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/lanes/amtnc/milestones/e150.pt",
+        "checkpoint_sha256": "92fd7765f61a20f8952040b2598ae6f4dce14fb69d92b17555fbe3373183321b",
+        "sidecar_sha256": "7836c04ac9d699a96d45147b389fc12a37cfbc7109715ad736db04aef488ee13",
+        "scientific_state_sha256": "c6f80cc277ef2cb8f4e9a00143af2b2e533dfd76a8758e31b30bc9e1d4fed001",
+        "git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+        "protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+        "e0_scientific_state_sha256": "48f54242c1963469b9e833856a65e8986b38cadb6184180b0891490713c78938"
+      },
+      "transition_defining_payload_exact_equal": true,
+      "nonmetadata_difference_count": 0
+    },
+    "175": {
+      "original": {
+        "path": "/home/yc/runs/FINAL_UNSB_PAPER_AIO_V1_6a68e2c/lanes/amtnc/milestones/e175.pt",
+        "checkpoint_sha256": "3d4ff5e0090b9e7603a9b3d0d9d5c40808b6f4c0c1ebc680e963d488fdded6e4",
+        "sidecar_sha256": "a664ade7d9ec7caa1a028e320e537e2046b8badc60734021ff619808953bb589",
+        "scientific_state_sha256": "cf16bdff6730cbdff45c19973092ea75f7312b9e66d8b05c410051e0755e0ecf",
+        "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+        "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+        "e0_scientific_state_sha256": "8226975ce31d9348c425e5da4b90790aceb56036a86c93f1267c59e44b747591"
+      },
+      "recovery_view": {
+        "path": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/lanes/amtnc/milestones/e175.pt",
+        "checkpoint_sha256": "d29bedc9069d13a44cd7a3e210e430655203ff71199ff3ea85e91d18e7f46e14",
+        "sidecar_sha256": "863229f5360b5aa330d9e9e09ea9f28502fdfc817994c505e84470b8454fe7ce",
+        "scientific_state_sha256": "7b8d5657c8d0c30803872073e12cea1b3e9aa7b09b13921bb360e54927919e0f",
+        "git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+        "protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+        "e0_scientific_state_sha256": "48f54242c1963469b9e833856a65e8986b38cadb6184180b0891490713c78938"
+      },
+      "transition_defining_payload_exact_equal": true,
+      "nonmetadata_difference_count": 0
+    }
+  },
+  "metadata_only_differences": [
+    "metadata.git_commit",
+    "metadata.protocol_fingerprint",
+    "metadata.e0_scientific_state_sha256"
+  ],
+  "delivery_disposition": {
+    "v7_export_root_remains_authoritative": true,
+    "recovery_view_may_be_exported_with_its_own_hashes": true,
+    "original_and_recovery_hashes_must_not_be_interchanged": true,
+    "sidecar_scientific_hash_difference_is_not_dynamical_divergence": true,
+    "training_or_queue_change_required": false
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "training_processes_changed": false,
+  "decision": "decisions/DEC-20260913-AMTNC-PRE-RECOVERY-MILESTONE-REBIND-AUDIT.md"
+}

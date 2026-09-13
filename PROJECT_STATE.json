@@ -480,6 +480,17 @@
         "latest_full_state_sidecar_sha256": "2c5b2d3d045be777771af685059d899b52855b7e33b745655bc5513eddec5cdb",
         "staged_runtime_relation_status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
         "staged_runtime_relation_version": "sequential_method_only_recovery_v1",
+        "pre_recovery_milestone_rebind_audit": {
+          "status": "PASS_E150_E175_TRANSITION_STATE_EXACT_METADATA_REBIND_ONLY",
+          "original_e150_checkpoint_sha256": "e168b4c18e90b8742c71120b87b4f193dcb6be25a862e1530e3c41de6cb5d608",
+          "recovery_view_e150_checkpoint_sha256": "92fd7765f61a20f8952040b2598ae6f4dce14fb69d92b17555fbe3373183321b",
+          "original_e175_checkpoint_sha256": "3d4ff5e0090b9e7603a9b3d0d9d5c40808b6f4c0c1ebc680e963d488fdded6e4",
+          "recovery_view_e175_checkpoint_sha256": "d29bedc9069d13a44cd7a3e210e430655203ff71199ff3ea85e91d18e7f46e14",
+          "transition_defining_payload_exact_equal": true,
+          "metadata_only_differences": ["git_commit", "protocol_fingerprint", "e0_scientific_state_sha256"],
+          "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_PRE_RECOVERY_MILESTONE_REBIND_AUDIT_20260913T200211.json",
+          "decision": "decisions/DEC-20260913-AMTNC-PRE-RECOVERY-MILESTONE-REBIND-AUDIT.md"
+        },
         "staged_runtime_relation_and_v6_evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_PRECISION_CLOSURE_AND_STAGED_V6_DELIVERY_20260913T173026.json",
         "staged_runtime_relation_and_v6_decision": "decisions/DEC-20260913-AMTNC-E195-PRECISION-CLOSURE-AND-STAGED-V6-DELIVERY.md",
         "offhost_e194_backup_path": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E194_ADAM_MOMENT_FAILURE",

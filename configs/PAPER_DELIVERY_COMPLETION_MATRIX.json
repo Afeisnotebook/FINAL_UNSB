@@ -205,6 +205,13 @@
     "confirmation20_opened": false,
     "staged_runtime_relation_status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
     "staged_runtime_relation_version": "sequential_method_only_recovery_v1",
+    "pre_recovery_milestone_rebind_audit": {
+      "status": "PASS_E150_E175_TRANSITION_STATE_EXACT_METADATA_REBIND_ONLY",
+      "transition_defining_payload_exact_equal": true,
+      "hash_namespace_policy": "V7_EXPORTS_RECOVERY_VIEW_HASHES_ORIGINAL_HASHES_RETAINED_AS_PROVENANCE_ANCHORS_NO_INTERCHANGE",
+      "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_PRE_RECOVERY_MILESTONE_REBIND_AUDIT_20260913T200211.json",
+      "decision": "decisions/DEC-20260913-AMTNC-PRE-RECOVERY-MILESTONE-REBIND-AUDIT.md"
+    },
     "staged_v6_evaluation_supervisor_pid": 94857,
     "staged_v6_evaluation_child_pid": 94875,
     "staged_v6_final_delivery_supervisor_pid": 94858,

@@ -763,3 +763,7 @@ authorize compute.
 211. `DEC-20260913-GOAL-HEARTBEAT-DYNAMIC-AUTHORITY.md`：heartbeat改为每次动态获取并读取
      `origin/main`，历史提示中的提交号不再覆盖Git权威；同时以DCLGAN exporter监督器和动态state
      判断child，不因旧PID `20760`缺失误恢复。两小时节奏和失败通知策略不变，训练与科学边界未动。
+212. `DEC-20260913-AMTNC-PRE-RECOVERY-MILESTONE-REBIND-AUDIT.md`：逐张量核验AM-TNC原轨迹与
+     `5676c91`恢复视图的e150/e175固定点；网络、优化器、调度器、方法状态、全部RNG和两套sampler
+     完全一致，哈希差异仅来自commit、protocol与e0来源元数据重绑定。V7继续使用恢复视图并报告其
+     实际哈希，原哈希保留为来源锚点；未读取paired性能、未改训练，confirmation20仍封存。
