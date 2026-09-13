@@ -1,0 +1,30 @@
+{
+  "schema": "final-unsb-paper-transient-checkpoint-capture-deployment-v1",
+  "captured_at": "2026-09-13T16:23:07+08:00",
+  "status": "HEALTHY_WAITING_FOR_AMTNC_E195",
+  "purpose": "preserve the transient e195 full state before e196 overwrites latest so the preregistered precision and exact-resume gates remain auditable",
+  "control_git_commit": "cd3bcbdb94ad1ae922b96be5de6a8a41c4e3eb0b",
+  "script_sha256": "fc421a12d81e98c815ab129a9b2ce26f9000b9a9bff4b22b13abf7e9f4bb8f37",
+  "pid": 65251,
+  "source_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/lanes/amtnc/full_state_latest.pt",
+  "destination_checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/precision_gate/e195.pt",
+  "required_epoch": 195,
+  "required_step": 1667835,
+  "required_training_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+  "required_training_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+  "capture_semantics": {
+    "source_hash_verified_before_copy": true,
+    "source_hash_and_sidecar_reverified_after_copy": true,
+    "receipt_published_last": true,
+    "source_checkpoint_loaded": false,
+    "training_process_signalled": false,
+    "training_state_modified": false
+  },
+  "current_state": "WAITING_FOR_REQUIRED_EPOCH",
+  "supervised_recovery": "30_minute_goal_heartbeat_can_relaunch_from_frozen_command_before_e196_if_process_disappears",
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "other_healthy_trainings_changed": false,
+  "decision": "decisions/DEC-20260913-AMTNC-E195-RAW-SQUARE-INTERMEDIATE-RECOVERY.md"
+}
