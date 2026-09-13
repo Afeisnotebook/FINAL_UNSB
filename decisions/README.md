@@ -714,3 +714,8 @@ authorize compute.
      明确旧V2–V4等待器为正常退休、不得因历史PID缺失而恢复。同步时AM e182、ST-CGR e164、
      Proposal e177、matched plain e105、DCLGAN e158均由活进程和最新full-state共同验证健康；
      监控保持仅失败通知，不改训练、队列或科学协议，也不读取paired指标。
+200. `DEC-20260913-AMTNC-E195-ADAM-MOMENT-PRECISION-RECOVERY.md`：AM-TNC从有限e194状态在
+     e195保存前两次确定性触发Adam `exp_avg_sq` 的float32平方溢出。隔离分支仅在数学二阶矩
+     超出float32表示能力时提升对应状态到float64，不裁剪、不跳步、不改算法或超参；迁移前后
+     dynamics-only哈希一致且真实一步恢复门通过。新监督/导出链正重跑e195，完整有限checkpoint
+     仍是决定性门；故障是数值实现容量问题，不是paired性能或机制证伪。

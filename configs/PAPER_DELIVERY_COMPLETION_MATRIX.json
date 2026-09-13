@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-13T13:57:12+08:00",
-  "status": "CORE_RUNNING_PROPOSAL_E182_5090B_MATCHED_CONTROL_PROVIDER_CLONE_E118_EXACT_CONTINUATION",
+  "captured_at": "2026-09-13T14:54:00+08:00",
+  "status": "CORE_RUNNING_AMTNC_E195_PRECISION_RECOVERY_AND_5090B_PROVIDER_CLONE_CONTINUATION",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_EVERY_TWO_HOURS_5090B_PROVIDER_CLONE_CONTINUATION_AND_DELIVERY_BOUND",
@@ -15,7 +15,7 @@
       "latest_running_milestones": {
         "5090C/proposal": "e182_first_post_recovery_checkpoint_hash_closed_continuing_e200",
         "5090A/stcgr": "e171_complete_recovered_five_milestone_export_chain_waiting_e200",
-        "4090A/amtnc_after_plain": "e192_hash_closed_overflow_safe_recovery_running_fixed_e200",
+        "4090A/amtnc_after_plain": "e194_hash_closed_one_real_update_precision_recovery_gate_passed_replaying_e195",
         "5090B/matched_plain": "provider_clone_segmented_exact_runtime_continuation_e118_dual_offhost_delivery_healthy",
         "local/dclgan_extension": "e166_complete_running_e200_delivery_waiters_healthy"
       },
@@ -159,6 +159,27 @@
       "readiness_evidence": "evidence/paper_aio/PAPER_AIO_PRE_E200_FINAL_DELIVERY_READINESS_RECHECK_20260913T133500.json"
     }
   ],
+  "amtnc_e195_adam_second_moment_recovery": {
+    "status": "replaying_decisive_e195_gate",
+    "requires": ["complete finite e195 full state", "recorded precision promotion", "full-state reload preserves promoted dtype"],
+    "last_finite_data_epoch": 194,
+    "last_finite_updates": 1659282,
+    "one_real_update_gate": "PASS_STEP_1659283",
+    "active_supervisor_pid": 18703,
+    "active_trainer_pid": 18704,
+    "active_guard_pid": 19523,
+    "active_health_pid": 19524,
+    "guard_restarts": 0,
+    "health_alerts": 0,
+    "scientific_git_commit": "d8ee5011998e9f69ae0308d22ee258eb7023be64",
+    "protocol_fingerprint": "0277004aad82c0d0d37390ad828deacaabfceb75c08b5a108b5eab1a419c9db6",
+    "incident_adjudication": "float32 Adam second-moment representation overflow; not performance adjudicated",
+    "mechanism_falsified": false,
+    "performance_values_read": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_E195_ADAM_MOMENT_OVERFLOW_RECOVERY_STARTED_20260913T145400.json",
+    "decision": "decisions/DEC-20260913-AMTNC-E195-ADAM-MOMENT-PRECISION-RECOVERY.md"
+  },
   "delivery_recovery_control": {
     "status": "three_active_hash_pinned_supervisors_healthy_cyclegan_terminal_zero_restarts",
     "critical_path": true,

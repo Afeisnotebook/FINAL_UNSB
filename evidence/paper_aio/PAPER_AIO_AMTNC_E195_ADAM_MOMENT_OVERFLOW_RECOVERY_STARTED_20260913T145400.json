@@ -1,0 +1,104 @@
+{
+  "schema": "final-unsb-paper-amtnc-e195-adam-moment-overflow-recovery-started-v1",
+  "captured_at": "2026-09-13T14:54:00+08:00",
+  "status": "SOURCE_BOUND_RECOVERY_RUNNING_E195_DECISIVE_GATE_PENDING",
+  "incident": {
+    "host": "4090A",
+    "old_run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_OVERFLOW_RECOVERY_478211c",
+    "last_finite_data_epoch": 194,
+    "last_finite_updates": 1659282,
+    "last_finite_full_state_sha256": "f7095fb26e828438b381e44ed045b75e3c86a67ad1b38bcdbf7f65afe056e0ad",
+    "last_finite_scientific_state_sha256": "4e6d83a037e133a7ef947ce3c7109140bb9f53e3e63ff2fdda11fc1cdb9a4ac0",
+    "last_finite_sidecar_sha256": "d53a7c68fa3c9738ee4ad2520e6485de3006a01cc9a263e01fc883529a385c28",
+    "failure": "non-finite tensor in state.optimizers[0].state.2.exp_avg_sq",
+    "same_state_deterministic_failure_count": 2,
+    "incident_receipt": "/home/yc/runs/FINAL_UNSB_AMTNC_E195_ADAM_MOMENT_INCIDENT_d8ee501/AMTNC_ADAM_SECOND_MOMENT_INCIDENT.json",
+    "incident_receipt_sha256": "f2dfae53187f3169e7fc4f2e8bdf536016fe5a3b8cad6230fb1d43f1a645bdc4",
+    "adjudication": "FLOAT32_ADAM_SECOND_MOMENT_REPRESENTATION_OVERFLOW_NOT_PERFORMANCE_ADJUDICATION",
+    "old_runtime_cleanup_is_root_cause": false,
+    "reason": "The same failure reproduced from the finite e194 full state in the isolated restored runtime. The earlier cleanup increased recovery risk but did not create this arithmetic failure."
+  },
+  "repair": {
+    "branch": "amtnc-e195-adam-moment-recovery",
+    "implementation_commit": "64d1d0ba1d3d197174df564c7677205c156e4d4a",
+    "incident_closure_commit": "d8ee5011998e9f69ae0308d22ee258eb7023be64",
+    "protocol_fingerprint": "0277004aad82c0d0d37390ad828deacaabfceb75c08b5a108b5eab1a419c9db6",
+    "python_sha256": "66fccc990e49c33a1f06249128136ef063f16883ef06550960ce79943c5d13ab",
+    "method_source_sha256": "3888339c4ce9eda735f6ab227c0cd986574ef0e4a1680d9eb641d9d1baf065ae",
+    "runtime_source_sha256": "f05ba87afb1d04fa6cda1df981fdaf5168b3bde66fe38f0080ef2ceec8420ec9",
+    "operator_change": "Before Adam.step, compute a conservative next second-moment bound in float64 and promote only an affected exp_avg_sq tensor to float64 when float32 cannot represent the mathematical update.",
+    "gradient_clipping": false,
+    "update_skipping": false,
+    "hyperparameter_change": false,
+    "algorithm_formula_change": false,
+    "rng_or_sampler_change": false,
+    "normal_representable_path_bitwise_unchanged": true,
+    "higher_precision_optimizer_state_preserved_across_resume": true,
+    "local_relevant_tests_passed": 64,
+    "remote_exact_environment_tests_passed": 64,
+    "cuda_promotion_test": "PASS_FLOAT64_SECOND_MOMENT_FINITE_AT_1E39_AND_PARAMETER_FINITE",
+    "cuda_resume_dtype_test": "PASS_FLOAT64_SECOND_MOMENT_PRESERVED_ON_CUDA"
+  },
+  "source_bound_migration": {
+    "new_run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_ADAM_MOMENT_RECOVERY_d8ee501",
+    "migration_receipt_sha256": "6d1e57afbe1aeb92e3a681678a05fcd04692d295dcfb3267675cac3e5f4b7a7a",
+    "parent_dynamics_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+    "migrated_dynamics_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+    "authorization_sha256": "e6f1bc31408f920ee0480276b8d2139d7b88f5eba064cec82daa3f9a44f63aa9",
+    "completed_epochs_lost": 0,
+    "maximum_uncheckpointed_updates_replayed": 8553
+  },
+  "resume_gate": {
+    "status": "PASS_ONE_REAL_UPDATE_FROM_E194",
+    "updates_after_gate": 1659283,
+    "full_state_sha256": "4d54e8a4d2347732b3ddd1a6e0f7082b835d2fcd61e58a1ff581a01d6afa4343",
+    "scientific_state_sha256": "d4d218ecc8a345541492b79a80debf698b6a3faac9ae2a67a06c59bc136dd8b0",
+    "elapsed_seconds": 0.928,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  },
+  "live_chain": {
+    "observed_at": "2026-09-13T14:53:57+08:00",
+    "status": "HEALTHY_REPLAYING_E195",
+    "supervisor_pid": 18703,
+    "trainer_pid": 18704,
+    "training_guard_pid": 19523,
+    "training_health_pid": 19524,
+    "export_successor_pid": 20073,
+    "export_recovery_supervisor_pid": 20122,
+    "export_health_pid": 20658,
+    "supervisor_failures": 0,
+    "guard_restarts": 0,
+    "health_alerts": 0,
+    "gpu_utilization_percent": 46,
+    "gpu_memory_mib": 2337,
+    "free_disk_gib": 523.35,
+    "performance_values_read": false,
+    "confirmation20_opened": false
+  },
+  "retirement_and_backup": {
+    "old_failed_loop_retired_pids": [3764454, 3764845, 3766094, 16752],
+    "old_files_deleted": false,
+    "offhost_backup": "E:/UNSB_Expl/recovery_backups/4090A_AMTNC_E194_ADAM_MOMENT_FAILURE",
+    "offhost_full_state_sha256": "f7095fb26e828438b381e44ed045b75e3c86a67ad1b38bcdbf7f65afe056e0ad",
+    "unrelated_user_proof_processes_touched": false
+  },
+  "next_gate": {
+    "name": "COMPLETE_E195_FINITE_CHECKPOINT_AND_PRECISION_PROMOTION_AUDIT",
+    "required": [
+      "e195 full-state and sidecar hashes close",
+      "all model and optimizer tensors are finite",
+      "promotion event is recorded in AM-TNC method state",
+      "float64 promoted optimizer state survives full-state reload",
+      "supervisor failures and guard restarts remain zero"
+    ],
+    "e200_claimed": false,
+    "scientific_performance_claimed": false
+  },
+  "scientific_boundaries": {
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "mechanism_falsified": false
+  }
+}
