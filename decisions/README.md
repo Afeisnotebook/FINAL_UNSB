@@ -752,3 +752,7 @@ authorize compute.
      精确恢复后已连续形成e182–e187完整哈希状态，工程恢复正式闭环而不作机制裁决；同次只读审计
      确认AM-TNC e197、ST-CGR e177、DCLGAN e173及5090B克隆matched plain e126均健康。
      所有当前checkpoint逐哈希匹配sidecar，未读取paired性能、未改训练，confirmation20继续封存。
+209. `DEC-20260913-GOAL-HEARTBEAT-PROPOSAL-AND-5090B-SYNC.md`：两小时heartbeat同步到
+     Proposal e181恢复闭环、5090B克隆43172分段精确续训以及AM-TNC/DCLGAN当前V7交付链；旧告警
+     与已退休等待器不得再触发恢复，单次SSH或观察超时不作终止证据。训练、paired边界和
+     confirmation20均未改变。

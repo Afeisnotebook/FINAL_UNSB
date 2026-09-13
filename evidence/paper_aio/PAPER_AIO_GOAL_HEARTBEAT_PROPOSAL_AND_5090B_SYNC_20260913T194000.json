@@ -1,0 +1,32 @@
+{
+  "schema": "final-unsb-paper-goal-heartbeat-sync-v1",
+  "captured_at": "2026-09-13T19:40:00+08:00",
+  "status": "ACTIVE_HEARTBEAT_SYNCED_TO_PROPOSAL_RECOVERY_CLOSURE_5090B_CLONE_AND_V7_DELIVERY",
+  "automation_id": "final-unsb-goal",
+  "cadence": "FREQ=HOURLY;INTERVAL=2",
+  "notification_policy": "failed_runs_only",
+  "target_thread_id": "01a043c5-352f-7ab0-a65b-f97f7a035aa1",
+  "control_git_commit": "68a73cd001b2dc3dd8606814798bc4e45d528145",
+  "automation_toml_sha256": "4fe68b7d534f8640d430f8af46ce3661c0131076e6f058015ad15160e8cc7e73",
+  "prompt_updates": {
+    "proposal_e181_recovery_closed_by_e182": true,
+    "latest_metric_blind_epochs": {
+      "amtnc": 197,
+      "proposal": 187,
+      "stcgr": 177,
+      "dclgan": 173,
+      "5090b_matched_plain_clone": 126
+    },
+    "5090b_clone_endpoint_port": 43172,
+    "5090b_segmented_exact_runtime_boundary_preserved": true,
+    "amtnc_v7_delivery_authority_preserved": true,
+    "dclgan_v7_delivery_authority_added": true,
+    "retired_waiters_forbidden_from_restart": true,
+    "observation_timeout_is_not_terminal": true
+  },
+  "credentials_persisted": false,
+  "training_processes_changed": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
