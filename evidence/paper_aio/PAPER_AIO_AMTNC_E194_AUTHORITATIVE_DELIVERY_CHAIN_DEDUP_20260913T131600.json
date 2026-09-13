@@ -1,0 +1,71 @@
+{
+  "schema": "final-unsb-paper-amtnc-e194-authoritative-delivery-chain-dedup-v1",
+  "captured_at": "2026-09-13T13:16:00+08:00",
+  "status": "PASS_NON_AUTHORITATIVE_WAITERS_RETIRED_AUTHORITATIVE_CHAIN_HEALTHY",
+  "live_training": {
+    "host": "4090A",
+    "run": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_OVERFLOW_RECOVERY_478211c",
+    "supervisor_pid": 3764454,
+    "trainer_pid": 3764455,
+    "guard_pid": 3764845,
+    "health_pid": 3766094,
+    "physical_epoch_completed": 194,
+    "updates_completed": 1659282,
+    "epoch_wall_seconds": 3558.8288147449493,
+    "full_state_sha256": "f7095fb26e828438b381e44ed045b75e3c86a67ad1b38bcdbf7f65afe056e0ad",
+    "scientific_state_sha256": "4e6d83a037e133a7ef947ce3c7109140bb9f53e3e63ff2fdda11fc1cdb9a4ac0",
+    "sidecar_sha256": "d53a7c68fa3c9738ee4ad2520e6485de3006a01cc9a263e01fc883529a385c28",
+    "status": "HEALTHY_CONTINUING_TO_FIXED_E200",
+    "training_processes_changed": false
+  },
+  "authoritative_post_e200_chain": {
+    "amtnc_generation": "V5_9214838",
+    "amtnc_evaluation_supervisor_pid": 3858726,
+    "amtnc_evaluation_child_pid": 3858745,
+    "amtnc_status": "WAITING_FOR_STATIC_PAIR_EXPORTS",
+    "final_delivery_supervisor_pid": 3858727,
+    "final_delivery_child_pid": 3858744,
+    "final_delivery_status": "WAITING_FOR_ALL_FIXED_E200_RESULTS",
+    "health_watcher_pid": 3858782,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "preserved_unified_supervisor_pid": 3779719,
+    "preserved_unified_child_pid": 3779756,
+    "preserved_stcgr_supervisor_pid": 3779721,
+    "preserved_stcgr_child_pid": 3779755,
+    "control_supervisor_restart_counts": {
+      "amtnc_v5": 1,
+      "final_v5": 1,
+      "unified_bc99604": 1,
+      "stcgr_bc99604": 1
+    }
+  },
+  "retired_non_authoritative_waiters": {
+    "pids": [2217242, 3802121, 3879668, 3879672, 3880106, 3779722, 3779761],
+    "roles": {
+      "2217242": "legacy AM-TNC evaluator bound to pre-recovery source",
+      "3802121": "superseded dynamic ST-CGR evaluator",
+      "3879668": "legacy AM-TNC control supervisor",
+      "3879672": "legacy ST-CGR control supervisor",
+      "3880106": "legacy combined health watcher",
+      "3779722": "superseded BC99604 final-delivery supervisor",
+      "3779761": "superseded BC99604 final-delivery child"
+    },
+    "pre_retirement_state_sha256": {
+      "legacy_amtnc": "6357053930577f2e928a3384a1359888a24ab8aef5b5e222166376051dc6dbad",
+      "legacy_stcgr": "6eda9790ca6b35e99841145e4545227c36cd93ef1eebdec85dfaa5da2909bbcf",
+      "superseded_final_delivery": "51cb00c5e42305ea8977092900577d1983c5528e7522810484518eb39475276a"
+    },
+    "reason": "Each retired process targeted an output not consumed by the authoritative V5 final-delivery chain and could otherwise compete for the single evaluation GPU or publish a duplicate stale result.",
+    "files_deleted": false,
+    "checkpoints_deleted": false,
+    "training_processes_touched": false,
+    "post_retirement_pid_check": "ALL_RETIRED_PIDS_ABSENT"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false,
+    "algorithm_or_training_protocol_changed": false
+  }
+}
