@@ -18,4 +18,6 @@
 - 动态状态：`E:/UNSB_Expl/paper_eval_node/endpoint_reachability_44804_967a785/watch/ENDPOINT_REACHABILITY_STATE.json`
 - Goal heartbeat 已加入该状态和恢复规则；现有健康训练与交付链未被修改。
 
+受控故障注入已关闭：确认 PID `5592` 确属无状态 TCP watcher 后终止它，supervisor PID `27236` 自动拉起 PID `14688`，状态重新进入 `WAITING_FOR_TCP_REACHABILITY`，累计计数由初始启动的1变为2。任何科学训练、checkpoint或交付进程均未触碰。
+
 端点仍不可达不是科学失败，也不是整个 Goal 的阻塞结论。其他 full-data 长训、matched control、外部基线、统一评估和终端因果审计继续推进。

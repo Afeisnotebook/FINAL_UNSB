@@ -1070,13 +1070,15 @@
     "persistent_watch_status": "CHILD_RUNNING_WAITING_FOR_TCP_REACHABILITY",
     "persistent_watch_commit": "967a785b488167582dcb689ce022f30037d606da",
     "persistent_watch_supervisor_pid": 27236,
-    "persistent_watch_child_pid": 5592,
+    "persistent_watch_child_pid": 14688,
+    "persistent_watch_failure_injection": "PASS_CHILD_5592_TO_14688_CONTROL_RESTART_COUNT_2",
     "persistent_watch_can_authenticate_or_launch_training": false,
     "credentials_recorded": false,
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
   "known_completion_risks": [

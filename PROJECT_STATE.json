@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T01:16:01+08:00",
+  "state_snapshot_time": "2026-09-14T01:19:47+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -3813,9 +3813,10 @@
       "frozen_checkout": "E:/UNSB_Expl/FINAL_UNSB_ENDPOINT_WATCH_967A785",
       "output": "E:/UNSB_Expl/paper_eval_node/endpoint_reachability_44804_967a785",
       "supervisor_pid": 27236,
-      "child_pid": 5592,
+      "child_pid": 14688,
       "poll_seconds": 60,
-      "control_restart_count_including_initial_launch": 1,
+      "control_restart_count_including_initial_launch": 2,
+      "failure_injection": "PASS_CHILD_5592_TERMINATED_SUPERVISOR_27236_REPLACED_WITH_CHILD_14688",
       "authentication_capability": false,
       "training_launch_capability": false,
       "identity_gate_required_after_reachability": true
@@ -3825,7 +3826,8 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
   "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. Recheck the user-provided 44804 endpoint hourly; once reachable, run the GPU-UUID identity gate and complete source/runtime/resume/evaluation/capacity gates before selecting a non-duplicate evidence-authorized task from the then-current DAG. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."

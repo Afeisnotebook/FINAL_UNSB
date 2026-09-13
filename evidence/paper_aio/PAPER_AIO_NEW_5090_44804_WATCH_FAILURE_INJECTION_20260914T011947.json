@@ -1,0 +1,33 @@
+{
+  "schema": "final-unsb-paper-new-5090-endpoint-watch-failure-injection-v1",
+  "captured_at": "2026-09-14T01:19:47+08:00",
+  "status": "PASS_WATCH_CHILD_FAILURE_AUTO_RECOVERED_ENDPOINT_STILL_WAITING",
+  "endpoint": "connect.weste.seetacloud.com:44804",
+  "control_commit": "967a785b488167582dcb689ce022f30037d606da",
+  "control_supervisor": {
+    "pid": 27236,
+    "status": "CHILD_RUNNING",
+    "restart_count_including_initial_launch": 2
+  },
+  "failure_injection": {
+    "scope": "ENGINEERING_ONLY_STATELESS_TCP_WATCH_CHILD",
+    "old_child_pid": 5592,
+    "old_child_command_verified_before_stop": true,
+    "scientific_training_touched": false,
+    "replacement_child_pid": 14688,
+    "replacement_child_alive": true,
+    "replacement_status": "WAITING_FOR_TCP_REACHABILITY",
+    "replacement_attempt": 1
+  },
+  "fail_closed_invariants": {
+    "authentication_attempted": false,
+    "gpu_identity_collected": false,
+    "long_training_launched": false,
+    "credentials_recorded": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false
+  },
+  "existing_compute_dag_changed": false,
+  "next_action": "WAIT_FOR_REACHABLE_REVIEW_REQUIRED_THEN_RUN_GPU_UUID_IDENTITY_GATE"
+}
