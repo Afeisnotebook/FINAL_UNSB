@@ -3,8 +3,9 @@
 The incremental relays are read-only delivery workers: they copy only the
 pre-registered e100/e150/e200 checkpoint bundles and never inspect metrics.
 This supervisor pins the relay contract, source checkout, runtime and command,
-then adopts or restarts exactly one matching relay.  Authentication remains in
-the inherited environment and is never written to disk or the command line.
+then adopts or restarts exactly one matching relay.  Password authentication
+remains in the inherited environment; private-key authentication records only
+the pinned key path and SHA256, never key contents.
 """
 
 from __future__ import annotations
@@ -117,8 +118,11 @@ def _validate_relay_contract(value: dict[str, Any]) -> None:
         or value.get("confirmation20_opened") is not False
     ):
         raise RuntimeError("incremental relay contract violates the frozen boundary")
-    password_env = str(value.get("password_env", ""))
-    if not password_env.startswith("FINAL_UNSB_"):
+    password_env = value.get("password_env")
+    private_key = value.get("private_key")
+    if bool(password_env) == bool(private_key):
+        raise RuntimeError("incremental relay requires exactly one authentication source")
+    if password_env and not str(password_env).startswith("FINAL_UNSB_"):
         raise RuntimeError("incremental relay password variable is not namespaced")
     for key in (
         "relay_id", "source_host_label", "source_host", "source_user",
@@ -132,7 +136,7 @@ def _validate_relay_contract(value: dict[str, Any]) -> None:
 
 
 def render_relay_command(python: Path, relay: dict[str, Any]) -> list[str]:
-    return [
+    command = [
         str(Path(python).resolve()),
         "-m", "operations.paper_aio_incremental_audit_relay",
         "--destination-root", str(Path(relay["destination_root"]).resolve()),
@@ -149,10 +153,16 @@ def render_relay_command(python: Path, relay: dict[str, Any]) -> list[str]:
         "--required-training-protocol-fingerprint",
         str(relay["required_training_protocol_fingerprint"]),
         "--required-manifest-sha256", str(relay["required_manifest_sha256"]),
-        "--password-env", str(relay["password_env"]),
+    ]
+    if relay.get("password_env"):
+        command.extend(["--password-env", str(relay["password_env"])])
+    else:
+        command.extend(["--private-key", str(Path(relay["private_key"]).resolve())])
+    command.extend([
         "--poll-seconds", str(int(relay["poll_seconds"])),
         "--timeout-hours", str(float(relay["timeout_hours"])),
-    ]
+    ])
+    return command
 
 
 def _parse_command(command: list[str]) -> dict[str, Any] | None:
@@ -289,9 +299,22 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("incremental relay source differs from its frozen contract")
     child_repo = script.parents[1]
     child_identity = relay_source_identity(child_repo)
-    password_env = str(relay["password_env"])
-    if not os.environ.get(password_env):
-        raise RuntimeError(f"missing incremental relay password environment: {password_env}")
+    password_env = relay.get("password_env")
+    private_key = relay.get("private_key")
+    if password_env:
+        if not os.environ.get(str(password_env)):
+            raise RuntimeError(
+                f"missing incremental relay password environment: {password_env}"
+            )
+        authentication_mode = "password_environment"
+        private_key_path = None
+        private_key_sha256 = None
+    else:
+        private_key_path = Path(str(private_key)).resolve()
+        if not private_key_path.is_file():
+            raise RuntimeError("incremental relay private key is unavailable")
+        authentication_mode = "private_key"
+        private_key_sha256 = _sha256(private_key_path)
     source = repo / "operations" / Path(__file__).name
     return {
         "schema": CONTRACT_SCHEMA,
@@ -312,7 +335,10 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
         "relay_source_sha256": relay["control_script_sha256"],
         "relay_base_source_sha256": relay["base_relay_script_sha256"],
         "command": render_relay_command(python, relay),
-        "password_env": password_env,
+        "authentication_mode": authentication_mode,
+        "password_env": str(password_env) if password_env else None,
+        "private_key": str(private_key_path) if private_key_path else None,
+        "private_key_sha256": private_key_sha256,
         "password_value_persisted": False,
         "poll_seconds": int(args.poll_seconds),
         "restart_delay_seconds": int(args.restart_delay_seconds),
@@ -327,6 +353,16 @@ def _freeze(args: argparse.Namespace) -> dict[str, Any]:
 def _verify(contract: dict[str, Any]) -> dict[str, Any]:
     repo = Path(contract["control_repo"])
     relay_path = Path(contract["relay_contract"])
+    authentication_changed = False
+    if contract["authentication_mode"] == "password_environment":
+        authentication_changed = not os.environ.get(str(contract["password_env"]))
+    elif contract["authentication_mode"] == "private_key":
+        key = Path(str(contract["private_key"]))
+        authentication_changed = (
+            not key.is_file() or _sha256(key) != contract["private_key_sha256"]
+        )
+    else:
+        authentication_changed = True
     if (
         _git(repo, "rev-parse", "HEAD") != contract["control_git_commit"]
         or _git(repo, "status", "--porcelain")
@@ -346,7 +382,7 @@ def _verify(contract: dict[str, Any]) -> dict[str, Any]:
         or _sha256(script.with_name("paper_aio_export_relay.py"))
         != contract["relay_base_source_sha256"]
         or render_relay_command(Path(contract["python"]), relay) != contract["command"]
-        or not os.environ.get(contract["password_env"])
+        or authentication_changed
     ):
         raise RuntimeError("incremental relay runtime, source or secret binding changed")
     return relay
