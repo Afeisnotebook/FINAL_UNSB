@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-14T00:46:25+08:00",
-  "status": "AMTNC_E200_CURRENT_IMPLEMENTATION_CLOSED_OTHER_FRONTIER_RUNNING_5090B_CLONE_MATCHED_E134_ALL_43172_RELAYS_HEALTHY_NEW5090_ENDPOINT_PERSISTENT_REACHABILITY_WATCH",
+  "captured_at": "2026-09-14T11:56:33+08:00",
+  "status": "PROPOSAL_E199_STCGR_E184_DCLGAN_E187_RUNNING_5090B_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN_LOCAL_RELAYS_RECOVERED",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -2045,6 +2045,39 @@
     "prior_evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_PERSISTENT_REACHABILITY_WATCH_20260914T011601.json",
     "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
+  },
+  "5090b_clone_second_provider_outage_and_local_chain_recovery_20260914": {
+    "status": "endpoint_43172_unreachable_remote_training_state_unknown_local_delivery_recovered",
+    "observed_at": "2026-09-14T11:49:16+08:00",
+    "latest_git_verified_epoch": 134,
+    "latest_offhost_incremental_epoch": 100,
+    "training_failure_claimed": false,
+    "checkpoint_loss_claimed": false,
+    "replacement_lane_started": false,
+    "local_incremental_relay": {
+      "recovery_supervisor_pid": 31192,
+      "child_pid": 9700,
+      "health_pid": 21828,
+      "status": "HEALTHY_WAITING_FOR_INCREMENTAL_SOURCE_EXPORT_OR_NETWORK"
+    },
+    "local_full_relay": {
+      "recovery_supervisor_pid": 29588,
+      "child_pid": 5788,
+      "health_pid": 12448,
+      "status": "HEALTHY_WAITING_FOR_COMPLETE_SOURCE_EXPORT_OR_NETWORK"
+    },
+    "new_endpoint_watch": {
+      "supervisor_pid": 6916,
+      "child_pid": 23708,
+      "health_pid": 22412,
+      "status": "HEALTHY_WAITING_FOR_TCP_REACHABILITY"
+    },
+    "unified_4090a_relay_status": "HEALTHY_WAITING_TRANSIENT_NETWORK_OR_COMPLETE_E200_EXPORT",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
+    "decision": "decisions/DEC-20260914-5090B-CLONE-SECOND-OUTAGE-AND-LOCAL-CHAIN-RECOVERY.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

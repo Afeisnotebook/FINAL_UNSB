@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T01:19:47+08:00",
+  "state_snapshot_time": "2026-09-14T11:56:33+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "AMTNC_E200_ADJUDICATED_OTHER_LONG_PATHS_RUNNING_5090B_CLONE_MATCHED_PLAIN_E134_ALL_43172_DELIVERY_RELAYS_HEALTHY_NEW5090_ENDPOINT_PERSISTENT_REACHABILITY_WATCH_CONFIRMATION_LOCKED",
+    "status": "PROPOSAL_E199_STCGR_E184_DCLGAN_E187_RUNNING_5090B_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN_LOCAL_DELIVERY_RECOVERED_NEW5090_ENDPOINT_UNREACHABLE_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -3794,6 +3794,50 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_STALE_READ_ONLY_SSH_POLL_RETIREMENT_20260914T002553.json",
     "decision": "decisions/DEC-20260914-STALE-READ-ONLY-SSH-POLL-RETIREMENT.md"
   },
+  "5090b_clone_second_provider_outage_and_local_chain_recovery_20260914": {
+    "status": "PROVIDER_ENDPOINT_43172_UNREACHABLE_REMOTE_TRAINING_STATE_UNKNOWN_LOCAL_DELIVERY_AND_ENDPOINT_WATCH_CHAINS_RECOVERED",
+    "observed_at": "2026-09-14T11:49:16+08:00",
+    "endpoint": "connect.weste.seetacloud.com:43172",
+    "tcp_reachable": false,
+    "remote_training_failure_claimed": false,
+    "checkpoint_loss_claimed": false,
+    "latest_git_verified_complete_epoch": 134,
+    "latest_git_verified_updates": 1146102,
+    "latest_git_verified_full_state_sha256": "931eb75d696fd3ed68a9f40b898b90d4cb2d630612917073acea35352ef2ce95",
+    "latest_git_verified_scientific_state_sha256": "67b0140ec5f146dcbb30a835d229459812e68dc00c19183aa3679af9a1eba876",
+    "latest_offhost_incremental_epoch": 100,
+    "local_support_process_loss_observed": true,
+    "local_support_process_loss_cause": "UNKNOWN_NOT_ATTRIBUTED_TO_SCIENTIFIC_TRAINING",
+    "recovered_local_chains": {
+      "endpoint_44804_supervisor_pid": 6916,
+      "endpoint_44804_child_pid": 23708,
+      "endpoint_44804_health_pid": 22412,
+      "clone_incremental_relay_recovery_pid": 31192,
+      "clone_incremental_relay_child_pid": 9700,
+      "clone_incremental_relay_health_pid": 21828,
+      "clone_full_relay_recovery_pid": 29588,
+      "clone_full_relay_child_pid": 5788,
+      "clone_full_relay_health_pid": 12448
+    },
+    "unified_4090a_clone_relay": {
+      "relay_pid": 4152746,
+      "recovery_supervisor_pid": 4153056,
+      "health_pid": 4153378,
+      "status": "HEALTHY_WAITING_TRANSIENT_NETWORK_OR_COMPLETE_E200_EXPORT"
+    },
+    "other_live_lanes": {
+      "5090C_proposal": "E199_SUPERVISOR_AND_TRAINER_ALIVE_HEALTHY_ZERO_ALERTS",
+      "5090A_stcgr": "E184_SUPERVISOR_AND_TRAINER_ALIVE_HEALTHY_ZERO_ALERTS",
+      "local_dclgan": "E187_TRAINER_ALIVE"
+    },
+    "required_action": "RESTORE_43172_PROVIDER_INSTANCE_THEN_READ_ONLY_AUDIT_LATEST_FULL_STATE_AND_EXACT_RESUME_IF_PROCESSES_ARE_NOT_LIVE",
+    "replacement_lane_started": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
+    "decision": "decisions/DEC-20260914-5090B-CLONE-SECOND-OUTAGE-AND-LOCAL-CHAIN-RECOVERY.md"
+  },
   "new_5090_endpoint_pending_identity_20260914": {
     "status": "PENDING_TCP_REACHABILITY_PERSISTENT_FAIL_CLOSED_WATCH_HEALTHY_IDENTITY_NOT_CLAIMED_NO_TASK_STARTED",
     "endpoint": "connect.weste.seetacloud.com:44804",
@@ -3830,5 +3874,5 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
-  "next_gate": "Keep every remaining healthy fixed-protocol run continuous to e200: 5090A ST-CGR, 5090C Proposal-only, local GTX1660 DCLGAN, and 5090B matched plain. Recheck the user-provided 44804 endpoint hourly; once reachable, run the GPU-UUID identity gate and complete source/runtime/resume/evaluation/capacity gates before selecting a non-duplicate evidence-authorized task from the then-current DAG. AM-TNC completed e200 and its repaired V8 fixed matched evaluation closed the current implementation as a long-term scientific FAIL; do not select its positive e100 point or add seeds. Complete legal runtime relations, fixed-e100/e125/e150/e175/e200 unified evaluation for the remaining methods, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. CUT, CycleGAN, 4090A plain, and AM-TNC training/evaluation are complete; DDSB remains fail-closed until authoritative source exists. Do not start archived RF-AMMCRB/RF-MCRB/G3 successors from historical fields. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "next_gate": "Keep 5090A ST-CGR, 5090C Proposal-only, and local GTX1660 DCLGAN continuous to e200. Provider endpoints 43172 and 44804 are both currently unreachable: restore 43172 first, then read-only audit its latest full state and live process tree; exact-resume the admitted matched plain only if its frozen supervisor/trainer are truly absent. Keep all recovered local and 4090A delivery relays waiting. When 44804 becomes reachable, run the GPU-UUID identity gate before adding capacity or selecting a task. Complete legal runtime relations, fixed unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
