@@ -3809,15 +3809,30 @@
     "local_support_process_loss_observed": true,
     "local_support_process_loss_cause": "UNKNOWN_NOT_ATTRIBUTED_TO_SCIENTIFIC_TRAINING",
     "recovered_local_chains": {
-      "endpoint_44804_supervisor_pid": 6916,
+      "endpoint_44804_supervisor_pid": 14068,
       "endpoint_44804_child_pid": 23708,
-      "endpoint_44804_health_pid": 22412,
+      "endpoint_44804_health_pid": 27988,
       "clone_incremental_relay_recovery_pid": 31192,
       "clone_incremental_relay_child_pid": 9700,
       "clone_incremental_relay_health_pid": 21828,
       "clone_full_relay_recovery_pid": 29588,
       "clone_full_relay_child_pid": 5788,
       "clone_full_relay_health_pid": 12448
+    },
+    "windows_scheduled_recovery_guards": {
+      "status": "PASS_IDEMPOTENT_FIVE_MINUTE_GUARDS_NO_DUPLICATE_SUPERVISORS",
+      "task_names": [
+        "FINAL_UNSB_Endpoint44804_Watch",
+        "FINAL_UNSB_Clone43172_IncrementalRelay",
+        "FINAL_UNSB_Clone43172_FullRelay"
+      ],
+      "endpoint_action_sha256": "dc2bd7d02ad586f1b2046dabdafe2ac1fcef094581ecfdec17cf782d44e2e5fa",
+      "incremental_action_sha256": "57fe997652ba13f168494f69d9424972e0623196acb30b5eea8f0afdf694b6d3",
+      "full_action_sha256": "55ad2a10f5a45284315e35023ac5570786f76e105135e0ca98beee0dd82d60b3",
+      "existing_process_noop_test": "PASS_THREE_TASKS_RESULT_ZERO_ONE_SUPERVISOR_EACH",
+      "endpoint_supervisor_failure_injection": "PASS_6916_TO_14068_EXISTING_CHILD_23708_ADOPTED",
+      "schedule_interval_minutes": 5,
+      "credentials_embedded": false
     },
     "unified_4090a_clone_relay": {
       "relay_pid": 4152746,
@@ -3835,8 +3850,9 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
-    "decision": "decisions/DEC-20260914-5090B-CLONE-SECOND-OUTAGE-AND-LOCAL-CHAIN-RECOVERY.md"
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_SCHEDULED_RECOVERY_GUARDS_20260914T120505.json",
+    "decision": "decisions/DEC-20260914-LOCAL-SCHEDULED-RECOVERY-GUARDS.md"
   },
   "new_5090_endpoint_pending_identity_20260914": {
     "status": "PENDING_TCP_REACHABILITY_PERSISTENT_FAIL_CLOSED_WATCH_HEALTHY_IDENTITY_NOT_CLAIMED_NO_TASK_STARTED",

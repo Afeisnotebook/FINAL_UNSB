@@ -1091,17 +1091,28 @@
     "training_failure_claimed": false,
     "checkpoint_loss_claimed": false,
     "local_support_recovery": {
-      "endpoint_watch": [6916, 23708, 22412],
+      "endpoint_watch": [14068, 23708, 27988],
       "incremental_relay": [31192, 9700, 21828],
       "full_relay": [29588, 5788, 12448]
     },
     "unified_4090a_relay": [4153056, 4152746, 4153378],
+    "scheduled_recovery_guards": {
+      "status": "pass_five_minute_idempotent_process_guards",
+      "tasks": [
+        "FINAL_UNSB_Endpoint44804_Watch",
+        "FINAL_UNSB_Clone43172_IncrementalRelay",
+        "FINAL_UNSB_Clone43172_FullRelay"
+      ],
+      "endpoint_supervisor_recovery_test": "pass_6916_to_14068_adopt_child_23708",
+      "credentials_embedded": false
+    },
     "replacement_lane_started": false,
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
-    "decision": "decisions/DEC-20260914-5090B-CLONE-SECOND-OUTAGE-AND-LOCAL-CHAIN-RECOVERY.md"
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_SCHEDULED_RECOVERY_GUARDS_20260914T120505.json",
+    "decision": "decisions/DEC-20260914-LOCAL-SCHEDULED-RECOVERY-GUARDS.md"
   },
   "known_completion_risks": [
     "5090B matched plain now runs on a different physical GPU via an admitted segmented exact-runtime-cohort continuation from e116; the first post-clone e117 checkpoint and scientific hash closed exactly, but final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",

@@ -2067,17 +2067,26 @@
       "status": "HEALTHY_WAITING_FOR_COMPLETE_SOURCE_EXPORT_OR_NETWORK"
     },
     "new_endpoint_watch": {
-      "supervisor_pid": 6916,
+      "supervisor_pid": 14068,
       "child_pid": 23708,
-      "health_pid": 22412,
+      "health_pid": 27988,
       "status": "HEALTHY_WAITING_FOR_TCP_REACHABILITY"
+    },
+    "scheduled_recovery_guards": {
+      "status": "pass_three_idempotent_five_minute_guards_and_endpoint_supervisor_failure_injection",
+      "endpoint_task": "FINAL_UNSB_Endpoint44804_Watch",
+      "incremental_task": "FINAL_UNSB_Clone43172_IncrementalRelay",
+      "full_task": "FINAL_UNSB_Clone43172_FullRelay",
+      "duplicate_supervisors_after_noop_test": 0,
+      "credentials_embedded": false
     },
     "unified_4090a_relay_status": "HEALTHY_WAITING_TRANSIENT_NETWORK_OR_COMPLETE_E200_EXPORT",
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
-    "decision": "decisions/DEC-20260914-5090B-CLONE-SECOND-OUTAGE-AND-LOCAL-CHAIN-RECOVERY.md"
+    "prior_evidence": "evidence/paper_aio/PAPER_AIO_5090B_CLONE_SECOND_OUTAGE_AND_LOCAL_CHAIN_RECOVERY_20260914T115633.json",
+    "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_SCHEDULED_RECOVERY_GUARDS_20260914T120505.json",
+    "decision": "decisions/DEC-20260914-LOCAL-SCHEDULED-RECOVERY-GUARDS.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

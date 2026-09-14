@@ -1,0 +1,63 @@
+{
+  "schema": "final-unsb-paper-local-windows-scheduled-recovery-guards-v1",
+  "captured_at": "2026-09-14T12:05:05+08:00",
+  "status": "PASS_THREE_IDEMPOTENT_SCHEDULED_GUARDS_ENDPOINT_SUPERVISOR_FAILURE_AUTO_RECOVERED",
+  "motivation": "three local support supervisors and their health processes disappeared together while scientific DCLGAN remained live; Start-Process alone was not treated as durable enough",
+  "tasks": [
+    {
+      "name": "FINAL_UNSB_Endpoint44804_Watch",
+      "interval_minutes": 5,
+      "action_arguments_sha256": "dc2bd7d02ad586f1b2046dabdafe2ac1fcef094581ecfdec17cf782d44e2e5fa",
+      "target": "endpoint reachability control supervisor"
+    },
+    {
+      "name": "FINAL_UNSB_Clone43172_IncrementalRelay",
+      "interval_minutes": 5,
+      "action_arguments_sha256": "57fe997652ba13f168494f69d9424972e0623196acb30b5eea8f0afdf694b6d3",
+      "target": "source-bound incremental relay recovery supervisor"
+    },
+    {
+      "name": "FINAL_UNSB_Clone43172_FullRelay",
+      "interval_minutes": 5,
+      "action_arguments_sha256": "55ad2a10f5a45284315e35023ac5570786f76e105135e0ca98beee0dd82d60b3",
+      "target": "source-bound final relay recovery supervisor"
+    }
+  ],
+  "guard_semantics": {
+    "matching_supervisor_count_zero": "launch frozen command synchronously",
+    "matching_supervisor_count_one": "exit zero without mutation",
+    "matching_supervisor_count_more_than_one": "fail closed with exit 42",
+    "multiple_task_instances": "IGNORE_NEW",
+    "task_scheduler_restart_count": 3,
+    "task_scheduler_restart_interval_minutes": 1,
+    "credentials_embedded": false
+  },
+  "existing_process_noop_test": {
+    "all_three_task_results": 0,
+    "endpoint_supervisor_count": 1,
+    "incremental_supervisor_count": 1,
+    "full_supervisor_count": 1
+  },
+  "endpoint_supervisor_failure_injection": {
+    "old_supervisor_pid": 6916,
+    "old_supervisor_command_verified": true,
+    "scheduled_guard_started": true,
+    "new_supervisor_pid": 14068,
+    "existing_child_pid_adopted": 23708,
+    "new_supervisor_status": "MONITORING_EXISTING_CHILD",
+    "new_health_pid": 27988,
+    "new_health_status": "HEALTHY"
+  },
+  "current_delivery_processes": {
+    "incremental_recovery_pid": 31192,
+    "incremental_child_pid": 9700,
+    "incremental_health_pid": 21828,
+    "full_recovery_pid": 29588,
+    "full_child_pid": 5788,
+    "full_health_pid": 12448
+  },
+  "scientific_training_touched": false,
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}
