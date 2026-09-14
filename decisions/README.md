@@ -793,3 +793,8 @@ authorize compute.
      AM增量relay，将其7个文件完整移入归档而未删除；最终`5676c91` e100/e150/e200导出已逐哈希导入，
      AM终端审计输入依赖闭合。新聚合health PID `6816`连续两轮健康后退休旧PID `21764`；audit仍按预期
      等待Proposal/ST-CGR e200及DCLGAN释放本地GPU，训练和audit进程均未重启，confirmation20封存。
+219. `DEC-20260914-5090C-MATCHED-PLAIN-E147-REGISTERED-TAKEOVER.md`：迁移盘上发现比Git旧记录更新且
+     逐哈希完整的matched plain e147；5090C重新通过身份门、2000-update exact runtime twin和双8-step
+     resume probe后，以分段精确runtime cohort继续原逻辑lane。Proposal e200未覆盖；e147又做本地异机
+     备份，本地/4090A relay已重绑36525并退休43172/44804旧支持链。主训练、guard与交付链健康，下一门为
+     e148首个迁移后完整状态闭合；matched delta仍等待e200及最终runtime relation审核，confirmation20封存。

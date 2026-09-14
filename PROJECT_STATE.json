@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T16:18:03+08:00",
+  "state_snapshot_time": "2026-09-14T23:57:29+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "PROPOSAL_E200_CLOSED_STCGR_E185_EXACT_RESUME_CLOSED_CONTINUING_DCLGAN_E191_RUNNING_5090B_CLONE_ENDPOINT_UNREACHABLE_NEW5090_ENDPOINT_UNREACHABLE_CONFIRMATION_LOCKED",
+    "status": "PROPOSAL_E200_CLOSED_STCGR_E190_RUNNING_DCLGAN_E198_RUNNING_MATCHED_PLAIN_E147_EXACT_TAKEOVER_RUNNING_ON_5090C_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -310,7 +310,7 @@
       "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
     },
     "current_algorithm_progress_coverage": {
-      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E185_EXACT_RESUME_CLOSED_CONTINUING_DCLGAN_E191_HEALTHY_5090B_PROVIDER_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN",
+      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E190_CONTINUING_DCLGAN_E198_HEALTHY_MATCHED_PLAIN_E147_EXACT_TAKEOVER_RUNNING_ON_5090C",
       "4090A_plain_watch_pid": 2613987,
       "4090A_future_amtnc_watch_pid": 2613988,
       "5090C_proposal_watch_pid": 91595,
@@ -318,12 +318,12 @@
       "5090C_retired_proposal_watch_pid": 89015,
       "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
       "training_processes_changed": false,
-      "training_process_change_scope": "STCGR_EXACT_STALLED_TRAINER_ONLY_SIGTERM_AFTER_HASH_AND_OFFHOST_BACKUP_OTHER_LANES_UNCHANGED",
-      "5090B_endpoint_status": "PROVIDER_CLONE_ENDPOINT_43172_UNREACHABLE_REMOTE_STATE_UNKNOWN_LATEST_GIT_VERIFIED_E134",
+      "training_process_change_scope": "5090C_MATCHED_PLAIN_STARTED_FROM_HASH_VERIFIED_E147_AFTER_REGISTERED_HOST_EXACT_RUNTIME_GATES_STCGR_AND_DCLGAN_UNCHANGED",
+      "5090B_endpoint_status": "ORIGINAL_ENDPOINT_RETIRED_MIGRATED_LOGICAL_LANE_RUNNING_ON_REGISTERED_5090C_36525_FROM_E147",
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E185_EXACT_RESUME_CLOSURE_20260914T161803.json",
-      "decision": "decisions/DEC-20260914-STCGR-E185-EXACT-RESUME-CLOSURE.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E147_REGISTERED_TAKEOVER_20260914T235729.json",
+      "decision": "decisions/DEC-20260914-5090C-MATCHED-PLAIN-E147-REGISTERED-TAKEOVER.md"
     },
     "latest_5090c_proposal_recovery": {
       "status": "E181_STALL_HASH_VERIFIED_EXACT_RESUME_CLOSED_BY_E182_CONTINUING_E187",
@@ -2033,7 +2033,7 @@
     "cross_host_deltas_merged": false,
     "confirmation20_opened": false,
     "critical_path_audit": "evidence/paper_aio/PAPER_AIO_5090C_PROPOSAL_E1_CALIBRATION_20260902.json",
-    "latest_live_status": "evidence/paper_aio/PAPER_AIO_DCLGAN_V7_DELIVERY_REBIND_20260913T185629.json",
+    "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E147_REGISTERED_TAKEOVER_20260914T235729.json",
     "amtnc_recovery_relation_and_v5_delivery_20260913": {
       "status": "PASS_METHOD_ONLY_RECOVERY_RELATION_V5_DELIVERY_HEALTHY_AMTNC_E192_CONTINUING",
       "control_git_commit": "9214838dec1b1e0ab82ded943c21d247d7ab62a8",
@@ -3903,7 +3903,7 @@
     "closure_scientific_state_sha256": "74003eab4a2c905a577cf51733e63732aa8c68f50c60a75ab51778df16baae97",
     "closure_epoch_wall_seconds": 5092.771028757095,
     "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
-    "exact_resume_closure_status": "WAITING_E185_FULL_STATE_HASH",
+    "exact_resume_closure_status": "PASS_E185_HASH_VERIFIED_EXACT_RESUME_CLOSED",
     "completed_epoch_lost": false,
     "mechanism_falsified": false,
     "performance_values_read": false,
@@ -3948,5 +3948,43 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
-  "next_gate": "ST-CGR was recovered from the hash-verified e184 full state after an engineering stall; keep trainer 42095 continuous and close exact-resume continuity at e185 before reforecasting e200. Proposal-only e200 and both off-host import paths are complete. Continue local GTX1660 DCLGAN unchanged to e200. Provider endpoints 43172 and 44804 are both currently unreachable: restore 43172 first, then read-only audit its latest full state and live process tree; exact-resume the admitted matched plain only if its frozen supervisor/trainer are truly absent. Keep all recovered local and 4090A delivery relays waiting. When 44804 becomes reachable, run the GPU-UUID identity gate before adding capacity or selecting a task. Complete legal runtime relations, fixed unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "registered_5090c_matched_plain_takeover_20260914": {
+    "status": "PASS_REGISTERED_5090C_EXACT_RUNTIME_TAKEOVER_FROM_E147_MAIN_RUNNING_E148_CLOSURE_PENDING",
+    "logical_lane": "5090B_MATCHED_PLAIN",
+    "physical_host": "5090C",
+    "endpoint_port": 36525,
+    "gpu_uuid": "GPU-ae5266f9-af67-6a0b-4c4d-b64ddc03adcb",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "control_git_commit": "50f58d6edb6a85ea37b27a7fed8ab8319ec46744",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "resume_data_epoch": 147,
+    "resume_updates": 1257291,
+    "resume_checkpoint_sha256": "683e55df5bf0cc87ffa04631c57f4ff4d1045e3610c57b8baf33bd5a9b2f546b",
+    "resume_sidecar_sha256": "c1cf75196552f382f71b558b42ec4e6365ddedeca03c093da81371038157e174",
+    "resume_scientific_state_sha256": "bdaea8fde7a153fc741c3267a612e81bc7af53c3684699ac4b64cfc6bfb3c0a8",
+    "identity_gate": "REGISTERED_HOST_MATCH",
+    "runtime_twin": "PASS_EXACT_RUNTIME_COHORT_2000_UPDATES",
+    "continuation_gate": "PASS_DUAL_8_STEP_EXACT_RESUME",
+    "supervisor_pid": 233089,
+    "trainer_pid": 233093,
+    "outer_guard_pid": 233133,
+    "progress_watcher_pid": 233134,
+    "health_watcher_pid": 233610,
+    "source_exporter_pids": [233434, 233435],
+    "source_export_recovery_pids": [233577, 233578],
+    "health_status": "HEALTHY_ZERO_ALERTS_ZERO_RESTARTS",
+    "first_post_takeover_closure_gate": "E148_FULL_STATE_AND_SCIENTIFIC_HASH",
+    "offhost_backup": "E:/UNSB_Expl/recovery_backups/5090C_MATCHED_PLAIN_20260914_E147",
+    "local_relay_pids": [29284, 18648, 17472, 21568, 8952],
+    "unified_4090a_relay_pids": [787525, 787985, 788019],
+    "old_43172_and_44804_support_chains_retired": true,
+    "proposal_e200_protected": true,
+    "matched_delta_available": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E147_REGISTERED_TAKEOVER_20260914T235729.json",
+    "decision": "decisions/DEC-20260914-5090C-MATCHED-PLAIN-E147-REGISTERED-TAKEOVER.md"
+  },
+  "next_gate": "Keep 5090A ST-CGR trainer 42095 and local DCLGAN trainer 22020 continuous. The migrated logical 5090B matched-plain lane now runs on registered 5090C from the hash-verified e147 state after an exact 2000-update runtime twin and dual exact-resume probes; close the first post-takeover e148 full-state/scientific hash, then e150 incremental off-host export, then continue unchanged to e200. Proposal-only e200 is protected and must not be rerun. After matched plain e200, close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Complete ST-CGR/DCLGAN source-bound delivery, terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
