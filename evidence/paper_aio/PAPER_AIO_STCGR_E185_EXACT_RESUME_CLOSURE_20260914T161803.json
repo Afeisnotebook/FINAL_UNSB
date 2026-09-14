@@ -1,0 +1,74 @@
+{
+  "schema": "final-unsb-paper-stcgr-e185-exact-resume-closure-v1",
+  "captured_at": "2026-09-14T16:18:03+08:00",
+  "status": "PASS_E184_EXACT_RESUME_CLOSED_BY_E185_FULL_STATE_AND_SCIENTIFIC_HASH_CONTINUING_E200",
+  "host": {
+    "label": "5090A",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744"
+  },
+  "recovery_parent": {
+    "data_epoch": 184,
+    "updates": 1573752,
+    "checkpoint_sha256": "10cf64587747baf0d4aa3d5c398dc48e368ce64bb77ea22d54178b3a2d5092f6",
+    "scientific_state_sha256": "9e83ec4d57b8b1141c8c93a573553235550b9921d1c55bc205c093b1e83effd1",
+    "offhost_backup": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260914_E184_STALL",
+    "stalled_trainer_pid": 357237
+  },
+  "closure": {
+    "data_epoch": 185,
+    "updates": 1582305,
+    "steps_advanced": 8553,
+    "checkpoint_sha256": "120dcf44208750655ab00315a0e583227c0e95e848de9271babd109edb93b37c",
+    "checkpoint_file_hash_matches_sidecar": true,
+    "sidecar_sha256": "9c224302543a5b3a400afa574ec5354ed4bf4dc0fb42e3be3464a1117dfe6083",
+    "scientific_state_sha256": "74003eab4a2c905a577cf51733e63732aa8c68f50c60a75ab51778df16baae97",
+    "heartbeat_sha256": "307a3ea2dd4bd43ede862dbf8d5562c0c6acfcacbee2967f8b36ad282b14386f",
+    "epoch_wall_seconds": 5092.771028757095,
+    "checkpoint_written_at": "2026-09-14T16:18:03+08:00"
+  },
+  "live_processes": {
+    "preserved_supervisor_pid": 357236,
+    "trainer_pid": 42095,
+    "outer_guard_pid": 942101,
+    "progress_watch_pid": 358447,
+    "outer_guard_total_restarts": 1,
+    "outer_guard_consecutive_no_progress_restarts": 0,
+    "supervisor_status": "CHILD_RUNNING",
+    "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "post_closure_gpu_percent": 47,
+    "post_closure_gpu_memory_mib": 2186
+  },
+  "adjudication": {
+    "exact_resume_closed": true,
+    "completed_epoch_lost": false,
+    "maximum_work_replayed": "uncommitted work between e184 and the interrupted e185 boundary",
+    "training_configuration_changed": false,
+    "runtime_cohort_changed": false,
+    "matched_plain_relation_changed": false,
+    "mechanism_falsified": false,
+    "continue_to_e200": true,
+    "metric_blind_projected_e200": "2026-09-15T13:30:00+08:00_APPROX"
+  },
+  "concurrent_snapshot": {
+    "local_dclgan_epoch": 191,
+    "local_dclgan_updates": 1633623,
+    "clone_43172": "TCP_CONNECTION_REFUSED_REMOTE_STATE_UNKNOWN",
+    "endpoint_44804": "TCP_CONNECTION_REFUSED_NOT_IN_COMPUTE_DAG"
+  },
+  "repository_verification": {
+    "all_json_files_parsed": 762,
+    "focused_authority_tests": "8 passed",
+    "full_pytest": "858 passed",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_merged": false
+  }
+}
