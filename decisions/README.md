@@ -798,3 +798,7 @@ authorize compute.
      resume probe后，以分段精确runtime cohort继续原逻辑lane。Proposal e200未覆盖；e147又做本地异机
      备份，本地/4090A relay已重绑36525并退休43172/44804旧支持链。主训练、guard与交付链健康，下一门为
      e148首个迁移后完整状态闭合；matched delta仍等待e200及最终runtime relation审核，confirmation20封存。
+220. `DEC-20260915-5090C-MATCHED-PLAIN-FIRST-POST-TAKEOVER-CLOSURE.md`：5090C接管后的matched
+     plain已连续形成e148与e149完整状态；e149 checkpoint、sidecar与scientific hash严格闭合，guard零重启、
+     health零告警。两轮实测吞吐将e200训练窗口收窄至9月16日08:00–12:00；下一固定门为e150增量异机
+     导出。未读取paired性能、未改训练协议，confirmation20继续封存。

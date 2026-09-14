@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-14T23:57:29+08:00",
-  "status": "PROPOSAL_E200_CLOSED_STCGR_E190_RUNNING_DCLGAN_E198_RUNNING_MATCHED_PLAIN_E147_EXACT_TAKEOVER_RUNNING_ON_5090C",
+  "captured_at": "2026-09-15T01:09:06+08:00",
+  "status": "PROPOSAL_E200_CLOSED_STCGR_E190_RUNNING_DCLGAN_E199_RUNNING_MATCHED_PLAIN_E149_POST_TAKEOVER_CLOSED_RUNNING_ON_5090C",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1646,7 +1646,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_V7_POST_TRAINING_CHAIN_REBIND_20260913T183727.json",
     "decision": "decisions/DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E147_REGISTERED_TAKEOVER_20260914T235729.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E149_FIRST_POST_TAKEOVER_CLOSURE_20260915T010906.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "ready_waiting_for_fixed_e200_exports_no_training_mutation",
     "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -2138,7 +2138,7 @@
     "decision": "decisions/DEC-20260914-STCGR-E185-EXACT-RESUME-CLOSURE.md"
   },
   "registered_5090c_matched_plain_takeover_20260914": {
-    "status": "pass_exact_runtime_takeover_e147_running_e148_closure_pending",
+    "status": "pass_first_post_takeover_full_state_closed_by_e149_continuing_e200",
     "logical_lane": "5090B_MATCHED_PLAIN",
     "physical_host": "5090C",
     "endpoint_port": 36525,
@@ -2161,15 +2161,20 @@
     "health_status": "healthy_zero_alerts_zero_restarts",
     "local_relay_pids": [29284, 18648, 17472, 21568, 8952],
     "unified_4090a_relay_pids": [787525, 787985, 788019],
-    "first_post_takeover_gate": "e148_full_state_and_scientific_hash",
-    "projected_e200_window": ["2026-09-16T09:00:00+08:00", "2026-09-16T21:00:00+08:00"],
+    "first_post_takeover_gate": "pass_closed_by_e149_full_state_and_scientific_hash",
+    "latest_complete_data_epoch": 149,
+    "latest_complete_updates": 1274397,
+    "latest_checkpoint_sha256": "9321af9746cd76f92031b3bffa948e819363715cf56c0fbcc03d8357dd02a34c",
+    "latest_sidecar_sha256": "235b2a7b4a14f85e489f056f383964f8df7f42905f87a31e804042ca7837ae1a",
+    "latest_scientific_state_sha256": "e9449e2786cbb225e83e6dbab528170897da24e60a142d8327b6e95e05d5c111",
+    "projected_e200_window": ["2026-09-16T08:00:00+08:00", "2026-09-16T12:00:00+08:00"],
     "proposal_status": "complete_e200_protected_no_rerun",
     "matched_delta_status": "unavailable_until_e200_source_export_and_final_runtime_relation_review",
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E147_REGISTERED_TAKEOVER_20260914T235729.json",
-    "decision": "decisions/DEC-20260914-5090C-MATCHED-PLAIN-E147-REGISTERED-TAKEOVER.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E149_FIRST_POST_TAKEOVER_CLOSURE_20260915T010906.json",
+    "decision": "decisions/DEC-20260915-5090C-MATCHED-PLAIN-FIRST-POST-TAKEOVER-CLOSURE.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
