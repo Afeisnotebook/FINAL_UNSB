@@ -3,7 +3,9 @@
 This is an emergency infrastructure gate, not a same-physical-host claim.  It
 accepts a source checkpoint only when the replacement GPU has independently
 reproduced the frozen 2000-update runtime core and two isolated one-update
-resume branches agree exactly.  The source run is read-only throughout.
+resume branches agree exactly.  A replacement may be either a newly observed
+physical GPU or an already registered host taking over another host's logical
+lane.  The source run is read-only throughout.
 """
 
 from __future__ import annotations
@@ -78,7 +80,9 @@ def validate_static_inputs(args: argparse.Namespace) -> dict[str, Any]:
 
     if (
         host.get("schema") != HOST_SCHEMA
-        or host.get("status") != "NEW_PHYSICAL_GPU_CANDIDATE"
+        or host.get("status") not in {
+            "NEW_PHYSICAL_GPU_CANDIDATE", "REGISTERED_HOST_MATCH",
+        }
         or host.get("classification", {}).get("requested_label")
         != args.replacement_host_label
         or host.get("classification", {}).get("long_training_launch_allowed_by_identity_gate")
@@ -257,6 +261,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "source_runtime_twin_sha256": _sha256(args.source_runtime_twin.resolve()),
         "replacement_runtime_twin_sha256": _sha256(args.replacement_runtime_twin.resolve()),
         "host_identity_receipt_sha256": _sha256(args.host_identity_receipt.resolve()),
+        "replacement_identity_status": validated["host"].get("status"),
         "resume_probe_updates": int(args.probe_updates),
         "resume_probe_branches_exact": exact,
         "resume_probe_a": branch_a,

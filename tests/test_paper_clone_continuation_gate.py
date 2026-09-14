@@ -100,6 +100,24 @@ def test_static_gate_accepts_new_gpu_with_exact_runtime_and_checkpoint(
     assert result["runtime_identity"]["step_core_sha256"] == "step"
 
 
+def test_static_gate_accepts_registered_replacement_host(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    args = _arguments(tmp_path)
+    host = json.loads(args.host_identity_receipt.read_text())
+    host["status"] = "REGISTERED_HOST_MATCH"
+    host["classification"]["outcome"] = "REGISTERED_HOST_MATCH"
+    host["classification"]["registered_label"] = "5090B_CLONE"
+    _write(args.host_identity_receipt, host)
+    monkeypatch.setattr(
+        gate, "_git", lambda _repo, *command: "commit" if command[-1] == "HEAD" else ""
+    )
+
+    result = gate.validate_static_inputs(args)
+
+    assert result["host"]["status"] == "REGISTERED_HOST_MATCH"
+
+
 def test_static_gate_rejects_runtime_core_difference(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:
