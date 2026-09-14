@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-14",
-  "state_snapshot_time": "2026-09-14T13:01:00+08:00",
+  "state_snapshot_time": "2026-09-14T14:55:00+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "PROPOSAL_E200_SOURCE_EXPORT_OFFHOST_CLOSED_STCGR_E184_DCLGAN_E188_RUNNING_5090B_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN_NEW5090_ENDPOINT_UNREACHABLE_CONFIRMATION_LOCKED",
+    "status": "PROPOSAL_E200_CLOSED_STCGR_E184_STALL_EXACT_RESUME_ACTIVE_DCLGAN_E190_RUNNING_5090B_CLONE_ENDPOINT_UNREACHABLE_NEW5090_ENDPOINT_UNREACHABLE_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -310,7 +310,7 @@
       "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
     },
     "current_algorithm_progress_coverage": {
-      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E184_DCLGAN_E188_HEALTHY_5090B_PROVIDER_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN",
+      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E184_EXACT_RESUME_ACTIVE_DCLGAN_E190_HEALTHY_5090B_PROVIDER_CLONE_ENDPOINT_UNREACHABLE_REMOTE_STATE_UNKNOWN",
       "4090A_plain_watch_pid": 2613987,
       "4090A_future_amtnc_watch_pid": 2613988,
       "5090C_proposal_watch_pid": 91595,
@@ -318,12 +318,12 @@
       "5090C_retired_proposal_watch_pid": 89015,
       "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
       "training_processes_changed": false,
-      "training_process_change_scope": "NONE_PROPOSAL_NORMAL_E200_COMPLETION_READ_ONLY_OFFHOST_RELAY_RECOVERED",
+      "training_process_change_scope": "STCGR_EXACT_STALLED_TRAINER_ONLY_SIGTERM_AFTER_HASH_AND_OFFHOST_BACKUP_OTHER_LANES_UNCHANGED",
       "5090B_endpoint_status": "PROVIDER_CLONE_ENDPOINT_43172_UNREACHABLE_REMOTE_STATE_UNKNOWN_LATEST_GIT_VERIFIED_E134",
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E200_SOURCE_EXPORT_AND_OFFHOST_CLOSURE_20260914T130100.json",
-      "decision": "decisions/DEC-20260914-PROPOSAL-E200-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E184_STALL_HASH_VERIFIED_EXACT_RECOVERY_STARTED_20260914T145500.json",
+      "decision": "decisions/DEC-20260914-STCGR-E184-STALL-HASH-VERIFIED-EXACT-RECOVERY.md"
     },
     "latest_5090c_proposal_recovery": {
       "status": "E181_STALL_HASH_VERIFIED_EXACT_RESUME_CLOSED_BY_E182_CONTINUING_E187",
@@ -714,9 +714,9 @@
         "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
       },
       "5090A_stcgr_full": {
-        "status": "CHILD_RUNNING_E163_RECOVERED_FIVE_MILESTONE_EXPORT_CHAIN_HEALTHY",
-        "latest_completed_data_epoch": 163,
-        "latest_completed_updates": 1394139,
+        "status": "E184_ENGINEERING_STALL_HASH_VERIFIED_EXACT_RESUME_GPU_ACTIVE_WAITING_E185_CLOSURE",
+        "latest_completed_data_epoch": 184,
+        "latest_completed_updates": 1573752,
         "target_data_epoch": 200,
         "continuation_pid": 336340,
         "export_successor_pid": 710234,
@@ -728,7 +728,7 @@
         "retired_blocked_exporter_pid": 336344,
         "retired_blocked_export_recovery_supervisor_pid": 913443,
         "supervisor_pid": 357236,
-        "trainer_pid": 357237,
+        "trainer_pid": 42095,
         "outer_recovery_guard_pid": 942101,
         "outer_recovery_guard_health_pid": 942182,
         "outer_recovery_guard_control_commit": "db16096018e8c121f30853a6b3c2d742524ec012",
@@ -743,15 +743,15 @@
         "plain_resume_health_watcher_pid": null,
         "retired_plain_resume_successor_pid": 342540,
         "retired_plain_resume_health_watcher_pid": 342597,
-        "health_status": "HEALTHY_E163_TRAINING_INCREMENTAL_AND_FIVE_MILESTONE_EXPORT_ZERO_ALERTS",
+        "health_status": "RECOVERED_GPU_ACTIVE_PROGRESS_WATCH_HEALTHY_WITHIN_EPOCH_BOUND_WAITING_E185_CLOSURE",
         "candidate_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
         "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
         "matched_plain_status": "EXACT_5090B_RELATION_ADMITTED_PLAIN_E200_PENDING",
         "absolute_trajectory_is_not_matched_gain": true,
-        "latest_epoch_wall_seconds": 5828.3106236457825,
-        "latest_full_state_sha256": "be1e5fcc80f7b959e5b580ba6d1b8365a1afac9bcb4e3b8e00e6c67933bc87ba",
-        "latest_sidecar_sha256": "81268b2dfd7b41b398b69f4da55ce20f4ddb045fd340154e2913b40328af0fbd",
-        "latest_scientific_state_sha256": "01b253f0b7b4d7bc8d333fbed705ffff5c2653ada63361ae9545cec39da70c2c",
+        "latest_epoch_wall_seconds": 5138.570068597794,
+        "latest_full_state_sha256": "10cf64587747baf0d4aa3d5c398dc48e368ce64bb77ea22d54178b3a2d5092f6",
+        "latest_sidecar_sha256": "ef27714905f872cd348434bdb35448a288dd40c18a5b04427b612a646f78181c",
+        "latest_scientific_state_sha256": "9e83ec4d57b8b1141c8c93a573553235550b9921d1c55bc205c093b1e83effd1",
         "source_bound_export_recovery_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_RECOVERED_SOURCE_EXPORT_CHAIN_20260912T231933.json",
         "latest_fixed_milestone": "e150",
         "latest_fixed_milestone_checkpoint_sha256": "7a5e775a95c5c68e2d23e392ee893a4898ae4962ff8cb8e48a0b299a6ad522f4",
@@ -759,22 +759,22 @@
         "latest_fixed_milestone_scientific_state_sha256": "d4aca2911474184e8b0f42219eff7158f4e58a0c998a215feecc78438db4c047",
         "latest_fixed_milestone_metric_artifact_sha256": "0bc8c65e9f14e8661987e479e9887dcf30097be3426f986ed11a3f3539b1c658",
         "latest_fixed_milestone_evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E150_HASH_AND_OFFHOST_CLOSURE_20260912T042600.json",
-        "projected_completion_from_latest_epoch": "2026-09-15T11:20:00+08:00_rough_from_e163",
+        "projected_completion_from_latest_epoch": "REFORECAST_AFTER_E185_EXACT_RESUME_CLOSURE",
         "gpu_zero_utilization_probe_observed": true,
         "trainer_cpu_time_advanced_during_probe": true,
-        "telemetry_adjudication": "E125_STALL_CLOSED_BY_HASH_VERIFIED_E126_EXACT_RESUME_AND_NORMAL_GPU_ACTIVITY",
-        "engineering_recovery_count": 3,
-        "supervisor_consecutive_failures": 0,
+        "telemetry_adjudication": "E184_STALL_RECOVERED_FROM_HASH_VERIFIED_FULL_STATE_GPU_ACTIVE_CLOSURE_PENDING_E185",
+        "engineering_recovery_count": 4,
+        "supervisor_consecutive_failures": 1,
         "previous_operational_recovery": "evidence/paper_aio/PAPER_AIO_STCGR_E69_STALL_EXACT_RESUME_STARTED_20260907T075316.json",
         "previous_operational_recovery_closure": "evidence/paper_aio/PAPER_AIO_STCGR_E70_EXACT_RESUME_CLOSURE_20260907T090725.json",
         "previous_recovery_from_epoch": 69,
         "previous_recovery_closed_by_epoch": 70,
-        "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_DUAL_5090_STALL_HASH_VERIFIED_RECOVERY_STARTED_20260910T170500.json",
-        "operational_recovery_closure": "evidence/paper_aio/PAPER_AIO_DUAL_5090_EXACT_RESUME_CLOSURE_20260910T183300.json",
-        "latest_recovery_from_epoch": 125,
-        "latest_recovery_closed_by_epoch": 126,
+        "latest_operational_recovery": "evidence/paper_aio/PAPER_AIO_STCGR_E184_STALL_HASH_VERIFIED_EXACT_RECOVERY_STARTED_20260914T145500.json",
+        "operational_recovery_closure": null,
+        "latest_recovery_from_epoch": 184,
+        "latest_recovery_closed_by_epoch": null,
         "live_progress_sentinel_pid": 358447,
-        "live_progress_sentinel_status": "HEALTHY_WITHIN_EPOCH_BOUND_POST_E125_RECOVERY",
+        "live_progress_sentinel_status": "HEALTHY_WITHIN_EPOCH_BOUND_NEW_TRAINER_42095_POST_E184_RECOVERY",
         "retired_live_progress_sentinel_pid": 436478,
         "retired_live_progress_sentinel_v1_pid": 435350,
         "live_progress_sentinel_evidence": "evidence/paper_aio/PAPER_AIO_5090A_STCGR_RESTARTABLE_PROGRESS_SENTINEL_V2_20260903T185005.json",
@@ -3842,8 +3842,8 @@
     },
     "other_live_lanes": {
       "5090C_proposal": "E200_COMPLETE_SOURCE_BOUND_EXPORT_COMPLETE_OFFHOST_INCREMENTAL_E100_E150_E200_VERIFIED",
-      "5090A_stcgr": "E184_SUPERVISOR_AND_TRAINER_ALIVE_HEALTHY_ZERO_ALERTS",
-      "local_dclgan": "E188_TRAINER_ALIVE"
+      "5090A_stcgr": "E184_STALL_HASH_VERIFIED_EXACT_RESUME_NEW_TRAINER_42095_GPU_ACTIVE_WAITING_E185_CLOSURE",
+      "local_dclgan": "E190_TRAINER_ALIVE"
     },
     "required_action": "RESTORE_43172_PROVIDER_INSTANCE_THEN_READ_ONLY_AUDIT_LATEST_FULL_STATE_AND_EXACT_RESUME_IF_PROCESSES_ARE_NOT_LIVE",
     "replacement_lane_started": false,
@@ -3879,6 +3879,32 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E200_SOURCE_EXPORT_AND_OFFHOST_CLOSURE_20260914T130100.json",
     "decision": "decisions/DEC-20260914-PROPOSAL-E200-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md"
+  },
+  "stcgr_e184_stall_exact_recovery_started_20260914": {
+    "status": "E184_HASH_VERIFIED_EXACT_RESUME_GPU_ACTIVE_WAITING_E185_CLOSURE",
+    "host": "5090A",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "stalled_epoch": 184,
+    "stalled_updates": 1573752,
+    "checkpoint_sha256": "10cf64587747baf0d4aa3d5c398dc48e368ce64bb77ea22d54178b3a2d5092f6",
+    "scientific_state_sha256": "9e83ec4d57b8b1141c8c93a573553235550b9921d1c55bc205c093b1e83effd1",
+    "stalled_trainer_pid": 357237,
+    "preserved_supervisor_pid": 357236,
+    "new_trainer_pid": 42095,
+    "outer_guard_pid": 942101,
+    "outer_guard_total_restarts": 1,
+    "offhost_backup": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260914_E184_STALL",
+    "post_resume_gpu_samples_percent": [37, 38, 56, 44, 33],
+    "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "exact_resume_closure_status": "WAITING_E185_FULL_STATE_HASH",
+    "completed_epoch_lost": false,
+    "mechanism_falsified": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E184_STALL_HASH_VERIFIED_EXACT_RECOVERY_STARTED_20260914T145500.json",
+    "decision": "decisions/DEC-20260914-STCGR-E184-STALL-HASH-VERIFIED-EXACT-RECOVERY.md"
   },
   "new_5090_endpoint_pending_identity_20260914": {
     "status": "PENDING_TCP_REACHABILITY_PERSISTENT_FAIL_CLOSED_WATCH_HEALTHY_IDENTITY_NOT_CLAIMED_NO_TASK_STARTED",
@@ -3916,5 +3942,5 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_NEW_5090_44804_WATCH_FAILURE_INJECTION_20260914T011947.json",
     "decision": "decisions/DEC-20260914-NEW-5090-44804-PERSISTENT-REACHABILITY-WATCH.md"
   },
-  "next_gate": "Proposal-only e200, source-bound export, local terminal-audit import, and 4090A unified-evaluation import are complete; 5090C is no longer on the checkpoint-delivery critical path and may be released after operational review. Continue 5090A ST-CGR and local GTX1660 DCLGAN unchanged to e200. Provider endpoints 43172 and 44804 are both currently unreachable: restore 43172 first, then read-only audit its latest full state and live process tree; exact-resume the admitted matched plain only if its frozen supervisor/trainer are truly absent. Keep all recovered local and 4090A delivery relays waiting. When 44804 becomes reachable, run the GPU-UUID identity gate before adding capacity or selecting a task. Complete legal runtime relations, fixed unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "next_gate": "ST-CGR was recovered from the hash-verified e184 full state after an engineering stall; keep trainer 42095 continuous and close exact-resume continuity at e185 before reforecasting e200. Proposal-only e200 and both off-host import paths are complete. Continue local GTX1660 DCLGAN unchanged to e200. Provider endpoints 43172 and 44804 are both currently unreachable: restore 43172 first, then read-only audit its latest full state and live process tree; exact-resume the admitted matched plain only if its frozen supervisor/trainer are truly absent. Keep all recovered local and 4090A delivery relays waiting. When 44804 becomes reachable, run the GPU-UUID identity gate before adding capacity or selecting a task. Complete legal runtime relations, fixed unified evaluation, target-blind terminal audit, complexity accounting, and the multi-algorithm paper portfolio. Do not use intermediate paired metrics for scheduling, selection, early stopping, or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

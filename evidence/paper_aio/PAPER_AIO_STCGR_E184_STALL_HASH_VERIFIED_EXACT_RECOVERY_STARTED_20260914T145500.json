@@ -1,0 +1,98 @@
+{
+  "schema": "final-unsb-paper-stcgr-e184-stall-exact-recovery-started-v1",
+  "captured_at": "2026-09-14T14:55:00+08:00",
+  "status": "E184_STALL_HASH_VERIFIED_EXACT_RESUME_RUNNING_WAITING_E185_CLOSURE",
+  "host": {
+    "label": "5090A",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c"
+  },
+  "stall": {
+    "old_supervisor_pid": 357236,
+    "old_trainer_pid": 357237,
+    "last_complete_data_epoch": 184,
+    "last_complete_updates": 1573752,
+    "heartbeat_mtime": "2026-09-14T05:11:49.790361987+08:00",
+    "heartbeat_age_seconds_at_audit": 34587.31053376198,
+    "frozen_stall_bound_seconds": 7200,
+    "progress_watch_pid": 358447,
+    "progress_watch_status": "ALERT_LIVE_PROCESS_COMPUTE_WITHOUT_IO_PROGRESS",
+    "progress_watch_alert_count": 305,
+    "pre_recovery_gpu_samples_percent": [0, 0, 0, 0, 0],
+    "pre_recovery_gpu_memory_mib": 2186,
+    "pre_recovery_io_delta_zero": true,
+    "trainer_cpu_ticks_advanced": true,
+    "classification": "RECURRING_ENGINEERING_STALL_NOT_ALGORITHM_FAILURE"
+  },
+  "recovery_preflight": {
+    "status": "PASS_RUNTIME_CHECKPOINT_UNIQUE_PROCESS_AND_OFFHOST_BACKUP",
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "training_worktree_clean": true,
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "lane_config_sha256": "d19846d3815d1bac28a9a8d777b58bf5792a55de21bc9b06d8cc37750f235554",
+    "checkpoint_sha256": "10cf64587747baf0d4aa3d5c398dc48e368ce64bb77ea22d54178b3a2d5092f6",
+    "sidecar_sha256": "ef27714905f872cd348434bdb35448a288dd40c18a5b04427b612a646f78181c",
+    "scientific_state_sha256": "9e83ec4d57b8b1141c8c93a573553235550b9921d1c55bc205c093b1e83effd1",
+    "candidate_authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3",
+    "unique_supervisor_pid": 357236,
+    "unique_trainer_pid": 357237,
+    "trainer_parent_verified": true
+  },
+  "offhost_backup": {
+    "directory": "E:/UNSB_Expl/recovery_backups/5090A_STCGR_20260914_E184_STALL",
+    "checkpoint_sha256": "10cf64587747baf0d4aa3d5c398dc48e368ce64bb77ea22d54178b3a2d5092f6",
+    "sidecar_sha256": "ef27714905f872cd348434bdb35448a288dd40c18a5b04427b612a646f78181c",
+    "heartbeat_sha256": "7f81296a8cf0f41a4c32457fba7b07bc0a5cc444ead2fe3aa93b42e3940ad3c5",
+    "guard_state_sha256": "5cbc2b5e8a5d80ff402e630c6a8a524dc7553c73902451f832a1b6463654d314",
+    "candidate_authorization_sha256": "955b1c457c558cbb0d700b79b64bead671f85eeb551400e6f07b1ba8ebb4a2a3",
+    "source_and_destination_checkpoint_hash_match": true,
+    "local_files_read_only": true
+  },
+  "recovery": {
+    "action": "SIGTERM_EXACT_MATCHED_STALLED_TRAINER_ONLY_AFTER_PREFLIGHT_AND_OFFHOST_BACKUP",
+    "supervisor_preserved": true,
+    "outer_guard_preserved": true,
+    "new_trainer_pid": 42095,
+    "command_uses_resume": true,
+    "supervisor_consecutive_failures": 1,
+    "outer_guard_pid": 942101,
+    "outer_guard_total_restarts": 1,
+    "outer_guard_consecutive_no_progress_restarts": 0,
+    "post_resume_gpu_samples_percent": [37, 38, 56, 44, 33],
+    "post_resume_gpu_memory_mib": 2184,
+    "progress_watch_status": "HEALTHY_WITHIN_EPOCH_BOUND",
+    "progress_watch_effective_progress_age_seconds": 40.790000200271606,
+    "status": "GPU_ACTIVE_EXACT_RESUME_WAITING_E185_FULL_STATE_HASH_CLOSURE"
+  },
+  "impact": {
+    "completed_epoch_lost": false,
+    "maximum_compute_lost": "only uncommitted stalled work after e184",
+    "model_optimizer_scheduler_method_rng_and_sampler_state_preserved": true,
+    "training_configuration_changed": false,
+    "runtime_cohort_changed": false,
+    "matched_plain_relation_changed": false,
+    "healthy_other_training_changed": false,
+    "closure_condition": "new trainer completes e185 and writes a hash-verified full state"
+  },
+  "durable_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE_HOURLY",
+    "prompt_updated_for_e184_recovery": true,
+    "automation_toml_sha256": "1ce2986a1a4d5f7ad9b0d2158cfd8c1f9559732eca59e6bf5e5972c409346e12"
+  },
+  "repository_verification": {
+    "all_json_files_parsed": 761,
+    "focused_authority_tests": "12 passed",
+    "full_pytest": "858 passed",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "best_checkpoint_selected": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "mechanism_falsified": false
+  }
+}
