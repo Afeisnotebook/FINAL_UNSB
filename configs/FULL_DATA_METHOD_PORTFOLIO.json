@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-15T01:09:06+08:00",
-  "status": "PROPOSAL_E200_CLOSED_STCGR_E190_RUNNING_DCLGAN_E199_RUNNING_MATCHED_PLAIN_E149_POST_TAKEOVER_CLOSED_RUNNING_ON_5090C",
+  "captured_at": "2026-09-15T02:20:25+08:00",
+  "status": "PROPOSAL_E200_CLOSED_STCGR_E191_RUNNING_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_CLOSED_MATCHED_PLAIN_E150_OFFHOST_CLOSED_RUNNING_ON_5090C",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -1646,7 +1646,7 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_AMTNC_V7_POST_TRAINING_CHAIN_REBIND_20260913T183727.json",
     "decision": "decisions/DEC-20260913-AMTNC-V7-POST-TRAINING-CHAIN-REBIND.md"
   },
-  "latest_live_status": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E149_FIRST_POST_TAKEOVER_CLOSURE_20260915T010906.json",
+  "latest_live_status": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E150_AND_DCLGAN_E200_DELIVERY_20260915T022025.json",
   "amtnc_recovery_relation_and_v5_delivery_20260913": {
     "status": "ready_waiting_for_fixed_e200_exports_no_training_mutation",
     "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
@@ -2138,7 +2138,7 @@
     "decision": "decisions/DEC-20260914-STCGR-E185-EXACT-RESUME-CLOSURE.md"
   },
   "registered_5090c_matched_plain_takeover_20260914": {
-    "status": "pass_first_post_takeover_full_state_closed_by_e149_continuing_e200",
+    "status": "pass_e150_incremental_source_export_and_offhost_import_continuing_e200",
     "logical_lane": "5090B_MATCHED_PLAIN",
     "physical_host": "5090C",
     "endpoint_port": 36525,
@@ -2162,19 +2162,38 @@
     "local_relay_pids": [29284, 18648, 17472, 21568, 8952],
     "unified_4090a_relay_pids": [787525, 787985, 788019],
     "first_post_takeover_gate": "pass_closed_by_e149_full_state_and_scientific_hash",
-    "latest_complete_data_epoch": 149,
-    "latest_complete_updates": 1274397,
-    "latest_checkpoint_sha256": "9321af9746cd76f92031b3bffa948e819363715cf56c0fbcc03d8357dd02a34c",
-    "latest_sidecar_sha256": "235b2a7b4a14f85e489f056f383964f8df7f42905f87a31e804042ca7837ae1a",
-    "latest_scientific_state_sha256": "e9449e2786cbb225e83e6dbab528170897da24e60a142d8327b6e95e05d5c111",
+    "latest_complete_data_epoch": 150,
+    "latest_complete_updates": 1282950,
+    "latest_checkpoint_sha256": "f3b354099913313f5d21e6ecc425c9b66450b67805fcaa5b8ee394fb54fda96b",
+    "latest_sidecar_sha256": "f475bb2807fa5728f4360ba8f95ce13bb3f02083e783e0dd5c007615bafe27d7",
+    "latest_scientific_state_sha256": "94949fcf4cd4d1755791bbf7c931a102527d639c005f1c4bca07b88376a6cb6b",
+    "incremental_source_export_set_sha256": "953237a79b12f7b42ed3098520f3cde57da8359e031ae2dfdecb958fe7dc5e37",
+    "local_incremental_import_set_sha256": "1dced3966cad24e17b36a29c0d7a167506c65b330c6b97b4ab34df548e7bef0d",
     "projected_e200_window": ["2026-09-16T08:00:00+08:00", "2026-09-16T12:00:00+08:00"],
     "proposal_status": "complete_e200_protected_no_rerun",
     "matched_delta_status": "unavailable_until_e200_source_export_and_final_runtime_relation_review",
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_5090C_MATCHED_PLAIN_E149_FIRST_POST_TAKEOVER_CLOSURE_20260915T010906.json",
-    "decision": "decisions/DEC-20260915-5090C-MATCHED-PLAIN-FIRST-POST-TAKEOVER-CLOSURE.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E150_AND_DCLGAN_E200_DELIVERY_20260915T022025.json",
+    "decision": "decisions/DEC-20260915-MATCHED-E150-AND-DCLGAN-E200-DELIVERY.md"
+  },
+  "matched_plain_e150_and_dclgan_e200_delivery_20260915": {
+    "status": "matched_plain_e150_offhost_closed_dclgan_e200_source_and_4090a_import_closed",
+    "matched_plain_epoch": 150,
+    "matched_plain_checkpoint_sha256": "f3b354099913313f5d21e6ecc425c9b66450b67805fcaa5b8ee394fb54fda96b",
+    "matched_plain_local_incremental_import_set_sha256": "1dced3966cad24e17b36a29c0d7a167506c65b330c6b97b4ab34df548e7bef0d",
+    "dclgan_epoch": 200,
+    "dclgan_checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d",
+    "dclgan_scientific_state_sha256": "c82f6a6211a8d0efc34fd086d770ad35ff3632c634b62ee861246aaad3d94972",
+    "dclgan_source_export_set_sha256": "b0588689babd4623b6d32a6fcb1f6caaee5516b3de9f3a9615de49d1c38e3b47",
+    "dclgan_4090a_import_set_sha256": "8f60f5c76adb61454be15a5b9d0a4fb1c5dbac7af247b028ee4751ee24d5ff98",
+    "dclgan_evaluation_status": "healthy_waiting_for_legal_first_wave_cohort",
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E150_AND_DCLGAN_E200_DELIVERY_20260915T022025.json",
+    "decision": "decisions/DEC-20260915-MATCHED-E150-AND-DCLGAN-E200-DELIVERY.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

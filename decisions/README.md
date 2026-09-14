@@ -802,3 +802,7 @@ authorize compute.
      plain已连续形成e148与e149完整状态；e149 checkpoint、sidecar与scientific hash严格闭合，guard零重启、
      health零告警。两轮实测吞吐将e200训练窗口收窄至9月16日08:00–12:00；下一固定门为e150增量异机
      导出。未读取paired性能、未改训练协议，confirmation20继续封存。
+221. `DEC-20260915-MATCHED-E150-AND-DCLGAN-E200-DELIVERY.md`：5090C matched plain完成e150并由
+     本地relay闭合e100/e150增量异机导入；本地DCLGAN完成e200，旧动态source exporter控制面缺失后用
+     冻结`c092b9d`原位恢复，五个固定checkpoint形成完整source-bound set并逐哈希导入4090A。DCLGAN训练
+     未重启、未改协议，固定评估健康等待合法first-wave cohort；paired性能未读，confirmation20封存。
