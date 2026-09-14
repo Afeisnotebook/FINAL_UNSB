@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-14T11:56:33+08:00",
-  "status": "PROPOSAL_E199_STCGR_E184_DCLGAN_E187_CONTINUE_MATCHED_PLAIN_PROVIDER_CLONE_ENDPOINT_UNREACHABLE",
+  "captured_at": "2026-09-14T13:01:00+08:00",
+  "status": "PROPOSAL_E200_SOURCE_EXPORT_OFFHOST_CLOSED_STCGR_E184_DCLGAN_E188_CONTINUE_MATCHED_PLAIN_PROVIDER_CLONE_ENDPOINT_UNREACHABLE",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_EVERY_2_HOURS_DYNAMIC_ORIGIN_MAIN_AUTHORITY",
@@ -11,13 +11,13 @@
       "status": "running_remaining_lanes_amtnc_complete",
       "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
       "proof": "source-bound e200 export sets",
-      "completed": ["4090A/plain", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
+      "completed": ["4090A/plain", "5090C/proposal", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
       "latest_running_milestones": {
-        "5090C/proposal": "e199_supervisor_trainer_alive_health_zero_alerts_continuing_e200",
+        "5090C/proposal": "e200_complete_source_bound_export_complete_offhost_incremental_e100_e150_e200_verified_scientific_adjudication_pending",
         "5090A/stcgr": "e184_supervisor_trainer_alive_health_zero_alerts_continuing_e200",
         "4090A/amtnc_after_plain": "e200_complete_1710600_updates_source_bound_export_complete_v8_matched_evaluation_running",
         "5090B/matched_plain": "provider_clone_endpoint_43172_unreachable_remote_state_unknown_latest_git_verified_e134_local_and_4090a_relays_waiting",
-        "local/dclgan_extension": "e187_complete_trainer_alive_running_e200_v7_delivery_waiters_preserved"
+        "local/dclgan_extension": "e188_complete_trainer_alive_running_e200_v7_delivery_waiters_preserved"
       },
       "cut_e200_evidence": "evidence/paper_aio/PAPER_AIO_CUT_E200_AND_MATCHED_PLAIN_HANDOFF_20260906T044850.json",
       "cyclegan_e200_evidence": "evidence/paper_aio/PAPER_AIO_CYCLEGAN_E200_DESTINATION_IMPORT_CLOSURE_20260908T102000.json"
@@ -1114,11 +1114,34 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_LOCAL_SCHEDULED_RECOVERY_GUARDS_20260914T120505.json",
     "decision": "decisions/DEC-20260914-LOCAL-SCHEDULED-RECOVERY-GUARDS.md"
   },
+  "proposal_e200_source_export_and_offhost_closure_20260914": {
+    "status": "complete_e200_source_bound_export_and_verified_offhost_incremental_import_pending_legal_matched_evaluation",
+    "host": "5090C",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "milestone_checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+    "scientific_state_sha256": "a15d87cd4bed5f25174d586bed60da62cb9a3b83f801332365ddb9c144c06864",
+    "source_export_set_sha256": "afb8e38fc6d7b80db8169d65b9f67bd0b4abe2b0777db904c9b96a06f5c0beff",
+    "incremental_export_set_sha256": "bae0af70eab3e1589fa156225f82dd70f5354c3346f09a945edaac14d624040f",
+    "offhost_incremental_epochs": [100, 150, 200],
+    "offhost_recovery_supervisor_pid": 23704,
+    "offhost_relay_pid": 29436,
+    "local_incremental_import_set_sha256": "f2a725632d33ea38a173319525f76f3ee7c71c024edfb5e948f3c93b7ef20fad",
+    "unified_4090a_import_set_sha256": "b6afe2b7368d863b473032cafe1b79ea410ace28d3c6ac9021651cb48c6d9b4c",
+    "training_complete": true,
+    "performance_adjudicated": false,
+    "matched_delta_available": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_PROPOSAL_E200_SOURCE_EXPORT_AND_OFFHOST_CLOSURE_20260914T130100.json",
+    "decision": "decisions/DEC-20260914-PROPOSAL-E200-SOURCE-EXPORT-AND-OFFHOST-CLOSURE.md"
+  },
   "known_completion_risks": [
     "5090B matched plain now runs on a different physical GPU via an admitted segmented exact-runtime-cohort continuation from e116; the first post-clone e117 checkpoint and scientific hash closed exactly, but final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",
     "the original 4090A prefix remains non-authoritative after cleanup, but AM-TNC completed e200 with a finite full state and complete source-bound exports. The corrected V8 evaluator completed all fixed cells and closed the current implementation after a -2.108 dB late-three mean and -4.072 dB e200 delta; this is not a pending engineering risk and does not falsify the broader geometry family",
     "local GTX1660 availability must cover DCLGAN e200; the deployed push and evaluation recovery supervisors close the post-training handoff, and the measured worst-case local training plus delivery write bound leaves 94.822 GiB headroom",
-    "5090C recovered Proposal from hash-verified e181 after a third recurring process stall and is projected to finish around 2026-09-14 midday; keep it available through at least 2026-09-15 12:00 for source-bound export",
+    "5090C Proposal completed e200 with source-bound export, verified e100/e150/e200 local terminal-audit import and verified e100/e125/e150/e175/e200 4090A unified-evaluation import; the remote source is no longer on the delivery critical path",
     "5090A ST-CGR is projected to finish training between 2026-09-15 04:35 and 09:46, leaving about 14 hours before the recorded 2026-09-16 00:00 horizon; provider expiry and export tail require recheck",
     "5090B provider clone matched plain reached e121 with zero recovery restarts and is projected to finish during 2026-09-15 20:50-23:30; keep the clone available through at least 2026-09-16 12:00 for e200 export and unified evaluation handoff"
   ],

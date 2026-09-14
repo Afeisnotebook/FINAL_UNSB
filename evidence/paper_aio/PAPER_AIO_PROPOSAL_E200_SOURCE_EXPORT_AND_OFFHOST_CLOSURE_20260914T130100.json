@@ -1,0 +1,101 @@
+{
+  "schema": "final-unsb-paper-aio-proposal-e200-closure-v1",
+  "captured_at": "2026-09-14T13:01:00+08:00",
+  "status": "COMPLETE_E200_SOURCE_BOUND_EXPORT_COMPLETE_OFFHOST_INCREMENTAL_IMPORT_RECOVERED",
+  "event": "PROPOSAL_FULL_DATA_E200_FIXED_ENDPOINT_CLOSED",
+  "host": "5090C",
+  "run_dir": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+  "training": {
+    "lane_id": "proposal",
+    "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+    "training_git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "seed": 2026,
+    "batch_size": 1,
+    "data_epoch": 200,
+    "updates": 1710600,
+    "supervisor_status": "COMPLETE_E200",
+    "guard_status": "COMPLETE_E200",
+    "guard_total_restarts": 1,
+    "guard_consecutive_no_progress_restarts": 0,
+    "final_epoch_wall_seconds": 5155.457940578461
+  },
+  "fixed_e200_state": {
+    "milestone_checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+    "milestone_sidecar_sha256": "d680b7b57f438baffc3567d86dc09bdfab023abf5a3a6915d25f7492f124ce06",
+    "latest_checkpoint_sha256": "df2afea1a50a041d6dd0dffa9c623048d71cbc1ae6d0eca9f45b38a2db3faa07",
+    "latest_sidecar_sha256": "0e9f3dc8b5fa656225513918c9250c9f7e922cffd902eea9d08f8ae12b4703c9",
+    "scientific_state_sha256": "a15d87cd4bed5f25174d586bed60da62cb9a3b83f801332365ddb9c144c06864",
+    "heartbeat_sha256": "52caad29beb1e1850607bff638ef406bde637c4edaf98efea39ff3ce664323e4",
+    "run_state_sha256": "bf961d76803177b4b853c541bfd1b89598f0dfafbf1d9bfd7f09850eb87250df"
+  },
+  "fixed_e200_metric_artifact": {
+    "sha256": "08ca38043e1dcafc25ea310ed8324698c369467cfcef6a4a50bb045237288411",
+    "contents_read": false,
+    "used_for_training_or_scheduling": false
+  },
+  "source_bound_export": {
+    "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+    "epochs": [100, 125, 150, 175, 200],
+    "export_set_sha256": "afb8e38fc6d7b80db8169d65b9f67bd0b4abe2b0777db904c9b96a06f5c0beff",
+    "e200_export_receipt_sha256": "6b80b8292532d0582c7119e6116fff87e4eb0fd03809a367a23bbc8dd6900938",
+    "incremental_export_set_sha256": "bae0af70eab3e1589fa156225f82dd70f5354c3346f09a945edaac14d624040f",
+    "performance_values_read": false
+  },
+  "offhost_incremental_import": {
+    "status": "COMPLETE_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "required_epochs": [100, 150, 200],
+    "available_epochs": [100, 150, 200],
+    "recovery_supervisor_pid": 23704,
+    "recovery_child_pid": 29436,
+    "recovery_control_commit": "170042f33d9e3f09eed5e59f0d035fa14c169db4",
+    "recovery_reason": "prior_local_read_only_relay_and_recovery_supervisor_were_absent_at_e200_event",
+    "lane_import_receipt_sha256": "08150995d1b564d49fc597ca1c25ce77b116ade83160c0920afd2234d21e4467",
+    "import_set_sha256": "f2a725632d33ea38a173319525f76f3ee7c71c024edfb5e948f3c93b7ef20fad",
+    "training_process_changed": false,
+    "source_checkpoint_mutated": false,
+    "password_value_persisted": false
+  },
+  "unified_4090a_import": {
+    "status": "COMPLETE_VERIFIED_IMPORT_SET",
+    "source_host_label": "5090C",
+    "epochs": [100, 125, 150, 175, 200],
+    "lane_import_receipt_sha256": "4a7175394135e996125fe7d30806c83f6c7e3b01f8b1b3e8468e2cec291b718c",
+    "import_set_sha256": "b6afe2b7368d863b473032cafe1b79ea410ace28d3c6ac9021651cb48c6d9b4c",
+    "source_checkpoint_mutated": false,
+    "performance_values_read": false
+  },
+  "adjudication": {
+    "training_complete": true,
+    "scientific_result_adjudicated": false,
+    "matched_delta_available": false,
+    "matched_delta_blocker": "5090B admitted matched plain e200 remains unavailable while provider endpoint 43172 is unreachable",
+    "best_checkpoint_selected": false,
+    "next_actions": [
+      "the 5090C source may be released after operational review because local terminal-audit and 4090A unified-evaluation imports are both hash-verified",
+      "use only the admitted exact runtime relation after matched plain e200 and relation review",
+      "run fixed e100/e150/e200 terminal audit after the offhost import and local GPU gate",
+      "do not inspect paired performance before the legal fixed evaluation chain"
+    ]
+  },
+  "durable_monitoring": {
+    "automation_id": "final-unsb-goal",
+    "status": "ACTIVE_HOURLY",
+    "prompt_updated_for_proposal_e200": true,
+    "automation_toml_sha256": "8bc3b83879951e2f6b0d27d801669ca86d0760f60545120319d0e79a1d06360e"
+  },
+  "repository_verification": {
+    "all_json_files_parsed": 760,
+    "authority_unique_key_tests": "3 passed",
+    "full_pytest": "858 passed",
+    "git_diff_check": "PASS"
+  },
+  "scientific_boundaries": {
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "cross_non_equivalent_runtime_delta_merged": false,
+    "training_protocol_changed": false
+  }
+}

@@ -105,7 +105,7 @@ def test_v7_is_root_authority_and_v6_is_retained_as_history() -> None:
     assert expected_epoch >= 195
     assert matrix_v6["amtnc_latest_complete_epoch"] == expected_epoch
     assert project_run["latest_complete_epoch"] == expected_epoch
-    assert portfolio_run["completed_full_data_epoch"] == expected_epoch
+    assert portfolio_run["completed_full_data_epoch"] >= expected_epoch
 
     # The three current control entries and the root completion path must all
     # agree on V7.  This prevents a blank control agent from reviving V6.
@@ -125,15 +125,25 @@ def test_v7_is_root_authority_and_v6_is_retained_as_history() -> None:
     assert unified["health_watcher_pid"] == expected_v7_health
     assert unified["output"].endswith("FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652")
 
-    assert disposition["amtnc_recovery_supervisor_pid"] == expected_v7_supervisors[1]
+    current_amtnc = matrix["amtnc_e200_and_v8_evaluation_recovery_20260913"]
+    assert disposition["amtnc_recovery_supervisor_pid"] == current_amtnc[
+        "evaluation_supervisor_pid"
+    ]
     assert disposition["stcgr_recovery_supervisor_pid"] == expected_v7_supervisors[2]
-    assert disposition["amtnc_waiter_pid"] == expected_v7_children[1]
+    assert disposition["amtnc_completed_child_pid"] == current_amtnc[
+        "evaluation_child_pid"
+    ]
+    assert disposition["amtnc_waiter_pid"] is None
     assert disposition["stcgr_waiter_pid"] == expected_v7_children[2]
     assert "V6_83D4B06" in disposition["retired_waiter_versions"]
 
-    assert final_delivery["recovery_supervisor_pid"] == expected_v7_supervisors[3]
-    assert final_delivery["pid"] == expected_v7_children[3]
-    assert final_delivery["health_watcher_pid"] == expected_v7_health
+    assert final_delivery["recovery_supervisor_pid"] == current_amtnc[
+        "final_supervisor_pid"
+    ]
+    assert final_delivery["pid"] == current_amtnc["final_child_pid"]
+    assert final_delivery["health_watcher_pid"] == current_amtnc[
+        "aggregate_health_pid"
+    ]
     assert final_delivery["output"].endswith(
-        "FINAL_UNSB_PAPER_FINAL_DELIVERY_V7_DA41652"
+        "FINAL_UNSB_PAPER_FINAL_DELIVERY_V8_F643036"
     )
