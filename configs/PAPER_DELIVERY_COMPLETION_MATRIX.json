@@ -4,7 +4,7 @@
   "status": "PROPOSAL_E200_CLOSED_STCGR_E190_RUNNING_DCLGAN_E198_RUNNING_MATCHED_PLAIN_E147_EXACT_TAKEOVER_RUNNING_ON_5090C",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
-  "goal_heartbeat_status": "ACTIVE_EVERY_2_HOURS_DYNAMIC_ORIGIN_MAIN_AUTHORITY",
+  "goal_heartbeat_status": "ACTIVE_HOURLY_DYNAMIC_ORIGIN_MAIN_AUTHORITY_5090C_TAKEOVER_AWARE",
   "core_completion_path": [
     {
       "id": "full_training",
