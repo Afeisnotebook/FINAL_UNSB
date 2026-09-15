@@ -1,0 +1,65 @@
+{
+  "schema": "final-unsb-paper-terminal-pathology-adjudication-evidence-v1",
+  "status": "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+  "observed_at": "2026-09-15T22:16:15+08:00",
+  "authority_parent_commit": "545c7682762d0b7a54b6fcdcab97ae6adcd2b559",
+  "terminal_pathology_confirmed": false,
+  "confirmed_mechanisms": [],
+  "fixed_thresholds": {
+    "spectral_collapse_ratio_max": 0.9,
+    "amplification_ratio_min": 1.1,
+    "future_psnr_decline_db_max": -0.05,
+    "minimum_support_methods": 2,
+    "minimum_support_domains": 3
+  },
+  "lead_lag_design": {
+    "target_blind_diagnostic_window": "e100_to_e150",
+    "paired_future_label_window": "e150_to_e200",
+    "thresholds_fitted_to_results": false,
+    "all_target_blind_audits_validated_before_paired_metric_read": true
+  },
+  "mechanism_support": {
+    "spectral_collapse": {
+      "status": "INSUFFICIENT_SHARED_SUPPORT",
+      "support_cell_count": 0,
+      "support_methods": 0,
+      "support_domains": 0
+    },
+    "perturbation_amplification": {
+      "status": "INSUFFICIENT_SHARED_SUPPORT",
+      "support_cell_count": 2,
+      "support_methods": 2,
+      "support_domains": 2,
+      "required_domains": 3
+    }
+  },
+  "artifacts": {
+    "terminal_pathology_decision_sha256": "57fcb70d3c5fee985cd708a8bd6f5b9135d78af403c418a9eec5f56e24408c6a",
+    "metric_bindings_sha256": "ea157570baa0118a0953ede9d8f47eafb24d1913f9db800fdad762e887adbd58",
+    "successor_state_sha256": "bb1ecaa84e5df272e041ae1904f9cc323702639ee472a387bc94a27bc66e882c"
+  },
+  "process_closure": {
+    "posthoc_pid_historical": 9400,
+    "posthoc_status": "COMPLETE_NATURAL_EXIT",
+    "health_pid_historical": 29184,
+    "health_status": "ALL_TERMINAL_NATURAL_EXIT",
+    "scientific_process_restarted": false
+  },
+  "disposition": {
+    "next_action": "DO_NOT_ADD_TERMINAL_REPAIR_MODULE",
+    "mechanism_falsified_beyond_fixed_test": false,
+    "performance_values_read_posthoc": true,
+    "metric_used_for_training_or_scheduling": false,
+    "algorithm_or_module_auto_started": false
+  },
+  "matched_plain": {
+    "physical_host": "5090C",
+    "latest_complete_data_epoch": 182,
+    "latest_complete_updates": 1556646,
+    "status": "HEALTHY_CONTINUING_E200",
+    "guard_restarts": 0
+  },
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

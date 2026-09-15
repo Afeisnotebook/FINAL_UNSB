@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-15",
-  "state_snapshot_time": "2026-09-15T21:24:22+08:00",
+  "state_snapshot_time": "2026-09-15T22:16:15+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -4080,15 +4080,15 @@
     "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-LONG-CELL-HEALTH-BOUND.md"
   },
   "terminal_audit_completion_and_posthoc_metric_20260915": {
-    "status": "TARGET_BLIND_AUDIT_COMPLETE_POSTHOC_METRIC_RUNNING",
+    "status": "TARGET_BLIND_AUDIT_AND_POSTHOC_ADJUDICATION_COMPLETE",
     "completed_target_blind_cells": 12,
     "terminal_audit_state_sha256": "4222d64783043cd306e387bc038de3cbdf3c9584f693471cf93afda2dbd4b3df",
     "all_audit_stderr_bytes_zero": true,
     "terminal_audit_supervisor_status": "COMPLETE_CHILD_TERMINAL",
     "terminal_audit_process_alive": false,
     "posthoc_metric_pid": 9400,
-    "posthoc_metric_status": "RUNNING_POSTHOC_UNIFIED_METRIC_AFTER_TARGET_BLIND_AUDITS",
-    "posthoc_completed_evaluations": 5,
+    "posthoc_metric_status": "COMPLETE_POSTHOC_TERMINAL_PATHOLOGY_ADJUDICATION",
+    "posthoc_completed_evaluations": 12,
     "retired_pre_posthoc_health_pid": 13656,
     "replacement_health_pid": 29184,
     "posthoc_state_threshold_seconds": 7200,
@@ -4101,5 +4101,30 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_COMPLETE_AND_POSTHOC_METRIC_20260915T212422.json",
     "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-COMPLETE-AND-POSTHOC-METRIC.md"
   },
-  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e181 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import, local import and all twelve fixed target-blind terminal-audit cells are complete. The already-authorized posthoc unified metric stage is running under a long-cell-aware health bound and cannot control training or scheduling. DCLGAN training, export and 4090A import are complete; DCLGAN and ST-CGR fixed evaluators wait without holding the 4090A GPU. After matched plain e200, close source-bound export and final segmented-runtime relation review before releasing fixed 4090A unified evaluation and any matched delta. Then close posthoc terminal-pathology interpretation, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed audit/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "terminal_pathology_adjudication_20260915": {
+    "status": "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+    "terminal_pathology_confirmed": false,
+    "confirmed_mechanisms": [],
+    "spectral_collapse_support_cells": 0,
+    "perturbation_amplification_support_cells": 2,
+    "perturbation_amplification_support_methods": 2,
+    "perturbation_amplification_support_domains": 2,
+    "minimum_required_support_domains": 3,
+    "thresholds_fitted_to_results": false,
+    "all_target_blind_audits_validated_before_paired_metric_read": true,
+    "decision_sha256": "57fcb70d3c5fee985cd708a8bd6f5b9135d78af403c418a9eec5f56e24408c6a",
+    "metric_binding_sha256": "ea157570baa0118a0953ede9d8f47eafb24d1913f9db800fdad762e887adbd58",
+    "posthoc_process_status": "COMPLETE_NATURAL_EXIT",
+    "posthoc_process_pid_historical": 9400,
+    "health_process_pid_historical": 29184,
+    "performance_values_read_posthoc": true,
+    "metric_used_for_training_or_scheduling": false,
+    "algorithm_or_module_auto_started": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "matched_plain_latest_complete_epoch": 182,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_ADJUDICATION_20260915T221615.json",
+    "decision": "decisions/DEC-20260915-TERMINAL-PATHOLOGY-NOT-CONFIRMED.md"
+  },
+  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e182 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import, local import, all twelve fixed target-blind terminal-audit cells and the posthoc terminal-pathology adjudication are complete. The predeclared terminal spectral-collapse/amplification hypothesis did not reach shared-support gates, so do not add a terminal repair module. DCLGAN training, export and 4090A import are complete; DCLGAN and ST-CGR fixed evaluators wait without holding the 4090A GPU. After matched plain e200, close source-bound export and final segmented-runtime relation review before releasing fixed 4090A unified evaluation and any matched delta. Then close complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed audit/pathology/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

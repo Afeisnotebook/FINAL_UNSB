@@ -1,0 +1,9 @@
+# 终端低方差/谱漂移假设未通过预注册门
+
+固定target-blind审计先于任何paired标签完成。随后按冻结阈值进行lead-lag事后裁决：谱坍塌没有获得支持；扰动放大只出现在两个方法、两个域的两个单元，未达到至少三个域的共享支持门。因此当前证据不允许把最后一步低方差或奇异值漂移写成共同反转原因，也不允许据此加入终端修复模块。
+
+这个结论只关闭“按当前预注册定义直接增加终端模块”的动作，不把更广泛的桥谱几何机制写成已证伪。事后paired指标没有控制训练、调度、算法选择或提前停止，也没有自动启动新算法；confirmation20保持封存。
+
+项目关键路径不变：物理5090C上的matched plain已到e182，继续原协议至e200；完成source-bound export和segmented runtime relation review后，再释放4090A上的固定统一评估。
+
+权威证据：`evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_ADJUDICATION_20260915T221615.json`。
