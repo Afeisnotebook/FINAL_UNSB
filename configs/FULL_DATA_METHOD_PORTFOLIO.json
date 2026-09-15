@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-15T02:20:25+08:00",
-  "status": "PROPOSAL_E200_CLOSED_STCGR_E191_RUNNING_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_CLOSED_MATCHED_PLAIN_E150_OFFHOST_CLOSED_RUNNING_ON_5090C",
+  "captured_at": "2026-09-15T17:22:54+08:00",
+  "status": "PROPOSAL_E200_CLOSED_STCGR_E199_RUNNING_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_CLOSED_MATCHED_PLAIN_E175_HASH_CLOSED_RUNNING_ON_5090C",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -2138,7 +2138,7 @@
     "decision": "decisions/DEC-20260914-STCGR-E185-EXACT-RESUME-CLOSURE.md"
   },
   "registered_5090c_matched_plain_takeover_20260914": {
-    "status": "pass_e150_incremental_source_export_and_offhost_import_continuing_e200",
+    "status": "pass_e175_fixed_milestone_hash_closed_continuing_e200",
     "logical_lane": "5090B_MATCHED_PLAIN",
     "physical_host": "5090C",
     "endpoint_port": 36525,
@@ -2162,11 +2162,12 @@
     "local_relay_pids": [29284, 18648, 17472, 21568, 8952],
     "unified_4090a_relay_pids": [787525, 787985, 788019],
     "first_post_takeover_gate": "pass_closed_by_e149_full_state_and_scientific_hash",
-    "latest_complete_data_epoch": 150,
-    "latest_complete_updates": 1282950,
-    "latest_checkpoint_sha256": "f3b354099913313f5d21e6ecc425c9b66450b67805fcaa5b8ee394fb54fda96b",
-    "latest_sidecar_sha256": "f475bb2807fa5728f4360ba8f95ce13bb3f02083e783e0dd5c007615bafe27d7",
-    "latest_scientific_state_sha256": "94949fcf4cd4d1755791bbf7c931a102527d639c005f1c4bca07b88376a6cb6b",
+    "latest_complete_data_epoch": 175,
+    "latest_complete_updates": 1496775,
+    "latest_checkpoint_sha256": "58840401793d96bff11e501c91816e9c983baffd48e51aa67ce07e45173fa58f",
+    "latest_sidecar_sha256": "965ac723224b90b89f02710fbaacd5be2ed140636a9ff774f0437826b3395b37",
+    "latest_scientific_state_sha256": "71ed9e04d9dccbd9a4f9cb380737ad74bfc7acfe09b1f6ea56a04cb8663106de",
+    "latest_fixed_milestone": "e175_source_hash_closed_no_performance_read",
     "incremental_source_export_set_sha256": "953237a79b12f7b42ed3098520f3cde57da8359e031ae2dfdecb958fe7dc5e37",
     "local_incremental_import_set_sha256": "1dced3966cad24e17b36a29c0d7a167506c65b330c6b97b4ab34df548e7bef0d",
     "projected_e200_window": ["2026-09-16T08:00:00+08:00", "2026-09-16T12:00:00+08:00"],
@@ -2175,8 +2176,8 @@
     "performance_values_read": false,
     "paired_metric_control": false,
     "confirmation20_opened": false,
-    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E150_AND_DCLGAN_E200_DELIVERY_20260915T022025.json",
-    "decision": "decisions/DEC-20260915-MATCHED-E150-AND-DCLGAN-E200-DELIVERY.md"
+    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E175_MILESTONE_20260915T172254.json",
+    "decision": "decisions/DEC-20260915-MATCHED-PLAIN-E175-MILESTONE.md"
   },
   "matched_plain_e150_and_dclgan_e200_delivery_20260915": {
     "status": "matched_plain_e150_offhost_closed_dclgan_e200_source_and_4090a_import_closed",
@@ -2194,6 +2195,22 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E150_AND_DCLGAN_E200_DELIVERY_20260915T022025.json",
     "decision": "decisions/DEC-20260915-MATCHED-E150-AND-DCLGAN-E200-DELIVERY.md"
+  },
+  "matched_plain_e175_milestone_20260915": {
+    "status": "matched_plain_e175_hash_closed_continuing_e200",
+    "physical_host": "5090C",
+    "data_epoch": 175,
+    "updates": 1496775,
+    "checkpoint_sha256": "58840401793d96bff11e501c91816e9c983baffd48e51aa67ce07e45173fa58f",
+    "sidecar_sha256": "965ac723224b90b89f02710fbaacd5be2ed140636a9ff774f0437826b3395b37",
+    "scientific_state_sha256": "71ed9e04d9dccbd9a4f9cb380737ad74bfc7acfe09b1f6ea56a04cb8663106de",
+    "stcgr_latest_complete_epoch": 199,
+    "training_continues_unchanged": true,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E175_MILESTONE_20260915T172254.json",
+    "decision": "decisions/DEC-20260915-MATCHED-PLAIN-E175-MILESTONE.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
