@@ -1,0 +1,48 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-health-bound-evidence-v1",
+  "status": "PASS_LONG_CELL_AWARE_HEALTH_WATCH_AUDIT_CONTINUES",
+  "observed_at": "2026-09-15T19:23:42+08:00",
+  "authority_parent_commit": "f27575af0d3d2c4dbedffb5eb0de0dea936f7778",
+  "incident": {
+    "retired_health_watcher_pid": 2988,
+    "retired_status": "ALERT_STATE_STALE",
+    "cause": "FIXED_TARGET_BLIND_AUDIT_CELL_LONGER_THAN_600_SECOND_STATE_THRESHOLD",
+    "audit_process_alive": true,
+    "gpu_activity_observed": true,
+    "scientific_state_failure": false,
+    "training_or_audit_restarted": false
+  },
+  "replacement": {
+    "health_watcher_pid": 13656,
+    "status": "HEALTHY_ZERO_ALERTS",
+    "supervisor_state_threshold_seconds": 600,
+    "audit_child_state_threshold_seconds": 7200,
+    "pathology_state_threshold_seconds": 600,
+    "terminal_audit_supervisor_pid": 20436,
+    "terminal_audit_child_pid": 3912,
+    "terminal_pathology_pid": 9400
+  },
+  "target_blind_progress": {
+    "status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
+    "current_probe": "4090A_amtnc",
+    "current_epoch": 150,
+    "completed_cells": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200",
+      "5090C_proposal:e100",
+      "5090C_proposal:e150",
+      "5090C_proposal:e200",
+      "4090A_amtnc:e100"
+    ]
+  },
+  "matched_plain": {
+    "latest_complete_data_epoch": 178,
+    "latest_complete_updates": 1522434,
+    "status": "HEALTHY_CONTINUING_E200"
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

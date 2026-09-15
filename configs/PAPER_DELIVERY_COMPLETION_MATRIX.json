@@ -1,6 +1,6 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-15T18:29:58+08:00",
+  "captured_at": "2026-09-15T19:23:42+08:00",
   "status": "PROPOSAL_E200_CLOSED_STCGR_E200_SOURCE_AND_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING_DCLGAN_E200_DELIVERED_MATCHED_PLAIN_E176_RUNNING",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -1249,7 +1249,7 @@
     "fixed_evaluation_status": "waiting_for_legal_first_wave_cohort",
     "terminal_audit_supervisor_pid": 20436,
     "terminal_audit_child_pid": 3912,
-    "terminal_audit_health_pid": 2988,
+    "terminal_audit_health_pid": 13656,
     "terminal_audit_status": "running_fixed_target_blind_audit",
     "training_changed_by_delivery_recovery": false,
     "performance_values_read": false,
@@ -1257,6 +1257,23 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
     "decision": "decisions/DEC-20260915-STCGR-E200-DELIVERY-AND-TERMINAL-AUDIT-RECOVERY.md"
+  },
+  "terminal_audit_long_cell_health_bound_20260915": {
+    "status": "pass_long_cell_aware_health_watch_audit_continues",
+    "retired_false_alert_health_pid": 2988,
+    "replacement_health_pid": 13656,
+    "terminal_audit_supervisor_pid": 20436,
+    "terminal_audit_child_pid": 3912,
+    "audit_child_state_threshold_seconds": 7200,
+    "current_probe": "4090A_amtnc",
+    "current_epoch": 150,
+    "completed_target_blind_cells": 7,
+    "audit_restarted": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_LONG_CELL_HEALTH_BOUND_20260915T192342.json",
+    "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-LONG-CELL-HEALTH-BOUND.md"
   },
   "known_completion_risks": [
     "the logical 5090B matched plain now runs on registered 5090C from the migrated, hash-verified e147 full state after a fresh exact runtime twin and dual exact-resume probes; post-takeover continuity is closed through the fixed e175 milestone with zero current guard restarts, while final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",

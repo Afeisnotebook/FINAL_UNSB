@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-15",
-  "state_snapshot_time": "2026-09-15T18:29:58+08:00",
+  "state_snapshot_time": "2026-09-15T19:23:42+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -4053,7 +4053,7 @@
     "fixed_evaluation_status": "WAITING_FOR_LEGAL_FIRST_WAVE_COHORT",
     "terminal_audit_supervisor_pid": 20436,
     "terminal_audit_child_pid": 3912,
-    "terminal_audit_health_pid": 2988,
+    "terminal_audit_health_pid": 13656,
     "terminal_audit_status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
     "training_changed_by_delivery_recovery": false,
     "performance_values_read": false,
@@ -4062,5 +4062,22 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
     "decision": "decisions/DEC-20260915-STCGR-E200-DELIVERY-AND-TERMINAL-AUDIT-RECOVERY.md"
   },
-  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e176 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import and local target-blind import are complete; its fixed evaluator remains healthy and waits for the legal first-wave cohort. Local terminal audit has been recovered from frozen controls and is running. DCLGAN training, export and 4090A import are complete and its evaluator also waits without holding the GPU. After matched plain e200 close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Then complete terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed ST-CGR delivery workers, retired DCLGAN exporter children or 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "terminal_audit_long_cell_health_bound_20260915": {
+    "status": "PASS_LONG_CELL_AWARE_HEALTH_WATCH_AUDIT_CONTINUES",
+    "retired_false_alert_health_pid": 2988,
+    "replacement_health_pid": 13656,
+    "terminal_audit_supervisor_pid": 20436,
+    "terminal_audit_child_pid": 3912,
+    "audit_child_state_threshold_seconds": 7200,
+    "current_probe": "4090A_amtnc",
+    "current_epoch": 150,
+    "completed_target_blind_cells": 7,
+    "audit_restarted": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_LONG_CELL_HEALTH_BOUND_20260915T192342.json",
+    "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-LONG-CELL-HEALTH-BOUND.md"
+  },
+  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e178 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import and local target-blind import are complete; its fixed evaluator remains healthy and waits for the legal first-wave cohort. Local terminal audit is running under the corrected long-cell-aware health bound without restarting any scientific work. DCLGAN training, export and 4090A import are complete and its evaluator also waits without holding the GPU. After matched plain e200 close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Then complete terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed ST-CGR delivery workers, retired DCLGAN exporter children or 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
