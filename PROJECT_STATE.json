@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-15",
-  "state_snapshot_time": "2026-09-15T17:22:54+08:00",
+  "state_snapshot_time": "2026-09-15T18:29:58+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "PROPOSAL_E200_CLOSED_STCGR_E199_RUNNING_DCLGAN_E200_EXPORT_AND_4090A_IMPORT_CLOSED_MATCHED_PLAIN_E175_HASH_CLOSED_RUNNING_ON_5090C_CONFIRMATION_LOCKED",
+    "status": "PROPOSAL_E200_CLOSED_STCGR_E200_SOURCE_AND_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING_DCLGAN_E200_DELIVERED_MATCHED_PLAIN_E176_RUNNING_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -310,7 +310,7 @@
       "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
     },
     "current_algorithm_progress_coverage": {
-      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E199_CONTINUING_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_COMPLETE_MATCHED_PLAIN_E175_HASH_CLOSED_RUNNING_ON_5090C",
+      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E200_SOURCE_AND_IMPORT_COMPLETE_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_COMPLETE_MATCHED_PLAIN_E176_RUNNING_ON_5090C_TERMINAL_AUDIT_RUNNING",
       "4090A_plain_watch_pid": 2613987,
       "4090A_future_amtnc_watch_pid": 2613988,
       "5090C_proposal_watch_pid": 91595,
@@ -318,12 +318,12 @@
       "5090C_retired_proposal_watch_pid": 89015,
       "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
       "training_processes_changed": false,
-      "training_process_change_scope": "5090C_MATCHED_PLAIN_STARTED_FROM_HASH_VERIFIED_E147_AFTER_REGISTERED_HOST_EXACT_RUNTIME_GATES_STCGR_AND_DCLGAN_UNCHANGED",
+      "training_process_change_scope": "STCGR_COMPLETE_E200_NATURAL_EXIT_MATCHED_PLAIN_CONTINUES_UNCHANGED_LOCAL_DELIVERY_AND_AUDIT_CONTROL_ONLY_RECOVERED",
       "5090B_endpoint_status": "ORIGINAL_ENDPOINT_RETIRED_MIGRATED_LOGICAL_LANE_RUNNING_ON_REGISTERED_5090C_36525_FROM_E147",
       "paired_metric_control": false,
       "confirmation20_opened": false,
-      "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E175_MILESTONE_20260915T172254.json",
-      "decision": "decisions/DEC-20260915-MATCHED-PLAIN-E175-MILESTONE.md"
+      "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
+      "decision": "decisions/DEC-20260915-STCGR-E200-DELIVERY-AND-TERMINAL-AUDIT-RECOVERY.md"
     },
     "latest_5090c_proposal_recovery": {
       "status": "E181_STALL_HASH_VERIFIED_EXACT_RESUME_CLOSED_BY_E182_CONTINUING_E187",
@@ -4040,5 +4040,27 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E175_MILESTONE_20260915T172254.json",
     "decision": "decisions/DEC-20260915-MATCHED-PLAIN-E175-MILESTONE.md"
   },
-  "next_gate": "Keep 5090A ST-CGR trainer 42095 and registered-5090C matched plain continuous. ST-CGR is hash-closed through e199 and matched plain is hash-closed through the fixed e175 milestone; continue both unchanged to e200. DCLGAN training, source-bound export and verified 4090A import are complete; its fixed evaluator remains healthy and waits for the legal first-wave cohort without holding the GPU. After ST-CGR e200 close its source delivery. After matched plain e200 close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Then complete terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart retired DCLGAN exporter children or 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "stcgr_e200_delivery_and_terminal_audit_recovery_20260915": {
+    "status": "STCGR_E200_SOURCE_4090A_AND_LOCAL_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+    "scientific_state_sha256": "6dca3a91f54985cad65f3418aedfb441123ff3aab25dfe369aaa8dfaf4773d22",
+    "source_export_set_sha256": "4c6a481ac2a30a62807c94a7151ea3e50ced3d1c2ecc953e8f35c58a5755ce9e",
+    "incremental_export_set_sha256": "24683a03b42599e75eda717b08b1fce03ddfac7947537c362e7ceceb289b049f",
+    "unified_4090a_import_set_sha256": "a9c834c540ea2db54a5fd3ca3aaad1f2134640df3b6181325963d1576dd8f34a",
+    "local_incremental_import_set_sha256": "ffaa00349109b85151850d218f31a6c71bf08840419be7922cac650bf88d3e0c",
+    "fixed_evaluation_status": "WAITING_FOR_LEGAL_FIRST_WAVE_COHORT",
+    "terminal_audit_supervisor_pid": 20436,
+    "terminal_audit_child_pid": 3912,
+    "terminal_audit_health_pid": 2988,
+    "terminal_audit_status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
+    "training_changed_by_delivery_recovery": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
+    "decision": "decisions/DEC-20260915-STCGR-E200-DELIVERY-AND-TERMINAL-AUDIT-RECOVERY.md"
+  },
+  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e176 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import and local target-blind import are complete; its fixed evaluator remains healthy and waits for the legal first-wave cohort. Local terminal audit has been recovered from frozen controls and is running. DCLGAN training, export and 4090A import are complete and its evaluator also waits without holding the GPU. After matched plain e200 close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Then complete terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed ST-CGR delivery workers, retired DCLGAN exporter children or 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }

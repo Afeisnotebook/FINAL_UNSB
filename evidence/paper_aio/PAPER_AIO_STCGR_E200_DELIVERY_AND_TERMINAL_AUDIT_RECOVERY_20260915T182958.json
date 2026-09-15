@@ -1,0 +1,94 @@
+{
+  "schema": "final-unsb-paper-stcgr-e200-delivery-evidence-v1",
+  "status": "STCGR_E200_SOURCE_4090A_AND_LOCAL_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING",
+  "observed_at": "2026-09-15T18:29:58+08:00",
+  "authority_parent_commit": "8183f430f42c45ee9e37d874cdf1d3d5615a564b",
+  "training": {
+    "host": "5090A",
+    "lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "status": "COMPLETE_E200",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "epoch_wall_seconds": 5127.199072122574,
+    "training_git_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+    "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20",
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "milestone_checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+    "milestone_sidecar_sha256": "2bc9b1b27fb2dedd19a94330157534f4a8005b1d4faa0944d356a571c61e8d5c",
+    "heartbeat_sha256": "0e466be97e50d2000d5cc07df514ff5cac8bbe4f4a00ab69c2de2a6b3e37f022",
+    "scientific_state_sha256": "6dca3a91f54985cad65f3418aedfb441123ff3aab25dfe369aaa8dfaf4773d22",
+    "training_guard_terminal_status": "COMPLETE_E200",
+    "training_guard_total_restarts": 1,
+    "prior_exact_resume_closed_by_e185": true,
+    "completed_epoch_lost": false
+  },
+  "source_delivery": {
+    "full_export_status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+    "full_export_set_sha256": "4c6a481ac2a30a62807c94a7151ea3e50ced3d1c2ecc953e8f35c58a5755ce9e",
+    "incremental_export_status": "COMPLETE_INCREMENTAL_AUDIT_EXPORT_SET",
+    "incremental_export_set_sha256": "24683a03b42599e75eda717b08b1fce03ddfac7947537c362e7ceceb289b049f",
+    "source_checkpoint_mutation": false
+  },
+  "unified_4090a_import": {
+    "status": "COMPLETE_VERIFIED_IMPORT_SET",
+    "import_set_sha256": "a9c834c540ea2db54a5fd3ca3aaad1f2134640df3b6181325963d1576dd8f34a",
+    "import_lane_sha256": "00ecb1c08768fc739dae8aecac1898c4cf571025ef08e7acf3ff854acd75ecd9",
+    "e200_checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+    "e200_sidecar_sha256": "2bc9b1b27fb2dedd19a94330157534f4a8005b1d4faa0944d356a571c61e8d5c",
+    "relay_id": "5090A_stcgr_v4",
+    "relay_recovery_status": "COMPLETE_RELAY_TERMINAL_ZERO_RESTARTS",
+    "fixed_evaluation_status": "WAITING_FOR_LEGAL_FIRST_WAVE_COHORT",
+    "evaluation_supervisor_pid": 125402,
+    "evaluation_child_pid": 125437
+  },
+  "local_target_blind_import": {
+    "full_import_status": "COMPLETE_VERIFIED_IMPORT_SET",
+    "full_import_set_sha256": "bfe11ee1d5d98000932f689a9c0e9bc182edfbb99fc458886b1b1247cf34290f",
+    "full_import_lane_sha256": "15815b58bed821019d3cc91400e3611d3a9ea59928d85181acb1c4d7023b530b",
+    "incremental_import_status": "COMPLETE_VERIFIED_INCREMENTAL_AUDIT_IMPORT",
+    "incremental_import_set_sha256": "ffaa00349109b85151850d218f31a6c71bf08840419be7922cac650bf88d3e0c",
+    "incremental_import_lane_sha256": "78a0869f19c12f66a11a7fea3ced4beb0222fedd70c326f44ac2b344172e3383",
+    "e200_checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+    "e200_sidecar_sha256": "2bc9b1b27fb2dedd19a94330157534f4a8005b1d4faa0944d356a571c61e8d5c"
+  },
+  "local_delivery_recovery": {
+    "incident": "STCGR_INCREMENTAL_RELAY_SUPERVISOR_20856_AND_CHILD_16752_ABSENT_AT_E200_WITH_PARTIAL_E100_E150_STATE",
+    "scientific_training_affected": false,
+    "frozen_control_git_commit": "e066f0885b3c4c10717a86efaea9a7091856b18c",
+    "frozen_relay_git_commit": "46f90779979427810f6d84cea751d2545f2da5f3",
+    "replacement_supervisor_pid": 15776,
+    "replacement_child_pid": 30468,
+    "terminal_status": "COMPLETE_RELAY_TERMINAL",
+    "replacement_restart_count": 1,
+    "password_value_persisted": false
+  },
+  "terminal_audit_recovery": {
+    "incident": "TERMINAL_AUDIT_SUPERVISOR_5180_AND_CHILD_16424_ABSENT_WITH_STALE_WAIT_STATE",
+    "scientific_training_affected": false,
+    "frozen_control_git_commit": "b5ea123b05afd0a37809542c1508c97e0306a368",
+    "replacement_supervisor_pid": 20436,
+    "replacement_child_pid": 3912,
+    "health_watcher_pid": 2988,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "current_status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
+    "current_probe": "5090C_proposal",
+    "current_epoch": 100,
+    "completed_cells_before_recovery": [
+      "4090A_plain:e100",
+      "4090A_plain:e150",
+      "4090A_plain:e200"
+    ]
+  },
+  "matched_plain": {
+    "physical_host": "5090C",
+    "latest_complete_data_epoch": 176,
+    "latest_complete_updates": 1505328,
+    "health_status": "HEALTHY_ZERO_ALERTS",
+    "continues_unchanged_to_e200": true
+  },
+  "performance_values_read": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "next_gate": "MATCHED_PLAIN_E200_SOURCE_EXPORT_AND_FINAL_SEGMENTED_RUNTIME_REVIEW_THEN_RELEASE_UNIFIED_FIXED_EVALUATION"
+}

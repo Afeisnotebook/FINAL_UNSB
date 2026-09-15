@@ -1,20 +1,20 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-15T17:22:54+08:00",
-  "status": "PROPOSAL_E200_CLOSED_STCGR_E199_RUNNING_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_CLOSED_MATCHED_PLAIN_E175_HASH_CLOSED_RUNNING_ON_5090C",
+  "captured_at": "2026-09-15T18:29:58+08:00",
+  "status": "PROPOSAL_E200_CLOSED_STCGR_E200_SOURCE_AND_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING_DCLGAN_E200_DELIVERED_MATCHED_PLAIN_E176_RUNNING",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_HOURLY_DYNAMIC_ORIGIN_MAIN_AUTHORITY_5090C_TAKEOVER_AWARE",
   "core_completion_path": [
     {
       "id": "full_training",
-      "status": "running_remaining_lanes_amtnc_complete",
+      "status": "running_only_matched_plain_training_all_algorithm_and_external_lanes_e200_complete",
       "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
       "proof": "source-bound e200 export sets",
-      "completed": ["4090A/plain", "5090C/proposal", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain", "local/dclgan_extension"],
+      "completed": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain", "local/dclgan_extension"],
       "latest_running_milestones": {
         "5090C/proposal": "e200_complete_source_bound_export_complete_offhost_incremental_e100_e150_e200_verified_scientific_adjudication_pending",
-        "5090A/stcgr": "e199_complete_trainer_42095_healthy_continuing_e200",
+        "5090A/stcgr": "e200_complete_source_bound_export_4090a_and_local_import_closed_fixed_evaluation_waiting_legal_cohort",
         "4090A/amtnc_after_plain": "e200_complete_1710600_updates_source_bound_export_complete_v8_matched_evaluation_running",
         "5090B/matched_plain": "registered_5090c_takeover_e175_fixed_milestone_hash_closed_continuing_e200",
         "local/dclgan_extension": "e200_complete_source_bound_export_and_verified_4090a_import_evaluation_waiting_legal_first_wave_cohort"
@@ -1233,6 +1233,30 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E175_MILESTONE_20260915T172254.json",
     "decision": "decisions/DEC-20260915-MATCHED-PLAIN-E175-MILESTONE.md"
+  },
+  "stcgr_e200_delivery_and_terminal_audit_recovery_20260915": {
+    "status": "stcgr_e200_source_4090a_and_local_import_closed_terminal_audit_running",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+    "sidecar_sha256": "2bc9b1b27fb2dedd19a94330157534f4a8005b1d4faa0944d356a571c61e8d5c",
+    "scientific_state_sha256": "6dca3a91f54985cad65f3418aedfb441123ff3aab25dfe369aaa8dfaf4773d22",
+    "source_export_set_sha256": "4c6a481ac2a30a62807c94a7151ea3e50ced3d1c2ecc953e8f35c58a5755ce9e",
+    "incremental_export_set_sha256": "24683a03b42599e75eda717b08b1fce03ddfac7947537c362e7ceceb289b049f",
+    "unified_4090a_import_set_sha256": "a9c834c540ea2db54a5fd3ca3aaad1f2134640df3b6181325963d1576dd8f34a",
+    "local_full_import_set_sha256": "bfe11ee1d5d98000932f689a9c0e9bc182edfbb99fc458886b1b1247cf34290f",
+    "local_incremental_import_set_sha256": "ffaa00349109b85151850d218f31a6c71bf08840419be7922cac650bf88d3e0c",
+    "fixed_evaluation_status": "waiting_for_legal_first_wave_cohort",
+    "terminal_audit_supervisor_pid": 20436,
+    "terminal_audit_child_pid": 3912,
+    "terminal_audit_health_pid": 2988,
+    "terminal_audit_status": "running_fixed_target_blind_audit",
+    "training_changed_by_delivery_recovery": false,
+    "performance_values_read": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
+    "decision": "decisions/DEC-20260915-STCGR-E200-DELIVERY-AND-TERMINAL-AUDIT-RECOVERY.md"
   },
   "known_completion_risks": [
     "the logical 5090B matched plain now runs on registered 5090C from the migrated, hash-verified e147 full state after a fresh exact runtime twin and dual exact-resume probes; post-takeover continuity is closed through the fixed e175 milestone with zero current guard restarts, while final matched deltas remain unavailable until e200 source-bound export and final runtime-relation review",
