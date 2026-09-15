@@ -1,0 +1,59 @@
+{
+  "schema": "final-unsb-paper-terminal-audit-completion-evidence-v1",
+  "status": "TARGET_BLIND_AUDIT_COMPLETE_POSTHOC_METRIC_RUNNING",
+  "observed_at": "2026-09-15T21:24:22+08:00",
+  "authority_parent_commit": "f87f9a8cc08474d9f8821485f914ebd948f33739",
+  "target_blind_audit": {
+    "status": "COMPLETE_FIXED_FULL_DATA_TARGET_BLIND_TERMINAL_AUDITS",
+    "state_sha256": "4222d64783043cd306e387bc038de3cbdf3c9584f693471cf93afda2dbd4b3df",
+    "completed_cells": 12,
+    "all_stderr_bytes_zero": true,
+    "supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "supervisor_pid_historical": 20436,
+    "child_pid_historical": 3912,
+    "scientific_process_restarted_for_completion": false,
+    "receipt_sha256": {
+      "4090A_amtnc:e100": "9919b967ec1fd974e57e2192846a984e7e336edf5608556de8cc9dba03fe0c41",
+      "4090A_amtnc:e150": "570b05a9344ffc40dc8e1b4e49347ac46e08bdc26c7ecdc68791f6824174dbfe",
+      "4090A_amtnc:e200": "d81bab58d41e525db2c770961fc1c9abea580019466eb35e3098ac88fe73be96",
+      "4090A_plain:e100": "286af7c1eb4375f7374e5a9fd58387689225741de7f4b9851e5965cef5d95d9a",
+      "4090A_plain:e150": "82ea8b9548818c294f7909259be44748a59e7495e9c329a68bfd3a106f653c5f",
+      "4090A_plain:e200": "24c8f086d6d06ab6b67320e5350ae79d279e2eb7de30fbd69f4bc6cca0076397",
+      "5090A_stcgr:e100": "d443bed85c45fd3df55fd63e52f348a04b54243ea71abe342971a67fae214cdc",
+      "5090A_stcgr:e150": "64266162265b9058ef15a5c3fe1734005c214f979d20458e9103160107c7903d",
+      "5090A_stcgr:e200": "dc761006ad71f44d793246905d8f81da126212561d652fd663fd1fc338d42091",
+      "5090C_proposal:e100": "65d65a1a10040f9b68508e2ac39908e29298b3d711c7491380c10e05ca886124",
+      "5090C_proposal:e150": "ca9086f85aa016d753ebaaff22a737bb97ab68585cae5307bbfa6dc43fdff627",
+      "5090C_proposal:e200": "76c7b690750c4f38338ce5d584f42cb4928bc5efce0e7d8c3283587fbe6dade4"
+    }
+  },
+  "posthoc_metric": {
+    "status": "RUNNING_POSTHOC_UNIFIED_METRIC_AFTER_TARGET_BLIND_AUDITS",
+    "pid": 9400,
+    "completed_evaluations": 5,
+    "current_probe": "5090C_proposal",
+    "current_epoch": 200,
+    "performance_values_generated_posthoc": true,
+    "metric_used_for_training_or_scheduling": false,
+    "algorithm_or_module_auto_started": false
+  },
+  "monitor_only_repair": {
+    "retired_health_watcher_pid": 13656,
+    "retired_alert_cause": "POSTHOC_FIXED_CELL_LONGER_THAN_600_SECOND_STATE_THRESHOLD",
+    "replacement_health_watcher_pid": 29184,
+    "posthoc_state_threshold_seconds": 7200,
+    "replacement_health_status": "HEALTHY_ZERO_ALERTS",
+    "scientific_audit_or_metric_process_restarted": false
+  },
+  "matched_plain": {
+    "physical_host": "5090C",
+    "latest_complete_data_epoch": 181,
+    "latest_complete_updates": 1548093,
+    "epoch_wall_seconds": 2477.8274614810944,
+    "status": "HEALTHY_CONTINUING_E200",
+    "guard_restarts": 0
+  },
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated": "2026-09-15",
-  "state_snapshot_time": "2026-09-15T19:23:42+08:00",
+  "state_snapshot_time": "2026-09-15T21:24:22+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -4053,8 +4053,8 @@
     "fixed_evaluation_status": "WAITING_FOR_LEGAL_FIRST_WAVE_COHORT",
     "terminal_audit_supervisor_pid": 20436,
     "terminal_audit_child_pid": 3912,
-    "terminal_audit_health_pid": 13656,
-    "terminal_audit_status": "RUNNING_FIXED_TARGET_BLIND_AUDIT",
+    "terminal_audit_health_pid": 29184,
+    "terminal_audit_status": "COMPLETE_FIXED_FULL_DATA_TARGET_BLIND_TERMINAL_AUDITS",
     "training_changed_by_delivery_recovery": false,
     "performance_values_read": false,
     "paired_metric_control": false,
@@ -4079,5 +4079,27 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_LONG_CELL_HEALTH_BOUND_20260915T192342.json",
     "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-LONG-CELL-HEALTH-BOUND.md"
   },
-  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e178 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import and local target-blind import are complete; its fixed evaluator remains healthy and waits for the legal first-wave cohort. Local terminal audit is running under the corrected long-cell-aware health bound without restarting any scientific work. DCLGAN training, export and 4090A import are complete and its evaluator also waits without holding the GPU. After matched plain e200 close source-bound export, final segmented-runtime relation review and fixed 4090A unified evaluation before any matched delta. Then complete terminal audit, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed ST-CGR delivery workers, retired DCLGAN exporter children or 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "terminal_audit_completion_and_posthoc_metric_20260915": {
+    "status": "TARGET_BLIND_AUDIT_COMPLETE_POSTHOC_METRIC_RUNNING",
+    "completed_target_blind_cells": 12,
+    "terminal_audit_state_sha256": "4222d64783043cd306e387bc038de3cbdf3c9584f693471cf93afda2dbd4b3df",
+    "all_audit_stderr_bytes_zero": true,
+    "terminal_audit_supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "terminal_audit_process_alive": false,
+    "posthoc_metric_pid": 9400,
+    "posthoc_metric_status": "RUNNING_POSTHOC_UNIFIED_METRIC_AFTER_TARGET_BLIND_AUDITS",
+    "posthoc_completed_evaluations": 5,
+    "retired_pre_posthoc_health_pid": 13656,
+    "replacement_health_pid": 29184,
+    "posthoc_state_threshold_seconds": 7200,
+    "scientific_audit_restarted": false,
+    "performance_values_generated_posthoc": true,
+    "performance_values_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "matched_plain_latest_complete_epoch": 181,
+    "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_AUDIT_COMPLETE_AND_POSTHOC_METRIC_20260915T212422.json",
+    "decision": "decisions/DEC-20260915-TERMINAL-AUDIT-COMPLETE-AND-POSTHOC-METRIC.md"
+  },
+  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e181 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import, local import and all twelve fixed target-blind terminal-audit cells are complete. The already-authorized posthoc unified metric stage is running under a long-cell-aware health bound and cannot control training or scheduling. DCLGAN training, export and 4090A import are complete; DCLGAN and ST-CGR fixed evaluators wait without holding the 4090A GPU. After matched plain e200, close source-bound export and final segmented-runtime relation review before releasing fixed 4090A unified evaluation and any matched delta. Then close posthoc terminal-pathology interpretation, complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed audit/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
