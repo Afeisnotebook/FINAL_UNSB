@@ -1,0 +1,177 @@
+{
+  "schema": "final-unsb-paper-complexity-profile-v1",
+  "status": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE",
+  "protocol_fingerprint": "8b2803c780787f85cef9bc8dc5d28d66dc6a05e88fd14580a5206cb16d473a89",
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "lane_id": "amtnc",
+  "lane": {
+    "id": "amtnc",
+    "backend": "internal",
+    "family": "unsb",
+    "model": "route1_amtnc",
+    "role": "retained independent geometry mechanism, not first-wave",
+    "method": {},
+    "first_wave": false
+  },
+  "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91/lanes/amtnc/milestones/e200.pt",
+  "checkpoint_sha256": "935bc2d0773aa843cc5351f383dc3d2db9714fd2f582b4d05e21ff180d5f1544",
+  "checkpoint_unchanged": true,
+  "checkpoint_metadata": {
+    "project_id": "FINAL_UNSB_PAPER_AIO_V1",
+    "lane_id": "amtnc",
+    "lane_config_sha256": "5be116a480b401b7a8e54d0964ee7295af004046bfe340864bb6449ce1ed8fdf",
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+    "e0_scientific_state_sha256": "48f54242c1963469b9e833856a65e8986b38cadb6184180b0891490713c78938",
+    "git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+    "train_view": "/home/yc/paper_views/FINAL_UNSB_FULL_AIO_V1_6a68e2c",
+    "data_root": "/home/yc/dataset",
+    "steps_per_data_epoch": 8553,
+    "target_updates": 1710600,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "portable_candidate_authority_sha256": null,
+  "environment": {
+    "hostname": "Machine",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false
+  },
+  "image_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "batch_size": 1,
+  "parameters": {
+    "networks": {
+      "G": {
+        "parameters": 14684419,
+        "optimizer_owned_parameters": 14684419,
+        "requires_grad_parameters_at_measurement": 14684419,
+        "parameter_bytes": 58737676
+      },
+      "F": {
+        "parameters": 560384,
+        "optimizer_owned_parameters": 560384,
+        "requires_grad_parameters_at_measurement": 560384,
+        "parameter_bytes": 2241536
+      },
+      "D": {
+        "parameters": 3143041,
+        "optimizer_owned_parameters": 3143041,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 12572164
+      },
+      "E": {
+        "parameters": 3152257,
+        "optimizer_owned_parameters": 3152257,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 12609028
+      }
+    },
+    "unique_parameters": 21540101,
+    "unique_optimizer_owned_parameters": 21540101,
+    "unique_requires_grad_parameters_at_measurement": 15244803,
+    "unique_parameter_bytes": 86160404
+  },
+  "inference": {
+    "warmup_repeats": 5,
+    "measured_repeats": 30,
+    "nfe": {
+      "1": {
+        "repeats": 30,
+        "median_ms": 23.737087845802307,
+        "mean_ms": 25.0878117668132,
+        "p10_ms": 23.334809113293886,
+        "p90_ms": 24.430496152490377,
+        "min_ms": 21.197961177676916,
+        "max_ms": 47.913766000419855,
+        "peak_allocated_bytes": 361995776,
+        "peak_reserved_bytes": 1017118720
+      },
+      "2": {
+        "repeats": 30,
+        "median_ms": 47.680567018687725,
+        "mean_ms": 50.46520574639241,
+        "p10_ms": 45.592606998980045,
+        "p90_ms": 65.14144502580166,
+        "min_ms": 45.36506999284029,
+        "max_ms": 72.61707028374076,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "3": {
+        "repeats": 30,
+        "median_ms": 71.68600778095424,
+        "mean_ms": 74.56369136149685,
+        "p10_ms": 70.74688095599413,
+        "p90_ms": 82.285535056144,
+        "min_ms": 67.84611567854881,
+        "max_ms": 96.06436593458056,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "4": {
+        "repeats": 30,
+        "median_ms": 95.28316929936409,
+        "mean_ms": 99.6041314676404,
+        "p10_ms": 92.77804009616375,
+        "p90_ms": 111.97039484977722,
+        "min_ms": 90.76063707470894,
+        "max_ms": 142.8553517907858,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "5": {
+        "repeats": 30,
+        "median_ms": 118.96671005524695,
+        "mean_ms": 123.51748767929773,
+        "p10_ms": 116.58199178054929,
+        "p90_ms": 136.84295723214746,
+        "min_ms": 116.31882702931762,
+        "max_ms": 163.40365400537848,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      }
+    }
+  },
+  "training_step": {
+    "repeats": 10,
+    "median_ms": 1387.0765150059015,
+    "mean_ms": 1385.6375929899514,
+    "p10_ms": 1275.2448380924761,
+    "p90_ms": 1564.5775878801942,
+    "min_ms": 1074.8152290470898,
+    "max_ms": 1574.8376338742673,
+    "warmup_steps": 3,
+    "peak_allocated_bytes": 1697583104,
+    "peak_reserved_bytes": 1868562432
+  },
+  "flops": {
+    "reported": false,
+    "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+  },
+  "source_input": {
+    "domain": "FoggyCityscapes",
+    "stem": "0001",
+    "target_path_read": false
+  },
+  "disposable_in_memory_model_mutated_for_training_timing": true,
+  "performance_metric_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

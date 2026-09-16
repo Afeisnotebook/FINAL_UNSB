@@ -1,0 +1,247 @@
+{
+  "schema": "final-unsb-paper-algorithm-disposition-v1",
+  "status": "COMPLETE_POSTHOC_ALGORITHM_DISPOSITION",
+  "method_lane": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "primary_epoch": 200,
+  "fixed_epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "entry": {
+    "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+    "role": "evidence-locked full-data paper candidate",
+    "backend": "internal",
+    "comparison_scope": "one_container_unified_evaluation",
+    "candidate_lock": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/candidate_locks/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/CANDIDATE_LOCK.json",
+    "status": "COMPLETE_E200",
+    "first_wave": false,
+    "supervisor_status": null,
+    "terminal": {
+      "macro_psnr": 16.931007419546066,
+      "macro_ssim": 0.5598841395787894,
+      "macro_lpips": 0.3406378548747549,
+      "stochasticity": {
+        "macro_psnr_std": 0.15028423343363487,
+        "macro_ssim_std": 0.0051742752977179405,
+        "macro_lpips_std": 0.006682315551731212,
+        "ddof": 0,
+        "replicate_count": 5
+      },
+      "count_per_domain": 80,
+      "replicates": 5
+    },
+    "late_trajectory": [
+      {
+        "epoch": 150,
+        "macro_psnr_delta": 1.2561259752769622,
+        "macro_ssim_delta": 0.01091491707733705,
+        "macro_lpips_delta": -0.02282267990743836,
+        "positive_domains": 5,
+        "worst_domain_delta": -3.237892557120915,
+        "domain_delta": {
+          "FoggyCityscapes": {
+            "psnr": 2.316603655440151,
+            "ssim": 0.03812232741287769,
+            "lpips": -0.03896921649575233
+          },
+          "LowLightTrafficData": {
+            "psnr": 1.4310734771943725,
+            "ssim": 0.04243554217474804,
+            "lpips": -0.07249550478799005
+          },
+          "RSCityscapes": {
+            "psnr": -3.237892557120915,
+            "ssim": -0.13577702428613386,
+            "lpips": 0.15283443070948122
+          },
+          "RainCityscapes": {
+            "psnr": 1.9147331460003443,
+            "ssim": 0.002767542856080163,
+            "lpips": 0.009476094905819216
+          },
+          "RainDS-syn": {
+            "psnr": 0.9925188736482582,
+            "ssim": 0.018235888225691665,
+            "lpips": -0.05090631225279402
+          },
+          "SnowTrafficData": {
+            "psnr": 4.119719256499572,
+            "ssim": 0.09970522608075827,
+            "lpips": -0.13687557152339389
+          }
+        },
+        "crn_exact": true,
+        "runtime_relation_legal": true,
+        "matched_comparison_legal": true,
+        "runtime_relation": {
+          "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+          "method_source_host_label": "5090A",
+          "plain_source_host_label": "5090B_MATCHED_PLAIN",
+          "runtime_twin_updates": 2000,
+          "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+          "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+          "performance_values_read": false
+        },
+        "candidate_macro_psnr": 18.32089432811316,
+        "plain_macro_psnr": 17.064768352836197
+      },
+      {
+        "epoch": 175,
+        "macro_psnr_delta": -0.588167772195689,
+        "macro_ssim_delta": -0.013646589396964948,
+        "macro_lpips_delta": 0.011951248374368478,
+        "positive_domains": 2,
+        "worst_domain_delta": -1.6529982104204315,
+        "domain_delta": {
+          "FoggyCityscapes": {
+            "psnr": -1.6529982104204315,
+            "ssim": -0.04863867717129844,
+            "lpips": 0.04659216808421271
+          },
+          "LowLightTrafficData": {
+            "psnr": 0.7785089163048511,
+            "ssim": 0.022575127226965752,
+            "lpips": -0.03278116221938815
+          },
+          "RSCityscapes": {
+            "psnr": 0.5939625318121209,
+            "ssim": 0.015632948918001988,
+            "lpips": -0.018252117612532204
+          },
+          "RainCityscapes": {
+            "psnr": -1.1870417779995392,
+            "ssim": -0.02956816554069519,
+            "lpips": 0.027789542291845604
+          },
+          "RainDS-syn": {
+            "psnr": -0.8777161429534104,
+            "ssim": -0.015930387803486434,
+            "lpips": 0.022330629186970846
+          },
+          "SnowTrafficData": {
+            "psnr": -1.1837219499177287,
+            "ssim": -0.025950382011277306,
+            "lpips": 0.026028430515101994
+          }
+        },
+        "crn_exact": true,
+        "runtime_relation_legal": true,
+        "matched_comparison_legal": true,
+        "runtime_relation": {
+          "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+          "method_source_host_label": "5090A",
+          "plain_source_host_label": "5090B_MATCHED_PLAIN",
+          "runtime_twin_updates": 2000,
+          "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+          "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+          "performance_values_read": false
+        },
+        "candidate_macro_psnr": 18.92586369794147,
+        "plain_macro_psnr": 19.51403147013716
+      },
+      {
+        "epoch": 200,
+        "macro_psnr_delta": -2.7440773304201116,
+        "macro_ssim_delta": -0.08258573702846983,
+        "macro_lpips_delta": 0.104079197954076,
+        "positive_domains": 1,
+        "worst_domain_delta": -5.083389889222719,
+        "domain_delta": {
+          "FoggyCityscapes": {
+            "psnr": -3.3291364161734407,
+            "ssim": -0.1121740214526653,
+            "lpips": 0.1336643821746111
+          },
+          "LowLightTrafficData": {
+            "psnr": 0.7918584074984878,
+            "ssim": -0.0023638641461730114,
+            "lpips": 0.014970293417573
+          },
+          "RSCityscapes": {
+            "psnr": -1.6072998269633558,
+            "ssim": -0.04700029257684951,
+            "lpips": 0.0714523630216718
+          },
+          "RainCityscapes": {
+            "psnr": -5.083389889222719,
+            "ssim": -0.12472879283130167,
+            "lpips": 0.14957208288833498
+          },
+          "RainDS-syn": {
+            "psnr": -3.274897189279219,
+            "ssim": -0.09828016858547928,
+            "lpips": 0.1267536200210452
+          },
+          "SnowTrafficData": {
+            "psnr": -3.961599068380419,
+            "ssim": -0.1109672825783492,
+            "lpips": 0.12806244620122015
+          }
+        },
+        "crn_exact": true,
+        "runtime_relation_legal": true,
+        "matched_comparison_legal": true,
+        "runtime_relation": {
+          "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+          "method_source_host_label": "5090A",
+          "plain_source_host_label": "5090B_MATCHED_PLAIN",
+          "runtime_twin_updates": 2000,
+          "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+          "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+          "performance_values_read": false
+        },
+        "candidate_macro_psnr": 16.931007419546066,
+        "plain_macro_psnr": 19.675084749966178
+      }
+    ],
+    "scientific_gate": {
+      "status": "FAIL",
+      "late_three_macro_psnr_delta": -0.6920397091129461,
+      "e200_macro_psnr_delta": -2.7440773304201116,
+      "crn_exact_at_all_late_points": true,
+      "runtime_relation_legal_at_all_late_points": true,
+      "runtime_relation_exact_at_all_late_points": true,
+      "runtime_relation_identity": "exact_runtime",
+      "provenance_boundary_disclosed": false,
+      "candidate_e150_to_e200_change_db": -1.3898869085670924,
+      "plain_e150_to_e200_change_db": 2.6103163971299814,
+      "plain_collapse_guard": "PASS_NOT_PLAIN_COLLAPSE",
+      "confirmation20_opened": false
+    }
+  },
+  "evaluation_receipts": [
+    {
+      "epoch": 100,
+      "path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_G4-01-STRATIFIED-TIME-CONDITIONAL-GF_e100.json",
+      "sha256": "ba5decd5f3f3be78a5adb1a73637eea951f6e6bf27e63cddc626b0177638a451"
+    },
+    {
+      "epoch": 125,
+      "path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_G4-01-STRATIFIED-TIME-CONDITIONAL-GF_e125.json",
+      "sha256": "69374db9c645719350a482322c835e3bf88582f85c5584c1e8b5f5ef8c0abcfb"
+    },
+    {
+      "epoch": 150,
+      "path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_G4-01-STRATIFIED-TIME-CONDITIONAL-GF_e150.json",
+      "sha256": "4cacce243f0e69ec2912ea7d4cdb17ddeb5ba90bc562b0099252e360031b6f2e"
+    },
+    {
+      "epoch": 175,
+      "path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_G4-01-STRATIFIED-TIME-CONDITIONAL-GF_e175.json",
+      "sha256": "5dc5890bc48840ddd52aa92302ae744436b5e269d478fe0785a60d99b6a9e389"
+    },
+    {
+      "epoch": 200,
+      "path": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_G4-01-STRATIFIED-TIME-CONDITIONAL-GF_e200.json",
+      "sha256": "037a07a118fd06ff6c95752ce01e8a2f0cbdd5a3d6bee5a0a0ae2121634253f7"
+    }
+  ],
+  "metric_values_used_for_training_or_scheduling": false,
+  "best_checkpoint_selection": false,
+  "cross_non_equivalent_runtime_delta": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

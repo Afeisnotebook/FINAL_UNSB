@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-source-export-set-v1",
+  "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+  "lane_id": "amtnc",
+  "source_host_label": "4090A",
+  "epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "exports": [
+    {
+      "epoch": 100,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838/amtnc/e100.export.json",
+      "receipt_sha256": "3d314cfe0ae7ca7d03ac965fcaf9dde8910b25395de7a3b4cf2646dace92680c",
+      "checkpoint_sha256": "a9cdcd4ddbb93cd2f9732be1b5fda7921ca7431076bf07c71e9df4f284fd6488",
+      "scientific_state_sha256": "53c3838e169c37593f41ae0346938c9b96765ec7d1f092c6d50cca538c3de707"
+    },
+    {
+      "epoch": 125,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838/amtnc/e125.export.json",
+      "receipt_sha256": "fc19a306b656192195efc11f3b5251c5174c6e8e79e87996c6fa21058662c8a1",
+      "checkpoint_sha256": "ed1d9b462cb16049df5064520c09b725e3240eb4bc132d7e2a08ed8c4cb144eb",
+      "scientific_state_sha256": "dddc52876fa003984ed4ab01d0be9be0524b3e37f2b06b7345cc02bb1ef783cf"
+    },
+    {
+      "epoch": 150,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838/amtnc/e150.export.json",
+      "receipt_sha256": "cfdc2b1c6a4e407bf4f0eb639cec26c739b924469faf2c8dd4b271dcbf00278e",
+      "checkpoint_sha256": "92fd7765f61a20f8952040b2598ae6f4dce14fb69d92b17555fbe3373183321b",
+      "scientific_state_sha256": "c6f80cc277ef2cb8f4e9a00143af2b2e533dfd76a8758e31b30bc9e1d4fed001"
+    },
+    {
+      "epoch": 175,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838/amtnc/e175.export.json",
+      "receipt_sha256": "9b8d9616fb6e68253bf6017a58dc3fb2c40d21c49cab570d2c2edd248b817822",
+      "checkpoint_sha256": "d29bedc9069d13a44cd7a3e210e430655203ff71199ff3ea85e91d18e7f46e14",
+      "scientific_state_sha256": "7b8d5657c8d0c30803872073e12cea1b3e9aa7b09b13921bb360e54927919e0f"
+    },
+    {
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_EXPORTS_4090A_9214838/amtnc/e200.export.json",
+      "receipt_sha256": "d8fce760f91a172d1f10f2564becc0df4a5b97808cffc96efdea1c01302c89b6",
+      "checkpoint_sha256": "935bc2d0773aa843cc5351f383dc3d2db9714fd2f582b4d05e21ff180d5f1544",
+      "scientific_state_sha256": "ca7c8e9821f1d17ce40a1a6270f46706b0c75fbd6df2b7a350406fc928a0364e"
+    }
+  ],
+  "performance_values_read": false,
+  "checkpoint_copy_performed": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

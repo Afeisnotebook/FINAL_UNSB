@@ -1,0 +1,28 @@
+{
+  "schema": "final-unsb-paper-dclgan-portfolio-addendum-state-v1",
+  "pid": 1562866,
+  "contract": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA/operations/DCLGAN_PORTFOLIO_ADDENDUM_CONTRACT.json",
+  "contract_sha256": "d4f98943d78ccb0416b7ebc7a26c2eabaac4a168ab86aa588579e721b9da0bf2",
+  "performance_values_available_to_scheduler": false,
+  "metric_values_used_for_training_or_scheduling": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "status": "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM",
+  "dependencies": {
+    "base_portfolio": "WAIT",
+    "dclgan_result": "READY"
+  },
+  "performance_values_read": true,
+  "captured_unix_time": 1789534473.9570007,
+  "augmented_portfolio": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+  "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+  "addendum": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA/PAPER_EXTERNAL_BASELINE_ADDENDUM.json",
+  "addendum_sha256": "cc72d76cff51eaeca94669c5dff984acc00f20efe55a9dd67b07904c4bdce732",
+  "complexity": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA/complexity/dclgan.json",
+  "complexity_sha256": "e2b717a8343a386cef6d739f9afad2c40a9c5ccca0ee1ee573f0fc9af13ba253",
+  "performance_values_in_control_state": false,
+  "core_paper_delivery_was_not_blocked": true,
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false
+}

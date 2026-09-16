@@ -1,0 +1,20 @@
+{
+  "schema": "final-unsb-paper-algorithm-set-v1",
+  "status": "FIRST_WAVE_EVIDENCE_READY_CANDIDATES_PENDING",
+  "accepted_algorithms": [
+    "proposal"
+  ],
+  "scientific_failures": [],
+  "reproduction_incomplete": [
+    "ddsb"
+  ],
+  "engineering_blocked": [],
+  "deferred_not_first_wave": [
+    "hjcgr",
+    "amtnc"
+  ],
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "multiple_algorithms_allowed": true,
+  "confirmation20_opened": false
+}

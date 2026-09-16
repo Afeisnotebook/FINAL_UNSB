@@ -1,0 +1,501 @@
+{
+  "schema": "final-unsb-paper-external-baseline-addendum-v1",
+  "status": "COMPLETE_FIXED_DCLGAN_EXTERNAL_BASELINE_ADDENDUM",
+  "lane_id": "dclgan",
+  "primary_epoch": 200,
+  "fixed_epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "result": {
+    "schema": "final-unsb-paper-dclgan-result-v1",
+    "status": "COMPLETE_FIXED_E200_EXTERNAL_BASELINE",
+    "lane_id": "dclgan",
+    "paper_role": "official_source_controlled_exposure_external_comparator",
+    "primary_epoch": 200,
+    "fixed_epochs": [
+      100,
+      125,
+      150,
+      175,
+      200
+    ],
+    "trajectory": [
+      {
+        "epoch": 100,
+        "macro_psnr": 22.801776363660256,
+        "macro_ssim": 0.7282769259952363,
+        "macro_lpips": 0.1707722456283158,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 70,
+            "psnr": 24.0755402801984,
+            "ssim": 0.8222983334745679,
+            "lpips": 0.08995500297418663
+          },
+          "LowLightTrafficData": {
+            "n": 70,
+            "psnr": 15.909253911179745,
+            "ssim": 0.49410276114940643,
+            "lpips": 0.4071366629430226
+          },
+          "RSCityscapes": {
+            "n": 70,
+            "psnr": 24.819903995037333,
+            "ssim": 0.7620925060340337,
+            "lpips": 0.14712164982088974
+          },
+          "RainCityscapes": {
+            "n": 70,
+            "psnr": 27.472011365572378,
+            "ssim": 0.8589697888919285,
+            "lpips": 0.06064400122101818
+          },
+          "RainDS-syn": {
+            "n": 70,
+            "psnr": 19.571942663833205,
+            "ssim": 0.6302225457770484,
+            "lpips": 0.23417005773101535
+          },
+          "SnowTrafficData": {
+            "n": 70,
+            "psnr": 24.96200596614048,
+            "ssim": 0.8019756206444332,
+            "lpips": 0.08560609907976219
+          }
+        },
+        "metric_sha256": "8e4113df9270b5473c64a83447d31a4e82efec932ac86c5a7de5831ed9bc14c3"
+      },
+      {
+        "epoch": 125,
+        "macro_psnr": 22.91881638238473,
+        "macro_ssim": 0.7324664954628263,
+        "macro_lpips": 0.16299795990898494,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 70,
+            "psnr": 24.52324813445656,
+            "ssim": 0.8299895976270948,
+            "lpips": 0.0837528010564191
+          },
+          "LowLightTrafficData": {
+            "n": 70,
+            "psnr": 15.95929029868316,
+            "ssim": 0.4952332752091544,
+            "lpips": 0.3875011688896588
+          },
+          "RSCityscapes": {
+            "n": 70,
+            "psnr": 24.308895802625646,
+            "ssim": 0.7622592108590263,
+            "lpips": 0.1534211271309427
+          },
+          "RainCityscapes": {
+            "n": 70,
+            "psnr": 27.858171826248274,
+            "ssim": 0.8635505744389125,
+            "lpips": 0.05789273602089712
+          },
+          "RainDS-syn": {
+            "n": 70,
+            "psnr": 19.622282636333786,
+            "ssim": 0.6344171208994729,
+            "lpips": 0.2215731537767819
+          },
+          "SnowTrafficData": {
+            "n": 70,
+            "psnr": 25.241009595960954,
+            "ssim": 0.8093491937432971,
+            "lpips": 0.07384677257921014
+          }
+        },
+        "metric_sha256": "14f594560145a62634c16dc240d3964ff2871677a71c469648a4fea90369804a"
+      },
+      {
+        "epoch": 150,
+        "macro_psnr": 23.153979349059252,
+        "macro_ssim": 0.7355375428284918,
+        "macro_lpips": 0.1593642722859624,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 70,
+            "psnr": 24.84889035208555,
+            "ssim": 0.8329763310296195,
+            "lpips": 0.08150894812175206
+          },
+          "LowLightTrafficData": {
+            "n": 70,
+            "psnr": 16.011388708464747,
+            "ssim": 0.4960654356649944,
+            "lpips": 0.3807363637856075
+          },
+          "RSCityscapes": {
+            "n": 70,
+            "psnr": 24.521566580604752,
+            "ssim": 0.7703683086803981,
+            "lpips": 0.14599614260452135
+          },
+          "RainCityscapes": {
+            "n": 70,
+            "psnr": 28.430119380598242,
+            "ssim": 0.8707612293107169,
+            "lpips": 0.054985903975154675
+          },
+          "RainDS-syn": {
+            "n": 70,
+            "psnr": 19.60293906310285,
+            "ssim": 0.6309868812561035,
+            "lpips": 0.22362980246543884
+          },
+          "SnowTrafficData": {
+            "n": 70,
+            "psnr": 25.508972009499363,
+            "ssim": 0.8120670710291181,
+            "lpips": 0.06932847276329994
+          }
+        },
+        "metric_sha256": "5c9f344036383ccd8884d358c6fb029d752c78d6f47c38d3046aa49c7ce837a9"
+      },
+      {
+        "epoch": 175,
+        "macro_psnr": 23.226573120407725,
+        "macro_ssim": 0.7342555012021745,
+        "macro_lpips": 0.1575875266521637,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 70,
+            "psnr": 24.795043229870817,
+            "ssim": 0.828563529253006,
+            "lpips": 0.08306274632258075
+          },
+          "LowLightTrafficData": {
+            "n": 70,
+            "psnr": 16.21983418389913,
+            "ssim": 0.4988905676773616,
+            "lpips": 0.37321942214454923
+          },
+          "RSCityscapes": {
+            "n": 70,
+            "psnr": 24.807233380506474,
+            "ssim": 0.7767533430031368,
+            "lpips": 0.13795812353491782
+          },
+          "RainCityscapes": {
+            "n": 70,
+            "psnr": 28.651256202153146,
+            "ssim": 0.8690971383026668,
+            "lpips": 0.0569083083554038
+          },
+          "RainDS-syn": {
+            "n": 70,
+            "psnr": 19.405493236342526,
+            "ssim": 0.6239396495478494,
+            "lpips": 0.22543434713568006
+          },
+          "SnowTrafficData": {
+            "n": 70,
+            "psnr": 25.480578489674247,
+            "ssim": 0.808288779429027,
+            "lpips": 0.06894221241985049
+          }
+        },
+        "metric_sha256": "75691b9a7bfdee6a637684651a5458466a54cddd269ea391464af4500c9f99d0"
+      },
+      {
+        "epoch": 200,
+        "macro_psnr": 23.32828400045406,
+        "macro_ssim": 0.7351932630563774,
+        "macro_lpips": 0.15584671544687204,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 400,
+            "psnr": 24.855594196174135,
+            "ssim": 0.8271082021296025,
+            "lpips": 0.08416801085695624
+          },
+          "LowLightTrafficData": {
+            "n": 400,
+            "psnr": 16.252982640602987,
+            "ssim": 0.503230482712388,
+            "lpips": 0.36599070597440003
+          },
+          "RSCityscapes": {
+            "n": 400,
+            "psnr": 25.546449384845275,
+            "ssim": 0.7925908632576466,
+            "lpips": 0.1250260417466052
+          },
+          "RainCityscapes": {
+            "n": 400,
+            "psnr": 28.553671557426934,
+            "ssim": 0.8642335630953312,
+            "lpips": 0.062465864734258504
+          },
+          "RainDS-syn": {
+            "n": 400,
+            "psnr": 19.285437868767318,
+            "ssim": 0.6186957709491253,
+            "lpips": 0.22830679994076492
+          },
+          "SnowTrafficData": {
+            "n": 400,
+            "psnr": 25.47556835490773,
+            "ssim": 0.8053006961941719,
+            "lpips": 0.06912286942824722
+          }
+        },
+        "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50"
+      }
+    ],
+    "terminal": {
+      "epoch": 200,
+      "macro_psnr": 23.32828400045406,
+      "macro_ssim": 0.7351932630563774,
+      "macro_lpips": 0.15584671544687204,
+      "stochasticity": {
+        "macro_psnr_std": 0.0,
+        "macro_ssim_std": 0.0,
+        "macro_lpips_std": 0.0,
+        "ddof": 0,
+        "replicate_count": 5
+      },
+      "domains": {
+        "FoggyCityscapes": {
+          "n": 400,
+          "psnr": 24.855594196174135,
+          "ssim": 0.8271082021296025,
+          "lpips": 0.08416801085695624
+        },
+        "LowLightTrafficData": {
+          "n": 400,
+          "psnr": 16.252982640602987,
+          "ssim": 0.503230482712388,
+          "lpips": 0.36599070597440003
+        },
+        "RSCityscapes": {
+          "n": 400,
+          "psnr": 25.546449384845275,
+          "ssim": 0.7925908632576466,
+          "lpips": 0.1250260417466052
+        },
+        "RainCityscapes": {
+          "n": 400,
+          "psnr": 28.553671557426934,
+          "ssim": 0.8642335630953312,
+          "lpips": 0.062465864734258504
+        },
+        "RainDS-syn": {
+          "n": 400,
+          "psnr": 19.285437868767318,
+          "ssim": 0.6186957709491253,
+          "lpips": 0.22830679994076492
+        },
+        "SnowTrafficData": {
+          "n": 400,
+          "psnr": 25.47556835490773,
+          "ssim": 0.8053006961941719,
+          "lpips": 0.06912286942824722
+        }
+      },
+      "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50"
+    },
+    "evaluation_receipts": [
+      {
+        "epoch": 100,
+        "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e100.json",
+        "receipt_sha256": "f561a7144a8385961c8515eb96db5ac481788935caf6f8d59b66949c236b64c6",
+        "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e100.json",
+        "metric_sha256": "8e4113df9270b5473c64a83447d31a4e82efec932ac86c5a7de5831ed9bc14c3",
+        "checkpoint_sha256": "2a0dec043aa92e468985a3b12dd6595d8c3c8fd610272b23ac15bc8432389b12"
+      },
+      {
+        "epoch": 125,
+        "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e125.json",
+        "receipt_sha256": "0a0f9a80e274eb273e0f58329862947d3a6082590dbc84405ebcd337e6b6fa31",
+        "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e125.json",
+        "metric_sha256": "14f594560145a62634c16dc240d3964ff2871677a71c469648a4fea90369804a",
+        "checkpoint_sha256": "48149083e9be971aafb0508239948961185d64090b421909b5991b241d970caa"
+      },
+      {
+        "epoch": 150,
+        "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e150.json",
+        "receipt_sha256": "b07512fb9780512087403dfe5098d3eb4a53b736e1b710e7bf7d910791b49c36",
+        "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e150.json",
+        "metric_sha256": "5c9f344036383ccd8884d358c6fb029d752c78d6f47c38d3046aa49c7ce837a9",
+        "checkpoint_sha256": "8fefd45fec342670da04f99f7d041763190a6af5f59014d98e7bcfa3fd1ff744"
+      },
+      {
+        "epoch": 175,
+        "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e175.json",
+        "receipt_sha256": "b5c8f2ec04d985dcbf4636826800d78b1ef8ea3129627240d9087bc6c69021d7",
+        "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e175.json",
+        "metric_sha256": "75691b9a7bfdee6a637684651a5458466a54cddd269ea391464af4500c9f99d0",
+        "checkpoint_sha256": "9ebae9c36a507292de406f31e11df1c32c3df7134dc5a6acd9d523f5b1498224"
+      },
+      {
+        "epoch": 200,
+        "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e200.json",
+        "receipt_sha256": "aa7640d5585facdef4b1c721fd952999a3321f9a48ae7d14dce3492ddd7cfb15",
+        "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e200.json",
+        "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50",
+        "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d"
+      }
+    ],
+    "comparison_scope": "standalone_fixed_protocol_no_matched_delta_claim",
+    "included_in_first_wave_cohort": false,
+    "performance_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "paired_metric_control": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "confirmation20_opened": false
+  },
+  "complexity": {
+    "lane_id": "dclgan",
+    "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d",
+    "environment": {
+      "hostname": "Machine",
+      "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+      "python": "3.10.20",
+      "torch": "2.5.1+cu121",
+      "torch_cuda": "12.1",
+      "cudnn": 90100,
+      "cuda_available": true,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "gpu_count": 1,
+      "cublas_workspace_config": ":4096:8",
+      "tf32_matmul": false,
+      "tf32_cudnn": false
+    },
+    "parameters": {
+      "networks": {
+        "G_A": {
+          "parameters": 11378179,
+          "optimizer_owned_parameters": 11378179,
+          "requires_grad_parameters_at_measurement": 11378179,
+          "parameter_bytes": 45512716
+        },
+        "F1": {
+          "parameters": 493568,
+          "optimizer_owned_parameters": 493568,
+          "requires_grad_parameters_at_measurement": 493568,
+          "parameter_bytes": 1974272
+        },
+        "D_A": {
+          "parameters": 2764737,
+          "optimizer_owned_parameters": 2764737,
+          "requires_grad_parameters_at_measurement": 0,
+          "parameter_bytes": 11058948
+        },
+        "G_B": {
+          "parameters": 11378179,
+          "optimizer_owned_parameters": 11378179,
+          "requires_grad_parameters_at_measurement": 11378179,
+          "parameter_bytes": 45512716
+        },
+        "F2": {
+          "parameters": 493568,
+          "optimizer_owned_parameters": 493568,
+          "requires_grad_parameters_at_measurement": 493568,
+          "parameter_bytes": 1974272
+        },
+        "D_B": {
+          "parameters": 2764737,
+          "optimizer_owned_parameters": 2764737,
+          "requires_grad_parameters_at_measurement": 0,
+          "parameter_bytes": 11058948
+        }
+      },
+      "unique_parameters": 29272968,
+      "unique_optimizer_owned_parameters": 29272968,
+      "unique_requires_grad_parameters_at_measurement": 23743494,
+      "unique_parameter_bytes": 117091872
+    },
+    "inference": {
+      "warmup_repeats": 5,
+      "measured_repeats": 30,
+      "nfe": {
+        "1": {
+          "repeats": 30,
+          "median_ms": 2.3909974843263626,
+          "mean_ms": 2.4175232431540885,
+          "p10_ms": 2.363909035921097,
+          "p90_ms": 2.5151120498776436,
+          "min_ms": 2.223590388894081,
+          "max_ms": 2.5573261082172394,
+          "peak_allocated_bytes": 581630464,
+          "peak_reserved_bytes": 874512384
+        }
+      }
+    },
+    "training_step": {
+      "repeats": 10,
+      "median_ms": 91.68918756768107,
+      "mean_ms": 94.73316785879433,
+      "p10_ms": 91.04210883378983,
+      "p90_ms": 99.30760087445378,
+      "min_ms": 90.98685998469591,
+      "max_ms": 114.40137168392539,
+      "warmup_steps": 3,
+      "peak_allocated_bytes": 2031919104,
+      "peak_reserved_bytes": 2141192192
+    },
+    "flops": {
+      "reported": false,
+      "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+    },
+    "checkpoint_unchanged": true,
+    "target_path_read": false
+  },
+  "source_artifact_sha256": {
+    "base_portfolio": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "dclgan_result": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "dclgan_evaluation_contract": "41b22f7466331364299d788c5f2e1f5d0368296ed6a7546bd46b3fef33e68a0e",
+    "dclgan_complexity": "e2b717a8343a386cef6d739f9afad2c40a9c5ccca0ee1ee573f0fc9af13ba253"
+  },
+  "core_paper_delivery_was_not_blocked": true,
+  "metric_values_used_for_training_or_scheduling": false,
+  "best_checkpoint_selection": false,
+  "paired_metric_control": false,
+  "cross_non_equivalent_runtime_delta": false,
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "confirmation20_opened": false
+}

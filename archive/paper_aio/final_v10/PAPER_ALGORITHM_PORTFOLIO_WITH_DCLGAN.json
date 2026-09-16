@@ -1,0 +1,2418 @@
+{
+  "schema": "final-unsb-paper-full-data-algorithm-portfolio-v2",
+  "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
+  "primary_epoch": 200,
+  "sustained_epochs": [
+    150,
+    175,
+    200
+  ],
+  "methods": {
+    "proposal": {
+      "algorithm_id": "ABL-G1-02B-PCRSMG-PROPOSAL-ONLY",
+      "matched_plain": "5090B_MATCHED_PLAIN/plain",
+      "comparison_scope": "same_runtime_output_root",
+      "runtime_relation": {
+        "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+        "method_source_host_label": "5090C",
+        "plain_source_host_label": "5090B_MATCHED_PLAIN",
+        "runtime_twin_updates": 2000,
+        "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+        "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+        "comparison_identity": null,
+        "parent_git_commit": null,
+        "recovery_git_commit": null,
+        "recovery_start_epoch": null,
+        "migration_receipt_sha256": null,
+        "overflow_safe_replay_receipt_sha256": null,
+        "provenance_boundary_disclosed": null
+      },
+      "result": {
+        "lane_id": "proposal",
+        "role": "frozen post-D/E conditional two-view G/F estimator",
+        "backend": "internal",
+        "comparison_scope": "same_runtime_output_root",
+        "candidate_lock": null,
+        "status": "COMPLETE_E200",
+        "first_wave": true,
+        "supervisor_status": null,
+        "terminal": {
+          "macro_psnr": 20.51443151852717,
+          "macro_ssim": 0.6638345547268788,
+          "macro_lpips": 0.22146850552254668,
+          "stochasticity": {
+            "macro_psnr_std": 0.029763784825750633,
+            "macro_ssim_std": 0.0009375956502604347,
+            "macro_lpips_std": 0.0009604614503846114,
+            "ddof": 0,
+            "replicate_count": 5
+          },
+          "count_per_domain": 80,
+          "replicates": 5
+        },
+        "late_trajectory": [
+          {
+            "epoch": 150,
+            "macro_psnr_delta": 3.3381127510158244,
+            "macro_ssim_delta": 0.06660194744666414,
+            "macro_lpips_delta": -0.08417911022635446,
+            "positive_domains": 5,
+            "worst_domain_delta": -0.8048210694749258,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": 4.898285448171304,
+                "ssim": 0.08666052179677142,
+                "lpips": -0.09514698705502918
+              },
+              "LowLightTrafficData": {
+                "psnr": 1.4130388121602238,
+                "ssim": 0.06434396377631596,
+                "lpips": -0.05721768076930728
+              },
+              "RSCityscapes": {
+                "psnr": -0.8048210694749258,
+                "ssim": -0.036585090841565804,
+                "lpips": 0.041841366142034486
+              },
+              "RainCityscapes": {
+                "psnr": 5.597346666309392,
+                "ssim": 0.07476665547915862,
+                "lpips": -0.07476049408848796
+              },
+              "RainDS-syn": {
+                "psnr": 2.418341719231435,
+                "ssim": 0.058501289997782036,
+                "lpips": -0.11419570360864911
+              },
+              "SnowTrafficData": {
+                "psnr": 6.506484929697521,
+                "ssim": 0.1519243444715228,
+                "lpips": -0.20559516197868755
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+              "method_source_host_label": "5090C",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 20.40288110385202,
+            "plain_macro_psnr": 17.064768352836197
+          },
+          {
+            "epoch": 175,
+            "macro_psnr_delta": 0.9932350853916176,
+            "macro_ssim_delta": 0.029999480148156343,
+            "macro_lpips_delta": -0.023591800579535083,
+            "positive_domains": 6,
+            "worst_domain_delta": 0.23694046969528415,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": 0.4024407791815676,
+                "ssim": 0.005262725693838899,
+                "lpips": -0.007551277748176044
+              },
+              "LowLightTrafficData": {
+                "psnr": 0.47582973026581676,
+                "ssim": 0.02820858550923211,
+                "lpips": 0.01100681743451526
+              },
+              "RSCityscapes": {
+                "psnr": 2.651050292058013,
+                "ssim": 0.10371657673801699,
+                "lpips": -0.10597354955971244
+              },
+              "RainCityscapes": {
+                "psnr": 1.566064725383363,
+                "ssim": 0.02448404303618834,
+                "lpips": -0.021057653027985776
+              },
+              "RainDS-syn": {
+                "psnr": 0.6270845157656701,
+                "ssim": 0.010296141249792945,
+                "lpips": -0.005489091575145738
+              },
+              "SnowTrafficData": {
+                "psnr": 0.23694046969528415,
+                "ssim": 0.008028808661869613,
+                "lpips": -0.01248604900070599
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+              "method_source_host_label": "5090C",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 20.507266555528776,
+            "plain_macro_psnr": 19.51403147013716
+          },
+          {
+            "epoch": 200,
+            "macro_psnr_delta": 0.8393467685609934,
+            "macro_ssim_delta": 0.021364678119619618,
+            "macro_lpips_delta": -0.015090151398132218,
+            "positive_domains": 4,
+            "worst_domain_delta": -0.16704041476664244,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": 0.9809837328831748,
+                "ssim": 0.010054683536291131,
+                "lpips": -0.003933222927153118
+              },
+              "LowLightTrafficData": {
+                "psnr": 0.5864077655404856,
+                "ssim": 0.027805551737546952,
+                "lpips": 0.008203833550214812
+              },
+              "RSCityscapes": {
+                "psnr": 2.543327958790716,
+                "ssim": 0.07943031191825867,
+                "lpips": -0.0915600244887173
+              },
+              "RainCityscapes": {
+                "psnr": 1.138104798267289,
+                "ssim": 0.016131678372621527,
+                "lpips": -0.01790706555359066
+              },
+              "RainDS-syn": {
+                "psnr": -0.0457032293490478,
+                "ssim": -0.004483038112521154,
+                "lpips": 0.011403053998947144
+              },
+              "SnowTrafficData": {
+                "psnr": -0.16704041476664244,
+                "ssim": -0.0007511187344789727,
+                "lpips": 0.003252517031505711
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+              "method_source_host_label": "5090C",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 20.51443151852717,
+            "plain_macro_psnr": 19.675084749966178
+          }
+        ],
+        "scientific_gate": {
+          "status": "PASS",
+          "late_three_macro_psnr_delta": 1.7235648683228117,
+          "e200_macro_psnr_delta": 0.8393467685609934,
+          "crn_exact_at_all_late_points": true,
+          "runtime_relation_legal_at_all_late_points": true,
+          "runtime_relation_exact_at_all_late_points": true,
+          "runtime_relation_identity": "exact_runtime",
+          "provenance_boundary_disclosed": false,
+          "candidate_e150_to_e200_change_db": 0.11155041467515048,
+          "plain_e150_to_e200_change_db": 2.6103163971299814,
+          "plain_collapse_guard": "PASS_NOT_PLAIN_COLLAPSE",
+          "confirmation20_opened": false
+        }
+      }
+    },
+    "amtnc": {
+      "algorithm_id": "G2-01-ADAM-METRIC-TANGENTIAL-CONSENSUS",
+      "matched_plain": "4090A/plain",
+      "comparison_scope": "same_host_audited_method_only_recovery",
+      "runtime_relation": {
+        "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+        "method_source_host_label": "4090A",
+        "plain_source_host_label": "4090A",
+        "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+        "late_epoch_statuses": {
+          "150": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+          "175": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+          "200": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION"
+        },
+        "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+        "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+        "recovery_start_epoch": 178,
+        "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+        "overflow_safe_replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+        "provenance_boundary_disclosed": true,
+        "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+        "pre_recovery_milestone_dynamics_only_sha256": {
+          "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+          "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+          "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+          "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+        },
+        "recovery_chain_version": "sequential_method_only_recovery_v1",
+        "recovery_stages": [
+          {
+            "stage": 1,
+            "start_epoch": 178,
+            "start_updates": 1522434,
+            "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+            "recovery_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+            "parent_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+            "recovery_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+            "repair_kind": "float32_metric_reduction_overflow_preserving_higher_precision",
+            "method_only_changed_paths": [
+              "src/models/route1/amtnc.py"
+            ],
+            "finite_path_bitwise_equal": true,
+            "higher_precision_same_metric_reduction_only": true,
+            "parent_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+            "migrated_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+            "migration_receipt_sha256": "5c90f17fb359a2f8a28168e4da359de03100d129c6899fbbacf8e04ff106ec6b",
+            "localization_receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+            "replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+            "plain_transition_code_changed": false,
+            "gradient_samples_changed": false,
+            "projection_formula_changed": false,
+            "hyperparameters_changed": false,
+            "rng_or_sampler_changed": false,
+            "transition_defining_state_changed": false,
+            "source_checkpoint_mutated": false,
+            "performance_values_read": false,
+            "paired_metric_control": false,
+            "confirmation20_opened": false
+          },
+          {
+            "stage": 2,
+            "start_epoch": 194,
+            "start_updates": 1659282,
+            "parent_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+            "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+            "parent_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+            "recovery_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+            "repair_kind": "float32_adam_second_moment_overflow_preserving_higher_precision",
+            "method_only_changed_paths": [
+              "research/local_route1/runtime.py",
+              "src/models/route1/amtnc.py"
+            ],
+            "finite_representable_path_bitwise_equal": true,
+            "promote_only_unrepresentable_exp_avg_sq": true,
+            "optimizer_update_skipped": false,
+            "gradient_clipped": false,
+            "precision_promotion_observed": true,
+            "promoted_state_dtype": "float64",
+            "e195_checkpoint_all_finite": true,
+            "full_state_reload_preserves_promoted_dtype": true,
+            "parent_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+            "migrated_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+            "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+            "incident_receipt_sha256": "f2dfae53187f3169e7fc4f2e8bdf536016fe5a3b8cad6230fb1d43f1a645bdc4",
+            "one_update_gate_checkpoint_sha256": "897a180085ac3e7e2cb688feec2356e72e4ea0c77be4a63d8ff9e1180aa5a1da",
+            "one_update_gate_scientific_state_sha256": "3d98034be307a847f2df1c774f3092c5907931f51bf182005d14000120ac0898",
+            "e195_gate_receipt_sha256": "630443eb26f432181a8bc6a20b716dc6565f50869f24b2f908c3b88f29d5eabc",
+            "method_source_sha256": "b7ce7ea996a5b67389860f1c09a07bb92f8fa5aa4ff420766cb579903c6710e4",
+            "runtime_source_sha256": "f05ba87afb1d04fa6cda1df981fdaf5168b3bde66fe38f0080ef2ceec8420ec9",
+            "plain_transition_code_changed": false,
+            "gradient_samples_changed": false,
+            "projection_formula_changed": false,
+            "hyperparameters_changed": false,
+            "rng_or_sampler_changed": false,
+            "transition_defining_state_changed": false,
+            "source_checkpoint_mutated": false,
+            "performance_values_read": false,
+            "paired_metric_control": false,
+            "confirmation20_opened": false
+          }
+        ]
+      },
+      "result": {
+        "lane_id": "amtnc",
+        "role": "retained independent geometry mechanism, not first-wave",
+        "backend": "internal",
+        "comparison_scope": "same_host_audited_method_only_recovery",
+        "candidate_lock": null,
+        "status": "COMPLETE_E200",
+        "first_wave": false,
+        "supervisor_status": null,
+        "terminal": {
+          "macro_psnr": 14.069762144494652,
+          "macro_ssim": 0.47581623708829285,
+          "macro_lpips": 0.38771064408433936,
+          "stochasticity": {
+            "macro_psnr_std": 0.09708115738055119,
+            "macro_ssim_std": 0.0045729057953460646,
+            "macro_lpips_std": 0.0030859758426018025,
+            "ddof": 0,
+            "replicate_count": 5
+          },
+          "count_per_domain": 80,
+          "replicates": 5
+        },
+        "late_trajectory": [
+          {
+            "epoch": 150,
+            "macro_psnr_delta": -0.13396623947761555,
+            "macro_ssim_delta": -0.003410631879454451,
+            "macro_lpips_delta": 0.008633208443366291,
+            "positive_domains": 3,
+            "worst_domain_delta": -0.7228216730087489,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": 0.0940866970229024,
+                "ssim": 0.0027393447501318224,
+                "lpips": 0.005658544493573059
+              },
+              "LowLightTrafficData": {
+                "psnr": -0.18801476564501662,
+                "ssim": -0.022062403389385754,
+                "lpips": 0.030166189798287002
+              },
+              "RSCityscapes": {
+                "psnr": 0.3220069416981879,
+                "ssim": -0.007675915743623474,
+                "lpips": -0.00943252949842388
+              },
+              "RainCityscapes": {
+                "psnr": 0.39289561547619556,
+                "ssim": 0.03163535126617978,
+                "lpips": -0.01682069376111031
+              },
+              "RainDS-syn": {
+                "psnr": -0.7019502524092154,
+                "ssim": -0.01627279988357,
+                "lpips": 0.022913870215415938
+              },
+              "SnowTrafficData": {
+                "psnr": -0.7228216730087489,
+                "ssim": -0.008827368276459802,
+                "lpips": 0.019313869412456247
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+              "method_source_host_label": "4090A",
+              "plain_source_host_label": "4090A",
+              "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+              "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+              "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+              "recovery_start_epoch": 178,
+              "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+              "overflow_safe_replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+              "provenance_boundary_disclosed": true,
+              "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+              "pre_recovery_milestone_dynamics_only_sha256": {
+                "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+                "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+                "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+                "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+              },
+              "recovery_chain_version": "sequential_method_only_recovery_v1",
+              "recovery_stages": [
+                {
+                  "stage": 1,
+                  "start_epoch": 178,
+                  "start_updates": 1522434,
+                  "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+                  "recovery_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "parent_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+                  "recovery_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "repair_kind": "float32_metric_reduction_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_path_bitwise_equal": true,
+                  "higher_precision_same_metric_reduction_only": true,
+                  "parent_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migrated_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migration_receipt_sha256": "5c90f17fb359a2f8a28168e4da359de03100d129c6899fbbacf8e04ff106ec6b",
+                  "localization_receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+                  "replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                },
+                {
+                  "stage": 2,
+                  "start_epoch": 194,
+                  "start_updates": 1659282,
+                  "parent_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+                  "parent_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "recovery_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+                  "repair_kind": "float32_adam_second_moment_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "research/local_route1/runtime.py",
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_representable_path_bitwise_equal": true,
+                  "promote_only_unrepresentable_exp_avg_sq": true,
+                  "optimizer_update_skipped": false,
+                  "gradient_clipped": false,
+                  "precision_promotion_observed": true,
+                  "promoted_state_dtype": "float64",
+                  "e195_checkpoint_all_finite": true,
+                  "full_state_reload_preserves_promoted_dtype": true,
+                  "parent_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migrated_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+                  "incident_receipt_sha256": "f2dfae53187f3169e7fc4f2e8bdf536016fe5a3b8cad6230fb1d43f1a645bdc4",
+                  "one_update_gate_checkpoint_sha256": "897a180085ac3e7e2cb688feec2356e72e4ea0c77be4a63d8ff9e1180aa5a1da",
+                  "one_update_gate_scientific_state_sha256": "3d98034be307a847f2df1c774f3092c5907931f51bf182005d14000120ac0898",
+                  "e195_gate_receipt_sha256": "630443eb26f432181a8bc6a20b716dc6565f50869f24b2f908c3b88f29d5eabc",
+                  "method_source_sha256": "b7ce7ea996a5b67389860f1c09a07bb92f8fa5aa4ff420766cb579903c6710e4",
+                  "runtime_source_sha256": "f05ba87afb1d04fa6cda1df981fdaf5168b3bde66fe38f0080ef2ceec8420ec9",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                }
+              ],
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 19.633820981603336,
+            "plain_macro_psnr": 19.76778722108095
+          },
+          {
+            "epoch": 175,
+            "macro_psnr_delta": -2.116877579278089,
+            "macro_ssim_delta": -0.05637768620536432,
+            "macro_lpips_delta": 0.06892787420767402,
+            "positive_domains": 0,
+            "worst_domain_delta": -3.442569048459127,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": -2.2895714023980602,
+                "ssim": -0.06314872971602847,
+                "lpips": 0.08583978233592851
+              },
+              "LowLightTrafficData": {
+                "psnr": -0.7124740589683842,
+                "ssim": -0.03851270100900106,
+                "lpips": 0.03621511438063213
+              },
+              "RSCityscapes": {
+                "psnr": -1.0541954271726386,
+                "ssim": -0.03570896003927504,
+                "lpips": 0.02841179541179112
+              },
+              "RainCityscapes": {
+                "psnr": -2.3123539982066035,
+                "ssim": -0.04277945288590024,
+                "lpips": 0.0559817278225507
+              },
+              "RainDS-syn": {
+                "psnr": -2.8901015404637196,
+                "ssim": -0.07063726250614433,
+                "lpips": 0.09118162649018424
+              },
+              "SnowTrafficData": {
+                "psnr": -3.442569048459127,
+                "ssim": -0.08747901107583722,
+                "lpips": 0.11593719880495752
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+              "method_source_host_label": "4090A",
+              "plain_source_host_label": "4090A",
+              "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+              "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+              "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+              "recovery_start_epoch": 178,
+              "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+              "overflow_safe_replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+              "provenance_boundary_disclosed": true,
+              "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+              "pre_recovery_milestone_dynamics_only_sha256": {
+                "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+                "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+                "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+                "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+              },
+              "recovery_chain_version": "sequential_method_only_recovery_v1",
+              "recovery_stages": [
+                {
+                  "stage": 1,
+                  "start_epoch": 178,
+                  "start_updates": 1522434,
+                  "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+                  "recovery_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "parent_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+                  "recovery_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "repair_kind": "float32_metric_reduction_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_path_bitwise_equal": true,
+                  "higher_precision_same_metric_reduction_only": true,
+                  "parent_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migrated_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migration_receipt_sha256": "5c90f17fb359a2f8a28168e4da359de03100d129c6899fbbacf8e04ff106ec6b",
+                  "localization_receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+                  "replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                },
+                {
+                  "stage": 2,
+                  "start_epoch": 194,
+                  "start_updates": 1659282,
+                  "parent_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+                  "parent_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "recovery_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+                  "repair_kind": "float32_adam_second_moment_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "research/local_route1/runtime.py",
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_representable_path_bitwise_equal": true,
+                  "promote_only_unrepresentable_exp_avg_sq": true,
+                  "optimizer_update_skipped": false,
+                  "gradient_clipped": false,
+                  "precision_promotion_observed": true,
+                  "promoted_state_dtype": "float64",
+                  "e195_checkpoint_all_finite": true,
+                  "full_state_reload_preserves_promoted_dtype": true,
+                  "parent_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migrated_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+                  "incident_receipt_sha256": "f2dfae53187f3169e7fc4f2e8bdf536016fe5a3b8cad6230fb1d43f1a645bdc4",
+                  "one_update_gate_checkpoint_sha256": "897a180085ac3e7e2cb688feec2356e72e4ea0c77be4a63d8ff9e1180aa5a1da",
+                  "one_update_gate_scientific_state_sha256": "3d98034be307a847f2df1c774f3092c5907931f51bf182005d14000120ac0898",
+                  "e195_gate_receipt_sha256": "630443eb26f432181a8bc6a20b716dc6565f50869f24b2f908c3b88f29d5eabc",
+                  "method_source_sha256": "b7ce7ea996a5b67389860f1c09a07bb92f8fa5aa4ff420766cb579903c6710e4",
+                  "runtime_source_sha256": "f05ba87afb1d04fa6cda1df981fdaf5168b3bde66fe38f0080ef2ceec8420ec9",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                }
+              ],
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 17.679801413941785,
+            "plain_macro_psnr": 19.796678993219874
+          },
+          {
+            "epoch": 200,
+            "macro_psnr_delta": -4.072023450843259,
+            "macro_ssim_delta": -0.13341193562373516,
+            "macro_lpips_delta": 0.12852401930838825,
+            "positive_domains": 0,
+            "worst_domain_delta": -5.611952955646592,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": -4.350741463061176,
+                "ssim": -0.14485835034400218,
+                "lpips": 0.12950750870630146
+              },
+              "LowLightTrafficData": {
+                "psnr": -2.397496501710288,
+                "ssim": -0.09953609287738802,
+                "lpips": 0.08755439288914207
+              },
+              "RSCityscapes": {
+                "psnr": -2.6937971104546232,
+                "ssim": -0.12290018633008004,
+                "lpips": 0.10324555240571498
+              },
+              "RainCityscapes": {
+                "psnr": -4.079418820860862,
+                "ssim": -0.13868894852697844,
+                "lpips": 0.10798115903511646
+              },
+              "RainDS-syn": {
+                "psnr": -5.298733853326036,
+                "ssim": -0.12685543060302734,
+                "lpips": 0.14828809216618538
+              },
+              "SnowTrafficData": {
+                "psnr": -5.611952955646592,
+                "ssim": -0.16763260506093497,
+                "lpips": 0.1945674106478691
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_AUDITED_SAME_HOST_METHOD_ONLY_RECOVERY_RELATION",
+              "method_source_host_label": "4090A",
+              "plain_source_host_label": "4090A",
+              "comparison_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+              "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+              "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+              "recovery_start_epoch": 178,
+              "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+              "overflow_safe_replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+              "provenance_boundary_disclosed": true,
+              "pre_recovery_milestones_rematerialized_with_dynamics_only_identity": true,
+              "pre_recovery_milestone_dynamics_only_sha256": {
+                "100": "2261f083995976b57ea22064c07aca78784ad56a81c274789e7133b77945a6ce",
+                "125": "9a42654f83c95f02ca1b98ab2699d9e9e00ea8a0a346b7a8dc7cc9794e0693dd",
+                "150": "69468d4f6ba69da5803ce6def361e0382bb5dd4591f79d3fd08bdbca6bc1364d",
+                "175": "d0d83571bc0d05c8add1b8e80eebbe9e60f4f5b5fb038cb64751c42058d583e9"
+              },
+              "recovery_chain_version": "sequential_method_only_recovery_v1",
+              "recovery_stages": [
+                {
+                  "stage": 1,
+                  "start_epoch": 178,
+                  "start_updates": 1522434,
+                  "parent_git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+                  "recovery_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "parent_protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+                  "recovery_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "repair_kind": "float32_metric_reduction_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_path_bitwise_equal": true,
+                  "higher_precision_same_metric_reduction_only": true,
+                  "parent_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migrated_dynamics_only_sha256": "090f6aa7e1900e7d42003659a516fe50f9d23ffeeae557485874d755a00f99bc",
+                  "migration_receipt_sha256": "5c90f17fb359a2f8a28168e4da359de03100d129c6899fbbacf8e04ff106ec6b",
+                  "localization_receipt_sha256": "23b0b1b6c52cd323362a9093c1b1e15ad6ee6bd218d4974d2d7ae331e396d0cf",
+                  "replay_receipt_sha256": "ccdce16690bc7114d9b608eaab6d437524b47559bfe0443a6d4ea4809d323956",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                },
+                {
+                  "stage": 2,
+                  "start_epoch": 194,
+                  "start_updates": 1659282,
+                  "parent_git_commit": "478211cbbd85c4052458073e30ad746fef86563f",
+                  "recovery_git_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+                  "parent_protocol_fingerprint": "d2ac81b59ab7ebe28d9a0a6cd72a1f51e62603e9c80554b6cd1402b23a2bede0",
+                  "recovery_protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342",
+                  "repair_kind": "float32_adam_second_moment_overflow_preserving_higher_precision",
+                  "method_only_changed_paths": [
+                    "research/local_route1/runtime.py",
+                    "src/models/route1/amtnc.py"
+                  ],
+                  "finite_representable_path_bitwise_equal": true,
+                  "promote_only_unrepresentable_exp_avg_sq": true,
+                  "optimizer_update_skipped": false,
+                  "gradient_clipped": false,
+                  "precision_promotion_observed": true,
+                  "promoted_state_dtype": "float64",
+                  "e195_checkpoint_all_finite": true,
+                  "full_state_reload_preserves_promoted_dtype": true,
+                  "parent_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migrated_dynamics_only_sha256": "def81be44067ce18402b95c14851e1f787dd2f55de07cd17ae9d60cd36982062",
+                  "migration_receipt_sha256": "b538ed23a49f6b2d2f3cfa3deb4ac1739f145a45cf69bf43179fb119d9e9288b",
+                  "incident_receipt_sha256": "f2dfae53187f3169e7fc4f2e8bdf536016fe5a3b8cad6230fb1d43f1a645bdc4",
+                  "one_update_gate_checkpoint_sha256": "897a180085ac3e7e2cb688feec2356e72e4ea0c77be4a63d8ff9e1180aa5a1da",
+                  "one_update_gate_scientific_state_sha256": "3d98034be307a847f2df1c774f3092c5907931f51bf182005d14000120ac0898",
+                  "e195_gate_receipt_sha256": "630443eb26f432181a8bc6a20b716dc6565f50869f24b2f908c3b88f29d5eabc",
+                  "method_source_sha256": "b7ce7ea996a5b67389860f1c09a07bb92f8fa5aa4ff420766cb579903c6710e4",
+                  "runtime_source_sha256": "f05ba87afb1d04fa6cda1df981fdaf5168b3bde66fe38f0080ef2ceec8420ec9",
+                  "plain_transition_code_changed": false,
+                  "gradient_samples_changed": false,
+                  "projection_formula_changed": false,
+                  "hyperparameters_changed": false,
+                  "rng_or_sampler_changed": false,
+                  "transition_defining_state_changed": false,
+                  "source_checkpoint_mutated": false,
+                  "performance_values_read": false,
+                  "paired_metric_control": false,
+                  "confirmation20_opened": false
+                }
+              ],
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 14.069762144494652,
+            "plain_macro_psnr": 18.14178559533791
+          }
+        ],
+        "scientific_gate": {
+          "status": "FAIL",
+          "late_three_macro_psnr_delta": -2.1076224231996545,
+          "e200_macro_psnr_delta": -4.072023450843259,
+          "crn_exact_at_all_late_points": true,
+          "runtime_relation_legal_at_all_late_points": true,
+          "runtime_relation_exact_at_all_late_points": false,
+          "runtime_relation_identity": "audited_method_only_recovery_not_byte_identical_runtime",
+          "provenance_boundary_disclosed": true,
+          "candidate_e150_to_e200_change_db": -5.564058837108684,
+          "plain_e150_to_e200_change_db": -1.62600162574304,
+          "plain_collapse_guard": "FAIL_RELATIVE_ADVANTAGE_COINCIDES_WITH_BOTH_COLLAPSING",
+          "confirmation20_opened": false
+        }
+      }
+    },
+    "stcgr": {
+      "algorithm_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "matched_plain": "5090B_MATCHED_PLAIN/plain",
+      "comparison_scope": "one_container_unified_evaluation",
+      "runtime_relation": {
+        "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+        "method_source_host_label": "5090A",
+        "plain_source_host_label": "5090B_MATCHED_PLAIN",
+        "runtime_twin_updates": 2000,
+        "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+        "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+        "comparison_identity": null,
+        "parent_git_commit": null,
+        "recovery_git_commit": null,
+        "recovery_start_epoch": null,
+        "migration_receipt_sha256": null,
+        "overflow_safe_replay_receipt_sha256": null,
+        "provenance_boundary_disclosed": null
+      },
+      "result": {
+        "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+        "role": "evidence-locked full-data paper candidate",
+        "backend": "internal",
+        "comparison_scope": "one_container_unified_evaluation",
+        "candidate_lock": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/candidate_locks/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/CANDIDATE_LOCK.json",
+        "status": "COMPLETE_E200",
+        "first_wave": false,
+        "supervisor_status": null,
+        "terminal": {
+          "macro_psnr": 16.931007419546066,
+          "macro_ssim": 0.5598841395787894,
+          "macro_lpips": 0.3406378548747549,
+          "stochasticity": {
+            "macro_psnr_std": 0.15028423343363487,
+            "macro_ssim_std": 0.0051742752977179405,
+            "macro_lpips_std": 0.006682315551731212,
+            "ddof": 0,
+            "replicate_count": 5
+          },
+          "count_per_domain": 80,
+          "replicates": 5
+        },
+        "late_trajectory": [
+          {
+            "epoch": 150,
+            "macro_psnr_delta": 1.2561259752769622,
+            "macro_ssim_delta": 0.01091491707733705,
+            "macro_lpips_delta": -0.02282267990743836,
+            "positive_domains": 5,
+            "worst_domain_delta": -3.237892557120915,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": 2.316603655440151,
+                "ssim": 0.03812232741287769,
+                "lpips": -0.03896921649575233
+              },
+              "LowLightTrafficData": {
+                "psnr": 1.4310734771943725,
+                "ssim": 0.04243554217474804,
+                "lpips": -0.07249550478799005
+              },
+              "RSCityscapes": {
+                "psnr": -3.237892557120915,
+                "ssim": -0.13577702428613386,
+                "lpips": 0.15283443070948122
+              },
+              "RainCityscapes": {
+                "psnr": 1.9147331460003443,
+                "ssim": 0.002767542856080163,
+                "lpips": 0.009476094905819216
+              },
+              "RainDS-syn": {
+                "psnr": 0.9925188736482582,
+                "ssim": 0.018235888225691665,
+                "lpips": -0.05090631225279402
+              },
+              "SnowTrafficData": {
+                "psnr": 4.119719256499572,
+                "ssim": 0.09970522608075827,
+                "lpips": -0.13687557152339389
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+              "method_source_host_label": "5090A",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 18.32089432811316,
+            "plain_macro_psnr": 17.064768352836197
+          },
+          {
+            "epoch": 175,
+            "macro_psnr_delta": -0.588167772195689,
+            "macro_ssim_delta": -0.013646589396964948,
+            "macro_lpips_delta": 0.011951248374368478,
+            "positive_domains": 2,
+            "worst_domain_delta": -1.6529982104204315,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": -1.6529982104204315,
+                "ssim": -0.04863867717129844,
+                "lpips": 0.04659216808421271
+              },
+              "LowLightTrafficData": {
+                "psnr": 0.7785089163048511,
+                "ssim": 0.022575127226965752,
+                "lpips": -0.03278116221938815
+              },
+              "RSCityscapes": {
+                "psnr": 0.5939625318121209,
+                "ssim": 0.015632948918001988,
+                "lpips": -0.018252117612532204
+              },
+              "RainCityscapes": {
+                "psnr": -1.1870417779995392,
+                "ssim": -0.02956816554069519,
+                "lpips": 0.027789542291845604
+              },
+              "RainDS-syn": {
+                "psnr": -0.8777161429534104,
+                "ssim": -0.015930387803486434,
+                "lpips": 0.022330629186970846
+              },
+              "SnowTrafficData": {
+                "psnr": -1.1837219499177287,
+                "ssim": -0.025950382011277306,
+                "lpips": 0.026028430515101994
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+              "method_source_host_label": "5090A",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 18.92586369794147,
+            "plain_macro_psnr": 19.51403147013716
+          },
+          {
+            "epoch": 200,
+            "macro_psnr_delta": -2.7440773304201116,
+            "macro_ssim_delta": -0.08258573702846983,
+            "macro_lpips_delta": 0.104079197954076,
+            "positive_domains": 1,
+            "worst_domain_delta": -5.083389889222719,
+            "domain_delta": {
+              "FoggyCityscapes": {
+                "psnr": -3.3291364161734407,
+                "ssim": -0.1121740214526653,
+                "lpips": 0.1336643821746111
+              },
+              "LowLightTrafficData": {
+                "psnr": 0.7918584074984878,
+                "ssim": -0.0023638641461730114,
+                "lpips": 0.014970293417573
+              },
+              "RSCityscapes": {
+                "psnr": -1.6072998269633558,
+                "ssim": -0.04700029257684951,
+                "lpips": 0.0714523630216718
+              },
+              "RainCityscapes": {
+                "psnr": -5.083389889222719,
+                "ssim": -0.12472879283130167,
+                "lpips": 0.14957208288833498
+              },
+              "RainDS-syn": {
+                "psnr": -3.274897189279219,
+                "ssim": -0.09828016858547928,
+                "lpips": 0.1267536200210452
+              },
+              "SnowTrafficData": {
+                "psnr": -3.961599068380419,
+                "ssim": -0.1109672825783492,
+                "lpips": 0.12806244620122015
+              }
+            },
+            "crn_exact": true,
+            "runtime_relation_legal": true,
+            "matched_comparison_legal": true,
+            "runtime_relation": {
+              "status": "PASS_EXACT_CROSS_HOST_CROSS_CODE_CANDIDATE_RELATION",
+              "method_source_host_label": "5090A",
+              "plain_source_host_label": "5090B_MATCHED_PLAIN",
+              "runtime_twin_updates": 2000,
+              "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+              "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+              "performance_values_read": false
+            },
+            "candidate_macro_psnr": 16.931007419546066,
+            "plain_macro_psnr": 19.675084749966178
+          }
+        ],
+        "scientific_gate": {
+          "status": "FAIL",
+          "late_three_macro_psnr_delta": -0.6920397091129461,
+          "e200_macro_psnr_delta": -2.7440773304201116,
+          "crn_exact_at_all_late_points": true,
+          "runtime_relation_legal_at_all_late_points": true,
+          "runtime_relation_exact_at_all_late_points": true,
+          "runtime_relation_identity": "exact_runtime",
+          "provenance_boundary_disclosed": false,
+          "candidate_e150_to_e200_change_db": -1.3898869085670924,
+          "plain_e150_to_e200_change_db": 2.6103163971299814,
+          "plain_collapse_guard": "PASS_NOT_PLAIN_COLLAPSE",
+          "confirmation20_opened": false
+        }
+      }
+    }
+  },
+  "accepted_algorithms": [
+    "proposal"
+  ],
+  "failed_current_implementation_and_protocol": [
+    "amtnc",
+    "stcgr"
+  ],
+  "external_baselines": {
+    "input": {
+      "lane_id": "input",
+      "role": "evaluation-only degraded input reference",
+      "backend": "evaluation_only",
+      "comparison_scope": "one_container_unified_evaluation",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 14.738111208789983,
+        "macro_ssim": 0.5906647442220977,
+        "macro_lpips": 0.3450528220157139,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "count_per_domain": 80,
+        "replicates": 1
+      }
+    },
+    "cut": {
+      "lane_id": "cut",
+      "role": "official CUT baseline pinned to upstream commit b3ac297",
+      "backend": "internal",
+      "comparison_scope": "standalone_fixed_protocol",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 23.728935081973713,
+        "macro_ssim": 0.7471445460803808,
+        "macro_lpips": 0.1497856482261947,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      }
+    },
+    "cyclegan": {
+      "lane_id": "cyclegan",
+      "role": "official-loss unpaired baseline",
+      "backend": "internal",
+      "comparison_scope": "standalone_fixed_protocol",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 21.655428798767243,
+        "macro_ssim": 0.6870120752292374,
+        "macro_lpips": 0.20854774304898452,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      }
+    },
+    "dclgan": {
+      "schema": "final-unsb-paper-dclgan-result-v1",
+      "status": "COMPLETE_FIXED_E200_EXTERNAL_BASELINE",
+      "lane_id": "dclgan",
+      "paper_role": "official_source_controlled_exposure_external_comparator",
+      "primary_epoch": 200,
+      "fixed_epochs": [
+        100,
+        125,
+        150,
+        175,
+        200
+      ],
+      "trajectory": [
+        {
+          "epoch": 100,
+          "macro_psnr": 22.801776363660256,
+          "macro_ssim": 0.7282769259952363,
+          "macro_lpips": 0.1707722456283158,
+          "stochasticity": {
+            "macro_psnr_std": 0.0,
+            "macro_ssim_std": 0.0,
+            "macro_lpips_std": 0.0,
+            "ddof": 0,
+            "replicate_count": 1
+          },
+          "domains": {
+            "FoggyCityscapes": {
+              "n": 70,
+              "psnr": 24.0755402801984,
+              "ssim": 0.8222983334745679,
+              "lpips": 0.08995500297418663
+            },
+            "LowLightTrafficData": {
+              "n": 70,
+              "psnr": 15.909253911179745,
+              "ssim": 0.49410276114940643,
+              "lpips": 0.4071366629430226
+            },
+            "RSCityscapes": {
+              "n": 70,
+              "psnr": 24.819903995037333,
+              "ssim": 0.7620925060340337,
+              "lpips": 0.14712164982088974
+            },
+            "RainCityscapes": {
+              "n": 70,
+              "psnr": 27.472011365572378,
+              "ssim": 0.8589697888919285,
+              "lpips": 0.06064400122101818
+            },
+            "RainDS-syn": {
+              "n": 70,
+              "psnr": 19.571942663833205,
+              "ssim": 0.6302225457770484,
+              "lpips": 0.23417005773101535
+            },
+            "SnowTrafficData": {
+              "n": 70,
+              "psnr": 24.96200596614048,
+              "ssim": 0.8019756206444332,
+              "lpips": 0.08560609907976219
+            }
+          },
+          "metric_sha256": "8e4113df9270b5473c64a83447d31a4e82efec932ac86c5a7de5831ed9bc14c3"
+        },
+        {
+          "epoch": 125,
+          "macro_psnr": 22.91881638238473,
+          "macro_ssim": 0.7324664954628263,
+          "macro_lpips": 0.16299795990898494,
+          "stochasticity": {
+            "macro_psnr_std": 0.0,
+            "macro_ssim_std": 0.0,
+            "macro_lpips_std": 0.0,
+            "ddof": 0,
+            "replicate_count": 1
+          },
+          "domains": {
+            "FoggyCityscapes": {
+              "n": 70,
+              "psnr": 24.52324813445656,
+              "ssim": 0.8299895976270948,
+              "lpips": 0.0837528010564191
+            },
+            "LowLightTrafficData": {
+              "n": 70,
+              "psnr": 15.95929029868316,
+              "ssim": 0.4952332752091544,
+              "lpips": 0.3875011688896588
+            },
+            "RSCityscapes": {
+              "n": 70,
+              "psnr": 24.308895802625646,
+              "ssim": 0.7622592108590263,
+              "lpips": 0.1534211271309427
+            },
+            "RainCityscapes": {
+              "n": 70,
+              "psnr": 27.858171826248274,
+              "ssim": 0.8635505744389125,
+              "lpips": 0.05789273602089712
+            },
+            "RainDS-syn": {
+              "n": 70,
+              "psnr": 19.622282636333786,
+              "ssim": 0.6344171208994729,
+              "lpips": 0.2215731537767819
+            },
+            "SnowTrafficData": {
+              "n": 70,
+              "psnr": 25.241009595960954,
+              "ssim": 0.8093491937432971,
+              "lpips": 0.07384677257921014
+            }
+          },
+          "metric_sha256": "14f594560145a62634c16dc240d3964ff2871677a71c469648a4fea90369804a"
+        },
+        {
+          "epoch": 150,
+          "macro_psnr": 23.153979349059252,
+          "macro_ssim": 0.7355375428284918,
+          "macro_lpips": 0.1593642722859624,
+          "stochasticity": {
+            "macro_psnr_std": 0.0,
+            "macro_ssim_std": 0.0,
+            "macro_lpips_std": 0.0,
+            "ddof": 0,
+            "replicate_count": 1
+          },
+          "domains": {
+            "FoggyCityscapes": {
+              "n": 70,
+              "psnr": 24.84889035208555,
+              "ssim": 0.8329763310296195,
+              "lpips": 0.08150894812175206
+            },
+            "LowLightTrafficData": {
+              "n": 70,
+              "psnr": 16.011388708464747,
+              "ssim": 0.4960654356649944,
+              "lpips": 0.3807363637856075
+            },
+            "RSCityscapes": {
+              "n": 70,
+              "psnr": 24.521566580604752,
+              "ssim": 0.7703683086803981,
+              "lpips": 0.14599614260452135
+            },
+            "RainCityscapes": {
+              "n": 70,
+              "psnr": 28.430119380598242,
+              "ssim": 0.8707612293107169,
+              "lpips": 0.054985903975154675
+            },
+            "RainDS-syn": {
+              "n": 70,
+              "psnr": 19.60293906310285,
+              "ssim": 0.6309868812561035,
+              "lpips": 0.22362980246543884
+            },
+            "SnowTrafficData": {
+              "n": 70,
+              "psnr": 25.508972009499363,
+              "ssim": 0.8120670710291181,
+              "lpips": 0.06932847276329994
+            }
+          },
+          "metric_sha256": "5c9f344036383ccd8884d358c6fb029d752c78d6f47c38d3046aa49c7ce837a9"
+        },
+        {
+          "epoch": 175,
+          "macro_psnr": 23.226573120407725,
+          "macro_ssim": 0.7342555012021745,
+          "macro_lpips": 0.1575875266521637,
+          "stochasticity": {
+            "macro_psnr_std": 0.0,
+            "macro_ssim_std": 0.0,
+            "macro_lpips_std": 0.0,
+            "ddof": 0,
+            "replicate_count": 1
+          },
+          "domains": {
+            "FoggyCityscapes": {
+              "n": 70,
+              "psnr": 24.795043229870817,
+              "ssim": 0.828563529253006,
+              "lpips": 0.08306274632258075
+            },
+            "LowLightTrafficData": {
+              "n": 70,
+              "psnr": 16.21983418389913,
+              "ssim": 0.4988905676773616,
+              "lpips": 0.37321942214454923
+            },
+            "RSCityscapes": {
+              "n": 70,
+              "psnr": 24.807233380506474,
+              "ssim": 0.7767533430031368,
+              "lpips": 0.13795812353491782
+            },
+            "RainCityscapes": {
+              "n": 70,
+              "psnr": 28.651256202153146,
+              "ssim": 0.8690971383026668,
+              "lpips": 0.0569083083554038
+            },
+            "RainDS-syn": {
+              "n": 70,
+              "psnr": 19.405493236342526,
+              "ssim": 0.6239396495478494,
+              "lpips": 0.22543434713568006
+            },
+            "SnowTrafficData": {
+              "n": 70,
+              "psnr": 25.480578489674247,
+              "ssim": 0.808288779429027,
+              "lpips": 0.06894221241985049
+            }
+          },
+          "metric_sha256": "75691b9a7bfdee6a637684651a5458466a54cddd269ea391464af4500c9f99d0"
+        },
+        {
+          "epoch": 200,
+          "macro_psnr": 23.32828400045406,
+          "macro_ssim": 0.7351932630563774,
+          "macro_lpips": 0.15584671544687204,
+          "stochasticity": {
+            "macro_psnr_std": 0.0,
+            "macro_ssim_std": 0.0,
+            "macro_lpips_std": 0.0,
+            "ddof": 0,
+            "replicate_count": 5
+          },
+          "domains": {
+            "FoggyCityscapes": {
+              "n": 400,
+              "psnr": 24.855594196174135,
+              "ssim": 0.8271082021296025,
+              "lpips": 0.08416801085695624
+            },
+            "LowLightTrafficData": {
+              "n": 400,
+              "psnr": 16.252982640602987,
+              "ssim": 0.503230482712388,
+              "lpips": 0.36599070597440003
+            },
+            "RSCityscapes": {
+              "n": 400,
+              "psnr": 25.546449384845275,
+              "ssim": 0.7925908632576466,
+              "lpips": 0.1250260417466052
+            },
+            "RainCityscapes": {
+              "n": 400,
+              "psnr": 28.553671557426934,
+              "ssim": 0.8642335630953312,
+              "lpips": 0.062465864734258504
+            },
+            "RainDS-syn": {
+              "n": 400,
+              "psnr": 19.285437868767318,
+              "ssim": 0.6186957709491253,
+              "lpips": 0.22830679994076492
+            },
+            "SnowTrafficData": {
+              "n": 400,
+              "psnr": 25.47556835490773,
+              "ssim": 0.8053006961941719,
+              "lpips": 0.06912286942824722
+            }
+          },
+          "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50"
+        }
+      ],
+      "terminal": {
+        "epoch": 200,
+        "macro_psnr": 23.32828400045406,
+        "macro_ssim": 0.7351932630563774,
+        "macro_lpips": 0.15584671544687204,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "domains": {
+          "FoggyCityscapes": {
+            "n": 400,
+            "psnr": 24.855594196174135,
+            "ssim": 0.8271082021296025,
+            "lpips": 0.08416801085695624
+          },
+          "LowLightTrafficData": {
+            "n": 400,
+            "psnr": 16.252982640602987,
+            "ssim": 0.503230482712388,
+            "lpips": 0.36599070597440003
+          },
+          "RSCityscapes": {
+            "n": 400,
+            "psnr": 25.546449384845275,
+            "ssim": 0.7925908632576466,
+            "lpips": 0.1250260417466052
+          },
+          "RainCityscapes": {
+            "n": 400,
+            "psnr": 28.553671557426934,
+            "ssim": 0.8642335630953312,
+            "lpips": 0.062465864734258504
+          },
+          "RainDS-syn": {
+            "n": 400,
+            "psnr": 19.285437868767318,
+            "ssim": 0.6186957709491253,
+            "lpips": 0.22830679994076492
+          },
+          "SnowTrafficData": {
+            "n": 400,
+            "psnr": 25.47556835490773,
+            "ssim": 0.8053006961941719,
+            "lpips": 0.06912286942824722
+          }
+        },
+        "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50"
+      },
+      "evaluation_receipts": [
+        {
+          "epoch": 100,
+          "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e100.json",
+          "receipt_sha256": "f561a7144a8385961c8515eb96db5ac481788935caf6f8d59b66949c236b64c6",
+          "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e100.json",
+          "metric_sha256": "8e4113df9270b5473c64a83447d31a4e82efec932ac86c5a7de5831ed9bc14c3",
+          "checkpoint_sha256": "2a0dec043aa92e468985a3b12dd6595d8c3c8fd610272b23ac15bc8432389b12"
+        },
+        {
+          "epoch": 125,
+          "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e125.json",
+          "receipt_sha256": "0a0f9a80e274eb273e0f58329862947d3a6082590dbc84405ebcd337e6b6fa31",
+          "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e125.json",
+          "metric_sha256": "14f594560145a62634c16dc240d3964ff2871677a71c469648a4fea90369804a",
+          "checkpoint_sha256": "48149083e9be971aafb0508239948961185d64090b421909b5991b241d970caa"
+        },
+        {
+          "epoch": 150,
+          "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e150.json",
+          "receipt_sha256": "b07512fb9780512087403dfe5098d3eb4a53b736e1b710e7bf7d910791b49c36",
+          "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e150.json",
+          "metric_sha256": "5c9f344036383ccd8884d358c6fb029d752c78d6f47c38d3046aa49c7ce837a9",
+          "checkpoint_sha256": "8fefd45fec342670da04f99f7d041763190a6af5f59014d98e7bcfa3fd1ff744"
+        },
+        {
+          "epoch": 175,
+          "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e175.json",
+          "receipt_sha256": "b5c8f2ec04d985dcbf4636826800d78b1ef8ea3129627240d9087bc6c69021d7",
+          "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e175.json",
+          "metric_sha256": "75691b9a7bfdee6a637684651a5458466a54cddd269ea391464af4500c9f99d0",
+          "checkpoint_sha256": "9ebae9c36a507292de406f31e11df1c32c3df7134dc5a6acd9d523f5b1498224"
+        },
+        {
+          "epoch": 200,
+          "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/gates/UNIFIED_EVALUATION_dclgan_e200.json",
+          "receipt_sha256": "aa7640d5585facdef4b1c721fd952999a3321f9a48ae7d14dce3492ddd7cfb15",
+          "metric": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V5_21B9760/lanes/dclgan/metrics/e200.json",
+          "metric_sha256": "2946a803226f571a0edb5b820dcba32bf1fab605ed0c4ed5f8a86043eaa78e50",
+          "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d"
+        }
+      ],
+      "comparison_scope": "standalone_fixed_protocol_no_matched_delta_claim",
+      "included_in_first_wave_cohort": false,
+      "performance_values_used_for_training_or_scheduling": false,
+      "best_checkpoint_selection": false,
+      "paired_metric_control": false,
+      "cross_non_equivalent_runtime_delta": false,
+      "confirmation20_opened": false
+    }
+  },
+  "plain_control": {
+    "lane_id": "plain",
+    "role": "matched full-data UNSB control",
+    "backend": "internal",
+    "comparison_scope": "same_runtime_output_root",
+    "candidate_lock": null,
+    "status": "COMPLETE_E200",
+    "first_wave": true,
+    "supervisor_status": null,
+    "terminal": {
+      "macro_psnr": 19.675084749966178,
+      "macro_ssim": 0.6424698766072592,
+      "macro_lpips": 0.2365586569206789,
+      "stochasticity": {
+        "macro_psnr_std": 0.022829064829368584,
+        "macro_ssim_std": 0.0009491260882928935,
+        "macro_lpips_std": 0.0008204529104616325,
+        "ddof": 0,
+        "replicate_count": 5
+      },
+      "count_per_domain": 80,
+      "replicates": 5
+    }
+  },
+  "frozen_source_hosts": {
+    "first_wave": {
+      "plain": "5090B_MATCHED_PLAIN",
+      "proposal": "5090C",
+      "cut": "5090B",
+      "cyclegan": "5090B"
+    },
+    "G4-01-STRATIFIED-TIME-CONDITIONAL-GF": "5090A",
+    "amtnc": "4090A"
+  },
+  "complexity": {
+    "plain": {
+      "lane_id": "plain",
+      "checkpoint_sha256": "692aeceb2ba8c6704381d68d53d18d4a100647b5f41fdab87cb91d0e75a2c892",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G": {
+            "parameters": 14684419,
+            "optimizer_owned_parameters": 14684419,
+            "requires_grad_parameters_at_measurement": 14684419,
+            "parameter_bytes": 58737676
+          },
+          "F": {
+            "parameters": 560384,
+            "optimizer_owned_parameters": 560384,
+            "requires_grad_parameters_at_measurement": 560384,
+            "parameter_bytes": 2241536
+          },
+          "D": {
+            "parameters": 3143041,
+            "optimizer_owned_parameters": 3143041,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12572164
+          },
+          "E": {
+            "parameters": 3152257,
+            "optimizer_owned_parameters": 3152257,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12609028
+          }
+        },
+        "unique_parameters": 21540101,
+        "unique_optimizer_owned_parameters": 21540101,
+        "unique_requires_grad_parameters_at_measurement": 15244803,
+        "unique_parameter_bytes": 86160404
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 16.01715129800141,
+            "mean_ms": 16.744504030793905,
+            "p10_ms": 15.606379136443138,
+            "p90_ms": 16.25106716528535,
+            "min_ms": 14.877547044306993,
+            "max_ms": 40.368766989558935,
+            "peak_allocated_bytes": 361995776,
+            "peak_reserved_bytes": 1017118720
+          },
+          "2": {
+            "repeats": 30,
+            "median_ms": 32.044973922893405,
+            "mean_ms": 33.07549045421183,
+            "p10_ms": 30.96242807805538,
+            "p90_ms": 35.855608060956,
+            "min_ms": 20.046052988618612,
+            "max_ms": 55.55296316742897,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "3": {
+            "repeats": 30,
+            "median_ms": 48.081338638439775,
+            "mean_ms": 48.96357557736337,
+            "p10_ms": 46.48324614390731,
+            "p90_ms": 52.85217426717281,
+            "min_ms": 42.442967649549246,
+            "max_ms": 71.88662700355053,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "4": {
+            "repeats": 30,
+            "median_ms": 64.13181009702384,
+            "mean_ms": 66.02604320893685,
+            "p10_ms": 62.52746284008026,
+            "p90_ms": 68.51269584149122,
+            "min_ms": 55.703549180179834,
+            "max_ms": 87.06185594201088,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "5": {
+            "repeats": 30,
+            "median_ms": 80.12716146185994,
+            "mean_ms": 82.44078325418134,
+            "p10_ms": 78.87318078428507,
+            "p90_ms": 84.72858928143978,
+            "min_ms": 59.819463174790144,
+            "max_ms": 123.32975398749113,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 272.90197322145104,
+        "mean_ms": 289.6249023731798,
+        "p10_ms": 203.76673713326454,
+        "p90_ms": 414.2502211034298,
+        "min_ms": 203.5267697647214,
+        "max_ms": 418.7424946576357,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 1024902656,
+        "peak_reserved_bytes": 1159725056
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "proposal": {
+      "lane_id": "proposal",
+      "checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G": {
+            "parameters": 14684419,
+            "optimizer_owned_parameters": 14684419,
+            "requires_grad_parameters_at_measurement": 14684419,
+            "parameter_bytes": 58737676
+          },
+          "F": {
+            "parameters": 560384,
+            "optimizer_owned_parameters": 560384,
+            "requires_grad_parameters_at_measurement": 560384,
+            "parameter_bytes": 2241536
+          },
+          "D": {
+            "parameters": 3143041,
+            "optimizer_owned_parameters": 3143041,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12572164
+          },
+          "E": {
+            "parameters": 3152257,
+            "optimizer_owned_parameters": 3152257,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12609028
+          }
+        },
+        "unique_parameters": 21540101,
+        "unique_optimizer_owned_parameters": 21540101,
+        "unique_requires_grad_parameters_at_measurement": 15244803,
+        "unique_parameter_bytes": 86160404
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 16.087203985080123,
+            "mean_ms": 16.21845350600779,
+            "p10_ms": 15.955052804201841,
+            "p90_ms": 16.374936792999506,
+            "min_ms": 15.051733236759901,
+            "max_ms": 18.185636959969997,
+            "peak_allocated_bytes": 361995776,
+            "peak_reserved_bytes": 1017118720
+          },
+          "2": {
+            "repeats": 30,
+            "median_ms": 32.14967739768326,
+            "mean_ms": 32.46458501865467,
+            "p10_ms": 31.150791328400373,
+            "p90_ms": 36.713672801852226,
+            "min_ms": 10.617705062031746,
+            "max_ms": 55.39647815749049,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "3": {
+            "repeats": 30,
+            "median_ms": 48.22559910826385,
+            "mean_ms": 49.961670534685254,
+            "p10_ms": 47.157300636172295,
+            "p90_ms": 53.88663010671735,
+            "min_ms": 20.744530018419027,
+            "max_ms": 72.22337508574128,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "4": {
+            "repeats": 30,
+            "median_ms": 64.32940764352679,
+            "mean_ms": 66.72084000892937,
+            "p10_ms": 63.47689591348171,
+            "p90_ms": 72.52152916043997,
+            "min_ms": 54.605417884886265,
+            "max_ms": 86.92820323631167,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "5": {
+            "repeats": 30,
+            "median_ms": 80.33597841858864,
+            "mean_ms": 83.3051823079586,
+            "p10_ms": 78.96229531615973,
+            "p90_ms": 102.48638689517975,
+            "min_ms": 51.249108742922544,
+            "max_ms": 125.04812609404325,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 783.6398880463094,
+        "mean_ms": 759.7349575255066,
+        "p10_ms": 649.5699328370392,
+        "p90_ms": 830.5736198090017,
+        "min_ms": 641.3192241452634,
+        "max_ms": 859.1994438320398,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 1433167360,
+        "peak_reserved_bytes": 1570766848
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "cut": {
+      "lane_id": "cut",
+      "checkpoint_sha256": "81c213df8ccf7bb95803eedab51190439e916130dcd4555b8820103694d6b032",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G": {
+            "parameters": 11378179,
+            "optimizer_owned_parameters": 11378179,
+            "requires_grad_parameters_at_measurement": 11378179,
+            "parameter_bytes": 45512716
+          },
+          "F": {
+            "parameters": 560384,
+            "optimizer_owned_parameters": 560384,
+            "requires_grad_parameters_at_measurement": 560384,
+            "parameter_bytes": 2241536
+          },
+          "D": {
+            "parameters": 2764737,
+            "optimizer_owned_parameters": 2764737,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 11058948
+          }
+        },
+        "unique_parameters": 14703300,
+        "unique_optimizer_owned_parameters": 14703300,
+        "unique_requires_grad_parameters_at_measurement": 11938563,
+        "unique_parameter_bytes": 58813200
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 15.13334084302187,
+            "mean_ms": 13.965377987672886,
+            "p10_ms": 13.439767062664032,
+            "p90_ms": 15.618033241480589,
+            "min_ms": 3.543620929121971,
+            "max_ms": 16.57547987997532,
+            "peak_allocated_bytes": 340271104,
+            "peak_reserved_bytes": 828375040
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 110.9873759560287,
+        "mean_ms": 113.7757183983922,
+        "p10_ms": 105.60384579002857,
+        "p90_ms": 123.311011120677,
+        "min_ms": 98.50645763799548,
+        "max_ms": 140.78407129272819,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 817713664,
+        "peak_reserved_bytes": 950009856
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "cyclegan": {
+      "lane_id": "cyclegan",
+      "checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G_A": {
+            "parameters": 11378179,
+            "optimizer_owned_parameters": 11378179,
+            "requires_grad_parameters_at_measurement": 11378179,
+            "parameter_bytes": 45512716
+          },
+          "G_B": {
+            "parameters": 11378179,
+            "optimizer_owned_parameters": 11378179,
+            "requires_grad_parameters_at_measurement": 11378179,
+            "parameter_bytes": 45512716
+          },
+          "D_A": {
+            "parameters": 2764737,
+            "optimizer_owned_parameters": 2764737,
+            "requires_grad_parameters_at_measurement": 2764737,
+            "parameter_bytes": 11058948
+          },
+          "D_B": {
+            "parameters": 2764737,
+            "optimizer_owned_parameters": 2764737,
+            "requires_grad_parameters_at_measurement": 2764737,
+            "parameter_bytes": 11058948
+          }
+        },
+        "unique_parameters": 28285832,
+        "unique_optimizer_owned_parameters": 28285832,
+        "unique_requires_grad_parameters_at_measurement": 28285832,
+        "unique_parameter_bytes": 113143328
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 22.88379892706871,
+            "mean_ms": 24.303002655506134,
+            "p10_ms": 22.371734026819468,
+            "p90_ms": 23.553600069135427,
+            "min_ms": 15.97547810524702,
+            "max_ms": 47.84298315644264,
+            "peak_allocated_bytes": 397223936,
+            "peak_reserved_bytes": 432013312
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 247.5022324360907,
+        "mean_ms": 252.07299296744168,
+        "p10_ms": 242.21903830766678,
+        "p90_ms": 267.830615863204,
+        "min_ms": 241.6134369559586,
+        "max_ms": 268.7574326992035,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 1266104832,
+        "peak_reserved_bytes": 1331691520
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "amtnc": {
+      "lane_id": "amtnc",
+      "checkpoint_sha256": "935bc2d0773aa843cc5351f383dc3d2db9714fd2f582b4d05e21ff180d5f1544",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G": {
+            "parameters": 14684419,
+            "optimizer_owned_parameters": 14684419,
+            "requires_grad_parameters_at_measurement": 14684419,
+            "parameter_bytes": 58737676
+          },
+          "F": {
+            "parameters": 560384,
+            "optimizer_owned_parameters": 560384,
+            "requires_grad_parameters_at_measurement": 560384,
+            "parameter_bytes": 2241536
+          },
+          "D": {
+            "parameters": 3143041,
+            "optimizer_owned_parameters": 3143041,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12572164
+          },
+          "E": {
+            "parameters": 3152257,
+            "optimizer_owned_parameters": 3152257,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12609028
+          }
+        },
+        "unique_parameters": 21540101,
+        "unique_optimizer_owned_parameters": 21540101,
+        "unique_requires_grad_parameters_at_measurement": 15244803,
+        "unique_parameter_bytes": 86160404
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 23.737087845802307,
+            "mean_ms": 25.0878117668132,
+            "p10_ms": 23.334809113293886,
+            "p90_ms": 24.430496152490377,
+            "min_ms": 21.197961177676916,
+            "max_ms": 47.913766000419855,
+            "peak_allocated_bytes": 361995776,
+            "peak_reserved_bytes": 1017118720
+          },
+          "2": {
+            "repeats": 30,
+            "median_ms": 47.680567018687725,
+            "mean_ms": 50.46520574639241,
+            "p10_ms": 45.592606998980045,
+            "p90_ms": 65.14144502580166,
+            "min_ms": 45.36506999284029,
+            "max_ms": 72.61707028374076,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "3": {
+            "repeats": 30,
+            "median_ms": 71.68600778095424,
+            "mean_ms": 74.56369136149685,
+            "p10_ms": 70.74688095599413,
+            "p90_ms": 82.285535056144,
+            "min_ms": 67.84611567854881,
+            "max_ms": 96.06436593458056,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "4": {
+            "repeats": 30,
+            "median_ms": 95.28316929936409,
+            "mean_ms": 99.6041314676404,
+            "p10_ms": 92.77804009616375,
+            "p90_ms": 111.97039484977722,
+            "min_ms": 90.76063707470894,
+            "max_ms": 142.8553517907858,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "5": {
+            "repeats": 30,
+            "median_ms": 118.96671005524695,
+            "mean_ms": 123.51748767929773,
+            "p10_ms": 116.58199178054929,
+            "p90_ms": 136.84295723214746,
+            "min_ms": 116.31882702931762,
+            "max_ms": 163.40365400537848,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 1387.0765150059015,
+        "mean_ms": 1385.6375929899514,
+        "p10_ms": 1275.2448380924761,
+        "p90_ms": 1564.5775878801942,
+        "min_ms": 1074.8152290470898,
+        "max_ms": 1574.8376338742673,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 1697583104,
+        "peak_reserved_bytes": 1868562432
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "G4-01-STRATIFIED-TIME-CONDITIONAL-GF": {
+      "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+      "checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G": {
+            "parameters": 14684419,
+            "optimizer_owned_parameters": 14684419,
+            "requires_grad_parameters_at_measurement": 14684419,
+            "parameter_bytes": 58737676
+          },
+          "F": {
+            "parameters": 560384,
+            "optimizer_owned_parameters": 560384,
+            "requires_grad_parameters_at_measurement": 560384,
+            "parameter_bytes": 2241536
+          },
+          "D": {
+            "parameters": 3143041,
+            "optimizer_owned_parameters": 3143041,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12572164
+          },
+          "E": {
+            "parameters": 3152257,
+            "optimizer_owned_parameters": 3152257,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 12609028
+          }
+        },
+        "unique_parameters": 21540101,
+        "unique_optimizer_owned_parameters": 21540101,
+        "unique_requires_grad_parameters_at_measurement": 15244803,
+        "unique_parameter_bytes": 86160404
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 23.715425049886107,
+            "mean_ms": 25.331874455635745,
+            "p10_ms": 23.312014993280172,
+            "p90_ms": 24.221209343522787,
+            "min_ms": 18.855044152587652,
+            "max_ms": 49.5880888774991,
+            "peak_allocated_bytes": 361995776,
+            "peak_reserved_bytes": 1017118720
+          },
+          "2": {
+            "repeats": 30,
+            "median_ms": 47.61136858724058,
+            "mean_ms": 49.02826282195747,
+            "p10_ms": 46.35454108938575,
+            "p90_ms": 49.2574367672205,
+            "min_ms": 43.619876727461815,
+            "max_ms": 71.98584917932749,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "3": {
+            "repeats": 30,
+            "median_ms": 71.33780815638602,
+            "mean_ms": 74.38343361330529,
+            "p10_ms": 70.1798228546977,
+            "p90_ms": 90.02986457198858,
+            "min_ms": 63.452837988734245,
+            "max_ms": 96.38616302981973,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "4": {
+            "repeats": 30,
+            "median_ms": 95.03645543009043,
+            "mean_ms": 98.85709912826617,
+            "p10_ms": 93.7221716158092,
+            "p90_ms": 114.06203079968691,
+            "min_ms": 87.37914822995663,
+            "max_ms": 119.58584235981107,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          },
+          "5": {
+            "repeats": 30,
+            "median_ms": 118.92893328331411,
+            "mean_ms": 123.21949289180338,
+            "p10_ms": 116.14367784932256,
+            "p90_ms": 137.47755391523242,
+            "min_ms": 112.20986442640424,
+            "max_ms": 164.9937517940998,
+            "peak_allocated_bytes": 362388992,
+            "peak_reserved_bytes": 1017118720
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 1082.9984601587057,
+        "mean_ms": 1127.8636252507567,
+        "p10_ms": 978.6861091852188,
+        "p90_ms": 1361.4011090248823,
+        "min_ms": 941.2253797054291,
+        "max_ms": 1399.306972976774,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 1430694400,
+        "peak_reserved_bytes": 1570766848
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    },
+    "dclgan": {
+      "lane_id": "dclgan",
+      "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d",
+      "environment": {
+        "hostname": "Machine",
+        "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+        "python": "3.10.20",
+        "torch": "2.5.1+cu121",
+        "torch_cuda": "12.1",
+        "cudnn": 90100,
+        "cuda_available": true,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "gpu_count": 1,
+        "cublas_workspace_config": ":4096:8",
+        "tf32_matmul": false,
+        "tf32_cudnn": false
+      },
+      "parameters": {
+        "networks": {
+          "G_A": {
+            "parameters": 11378179,
+            "optimizer_owned_parameters": 11378179,
+            "requires_grad_parameters_at_measurement": 11378179,
+            "parameter_bytes": 45512716
+          },
+          "F1": {
+            "parameters": 493568,
+            "optimizer_owned_parameters": 493568,
+            "requires_grad_parameters_at_measurement": 493568,
+            "parameter_bytes": 1974272
+          },
+          "D_A": {
+            "parameters": 2764737,
+            "optimizer_owned_parameters": 2764737,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 11058948
+          },
+          "G_B": {
+            "parameters": 11378179,
+            "optimizer_owned_parameters": 11378179,
+            "requires_grad_parameters_at_measurement": 11378179,
+            "parameter_bytes": 45512716
+          },
+          "F2": {
+            "parameters": 493568,
+            "optimizer_owned_parameters": 493568,
+            "requires_grad_parameters_at_measurement": 493568,
+            "parameter_bytes": 1974272
+          },
+          "D_B": {
+            "parameters": 2764737,
+            "optimizer_owned_parameters": 2764737,
+            "requires_grad_parameters_at_measurement": 0,
+            "parameter_bytes": 11058948
+          }
+        },
+        "unique_parameters": 29272968,
+        "unique_optimizer_owned_parameters": 29272968,
+        "unique_requires_grad_parameters_at_measurement": 23743494,
+        "unique_parameter_bytes": 117091872
+      },
+      "inference": {
+        "warmup_repeats": 5,
+        "measured_repeats": 30,
+        "nfe": {
+          "1": {
+            "repeats": 30,
+            "median_ms": 2.3909974843263626,
+            "mean_ms": 2.4175232431540885,
+            "p10_ms": 2.363909035921097,
+            "p90_ms": 2.5151120498776436,
+            "min_ms": 2.223590388894081,
+            "max_ms": 2.5573261082172394,
+            "peak_allocated_bytes": 581630464,
+            "peak_reserved_bytes": 874512384
+          }
+        }
+      },
+      "training_step": {
+        "repeats": 10,
+        "median_ms": 91.68918756768107,
+        "mean_ms": 94.73316785879433,
+        "p10_ms": 91.04210883378983,
+        "p90_ms": 99.30760087445378,
+        "min_ms": 90.98685998469591,
+        "max_ms": 114.40137168392539,
+        "warmup_steps": 3,
+        "peak_allocated_bytes": 2031919104,
+        "peak_reserved_bytes": 2141192192
+      },
+      "flops": {
+        "reported": false,
+        "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+      },
+      "checkpoint_unchanged": true,
+      "target_path_read": false
+    }
+  },
+  "deferred_or_reproduction_incomplete": {
+    "hjcgr": {
+      "algorithm_id": "G3-02-HJ-CONDITIONAL-GF-RESAMPLING",
+      "status": "deferred",
+      "reason": "full-data cost exceeds the new-card rental window and cross-runtime small25 terminal sign was inconsistent",
+      "scientific_role": "HJ structural field plus conditional variance reduction",
+      "mechanism_falsified": false,
+      "closed_current_implementation": false
+    },
+    "ddsb": "reproduction_incomplete_durable_fail_closed_source_watch_active_not_scientific_failure"
+  },
+  "baseline_reporting_tiers": {
+    "core_controlled_main_table": [
+      "input",
+      "cyclegan",
+      "cut",
+      "plain_unsb",
+      "proposal_only",
+      "stcgr",
+      "amtnc"
+    ],
+    "direct_external_extensions": {
+      "ddsb": "reproduction_incomplete_fail_closed",
+      "dclgan": "source_bound_full_state_gate_passed_durably_queued_5090B",
+      "negcut": "deferred_engineering_and_license_not_falsified"
+    },
+    "domain_specific_context": {
+      "dehazesb": "author_source_identified_not_engineering_gated_not_scheduled",
+      "other_domain_specific_sb": "citation_candidates_not_source_audited"
+    },
+    "paired_ceiling_block": {
+      "restorevar": "author_source_identified_inference_not_gated_not_scheduled",
+      "promptir": "author_source_identified_inference_not_gated_not_scheduled"
+    },
+    "main_table_metadata": {
+      "input": {
+        "source_id": "input",
+        "paper_label": "Input",
+        "role": "no-restoration lower reference",
+        "reproduction_or_comparison_scope": "no-restoration lower reference",
+        "status": "not_applicable"
+      },
+      "cyclegan": {
+        "source_id": "cyclegan",
+        "paper_label": "CycleGAN (official-loss, controlled shared backbone)",
+        "role": "general unpaired translation baseline",
+        "reproduction_or_comparison_scope": "fixed e200 absolute result; not a matched delta against UNSB",
+        "status": "running_5090B"
+      },
+      "cut": {
+        "source_id": "cut",
+        "paper_label": "CUT (official-loss, controlled exposure reproduction)",
+        "role": "contrastive unpaired translation baseline",
+        "reproduction_or_comparison_scope": "fixed e200 absolute result; not a matched delta against UNSB",
+        "status": "running_5090B"
+      },
+      "plain": {
+        "source_id": "plain_unsb",
+        "paper_label": "Plain UNSB",
+        "role": "canonical method-family control",
+        "reproduction_or_comparison_scope": "matched control only for methods whose runtime relation is admitted",
+        "status": "running_4090A"
+      },
+      "proposal": {
+        "source_id": "proposal_only",
+        "paper_label": "Proposal-only",
+        "role": "conditional G/F variance-reduction algorithm",
+        "reproduction_or_comparison_scope": "delta withheld until a reviewed legal matched-plain relation exists",
+        "status": "running_5090C"
+      },
+      "stcgr": {
+        "source_id": "stcgr",
+        "paper_label": "ST-CGR",
+        "role": "stratified bridge-time conditional estimator",
+        "reproduction_or_comparison_scope": "absolute trajectory now; delta withheld until a reviewed legal matched-plain relation exists",
+        "status": "running_5090A"
+      },
+      "amtnc": {
+        "source_id": "amtnc",
+        "paper_label": "AM-TNC",
+        "role": "independent Adam-metric optimization geometry",
+        "reproduction_or_comparison_scope": "same-host matched 4090A plain",
+        "status": "durably_queued_after_4090A_plain"
+      },
+      "ddsb": {
+        "source_id": "ddsb",
+        "paper_label": "DDSB",
+        "role": "contemporary degradation-aware Schrodinger-bridge comparator",
+        "reproduction_or_comparison_scope": "contemporary degradation-aware Schrodinger-bridge comparator",
+        "status": "reproduction_incomplete_fail_closed"
+      },
+      "dclgan": {
+        "source_id": "dclgan",
+        "paper_label": "DCLGAN (official-source, controlled exposure reproduction)",
+        "role": "general unpaired dual-contrastive comparator",
+        "reproduction_or_comparison_scope": "general unpaired dual-contrastive comparator",
+        "status": "source_bound_full_state_gate_passed_durably_queued_5090B"
+      },
+      "negcut": {
+        "source_id": "negcut",
+        "paper_label": "NEGCUT",
+        "role": "hard-negative contrastive unpaired comparator",
+        "reproduction_or_comparison_scope": "hard-negative contrastive unpaired comparator",
+        "status": "deferred_engineering_and_license_not_falsified"
+      }
+    },
+    "main_table_checkpoint": "e200_only",
+    "partial_domain_macro_allowed": false,
+    "paired_ceiling_as_unpaired_competitor_allowed": false
+  },
+  "source_artifact_sha256": {
+    "first_wave_results": "62aa9043cb21170f33cccd3562edbe4e402f131b03886e3d79b94de187f11b36",
+    "first_wave_algorithm_set": "b2ac59c2dc2c063f1b18e7852faa5a62d31726e4ccb1ddcf9ab88594941f4072",
+    "first_wave_cohort": "9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526",
+    "amtnc_disposition": "5ca45a107cf4fd7283641ad3e507d45a801a7153e1032ffdf154e40f7fc82b2a",
+    "stcgr_disposition": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367",
+    "baseline_portfolio": "a720eb3e6b29104ed61dd130b69fb0422f6d8bbb53c626ffe1a485735e22990b",
+    "base_portfolio": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "dclgan_result": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "dclgan_evaluation_contract": "41b22f7466331364299d788c5f2e1f5d0368296ed6a7546bd46b3fef33e68a0e",
+    "dclgan_complexity": "e2b717a8343a386cef6d739f9afad2c40a9c5ccca0ee1ee573f0fc9af13ba253"
+  },
+  "multiple_algorithms_allowed": true,
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "metric_values_used_for_training_or_scheduling": false,
+  "best_checkpoint_selection": false,
+  "cross_non_equivalent_runtime_delta": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false,
+  "dclgan_is_nonblocking_post_core_addendum": true
+}

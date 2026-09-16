@@ -1,0 +1,140 @@
+{
+  "schema": "final-unsb-paper-complexity-profile-v1",
+  "status": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE",
+  "protocol_fingerprint": "8b2803c780787f85cef9bc8dc5d28d66dc6a05e88fd14580a5206cb16d473a89",
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "lane_id": "cyclegan",
+  "lane": {
+    "id": "cyclegan",
+    "backend": "internal",
+    "family": "external_translation",
+    "model": "cycle_gan",
+    "role": "official-loss unpaired baseline",
+    "method": {
+      "netG": "resnet_9blocks",
+      "netD": "basic",
+      "lambda_A": 10.0,
+      "lambda_B": 10.0,
+      "lambda_identity": 0.5,
+      "pool_size": 50
+    },
+    "first_wave": true
+  },
+  "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/sources/5090B/cyclegan/e200.pt",
+  "checkpoint_sha256": "a12a24573aa52c3007d46bf0adfbcaec596a0f7bdd3cb863a09a2a415bca47d4",
+  "checkpoint_unchanged": true,
+  "checkpoint_metadata": {
+    "project_id": "FINAL_UNSB_PAPER_AIO_V1",
+    "lane_id": "cyclegan",
+    "lane_config_sha256": "066d7b6b490f42812e29aedf1687763192438663592fb3e11a64a0b086d5c4d2",
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+    "e0_scientific_state_sha256": "adafce971cb072f389f53d07ac1dbbbd69c6c38daa7b7e746475d3b4fa5fca93",
+    "git_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+    "train_view": "/root/autodl-tmp/paper_views/FINAL_UNSB_FULL_AIO_V1_31f2fb8",
+    "data_root": "/root/autodl-tmp/data",
+    "steps_per_data_epoch": 8553,
+    "target_updates": 1710600,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "portable_candidate_authority_sha256": null,
+  "environment": {
+    "hostname": "Machine",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false
+  },
+  "image_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "batch_size": 1,
+  "parameters": {
+    "networks": {
+      "G_A": {
+        "parameters": 11378179,
+        "optimizer_owned_parameters": 11378179,
+        "requires_grad_parameters_at_measurement": 11378179,
+        "parameter_bytes": 45512716
+      },
+      "G_B": {
+        "parameters": 11378179,
+        "optimizer_owned_parameters": 11378179,
+        "requires_grad_parameters_at_measurement": 11378179,
+        "parameter_bytes": 45512716
+      },
+      "D_A": {
+        "parameters": 2764737,
+        "optimizer_owned_parameters": 2764737,
+        "requires_grad_parameters_at_measurement": 2764737,
+        "parameter_bytes": 11058948
+      },
+      "D_B": {
+        "parameters": 2764737,
+        "optimizer_owned_parameters": 2764737,
+        "requires_grad_parameters_at_measurement": 2764737,
+        "parameter_bytes": 11058948
+      }
+    },
+    "unique_parameters": 28285832,
+    "unique_optimizer_owned_parameters": 28285832,
+    "unique_requires_grad_parameters_at_measurement": 28285832,
+    "unique_parameter_bytes": 113143328
+  },
+  "inference": {
+    "warmup_repeats": 5,
+    "measured_repeats": 30,
+    "nfe": {
+      "1": {
+        "repeats": 30,
+        "median_ms": 22.88379892706871,
+        "mean_ms": 24.303002655506134,
+        "p10_ms": 22.371734026819468,
+        "p90_ms": 23.553600069135427,
+        "min_ms": 15.97547810524702,
+        "max_ms": 47.84298315644264,
+        "peak_allocated_bytes": 397223936,
+        "peak_reserved_bytes": 432013312
+      }
+    }
+  },
+  "training_step": {
+    "repeats": 10,
+    "median_ms": 247.5022324360907,
+    "mean_ms": 252.07299296744168,
+    "p10_ms": 242.21903830766678,
+    "p90_ms": 267.830615863204,
+    "min_ms": 241.6134369559586,
+    "max_ms": 268.7574326992035,
+    "warmup_steps": 3,
+    "peak_allocated_bytes": 1266104832,
+    "peak_reserved_bytes": 1331691520
+  },
+  "flops": {
+    "reported": false,
+    "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+  },
+  "source_input": {
+    "domain": "FoggyCityscapes",
+    "stem": "0001",
+    "target_path_read": false
+  },
+  "disposable_in_memory_model_mutated_for_training_timing": true,
+  "performance_metric_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

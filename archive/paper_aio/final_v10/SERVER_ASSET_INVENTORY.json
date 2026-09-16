@@ -1,0 +1,93 @@
+{
+  "schema": "final-unsb-server-asset-inventory-v1",
+  "observed_at": "2026-09-16T21:15:00+08:00",
+  "status": "CANONICAL_COMPACT_RESULTS_SYNCED_LARGE_ASSETS_REDUNDANTLY_PRESERVED_INDEPENDENT_PROOFS_SEPARATE",
+  "canonical_git_archive": {
+    "root": "archive/paper_aio/final_v10",
+    "manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+    "portable_payload_files": 21,
+    "portable_payload_bytes": 320096,
+    "contains_complete_final_portfolios": true,
+    "contains_algorithm_dispositions": true,
+    "contains_complexity_profiles": true,
+    "contains_source_export_receipts": true,
+    "contains_checkpoints": false,
+    "contains_full_logs": false
+  },
+  "canonical_large_assets": {
+    "local_checkpoint_mirror": {
+      "root": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports/sources",
+      "observed_total_bytes": 4637658398,
+      "contains": [
+        "4090A/plain e100/e125/e150/e175/e200",
+        "4090A/amtnc e100/e150/e200",
+        "5090A/ST-CGR e100/e125/e150/e175/e200",
+        "5090C/Proposal e100/e150/e200",
+        "5090B_MATCHED_PLAIN e100/e125/e150/e175/e200"
+      ],
+      "status": "PRESENT_LOCAL_NOT_GIT"
+    },
+    "local_dclgan_source": {
+      "root": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+      "observed_total_bytes": 5626219083,
+      "status": "PRESENT_LOCAL_NOT_GIT"
+    },
+    "4090A": {
+      "unified_import_root": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS",
+      "amtnc_source_root": "/home/yc/runs/FINAL_UNSB_PAPER_AMTNC_RAW_SQUARE_RECOVERY_5676c91",
+      "final_v10_root": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V10_D99E4CA",
+      "dclgan_addendum_v4_root": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA",
+      "status": "CANONICAL_SMALL_RESULTS_SYNCED_TO_GIT_RAW_ASSETS_REMAIN"
+    },
+    "5090A": {
+      "stcgr_source_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c",
+      "source_export_receipt_synced_to_git": true,
+      "checkpoint_copy_present_locally_and_on_4090A": true,
+      "status": "NO_CANONICAL_SINGLE_COPY_RISK"
+    },
+    "5090C": {
+      "proposal_source_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed",
+      "source_export_receipt_synced_to_git": true,
+      "checkpoint_copy_present_locally_and_on_4090A": true,
+      "matched_plain_root": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_MATCHED_PLAIN_5090B_e4a5eed",
+      "matched_plain_policy": "EXCLUDED_FROM_THIS_ARCHIVE_PASS_AT_USER_REQUEST; provenance remains in final portfolio and local mirror remains intact",
+      "status": "PROPOSAL_SAFE_MATCHED_PLAIN_NOT_MOVED_OR_DELETED"
+    }
+  },
+  "server_only_noncanonical_work": {
+    "4090A_independent_audit_20260916": {
+      "root": "/home/yc/independent_audit_20260916",
+      "observed_size": "1.6G",
+      "observed_complete_components": [
+        "am_geometry_rethink/raw_trajectory_original",
+        "st_schedule_rescue/run_e40_to_e60_linear",
+        "st_schedule_rescue/eval_e045_linear",
+        "st_schedule_rescue/eval_e050_linear",
+        "st_schedule_rescue/eval_e055_linear",
+        "st_schedule_rescue/eval_e060_linear"
+      ],
+      "sync_status": "NOT_SYNCED_TO_CANONICAL_GIT",
+      "reason": "independent proof work has not received canonical scientific adjudication"
+    },
+    "5090A_independent_audit_20260915": {
+      "root": "/root/autodl-tmp/independent_audit_20260915",
+      "observed_size": "6.8G",
+      "active_run": "st_schedule_rescue/run_e40_to_e60_low01_linear",
+      "observed_process_pid": 311092,
+      "observed_epoch": 57,
+      "target_epoch": 60,
+      "paired_target_access": false,
+      "metric_feedback_access": false,
+      "sync_status": "ACTIVE_NOT_SYNCED_NOT_TOUCHED",
+      "reason": "user-owned independent proof experiment is still running"
+    }
+  },
+  "canonical_result_only_on_rental_server": false,
+  "unsynced_items_requiring_future_choice": [
+    "whether to adjudicate and archive the independent 4090A proof bundle",
+    "whether to wait for and separately archive the active 5090A low01-linear proof run",
+    "whether to create a cold-storage copy of raw checkpoints beyond the existing local and 4090A mirrors"
+  ],
+  "destructive_action_taken": false,
+  "confirmation20_opened": false
+}

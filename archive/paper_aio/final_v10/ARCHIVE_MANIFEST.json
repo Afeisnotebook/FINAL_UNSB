@@ -1,0 +1,132 @@
+{
+  "schema": "final-unsb-portable-paper-archive-manifest-v1",
+  "status": "COMPLETE_HASH_VERIFIED_COMPACT_PAPER_ARCHIVE",
+  "created_at": "2026-09-16T21:10:00+08:00",
+  "authority_commit_before_archive": "1bb8b8cfd4a646e1cb7ddf421e6bb6bfe3524632",
+  "scope": [
+    "final_v10_portfolio",
+    "dclgan_augmented_portfolio",
+    "first_wave_results_and_cohort",
+    "amtnc_and_stcgr_dispositions",
+    "dclgan_result",
+    "seven_complexity_profiles",
+    "proposal_stcgr_amtnc_source_export_receipts",
+    "terminal_control_states"
+  ],
+  "excluded_by_policy": {
+    "checkpoints": "large binary full-state assets remain on source and imported evaluation storage; not committed to Git",
+    "full_logs": "remain on source hosts; compact terminal states and hashes are archived",
+    "5090c_matched_plain_raw_assets": "explicitly excluded from this archive pass at user request; legal comparison provenance remains embedded in the final portfolio",
+    "independent_proof_experiments": "inventor-owned parallel proof work remains separate from the canonical paper archive pending its own adjudication"
+  },
+  "entries": [
+    {
+      "path": "archive/paper_aio/final_v10/complexity/amtnc.json",
+      "bytes": 5970,
+      "sha256": "36d5f18db63191a00d5c063ec3d4d473f3c38251f0aea76f817ac65395ab7bd5"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/cut.json",
+      "bytes": 4632,
+      "sha256": "7282508e7542f0baadee5e72fed19a08c6e366375ab3b034b7c85cf3333c1f2d"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/cyclegan.json",
+      "bytes": 4713,
+      "sha256": "883aeaa719c0fb0595f195d22d85c34764c7681f90f71eac43fb88c88fda55e4"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/dclgan.json",
+      "bytes": 5271,
+      "sha256": "e2b717a8343a386cef6d739f9afad2c40a9c5ccca0ee1ee573f0fc9af13ba253"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/plain.json",
+      "bytes": 5935,
+      "sha256": "3b9cd1612636110a28d7eef659e32d4245ce1bddcfdebca54e9539b9ca8c2591"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/proposal.json",
+      "bytes": 6068,
+      "sha256": "590c219cb87441dece337ceae414ab4732407d652df351de6307271f97322ae7"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/complexity/stcgr.json",
+      "bytes": 6173,
+      "sha256": "fae07fbc57e60fe7161c9d4ba862e1612ae79e56a5b475bcb3f395719366163a"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/dispositions/AMTNC.json",
+      "bytes": 25780,
+      "sha256": "5ca45a107cf4fd7283641ad3e507d45a801a7153e1032ffdf154e40f7fc82b2a"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/dispositions/STCGR.json",
+      "bytes": 9390,
+      "sha256": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/external/DCLGAN_PAPER_RESULT.json",
+      "bytes": 12208,
+      "sha256": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/first_wave/ALGORITHM_SET.json",
+      "bytes": 466,
+      "sha256": "b2ac59c2dc2c063f1b18e7852faa5a62d31726e4ccb1ddcf9ab88594941f4072"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/first_wave/PAPER_RESULTS.json",
+      "bytes": 12233,
+      "sha256": "62aa9043cb21170f33cccd3562edbe4e402f131b03886e3d79b94de187f11b36"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/first_wave/UNIFIED_EVALUATION_COHORT.json",
+      "bytes": 8284,
+      "sha256": "9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/operations/DCLGAN_PORTFOLIO_ADDENDUM_STATE.json",
+      "bytes": 1525,
+      "sha256": "4561984540110c916bc031a9bde0d3af720ede20dbc524030f9abca6e6b2b6fc"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/operations/FINAL_DELIVERY_STATE.json",
+      "bytes": 1090,
+      "sha256": "4cf9cb3b0276dc29166c9b68bab5444bda0cff48e01ff59e309f09f9bff00675"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO.json",
+      "bytes": 83897,
+      "sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+      "bytes": 101468,
+      "sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/PAPER_EXTERNAL_BASELINE_ADDENDUM.json",
+      "bytes": 17168,
+      "sha256": "cc72d76cff51eaeca94669c5dff984acc00f20efe55a9dd67b07904c4bdce732"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/source_receipts/amtnc_EXPORT_SET.json",
+      "bytes": 2547,
+      "sha256": "65512701a4a1c596644c116a36b48f0b7673a3c3883d918175d96496b4a30524"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/source_receipts/proposal_EXPORT_SET.json",
+      "bytes": 2540,
+      "sha256": "afb8e38fc6d7b80db8169d65b9f67bd0b4abe2b0777db904c9b96a06f5c0beff"
+    },
+    {
+      "path": "archive/paper_aio/final_v10/source_receipts/stcgr_EXPORT_SET.json",
+      "bytes": 2738,
+      "sha256": "4c6a481ac2a30a62807c94a7151ea3e50ced3d1c2ecc953e8f35c58a5755ce9e"
+    }
+  ],
+  "entry_count": 21,
+  "total_bytes": 320096,
+  "confirmation20_opened": false
+}

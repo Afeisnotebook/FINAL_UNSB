@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-source-export-set-v1",
+  "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+  "lane_id": "G4-01-STRATIFIED-TIME-CONDITIONAL-GF",
+  "source_host_label": "5090A",
+  "epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "exports": [
+    {
+      "epoch": 100,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e100.export.json",
+      "receipt_sha256": "fff07a89a9f65da58f8c6c7ff93ce6883f490465d2a31e69202ef1f260fd6640",
+      "checkpoint_sha256": "df9c86cbe912633b3811da4b484a814dabfa8ebbd4ac8c24fcc6e46e34d130ff",
+      "scientific_state_sha256": "24e3501487e6a5780ab0a23800c7a86b41ccf9077994ee30884bd05f6bd62009"
+    },
+    {
+      "epoch": 125,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e125.export.json",
+      "receipt_sha256": "c5aa0421e9faf93d1afd04101a8c04343052df73d4a9514ea0d9e7cb07c70927",
+      "checkpoint_sha256": "4bbbc388c070632512080131741438f8cb4cfbbe658a7880bdd61f42520c19fb",
+      "scientific_state_sha256": "c955bdccfdab089828f78e506511a52d8f2821df0b3511786564c1b540fb322e"
+    },
+    {
+      "epoch": 150,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e150.export.json",
+      "receipt_sha256": "d4211eda84dfe6494655cd7eb762ff1ec6ac5f9fe398b1b9b2efc0e00a788854",
+      "checkpoint_sha256": "7a5e775a95c5c68e2d23e392ee893a4898ae4962ff8cb8e48a0b299a6ad522f4",
+      "scientific_state_sha256": "d4aca2911474184e8b0f42219eff7158f4e58a0c998a215feecc78438db4c047"
+    },
+    {
+      "epoch": 175,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e175.export.json",
+      "receipt_sha256": "8f21ad7dc251f81156eaff26b585e62876176a28c40e7206a3d0c724dad87c1a",
+      "checkpoint_sha256": "91770d7486a7cd0fd7835b5b341e765ff8e0938b2471f851412b5e47f8e369a4",
+      "scientific_state_sha256": "1a547e65534a4edf4c4ec0e03ea2eb453be270f3e5b17e2a1d414c520b5dfbad"
+    },
+    {
+      "epoch": 200,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_CANDIDATE_STCGR_656670c/exports/G4-01-STRATIFIED-TIME-CONDITIONAL-GF/e200.export.json",
+      "receipt_sha256": "923f8a765e249c1926e742487709fb4d3e50e22289148104e4302eb2d7e76d06",
+      "checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+      "scientific_state_sha256": "6dca3a91f54985cad65f3418aedfb441123ff3aab25dfe369aaa8dfaf4773d22"
+    }
+  ],
+  "performance_values_read": false,
+  "checkpoint_copy_performed": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

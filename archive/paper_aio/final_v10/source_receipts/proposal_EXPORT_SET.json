@@ -1,0 +1,54 @@
+{
+  "schema": "final-unsb-paper-source-export-set-v1",
+  "status": "COMPLETE_SOURCE_BOUND_EXPORT_SET",
+  "lane_id": "proposal",
+  "source_host_label": "5090C",
+  "epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "exports": [
+    {
+      "epoch": 100,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/exports/proposal/e100.export.json",
+      "receipt_sha256": "95076de722b70d4db1056b3aaf76278c28323bcbfba4a93543f36e673445091d",
+      "checkpoint_sha256": "4d4f8ecd60810dbe7a832a44919ddf096dc9b0f502deac3a4677bcd36d57a8c6",
+      "scientific_state_sha256": "3253aa984dfd11cce894c576a6f333122451a2e898fca8ef672985884d218b76"
+    },
+    {
+      "epoch": 125,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/exports/proposal/e125.export.json",
+      "receipt_sha256": "45986435a5ef6ab6416406cf0d750a7593451de9143e94eb90b4329a3566ab19",
+      "checkpoint_sha256": "ae23df047fe1a6eeb46ff88d7b5876a0f47ca6ee28874ac77bceb1510a7562f0",
+      "scientific_state_sha256": "2359a374d63d911e5866b462ce2a41a03d815f92a44833d5fe6c65a444e084c8"
+    },
+    {
+      "epoch": 150,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/exports/proposal/e150.export.json",
+      "receipt_sha256": "642685b1b484ae0d69c364cad4a0422e17636468c3da480a41a5a9247335e51b",
+      "checkpoint_sha256": "2af2c756e8c01e5f5d18ff0afe8fe9e09322e07abf6bf3d6298dae1e1368e995",
+      "scientific_state_sha256": "982fe0eac4b7c0ece1eca36abc875cf41f55d50a4273a86a4c88a43e868d149f"
+    },
+    {
+      "epoch": 175,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/exports/proposal/e175.export.json",
+      "receipt_sha256": "8340cdf52d306b08c8502b3a72249b33802516fe38e043c11b9bcd26ac26f324",
+      "checkpoint_sha256": "5b6e7ca795eb2fb4cb638dee8e54bbb1c83b9b244cb2f8c0e2bdf40e004c17cb",
+      "scientific_state_sha256": "b8ce8d23dfbffc39e3a58648fb33a4ddbe7fbd781c3db617b1c05a58f4d1d9b2"
+    },
+    {
+      "epoch": 200,
+      "receipt": "/root/autodl-tmp/runs/FINAL_UNSB_PAPER_AIO_5090C_e4a5eed/exports/proposal/e200.export.json",
+      "receipt_sha256": "6b80b8292532d0582c7119e6116fff87e4eb0fd03809a367a23bbc8dd6900938",
+      "checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+      "scientific_state_sha256": "a15d87cd4bed5f25174d586bed60da62cb9a3b83f801332365ddb9c144c06864"
+    }
+  ],
+  "performance_values_read": false,
+  "checkpoint_copy_performed": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

@@ -1,0 +1,346 @@
+{
+  "schema": "final-unsb-paper-results-v1",
+  "status": "FIRST_WAVE_COMPLETE",
+  "primary_epoch": 200,
+  "best_checkpoint_selection": false,
+  "unified_evaluation_cohort_pass": true,
+  "unified_evaluation_cohort": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_COHORT.json",
+  "lanes": [
+    {
+      "lane_id": "input",
+      "role": "evaluation-only degraded input reference",
+      "backend": "evaluation_only",
+      "comparison_scope": "one_container_unified_evaluation",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 14.738111208789983,
+        "macro_ssim": 0.5906647442220977,
+        "macro_lpips": 0.3450528220157139,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 1
+        },
+        "count_per_domain": 80,
+        "replicates": 1
+      }
+    },
+    {
+      "lane_id": "plain",
+      "role": "matched full-data UNSB control",
+      "backend": "internal",
+      "comparison_scope": "same_runtime_output_root",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 19.675084749966178,
+        "macro_ssim": 0.6424698766072592,
+        "macro_lpips": 0.2365586569206789,
+        "stochasticity": {
+          "macro_psnr_std": 0.022829064829368584,
+          "macro_ssim_std": 0.0009491260882928935,
+          "macro_lpips_std": 0.0008204529104616325,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      }
+    },
+    {
+      "lane_id": "proposal",
+      "role": "frozen post-D/E conditional two-view G/F estimator",
+      "backend": "internal",
+      "comparison_scope": "same_runtime_output_root",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 20.51443151852717,
+        "macro_ssim": 0.6638345547268788,
+        "macro_lpips": 0.22146850552254668,
+        "stochasticity": {
+          "macro_psnr_std": 0.029763784825750633,
+          "macro_ssim_std": 0.0009375956502604347,
+          "macro_lpips_std": 0.0009604614503846114,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      },
+      "late_trajectory": [
+        {
+          "epoch": 150,
+          "macro_psnr_delta": 3.3381127510158244,
+          "macro_ssim_delta": 0.06660194744666414,
+          "macro_lpips_delta": -0.08417911022635446,
+          "positive_domains": 5,
+          "worst_domain_delta": -0.8048210694749258,
+          "domain_delta": {
+            "FoggyCityscapes": {
+              "psnr": 4.898285448171304,
+              "ssim": 0.08666052179677142,
+              "lpips": -0.09514698705502918
+            },
+            "LowLightTrafficData": {
+              "psnr": 1.4130388121602238,
+              "ssim": 0.06434396377631596,
+              "lpips": -0.05721768076930728
+            },
+            "RSCityscapes": {
+              "psnr": -0.8048210694749258,
+              "ssim": -0.036585090841565804,
+              "lpips": 0.041841366142034486
+            },
+            "RainCityscapes": {
+              "psnr": 5.597346666309392,
+              "ssim": 0.07476665547915862,
+              "lpips": -0.07476049408848796
+            },
+            "RainDS-syn": {
+              "psnr": 2.418341719231435,
+              "ssim": 0.058501289997782036,
+              "lpips": -0.11419570360864911
+            },
+            "SnowTrafficData": {
+              "psnr": 6.506484929697521,
+              "ssim": 0.1519243444715228,
+              "lpips": -0.20559516197868755
+            }
+          },
+          "crn_exact": true,
+          "runtime_relation_legal": true,
+          "matched_comparison_legal": true,
+          "runtime_relation": {
+            "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+            "method_source_host_label": "5090C",
+            "plain_source_host_label": "5090B_MATCHED_PLAIN",
+            "runtime_twin_updates": 2000,
+            "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+            "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+            "performance_values_read": false
+          },
+          "candidate_macro_psnr": 20.40288110385202,
+          "plain_macro_psnr": 17.064768352836197
+        },
+        {
+          "epoch": 175,
+          "macro_psnr_delta": 0.9932350853916176,
+          "macro_ssim_delta": 0.029999480148156343,
+          "macro_lpips_delta": -0.023591800579535083,
+          "positive_domains": 6,
+          "worst_domain_delta": 0.23694046969528415,
+          "domain_delta": {
+            "FoggyCityscapes": {
+              "psnr": 0.4024407791815676,
+              "ssim": 0.005262725693838899,
+              "lpips": -0.007551277748176044
+            },
+            "LowLightTrafficData": {
+              "psnr": 0.47582973026581676,
+              "ssim": 0.02820858550923211,
+              "lpips": 0.01100681743451526
+            },
+            "RSCityscapes": {
+              "psnr": 2.651050292058013,
+              "ssim": 0.10371657673801699,
+              "lpips": -0.10597354955971244
+            },
+            "RainCityscapes": {
+              "psnr": 1.566064725383363,
+              "ssim": 0.02448404303618834,
+              "lpips": -0.021057653027985776
+            },
+            "RainDS-syn": {
+              "psnr": 0.6270845157656701,
+              "ssim": 0.010296141249792945,
+              "lpips": -0.005489091575145738
+            },
+            "SnowTrafficData": {
+              "psnr": 0.23694046969528415,
+              "ssim": 0.008028808661869613,
+              "lpips": -0.01248604900070599
+            }
+          },
+          "crn_exact": true,
+          "runtime_relation_legal": true,
+          "matched_comparison_legal": true,
+          "runtime_relation": {
+            "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+            "method_source_host_label": "5090C",
+            "plain_source_host_label": "5090B_MATCHED_PLAIN",
+            "runtime_twin_updates": 2000,
+            "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+            "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+            "performance_values_read": false
+          },
+          "candidate_macro_psnr": 20.507266555528776,
+          "plain_macro_psnr": 19.51403147013716
+        },
+        {
+          "epoch": 200,
+          "macro_psnr_delta": 0.8393467685609934,
+          "macro_ssim_delta": 0.021364678119619618,
+          "macro_lpips_delta": -0.015090151398132218,
+          "positive_domains": 4,
+          "worst_domain_delta": -0.16704041476664244,
+          "domain_delta": {
+            "FoggyCityscapes": {
+              "psnr": 0.9809837328831748,
+              "ssim": 0.010054683536291131,
+              "lpips": -0.003933222927153118
+            },
+            "LowLightTrafficData": {
+              "psnr": 0.5864077655404856,
+              "ssim": 0.027805551737546952,
+              "lpips": 0.008203833550214812
+            },
+            "RSCityscapes": {
+              "psnr": 2.543327958790716,
+              "ssim": 0.07943031191825867,
+              "lpips": -0.0915600244887173
+            },
+            "RainCityscapes": {
+              "psnr": 1.138104798267289,
+              "ssim": 0.016131678372621527,
+              "lpips": -0.01790706555359066
+            },
+            "RainDS-syn": {
+              "psnr": -0.0457032293490478,
+              "ssim": -0.004483038112521154,
+              "lpips": 0.011403053998947144
+            },
+            "SnowTrafficData": {
+              "psnr": -0.16704041476664244,
+              "ssim": -0.0007511187344789727,
+              "lpips": 0.003252517031505711
+            }
+          },
+          "crn_exact": true,
+          "runtime_relation_legal": true,
+          "matched_comparison_legal": true,
+          "runtime_relation": {
+            "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+            "method_source_host_label": "5090C",
+            "plain_source_host_label": "5090B_MATCHED_PLAIN",
+            "runtime_twin_updates": 2000,
+            "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+            "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+            "performance_values_read": false
+          },
+          "candidate_macro_psnr": 20.51443151852717,
+          "plain_macro_psnr": 19.675084749966178
+        }
+      ],
+      "scientific_gate": {
+        "status": "PASS",
+        "late_three_macro_psnr_delta": 1.7235648683228117,
+        "e200_macro_psnr_delta": 0.8393467685609934,
+        "crn_exact_at_all_late_points": true,
+        "runtime_relation_legal_at_all_late_points": true,
+        "runtime_relation_exact_at_all_late_points": true,
+        "runtime_relation_identity": "exact_runtime",
+        "provenance_boundary_disclosed": false,
+        "candidate_e150_to_e200_change_db": 0.11155041467515048,
+        "plain_e150_to_e200_change_db": 2.6103163971299814,
+        "plain_collapse_guard": "PASS_NOT_PLAIN_COLLAPSE",
+        "confirmation20_opened": false
+      }
+    },
+    {
+      "lane_id": "hjcgr",
+      "role": "retained but not first-wave full-data lane",
+      "backend": "internal",
+      "comparison_scope": "same_runtime_output_root",
+      "candidate_lock": null,
+      "status": "DEFERRED_NOT_FIRST_WAVE",
+      "first_wave": false,
+      "supervisor_status": null,
+      "terminal": null,
+      "late_trajectory": []
+    },
+    {
+      "lane_id": "amtnc",
+      "role": "retained independent geometry mechanism, not first-wave",
+      "backend": "internal",
+      "comparison_scope": "same_runtime_output_root",
+      "candidate_lock": null,
+      "status": "DEFERRED_NOT_FIRST_WAVE",
+      "first_wave": false,
+      "supervisor_status": null,
+      "terminal": null,
+      "late_trajectory": []
+    },
+    {
+      "lane_id": "cyclegan",
+      "role": "official-loss unpaired baseline",
+      "backend": "internal",
+      "comparison_scope": "standalone_fixed_protocol",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 21.655428798767243,
+        "macro_ssim": 0.6870120752292374,
+        "macro_lpips": 0.20854774304898452,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      }
+    },
+    {
+      "lane_id": "cut",
+      "role": "official CUT baseline pinned to upstream commit b3ac297",
+      "backend": "internal",
+      "comparison_scope": "standalone_fixed_protocol",
+      "candidate_lock": null,
+      "status": "COMPLETE_E200",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": {
+        "macro_psnr": 23.728935081973713,
+        "macro_ssim": 0.7471445460803808,
+        "macro_lpips": 0.1497856482261947,
+        "stochasticity": {
+          "macro_psnr_std": 0.0,
+          "macro_ssim_std": 0.0,
+          "macro_lpips_std": 0.0,
+          "ddof": 0,
+          "replicate_count": 5
+        },
+        "count_per_domain": 80,
+        "replicates": 5
+      }
+    },
+    {
+      "lane_id": "ddsb",
+      "role": "direct NeurIPS 2025 baseline; fail closed until formula/source audit passes",
+      "backend": "external_locked",
+      "comparison_scope": "standalone_fixed_protocol",
+      "candidate_lock": null,
+      "status": "REPRODUCTION_INCOMPLETE",
+      "first_wave": true,
+      "supervisor_status": null,
+      "terminal": null
+    }
+  ],
+  "cross_5090_delta_merged": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

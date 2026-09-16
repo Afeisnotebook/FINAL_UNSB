@@ -1,0 +1,156 @@
+{
+  "schema": "final-unsb-paper-complexity-profile-v1",
+  "status": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE",
+  "protocol_fingerprint": "8b2803c780787f85cef9bc8dc5d28d66dc6a05e88fd14580a5206cb16d473a89",
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "lane_id": "dclgan",
+  "lane": {
+    "id": "dclgan",
+    "backend": "author_source_bound_adapter",
+    "family": "external",
+    "model": "dcl",
+    "role": "dual-contrastive unpaired image-translation baseline",
+    "method": {},
+    "first_wave": false
+  },
+  "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/sources/LOCAL_GTX1660/dclgan/e200.pt",
+  "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d",
+  "checkpoint_unchanged": true,
+  "checkpoint_metadata": {
+    "schema": "final-unsb-paper-dclgan-adapter-receipt-v1",
+    "lane_id": "dclgan",
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "adapter_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44",
+    "upstream_commit": "f7a7b8e2712a5e2d13a535e5e64bb310546e949d",
+    "adapter_git_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+    "train_view": "E:\\UNSB_Expl\\paper_eval_node\\view",
+    "runtime_host": {
+      "hostname": "DESKTOP-56OTAME",
+      "torch": "2.6.0+cu124",
+      "torch_cuda": "12.4",
+      "cuda_available": true,
+      "gpu_index": 0,
+      "gpu_name": "NVIDIA GeForce GTX 1660",
+      "gpu_uuid": "22b92065-0a2b-ff50-f2c5-9c9ee65e6b53"
+    },
+    "steps_per_data_epoch": 8553,
+    "target_updates": 1710600,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "sampler_initialization_policy": "reuse_DDI_batch_for_first_optimizer_update",
+    "deterministic_reflection_pad_adapter": {
+      "operator": "slice_flip_concat_forward_equivalent_v1",
+      "expected_replaced_modules": 50
+    },
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "portable_candidate_authority_sha256": null,
+  "environment": {
+    "hostname": "Machine",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false
+  },
+  "image_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "batch_size": 1,
+  "parameters": {
+    "networks": {
+      "G_A": {
+        "parameters": 11378179,
+        "optimizer_owned_parameters": 11378179,
+        "requires_grad_parameters_at_measurement": 11378179,
+        "parameter_bytes": 45512716
+      },
+      "F1": {
+        "parameters": 493568,
+        "optimizer_owned_parameters": 493568,
+        "requires_grad_parameters_at_measurement": 493568,
+        "parameter_bytes": 1974272
+      },
+      "D_A": {
+        "parameters": 2764737,
+        "optimizer_owned_parameters": 2764737,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 11058948
+      },
+      "G_B": {
+        "parameters": 11378179,
+        "optimizer_owned_parameters": 11378179,
+        "requires_grad_parameters_at_measurement": 11378179,
+        "parameter_bytes": 45512716
+      },
+      "F2": {
+        "parameters": 493568,
+        "optimizer_owned_parameters": 493568,
+        "requires_grad_parameters_at_measurement": 493568,
+        "parameter_bytes": 1974272
+      },
+      "D_B": {
+        "parameters": 2764737,
+        "optimizer_owned_parameters": 2764737,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 11058948
+      }
+    },
+    "unique_parameters": 29272968,
+    "unique_optimizer_owned_parameters": 29272968,
+    "unique_requires_grad_parameters_at_measurement": 23743494,
+    "unique_parameter_bytes": 117091872
+  },
+  "inference": {
+    "warmup_repeats": 5,
+    "measured_repeats": 30,
+    "nfe": {
+      "1": {
+        "repeats": 30,
+        "median_ms": 2.3909974843263626,
+        "mean_ms": 2.4175232431540885,
+        "p10_ms": 2.363909035921097,
+        "p90_ms": 2.5151120498776436,
+        "min_ms": 2.223590388894081,
+        "max_ms": 2.5573261082172394,
+        "peak_allocated_bytes": 581630464,
+        "peak_reserved_bytes": 874512384
+      }
+    }
+  },
+  "training_step": {
+    "repeats": 10,
+    "median_ms": 91.68918756768107,
+    "mean_ms": 94.73316785879433,
+    "p10_ms": 91.04210883378983,
+    "p90_ms": 99.30760087445378,
+    "min_ms": 90.98685998469591,
+    "max_ms": 114.40137168392539,
+    "warmup_steps": 3,
+    "peak_allocated_bytes": 2031919104,
+    "peak_reserved_bytes": 2141192192
+  },
+  "flops": {
+    "reported": false,
+    "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+  },
+  "source_input": {
+    "domain": "FoggyCityscapes",
+    "stem": "0001",
+    "target_path_read": false
+  },
+  "disposable_in_memory_model_mutated_for_training_timing": true,
+  "performance_metric_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

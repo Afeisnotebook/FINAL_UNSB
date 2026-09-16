@@ -1,0 +1,180 @@
+{
+  "schema": "final-unsb-paper-complexity-profile-v1",
+  "status": "PASS_TARGET_BLIND_CHECKPOINT_READ_ONLY_PROFILE",
+  "protocol_fingerprint": "8b2803c780787f85cef9bc8dc5d28d66dc6a05e88fd14580a5206cb16d473a89",
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "lane_id": "proposal",
+  "lane": {
+    "id": "proposal",
+    "backend": "internal",
+    "family": "unsb",
+    "model": "route1_pcrsmg_ablation",
+    "role": "frozen post-D/E conditional two-view G/F estimator",
+    "method": {
+      "route1_ablation_enable": true,
+      "pcrsmg_ablation_role": "proposal_only"
+    },
+    "first_wave": true
+  },
+  "checkpoint": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_IMPORTS/sources/5090C/proposal/e200.pt",
+  "checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+  "checkpoint_unchanged": true,
+  "checkpoint_metadata": {
+    "project_id": "FINAL_UNSB_PAPER_AIO_V1",
+    "lane_id": "proposal",
+    "lane_config_sha256": "719e2affb3263eb381ca49752899fa5659773a1765634b5460f57a10f4ac2aff",
+    "seed": 2026,
+    "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b",
+    "e0_scientific_state_sha256": "3e567e36dd984bf7e78004162b4c7e766c0d835feb2fa8bbb4cd5823e13af724",
+    "git_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+    "train_view": "/root/autodl-tmp/paper_views/FINAL_UNSB_FULL_AIO_5090C_e4a5eed",
+    "data_root": "/root/autodl-tmp/data",
+    "steps_per_data_epoch": 8553,
+    "target_updates": 1710600,
+    "batch_size": 1,
+    "sampling_measure": "official_image_proportional_unpaired",
+    "paired_controller_access": false,
+    "confirmation20_opened": false
+  },
+  "portable_candidate_authority_sha256": null,
+  "environment": {
+    "hostname": "Machine",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false
+  },
+  "image_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "batch_size": 1,
+  "parameters": {
+    "networks": {
+      "G": {
+        "parameters": 14684419,
+        "optimizer_owned_parameters": 14684419,
+        "requires_grad_parameters_at_measurement": 14684419,
+        "parameter_bytes": 58737676
+      },
+      "F": {
+        "parameters": 560384,
+        "optimizer_owned_parameters": 560384,
+        "requires_grad_parameters_at_measurement": 560384,
+        "parameter_bytes": 2241536
+      },
+      "D": {
+        "parameters": 3143041,
+        "optimizer_owned_parameters": 3143041,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 12572164
+      },
+      "E": {
+        "parameters": 3152257,
+        "optimizer_owned_parameters": 3152257,
+        "requires_grad_parameters_at_measurement": 0,
+        "parameter_bytes": 12609028
+      }
+    },
+    "unique_parameters": 21540101,
+    "unique_optimizer_owned_parameters": 21540101,
+    "unique_requires_grad_parameters_at_measurement": 15244803,
+    "unique_parameter_bytes": 86160404
+  },
+  "inference": {
+    "warmup_repeats": 5,
+    "measured_repeats": 30,
+    "nfe": {
+      "1": {
+        "repeats": 30,
+        "median_ms": 16.087203985080123,
+        "mean_ms": 16.21845350600779,
+        "p10_ms": 15.955052804201841,
+        "p90_ms": 16.374936792999506,
+        "min_ms": 15.051733236759901,
+        "max_ms": 18.185636959969997,
+        "peak_allocated_bytes": 361995776,
+        "peak_reserved_bytes": 1017118720
+      },
+      "2": {
+        "repeats": 30,
+        "median_ms": 32.14967739768326,
+        "mean_ms": 32.46458501865467,
+        "p10_ms": 31.150791328400373,
+        "p90_ms": 36.713672801852226,
+        "min_ms": 10.617705062031746,
+        "max_ms": 55.39647815749049,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "3": {
+        "repeats": 30,
+        "median_ms": 48.22559910826385,
+        "mean_ms": 49.961670534685254,
+        "p10_ms": 47.157300636172295,
+        "p90_ms": 53.88663010671735,
+        "min_ms": 20.744530018419027,
+        "max_ms": 72.22337508574128,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "4": {
+        "repeats": 30,
+        "median_ms": 64.32940764352679,
+        "mean_ms": 66.72084000892937,
+        "p10_ms": 63.47689591348171,
+        "p90_ms": 72.52152916043997,
+        "min_ms": 54.605417884886265,
+        "max_ms": 86.92820323631167,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      },
+      "5": {
+        "repeats": 30,
+        "median_ms": 80.33597841858864,
+        "mean_ms": 83.3051823079586,
+        "p10_ms": 78.96229531615973,
+        "p90_ms": 102.48638689517975,
+        "min_ms": 51.249108742922544,
+        "max_ms": 125.04812609404325,
+        "peak_allocated_bytes": 362388992,
+        "peak_reserved_bytes": 1017118720
+      }
+    }
+  },
+  "training_step": {
+    "repeats": 10,
+    "median_ms": 783.6398880463094,
+    "mean_ms": 759.7349575255066,
+    "p10_ms": 649.5699328370392,
+    "p90_ms": 830.5736198090017,
+    "min_ms": 641.3192241452634,
+    "max_ms": 859.1994438320398,
+    "warmup_steps": 3,
+    "peak_allocated_bytes": 1433167360,
+    "peak_reserved_bytes": 1570766848
+  },
+  "flops": {
+    "reported": false,
+    "reason": "custom stochastic bridge and lazy PatchNCE operators are not fully covered by a single audited FLOP counter; measured latency, NFE and peak memory are reported instead"
+  },
+  "source_input": {
+    "domain": "FoggyCityscapes",
+    "stem": "0001",
+    "target_path_read": false
+  },
+  "disposable_in_memory_model_mutated_for_training_timing": true,
+  "performance_metric_values_read": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

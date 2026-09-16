@@ -1,0 +1,201 @@
+{
+  "schema": "final-unsb-paper-unified-evaluation-cohort-v1",
+  "status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+  "required_lanes": [
+    "input",
+    "plain",
+    "proposal",
+    "cut",
+    "cyclegan"
+  ],
+  "epochs": [
+    100,
+    125,
+    150,
+    175,
+    200
+  ],
+  "evaluation_bundle_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
+  "unified_evaluator_protocol_fingerprint": "8b2803c780787f85cef9bc8dc5d28d66dc6a05e88fd14580a5206cb16d473a89",
+  "unified_environment": {
+    "hostname": "Machine",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1",
+    "cudnn": 90100,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_matmul": false,
+    "tf32_cudnn": false
+  },
+  "receipts": [
+    {
+      "lane_id": "input",
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_input_e200.json",
+      "receipt_sha256": "abe301517df6e798f5ebf8dc4d6bf55616a82524f6a44fc096c72f6efd4af43d",
+      "source_host_label": "evaluation_only"
+    },
+    {
+      "lane_id": "plain",
+      "epoch": 100,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_plain_e100.json",
+      "receipt_sha256": "fb38458e68d7252fc34ed1a086e26719c5c4e8fec6278cf4215d586a8873565e",
+      "source_host_label": "5090B_MATCHED_PLAIN"
+    },
+    {
+      "lane_id": "plain",
+      "epoch": 125,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_plain_e125.json",
+      "receipt_sha256": "475f1ab6596dd87171668c68d8fea8f2ebe9ee1fe4a8885f5a3d472b64e9d539",
+      "source_host_label": "5090B_MATCHED_PLAIN"
+    },
+    {
+      "lane_id": "plain",
+      "epoch": 150,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_plain_e150.json",
+      "receipt_sha256": "68422b0aee1a5d67ef0f09bbbd404dc9b4f45ca6261ab6e3d032cad47e257e3b",
+      "source_host_label": "5090B_MATCHED_PLAIN"
+    },
+    {
+      "lane_id": "plain",
+      "epoch": 175,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_plain_e175.json",
+      "receipt_sha256": "bb9332fcedb4bbcaad44f589995347a1e52dd1321f7a40759d31ddf7ca5097d1",
+      "source_host_label": "5090B_MATCHED_PLAIN"
+    },
+    {
+      "lane_id": "plain",
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_plain_e200.json",
+      "receipt_sha256": "83a5286c9a8ca5f68f94192fca47538f4014b8fc85eaf0a9baa6d9fee5a89708",
+      "source_host_label": "5090B_MATCHED_PLAIN"
+    },
+    {
+      "lane_id": "proposal",
+      "epoch": 100,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_proposal_e100.json",
+      "receipt_sha256": "a1bce1ccbc1415738c5f32e759d91d97a2e4b8198283d865b646fd9bf39e5668",
+      "source_host_label": "5090C"
+    },
+    {
+      "lane_id": "proposal",
+      "epoch": 125,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_proposal_e125.json",
+      "receipt_sha256": "39678bfadc5d87df9bc4d4356b5af8ca116dc5910dbc9c3c42d5b61b33666df3",
+      "source_host_label": "5090C"
+    },
+    {
+      "lane_id": "proposal",
+      "epoch": 150,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_proposal_e150.json",
+      "receipt_sha256": "e0f60ecd5944befba91e76ba06c29c39d9728f39358b5544bacb12060277bfbf",
+      "source_host_label": "5090C"
+    },
+    {
+      "lane_id": "proposal",
+      "epoch": 175,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_proposal_e175.json",
+      "receipt_sha256": "e6ca6bb9b4342edd1c0370a7eee720231af72b9390294a7eafdb1a77ffbcf2e3",
+      "source_host_label": "5090C"
+    },
+    {
+      "lane_id": "proposal",
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_proposal_e200.json",
+      "receipt_sha256": "2eec36f4e9842bf05bf19ea0a84705154e6f50989b2df2b827aadd76bfae4c7a",
+      "source_host_label": "5090C"
+    },
+    {
+      "lane_id": "cut",
+      "epoch": 100,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cut_e100.json",
+      "receipt_sha256": "e46bc1763ddeec0f8503d961bc140ba8b5307d54fea6d6e9c1bfd2bef46cba15",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cut",
+      "epoch": 125,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cut_e125.json",
+      "receipt_sha256": "60394ff34c10bb02465e47d1645bc6723db641b787278271488333df4202dbe6",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cut",
+      "epoch": 150,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cut_e150.json",
+      "receipt_sha256": "e5203b0e50a48628347a87efb67ea4ab52ea6effb6ec0d8ddf73b26dd74065dd",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cut",
+      "epoch": 175,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cut_e175.json",
+      "receipt_sha256": "c335f8c226bb8ac2a9c84d3284a598ac7828cbbd167c911e5ef7f2568535d9f0",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cut",
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cut_e200.json",
+      "receipt_sha256": "3679ed42f3677ded61c71f497f7b47f53eb1b1c00643152bc004d2901afa75fc",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cyclegan",
+      "epoch": 100,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cyclegan_e100.json",
+      "receipt_sha256": "c00f4adfd3be577cbb0326e889fed2339fcf3b7a4654585f7f589570a40cbca2",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cyclegan",
+      "epoch": 125,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cyclegan_e125.json",
+      "receipt_sha256": "1040c8738961491bca8eec715de1c4e191922eea016538e46603bacd7392d69a",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cyclegan",
+      "epoch": 150,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cyclegan_e150.json",
+      "receipt_sha256": "0d1d8abdcdba2c33c677ca9cb537940af8fd693f14618bc745b6b974ee9f82f2",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cyclegan",
+      "epoch": 175,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cyclegan_e175.json",
+      "receipt_sha256": "5c0954966804e0c69b07cd5a06bf096828cdf641c5592486d708fd07e892473d",
+      "source_host_label": "5090B"
+    },
+    {
+      "lane_id": "cyclegan",
+      "epoch": 200,
+      "receipt": "/home/yc/runs/FINAL_UNSB_PAPER_UNIFIED_EVAL_V7_DA41652/gates/UNIFIED_EVALUATION_cyclegan_e200.json",
+      "receipt_sha256": "8fd6cf3b2cb88a74d826bd3f1b5e67109ed0407eb0006c3c70ac90df3271c70a",
+      "source_host_label": "5090B"
+    }
+  ],
+  "training_hosts_remain_separate": true,
+  "metric_semantics_sha256": "747eda573f1eab3f58173e4179dac36e3669411e7e847cd60897b7f7b25aff2a",
+  "metric_payloads_recomputed_from_per_image_evidence": true,
+  "exact_sample_identity_all_lanes": true,
+  "exact_crn_identity_all_lanes": true,
+  "training_checkpoints_read_only_verified_by_rehash": true,
+  "proposal_plain_runtime_relation": {
+    "status": "PASS_EXACT_CROSS_HOST_RUNTIME_RELATION",
+    "method_source_host_label": "5090C",
+    "plain_source_host_label": "5090B_MATCHED_PLAIN",
+    "runtime_twin_updates": 2000,
+    "e0_core_sha256": "8d6a752f56b57ad6f2e08c1c05fae032fd8d86342b2f7e9d028431606ae7eed9",
+    "step_core_sha256": "c45abc7bc58ee4fad88501debcb07f98420d68cc0bf1e4170545a5e13e58c739",
+    "performance_values_read": false
+  },
+  "cross_host_training_delta_merged": false,
+  "paired_metric_control": false,
+  "confirmation20_opened": false
+}

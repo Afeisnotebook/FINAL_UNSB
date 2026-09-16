@@ -1,0 +1,22 @@
+{
+  "schema": "final-unsb-paper-final-delivery-successor-state-v2",
+  "pid": 1561742,
+  "contract": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V10_D99E4CA/operations/FINAL_DELIVERY_CONTRACT.json",
+  "contract_sha256": "26f47da2d7a8e7acb8129b10efb7e07b98a9dbbc0a4e871ab22ba4aaa27078fa",
+  "control_git_commit": "d99e4ca906313f16607d25474432eb77cf4b6b4b",
+  "metric_values_available_to_scheduler": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false,
+  "status": "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
+  "current_lane": null,
+  "complexity_completed": 6,
+  "performance_values_read": true,
+  "metric_values_used_for_training_or_scheduling": false,
+  "portfolio": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V10_D99E4CA/PAPER_ALGORITHM_PORTFOLIO.json",
+  "portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+  "performance_values_in_control_state": false,
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "updated_unix_time": 1789534433.9736576
+}

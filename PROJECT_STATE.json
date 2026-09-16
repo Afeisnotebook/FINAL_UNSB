@@ -4238,5 +4238,23 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_PORTFOLIO_V10_20260916T125639.json",
     "decision": "decisions/DEC-20260916-FINAL-DISCOVERY-PORTFOLIO-V10.md"
   },
-  "next_gate": "The complete e200 discovery portfolio, six core complexity profiles and DCLGAN addendum are now hash-bound. Proposal-only passes the preregistered full-data gate; current ST-CGR and AM-TNC implementations fail without falsifying their broader mechanism families. HJCGR remains deferred and DDSB reproduction remains incomplete. Before confirmation20, perform an explicit scientific review and freeze the paper claims, disclosure text, primary algorithm set and confirmation policy. Do not reopen training, select best checkpoints, use non-equivalent runtime deltas or open confirmation20 until that review authorizes it."
+  "portable_result_archive_20260916": {
+    "status": "COMPLETE_HASH_VERIFIED_COMPACT_PAPER_ARCHIVE",
+    "root": "archive/paper_aio/final_v10",
+    "manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+    "server_inventory": "archive/paper_aio/final_v10/SERVER_ASSET_INVENTORY.json",
+    "research_handoff": "research/paper_aio/RESEARCH_HANDOFF_CN.md",
+    "portable_payload_files": 21,
+    "portable_payload_bytes": 320096,
+    "critical_canonical_result_only_on_rental_server": false,
+    "raw_checkpoints_in_git": false,
+    "raw_checkpoints_redundantly_preserved": true,
+    "matched_plain_raw_assets_moved": false,
+    "independent_proof_experiments_merged_into_canonical_result": false,
+    "4090a_independent_proof_status": "complete_components_present_server_only_pending_separate_adjudication",
+    "5090a_independent_proof_status": "active_e57_of_e60_not_touched_pending_completion",
+    "destructive_action_taken": false,
+    "confirmation20_opened": false
+  },
+  "next_gate": "The complete e200 discovery portfolio and portable compact archive are now hash-bound in Git. Proposal-only passes the preregistered full-data gate; current ST-CGR and AM-TNC implementations fail without falsifying their broader mechanism families. HJCGR remains deferred and DDSB reproduction remains incomplete. Independent proof work on 4090A/5090A remains deliberately separate and must be adjudicated before canonical import. Before confirmation20, perform an explicit scientific review and freeze the paper claims, disclosure text, primary algorithm set and confirmation policy. Do not reopen training, select best checkpoints, use non-equivalent runtime deltas or open confirmation20 until that review authorizes it."
 }
