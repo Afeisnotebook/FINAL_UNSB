@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-16T12:45:49+08:00",
-  "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
+  "captured_at": "2026-09-16T12:56:39+08:00",
+  "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -2368,6 +2368,27 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
     "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
+  },
+  "final_discovery_portfolio_v10_20260916": {
+    "status": "complete_full_data_discovery_portfolio_with_dclgan_awaiting_confirmation_decision",
+    "control_git_commit": "d99e4ca906313f16607d25474432eb77cf4b6b4b",
+    "final_delivery_status": "complete_successor_e200_full_data_paper_discovery_delivery",
+    "dclgan_addendum_status": "complete_dclgan_paper_portfolio_addendum",
+    "portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "accepted_algorithms": ["proposal"],
+    "proposal_late_three_macro_psnr_delta_db": 1.7235648683228117,
+    "proposal_e200_macro_psnr_delta_db": 0.8393467685609934,
+    "amtnc_current_implementation_gate": "fail",
+    "stcgr_current_implementation_gate": "fail",
+    "hjcgr": "deferred_not_falsified",
+    "ddsb": "reproduction_incomplete_not_scientific_failure",
+    "training_checkpoints_modified": false,
+    "partial_metric_used_for_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_PORTFOLIO_V10_20260916T125639.json",
+    "decision": "decisions/DEC-20260916-FINAL-DISCOVERY-PORTFOLIO-V10.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,

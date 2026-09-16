@@ -1,14 +1,14 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-16T12:45:49+08:00",
-  "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
+  "captured_at": "2026-09-16T12:56:39+08:00",
+  "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_HOURLY_DYNAMIC_ORIGIN_MAIN_AUTHORITY_5090C_TAKEOVER_AWARE",
   "core_completion_path": [
     {
       "id": "full_training",
-      "status": "running_only_matched_plain_training_all_algorithm_and_external_lanes_e200_complete",
+      "status": "complete_all_registered_algorithm_control_and_external_lanes_e200",
       "requires": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain"],
       "proof": "source-bound e200 export sets",
       "completed": ["4090A/plain", "5090C/proposal", "5090A/stcgr", "5090B/cut", "5090B/cyclegan", "4090A/amtnc_after_plain", "local/dclgan_extension"],
@@ -24,11 +24,11 @@
     },
     {
       "id": "legal_matched_control",
-      "status": "registered_5090c_segmented_exact_takeover_e175_fixed_milestone_hash_closed_continuing_e200",
+      "status": "complete_registered_5090c_segmented_exact_takeover_e200_review_pass",
       "requires": ["source and clone exact 2000-update runtime twins", "double exact resume probe", "5090B matched plain e200", "reviewed Git runtime relations"],
       "proof": "clone continuation gate, dual exact resume, guarded full-state continuation, source-bound exporters and committed relation registry",
       "predecessor": "5090B CUT COMPLETE_E200 source-bound export hash closed",
-      "current_gate": "WAIT_E200_SOURCE_BOUND_EXPORT_THEN_FINAL_RUNTIME_RELATION_REVIEW",
+      "current_gate": "PASS_E200_SOURCE_BOUND_EXPORT_AND_FINAL_RUNTIME_RELATION_REVIEW",
       "wait_only_guard": "HANDOFF_STARTED_RECOVERY_RELINQUISHED_ZERO_RESTARTS",
       "long_plain_training_started": true,
       "successor_pid": null,
@@ -39,8 +39,8 @@
       "export_successor_pid": 233434,
       "capacity_gate_receipt_sha256": "7f1d96be51e3731098ecf2b6f1337b4ea61011ccfa06f97c2bb95bd145c83136",
       "capacity_gate_continue_now_saving_seconds": 27954.229284147616,
-      "latest_complete_data_epoch": 175,
-      "latest_complete_updates": 1496775,
+      "latest_complete_data_epoch": 200,
+      "latest_complete_updates": 1710600,
       "last_observed_complete_data_epoch_before_endpoint_loss": 116,
       "last_observed_complete_updates_before_endpoint_loss": 992148,
       "latest_epoch_seconds": 2297.957699537277,
@@ -126,7 +126,7 @@
     },
     {
       "id": "dynamic_unified_evaluation",
-      "status": "v7_deployed_healthy_waiting_with_pinned_runtime_recovery_supervisor",
+      "status": "complete_21_of_21_fixed_first_wave_evaluations",
       "requires": ["five fixed epochs", "discovery80 at e200", "five e200 CRN bundles", "LPIPS", "read-only checkpoint rehash"],
       "proof": "unified cohort, PAPER_RESULTS.json and ALGORITHM_SET.json",
       "pid": 125436,
@@ -143,7 +143,7 @@
     },
     {
       "id": "algorithm_dispositions",
-      "status": "amtnc_v8_complete_fail_current_implementation_stcgr_v7_waiter_healthy",
+      "status": "complete_amtnc_and_stcgr_current_implementation_dispositions",
       "requires": ["AM-TNC matched 4090A plain", "ST-CGR reviewed legal plain relation", "e150/e175/e200"],
       "proof": "hash-bound algorithm disposition receipts",
       "amtnc_waiter_pid": null,
@@ -159,7 +159,7 @@
     },
     {
       "id": "core_final_portfolio",
-      "status": "v8_successor_healthy_waiting_for_all_fixed_e200_results",
+      "status": "v10_complete_fixed_discovery_portfolio_dclgan_addendum_v4_complete",
       "requires": ["first-wave result", "AM-TNC disposition", "ST-CGR disposition", "six fixed complexity profiles"],
       "proof": "PAPER_ALGORITHM_PORTFOLIO.json",
       "blocks_confirmation": true,
@@ -1391,6 +1391,28 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
     "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
   },
+  "final_discovery_portfolio_v10_20260916": {
+    "status": "complete_full_data_discovery_portfolio_with_dclgan_awaiting_confirmation_decision",
+    "control_git_commit": "d99e4ca906313f16607d25474432eb77cf4b6b4b",
+    "v9_failure_class": "post_training_portfolio_control_contract_bug_not_algorithm_failure",
+    "final_delivery_status": "complete_successor_e200_full_data_paper_discovery_delivery",
+    "final_delivery_supervisor_status": "complete_child_terminal",
+    "dclgan_addendum_status": "complete_dclgan_paper_portfolio_addendum",
+    "dclgan_addendum_supervisor_status": "complete_child_terminal",
+    "portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "accepted_algorithms": ["proposal"],
+    "proposal_late_three_macro_psnr_delta_db": 1.7235648683228117,
+    "proposal_e200_macro_psnr_delta_db": 0.8393467685609934,
+    "failed_current_implementation_and_protocol": ["amtnc", "stcgr"],
+    "deferred_not_falsified": ["hjcgr", "ddsb_reproduction_incomplete"],
+    "training_checkpoints_modified": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_PORTFOLIO_V10_20260916T125639.json",
+    "decision": "decisions/DEC-20260916-FINAL-DISCOVERY-PORTFOLIO-V10.md"
+  },
   "known_completion_risks": [
     "the logical 5090B matched plain completed e200 on registered 5090C from the migrated, hash-verified e147 full state after a fresh exact runtime twin and dual exact-resume probes; source export, local/4090A imports and final runtime review passed with zero guard restarts, but the physical e147 host transition must be disclosed",
     "the original 4090A prefix remains non-authoritative after cleanup, but AM-TNC completed e200 with a finite full state and complete source-bound exports. The corrected V8 evaluator completed all fixed cells and closed the current implementation after a -2.108 dB late-three mean and -4.072 dB e200 delta; this is not a pending engineering risk and does not falsify the broader geometry family",
@@ -1399,7 +1421,7 @@
     "5090C Proposal completed e200 with source-bound export, verified e100/e150/e200 local terminal-audit import and verified e100/e125/e150/e175/e200 4090A unified-evaluation import; the remote source is no longer on the delivery critical path",
     "5090A ST-CGR completed e200 and all five fixed evaluations. Its current full-data implementation has a complete FAIL disposition; this is a scientific result for the implementation, not a recurrence of the retired CLI failure and not a mechanism-family falsification",
     "candidate adjudication rewrote first-wave aggregate files in place; candidate-inclusive copies were archived and the first-wave PAPER_RESULTS/ALGORITHM_SET were deterministically restored to the hashes bound by the terminal first-wave state before Final V9 began",
-    "confirmation20 remains sealed until the complete discovery portfolio, fixed evaluations, dispositions and complexity accounting are frozen and reviewed"
+    "the complete discovery portfolio, fixed evaluations, dispositions and complexity accounting are now closed; confirmation20 remains sealed pending explicit paper-claim freeze and confirmation authorization"
   ],
   "scientific_boundaries": {
     "intermediate_performance_controls_training_or_scheduling": false,

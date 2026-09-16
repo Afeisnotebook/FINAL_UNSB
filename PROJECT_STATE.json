@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "updated": "2026-09-16",
-  "state_snapshot_time": "2026-09-16T09:33:50+08:00",
-  "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
+  "state_snapshot_time": "2026-09-16T12:56:39+08:00",
+  "phase": "PAPER_AIO_FULL_DATA_DISCOVERY_PORTFOLIO_COMPLETE_AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
     "primary": "paper_aio_20260902",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING_CONFIRMATION_LOCKED",
+    "status": "FULL_DATA_DISCOVERY_PORTFOLIO_V10_AND_DCLGAN_ADDENDUM_V4_COMPLETE_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -4208,5 +4208,35 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
     "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
   },
-  "next_gate": "The 21-cell first wave, five ST-CGR fixed cells and five DCLGAN fixed cells are complete. ST-CGR's current full-data implementation has a complete FAIL disposition; keep this scientific result distinct from the earlier CLI engineering failure and do not treat it as mechanism-family falsification. DCLGAN fixed evaluation is complete after control-only RNG restoration and control-protocol source binding, with all read-only checks preserved. ST-CGR adjudication had overwritten the first-wave aggregate files in place; the candidate-inclusive files were archived and the original PAPER_RESULTS/ALGORITHM_SET were deterministically regenerated to their exact authority hashes before final delivery. Final V9 is profiling fixed e200 complexity under supervisor1559134; the DCLGAN addendum waits under supervisor1559135. Allow both durable chains to close, then validate final portfolio/complexity hashes and only then decide whether discovery is frozen enough to discuss confirmation20. Do not use partial metrics for scheduling, restart retired chains, merge non-equivalent runtime deltas or open confirmation20."
+  "final_discovery_portfolio_v10_20260916": {
+    "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
+    "captured_at": "2026-09-16T12:56:39+08:00",
+    "control_git_commit": "d99e4ca906313f16607d25474432eb77cf4b6b4b",
+    "v9_failure_class": "POST_TRAINING_PORTFOLIO_CONTROL_CONTRACT_BUG_NOT_ALGORITHM_FAILURE",
+    "v10_final_delivery_status": "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
+    "v10_supervisor_pid": 1561731,
+    "v10_child_pid": 1561742,
+    "v10_state_sha256": "4cf9cb3b0276dc29166c9b68bab5444bda0cff48e01ff59e309f09f9bff00675",
+    "v10_portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "dclgan_addendum_v4_status": "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM",
+    "dclgan_addendum_supervisor_pid": 1562855,
+    "dclgan_addendum_child_pid": 1562866,
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "accepted_algorithms": ["proposal"],
+    "proposal_late_three_macro_psnr_delta_db": 1.7235648683228117,
+    "proposal_e200_macro_psnr_delta_db": 0.8393467685609934,
+    "failed_current_implementation_and_protocol": ["amtnc", "stcgr"],
+    "deferred_not_falsified": ["hjcgr", "ddsb_reproduction_incomplete"],
+    "training_checkpoints_modified": false,
+    "metric_values_used_for_training_or_scheduling": false,
+    "best_checkpoint_selection": false,
+    "cross_non_equivalent_runtime_delta": false,
+    "paired_metric_control": false,
+    "paper_claims_frozen": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FINAL_DISCOVERY_PORTFOLIO_V10_20260916T125639.json",
+    "decision": "decisions/DEC-20260916-FINAL-DISCOVERY-PORTFOLIO-V10.md"
+  },
+  "next_gate": "The complete e200 discovery portfolio, six core complexity profiles and DCLGAN addendum are now hash-bound. Proposal-only passes the preregistered full-data gate; current ST-CGR and AM-TNC implementations fail without falsifying their broader mechanism families. HJCGR remains deferred and DDSB reproduction remains incomplete. Before confirmation20, perform an explicit scientific review and freeze the paper claims, disclosure text, primary algorithm set and confirmation policy. Do not reopen training, select best checkpoints, use non-equivalent runtime deltas or open confirmation20 until that review authorizes it."
 }

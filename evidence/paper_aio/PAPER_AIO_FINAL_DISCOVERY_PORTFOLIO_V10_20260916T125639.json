@@ -1,0 +1,83 @@
+{
+  "schema": "final-unsb-paper-final-discovery-portfolio-v10-evidence-v1",
+  "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
+  "observed_at": "2026-09-16T12:56:39+08:00",
+  "control_git_commit": "d99e4ca906313f16607d25474432eb77cf4b6b4b",
+  "recovery": {
+    "failed_chain": "Final V9 and DCLGAN addendum V3",
+    "failure_class": "post_training_portfolio_control_contract_bug_not_training_or_algorithm_failure",
+    "root_cause": "the frozen five-lane first-wave aggregate was incorrectly required to contain the separately bound post-first-wave ST-CGR candidate",
+    "fix": "bind ST-CGR only through its independent disposition and preserve the immutable first-wave aggregate",
+    "related_tests": "45 passed",
+    "training_checkpoints_modified": false,
+    "metric_semantics_modified": false
+  },
+  "final_delivery": {
+    "status": "COMPLETE_SUCCESSOR_E200_FULL_DATA_PAPER_DISCOVERY_DELIVERY",
+    "supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "supervisor_pid": 1561731,
+    "child_pid": 1561742,
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_FINAL_DELIVERY_V10_D99E4CA",
+    "state_sha256": "4cf9cb3b0276dc29166c9b68bab5444bda0cff48e01ff59e309f09f9bff00675",
+    "portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "complexity_profiles": 6
+  },
+  "dclgan_addendum": {
+    "status": "COMPLETE_DCLGAN_PAPER_PORTFOLIO_ADDENDUM",
+    "supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "supervisor_pid": 1562855,
+    "child_pid": 1562866,
+    "output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_ADDENDUM_V4_D99E4CA",
+    "state_sha256": "4561984540110c916bc031a9bde0d3af720ede20dbc524030f9abca6e6b2b6fc",
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "addendum_sha256": "cc72d76cff51eaeca94669c5dff984acc00f20efe55a9dd67b07904c4bdce732",
+    "complexity_sha256": "e2b717a8343a386cef6d739f9afad2c40a9c5ccca0ee1ee573f0fc9af13ba253"
+  },
+  "scientific_discovery_result": {
+    "accepted_algorithms": ["proposal"],
+    "failed_current_implementation_and_protocol": ["amtnc", "stcgr"],
+    "proposal": {
+      "late_three_macro_psnr_delta_db": 1.7235648683228117,
+      "e200_macro_psnr_delta_db": 0.8393467685609934,
+      "e200_macro_psnr_db": 20.51443151852717,
+      "e200_macro_ssim": 0.6638345547268788,
+      "e200_macro_lpips": 0.22146850552254668,
+      "gate": "PASS",
+      "runtime_relation": "exact_runtime"
+    },
+    "matched_plain": {
+      "e200_macro_psnr_db": 19.675084749966178,
+      "e200_macro_ssim": 0.6424698766072592,
+      "e200_macro_lpips": 0.2365586569206789
+    },
+    "stcgr": {
+      "late_three_macro_psnr_delta_db": -0.6920397091129461,
+      "e200_macro_psnr_delta_db": -2.7440773304201116,
+      "e200_macro_psnr_db": 16.931007419546066,
+      "gate": "FAIL_CURRENT_FULL_DATA_IMPLEMENTATION_NOT_MECHANISM_FAMILY_FALSIFICATION"
+    },
+    "amtnc": {
+      "late_three_macro_psnr_delta_db": -2.1076224231996545,
+      "e200_macro_psnr_delta_db": -4.072023450843259,
+      "e200_macro_psnr_db": 14.069762144494652,
+      "gate": "FAIL_CURRENT_FULL_DATA_IMPLEMENTATION_NOT_MECHANISM_FAMILY_FALSIFICATION"
+    }
+  },
+  "external_e200_macro": {
+    "input_psnr_db": 14.738111208789983,
+    "cut_psnr_db": 23.728935081973713,
+    "cyclegan_psnr_db": 21.655428798767243,
+    "dclgan_psnr_db": 23.32828400045406,
+    "dclgan_comparison_scope": "standalone_fixed_protocol_no_matched_delta_claim"
+  },
+  "deferred_not_falsified": ["hjcgr", "ddsb_reproduction_incomplete"],
+  "terminal_pathology_adjudication": "TERMINAL_PATHOLOGY_NOT_CONFIRMED_DO_NOT_ADD_MODULE",
+  "performance_values_read_only_after_fixed_evaluations_closed": true,
+  "metric_values_used_for_training_or_scheduling": false,
+  "best_checkpoint_selection": false,
+  "cross_non_equivalent_runtime_delta": false,
+  "paired_metric_control": false,
+  "paper_claims_frozen": false,
+  "confirmation_authorized": false,
+  "confirmation20_opened": false
+}
