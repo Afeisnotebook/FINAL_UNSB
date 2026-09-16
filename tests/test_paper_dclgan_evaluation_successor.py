@@ -125,7 +125,7 @@ def test_common_reference_requires_environment_sample_and_crn_identity(
         metric, reference_output=tmp_path / "reference", epoch=100,
     )
     metric["unified_environment"] = {"torch": "different"}
-    with pytest.raises(RuntimeError, match="identity differs"):
+    with pytest.raises(RuntimeError, match="identity differs at e100: environment"):
         evaluator.validate_common_reference(
             metric, reference_output=tmp_path / "reference", epoch=100,
         )

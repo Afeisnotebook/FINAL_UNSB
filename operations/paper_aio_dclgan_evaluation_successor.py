@@ -238,16 +238,33 @@ def validate_common_reference(
         Path(reference_output) / "lanes" / "plain" / "metrics" / f"e{epoch:03d}.json"
     )
     reference = read_json(reference_path)
-    if (
-        metric.get("evaluation_input_sha256")
-        != reference.get("evaluation_input_sha256")
-        or metric.get("protocol_fingerprint") != reference.get("protocol_fingerprint")
-        or metric.get("unified_environment") != reference.get("unified_environment")
-        or metric.get("unified_evaluator_protocol_fingerprint")
-        != reference.get("unified_evaluator_protocol_fingerprint")
-        or crn_identity(metric) != crn_identity(reference)
-    ):
-        raise RuntimeError(f"DCLGAN/common evaluator identity differs at e{epoch}")
+    identity = {
+        "evaluation_input": (
+            metric.get("evaluation_input_sha256")
+            == reference.get("evaluation_input_sha256")
+        ),
+        "protocol": (
+            metric.get("protocol_fingerprint")
+            == reference.get("protocol_fingerprint")
+        ),
+        "environment": (
+            metric.get("unified_environment")
+            == reference.get("unified_environment")
+        ),
+        "evaluator_protocol": (
+            metric.get("unified_evaluator_protocol_fingerprint")
+            == reference.get("unified_evaluator_protocol_fingerprint")
+        ),
+        "crn": crn_identity(metric) == crn_identity(reference),
+    }
+    failed = sorted(key for key, passed in identity.items() if not passed)
+    if failed:
+        # Report only the failed identity dimensions.  Metric values remain
+        # unavailable to the supervisor and cannot influence scheduling.
+        raise RuntimeError(
+            f"DCLGAN/common evaluator identity differs at e{epoch}: "
+            + ",".join(failed)
+        )
 
 
 def evaluate_one(
