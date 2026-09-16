@@ -1,0 +1,66 @@
+{
+  "schema": "final-unsb-paper-first-wave-cohort-postcohort-recovery-evidence-v1",
+  "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_RECOVERY_RUNNING",
+  "observed_at": "2026-09-16T11:48:27+08:00",
+  "authority_parent_commit": "314d48cfaf215f1bfbdf36bed61891ba41993fe7",
+  "first_wave": {
+    "status": "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION",
+    "completed_evaluations": 21,
+    "total_evaluations": 21,
+    "cohort_status": "PASS_FIRST_WAVE_UNIFIED_EVALUATION_COHORT",
+    "cohort_sha256": "9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526",
+    "exact_crn_identity_all_lanes": true,
+    "exact_sample_identity_all_lanes": true,
+    "training_checkpoints_read_only_verified_by_rehash": true,
+    "supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "supervisor_restart_count": 1
+  },
+  "stcgr_recovery": {
+    "failure_class": "CONTROL_CLI_MODE_COLLISION_NOT_ALGORITHM_FAILURE",
+    "retired_control_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "retired_error": "the control --mode dynamic_candidate value was consumed by the legacy UNSB model parser",
+    "retired_supervisor_status": "BLOCKED_RESTART_BUDGET_EXHAUSTED",
+    "retired_restart_count": 5,
+    "retired_completed_evaluations": 0,
+    "archived_contract_sha256": "e07897e1f6eba784609771473cf334c9188dbf33072195e7f45e3848ae42b85c",
+    "archived_state_sha256": "a50e03daafb767b0426a7d722cfc92e262475565118d14fdb957b2365d83ab38",
+    "candidate_lock_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+    "recovery_control_commit": "314d48cfaf215f1bfbdf36bed61891ba41993fe7",
+    "supervisor_pid": 1542232,
+    "child_pid": 1542256,
+    "supervisor_status": "CHILD_RUNNING",
+    "child_status": "EVALUATING_FIXED_ALGORITHM_CHECKPOINT",
+    "current_epoch": 100,
+    "restart_count": 1
+  },
+  "dclgan_recovery": {
+    "failure_class": "EVALUATION_ENVIRONMENT_RESEED_NOT_RESTORED_BEFORE_FULL_STATE_AUDIT_NOT_MODEL_FAILURE",
+    "retired_control_commit": "da41652b7ff73bdd9e66db72fc72169bd08374f1",
+    "retired_status": "FAIL_CLOSED_REQUIRES_CODEX_AUDIT",
+    "checkpoint_import_revalidation_passed": true,
+    "fix": "preserve and restore the captured training RNG around deterministic common-environment setup and metric evaluation before rehashing the complete state",
+    "model_optimizer_scheduler_sampler_and_checkpoint_rehashes_retained": true,
+    "regression_tests": "19 passed",
+    "recovery_control_commit": "314d48cfaf215f1bfbdf36bed61891ba41993fe7",
+    "fresh_output": "/home/yc/runs/FINAL_UNSB_PAPER_DCLGAN_LOCAL_EVAL_V3_314D48C",
+    "supervisor_pid": 1542233,
+    "child_pid": 1542254,
+    "supervisor_status": "CHILD_RUNNING",
+    "child_status": "WAITING_FOR_SHARED_EVALUATION_GPU",
+    "restart_count": 1
+  },
+  "shared_gpu": {
+    "lock": "/home/yc/runs/FINAL_UNSB_PAPER_EVALUATION_GPU0.lock",
+    "ordering": [
+      "ST-CGR fixed evaluation",
+      "DCLGAN fixed evaluation"
+    ],
+    "training_process_interrupted": false
+  },
+  "training_checkpoints_modified": false,
+  "performance_values_read_for_recovery": false,
+  "metric_used_for_training_or_scheduling": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

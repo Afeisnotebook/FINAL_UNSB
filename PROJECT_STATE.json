@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "MATCHED_PLAIN_E200_AND_IMPORTS_CLOSED_RUNTIME_REVIEW_PASS_FIRST_WAVE_UNIFIED_EVALUATION_RUNNING_CONFIRMATION_LOCKED",
+    "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_FIXED_EVALUATION_RECOVERED_RUNNING_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -4145,9 +4145,9 @@
     "segmented_runtime_relation_status": "PASS_FINAL_E200_SEGMENTED_EXACT_RUNTIME_CONTINUATION_REVIEW",
     "runtime_relation_registry_sha256": "d4209abf6d587f0f3bab5a9ec3e7748dc94ee5d391bf3f3735814c19ab5b9ebb",
     "physical_segment_disclosure_required": true,
-    "unified_evaluation_status": "EVALUATING_FIXED_CHECKPOINT",
+    "unified_evaluation_status": "COMPLETE_SUCCESSOR_E200_FIRST_WAVE_UNIFIED_EVALUATION_AND_ADJUDICATION",
     "unified_evaluation_pid": 125436,
-    "unified_evaluation_completed_cells_at_observation": 5,
+    "unified_evaluation_completed_cells_at_observation": 21,
     "unified_evaluation_total_cells": 21,
     "performance_values_generated_by_evaluator": true,
     "performance_values_read_by_runtime_review": false,
@@ -4155,7 +4155,32 @@
     "paired_metric_control": false,
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E200_DELIVERY_AND_RUNTIME_REVIEW_20260916T093350.json",
+    "first_wave_cohort_sha256": "9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526",
     "decision": "decisions/DEC-20260916-MATCHED-PLAIN-E200-DELIVERY-AND-RUNTIME-REVIEW.md"
   },
-  "next_gate": "Matched plain e200, source-bound export, verified local/4090A imports and final segmented exact-runtime continuation review are complete. Preserve disclosure that the logical 5090B_MATCHED_PLAIN trajectory resumed at e147 on registered physical 5090C after exact runtime and dual-resume gates; this review adds no new cross-runtime relation and reads no performance values. The frozen 4090A evaluator is now processing the 21 fixed first-wave cells; do not interrupt it or use its intermediate metrics. After it locks the legal first-wave cohort, allow the already-waiting ST-CGR and DCLGAN fixed evaluators to run, then close dispositions, complexity accounting and the multi-algorithm paper portfolio. ST-CGR/Proposal delivery, twelve target-blind audits and terminal-pathology adjudication are already complete; do not add a terminal repair module. Do not restart naturally completed audit/pathology/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "postcohort_evaluation_recovery_20260916": {
+    "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_RECOVERY_RUNNING",
+    "captured_at": "2026-09-16T11:48:27+08:00",
+    "control_git_commit": "314d48cfaf215f1bfbdf36bed61891ba41993fe7",
+    "first_wave_completed_evaluations": 21,
+    "first_wave_total_evaluations": 21,
+    "first_wave_cohort_sha256": "9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526",
+    "stcgr_failure_class": "CONTROL_CLI_MODE_COLLISION_NOT_ALGORITHM_FAILURE",
+    "stcgr_recovery_supervisor_pid": 1542232,
+    "stcgr_recovery_child_pid": 1542256,
+    "stcgr_recovery_status": "EVALUATING_FIXED_ALGORITHM_CHECKPOINT_E100",
+    "stcgr_old_control_archived": true,
+    "stcgr_candidate_lock_staged_sha256": "be1b12485506e413ed28f6eb7154a2fd3669d206825a8521fecb8ff4d981d912",
+    "dclgan_failure_class": "EVALUATION_ENVIRONMENT_RESEED_NOT_RESTORED_BEFORE_FULL_STATE_AUDIT_NOT_MODEL_FAILURE",
+    "dclgan_recovery_supervisor_pid": 1542233,
+    "dclgan_recovery_child_pid": 1542254,
+    "dclgan_recovery_status": "WAITING_FOR_SHARED_EVALUATION_GPU",
+    "training_checkpoints_modified": false,
+    "performance_values_read_for_recovery": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_WAVE_COHORT_AND_POSTCOHORT_RECOVERY_20260916T114827.json",
+    "decision": "decisions/DEC-20260916-FIRST-WAVE-COHORT-AND-POSTCOHORT-RECOVERY.md"
+  },
+  "next_gate": "The fixed 21-cell first-wave unified evaluation and legal cohort are complete. ST-CGR evaluation initially failed only because the retired da41652 control command leaked --mode dynamic_candidate into the UNSB model parser; the failed contract/state/lock are archived and a 314d48c durable supervisor is evaluating fixed e100 without changing any checkpoint or metric protocol. DCLGAN initially failed its read-only full-state audit because the common evaluator environment reseeded RNG after the pre-audit snapshot; commit 314d48c restores the captured training RNG before the audit while retaining model/optimizer/scheduler/sampler and checkpoint rehashes. Its fresh V3 evaluator waits on the shared GPU behind ST-CGR. Verify the first completed ST-CGR cell, then allow all five fixed ST-CGR cells and all five fixed DCLGAN cells to close before dispositions, complexity accounting and final portfolio delivery. Do not read partial metrics for scheduling, restart retired chains, add a terminal repair module, merge non-equivalent runtime deltas or open confirmation20."
 }
