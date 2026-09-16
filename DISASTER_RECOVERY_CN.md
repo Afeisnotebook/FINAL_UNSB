@@ -53,6 +53,10 @@ bash scripts/bootstrap_server.sh "$PWD"
 `environment/requirements.txt`中的依赖。不同 GPU/驱动栈不自动拥有 byte-identical runtime
 资格，必须重新做相应门禁。
 
+这套流程已经在一个不借用当前工作区文件的远端全新 clone 上实际执行：commit `f69dd79`
+通过 Git-only verifier、完整测试`859 passed`且测试后工作区干净。回执位于
+`evidence/recovery/GIT_ONLY_FRESH_CLONE_DRILL_20260916.json`。
+
 ## 数据恢复
 
 Git 中的`manifests/FULL_DATA_MANIFEST.csv`包含 9,153 个物理 identity 的相对路径、大小与

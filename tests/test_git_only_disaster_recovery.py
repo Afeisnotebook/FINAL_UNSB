@@ -47,3 +47,16 @@ def test_hash_bound_text_types_have_portable_line_endings():
     attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
     assert "*.jsonl text eol=lf" in attributes
     assert "*.bib text eol=lf" in attributes
+
+
+def test_remote_fresh_clone_drill_passed_without_binary_assets():
+    receipt = json.loads(
+        (ROOT / "evidence" / "recovery" / "GIT_ONLY_FRESH_CLONE_DRILL_20260916.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert receipt["status"] == "PASS_FRESH_REMOTE_CLONE_RESEARCH_CONTINUITY"
+    assert receipt["test_conditions"]["dataset_present"] is False
+    assert receipt["test_conditions"]["checkpoint_present"] is False
+    assert receipt["checks"]["full_pytest"] == "859 passed"
+    assert receipt["checks"]["fresh_clone_worktree_clean_after_test"] is True

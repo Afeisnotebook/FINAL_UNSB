@@ -1,0 +1,41 @@
+{
+  "schema": "final-unsb-git-only-fresh-clone-drill-v1",
+  "status": "PASS_FRESH_REMOTE_CLONE_RESEARCH_CONTINUITY",
+  "executed_at": "2026-09-16T23:59:00+08:00",
+  "remote": "https://github.com/Afeisnotebook/FINAL_UNSB.git",
+  "tested_commit": "f69dd79fa8eed1af74bbde3d5a9ee70d5c628745",
+  "test_conditions": {
+    "fresh_directory": true,
+    "clone_source": "origin/main over HTTPS",
+    "borrowed_untracked_files_from_primary_worktree": false,
+    "dataset_present": false,
+    "checkpoint_present": false
+  },
+  "checks": {
+    "git_clone": "PASS",
+    "tools_verify_git_only_recovery": "PASS",
+    "source_manifest_entries_verified": 1555,
+    "portable_archive_entries_verified": 21,
+    "data_identities_verified_from_manifest": 9153,
+    "confirmation20_sealed": true,
+    "full_pytest": "859 passed",
+    "fresh_clone_worktree_clean_after_test": true
+  },
+  "portability_defects_found_and_fixed_before_pass": [
+    {
+      "defect": "SOURCE_MANIFEST included ignored local tmp files",
+      "fix": "tools/hash_tree.py now inventories only git ls-files"
+    },
+    {
+      "defect": "hash-bound .bib and .jsonl used platform-dependent checkout line endings",
+      "fix": ".gitattributes now fixes both extensions to LF"
+    }
+  ],
+  "interpretation": {
+    "new_machine_paper_discussion_from_git_only": "VERIFIED",
+    "canonical_scientific_record_from_git_only": "VERIFIED",
+    "training_weight_recovery_from_git_only": "NOT_CLAIMED",
+    "dataset_pixel_recovery_from_git_only": "NOT_CLAIMED"
+  },
+  "destructive_action_on_scientific_assets": false
+}
