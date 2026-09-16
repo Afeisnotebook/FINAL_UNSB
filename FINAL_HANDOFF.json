@@ -67,6 +67,13 @@
       "/root/autodl-tmp/independent_audit_20260915"
     ]
   },
+  "disaster_recovery": {
+    "guide": "DISASTER_RECOVERY_CN.md",
+    "manifest": "configs/GIT_ONLY_RECOVERY_MANIFEST.json",
+    "fresh_context_prompt": "prompts/GIT_ONLY_PAPER_DISCUSSION_BOOTSTRAP_CN.md",
+    "git_only_research_and_discussion_recovery": "COMPLETE",
+    "git_only_binary_checkpoint_and_dataset_recovery": "NOT_COMPLETE_EXTERNAL_PRIVATE_BACKUP_REQUIRED"
+  },
   "authority_rules": {
     "older_active_documents_are_historical_only": true,
     "restart_old_successors": false,

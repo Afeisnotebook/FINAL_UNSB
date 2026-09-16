@@ -58,7 +58,9 @@ Proposal-only 的 player-selective、post-D/E 条件 iid 双视图估计在 200 
 4. 研究阅读导航：`research/paper_aio/RESEARCH_HANDOFF_CN.md`
 5. 最终裁决：`decisions/DEC-20260916-FINAL-DISCOVERY-PORTFOLIO-V10.md`
 6. 执行入口关闭决定：`decisions/DEC-20260916-FINAL-HANDOFF-EXECUTION-CLOSURE.md`
-7. 机器可读交接：`FINAL_HANDOFF.json`
+7. Git-only 灾难恢复：`DISASTER_RECOVERY_CN.md`
+8. 全新 Codex 启动提示：`prompts/GIT_ONLY_PAPER_DISCUSSION_BOOTSTRAP_CN.md`
+9. 机器可读交接：`FINAL_HANDOFF.json`
 
 归档中的 portfolio SHA256 为：
 
@@ -132,3 +134,7 @@ ST-CGR/AM-TNC 当前版本、打开旧 5090B successor、选择最佳 checkpoint
 
 仓库中包含本交接文件的实际 Git commit 以 `git log -1` 为准；本文件不内嵌自身 commit，
 以避免自引用哈希不可能稳定的问题。
+
+若本地机器完全丢失，Git 足以恢复研究状态和继续论文讨论，但不包含像素数据或模型权重。
+这一区别及恢复演练命令见`DISASTER_RECOVERY_CN.md`，不能把“研究连续性完整”误写成
+“二进制资产也已进入普通 Git”。

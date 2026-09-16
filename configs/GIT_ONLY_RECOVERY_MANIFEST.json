@@ -1,0 +1,78 @@
+{
+  "schema": "final-unsb-git-only-recovery-manifest-v1",
+  "status": "RESEARCH_CONTINUITY_COMPLETE_BINARY_RECOVERY_EXTERNAL",
+  "captured_at": "2026-09-16T23:55:00+08:00",
+  "git_only_capabilities": {
+    "new_codex_paper_discussion": "COMPLETE",
+    "scientific_state_and_decision_recovery": "COMPLETE",
+    "source_protocol_and_compact_result_recovery": "COMPLETE",
+    "dataset_identity_and_per_file_hash_recovery": "COMPLETE",
+    "from_scratch_reexecution": "REQUIRES_LEGALLY_REACQUIRED_MATCHING_DATA_AND_NEW_RUNTIME_GATES",
+    "trained_weight_recovery": "NOT_IN_GIT",
+    "exact_checkpoint_resume": "NOT_IN_GIT",
+    "full_raw_log_recovery": "NOT_IN_GIT",
+    "independent_proof_recovery": "NOT_CANONICAL_NOT_IN_GIT"
+  },
+  "canonical_git_assets": {
+    "human_entrypoint": "FINAL_HANDOFF_CN.md",
+    "machine_entrypoint": "FINAL_HANDOFF.json",
+    "disaster_recovery_guide": "DISASTER_RECOVERY_CN.md",
+    "fresh_context_prompt": "prompts/GIT_ONLY_PAPER_DISCUSSION_BOOTSTRAP_CN.md",
+    "archive_manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+    "augmented_portfolio": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "data_manifest": "manifests/FULL_DATA_MANIFEST.csv",
+    "data_manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
+    "source_integrity_manifest": "SOURCE_MANIFEST.sha256"
+  },
+  "essential_e200_binary_assets_not_stored_in_git": [
+    {
+      "lane": "4090A_plain",
+      "checkpoint_sha256": "1b102d410d629982db3346041bde17c563042d14ed38ed76bf2124a362b3dd02",
+      "training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
+      "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41"
+    },
+    {
+      "lane": "4090A_amtnc",
+      "checkpoint_sha256": "935bc2d0773aa843cc5351f383dc3d2db9714fd2f582b4d05e21ff180d5f1544",
+      "training_commit": "5676c91c99a7fe1beb45c8c281733c2594795d02",
+      "protocol_fingerprint": "8dee68a55721ba635f927b808c8c8c1129cf6156e898cb2c8df70b63d579b342"
+    },
+    {
+      "lane": "5090A_stcgr",
+      "checkpoint_sha256": "d8f7f7f56e7e30fc38e02addbd0c4b239988cbba663e5096accf9e4da7bc1d6a",
+      "training_commit": "656670cdb828620cb500f7a74fd3afd4df7e375d",
+      "protocol_fingerprint": "2fbdd6f58971657134c305224ab14ae0e0ba53cf421c64f9935c68a4c0873e20"
+    },
+    {
+      "lane": "5090B_matched_plain",
+      "checkpoint_sha256": "692aeceb2ba8c6704381d68d53d18d4a100647b5f41fdab87cb91d0e75a2c892",
+      "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+    },
+    {
+      "lane": "5090C_proposal",
+      "checkpoint_sha256": "a0c6dbf7872d335333a56ab9aaf63136786efe33929e829cfa8392d436d24830",
+      "training_commit": "e4a5eed9fe14e671e07329a970d93cd9828240ac",
+      "protocol_fingerprint": "e5704e445a51dd9c5c12369c94df01cf9532364a71c806b9914ef3963994b07b"
+    },
+    {
+      "lane": "local_dclgan",
+      "checkpoint_sha256": "4851a5b47f9c2f7cfaab6484283068a9ff8a3e911df1e981ddd50e19a134548d",
+      "training_commit": "e45973a42e8c309db2cff76eb4f36c8b1f7b123b",
+      "protocol_fingerprint": "bf4eecb236e97fbba990e59fc9024b790f9de0b64f1cac4632d5a7d20d66ba44"
+    }
+  ],
+  "current_non_git_locations": {
+    "local_checkpoint_mirror": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports/sources",
+    "local_dclgan_run": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "server_independent_proof_4090A": "/home/yc/independent_audit_20260916",
+    "server_independent_proof_5090A": "/root/autodl-tmp/independent_audit_20260915"
+  },
+  "data_redistribution": {
+    "image_bytes_in_public_git": false,
+    "reason": "Dataset terms and provenance contract prohibit assuming public redistribution rights.",
+    "private_cold_backup_required_for_true_binary_disaster_recovery": true
+  },
+  "confirmation20_opened": false
+}

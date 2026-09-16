@@ -9,9 +9,11 @@ Read, in order, before changing code or launching compute:
 3. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
 4. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
 5. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
-6. `PROJECT_CONTRACT.json`
-7. `PROJECT_STATE.json`
-8. Read older plans and contracts only when tracing provenance or after a new
+6. `DISASTER_RECOVERY_CN.md`
+7. `configs/GIT_ONLY_RECOVERY_MANIFEST.json`
+8. `PROJECT_CONTRACT.json`
+9. `PROJECT_STATE.json`
+10. Read older plans and contracts only when tracing provenance or after a new
    explicit scientific authorization. They are not live scheduling authority.
 
 The full-data discovery execution phase is archived. Do not restart historical

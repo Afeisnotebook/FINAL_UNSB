@@ -5,6 +5,7 @@
 
 **离开旧 Codex 上下文后，一律先读 [`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)。**
 仓库里更早的“ACTIVE/正在训练/下一继任器”描述只作历史 provenance，不再授权重启任务。
+全新机器恢复与“Git中有什么/没有什么”见[`DISASTER_RECOVERY_CN.md`](DISASTER_RECOVERY_CN.md)。
 
 北极星不是验证固定lane或只找一个冠军，而是同时取得外部论文基线、严格matched plain，
 以及多条由长期因果证据产生的完整算法轨迹。DT/HJ/HNEK继续是算法发现证据，不是必须保留
@@ -24,7 +25,8 @@
 3. [`archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`](archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json)
 4. [`archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`](archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json)
 5. [`research/paper_aio/RESEARCH_HANDOFF_CN.md`](research/paper_aio/RESEARCH_HANDOFF_CN.md)
-6. 只有需要追溯时再读`START_HERE_CN.md`、`PROJECT_STATE.json`和历史合同。
+6. [`DISASTER_RECOVERY_CN.md`](DISASTER_RECOVERY_CN.md)
+7. 只有需要追溯时再读`START_HERE_CN.md`、`PROJECT_STATE.json`和历史合同。
 
 只有修改small25历史证据或候选来源时，才继续阅读
 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`、`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`和
