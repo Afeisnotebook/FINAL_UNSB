@@ -27,6 +27,15 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from operations import paper_aio_export_relay as relay  # noqa: E402
+from research.paper_aio.protocol import (  # noqa: E402
+    EVALUATION_SCHEMA,
+    evaluation_bundle_fingerprint,
+    load_protocol,
+    protocol_fingerprint,
+)
+from research.paper_aio.unified import (  # noqa: E402
+    _deterministic_unified_environment,
+)
 
 
 CONTRACT_SCHEMA = "final-unsb-paper-dclgan-evaluation-contract-v1"
@@ -290,14 +299,6 @@ def evaluate_one(
         metadata=payload["metadata"],
     ))
     from research.paper_aio.evaluate import evaluate_model, validate_evaluation_result
-    from research.paper_aio.protocol import (
-        EVALUATION_SCHEMA,
-        evaluation_bundle_fingerprint,
-        load_protocol,
-        protocol_fingerprint,
-    )
-    from research.paper_aio.unified import _deterministic_unified_environment
-
     # ``_deterministic_unified_environment`` intentionally reseeds every
     # evaluator so all lanes share one metric runtime.  DCLGAN's full state,
     # however, also records the training RNG.  Preserve and restore that RNG

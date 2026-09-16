@@ -259,10 +259,7 @@ def test_evaluation_restores_training_rng_before_full_state_audit(
         "protocol_fingerprint": "evaluation-bundle",
         "images": [],
     }
-    monkeypatch.setattr(
-        "research.paper_aio.unified._deterministic_unified_environment",
-        fake_environment,
-    )
+    monkeypatch.setattr(evaluator, "_deterministic_unified_environment", fake_environment)
     monkeypatch.setattr(
         "research.paper_aio.evaluate.evaluate_model", lambda **_kwargs: dict(metric),
     )
@@ -273,9 +270,7 @@ def test_evaluation_restores_training_rng_before_full_state_audit(
     monkeypatch.setattr(evaluator, "validate_common_reference", lambda *_args, **_kwargs: None)
     monkeypatch.setattr(evaluator, "immutable_json", lambda *_args, **_kwargs: None)
     monkeypatch.setattr(evaluator, "file_sha256", lambda _path: "checkpoint-sha")
-    monkeypatch.setattr(
-        "research.paper_aio.protocol.protocol_fingerprint", lambda _path: "protocol",
-    )
+    monkeypatch.setattr(evaluator, "protocol_fingerprint", lambda _path: "protocol")
 
     result = evaluator.evaluate_one(
         adapter=Adapter,
