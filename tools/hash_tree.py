@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 from pathlib import Path
+import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,9 +30,16 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "SOURCE_MANIFEST.sha256")
     args = parser.parse_args()
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout.decode("utf-8").split("\0")
     rows = []
-    for path in sorted(ROOT.rglob("*")):
-        relative = path.relative_to(ROOT)
+    for value in sorted(item for item in tracked if item):
+        relative = Path(value)
+        path = ROOT / relative
         if not path.is_file() or any(part in EXCLUDED_PARTS for part in relative.parts):
             continue
         if path.suffix.lower() in {".pyc", ".pyo"}:

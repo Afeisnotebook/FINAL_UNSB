@@ -4,6 +4,8 @@
 *.json text eol=lf
 *.md text eol=lf
 *.csv text eol=lf
+*.jsonl text eol=lf
+*.bib text eol=lf
 *.cu text eol=lf
 *.cpp text eol=lf
 *.ini text eol=lf

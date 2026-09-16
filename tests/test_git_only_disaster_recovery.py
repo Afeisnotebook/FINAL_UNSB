@@ -41,3 +41,9 @@ def test_fresh_context_bootstrap_cannot_authorize_training():
     )
     assert "不要启动实验" in prompt
     assert "verify_git_only_recovery.py" in prompt
+
+
+def test_hash_bound_text_types_have_portable_line_endings():
+    attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+    assert "*.jsonl text eol=lf" in attributes
+    assert "*.bib text eol=lf" in attributes
