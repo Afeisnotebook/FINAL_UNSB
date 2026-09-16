@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-15",
-  "state_snapshot_time": "2026-09-15T22:16:15+08:00",
+  "updated": "2026-09-16",
+  "state_snapshot_time": "2026-09-16T09:33:50+08:00",
   "phase": "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING",
   "active_control_entrypoint": {
     "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "PROPOSAL_E200_CLOSED_STCGR_E200_SOURCE_AND_IMPORT_CLOSED_TERMINAL_AUDIT_RUNNING_DCLGAN_E200_DELIVERED_MATCHED_PLAIN_E176_RUNNING_CONFIRMATION_LOCKED",
+    "status": "MATCHED_PLAIN_E200_AND_IMPORTS_CLOSED_RUNTIME_REVIEW_PASS_FIRST_WAVE_UNIFIED_EVALUATION_RUNNING_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -310,7 +310,7 @@
       "decision": "decisions/DEC-20260903-5090B-MATCHED-PLAIN-PROGRESS-AWARE-DEPLOYMENT.md"
     },
     "current_algorithm_progress_coverage": {
-      "status": "AMTNC_E200_COMPLETE_PROPOSAL_E200_COMPLETE_STCGR_E200_SOURCE_AND_IMPORT_COMPLETE_DCLGAN_E200_SOURCE_AND_4090A_IMPORT_COMPLETE_MATCHED_PLAIN_E176_RUNNING_ON_5090C_TERMINAL_AUDIT_RUNNING",
+      "status": "AMTNC_PROPOSAL_STCGR_DCLGAN_AND_MATCHED_PLAIN_E200_DELIVERY_COMPLETE_TERMINAL_AUDIT_ADJUDICATED_FIRST_WAVE_UNIFIED_EVALUATION_RUNNING",
       "4090A_plain_watch_pid": 2613987,
       "4090A_future_amtnc_watch_pid": 2613988,
       "5090C_proposal_watch_pid": 91595,
@@ -318,8 +318,8 @@
       "5090C_retired_proposal_watch_pid": 89015,
       "source_commit": "0f7b319962b74d555d733800060488249e341e4c",
       "training_processes_changed": false,
-      "training_process_change_scope": "STCGR_COMPLETE_E200_NATURAL_EXIT_MATCHED_PLAIN_CONTINUES_UNCHANGED_LOCAL_DELIVERY_AND_AUDIT_CONTROL_ONLY_RECOVERED",
-      "5090B_endpoint_status": "ORIGINAL_ENDPOINT_RETIRED_MIGRATED_LOGICAL_LANE_RUNNING_ON_REGISTERED_5090C_36525_FROM_E147",
+      "training_process_change_scope": "ALL_LISTED_FULL_DATA_TRAINING_LANES_COMPLETE_E200_NATURAL_EXIT_UNIFIED_EVALUATION_ONLY_RUNNING",
+      "5090B_endpoint_status": "ORIGINAL_ENDPOINT_RETIRED_LOGICAL_LANE_COMPLETED_E200_ON_REGISTERED_5090C_36525_FROM_EXACT_E147_RESUME",
       "paired_metric_control": false,
       "confirmation20_opened": false,
       "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_E200_DELIVERY_AND_TERMINAL_AUDIT_RECOVERY_20260915T182958.json",
@@ -4126,5 +4126,36 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_TERMINAL_PATHOLOGY_ADJUDICATION_20260915T221615.json",
     "decision": "decisions/DEC-20260915-TERMINAL-PATHOLOGY-NOT-CONFIRMED.md"
   },
-  "next_gate": "Keep registered-5090C matched plain continuous; it is complete through e182 and the fixed e175 milestone is hash-closed. ST-CGR e200 training, source-bound export, 4090A import, local import, all twelve fixed target-blind terminal-audit cells and the posthoc terminal-pathology adjudication are complete. The predeclared terminal spectral-collapse/amplification hypothesis did not reach shared-support gates, so do not add a terminal repair module. DCLGAN training, export and 4090A import are complete; DCLGAN and ST-CGR fixed evaluators wait without holding the 4090A GPU. After matched plain e200, close source-bound export and final segmented-runtime relation review before releasing fixed 4090A unified evaluation and any matched delta. Then close complexity accounting and the multi-algorithm paper portfolio. Do not restart naturally completed audit/pathology/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
+  "matched_plain_e200_delivery_and_runtime_review_20260916": {
+    "status": "MATCHED_PLAIN_E200_CLOSED_SEGMENTED_RUNTIME_REVIEW_PASS_UNIFIED_EVALUATION_RUNNING",
+    "logical_lane": "5090B_MATCHED_PLAIN",
+    "physical_completion_host": "5090C",
+    "data_epoch": 200,
+    "updates": 1710600,
+    "checkpoint_sha256": "692aeceb2ba8c6704381d68d53d18d4a100647b5f41fdab87cb91d0e75a2c892",
+    "sidecar_sha256": "d0f5dabf4475bf15fa6a4d539d61fb7eb66f01cb798747a23b6e448c32473cef",
+    "scientific_state_sha256": "608ce6d401fd5dd7cb848fadb115953e79179f4a8afdfd1e5f0c22141fabb83b",
+    "source_export_set_sha256": "65cffb0718824c524da319ebbb5d99a9b3f8735985b2d2d6a87d881f1af46db3",
+    "incremental_export_set_sha256": "22b2a40c4ff5130d3df77efcbe537a49a20a1024d4b9ce19a184240e9b5d579c",
+    "local_import_set_sha256": "455f7677413aa41b4ac3df60dd7914af46858053303f7b8c9b215ca5bc91d820",
+    "local_import_lane_sha256": "d318746709327a41e0824350a23787e79fcec8ed5d91c55b86a0c4f0d138fa37",
+    "unified_4090a_import_set_sha256": "814fbab6596727bc58cd49ce36641f9ddc622ef8d10d40e81cb5b21bc4d48843",
+    "unified_4090a_import_lane_sha256": "b9d50889f06593dc1a01c52c659a3a4065b06fb36bd2951b9e36705f843f145f",
+    "training_guard_restarts": 0,
+    "segmented_runtime_relation_status": "PASS_FINAL_E200_SEGMENTED_EXACT_RUNTIME_CONTINUATION_REVIEW",
+    "runtime_relation_registry_sha256": "d4209abf6d587f0f3bab5a9ec3e7748dc94ee5d391bf3f3735814c19ab5b9ebb",
+    "physical_segment_disclosure_required": true,
+    "unified_evaluation_status": "EVALUATING_FIXED_CHECKPOINT",
+    "unified_evaluation_pid": 125436,
+    "unified_evaluation_completed_cells_at_observation": 5,
+    "unified_evaluation_total_cells": 21,
+    "performance_values_generated_by_evaluator": true,
+    "performance_values_read_by_runtime_review": false,
+    "metric_used_for_training_or_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_MATCHED_PLAIN_E200_DELIVERY_AND_RUNTIME_REVIEW_20260916T093350.json",
+    "decision": "decisions/DEC-20260916-MATCHED-PLAIN-E200-DELIVERY-AND-RUNTIME-REVIEW.md"
+  },
+  "next_gate": "Matched plain e200, source-bound export, verified local/4090A imports and final segmented exact-runtime continuation review are complete. Preserve disclosure that the logical 5090B_MATCHED_PLAIN trajectory resumed at e147 on registered physical 5090C after exact runtime and dual-resume gates; this review adds no new cross-runtime relation and reads no performance values. The frozen 4090A evaluator is now processing the 21 fixed first-wave cells; do not interrupt it or use its intermediate metrics. After it locks the legal first-wave cohort, allow the already-waiting ST-CGR and DCLGAN fixed evaluators to run, then close dispositions, complexity accounting and the multi-algorithm paper portfolio. ST-CGR/Proposal delivery, twelve target-blind audits and terminal-pathology adjudication are already complete; do not add a terminal repair module. Do not restart naturally completed audit/pathology/training/delivery workers or retired 43172/44804 support chains; do not use intermediate paired metrics for scheduling, selection, early stopping or algorithm changes; do not merge non-equivalent runtime deltas; keep confirmation20 sealed until the complete discovery portfolio is frozen and reviewed."
 }
