@@ -9,6 +9,7 @@ the shared GPU lock.  Metrics are never exposed to training or scheduling.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import importlib.util
 import json
@@ -280,15 +281,26 @@ def evaluate_one(
     )
     from research.paper_aio.unified import _deterministic_unified_environment
 
-    environment = _deterministic_unified_environment()
-    result = evaluate_model(
-        model=model, spec=adapter.dclgan_lane_spec(), rows=rows,
-        data_root=data_root,
-        protocol_hash=evaluation_bundle_fingerprint(load_protocol()),
-        count_per_domain=schedule["count_per_domain"],
-        replicates=schedule["replicates"], nfe_values=[1],
-        include_lpips=schedule["include_lpips"],
-    )
+    # ``_deterministic_unified_environment`` intentionally reseeds every
+    # evaluator so all lanes share one metric runtime.  DCLGAN's full state,
+    # however, also records the training RNG.  Preserve and restore that RNG
+    # around the metric-only computation; otherwise the environment seed is
+    # incorrectly reported as a mutation of the immutable training state.
+    # The model, optimizer, scheduler and sampler are still independently
+    # re-hashed below, so this does not hide an actual state mutation.
+    training_rng = copy.deepcopy(payload["rng"])
+    try:
+        environment = _deterministic_unified_environment()
+        result = evaluate_model(
+            model=model, spec=adapter.dclgan_lane_spec(), rows=rows,
+            data_root=data_root,
+            protocol_hash=evaluation_bundle_fingerprint(load_protocol()),
+            count_per_domain=schedule["count_per_domain"],
+            replicates=schedule["replicates"], nfe_values=[1],
+            include_lpips=schedule["include_lpips"],
+        )
+    finally:
+        adapter.restore_rng(training_rng)
     after = adapter.full_state_hash(adapter.capture_full_state(
         model=model, stream=stream, step=int(payload["step"]),
         metadata=payload["metadata"],

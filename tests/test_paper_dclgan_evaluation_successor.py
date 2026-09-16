@@ -1,6 +1,7 @@
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -195,3 +196,97 @@ def test_frozen_adapter_git_identity_is_not_inherited_from_control_checkout(
         sys.modules.pop(name, None)
         if previous is not None:
             sys.modules[name] = previous
+
+
+def test_evaluation_restores_training_rng_before_full_state_audit(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    checkpoint = tmp_path / "e100.pt"
+    checkpoint.write_bytes(b"immutable-checkpoint")
+    rng = {"token": "training-rng"}
+    runtime = {"rng": "training-rng"}
+    restore_calls = []
+
+    class Adapter:
+        torch = SimpleNamespace(cuda=SimpleNamespace(empty_cache=lambda: None))
+
+        @staticmethod
+        def annotated_manifest_rows(_manifest):
+            return []
+
+        @staticmethod
+        def _verify_discovery_content(**_kwargs):
+            return {}
+
+        @staticmethod
+        def _load_evaluation_runtime(**_kwargs):
+            payload = {
+                "step": evaluator.STEPS_PER_EPOCH * 100,
+                "rng": rng,
+                "metadata": {
+                    "adapter_fingerprint": "adapter",
+                    "manifest_sha256": "manifest",
+                    "upstream_commit": "upstream",
+                    "adapter_git_commit": "adapter-commit",
+                },
+            }
+            return SimpleNamespace(), SimpleNamespace(), payload
+
+        @staticmethod
+        def capture_full_state(**_kwargs):
+            return {"rng": runtime["rng"], "model": "unchanged"}
+
+        @staticmethod
+        def full_state_hash(value):
+            return json.dumps(value, sort_keys=True)
+
+        @staticmethod
+        def restore_rng(value):
+            restore_calls.append(value)
+            runtime["rng"] = value["token"]
+
+        @staticmethod
+        def dclgan_lane_spec():
+            return SimpleNamespace()
+
+    def fake_environment():
+        runtime["rng"] = "evaluation-seed"
+        return {"torch": "fixed"}
+
+    metric = {
+        "schema": "paper-aio-evaluation-v1",
+        "lane_id": "dclgan",
+        "protocol_fingerprint": "evaluation-bundle",
+        "images": [],
+    }
+    monkeypatch.setattr(
+        "research.paper_aio.unified._deterministic_unified_environment",
+        fake_environment,
+    )
+    monkeypatch.setattr(
+        "research.paper_aio.evaluate.evaluate_model", lambda **_kwargs: dict(metric),
+    )
+    monkeypatch.setattr(
+        "research.paper_aio.evaluate.validate_evaluation_result",
+        lambda *_args, **_kwargs: None,
+    )
+    monkeypatch.setattr(evaluator, "validate_common_reference", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(evaluator, "immutable_json", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(evaluator, "file_sha256", lambda _path: "checkpoint-sha")
+    monkeypatch.setattr(
+        "research.paper_aio.protocol.protocol_fingerprint", lambda _path: "protocol",
+    )
+
+    result = evaluator.evaluate_one(
+        adapter=Adapter,
+        row={"epoch": 100, "checkpoint": checkpoint,
+             "checkpoint_sha256": "checkpoint-sha",
+             "export_receipt": tmp_path / "e100.export.json"},
+        upstream_root=tmp_path, manifest=tmp_path / "manifest.csv",
+        train_view=tmp_path / "view", data_root=tmp_path / "data",
+        output=tmp_path / "output", reference_output=tmp_path / "reference",
+        source_host_label="local_gtx1660", gpu=0,
+    )
+    assert restore_calls == [rng]
+    assert runtime["rng"] == "training-rng"
+    assert result["checkpoint_sha256"] == "checkpoint-sha"
