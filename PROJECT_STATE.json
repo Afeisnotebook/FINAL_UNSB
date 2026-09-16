@@ -16,7 +16,7 @@
     "decision": "decisions/DEC-20260912-CONTROL-ENTRYPOINT-DRIFT-CORRECTION.md"
   },
   "paper_aio_20260902": {
-    "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_FIXED_EVALUATION_RECOVERED_RUNNING_CONFIRMATION_LOCKED",
+    "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING_CONFIRMATION_LOCKED",
     "scientific_training_commit": "31f2fb8badaf8293a2ed2744963035575df7d7a6",
     "protocol_fingerprint": "68f53a8e9d6fdafd750956d16fbd537aed6e727e081b1db6d0b62258e09b4e41",
     "manifest_sha256": "02c01df580b882763fb0ff28dbdeac4b3729deb8bb772005f26f3e7bc2e36744",
@@ -4182,5 +4182,31 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_WAVE_COHORT_AND_POSTCOHORT_RECOVERY_20260916T114827.json",
     "decision": "decisions/DEC-20260916-FIRST-WAVE-COHORT-AND-POSTCOHORT-RECOVERY.md"
   },
-  "next_gate": "The fixed 21-cell first-wave unified evaluation and legal cohort are complete. ST-CGR evaluation initially failed only because the retired da41652 control command leaked --mode dynamic_candidate into the UNSB model parser; the failed contract/state/lock are archived and a 314d48c durable supervisor is evaluating fixed e100 without changing any checkpoint or metric protocol. DCLGAN initially failed its read-only full-state audit because the common evaluator environment reseeded RNG after the pre-audit snapshot; commit 314d48c restores the captured training RNG before the audit while retaining model/optimizer/scheduler/sampler and checkpoint rehashes. Its fresh V3 evaluator waits on the shared GPU behind ST-CGR. Verify the first completed ST-CGR cell, then allow all five fixed ST-CGR cells and all five fixed DCLGAN cells to close before dispositions, complexity accounting and final portfolio delivery. Do not read partial metrics for scheduling, restart retired chains, add a terminal repair module, merge non-equivalent runtime deltas or open confirmation20."
+  "fixed_evaluations_and_final_v9_20260916": {
+    "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
+    "captured_at": "2026-09-16T12:45:49+08:00",
+    "control_git_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+    "stcgr_completed_evaluations": 5,
+    "stcgr_disposition_sha256": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367",
+    "stcgr_scientific_gate_status": "FAIL",
+    "dclgan_completed_evaluations": 5,
+    "dclgan_result_sha256": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "dclgan_read_only_audit_status": "PASS_AFTER_RNG_AND_CONTROL_PROTOCOL_SOURCE_BINDING",
+    "first_wave_artifact_restoration_status": "PASS_RESTORED_ORIGINAL_FIRST_WAVE_ARTIFACT_HASHES",
+    "first_wave_paper_results_sha256": "62aa9043cb21170f33cccd3562edbe4e402f131b03886e3d79b94de187f11b36",
+    "first_wave_algorithm_set_sha256": "b2ac59c2dc2c063f1b18e7852faa5a62d31726e4ccb1ddcf9ab88594941f4072",
+    "final_v9_supervisor_pid": 1559134,
+    "final_v9_child_pid": 1559157,
+    "final_v9_status": "PROFILING_FIXED_E200_COMPLEXITY",
+    "dclgan_addendum_supervisor_pid": 1559135,
+    "dclgan_addendum_child_pid": 1559156,
+    "dclgan_addendum_status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "training_checkpoints_modified": false,
+    "partial_metric_used_for_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
+    "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
+  },
+  "next_gate": "The 21-cell first wave, five ST-CGR fixed cells and five DCLGAN fixed cells are complete. ST-CGR's current full-data implementation has a complete FAIL disposition; keep this scientific result distinct from the earlier CLI engineering failure and do not treat it as mechanism-family falsification. DCLGAN fixed evaluation is complete after control-only RNG restoration and control-protocol source binding, with all read-only checks preserved. ST-CGR adjudication had overwritten the first-wave aggregate files in place; the candidate-inclusive files were archived and the original PAPER_RESULTS/ALGORITHM_SET were deterministically regenerated to their exact authority hashes before final delivery. Final V9 is profiling fixed e200 complexity under supervisor1559134; the DCLGAN addendum waits under supervisor1559135. Allow both durable chains to close, then validate final portfolio/complexity hashes and only then decide whether discovery is frozen enough to discuss confirmation20. Do not use partial metrics for scheduling, restart retired chains, merge non-equivalent runtime deltas or open confirmation20."
 }

@@ -1,0 +1,53 @@
+{
+  "schema": "final-unsb-paper-fixed-evaluations-final-v9-evidence-v1",
+  "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
+  "observed_at": "2026-09-16T12:45:49+08:00",
+  "authority_parent_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+  "stcgr": {
+    "status": "COMPLETE_SUCCESSOR_E200_ALGORITHM_EVALUATION_AND_DISPOSITION",
+    "completed_evaluations": 5,
+    "supervisor_status": "COMPLETE_CHILD_TERMINAL",
+    "supervisor_restart_count": 1,
+    "disposition_sha256": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367",
+    "scientific_gate_status": "FAIL",
+    "current_implementation_failed_full_data_gate": true,
+    "mechanism_family_falsified": false
+  },
+  "dclgan": {
+    "status": "COMPLETE_DCLGAN_FIXED_EVALUATION_SET",
+    "completed_evaluations": 5,
+    "result_sha256": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "read_only_rng_audit_fix_commit": "314d48cfaf215f1bfbdf36bed61891ba41993fe7",
+    "failed_identity_dimension_after_rng_fix": "evaluator_protocol",
+    "control_protocol_source_binding_fix_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+    "all_fixed_cells_passed_after_source_binding": true,
+    "training_checkpoint_mutation": false
+  },
+  "first_wave_restoration": {
+    "status": "PASS_RESTORED_ORIGINAL_FIRST_WAVE_ARTIFACT_HASHES",
+    "paper_results_sha256": "62aa9043cb21170f33cccd3562edbe4e402f131b03886e3d79b94de187f11b36",
+    "algorithm_set_sha256": "b2ac59c2dc2c063f1b18e7852faa5a62d31726e4ccb1ddcf9ab88594941f4072",
+    "candidate_inclusive_artifacts_archived": true,
+    "stcgr_disposition_preserved": true
+  },
+  "final_v9": {
+    "control_git_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+    "supervisor_pid": 1559134,
+    "child_pid": 1559157,
+    "status": "PROFILING_FIXED_E200_COMPLEXITY",
+    "complexity_completed_at_observation": 1,
+    "current_lane_at_observation": "proposal"
+  },
+  "dclgan_addendum_v3": {
+    "supervisor_pid": 1559135,
+    "child_pid": 1559156,
+    "status": "WAITING_FOR_CORE_PORTFOLIO_AND_DCLGAN_FIXED_RESULT",
+    "dclgan_result_dependency": "READY",
+    "base_portfolio_dependency": "WAIT"
+  },
+  "training_checkpoints_modified": false,
+  "partial_metric_used_for_scheduling": false,
+  "paired_metric_control": false,
+  "best_checkpoint_selection": false,
+  "confirmation20_opened": false
+}

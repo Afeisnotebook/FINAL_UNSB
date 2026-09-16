@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-paper-delivery-completion-matrix-v1",
-  "captured_at": "2026-09-16T11:48:27+08:00",
-  "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_FIXED_EVALUATION_RECOVERED_RUNNING",
+  "captured_at": "2026-09-16T12:45:49+08:00",
+  "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
   "north_star": "multiple paper-value full-data e200 algorithm results plus honest external baselines",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "goal_heartbeat_status": "ACTIVE_HOURLY_DYNAMIC_ORIGIN_MAIN_AUTHORITY_5090C_TAKEOVER_AWARE",
@@ -1371,13 +1371,34 @@
     "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_WAVE_COHORT_AND_POSTCOHORT_RECOVERY_20260916T114827.json",
     "decision": "decisions/DEC-20260916-FIRST-WAVE-COHORT-AND-POSTCOHORT-RECOVERY.md"
   },
+  "fixed_evaluations_and_final_v9_20260916": {
+    "status": "stcgr_and_dclgan_fixed_evaluations_closed_final_v9_complexity_running",
+    "control_git_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+    "stcgr_completed_evaluations": 5,
+    "stcgr_disposition_sha256": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367",
+    "stcgr_scientific_gate_status": "fail_current_full_data_implementation",
+    "dclgan_completed_evaluations": 5,
+    "dclgan_result_sha256": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "first_wave_artifacts_hash_exact_restored": true,
+    "final_v9_supervisor_pid": 1559134,
+    "final_v9_status": "profiling_fixed_e200_complexity",
+    "dclgan_addendum_supervisor_pid": 1559135,
+    "dclgan_addendum_status": "waiting_for_core_portfolio",
+    "training_checkpoints_modified": false,
+    "partial_metric_used_for_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
+    "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
+  },
   "known_completion_risks": [
     "the logical 5090B matched plain completed e200 on registered 5090C from the migrated, hash-verified e147 full state after a fresh exact runtime twin and dual exact-resume probes; source export, local/4090A imports and final runtime review passed with zero guard restarts, but the physical e147 host transition must be disclosed",
     "the original 4090A prefix remains non-authoritative after cleanup, but AM-TNC completed e200 with a finite full state and complete source-bound exports. The corrected V8 evaluator completed all fixed cells and closed the current implementation after a -2.108 dB late-three mean and -4.072 dB e200 delta; this is not a pending engineering risk and does not falsify the broader geometry family",
     "the frozen 4090A evaluator completed all 21 fixed first-wave cells and published cohort sha256 9c85ac61a300f17a2977353caac548578a0c15135bf8fdf041515ee7d4914526; partial values were not used for scheduling",
-    "local GTX1660 DCLGAN completed e200; source-bound export and verified 4090A import are closed. Its first evaluator exposed a control-only RNG audit ordering bug, and fresh V3 evaluation under commit 314d48c waits behind ST-CGR on the shared GPU",
+    "local GTX1660 DCLGAN completed e200 and all five fixed evaluations. Two fail-closed control issues were corrected without changing checkpoints or metric semantics: training RNG restoration before full-state rehash and explicit binding to the control evaluator protocol module",
     "5090C Proposal completed e200 with source-bound export, verified e100/e150/e200 local terminal-audit import and verified e100/e125/e150/e175/e200 4090A unified-evaluation import; the remote source is no longer on the delivery critical path",
-    "5090A ST-CGR completed e200 after exact recovery from the preserved e184 state; source export and both imports are closed. The retired evaluator command used a colliding --mode flag; the failed artifacts are archived and commit 314d48c now evaluates the fixed cells under a durable supervisor",
+    "5090A ST-CGR completed e200 and all five fixed evaluations. Its current full-data implementation has a complete FAIL disposition; this is a scientific result for the implementation, not a recurrence of the retired CLI failure and not a mechanism-family falsification",
+    "candidate adjudication rewrote first-wave aggregate files in place; candidate-inclusive copies were archived and the first-wave PAPER_RESULTS/ALGORITHM_SET were deterministically restored to the hashes bound by the terminal first-wave state before Final V9 began",
     "confirmation20 remains sealed until the complete discovery portfolio, fixed evaluations, dispositions and complexity accounting are frozen and reviewed"
   ],
   "scientific_boundaries": {

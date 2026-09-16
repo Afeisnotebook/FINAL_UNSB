@@ -1,0 +1,9 @@
+# ST-CGR、DCLGAN固定评估闭合与Final V9
+
+ST-CGR五个固定checkpoint已全部评估并形成完整disposition。当前full-data实现未通过预注册科学门；这与此前控制参数冲突导致的工程失败不同，也不能外推为整个机制族被证伪。
+
+DCLGAN五个固定checkpoint也已全部闭合。恢复过程中确认了两个控制问题：统一环境reseed后未在full-state审计前恢复训练RNG，以及加载冻结adapter时控制协议模块未预先绑定。两项修复均不改变模型、checkpoint、训练协议或指标语义；最终只读门全部通过。
+
+ST-CGR候选裁决曾在同一root改写第一波`PAPER_RESULTS.json`和`ALGORITHM_SET.json`。候选版本已归档，第一波文件随后被确定性重建并逐位恢复到terminal first-wave state绑定的原始哈希，ST-CGR disposition单独保留。
+
+Final V9已开始固定e200复杂度统计；DCLGAN addendum V3等待核心portfolio完成后自动接续。两条链均由durable supervisor守护，confirmation20继续封存。

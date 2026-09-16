@@ -1,7 +1,7 @@
 {
   "schema": "final-unsb-full-data-method-portfolio-v1",
-  "captured_at": "2026-09-16T11:48:27+08:00",
-  "status": "FIRST_WAVE_COHORT_CLOSED_STCGR_AND_DCLGAN_FIXED_EVALUATION_RECOVERED_RUNNING",
+  "captured_at": "2026-09-16T12:45:49+08:00",
+  "status": "STCGR_AND_DCLGAN_FIXED_EVALUATIONS_CLOSED_FINAL_V9_COMPLEXITY_RUNNING",
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
   "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
   "paper_baseline_portfolio": {
@@ -2348,6 +2348,26 @@
     "confirmation20_opened": false,
     "evidence": "evidence/paper_aio/PAPER_AIO_FIRST_WAVE_COHORT_AND_POSTCOHORT_RECOVERY_20260916T114827.json",
     "decision": "decisions/DEC-20260916-FIRST-WAVE-COHORT-AND-POSTCOHORT-RECOVERY.md"
+  },
+  "fixed_evaluations_and_final_v9_20260916": {
+    "status": "stcgr_and_dclgan_fixed_evaluations_closed_final_v9_complexity_running",
+    "control_git_commit": "21b97605312c21eaa7ff884b23c1d2177b13cb16",
+    "stcgr_completed_evaluations": 5,
+    "stcgr_disposition_sha256": "07749b84489da42870a037ce4e648117107a08416b048ef648a5dfb959b99367",
+    "stcgr_scientific_gate_status": "fail_current_full_data_implementation",
+    "dclgan_completed_evaluations": 5,
+    "dclgan_result_sha256": "c1a48da533356995338524fa0a2e67f12dd0131c1118d8c4f6629260cc16283d",
+    "first_wave_artifacts_hash_exact_restored": true,
+    "final_v9_supervisor_pid": 1559134,
+    "final_v9_status": "profiling_fixed_e200_complexity",
+    "dclgan_addendum_supervisor_pid": 1559135,
+    "dclgan_addendum_status": "waiting_for_core_portfolio",
+    "training_checkpoints_modified": false,
+    "partial_metric_used_for_scheduling": false,
+    "paired_metric_control": false,
+    "confirmation20_opened": false,
+    "evidence": "evidence/paper_aio/PAPER_AIO_STCGR_DCLGAN_FIXED_EVALUATION_AND_FINAL_V9_20260916T124549.json",
+    "decision": "decisions/DEC-20260916-STCGR-DCLGAN-FIXED-EVALUATION-AND-FINAL-V9.md"
   },
   "paired_metric_control": false,
   "cross_non_equivalent_runtime_delta": false,
