@@ -1,37 +1,45 @@
 # FINAL_UNSB
 
-这是 UNSB 项目的可审计 clean canonical 与论文研究主控仓库。当前已进入 full-data
-All-in-One 无配对论文阶段：每侧8553张、batch1、seed2026、真实200 data epochs。
+这是 UNSB 项目的可审计 clean canonical 与论文研究主控仓库。full-data discovery 已完成，
+当前处于“结果已归档、等待 claim review、confirmation20 仍封存”的交接阶段。
+
+**离开旧 Codex 上下文后，一律先读 [`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)。**
+仓库里更早的“ACTIVE/正在训练/下一继任器”描述只作历史 provenance，不再授权重启任务。
 
 北极星不是验证固定lane或只找一个冠军，而是同时取得外部论文基线、严格matched plain，
 以及多条由长期因果证据产生的完整算法轨迹。DT/HJ/HNEK继续是算法发现证据，不是必须保留
 原形的候选；confirmation20仍封存，paired指标不得控制训练，非等价runtime不得合并delta。
 
 仓库不搬运三个月的全部历史。它保留 deterministic UNSB canonical、最小历史证据、
-完整状态恢复、统一评估协议和持久监督链。实时事实以`PROJECT_STATE.json`、
-`configs/FULL_DATA_METHOD_PORTFOLIO.json`和`configs/PAPER_DELIVERY_COMPLETION_MATRIX.json`
-为准。
+完整状态恢复、统一评估协议和持久监督链。最终事实以`FINAL_HANDOFF.json`、
+`archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`和最终 portfolio 为准；
+`PROJECT_STATE.json`保留更完整的执行历史。
 
 ## 接手顺序
 
 无论人还是 Codex，必须依次阅读：
 
-1. [`START_HERE_CN.md`](START_HERE_CN.md)
-2. [`AGENTS.md`](AGENTS.md)
-3. [`PROJECT_CONTRACT.json`](PROJECT_CONTRACT.json)
-4. [`PROJECT_STATE.json`](PROJECT_STATE.json)
-5. [`CONTEXT_CAPSULE_CN.md`](CONTEXT_CAPSULE_CN.md)
-6. [`PAPER_AIO_RESEARCH_CONTRACT_CN.md`](PAPER_AIO_RESEARCH_CONTRACT_CN.md)
-7. [`ACTIVE_PAPER_AIO_PLAN_CN.md`](ACTIVE_PAPER_AIO_PLAN_CN.md)
-8. [`configs/PAPER_ALGORITHM_THEORY_BUNDLE.json`](configs/PAPER_ALGORITHM_THEORY_BUNDLE.json)
-9. [`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`](configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json)
-10. [`DATA_CONTRACT.json`](DATA_CONTRACT.json)
+1. [`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)
+2. [`FINAL_HANDOFF.json`](FINAL_HANDOFF.json)
+3. [`archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`](archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json)
+4. [`archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`](archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json)
+5. [`research/paper_aio/RESEARCH_HANDOFF_CN.md`](research/paper_aio/RESEARCH_HANDOFF_CN.md)
+6. 只有需要追溯时再读`START_HERE_CN.md`、`PROJECT_STATE.json`和历史合同。
 
 只有修改small25历史证据或候选来源时，才继续阅读
 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`、`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`和
 `configs/LOCAL_ROUTE1_PROBES.json`。
 
-## 当前阶段（2026-09-12）
+## 最终 discovery 状态（2026-09-16）
+
+Proposal-only 是唯一通过预注册 full-data 长期门的自研方法：late-three 宏 PSNR delta
+`+1.723565 dB`，e200 delta `+0.839347 dB`。ST-CGR 与 AM-TNC 当前实现失败，但不判死
+父机制；HJCGR deferred，DDSB reproduction incomplete。CUT、DCLGAN、CycleGAN 的 e200
+绝对 PSNR 均高于 Proposal，所以不能宣称总体 SOTA。完整数字、披露与资产位置见最终交接。
+
+以下旧阶段说明保留作历史，**不再是当前调度状态**。
+
+## 历史阶段快照（2026-09-12，已关闭）
 
 4090A的full plain已经完成并封存，现在运行AM-TNC；5090A运行ST-CGR；5090C运行
 Proposal-only；5090B的CUT与CycleGAN均已完成e200，通过exact-runtime/容量门的fresh-e0

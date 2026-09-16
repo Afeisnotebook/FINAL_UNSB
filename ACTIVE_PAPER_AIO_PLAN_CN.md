@@ -1,7 +1,11 @@
 # ACTIVE：FINAL_UNSB 全量论文实验与下一阶段算法重构
 
-状态：`FIRST_WAVE_RUNNING / THREE_ALGORITHM_PATHS_RUNNING / CONFIRMATION_LOCKED`
-日期：2026-09-12
+状态：`CLOSED_EXECUTION_PLAN / HISTORICAL_PROVENANCE_ONLY / CONFIRMATION_LOCKED`
+关闭日期：2026-09-16
+
+> 本计划已经完成其 discovery 执行职责，不再是调度入口。最终结果、剩余边界和后续顺序
+> 见[`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)与`FINAL_HANDOFF.json`。不要从下文恢复
+> 旧宿主队列、successor、PID 或服务器端点；下文只保留预注册协议和执行 provenance。
 
 资源身份补充：09:49提供的SSH端点`:44804`是现有5090B的另一入口，物理宿主与此前完成
 CUT/CycleGAN且当前运行matched plain的宿主完全相同，不增加GPU数量。当前分配和后继不因此

@@ -4,18 +4,19 @@
 
 Read, in order, before changing code or launching compute:
 
-1. `START_HERE_CN.md`
-2. `PROJECT_CONTRACT.json`
-3. `PROJECT_STATE.json`
-4. `CONTEXT_CAPSULE_CN.md`
-5. `PAPER_AIO_RESEARCH_CONTRACT_CN.md`
-6. `ACTIVE_PAPER_AIO_PLAN_CN.md`
-7. `configs/PAPER_AIO_UNPAIRED_V1.json`
-8. `configs/PAPER_ALGORITHM_THEORY_BUNDLE.json`
-9. `configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`
-10. `research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`
-11. `DATA_CONTRACT.json`
-12. the latest non-example file under `decisions/`
+1. `FINAL_HANDOFF_CN.md`
+2. `FINAL_HANDOFF.json`
+3. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
+4. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
+5. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
+6. `PROJECT_CONTRACT.json`
+7. `PROJECT_STATE.json`
+8. Read older plans and contracts only when tracing provenance or after a new
+   explicit scientific authorization. They are not live scheduling authority.
+
+The full-data discovery execution phase is archived. Do not restart historical
+PIDs, successors, SSH endpoints, or queues from `START_HERE_CN.md`,
+`CONTEXT_CAPSULE_CN.md`, or `ACTIVE_PAPER_AIO_PLAN_CN.md`.
 
 When changing the small25 evidence atlas, ST-CGR derivation, or route-1 candidate
 code, additionally read `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`,

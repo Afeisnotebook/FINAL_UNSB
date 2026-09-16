@@ -1,6 +1,18 @@
 # 先从这里开始
 
-## 当前最高优先级覆盖（2026-09-12）
+## 最终状态覆盖（2026-09-16，优先于本文全部旧段落）
+
+full-data discovery 已结束并完成 compact Git 归档。请停止从本文恢复任何旧 PID、SSH
+端点、heartbeat、successor 或“正在训练”队列。新的第一入口是
+[`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)，机器入口是`FINAL_HANDOFF.json`，结果归档是
+`archive/paper_aio/final_v10/`。
+
+当前结论：Proposal-only 通过长期门；ST-CGR/AM-TNC 只关闭当前实现；HJCGR deferred；
+DDSB reproduction incomplete；confirmation20 仍封存。下一门是明确的 claim review 和
+confirmation policy freeze，而不是自动恢复训练。下文保留三个月推理与工程 provenance，
+除非最终交接明确引用，否则不再具有调度效力。
+
+## 历史最高优先级覆盖（2026-09-12，已关闭）
 
 用户已明确启动“全量论文实验 + 下一阶段算法重构”。这项授权覆盖本文旧段落中的
 “full-data未激活/服务器仅限small25”，但不改写small25路线一的历史证据。

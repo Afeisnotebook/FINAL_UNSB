@@ -50,7 +50,7 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     assert project["paper_full_frozen"]["updates_per_lane"] == 8553 * 200
     assert paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
     assert state["phase"] == (
-        "PAPER_AIO_FULL_DATA_DISCOVERY_PORTFOLIO_COMPLETE_"
+        "PAPER_AIO_DISCOVERY_ARCHIVED_FINAL_HANDOFF_"
         "AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION"
     )
     portfolio = common.load_json("configs/FULL_DATA_METHOD_PORTFOLIO.json")

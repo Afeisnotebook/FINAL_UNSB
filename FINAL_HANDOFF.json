@@ -1,0 +1,79 @@
+{
+  "schema": "final-unsb-final-handoff-v1",
+  "status": "DISCOVERY_ARCHIVED_CLAIM_REVIEW_PENDING_CONFIRMATION20_SEALED",
+  "created_at": "2026-09-16T23:20:00+08:00",
+  "archive_parent_commit": "df20b8ba6203262621aa5fbeaabb2cf4642f82c5",
+  "handoff_commit_resolution": "Use git log -1 on the checkout containing this file; a file cannot stably embed its own commit hash.",
+  "authoritative_human_entrypoint": "FINAL_HANDOFF_CN.md",
+  "canonical_archive": {
+    "manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+    "portfolio": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO.json",
+    "portfolio_sha256": "f70ca229f2abae7026a5d60f6f359164dfd14e7da6e58e2ceeae70718ed1e36c",
+    "augmented_portfolio": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+    "augmented_portfolio_sha256": "c1a8229c446c65a94fcf266320467208e11d7842a1c440faf4070db1884e919e",
+    "server_asset_inventory": "archive/paper_aio/final_v10/SERVER_ASSET_INVENTORY.json"
+  },
+  "protocol": {
+    "images_per_side": 8553,
+    "batch_size": 1,
+    "seed": 2026,
+    "data_epochs": 200,
+    "optimizer_updates": 1710600,
+    "main_checkpoint": "e200",
+    "best_checkpoint_selection": false,
+    "confirmation20_opened": false
+  },
+  "canonical_outcome": {
+    "accepted_algorithms": ["proposal"],
+    "proposal": {
+      "status": "PASS_PREREGISTERED_FULL_DATA_GATE",
+      "late_three_macro_psnr_delta_db": 1.7235648683228117,
+      "e200_macro_psnr_delta_db": 0.8393467685609934,
+      "e200_psnr": 20.51443151852717,
+      "e200_ssim": 0.6638345547268788,
+      "e200_lpips": 0.22146850552254668
+    },
+    "matched_plain_e200": {
+      "psnr": 19.675084749966178,
+      "ssim": 0.6424698766072592,
+      "lpips": 0.2365586569206789
+    },
+    "stcgr": {
+      "status": "CLOSED_CURRENT_IMPLEMENTATION_NOT_MECHANISM_FALSIFIED",
+      "late_three_macro_psnr_delta_db": -0.6920397091129461,
+      "e200_macro_psnr_delta_db": -2.7440773304201116
+    },
+    "amtnc": {
+      "status": "CLOSED_CURRENT_IMPLEMENTATION_NOT_MECHANISM_FALSIFIED",
+      "late_three_macro_psnr_delta_db": -2.1076224231996545,
+      "e200_macro_psnr_delta_db": -4.072023450843259
+    },
+    "hjcgr": "DEFERRED_NOT_FALSIFIED",
+    "ddsb": "REPRODUCTION_INCOMPLETE_NOT_FALSIFIED",
+    "terminal_pathology": "NOT_CONFIRMED_DO_NOT_ADD_MODULE"
+  },
+  "external_e200_psnr": {
+    "cut": 23.728935081973713,
+    "dclgan": 23.32828400045406,
+    "cyclegan": 21.655428798767243,
+    "input": 14.738111208789983
+  },
+  "large_assets": {
+    "local_checkpoint_mirror": "E:/UNSB_Expl/paper_eval_node/checkpoint_imports/sources",
+    "local_dclgan_run": "E:/UNSB_Expl/runs/FINAL_UNSB_DCLGAN_LOCAL1000_E45973A",
+    "canonical_result_only_on_rental_server": false,
+    "independent_proofs_not_canonical": [
+      "/home/yc/independent_audit_20260916",
+      "/root/autodl-tmp/independent_audit_20260915"
+    ]
+  },
+  "authority_rules": {
+    "older_active_documents_are_historical_only": true,
+    "restart_old_successors": false,
+    "use_intermediate_paired_metrics_for_control": false,
+    "merge_non_equivalent_runtime_deltas": false,
+    "auto_import_independent_proofs": false,
+    "claim_cross_seed_stability": false
+  },
+  "next_gate": "Explicit claim review and confirmation-policy freeze; confirmation20 remains inaccessible until separately authorized."
+}

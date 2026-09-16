@@ -1,5 +1,12 @@
 # 三个月研究的最小上下文胶囊
 
+## 最终交接覆盖（2026-09-16）
+
+本胶囊后续内容现在只用于历史追溯。full-data discovery 已完成，权威入口已迁移到
+[`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)和`FINAL_HANDOFF.json`；完整 compact 结果位于
+`archive/paper_aio/final_v10/`。不得根据本文件中旧的在线分配、PID、队列或计划恢复任务。
+confirmation20 仍封存，下一步是 claim review，不是继续旧训练。
+
 这份文件专门给完全没有旧对话上下文的新 Codex。它只保留会改变最后一轮决策的
 事实，不要求接手者重新阅读旧仓库。
 

@@ -2,13 +2,14 @@
   "schema_version": 1,
   "updated": "2026-09-16",
   "state_snapshot_time": "2026-09-16T12:56:39+08:00",
-  "phase": "PAPER_AIO_FULL_DATA_DISCOVERY_PORTFOLIO_COMPLETE_AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION",
+  "phase": "PAPER_AIO_DISCOVERY_ARCHIVED_FINAL_HANDOFF_AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION",
   "active_control_entrypoint": {
-    "status": "PAPER_AIO_AUTHORITY_CURRENT_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
-    "primary": "paper_aio_20260902",
+    "status": "FINAL_HANDOFF_AUTHORITY_HISTORICAL_EXECUTION_PLANS_CLOSED",
+    "primary": "FINAL_HANDOFF.json",
     "companions": [
-      "configs/FULL_DATA_METHOD_PORTFOLIO.json",
-      "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json"
+      "FINAL_HANDOFF_CN.md",
+      "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+      "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"
     ],
     "historical_top_level_sections_are_scheduling_authority": false,
     "historical_route1_successors_must_not_be_started_from_archived_fields": true,
