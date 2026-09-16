@@ -706,9 +706,14 @@ def build_portfolio(
         row["lane_id"]: row for row in first_wave_results.get("lanes", [])
         if isinstance(row, dict) and row.get("lane_id")
     }
-    required = {"input", "plain", "proposal", "cut", "cyclegan", STCGR_ID}
+    # ST-CGR is a post-first-wave candidate and is bound independently by
+    # ``stcgr_disposition``.  Requiring it inside the immutable first-wave
+    # aggregate would either reject the correctly frozen five-lane cohort or
+    # force candidate adjudication to overwrite the first-wave artifact that
+    # its completion state hash-binds.
+    required = {"input", "plain", "proposal", "cut", "cyclegan"}
     if not required.issubset(by_lane):
-        raise RuntimeError("first-wave result lacks fixed lanes or ST-CGR")
+        raise RuntimeError("first-wave result lacks fixed lanes")
     if set(first_wave_lane_sources) != set(FIRST_WAVE_LANES):
         raise RuntimeError("final portfolio has an incomplete first-wave source map")
     plain_source_host = first_wave_lane_sources["plain"]

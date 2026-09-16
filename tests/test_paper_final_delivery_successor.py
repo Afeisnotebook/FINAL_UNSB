@@ -251,7 +251,7 @@ def test_portfolio_preserves_three_matched_relations_and_failure_scope(
         _entry(
             "proposal", method_host="5090C", plain_host="5090B_MATCHED_PLAIN",
         ),
-        _entry("cut"), _entry("cyclegan"), _entry(final.STCGR_ID),
+        _entry("cut"), _entry("cyclegan"),
     ]
     first = {
         "schema": "final-unsb-paper-results-v1",
