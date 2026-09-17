@@ -30,10 +30,10 @@
   },
   "fresh_clone_drill": {
     "status": "PASS",
-    "tested_commit": "f69dd79fa8eed1af74bbde3d5a9ee70d5c628745",
-    "receipt": "evidence/recovery/GIT_ONLY_FRESH_CLONE_DRILL_20260916.json",
+    "tested_commit": "c612d93b0202338c412560274e3887d3f2620dbb",
+    "receipt": "evidence/recovery/CURRENT_AUTHORITY_FRESH_CLONE_DRILL_20260917.json",
     "git_only_verifier": "PASS",
-    "full_test_result": "859 passed",
+    "full_test_result": "876 passed",
     "fresh_clone_clean": true
   },
   "essential_e200_binary_assets_not_stored_in_git": [

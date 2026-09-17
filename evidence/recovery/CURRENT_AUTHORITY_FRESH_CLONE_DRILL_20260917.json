@@ -1,0 +1,16 @@
+{
+  "schema": "final-unsb-current-authority-fresh-clone-drill-v1",
+  "status": "PASS",
+  "captured_at": "2026-09-17T08:57:11+08:00",
+  "remote": "https://github.com/Afeisnotebook/FINAL_UNSB.git",
+  "tested_commit": "c612d93b0202338c412560274e3887d3f2620dbb",
+  "fresh_clone_worktree_clean_before_tests": true,
+  "checks": {
+    "git_only_recovery_verifier": "PASS_1562_SOURCE_ENTRIES_21_ARCHIVE_ENTRIES_9153_IDENTITIES",
+    "contract_validator": "PASS_ALL_CONTRACT_CHECKS",
+    "full_pytest": "PASS_876_TESTS",
+    "confirmation20_opened": false,
+    "historical_execution_authorized": false
+  },
+  "interpretation": "A blank checkout can recover the current scientific state, authority order, compact results, code and discussion context from Git alone. Dataset pixels, trained weights, full raw logs and noncanonical independent proofs remain external binary assets as explicitly documented."
+}
