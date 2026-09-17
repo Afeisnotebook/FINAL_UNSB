@@ -1,28 +1,23 @@
-# Git 主控—本地路线一工作流
+# FINAL_UNSB 当前工作流
 
-> 2026-08-29：以下服务器回传机制保留为历史基础设施，但当前服务器阶段暂停。
-> 当前工作流是：语义谱系审计 → 多方法small25 e200长期锚点 → target-blind
-> 长期因果图谱 → 新算法derivation card → 新算法matched e200本地裁决。
+## 默认工作流：论文与审阅
 
-所有科学时间同时记录updates与data epochs，以data epochs裁决。HJ校准不构成项目
-完成；DT/HNEK以及后续机制证据必须进入算法生成过程。路线一不得转成退出阈值、
-finite handoff或paired控制器搜索。
+1. 运行`python tools/verify_git_only_recovery.py`；
+2. 阅读final handoff、当前状态和claim boundaries；
+3. 从final V10 portfolio引用数字，不从旧heartbeat或中间checkpoint取数；
+4. 完成claim review并冻结披露、算法集合和confirmation policy；
+5. 只有显式授权后才打开confirmation20或启动额外seed；
+6. 所有新结论形成decision与compact evidence后提交Git。
 
-## 暂停的服务器回传约定
+## 如果重新启动科学计算
 
-Git 保存“可审计状态”，不搬运数据和 checkpoint。主控仓库的 `main` 是唯一科学
-协议来源；四台执行机固定同一 commit，各自在本机外部路径保存完整状态。
+必须创建新的授权，记录科学问题、protocol fingerprint、数据/seed、runtime cohort、停止门和
+confirmation边界。旧`RUN_AUTHORIZATION`、PID、server task或successor不得复用。
 
-服务器只回传小文件：环境、identity、train summary、checkpoint sidecar、固定评估
-JSON 和必要故障日志。训练和评估结束后运行 `tools/prepare_server_return.py`，把白名单
-文件复制到 `reports/returns/<lane>/`；再用 `return/<lane>` 分支提交，由主控检查后
-合并。禁止提交 `.pt/.pth`、图像、数据 view、heartbeat 或完整日志。checkpoint
-另做云盘/快照备份，其 SHA256 已写入 sidecar。
+Git只保存代码、合同、manifest、哈希、compact metrics和decision；数据、checkpoint及完整
+日志放在Git外，并用source-bound receipt和私有冷备份保护。
 
-运行阶段不通过对话修改配置。所有变化先形成 `decisions/DEC-xxxx-*.md`，提交后才
-生效；读到 discovery 效果后不得回改 lane。若只是机器路径或凭据，写入 ignored
-local 文件，绝不提交。
+## 历史工作流
 
-固定里程碑为 e1/e10/e25/e50/e100/e150/e200。e200 是选择点；前序点只判断轨迹、
-反转和 plain 是否异常。候选冻结后才允许提交 `CONFIRMATION_UNLOCK.json`，确认集
-只能用于一次冻结候选对 matched plain 的最终读取。
+旧四机执行与return-branch说明属于provenance。查看
+`docs/HISTORICAL_PROVENANCE_INDEX_CN.md`，不要从历史文本启动任务。

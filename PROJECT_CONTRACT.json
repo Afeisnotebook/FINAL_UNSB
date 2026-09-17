@@ -1,8 +1,26 @@
 {
   "schema_version": 1,
   "project_id": "FINAL_UNSB_PAPER_AIO_AND_ROUTE1_RECONSTRUCTION",
-  "status": "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION",
-  "objective": "Run a paper-grade full-data All-in-One unpaired comparison while continuing evidence-driven reconstruction of one or more UNSB algorithms capable of retaining benefit over 200 data epochs.",
+  "status": "DISCOVERY_COMPLETE_ARCHIVED_AWAITING_CLAIM_REVIEW",
+  "objective": "Preserve the completed paper-grade full-data All-in-One discovery record, finish claim review and manuscript delivery without reviving historical execution state, and require a new explicit decision for any further compute.",
+  "current_authority": {
+    "human": "FINAL_HANDOFF_CN.md",
+    "machine": "FINAL_HANDOFF.json",
+    "document_registry": "configs/DOCUMENT_AUTHORITY_REGISTRY.json",
+    "canonical_result": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+    "current_state": "docs/CURRENT_PROJECT_STATE_CN.md"
+  },
+  "completion": {
+    "full_data_discovery_complete": true,
+    "accepted_algorithms": ["proposal"],
+    "closed_current_implementations": ["stcgr", "amtnc"],
+    "deferred_not_falsified": ["hjcgr"],
+    "reproduction_incomplete_not_falsified": ["ddsb"],
+    "claim_review_complete": false,
+    "confirmation_authorized": false,
+    "confirmation20_opened": false,
+    "live_training_authorized": false
+  },
   "guarantees": [
     "a time-scale-correct long-horizon evidence atlas",
     "at least one evidence-derived route-1 candidate and one current-best fallback",
@@ -70,7 +88,7 @@
   "suspended_server_lane_contract": "configs/FOUR_LANES.json",
   "data_contract": "DATA_CONTRACT.json",
   "authorization_required": {
-    "status": "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION",
+    "status": "HISTORICAL_EXECUTION_AUTHORIZATION_CLOSED_NO_AUTOMATIC_RESTART",
     "decisions": [
       "decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md",
       "decisions/DEC-20260830-ROUTE1-REMOTE5090.md",
@@ -78,7 +96,8 @@
       "decisions/DEC-20260902-PAPER-AIO-ACTIVATION.md"
     ],
     "hosts": ["local GTX 1660", "192.168.0.30 RTX 4090A", "final-unsb-5090 RTX 5090A", "final-unsb-5090b RTX 5090B"],
-    "scope": "frozen full-data paper lanes plus host-separated small25 evidence-derived candidate research, each after source-bound per-host gates",
+    "scope": "historical authorization that produced the archived full-data and route-1 record; it grants no current execution authority",
+    "current_execution_authorized": false,
     "excludes": [
       "former four-server/four-lane plan",
       "confirmation20 access",
@@ -90,6 +109,6 @@
     ]
   },
   "paper_contract": "PAPER_AIO_RESEARCH_CONTRACT_CN.md",
-  "active_paper_plan": "ACTIVE_PAPER_AIO_PLAN_CN.md",
-  "change_policy": "Every new algorithm requires an evidence-linked derivation card and frozen target-blind gate before paired target metrics are read. A canonical primary does not prune the complete evidence-qualified frontier. Live full-data lanes remain pinned to their scientific commit and protocol fingerprint; newer orchestration cannot mutate them. Confirmation20, cross-host deltas, route2 and unprovided compute remain forbidden without a new explicit decision."
+  "closed_paper_plan_tombstone": "ACTIVE_PAPER_AIO_PLAN_CN.md",
+  "change_policy": "Any new compute, confirmation access or algorithm search requires a new explicit user request and committed decision. Historical ACTIVE tokens, run authorizations, PIDs and successors cannot be revived. Confirmation20, best-checkpoint selection, paired control and non-equivalent-runtime deltas remain forbidden without a new explicit decision."
 }

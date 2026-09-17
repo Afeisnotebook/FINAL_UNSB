@@ -2,8 +2,21 @@
   "schema": "final-unsb-full-data-method-portfolio-v1",
   "captured_at": "2026-09-16T12:56:39+08:00",
   "status": "COMPLETE_FULL_DATA_DISCOVERY_PORTFOLIO_WITH_DCLGAN_AWAITING_CONFIRMATION_DECISION",
+  "authority_scope": "HISTORICAL_APPEND_ONLY_OPERATIONAL_LEDGER_WITH_FINAL_OVERLAY",
+  "current_method_status_authority": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+  "nested_running_pid_and_waiter_fields_are_current": false,
+  "historical_nested_fields_must_not_schedule_or_restart_work": true,
+  "final_outcome_overlay": {
+    "proposal": "pass_preregistered_full_data_gate",
+    "stcgr": "closed_current_implementation_not_mechanism_falsified",
+    "amtnc": "closed_current_implementation_not_mechanism_falsified",
+    "hjcgr": "deferred_not_falsified",
+    "ddsb": "reproduction_incomplete_not_falsified",
+    "dclgan": "complete_standalone_fixed_protocol_external_baseline",
+    "confirmation20_opened": false
+  },
   "north_star": "obtain multiple paper-value full-data e200 algorithm trajectories, not one winner",
-  "control_entrypoint_status": "ALIGNED_WITH_PROJECT_STATE_PAPER_AIO_HISTORICAL_ROUTE1_ARCHIVE_ONLY",
+  "control_entrypoint_status": "FINAL_HANDOFF_CURRENT_THIS_FILE_HISTORY_ONLY",
   "paper_baseline_portfolio": {
     "status": "FROZEN_BEFORE_PERFORMANCE_RESULTS_HASH_BOUND_TO_FINAL_DELIVERY",
     "config": "configs/PAPER_BASELINE_PORTFOLIO.json",

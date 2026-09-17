@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CPU-only coherence checks for the active project and optional data manifest."""
+"""CPU-only checks for current authority and retained frozen protocol inputs."""
 
 from __future__ import annotations
 
@@ -54,13 +54,27 @@ def main() -> int:
     evidence = load("evidence/EVIDENCE_SUMMARY.json")
 
     probe_ids = [probe["id"] for probe in probes["anchor_probes"]]
+    registry = load("configs/DOCUMENT_AUTHORITY_REGISTRY.json")
+    handoff = load("FINAL_HANDOFF.json")
+    portfolio = load("configs/FULL_DATA_METHOD_PORTFOLIO.json")
+    delivery = load("configs/PAPER_DELIVERY_COMPLETION_MATRIX.json")
+
     check(
-        project["status"]
-        == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION",
-        "full-data paper research and evidence-driven reconstruction are active",
+        project["status"] == "DISCOVERY_COMPLETE_ARCHIVED_AWAITING_CLAIM_REVIEW"
+        and project["completion"]["full_data_discovery_complete"] is True
+        and project["completion"]["live_training_authorized"] is False,
+        "discovery is archived and no historical execution is authorized",
+    )
+    check(
+        registry["status"]
+        == "CURRENT_AUTHORITY_EXPLICIT_HISTORICAL_EXECUTION_QUARANTINED"
+        and registry["hard_interpretation_rules"][
+            "old_pid_or_heartbeat_means_job_is_live"
+        ] is False,
+        "document authority registry quarantines historical execution state",
     )
     check(probes["status"] == "ACTIVE_LOCAL_RESEARCH",
-          "local long-horizon probes are active")
+          "historical local long-horizon protocol token is preserved")
     check(probe_ids == state["active_probe_families"],
           "state and active probe order agree")
     check(len(probe_ids) == 4 and len(set(probe_ids)) == 4,
@@ -91,13 +105,15 @@ def main() -> int:
         "unprovided extra RTX 4090 hosts",
     }
     check(
-        offload.get("status") == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
+        offload.get("status")
+        == "HISTORICAL_EXECUTION_AUTHORIZATION_CLOSED_NO_AUTOMATIC_RESTART"
+        and offload.get("current_execution_authorized") is False
         and required_decisions.issubset(set(offload.get("decisions", [])))
         and "decisions/DEC-20260902-PAPER-AIO-ACTIVATION.md"
         in set(offload.get("decisions", []))
         and required_hosts == set(offload.get("hosts", []))
         and required_exclusions.issubset(set(offload.get("excludes", []))),
-        "paper and route-1 multi-host work has explicit bounded authorization",
+        "historical multi-host authorization is bounded and closed",
     )
     full = project["paper_full_frozen"]
     check(
@@ -112,13 +128,24 @@ def main() -> int:
     current = state.get("paper_aio_20260902") or {}
     current_status = str(current.get("status") or "")
     check(
-        state.get("phase") == "PAPER_AIO_MULTI_ALGORITHM_FULL_DATA_PORTFOLIO_RUNNING"
-        and current_status.startswith("FIRST_WAVE_")
-        and current_status.endswith("_CONFIRMATION_LOCKED")
+        state.get("phase")
+        == "PAPER_AIO_DISCOVERY_ARCHIVED_FINAL_HANDOFF_AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION"
+        and state.get("current_execution_authorized") is False
+        and current_status
+        == "FULL_DATA_DISCOVERY_PORTFOLIO_V10_AND_DCLGAN_ADDENDUM_V4_COMPLETE_CONFIRMATION_LOCKED"
         and current.get("paired_metric_control") is False
         and current.get("cross_host_deltas_merged") is False
         and current.get("confirmation20_opened") is False,
-        "active state preserves paper drift firewalls",
+        "archived final state preserves paper drift firewalls",
+    )
+    check(
+        handoff["canonical_outcome"]["accepted_algorithms"] == ["proposal"]
+        and handoff["protocol"]["confirmation20_opened"] is False
+        and portfolio["final_outcome_overlay"]["proposal"]
+        == "pass_preregistered_full_data_gate"
+        and portfolio["nested_running_pid_and_waiter_fields_are_current"] is False
+        and delivery["nested_waiter_pid_and_running_fields_are_current"] is False,
+        "final handoff overrides historical nested running fields",
     )
     check(lanes["status"] == "SUSPENDED_NOT_CURRENT",
           "former four-lane server plan is suspended")

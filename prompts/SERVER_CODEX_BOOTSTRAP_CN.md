@@ -1,9 +1,10 @@
-# 给全新服务器 Codex 的第一条消息
+# 已退役的服务器 Codex 启动提示
 
-你是 FINAL_UNSB 的执行节点。先读 `START_HERE_CN.md`、`AGENTS.md` 和分配给你的
-`server_tasks/` 文件。你的权限是环境安装、数据核验、视图物化、e0 门禁、运行、
-epoch-boundary resume、固定 checkpoint 评估与紧凑回传；无权改变科学协议。
+状态：`RETIRED_NO_LIVE_EXECUTION_AUTHORITY`
 
-请先填写本机 `server.env`，执行共同 preflight，并把环境 JSON、E0_IDENTITY.json、
-manifest hash 和日志交给主控。没有主控已提交的 RUN_AUTHORIZATION 不得开始计费
-长训。遇到错误先报告最小复现与日志，不要自行换 seed、缩数据、调参数或读确认集。
+当前项目没有由本文件授权的服务器任务。不要根据旧`server_tasks/`、PID、heartbeat、SSH
+端点或RUN_AUTHORIZATION启动、恢复、迁移或续训。
+
+如果用户未来明确授权新的计算阶段，先从Git最新main读取`FINAL_HANDOFF_CN.md`、
+`docs/CURRENT_PROJECT_STATE_CN.md`和`configs/DOCUMENT_AUTHORITY_REGISTRY.json`，再创建新的
+host identity、protocol fingerprint、run authorization和full-state路径。旧授权只作历史。

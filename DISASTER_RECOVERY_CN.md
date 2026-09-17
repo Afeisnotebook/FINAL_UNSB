@@ -38,9 +38,12 @@ python tools/verify_git_only_recovery.py
 
 1. `FINAL_HANDOFF_CN.md`
 2. `FINAL_HANDOFF.json`
-3. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
-4. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
-5. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
+3. `docs/CURRENT_PROJECT_STATE_CN.md`
+4. `CLAIM_BOUNDARIES.md`
+5. `configs/DOCUMENT_AUTHORITY_REGISTRY.json`
+6. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
+7. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
+8. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
 
 若需要运行代码，在 Ubuntu/Python 3.11 环境执行：
 

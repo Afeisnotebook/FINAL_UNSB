@@ -2,129 +2,96 @@
 
 ## Mandatory read order
 
-Read, in order, before changing code or launching compute:
+Before answering scientific questions or changing files, read in order:
 
 1. `FINAL_HANDOFF_CN.md`
 2. `FINAL_HANDOFF.json`
-3. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
-4. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
-5. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
-6. `DISASTER_RECOVERY_CN.md`
-7. `configs/GIT_ONLY_RECOVERY_MANIFEST.json`
-8. `PROJECT_CONTRACT.json`
-9. `PROJECT_STATE.json`
-10. Read older plans and contracts only when tracing provenance or after a new
-   explicit scientific authorization. They are not live scheduling authority.
+3. `docs/CURRENT_PROJECT_STATE_CN.md`
+4. `CLAIM_BOUNDARIES.md`
+5. `configs/DOCUMENT_AUTHORITY_REGISTRY.json`
+6. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`
+7. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
+8. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
+9. `DISASTER_RECOVERY_CN.md`
+10. Read historical contracts, evidence and decisions only when the task needs
+    provenance or the user explicitly authorizes a new scientific phase.
 
-The full-data discovery execution phase is archived. Do not restart historical
-PIDs, successors, SSH endpoints, or queues from `START_HERE_CN.md`,
-`CONTEXT_CAPSULE_CN.md`, or `ACTIVE_PAPER_AIO_PLAN_CN.md`.
+Run `python tools/verify_git_only_recovery.py` and
+`python tools/validate_contracts.py` before trusting a new clone.
 
-When changing the small25 evidence atlas, ST-CGR derivation, or route-1 candidate
-code, additionally read `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`,
-`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`, and `configs/LOCAL_ROUTE1_PROBES.json`.
+## Current phase
 
-## Fixed objective
+The full-data discovery execution phase is complete and archived. There is no
+live training queue authorized by this repository. The current gate is an
+explicit paper-claim review and confirmation-policy freeze. Confirmation20 is
+sealed.
 
-Execute the paper-grade full-data All-in-One unpaired comparison while
-continuing evidence-driven reconstruction of long-horizon UNSB algorithms.
-This is not a frozen-Proposal validation exercise: Proposal-only, HJCGR,
-AM-TNC, and any evidence-derived successor remain a multi-algorithm scientific
-frontier.  The completed small25 route-1 atlas is the source of mathematical
-evidence, not a substitute for the newly authorized full-data experiment.
+Historical PIDs, heartbeats, SSH endpoints, supervisors, successors and
+`running` fields are provenance. They must not be used to restart work.
 
-The user's 2026-09-02 paper plan explicitly supersedes the older small25-only
-server restriction. It authorizes the frozen paper runner on the available
-4090, three host-separated 5090 nodes, and local GTX1660, while confirmation20, paired control,
-route-2 handoff, and cross-host method-minus-plain deltas remain forbidden.
+## Canonical scientific outcome
 
-## Current role separation
+- Proposal-only is the sole in-house method that passes the preregistered
+  full-data long-horizon gate: late-three macro PSNR delta +1.723565 dB and
+  e200 delta +0.839347 dB.
+- Current ST-CGR and AM-TNC implementations fail the gate. This does not
+  falsify their parent mechanism families.
+- HJCGR is deferred. DDSB is reproduction incomplete. Neither is a negative
+  result.
+- CUT, DCLGAN and CycleGAN have higher fixed-e200 absolute PSNR than Proposal;
+  an overall SOTA claim is forbidden.
+- Evidence is seed 2026 only. Cross-seed stability is not established.
+- Terminal low-variance/singular-drift pathology was not confirmed and no
+  repair module may be claimed from it.
 
-- **Research Codex** maintains the paper protocol, long-horizon evidence atlas,
-  derivation cards, external-source gates, and evidence-driven candidates.
-- **Executors** run only committed, per-host matched protocols and may not use
-  paired targets as training/controller inputs. Checkpoints never continue
-  across hosts and a method is compared only with its same-host plain.
-- **4090A** has completed and sealed full plain and now runs the independently
-  valuable AM-TNC path; unified evaluation follows after e200.
-  **5090C** runs Proposal. **5090A** has paused its recoverable plain at e9 by
-  explicit user time-priority and now runs the authorized full-data ST-CGR from
-  its exact e1 state. **5090B** has completed both CUT and CycleGAN e200; the
-  admitted fresh-e0 matched plain now continues exclusively from its existing
-  full state. **Local GTX1660** runs DCLGAN exclusively.
-- Every live scientific checkout remains pinned to the per-lane commit and
-  protocol fingerprint recorded in `PROJECT_STATE.json`.  Newer commits may
-  orchestrate, relay and evaluate, but must not mutate those live transitions.
-  The common evaluation bundle identity remains `68f53a8e...`.
+Exact results come only from the final archived portfolio, not from old
+operational ledgers or intermediate checkpoints.
 
-## Drift firewall
+## Authority and historical documents
 
-- `PROJECT_STATE.json:active_control_entrypoint` and its top-level `next_gate`
-  are the current scheduling authority. Older route-1 sections remain evidence
-  only; never launch RF-AMMCRB/RF-MCRB/G3 successors from archived fields.
-- The active goal is algorithm discovery, not validation of a frozen lane list.
-- The active paper stage also requires defensible external baselines; guessed
-  reproductions are forbidden. DDSB remains `reproduction_incomplete` until an
-  authoritative source/formula/full-state lock exists.
-- HJ calibration must not silently become HJ-only research.  DT and HNEK are
-  long-horizon anchor probes; PCOA/LBST/PTQ/DCUM/AEB and their failures remain
-  admissible mechanistic evidence for constructing new algorithms.
-- Interpret every horizon in **data epochs**.  SEARCH-005 small25 2400 updates
-  equal 16 epochs; SEARCH-001 full100 12000 updates equal 20 epochs.  Neither
-  is a 200-epoch falsification.
-- Do not search exit thresholds, fixed intervention windows, paired-PSNR
-  controllers or gap-aware handoff in route 1.  The historical HJ `[1.6,8.0)`
-  handoff belongs to suspended route 2.
-- Earlier checkpoints are diagnostics, not best-checkpoint selection.  A
-  route-1 candidate may not be scientifically killed before its registered
-  long horizon merely because an intermediate paired score is negative.
-- Existing `CLOSED_NEGATIVE` labels apply to the named implementation and its
-  tested protocol, not automatically to the parent mathematical mechanism.
-- TA_MINIMAL's direct restored-time implementation has an actual matched e200
-  negative result and remains a negative control.  Do not generalize this to
-  all time/coordinate algorithms.
-- Do not infer that the two recommended extra 4090s exist until the user
-  actually supplies them. Available resources may only run preregistered lanes
-  or evidence-gated candidates.
-- An SSH endpoint is not a compute-host identity. Before onboarding any new
-  endpoint, run `operations/paper_aio_host_identity_gate.py` against
-  `configs/PAPER_AIO_HOST_IDENTITY_REGISTRY.json`. NVIDIA GPU UUID is the
-  primary key; AutoDL machine-id is shared across containers and is not unique.
-  Duplicate endpoint and label-collision outcomes forbid a new long train.
-- `confirmation` remains inaccessible until a committed candidate-freeze
-  decision exists and all paper algorithms/baselines/claims are frozen.
-- A semantic implementation defect restarts the affected trajectory from e0.
-- Data/checkpoints stay outside Git. Git contains contracts, code, manifests,
-  hashes, compact metrics and decisions only.
-- The emergency development selection uses only the complete seed-2026 e200
-  trajectory. Seeds 2027/2028 are deferred so compute returns to ablations,
-  causal revision and independent mechanisms. Never translate this cost policy
-  into a claim that cross-seed stability has been demonstrated.
-- A canonical `CANDIDATE.json` is an action-priority interface, not an early
-  scientific pruning rule. Complete strict-pass and causally repairable
-  near-boundary mechanisms remain in the evidence-qualified frontier under
-  `DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`.
-- Full-paper milestones are descriptive until e200. Do not use intermediate
-  discovery PSNR to stop, route, revise, choose NFE, or select a checkpoint.
-- The manuscript has a pre-result branching contract, not a preselected success
-  story. Resolve exactly one of its eight Proposal/ST-CGR/AM-TNC branches only
-  after source-bound e200 exports, unified evaluation, legal runtime relations,
-  dispositions, committed claim review/freeze, and deterministic table export.
+`configs/DOCUMENT_AUTHORITY_REGISTRY.json` defines the conflict order.
 
-## Required response to ambiguity
+- Files under `archive/paper_aio/final_v10/` are canonical compact results.
+- `PROJECT_STATE.json`, `configs/FULL_DATA_METHOD_PORTFOLIO.json` and
+  `configs/PAPER_DELIVERY_COMPLETION_MATRIX.json` are append-only operational
+  ledgers. Only their final overlay/top-level current entrypoint is current;
+  nested live fields are historical.
+- `ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`, `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`,
+  `configs/LOCAL_ROUTE1_PROBES.json` and `HYPOTHESIS_LEDGER.json` are historical
+  small25 inputs and evidence. Their ACTIVE tokens do not authorize execution.
+- `configs/PAPER_AIO_UNPAIRED_V1.json` and pre-result theory/method/checklist
+  artifacts are frozen scientific inputs. Their pre-result or active schema
+  tokens remain for hash provenance, not present-tense scheduling.
+- Evidence and decisions are not rewritten merely to sound current.
 
-If a request or newer summary appears to reduce the objective to HJ-only,
-Proposal-only, handoff-only, threshold search, frozen-lane validation, or a
-single scientific winner, stop and reconcile it against both current contracts;
-do not silently reinterpret the goal.
+## Scientific hard boundaries
+
+- Never use paired metrics to control training, scheduling, algorithm choice,
+  NFE, exit time or checkpoint selection.
+- Never select the best checkpoint; e200 is primary and e150/e175/e200 is the
+  sustained window.
+- Never merge deltas across non-equivalent runtime cohorts.
+- Never open confirmation20 without a new committed claim/confirmation freeze.
+- Never treat an implementation failure, deferral or incomplete reproduction
+  as mechanism falsification.
+- Never auto-import independent proof work into the canonical result.
+- Do not claim multi-seed stability, overall SOTA or a confirmed terminal
+  singularity repair.
+
+## Changes and new compute
+
+Documentation, manuscript work and read-only analysis may proceed from the
+archived record. New training, confirmation access or algorithm search requires
+an explicit user request and a new committed decision/contract. Old run
+authorizations and successors cannot be revived.
+
+Data, checkpoints and full logs stay outside Git. Git contains code, manifests,
+hashes, compact evidence and decisions. `DISASTER_RECOVERY_CN.md` defines what
+Git-only recovery does and does not guarantee.
 
 ## Completion standard
 
-The small25 route-1 phase is complete. The current phase is not complete until
-the frozen full-data e200 lanes finish, eligible new algorithms receive their
-own full-data adjudication, external baselines are honestly reproduced or
-explicitly marked incomplete, one unified evaluation runtime is used, and the
-multi-algorithm paper evidence is frozen before confirmation20 is opened once.
-The frozen result branch and manuscript tables must also satisfy
-`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`; a positive-looking metric
-or an action-priority method alone is never completion.
+Discovery is complete. The broader paper lifecycle is not complete until
+claims, disclosures, algorithm set and confirmation policy are reviewed and
+frozen; any authorized confirmation is performed once; and manuscript tables,
+figures and text are bound to the final archive.

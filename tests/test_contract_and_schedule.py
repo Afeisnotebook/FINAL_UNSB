@@ -46,59 +46,49 @@ def test_project_level_paper_override_is_explicit_and_bounded():
     project = common.load_json("PROJECT_CONTRACT.json")
     state = common.load_json("PROJECT_STATE.json")
     paper = common.load_json("configs/PAPER_AIO_UNPAIRED_V1.json")
-    assert project["status"] == "ACTIVE_FULL_DATA_PAPER_AND_ALGORITHM_RECONSTRUCTION"
+    assert project["status"] == "DISCOVERY_COMPLETE_ARCHIVED_AWAITING_CLAIM_REVIEW"
+    assert project["completion"]["full_data_discovery_complete"] is True
+    assert project["completion"]["live_training_authorized"] is False
     assert project["paper_full_frozen"]["updates_per_lane"] == 8553 * 200
+    # ACTIVE is the immutable protocol token, not the current scheduling state.
     assert paper["status"] == "ACTIVE_FULL_DATA_PAPER_RESEARCH"
     assert state["phase"] == (
         "PAPER_AIO_DISCOVERY_ARCHIVED_FINAL_HANDOFF_"
         "AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION"
     )
+    assert state["current_execution_authorized"] is False
     portfolio = common.load_json("configs/FULL_DATA_METHOD_PORTFOLIO.json")
-    assert portfolio["methods"]["proposal"]["status"] in {
-        "running",
-        "complete_e200_pending_legal_matched_evaluation",
-    }
-    assert portfolio["methods"]["amtnc"]["status"] in {
-        "running_e195_precision_gate_passed_continuing_fixed_e200",
-        "complete_e200_scientific_gate_fail_closed_current_implementation",
-    }
+    assert portfolio["authority_scope"] == (
+        "HISTORICAL_APPEND_ONLY_OPERATIONAL_LEDGER_WITH_FINAL_OVERLAY"
+    )
+    assert portfolio["nested_running_pid_and_waiter_fields_are_current"] is False
+    final = portfolio["final_outcome_overlay"]
+    assert final["proposal"] == "pass_preregistered_full_data_gate"
+    assert final["stcgr"] == (
+        "closed_current_implementation_not_mechanism_falsified"
+    )
+    assert final["amtnc"] == (
+        "closed_current_implementation_not_mechanism_falsified"
+    )
+    assert final["hjcgr"] == "deferred_not_falsified"
+    assert final["ddsb"] == "reproduction_incomplete_not_falsified"
+    assert final["confirmation20_opened"] is False
+
+    # Historical nested records retain the exact runtime provenance.
     assert portfolio["methods"]["amtnc"]["staged_runtime_relation_version"] == (
         "sequential_method_only_recovery_v1"
     )
     assert portfolio["methods"]["amtnc"]["mechanism_falsified"] is False
-    assert portfolio["methods"]["stcgr"]["status"] == "running"
-    assert portfolio["controls_and_external"]["plain_5090A"].startswith(
-        "paused_by_explicit_user_time_priority_at_e9"
-    )
-    assert (
-        portfolio["methods"]["stcgr"]["matched_delta_status"]
-        == "unavailable_until_5090B_e200"
-    )
-    assert (
-        portfolio["methods"]["proposal"]["matched_delta_status"]
-        == "unavailable_until_5090B_e200"
-    )
-    assert (
-        portfolio["post_training_delivery"]["replacement_lane_sources"]["plain"]
-        == "5090B_MATCHED_PLAIN"
-    )
-    plain_resume = state["paper_aio_20260902"]["runs"]["5090A_plain_resume_after_stcgr"]
-    assert plain_resume["status"] == "CANCELED_BY_EXPLICIT_USER_STCGR_ONLY_PRIORITY"
-    assert plain_resume["automatic_resume_authorized"] is False
-    assert plain_resume["future_resume_requires_new_explicit_decision"] is True
-    future_control = portfolio["future_matched_plain_successor"]
-    assert future_control["stcgr_relation_status"] == (
-        "pass_two_link_cross_code_runtime_relation_admitted_in_git"
-    )
     relations = common.load_json("configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json")
     assert len(relations["relations"]["proposal"]) == 2
     assert relations["relations"]["G4-01-STRATIFIED-TIME-CONDITIONAL-GF"][
         "proof_chain"
     ]["parent_to_plain"] == "PASS_EXACT_RUNTIME_COHORT"
-    assert portfolio["methods"]["hjcgr"]["status"] == "deferred"
-    assert portfolio["methods"]["hjcgr"]["mechanism_falsified"] is False
     authorization = project["authorization_required"]
-    assert authorization["status"] == "GRANTED_FULL_DATA_PAPER_AND_ROUTE1_RECONSTRUCTION"
+    assert authorization["status"] == (
+        "HISTORICAL_EXECUTION_AUTHORIZATION_CLOSED_NO_AUTOMATIC_RESTART"
+    )
+    assert authorization["current_execution_authorized"] is False
     assert "confirmation20 access" in authorization["excludes"]
     assert "cross-host method-minus-plain comparisons" in authorization["excludes"]
     assert "paired metric training or scheduling control" in authorization["excludes"]

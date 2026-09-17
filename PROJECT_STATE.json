@@ -3,11 +3,17 @@
   "updated": "2026-09-16",
   "state_snapshot_time": "2026-09-16T12:56:39+08:00",
   "phase": "PAPER_AIO_DISCOVERY_ARCHIVED_FINAL_HANDOFF_AWAITING_CLAIM_FREEZE_AND_CONFIRMATION_DECISION",
+  "current_execution_authorized": false,
+  "historical_nested_pid_heartbeat_and_running_fields_are_current": false,
+  "document_authority_registry": "configs/DOCUMENT_AUTHORITY_REGISTRY.json",
   "active_control_entrypoint": {
     "status": "FINAL_HANDOFF_AUTHORITY_HISTORICAL_EXECUTION_PLANS_CLOSED",
     "primary": "FINAL_HANDOFF.json",
     "companions": [
       "FINAL_HANDOFF_CN.md",
+      "docs/CURRENT_PROJECT_STATE_CN.md",
+      "CLAIM_BOUNDARIES.md",
+      "configs/DOCUMENT_AUTHORITY_REGISTRY.json",
       "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
       "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json"
     ],

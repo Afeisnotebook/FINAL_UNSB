@@ -1,108 +1,64 @@
 # FINAL_UNSB
 
-这是 UNSB 项目的可审计 clean canonical 与论文研究主控仓库。full-data discovery 已完成，
-当前处于“结果已归档、等待 claim review、confirmation20 仍封存”的交接阶段。
+FINAL_UNSB 是 UNSB 六域 All-in-One 无配对恢复项目的可审计代码、协议与结果仓库。
 
-**离开旧 Codex 上下文后，一律先读 [`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)。**
-仓库里更早的“ACTIVE/正在训练/下一继任器”描述只作历史 provenance，不再授权重启任务。
-全新机器恢复与“Git中有什么/没有什么”见[`DISASTER_RECOVERY_CN.md`](DISASTER_RECOVERY_CN.md)。
+当前阶段不是“正在训练”，而是：
 
-北极星不是验证固定lane或只找一个冠军，而是同时取得外部论文基线、严格matched plain，
-以及多条由长期因果证据产生的完整算法轨迹。DT/HJ/HNEK继续是算法发现证据，不是必须保留
-原形的候选；confirmation20仍封存，paired指标不得控制训练，非等价runtime不得合并delta。
+`full-data discovery 已归档 / 等待论文 claim review / confirmation20 仍封存`
 
-仓库不搬运三个月的全部历史。它保留 deterministic UNSB canonical、最小历史证据、
-完整状态恢复、统一评估协议和持久监督链。最终事实以`FINAL_HANDOFF.json`、
-`archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`和最终 portfolio 为准；
-`PROJECT_STATE.json`保留更完整的执行历史。
+## 新环境从这里开始
 
-## 接手顺序
-
-无论人还是 Codex，必须依次阅读：
+无论人还是没有旧对话的 Codex，按以下顺序阅读：
 
 1. [`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)
 2. [`FINAL_HANDOFF.json`](FINAL_HANDOFF.json)
-3. [`archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`](archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json)
-4. [`archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`](archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json)
-5. [`research/paper_aio/RESEARCH_HANDOFF_CN.md`](research/paper_aio/RESEARCH_HANDOFF_CN.md)
-6. [`DISASTER_RECOVERY_CN.md`](DISASTER_RECOVERY_CN.md)
-7. 只有需要追溯时再读`START_HERE_CN.md`、`PROJECT_STATE.json`和历史合同。
+3. [`docs/CURRENT_PROJECT_STATE_CN.md`](docs/CURRENT_PROJECT_STATE_CN.md)
+4. [`CLAIM_BOUNDARIES.md`](CLAIM_BOUNDARIES.md)
+5. [`archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`](archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json)
+6. [`research/paper_aio/RESEARCH_HANDOFF_CN.md`](research/paper_aio/RESEARCH_HANDOFF_CN.md)
+7. [`DISASTER_RECOVERY_CN.md`](DISASTER_RECOVERY_CN.md)
 
-只有修改small25历史证据或候选来源时，才继续阅读
-`LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md`、`ACTIVE_LOCAL_ROUTE1_PLAN_CN.md`和
-`configs/LOCAL_ROUTE1_PROBES.json`。
+机器可读的文档权威顺序在
+[`configs/DOCUMENT_AUTHORITY_REGISTRY.json`](configs/DOCUMENT_AUTHORITY_REGISTRY.json)。
+不要按文件名中的`ACTIVE`、旧 PID 或旧 heartbeat 判断当前状态。
 
-## 最终 discovery 状态（2026-09-16）
+## 最终 discovery 结论
 
-Proposal-only 是唯一通过预注册 full-data 长期门的自研方法：late-three 宏 PSNR delta
-`+1.723565 dB`，e200 delta `+0.839347 dB`。ST-CGR 与 AM-TNC 当前实现失败，但不判死
-父机制；HJCGR deferred，DDSB reproduction incomplete。CUT、DCLGAN、CycleGAN 的 e200
-绝对 PSNR 均高于 Proposal，所以不能宣称总体 SOTA。完整数字、披露与资产位置见最终交接。
+- Proposal-only 是唯一通过预注册 full-data 长期门的自研算法：late-three 宏 PSNR
+  delta `+1.723565 dB`，e200 delta `+0.839347 dB`。
+- ST-CGR 与 AM-TNC 关闭当前实现，不判死其父机制。
+- HJCGR 为 deferred；DDSB 为 reproduction incomplete。
+- CUT、DCLGAN、CycleGAN 的固定 e200 绝对 PSNR 均高于 Proposal，不能声称总体 SOTA。
+- 当前只有 seed 2026，不能声称跨 seed 稳定。
+- terminal low-variance/singular-drift 假设未确认，不能宣称或加入对应修复模块。
 
-以下旧阶段说明保留作历史，**不再是当前调度状态**。
+协议为每侧8,553张、batch1、seed2026、200 data epochs（1,710,600 updates）、固定e200
+主表、e150/e175/e200 sustained；不选最佳 checkpoint，不用 paired 指标控制训练。
 
-## 历史阶段快照（2026-09-12，已关闭）
+## 当前下一门
 
-4090A的full plain已经完成并封存，现在运行AM-TNC；5090A运行ST-CGR；5090C运行
-Proposal-only；5090B的CUT与CycleGAN均已完成e200，通过exact-runtime/容量门的fresh-e0
-matched plain现已独占该卡继续到e200；本地GTX1660独占运行DCLGAN。所有健康训练均有
-full-state、heartbeat、监督器、export/relay和统一评估后继，不依赖当前对话存活。
+先完成论文 claim review，冻结主张、披露、算法集合与 confirmation policy。只有新的明确
+授权才能打开 confirmation20、增加 seed 或重新启动科学计算。旧服务器队列和 successor
+全部没有自动恢复权。
 
-4090A原`/home/yc/unsb_cov`与完整Conda环境曾被误删，随后AM-TNC在e178暴露float32
-中间度量归约溢出。当前健康训练已经迁入源码绑定的`478211c`恢复run和真实存在、逐文件
-验签的隔离runtime；只在原float32归约产生非有限值时用float64重算该度量，不修改有限路径、
-算法公式、超参、采样或恢复状态。训练已越过原故障点，guard会在真实故障时重验runtime和
-最新full-state后exact resume。旧prefix和deleted inode都不是当前恢复权威；最新PID、哈希、
-边界与交付链只看`PROJECT_STATE.json`及其`latest_live_status`。
+## Git-only 恢复
 
-论文结论仍未冻结：Proposal与ST-CGR必须等待合法的5090B matched plain关系，AM-TNC只
-使用4090A同宿主plain；所有方法主表使用e200，sustained固定为e150/e175/e200。DDSB因
-权威源码/公式不足保持`reproduction_incomplete`，不能用猜测实现补表。
-
-Proposal、ST-CGR和AM-TNC的共同数学母题、严格非重复关系及可写/不可写主张见
-[`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`](research/paper_aio/ALGORITHM_THEORY_MAP_CN.md)。
-它们与通用Monte Carlo方差缩减、timestep sampling、gradient surgery以及最新bridge
-endpoint工作的重叠和投稿边界见
-[`research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md`](research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md)。
-small25的多算法终局仍是算法来源证据，不是full-data结果替代品；单seed成本策略也不等于
-跨seed稳定性证明。
-
-结果到达后的写作不能临时选择故事。八种Proposal/ST-CGR/AM-TNC通过/失败组合、固定图表、
-披露项和claim gate已冻结在
-[`research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md`](research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md)，
-机器合同为[`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`](configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json)。
-它不预定赢家，也不包含任何中间性能结论。
-
-## small25路线一入口（当前用于证据与审计）
-
-独立研究runner位于 `research/local_route1`，不调用已暂停的
-`production.train_lane`。默认使用冻结manifest、本机small25视图、seed 2026和
-`E:\UNSB_Expl\runs\FINAL_UNSB_LOCAL_ROUTE1_E200` 作为Git外运行目录。
-
-```powershell
-python -m research.local_route1.run --stage lineage
-python -m research.local_route1.run --stage gate
-python -m research.local_route1.run --stage anchors --lane plain --resume
-python -m research.local_route1.run --stage anchors --lane hj --resume
-python -m research.local_route1.run --stage anchors --lane hnek --resume
-python -m research.local_route1.run --stage evaluate
-python -m research.local_route1.run --stage anchors --lane dt --resume
-python -m research.local_route1.run --stage audit
-python -m research.local_route1.run --stage derive
+```bash
+python tools/verify_git_only_recovery.py
 ```
 
-顺序门表达科学依赖；独立HJ/HNEK可在隔离run root并行，但plain比较和proxy/DT门仍须
-验收。训练中间PSNR不会触发早停；`--engineering-stop-after-epoch`只用于最多5 data
-epochs的可恢复分块，不能形成科学裁决。`candidate`阶段必须先存在完整因果图谱、
-derivation card、已登记实现和可执行门禁，不能仅凭候选名称启动长训。
+Git 已足以在新机器恢复研究状态、代码、协议、最终数字和论文讨论上下文；数据像素、模型
+checkpoint和完整日志仍需要私有二进制冷备份。详见`DISASTER_RECOVERY_CN.md`。
 
-## 历史执行入口（当前暂停）
+## 历史材料
 
-- 训练：`python -m production.train_lane`
-- 评估：`python -m production.evaluate_lane`
-- 排名：`python -m production.rank_lanes`
+历史计划、合同、evidence和decision保留用于审计，不是当前调度入口。分类和重构前快照见
+[`docs/HISTORICAL_PROVENANCE_INDEX_CN.md`](docs/HISTORICAL_PROVENANCE_INDEX_CN.md)。
 
-旧UNSB的网络/数据代码保留在 `src/` 作为嵌入式库；旧 `train.py/test.py` 已移除。
-服务器安装、运行、评估和回传脚本保留在 `scripts/` 与 `server_tasks/` 作为
-provenance。旧route1远端队列及其嵌入式successor只作历史证据，不再是调度权威；当前行动
-严格从`PROJECT_STATE.json`的`active_control_entrypoint`和`next_gate`进入。
+## 验证
+
+```bash
+python tools/verify_git_only_recovery.py
+python tools/validate_contracts.py
+python -m pytest -q
+```

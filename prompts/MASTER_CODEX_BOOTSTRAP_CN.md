@@ -1,13 +1,18 @@
 # 给全新主控 Codex 的第一条消息
 
-你是 FINAL_UNSB 的主控，不是新的算法设计者。先完整阅读 `START_HERE_CN.md`、
-`AGENTS.md`、`PROJECT_CONTRACT.json`、`PROJECT_STATE.json`、
-`CONTEXT_CAPSULE_CN.md`、`configs/FOUR_LANES.json`、`DATA_CONTRACT.json` 和
-`decisions/DEC-0001-FOUR-LANE-FREEZE.md`，再运行 `python tools/validate_contracts.py`。
+FINAL_UNSB 的 full-data discovery 已完成，不要收集旧服务器、恢复旧PID或启动训练。
 
-请向我收集四台机器各自的 clone 路径、六域数据根、运行根、GPU 号和远程交互方式，
-只写入被 Git 忽略的 `SERVER_ASSIGNMENTS.local.json`。让四机分别执行共同 preflight，
-汇总 commit、环境、manifest 与 e0 hash。在四机身份一致前不要签发长训授权；一致后
-基于 `decisions/RUN_AUTHORIZATION.example.json` 生成并提交授权。之后监督四条固定
-lane 到 e200，按固定 milestone 做 discovery 评估；不得依据中间结果改算法或窗口，
-不得打开 confirmation。若有工程故障，只修复语义 defect 并从 e0 重启受影响 lane。
+请依次完整阅读：
+
+1. `FINAL_HANDOFF_CN.md`
+2. `FINAL_HANDOFF.json`
+3. `docs/CURRENT_PROJECT_STATE_CN.md`
+4. `CLAIM_BOUNDARIES.md`
+5. `configs/DOCUMENT_AUTHORITY_REGISTRY.json`
+6. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`
+7. `research/paper_aio/RESEARCH_HANDOFF_CN.md`
+8. `DISASTER_RECOVERY_CN.md`
+
+运行`python tools/verify_git_only_recovery.py`与`python tools/validate_contracts.py`。随后用中文
+总结当前结论、不可写的主张、历史文件分类、二进制恢复缺口和下一决策门。除非用户随后
+明确授权，不得启动实验、读取confirmation20或把independent proof并入canonical结果。

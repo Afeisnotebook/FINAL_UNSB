@@ -1,0 +1,71 @@
+{
+  "schema": "final-unsb-document-authority-registry-v1",
+  "status": "CURRENT_AUTHORITY_EXPLICIT_HISTORICAL_EXECUTION_QUARANTINED",
+  "captured_at": "2026-09-17T03:00:00+08:00",
+  "current_phase": "DISCOVERY_ARCHIVED_CLAIM_REVIEW_PENDING_CONFIRMATION20_SEALED",
+  "authority_order": [
+    "FINAL_HANDOFF_CN.md",
+    "FINAL_HANDOFF.json",
+    "docs/CURRENT_PROJECT_STATE_CN.md",
+    "CLAIM_BOUNDARIES.md",
+    "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
+    "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json",
+    "research/paper_aio/RESEARCH_HANDOFF_CN.md",
+    "DISASTER_RECOVERY_CN.md",
+    "PROJECT_CONTRACT.json",
+    "PROJECT_STATE.json"
+  ],
+  "current_primary": {
+    "FINAL_HANDOFF_CN.md": "human handoff, final conclusions, next gate and asset map",
+    "FINAL_HANDOFF.json": "machine-readable current outcome and boundaries",
+    "docs/CURRENT_PROJECT_STATE_CN.md": "short current-state explanation for a blank-context reader",
+    "CLAIM_BOUNDARIES.md": "current allowed and forbidden paper claims",
+    "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json": "hash-bound compact archive inventory",
+    "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json": "canonical final empirical result",
+    "configs/GIT_ONLY_RECOVERY_MANIFEST.json": "Git-only and external-binary recovery boundary"
+  },
+  "frozen_scientific_inputs_not_live_schedules": {
+    "configs/PAPER_AIO_UNPAIRED_V1.json": "the ACTIVE token is a frozen protocol-schema value, not evidence of a running job",
+    "configs/PAPER_ALGORITHM_THEORY_BUNDLE.json": "pre-result theory freeze retained unchanged",
+    "configs/PAPER_BASELINE_PORTFOLIO.json": "pre-result baseline scope retained unchanged",
+    "configs/PAPER_AIO_MATCHED_RUNTIME_RELATIONS.json": "admitted comparison relations retained unchanged",
+    "configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json": "pre-result anti-story-drift contract retained unchanged",
+    "research/paper_aio/METHODS_PROTOCOL_DRAFT_EN.md": "hash-bound pre-result methods text",
+    "research/paper_aio/REPRODUCIBILITY_CHECKLIST_EN.md": "hash-bound pre-result checklist",
+    "research/paper_aio/LIMITATIONS_PRE_RESULT_EN.md": "hash-bound pre-result limitation boundary",
+    "LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md": "historical small25 scientific contract used in fingerprints",
+    "ACTIVE_LOCAL_ROUTE1_PLAN_CN.md": "historical route-1 completion record; ACTIVE in filename is not current scheduling authority",
+    "configs/LOCAL_ROUTE1_PROBES.json": "historical route-1 protocol input; ACTIVE_LOCAL_RESEARCH is not a live-job state",
+    "HYPOTHESIS_LEDGER.json": "historical discovery ledger; ACTIVE_LOCAL_ROUTE1_DISCOVERY is not current authorization"
+  },
+  "pre_result_authoring_constraints": {
+    "research/paper_aio/ALGORITHM_THEORY_MAP_CN.md": "hash-bound frozen mathematical boundary; PRE-RESULT prevents result-driven derivation edits and all execution tense is historical",
+    "research/paper_aio/RELATED_WORK_NOVELTY_BOUNDARY_CN.md": "hash-bound frozen primary-source collision audit; stale execution tense is historical",
+    "research/paper_aio/MANUSCRIPT_RESULT_BRANCHING_OUTLINE_CN.md": "hash-bound pre-result anti-story-drift outline; current claims come only from CLAIM_BOUNDARIES.md"
+  },
+  "historical_append_only_ledgers": {
+    "PROJECT_STATE.json": "only top-level phase, active_control_entrypoint and next_gate are current; nested PIDs/heartbeats are provenance",
+    "configs/FULL_DATA_METHOD_PORTFOLIO.json": "operational history with a final-result overlay; nested running fields are not current",
+    "configs/PAPER_DELIVERY_COMPLETION_MATRIX.json": "delivery history with a final-result overlay; old waiters and PIDs are not current",
+    "evidence/": "immutable compact observations and receipts",
+    "decisions/": "immutable chronological decisions"
+  },
+  "retired_or_tombstoned_entrypoints": {
+    "ACTIVE_PAPER_AIO_PLAN_CN.md": "closed execution-plan tombstone",
+    "LOCAL_PREFLIGHT_CN.md": "historical preflight instructions, not a current validation request",
+    "prompts/MASTER_CODEX_BOOTSTRAP_CN.md": "redirects blank-context readers to final handoff; cannot authorize training",
+    "prompts/SERVER_CODEX_BOOTSTRAP_CN.md": "retired server prompt; new execution requires a new committed authorization",
+    "configs/FOUR_LANES.json": "suspended historical plan",
+    "COMPUTE_BUDGET.json": "suspended historical estimate"
+  },
+  "hard_interpretation_rules": {
+    "old_pid_or_heartbeat_means_job_is_live": false,
+    "active_token_inside_frozen_protocol_authorizes_execution": false,
+    "historical_nested_running_status_overrides_final_portfolio": false,
+    "independent_proof_automatically_changes_canonical_result": false,
+    "confirmation20_authorized": false,
+    "best_checkpoint_selection_allowed": false,
+    "cross_non_equivalent_runtime_delta_allowed": false
+  },
+  "historical_snapshot_commit_before_restructure": "17cd2edeb5263d7e3b46cf1f9ed24d9ab1854488"
+}

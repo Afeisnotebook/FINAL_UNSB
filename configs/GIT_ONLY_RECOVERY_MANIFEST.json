@@ -16,6 +16,9 @@
   "canonical_git_assets": {
     "human_entrypoint": "FINAL_HANDOFF_CN.md",
     "machine_entrypoint": "FINAL_HANDOFF.json",
+    "current_state_document": "docs/CURRENT_PROJECT_STATE_CN.md",
+    "claim_boundaries": "CLAIM_BOUNDARIES.md",
+    "document_authority_registry": "configs/DOCUMENT_AUTHORITY_REGISTRY.json",
     "disaster_recovery_guide": "DISASTER_RECOVERY_CN.md",
     "fresh_context_prompt": "prompts/GIT_ONLY_PAPER_DISCUSSION_BOOTSTRAP_CN.md",
     "archive_manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",

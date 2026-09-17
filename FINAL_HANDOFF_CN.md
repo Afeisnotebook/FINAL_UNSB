@@ -8,6 +8,9 @@
 > “下一继任器”文字均保留作历史 provenance，不再具有调度效力。不要根据旧 PID、旧 SSH
 > 端点、旧 heartbeat 或旧队列重启任何任务。
 
+文档冲突或`ACTIVE/running`措辞的解释一律服从
+`configs/DOCUMENT_AUTHORITY_REGISTRY.json`；当前简明状态见`docs/CURRENT_PROJECT_STATE_CN.md`。
+
 ## 1. 已经得到的结论
 
 完整 full-data discovery 已结束。共同协议为每侧 8,553 张、batch size 1、seed 2026、
@@ -127,10 +130,13 @@ ST-CGR/AM-TNC 当前版本、打开旧 5090B successor、选择最佳 checkpoint
 
 1. 本文件；
 2. `FINAL_HANDOFF.json`；
-3. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`；
-4. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`；
-5. `research/paper_aio/RESEARCH_HANDOFF_CN.md`；
-6. 只有需要追溯时再读历史合同、计划与 decisions。
+3. `docs/CURRENT_PROJECT_STATE_CN.md`；
+4. `CLAIM_BOUNDARIES.md`；
+5. `configs/DOCUMENT_AUTHORITY_REGISTRY.json`；
+6. `archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json`；
+7. `archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`；
+8. `research/paper_aio/RESEARCH_HANDOFF_CN.md`；
+9. 只有需要追溯时再读历史合同、计划与 decisions。
 
 仓库中包含本交接文件的实际 Git commit 以 `git log -1` 为准；本文件不内嵌自身 commit，
 以避免自引用哈希不可能稳定的问题。

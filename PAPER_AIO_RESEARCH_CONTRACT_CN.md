@@ -1,6 +1,10 @@
 # FINAL_UNSB 全量论文实验与算法重构契约
 
-状态：`ACTIVE_FULL_DATA_PAPER_RESEARCH`  
+> 当前解释（2026-09-17）：本文件是已经执行完成的冻结科学协议，不是live plan。
+> 最终结果见`FINAL_HANDOFF_CN.md`和`archive/paper_aio/final_v10/`；不得从本文宿主、队列或
+> “当前”措辞恢复任务。下面的ACTIVE token保留为历史协议身份。
+
+历史schema状态：`ACTIVE_FULL_DATA_PAPER_RESEARCH`
 生效：2026-09-02 用户明确授权  
 历史父阶段：small25 路线一已完成，证据保留但不再限制 full-data runner
 

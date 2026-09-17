@@ -1,262 +1,46 @@
-# 三个月研究的最小上下文胶囊
+# FINAL_UNSB 最小上下文胶囊
 
-## 最终交接覆盖（2026-09-16）
+这份胶囊只保存会影响下一步判断的当前事实，不保存旧PID或在线队列。
 
-本胶囊后续内容现在只用于历史追溯。full-data discovery 已完成，权威入口已迁移到
-[`FINAL_HANDOFF_CN.md`](FINAL_HANDOFF_CN.md)和`FINAL_HANDOFF.json`；完整 compact 结果位于
-`archive/paper_aio/final_v10/`。不得根据本文件中旧的在线分配、PID、队列或计划恢复任务。
-confirmation20 仍封存，下一步是 claim review，不是继续旧训练。
+## 研究是怎样走到这里的
 
-这份文件专门给完全没有旧对话上下文的新 Codex。它只保留会改变最后一轮决策的
-事实，不要求接手者重新阅读旧仓库。
+1. 早期在原始 UNSB 上观察到 DT、HJ、HNEK 等方法的阶段性正收益，但源码随机性和时间
+   尺度混乱使消融难以解释。
+2. 项目建立 deterministic clean UNSB，随后发现许多旧实验实际只覆盖很短 data epochs，
+   不能据此判定长期机制。
+3. small25路线一把DT/HJ/HNEK及后续机制当作因果探针，完成真实e200图谱，并产生
+   Proposal-only、HJCGR、AM-TNC及ST-CGR等构造。
+4. full-data阶段固定每侧8,553张、batch1、seed2026、e200，完成plain、Proposal、
+   ST-CGR、AM-TNC和外部基线的统一评估。
+5. 最终结果证明Proposal-only能保持相对plain的长期收益；ST-CGR/AM-TNC当前实现不能。
 
-## 0.00 2026-09-02全量论文阶段覆盖（当前最高优先级）
+核心问题从来不是寻找更聪明的退出阈值，而是构造能与UNSB长期动力学相容、具有明确
+自稳定/无偏/条件方差性质的算法。最终正证据支持的是Proposal的player-selective、
+post-D/E条件iid双视图G/F估计；并不证明所有方差缩减都有效。
 
-用户已明确授权全量8553张/侧、batch1、seed2026、真实e200论文实验，并要求长基线运行
-期间继续算法重构。这覆盖0.1节“full-data未激活”的旧权限边界，但不覆盖以下安全边界：
-confirmation20继续封存；paired指标不能控制训练；不同宿主delta不得合并；checkpoint
-不得跨宿主续接；一个action-priority候选不等于唯一科学算法。
+## 当前结论
 
-当前4090A的full plain已完成并封存，现运行同宿主AM-TNC；5090B的CUT已完成e200，
-CycleGAN也已完成e200，通过exact-runtime门的fresh-e0 matched plain现已独占运行；5090C运行Proposal；
-5090A的plain完整暂停于e9且所有自动恢复链均已退役，当前只运行新构造ST-CGR的
-full-data/e200。终端低方差奇异漂移未通过跨算法/跨域证据门，因此没有生成终端修复算法；
-ST-CGR来自已确认的time-stratum梯度异方差，并保持原生time边际与条件梯度期望。DDSB
-没有找到作者公开源码，当前只可标记`reproduction_incomplete`。本地GTX1660独占运行
-DCLGAN；算法公式与论文主张边界见`research/paper_aio/ALGORITHM_THEORY_MAP_CN.md`。
-结果到达后的八分支写作和claim gate见`configs/PAPER_MANUSCRIPT_BRANCHING_CONTRACT.json`；
-它不预定赢家，也显式保留三条均失败的论文路线。
+- Proposal-only：通过full-data长期门，late-three `+1.723565 dB`，e200 `+0.839347 dB`。
+- ST-CGR：当前实现失败，late-three `-0.692040 dB`，e200 `-2.744077 dB`。
+- AM-TNC：当前实现失败，late-three `-2.107622 dB`，e200 `-4.072023 dB`。
+- matched plain e200：PSNR 19.675085、SSIM 0.642470、LPIPS 0.236559。
+- Proposal e200：PSNR 20.514432、SSIM 0.663835、LPIPS 0.221469。
+- CUT/DCLGAN/CycleGAN e200绝对PSNR分别为23.728935/23.328284/21.655429。
 
-全量科学commit为`31f2fb8...`、协议指纹为`68f53a8e...`。较新commit只可增加门禁、
-持久编排、候选代码与compact evidence，不能修改在飞科学轨迹。当前合同见
-`PAPER_AIO_RESEARCH_CONTRACT_CN.md`，执行状态见`ACTIVE_PAPER_AIO_PLAN_CN.md`。
-持久heartbeat `final-unsb-goal`已在2026-09-08修复乱码和e63旧恢复语义，保持两小时低频、
-仅失败通知且不保存服务器凭据。
+这不是总体SOTA结论。论文的可靠主线是UNSB内部长期条件梯度方差控制及其边界。
 
-当前行动权威是`PROJECT_STATE.json:active_control_entrypoint`及同级`next_gate`。文件后部
-保留的RF-AMMCRB/RF-MCRB/G3等旧route1字段是历史证据，不得据此恢复旧successor；这一
-防漂移边界已在2026-09-12明确提交。
+## 当前科学边界
 
-## 0. 2026-08-29 历史优先级覆盖
+- 仅seed2026；confirmation20未打开；不选最佳checkpoint。
+- ST-CGR/AM-TNC只关闭当前实现；HJCGR、DDSB不能写成机制失败。
+- terminal singular drift未确认。
+- DCLGAN为standalone fixed-protocol外部基线，没有matched delta。
+- runtime事故、legacy one-sample stream phase offset及AM-TNC数值恢复必须披露。
 
-本胶囊原来的结尾曾把项目收口为“四张4090、四条冻结lane”。用户随后明确暂停
-4090，并要求继续本地路线一算法发现。复核又发现旧 local long gate 实际只有
-16--20 data epochs，而历史 HJ 的收益在 e125 后才出现。因此：
+## 现在做什么
 
-- 当前目标不是HJ-only；HJ只是第一项延迟收益时间正对照；
-- DT、HJ、HNEK是首层长期锚点，PCOA/LBST/PTQ/DCUM/AEB等是算法生成证据池；
-- 旧短程失败关闭当前实现/协议，不自动判死父机制；
-- 当时目标改为建立多方法e200长期图谱并据此构造新算法；该图谱现已完成，见0.2节；
-- 当时4090、固定四lane和HJ有限handoff全部暂停；4090禁用随后被0.1节的明确授权
-  覆盖，但固定四lane和handoff至今仍暂停。
+下一步是论文claim review和confirmation policy freeze，不是自动重训。若之后明确授权新研究，
+必须创建新的decision/contract，不能复活旧active plan。
 
-下文第5--7节保留的是2026-08-28形成旧四lane计划时的推理，已降级为历史背景；
-当前执行以 `LOCAL_ROUTE1_RESEARCH_CONTRACT_CN.md` 和最新decision为准。
-
-### 0.0 2026-09-01路线一终点（接手者优先读）
-
-small25、seed2026、batch1、共同e0、真实e200的路线一已完成，不再处于“等待算法搜索”
-状态。4090同宿主有两条严格算法：HJCGR为`+0.820751/+0.873408 dB`，
-Proposal-only为`+0.541507/+0.451092 dB`；AM-TNC为正但LPIPS脆弱。科学交付是多个
-算法集合，HJCGR只拥有下一步action priority。
-
-5090同seed运行时证据显示：Proposal-only再次严格通过`+0.845316/+0.573796 dB`，
-AM-TNC也严格通过；HJCGR晚三点仍为`+0.612437 dB`，但e200为`-0.094231 dB`。
-所以Proposal-only是唯一跨两宿主均严格通过的方法；HJCGR是4090收益最高但运行时终点
-敏感的方法；AM-TNC是独立几何方向。这些不能平均成多seed结论。
-
-数学上，Proposal-only和HJCGR共享post-D/E条件iid双视图G/F梯度均值，固定父状态下
-保持条件期望并把within-batch条件协方差减半。HJ-PCNR一视图完整e200失败，证明收益不
-来自重新采样本身；HPCGR相对正HNEK父场下降，证明共享定理不意味着任意父对象都获益。
-最终8条算法、474条反转证据、140条采样方差证据和13项ledger已通过fail-closed审计。
-
-权威入口：
-
-- `decisions/DEC-20260901-ROUTE1-RELATED-MULTI-ALGORITHM-TERMINAL.md`；
-- `evidence/remote_route1_offload/RELATED_MULTI_ALGORITHM_TERMINAL_20260901.json`；
-- 本地完整结果目录
-  `E:\UNSB_Expl\runs\FINAL_UNSB_LOCAL_ROUTE1_E200\related_multi_algorithm_final_4090`。
-
-边界仍然是：单seed、small25开发证据；全量10000张/200 epochs、多seed与confirmation20
-均未验证。下一阶段不得因`CANDIDATE.json`只有一个action入口而删掉Proposal-only或
-AM-TNC，也不得把5090解释成第二seed。
-
-### 0.1 2026-08-30 受控远端算力覆盖
-
-用户后来明确提供一台 RTX 4090 和一台全新 RTX 5090，并授权将长程任务外包。这个
-授权没有恢复旧“四卡四lane”方案，也没有改变路线一目标。当前固定职责是：
-
-- 本地 GTX 1660 继续 canonical small25/e200 轨迹；
-- RTX 4090 已完成host-matched锚点与权威因果图谱，当前是Generation-1候选排名和
-  后续同运行时seed/消融的权威节点；
-- RTX 5090 已独立通过代码、数据、e0、resume和确定性门，当前运行候选的第二个
-  host-matched跨运行时副本；其结果单独报告，不能并入4090排名；
-- 只能在同一主机内做 `method - plain`，不同主机 checkpoint 和分数不得拼接；
-- 服务器虽然有全量数据，当前仍只运行 small25/e200。full-data、route2 和
-  confirmation20 均未激活。
-
-最新算力和门禁事实见 `PROJECT_STATE.json`、
-`decisions/DEC-20260830-ROUTE1-REMOTE-OFFLOAD.md` 和
-`decisions/DEC-20260830-ROUTE1-REMOTE5090.md`。
-
-### 0.2 当前算法发现快照
-
-- 终点接口现有独立fail-closed完成审计：`280d685`要求本地relay后的产物同时包含行动
-  主项、两个递补、完整4090/5090宿主分离研究前沿、逐域e150/e175/e200轨迹、数学与
-  target-blind边界、DT/HJ/HNEK和474/140因果证据。机器通过仍不能代替最终人工科学
-  复核、Git compact adjudication和push。审计守护PID 5332当前等待精确终交付。
-- 15:00的无paired工程心跳为RF-AMMCRB e169、RF-MCRB e184；e200结果尚未出现，六个
-  训练/裁决后继stderr均为0。唯一`CANDIDATE.json`仍只是行动优先级，未把多候选前沿
-  收缩为单算法。
-
-- 4090长期图谱已冻结为474条reversal row和140条sampling-variance row；DT/HJ/HNEK
-  继续只是因果探针。
-- Generation-1从图谱生成BVCP与PC-RSMG。最初RSMG因复用pre-D随机bundle而
-  `engineering_invalid`，PC-RSMG是从共同e0重启的语义修正版。
-- BVCP冻结当前实现已完成e200并为`long_horizon_negative_current_implementation`；
-  这不证伪rollout-distribution父机制。
-- PC-RSMG full与两项来源绑定消融都已完成真实e200。full late-three为
-  `+0.620959 dB`但e200为`-0.001379 dB`；proposal-only为late-three
-  `+0.541507 dB`、e200 `+0.451092 dB`并通过完整护栏；observable-only与plain精确
-  一致。按严格资格优先规则，proposal-only是当前seed2026开发主候选。
-- 用户随后启用紧急单seed开发协议：完整seed2026/e200用于冻结开发候选，seed2027/2028
-  延期，释放算力优先做赢家消融、全负缺陷后的唯一数学修订和新的独立机制；这不构成
-  跨seed稳定性证明。5090的PCNR与旧AM-MCRB已完成，后者因固定绝对余量事故只作
-  implementation-invalid诊断；当前从共同e0并行运行RF-AMMCRB与RF-MCRB到真实e200。
-  只有完整terminal receipt可触发宿主内排名和最多两条4090复跑。若独立条件采样与
-  RF-AMMCRB都在同宿主严格通过，兼容门最多允许一个两组件合成。相应后继链仍为
-  独立持久进程，不依赖Codex会话。最新epoch、哈希和后继commit只从
-  `PROJECT_STATE.json`读取。
-- 一个canonical主候选只是后续行动接口，不是研究剪枝原则。严格通过或具有单一
-  target-blind可修复缺陷的e200近边界机制保留为可信前沿；当前5090双流完成后最多并行
-  两条由终点证据授权的合成、机制消融或一次数学修订，规则冻结在
-  `decisions/DEC-20260831-EVIDENCE-QUALIFIED-MULTI-CANDIDATE-ADVANCEMENT.md`。
-- 该原则现已落实到跨宿主执行：5090上的两条修复父算法及其合格消融不会因小幅分差
-  只留一条；最多两条完整e200 strict/near/evidence-backed alternate算法可通过公式、
-  源码、training commit和
-  terminal哈希绑定的便携组合进入4090，从该机共同e0并行重训。跨主机checkpoint不迁移、
-  delta不合并。alternate必须late-three或e200仍正；两者均非正的当前算子仍关闭。这一
-  分配扩展不放松最终严格门或G3父项条件。实现与三段持久链部署见
-  `evidence/remote_route1_offload/EVIDENCE_BACKED_ALTERNATE_RELAY_CHAIN_REDEPLOYED_20260831.json`。
-- 该原则也已落实到终交付格式：`CANDIDATE.json`只给默认行动优先级，新增
-  `RESEARCH_FRONTIER.json`保存所有机制型完整分支及其不同处置；4090同宿主排名和5090
-  宿主分离消融证据不会被压成一个名字。持久终交付器现冻结在`280d685`，并把
-  DT/HJ/HNEK锚点、474/140图谱、假设谱系和所有候选逐域绝对/相对轨迹带入主结果；
-  同时显式区分科学结论、工程失败、proxy失真和未测试假设。旧`874a09b`等待器在两个
-  终点输入均不存在时退役；新等待器远端7项测试和静态边界通过。见
-  `decisions/DEC-20260831-COMPLETE-MULTI-CANDIDATE-FRONTIER-DELIVERY.md`。
-- 远端终点无需人工搬运：`11be901`的本地持久接收器会在4090原子pointer出现后，将
-  `CANDIDATE/ALTERNATES/RESEARCH_FRONTIER/RESULTS/REPORT`和两端前沿验hash拉回
-  `runs/FINAL_UNSB_LOCAL_ROUTE1_E200/complete_frontier_final_4090`。
-- 旧G3-01因复用了数值语义失真的AM-MCRB已被硬关闭；替代G3-02只组合严格父项和
-  residual-feasible Adam屏障，预实现提交为`12468d1`，没有父项receipt和target-blind
-  兼容门就不能长训。用户要求保留多个证据充分的算法后，又增加了严格条件式G3-03：
-  它只在RF-MCRB同宿主严格通过时，把同一条件采样父项与Euclidean residual-feasible
-  最近点组合。G3-02/G3-03分别检验Adam与Euclidean优化几何，不是强度网格；两者均由
-  `733645e`的4090持久后继守门，未满足父项和兼容门就不启动。
-
-## 1. 原始问题
-
-我们从 UNSB 的 All-in-One 六域无配对图像恢复出发，曾观察到多个方法在训练早期
-或中期出现正PSNR窗口，但继续训练后相对plain反转。DT、HJ、HNEK是三个主要历史
-算法，后来又检查了time-active、path consistency、teacher、time sampling、domain
-marginal、antithetic latent和耦合优化器等方向。
-
-问题曾被错误简化成“找到更聪明的退出阈值”。用户真正授权的路线一是：从UNSB和
-历史反转证据出发重新构造数学算法，争取长期收益；路线二才是：当算法必须有限期
-介入时，检查native UNSB能否继承完整状态。
-
-## 2. 干净基座为何必要
-
-官方 `ResnetBlock_cond.forward()` 在循环中重复执行 `out = layer(x)`，显式time
-embedding和首段卷积不会按论文意图顺序传播。更早的非确定性CUDA reflection-pad
-反向又会让同seed训练漂移，足以覆盖小消融。当前canonical因此：
-
-- 保留官方time-dead语义作为实际baseline；
-- 用确定性reflection padding；
-- 固定CuBLAS、cuDNN、TF32与全部RNG；
-- 训练保持官方unpaired B sampling；
-- 方法从同一seed/e0出发，完整保存G/F/D/E及优化器、scheduler、RNG和方法状态。
-
-这不意味着官方time-dead是理论上正确的，只意味着它是当前性能更强且已审计的实际
-baseline。
-
-## 3. 已关闭方向
-
-### TA_MINIMAL / KCK
-
-UNSB论文明确描述共享time-conditional endpoint predictor，官方代码却功能性
-time-dead。但严格的FINAL-1实验让plain和TA_MINIMAL从相同e0、相同随机bundle训练
-到e200：TA为19.2485 dB，plain为20.3407 dB，delta `−1.09224 dB`，五域全负。
-因此“直接恢复旧time branch会提高恢复质量”被否定。
-
-KCK在同一TA_MINIMAL e5 full-state上做共同锚点分叉，到e10时目标path discrepancy
-反而恶化3.4165%，4/4时间组合和5/5域均反向；不继续调lambda或延长。
-
-### SEARCH-005路线一
-
-路线一确实构造和测试了target-blind、自消隐或有不变量的算子，而非只搜索退出点。
-其中PCOA在400/800/1200为正，到1600/2400反转；其范数保持修订NPOOA在400更好、
-800更差。其他DT/HJ/HNEK派生算子也未通过2400步门禁。结论是“本轮算子没有持续
-赢家”，不是“所有可能算法在数学上已被证明不可能”。
-
-### DCUM等固定机制
-
-DCUM强制B从A同域、不同stem选择。它短程出现过正信号，但与HNEK组合在full100的
-4k降到−2.506 dB。LBST/PTQ/AEB当前实现也为负。它们不能换名进入最后四lane。
-
-## 4. 仍存活的两条历史线
-
-### HJ finite navigation
-
-HJ的forward恒等，只在Layer-0 PatchNCE backward中删除与源结构方向冲突的梯度
-分量。冻结协议是：
-
-- `[0,1.6)` data epoch：plain；
-- `[1.6,8.0)`：HJ；
-- `8.0+`：只关闭HJ correction，完整保留G/F/D/E、Adam moments/age、scheduler、
-  sampler与RNG，由native UNSB继续。
-
-small25、seed2026中，total step 2400/2800/3200相对plain为
-`+0.536/+2.133/+0.871 dB`，最后6/6域正。关键边界：总计只到约21.3个data
-epoch，离本轮e200很远。
-
-### HNEK
-
-HNEK把官方time-dead generator输出解释成剩余时域归一化残差，并用真实物理horizon
-修改endpoint/entropy坐标。冻结变体是`gamma=.25,residual,physical,all`。历史
-900张视图、seed2026、e200为`+0.7884 dB`、4/5域正；但它从9个变体中筛选而来，
-没有跨seed，clean小视图延长又频繁变号，所以只是高风险锚点。
-
-## 5. 历史背景：为什么曾新增macro-marginal（当前未激活）
-
-过去small25和full100都按“每域相同张数”构造，天然平衡。新的全量训练则是：
-
-- FoggyCityscapes 4475/8553 = 52.3%；
-- RainDS-syn 100/8553 = 1.17%；
-- 主评价仍然是六域等权宏平均。
-
-官方pooling还会让B target marginal按图片数加权。这个训练measure与评价measure的
-错配从未在旧平衡视图被等价测试。
-
-macro-marginal lane把经验端点measure定义为
-
-`mu_macro = (1/6) sum_d mu_d`, `nu_macro = (1/6) sum_d nu_d`，
-
-每步独立均匀抽A域和B域，再域内随机。A/B仍无配对，B不条件于A域，推理无域标签。
-它是全量规模诊断，也是一个可能的训练方法；若为正，仍需额外论证其SB专属性。
-
-## 6. 已暂停方案：为什么当时选择四条lane
-
-我们只负担四张4090一周。plain不可缺；HJ是本地最强继承证据；HNEK是唯一历史
-e200正锚点；macro-marginal是全量规模新增且未测试的问题。第四张卡若改成新的
-fancy算子，会在没有本地归因和对照的情况下消耗整周。
-
-四lane是一个面向“找到当前最值得继续候选”的风险组合，不是穷尽性科学证明。
-
-## 7. 已暂停方案的结果流程
-
-e200按宏PSNR、正域数、最差域、SSIM和e150→e200回撤排序。先在discovery80选择并
-冻结唯一候选，再一次性打开confirmation20；不能用confirmation修改方法。这里原有的
-“正候选后自动运行seed2027/2028”已被紧急单seed开发决定覆盖；延期seed仍不能被写成
-已通过，单seed图像bootstrap也不能冒充算法稳定性。
+文档权威顺序见`configs/DOCUMENT_AUTHORITY_REGISTRY.json`；完整结果见
+`archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO_WITH_DCLGAN.json`。

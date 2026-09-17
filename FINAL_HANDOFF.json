@@ -5,6 +5,9 @@
   "archive_parent_commit": "df20b8ba6203262621aa5fbeaabb2cf4642f82c5",
   "handoff_commit_resolution": "Use git log -1 on the checkout containing this file; a file cannot stably embed its own commit hash.",
   "authoritative_human_entrypoint": "FINAL_HANDOFF_CN.md",
+  "current_state_document": "docs/CURRENT_PROJECT_STATE_CN.md",
+  "claim_boundaries": "CLAIM_BOUNDARIES.md",
+  "document_authority_registry": "configs/DOCUMENT_AUTHORITY_REGISTRY.json",
   "canonical_archive": {
     "manifest": "archive/paper_aio/final_v10/ARCHIVE_MANIFEST.json",
     "portfolio": "archive/paper_aio/final_v10/PAPER_ALGORITHM_PORTFOLIO.json",
@@ -76,6 +79,8 @@
   },
   "authority_rules": {
     "older_active_documents_are_historical_only": true,
+    "historical_nested_running_pid_and_heartbeat_fields_are_current": false,
+    "live_training_authorized": false,
     "restart_old_successors": false,
     "use_intermediate_paired_metrics_for_control": false,
     "merge_non_equivalent_runtime_deltas": false,

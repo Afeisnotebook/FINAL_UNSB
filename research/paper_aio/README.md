@@ -1,5 +1,11 @@
 # FINAL_UNSB full-data paper runner
 
+> Current status: execution complete and archived. This document is a technical
+> reproducibility manual, not a live queue. Do not run or resume any lane without
+> a new explicit authorization. Current results and boundaries are in
+> `FINAL_HANDOFF_CN.md`, `docs/CURRENT_PROJECT_STATE_CN.md` and
+> `archive/paper_aio/final_v10/`.
+
 This runner is independent of `research.local_route1`. It freezes the
 8,553-image-per-side official image-proportional unpaired measure, batch one,
 seed 2026 and 200 data epochs (1,710,600 optimizer updates). Paired discovery
